@@ -9,10 +9,10 @@
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.685-ns1" />
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.685-ns1" />
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.3.10" />
-        <PackageReference Include="Furion.Extras.Logging.Serilog" Version="4.8.3.10" />
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.3.10" />
-        <PackageReference Include="furion.pure.ns" Version="4.8.3.7-ns1" />
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.4.4" />
+        <PackageReference Include="Furion.Extras.Logging.Serilog" Version="4.8.4.4" />
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.4.4" />
+        <PackageReference Include="furion.pure.ns" Version="4.8.4.4-ns1" />
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
         <PackageReference Include="NSExt" Version="1.0.9-alpha.0.5" />
