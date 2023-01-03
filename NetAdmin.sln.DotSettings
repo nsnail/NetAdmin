@@ -1,0 +1,55 @@
+<wpf:ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xml:space="preserve">
+    <s:Boolean x:Key="/Default/ReSpeller/ReSpellerEnabled/@EntryValue">False</s:Boolean>
+    <s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/KEEP_BLANK_LINES_IN_CODE/@EntryValue">1</s:Int64>
+    <s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/KEEP_BLANK_LINES_IN_DECLARATIONS/@EntryValue">1</s:Int64>
+    <s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">OFF</s:String>
+    <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=TooWideLocalVariableScope/@EntryIndexedValue">HINT</s:String>
+    <s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/BRACES_FOR_FOR/@EntryValue">Required</s:String>
+    <s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/BRACES_FOR_FOREACH/@EntryValue">Required</s:String>
+    <s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/BRACES_FOR_IFELSE/@EntryValue">Required</s:String>
+    <s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/BRACES_FOR_WHILE/@EntryValue">Required</s:String>
+    <s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=Constants/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AA_BB" /&gt;</s:String>
+    <s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateConstants/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="_" Suffix="" Style="AA_BB" /&gt;</s:String>
+    <s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateStaticReadonly/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="_" Suffix="" Style="aaBb" /&gt;</s:String>
+    <s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=StaticReadonly/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+    <s:String x:Key="/Default/CodeStyle/CSharpFileLayoutPatterns/Pattern/@EntryValue">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;Patterns xmlns="urn:schemas-jetbrains-com:member-reordering-patterns"&gt;
+    &lt;TypePattern&gt;
+        &lt;Entry&gt;
+            &lt;Entry.SortBy&gt;
+                &lt;Kind&gt;
+                    &lt;Kind.Order&gt;
+                        &lt;DeclarationKind&gt;Constant&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Field&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Constructor&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Destructor&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Delegate&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Event&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Enum&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Interface&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Property&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Indexer&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Method&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Struct&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Record&lt;/DeclarationKind&gt;
+                        &lt;DeclarationKind&gt;Class&lt;/DeclarationKind&gt;
+                    &lt;/Kind.Order&gt;
+                &lt;/Kind&gt;
+                &lt;Access&gt;
+                    &lt;Access.Order&gt;
+                        &lt;AccessModifier&gt;Public&lt;/AccessModifier&gt;
+                        &lt;AccessModifier&gt;Internal&lt;/AccessModifier&gt;
+                        &lt;AccessModifier&gt;ProtectedInternal&lt;/AccessModifier&gt;
+                        &lt;AccessModifier&gt;Protected&lt;/AccessModifier&gt;
+                        &lt;AccessModifier&gt;PrivateProtected&lt;/AccessModifier&gt;
+                        &lt;AccessModifier&gt;Private&lt;/AccessModifier&gt;
+                    &lt;/Access.Order&gt;
+                &lt;/Access&gt;
+                &lt;Static /&gt;
+                &lt;Readonly /&gt;
+                &lt;Name /&gt;
+            &lt;/Entry.SortBy&gt;
+        &lt;/Entry&gt;
+    &lt;/TypePattern&gt;
+&lt;/Patterns&gt;</s:String>
+</wpf:ResourceDictionary>

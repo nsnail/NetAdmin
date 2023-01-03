@@ -1,0 +1,4 @@
+[hook "startcommit"]
+    cmdline = code-format.cmd
+    wait = true
+    show = true

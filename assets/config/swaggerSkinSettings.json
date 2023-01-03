@@ -1,0 +1,10 @@
+{
+    "SwaggerSkin": {
+        "Urls": [
+            {
+                "Url": "/swagger/Default/swagger.json",
+                "Name": "Swagger"
+            }
+        ]
+    }
+}

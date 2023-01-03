@@ -1,0 +1,10 @@
+{
+    "sdk": {
+        "version": "7.0.100",
+        "allowPrerelease": true,
+        "rollForward": "major"
+    },
+    "tools": {
+        "dotnet": "7.0.100"
+    }
+}

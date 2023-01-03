@@ -1,0 +1,13 @@
+<Project>
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>../../../dist</BaseIntermediateOutputPath>
+        <BaseOutputPath>../../../dist</BaseOutputPath>
+        <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <IntermediateOutputPath>$(BaseIntermediateOutputPath)/$(MSBuildProjectName)/obj</IntermediateOutputPath>
+        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)/$(MSBuildProjectName)/obj</MSBuildProjectExtensionsPath>
+        <OutputPath>$(BaseOutputPath)/$(MSBuildProjectName)/bin</OutputPath>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+</Project>

@@ -1,0 +1,23 @@
+{
+    "Upload": {
+        //上传路径 D:/upload/admin/avatar
+        "UploadPath": "../upload/admin/avatar",
+        //请求路径
+        "RequestPath": "/upload/admin/avatar",
+        //路径日期格式 yyyy/MM/dd
+        "DateTimeFormat": "",
+        //{用户编号}
+        "Format": "{Id}",
+        //图片大小不超过 1M = 1 * 1024 * 1024
+        "MaxSize": 1048576,
+        //最大允许上传张数，-1不限制
+        "Limit": 1,
+        //图片格式
+        "ContentType": [
+            "image/jpg",
+            "image/png",
+            "image/jpeg",
+            "image/gif"
+        ]
+    }
+}

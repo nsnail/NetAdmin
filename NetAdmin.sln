@@ -1,0 +1,56 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C84EB5A0-37AD-4B17-A51E-E36888C4441E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{4DAF9366-855F-46BB-AE4C-660C92FA0697}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin", "src\backend\NetAdmin\NetAdmin.csproj", "{F672F054-A416-4FC2-957B-ADD73C0346CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0CAC-4828-A807-34A693F73859}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.tgitconfig = .tgitconfig
+		AddMetaFilesToSln.csx = AddMetaFilesToSln.csx
+		build.cake = build.cake
+		code-format.cmd = code-format.cmd
+		CodeCleanupOnSave.csx = CodeCleanupOnSave.csx
+		CodeQuality.props = CodeQuality.props
+		Directory.Build.props = Directory.Build.props
+		dotnet-tools.json = dotnet-tools.json
+		git-clean.cmd = git-clean.cmd
+		global.json = global.json
+		ImageOptimize.csx = ImageOptimize.csx
+		LICENSE = LICENSE
+		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
+		README.md = README.md
+		stylecop.json = stylecop.json
+		StyleCopAnalyzers.ruleset = StyleCopAnalyzers.ruleset
+		switch-nuget.cmd = switch-nuget.cmd
+		switch-project.cmd = switch-project.cmd
+		switcher.json = switcher.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F672F054-A416-4FC2-957B-ADD73C0346CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F672F054-A416-4FC2-957B-ADD73C0346CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F672F054-A416-4FC2-957B-ADD73C0346CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F672F054-A416-4FC2-957B-ADD73C0346CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}
+		{F672F054-A416-4FC2-957B-ADD73C0346CF} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+	EndGlobalSection
+EndGlobal

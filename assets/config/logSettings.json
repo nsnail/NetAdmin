@@ -1,0 +1,13 @@
+{
+    "Serilog": {
+        "MinimumLevel": {
+            "Default": "Information",
+            "Override": {
+                "System": "Information",
+                "Microsoft": "Information",
+                "Microsoft.Hosting.Lifetime": "Information",
+                "Microsoft.AspNetCore": "Warning",
+            }
+        }
+    }
+}
