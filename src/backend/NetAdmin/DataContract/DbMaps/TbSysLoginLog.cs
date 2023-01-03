@@ -1,8 +1,8 @@
-using System.Net;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
 using Mapster;
 using NetAdmin.DataContract.DbMaps.Dependency;
+using NetAdmin.DataContract.Dto;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NSExt.Extensions;
@@ -49,7 +49,9 @@ public record TbSysLoginLog : ImmutableEntity, IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.ForType<TbSysOperationLog, TbSysLoginLog>()
-              .Map(dest => dest.Succeed, src => src.ResponseStatusCode == (int)HttpStatusCode.OK)
+              .Map( //
+                  dest => dest.Succeed
+                , src => src.ResponseResult != null && src.ResponseResult.Object<RestfulInfo<object>>(null).Code == 0)
               .Map( //
                   dest => dest.UserName
                 , src => src.RequestParameters.Object<ReqParameter<LoginReq>>(null).Req.UserName);

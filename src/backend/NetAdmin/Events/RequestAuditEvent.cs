@@ -44,7 +44,7 @@ public class RequestAuditEvent : IEventSubscriber, ISingleton, IDisposable
     /// <summary>
     ///     保存到数据库
     /// </summary>
-    [EventSubscribe($"{nameof(RequestAuditResultFilter)}.{nameof(RequestAuditResultFilter.OnResultExecutionAsync)}")]
+    [EventSubscribe($"{nameof(RequestAuditActionFilter)}.{nameof(RequestAuditActionFilter.OnActionExecutionAsync)}")]
     public async Task SaveToDb(EventHandlerExecutingContext context)
     {
         if (context.Source.Payload is not TbSysOperationLog tbSysOperationLog) {

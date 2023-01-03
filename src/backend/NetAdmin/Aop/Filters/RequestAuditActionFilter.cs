@@ -1,7 +1,7 @@
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using Furion;
 using Furion.DependencyInjection;
+using Furion.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -17,7 +17,15 @@ namespace NetAdmin.Aop.Filters;
 [SuppressSniffer]
 public class RequestAuditActionFilter : IAsyncActionFilter
 {
-    internal static readonly ConcurrentDictionary<int, TbSysOperationLog> AuditDatas = new();
+    private readonly IEventPublisher _eventPublisher;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RequestAuditActionFilter"/> class.
+    /// </summary>
+    public RequestAuditActionFilter(IEventPublisher eventPublisher)
+    {
+        _eventPublisher = eventPublisher;
+    }
 
     /// <inheritdoc />
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -42,13 +50,16 @@ public class RequestAuditActionFilter : IAsyncActionFilter
                                                 , RequestParameters = context.ActionArguments.Json()
                                                 , RequestUrl = context.HttpContext.Request.GetRequestUrlAddress()
                                                 , ResponseRawType = actionDescriptor?.MethodInfo.ReturnType.ToString()
-                                                , ResponseStatusCode = (ushort)context.HttpContext.Response.StatusCode
+                                                , Exception = resultContext.Exception?.ToString()
                                                 , ResponseWrapType = retType?.ToString()
                                                 , ResponseResult = retData?.Json()
                                                 , ServerIp = context.HttpContext.GetLocalIpAddressToIPv4()
                                                 , UserAgent = context.HttpContext.Request.Headers["User-Agent"]
                                               };
-        AuditDatas.TryAdd(Environment.CurrentManagedThreadId, auditData);
+
+        // 发布审计事件
+        await _eventPublisher.PublishAsync( //
+            $"{nameof(RequestAuditActionFilter)}.{nameof(OnActionExecutionAsync)}", auditData);
     }
 
     /// <summary>

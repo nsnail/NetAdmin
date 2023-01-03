@@ -82,10 +82,10 @@ public record TbSysOperationLog : ImmutableEntity
     public virtual string ResponseResult { get; set; }
 
     /// <summary>
-    ///     响应状态码
+    ///     异常信息
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual ushort ResponseStatusCode { get; set; }
+    public virtual string Exception { get; set; }
 
     /// <summary>
     ///     响应封装类型

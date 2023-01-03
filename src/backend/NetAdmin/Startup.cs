@@ -56,7 +56,6 @@ public class Startup : AppStartup
                 .AddMonitorLogging() //                                打印日志监视信息，便于调试
                 #endif
                 .AddMvcFilter<RequestAuditActionFilter>()     //       请求审计日志
-                .AddMvcFilter<RequestAuditResultFilter>()     //       请求审计日志
                 .AddSnowflake()                               //       雪花id生成器
                 .AddEventBus()                                //       事件总线
                 .AddFreeSql()                                 //       注册freeSql
