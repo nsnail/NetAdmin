@@ -42,7 +42,7 @@ Vue.use(Button)
 Vue.use(Tag)
 Vue.use(Divider)
 Vue.use(Tree)
-Vue.use(Dropdown) 
+Vue.use(Dropdown)
 
 
 import kloading from '@/components/loading'
@@ -79,7 +79,6 @@ import GlobalParameters from '@/views/settings/GlobalParameters';
 import Settings from '@/views/settings/Settings';
 import OfficelineDocument from '@/views/settings/OfficelineDocument';
 import OtherMarkdown from '@/views/othermarkdown/index'
-import GenApi from '@/views/settings/gen-api'
 
 Vue.component('ApiInfo', ApiInfo);
 Vue.component('Authorize', Authorize);
@@ -88,7 +87,6 @@ Vue.component('GlobalParameters', GlobalParameters);
 Vue.component('Settings', Settings);
 Vue.component('OfficelineDocument', OfficelineDocument);
 Vue.component('OtherMarkdown', OtherMarkdown);
-Vue.component('GenApi', GenApi);
 
 Vue.config.productionTip = false
 // 响应数据拦截器

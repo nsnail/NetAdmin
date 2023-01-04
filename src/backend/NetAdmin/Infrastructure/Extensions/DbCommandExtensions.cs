@@ -1,3 +1,5 @@
+// ReSharper disable TemplateIsNotCompileTimeConstantProblem
+
 using System.Data.Common;
 using Furion;
 using NSExt.Extensions;
@@ -18,7 +20,7 @@ public static class DbCommandExtensions
         var executeTime = log[..log.IndexOf('\n').Is(-1, log.Length)];
 
         // 输出sql日志到日志管道
-        App.GetService<ILogger<DbCommand>>()?.Debug(executeTime);
+        App.GetService<ILogger<DbCommand>>()?.LogDebug(executeTime);
     }
 
     /// <summary>
@@ -30,6 +32,6 @@ public static class DbCommandExtensions
 
         // 输出sql日志到miniProfiler
         // 输出sql日志到日志管道
-        App.GetService<ILogger<DbCommand>>()?.Debug(sqlText);
+        App.GetService<ILogger<DbCommand>>()?.LogDebug(sqlText.RemoveWrapped());
     }
 }

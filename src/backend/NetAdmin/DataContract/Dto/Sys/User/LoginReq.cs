@@ -17,7 +17,7 @@ public record LoginReq : TbSysUser
     [RegularExpression(Strings.REGEX_PASSWORD, ErrorMessage = Strings.MSG_PASSWORD_STRONG)]
     public new string Password { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [RequiredField]
     [RegularExpression(Strings.REGEX_USERNAME, ErrorMessage = Strings.MSG_USERNAME_STRONG)]

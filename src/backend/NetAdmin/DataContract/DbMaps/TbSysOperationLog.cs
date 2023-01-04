@@ -40,6 +40,12 @@ public record TbSysOperationLog : ImmutableEntity
     public virtual string Environment { get; set; }
 
     /// <summary>
+    ///     异常信息
+    /// </summary>
+    [Column(CanUpdate = false)]
+    public virtual string Exception { get; set; }
+
+    /// <summary>
     ///     请求方法
     /// </summary>
     [Column(CanUpdate = false)]
@@ -80,12 +86,6 @@ public record TbSysOperationLog : ImmutableEntity
     /// </summary>
     [Column(CanUpdate = false)]
     public virtual string ResponseResult { get; set; }
-
-    /// <summary>
-    ///     异常信息
-    /// </summary>
-    [Column(CanUpdate = false)]
-    public virtual string Exception { get; set; }
 
     /// <summary>
     ///     响应封装类型

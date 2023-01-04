@@ -50,18 +50,18 @@ public class SwaggerSkinMiddleware
 
         switch (context.Request.Method) {
             // 重定向到首页
-            case Strings.FLAG_HTTP_METHOD_GET when Regexes.RegexSlash().IsMatch(path): {
+            case Strings.FLAG_HTTP_METHOD_GET when Regexes.RegexSlash.IsMatch(path): {
                 await RespondWithIndexHtml(context.Response);
                 return;
             }
 
             // 响应首页
-            case Strings.FLAG_HTTP_METHOD_GET when Regexes.RegexIndexHtml().IsMatch(path):
+            case Strings.FLAG_HTTP_METHOD_GET when Regexes.RegexIndexHtml.IsMatch(path):
                 await RespondWithIndexHtml(context.Response);
                 return;
 
             // 前端特殊用途
-            case Strings.FLAG_HTTP_METHOD_GET when Regexes.RegexSwaggerResources().IsMatch(path):
+            case Strings.FLAG_HTTP_METHOD_GET when Regexes.RegexSwaggerResources.IsMatch(path):
                 // 前端特殊用途： knife4j -vue / Knife4jAsync.js line 74： 此处判断底层springfox版本
                 // 1、springfox提供的分组地址   /swagger -resources
                 // 2、springdoc                   -open提供的分组地址：v3 /api -docs /swagger -config

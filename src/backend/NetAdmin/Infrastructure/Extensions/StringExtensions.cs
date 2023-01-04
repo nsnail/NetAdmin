@@ -12,7 +12,7 @@ public static class StringExtensions
     /// </summary>
     public static string TrimEndApi(this string me)
     {
-        return Regexes.RegexEndWithApi().Replace(me, string.Empty);
+        return Regexes.RegexEndWithApi.Replace(me, string.Empty);
     }
 
     /// <summary>
@@ -20,6 +20,6 @@ public static class StringExtensions
     /// </summary>
     public static string TrimEndOptions(this string me)
     {
-        return Regexes.RegexEndWithOptions().Replace(me, string.Empty);
+        return Regexes.RegexEndWithOptions.Replace(me, string.Empty);
     }
 }

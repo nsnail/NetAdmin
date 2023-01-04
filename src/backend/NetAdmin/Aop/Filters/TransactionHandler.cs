@@ -1,7 +1,6 @@
 using FreeSql;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Filters;
-using NSExt.Extensions;
 
 namespace NetAdmin.Aop.Filters;
 
@@ -30,18 +29,18 @@ public class TransactionHandler : IAsyncActionFilter
         using var unitOfWork = _uowManager.Begin();
         var       hashCode   = unitOfWork.GetHashCode();
         try {
-            _logger.Info($"事务 {hashCode} 开始");
+            _logger.LogInformation("事务 {HashCode} 开始", hashCode);
             var result = await next();
             if (result.Exception is not null) {
                 throw result.Exception;
             }
 
             unitOfWork.Commit();
-            _logger.Info($"事务 {hashCode} 完成");
+            _logger.LogInformation("事务 {HashCode} 完成", hashCode);
         }
         catch (Exception) {
             unitOfWork.Rollback();
-            _logger.Error($"事务 {hashCode} 回滚");
+            _logger.LogError("事务 {HashCode} 回滚", hashCode);
             throw;
         }
     }

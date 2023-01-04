@@ -6,11 +6,9 @@ using FreeSql.DataAnnotations;
 using Furion;
 using NetAdmin.Attributes;
 using NetAdmin.Infrastructure.Configuration.Options;
-using NetAdmin.Infrastructure.Extensions;
 using Newtonsoft.Json;
 using NSExt.Extensions;
 using Yitter.IdGenerator;
-using DbCommandExtensions = NetAdmin.Infrastructure.Extensions.DbCommandExtensions;
 
 namespace NetAdmin.Infrastructure.Utils;
 
@@ -20,7 +18,7 @@ namespace NetAdmin.Infrastructure.Utils;
 public class FreeSqlHelper
 {
     private readonly DatabaseOptions        _databaseOptions;
-    private          ILogger<FreeSqlHelper> _logger;
+    private readonly ILogger<FreeSqlHelper> _logger;
     private          TimeSpan               _timeOffset;
 
     private FreeSqlHelper(DatabaseOptions databaseOptions)
@@ -101,8 +99,6 @@ public class FreeSqlHelper
     private IFreeSql Build()
     {
         var freeSql = new FreeSqlBuilder().UseConnectionString(_databaseOptions.DbType, _databaseOptions.ConnStr)
-                                          .UseMonitorCommand( //
-                                              cmd => cmd.Executing(), (_, log) => DbCommandExtensions.Executed(log))
                                           .UseAutoSyncStructure(false)
                                           .Build();
 
@@ -113,22 +109,21 @@ public class FreeSqlHelper
         freeSql.Aop.AuditValue += DataAuditHandler;
         freeSql.Aop.CurdBefore += (_, e) => {
             var sql = GetNoParamSql(e.Sql, e.DbParms);
-            _logger.Info($"SQL.{(uint)sql.GetHashCode()}：{sql}");
+            _logger.LogInformation("SQL.{HashCode}：{Sql}", (uint)sql.GetHashCode(), sql);
         };
         freeSql.Aop.CurdAfter += (_, e) => {
             var sql = GetNoParamSql(e.Sql, e.DbParms);
-            _logger.Info($"SQL.{(uint)sql.GetHashCode()}：{e.ElapsedMilliseconds} ms");
+            _logger.LogInformation("SQL.{HashCode}：{EElapsedMilliseconds} ms", (uint)sql.GetHashCode()
+                                 , e.ElapsedMilliseconds);
         };
-        Task.Run(async () => {
-            await WaitSerilogReady();
-
+        Task.Run(() => {
             var entityTypes = GetEntityTypes();
 
             SyncStructure(freeSql, entityTypes);
-            _logger.Info("数据库结构已同步");
+            _logger.LogInformation("数据库结构已同步");
 
             InitSeedData(freeSql, entityTypes);
-            _logger.Info("种子数据初始化完毕");
+            _logger.LogInformation("种子数据初始化完毕");
         });
         return freeSql;
     }
@@ -157,23 +152,5 @@ public class FreeSqlHelper
         }
 
         freeSql.CodeFirst.SyncStructure(entityTypes);
-    }
-
-    private async Task WaitSerilogReady()
-    {
-        _logger = App.GetService<ILogger<FreeSqlHelper>>();
-        for (var i = 0; i != 10; ++i) {
-            if (_logger.GetType()
-                       .GetRuntimeFields()
-                       .FirstOrDefault(x => x.Name == "_logger")
-                       ?.GetValue(_logger)
-                       ?.GetType()
-                       .Name == "SerilogLogger") {
-                break;
-            }
-
-            await Task.Delay(100);
-            _logger = App.GetService<ILogger<FreeSqlHelper>>();
-        }
     }
 }

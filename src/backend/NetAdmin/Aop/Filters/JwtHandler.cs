@@ -1,6 +1,12 @@
+using Furion;
 using Furion.Authorization;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
+using NetAdmin.DataContract;
+using NetAdmin.DataContract.DbMaps;
+using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Repositories;
+using NSExt.Extensions;
 
 namespace NetAdmin.Aop.Filters;
 
@@ -9,9 +15,22 @@ namespace NetAdmin.Aop.Filters;
 public class JwtHandler : AppAuthorizeHandler
 {
     /// <inheritdoc />
-    public override Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
+    public override async Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
     {
-        // 这里写您的授权判断逻辑，授权通过返回 true，否则返回 false
-        return Task.FromResult(true);
+        var claim = context.User.FindFirst(nameof(ContextUser));
+        if (claim is null) {
+            return false;
+        }
+
+        ContextUser contextUser;
+        try {
+            contextUser = claim.Value.Object<ContextUser>();
+        }
+        catch (Exception) {
+            return false;
+        }
+
+        var dbUser = await App.GetRequiredService<Repository<TbSysUser>>().GetAsync(x => x.Token == contextUser.Token);
+        return dbUser != null && dbUser.BitSet.HasFlag(Enums.SysUserBits.Enabled);
     }
 }

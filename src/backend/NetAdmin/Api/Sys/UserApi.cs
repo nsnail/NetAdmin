@@ -1,5 +1,9 @@
+using Furion;
+using Furion.DataEncryption;
 using Furion.FriendlyException;
+using Mapster;
 using Microsoft.AspNetCore.Authorization;
+using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Infrastructure.Constant;
@@ -26,7 +30,7 @@ public class UserApi : ApiCrud<TbSysUser, IUserApi>, IUserApi
 
     /// <inheritdoc />
     [AllowAnonymous]
-    public async Task Login(LoginReq req)
+    public async Task<LoginRsp> Login(LoginReq req)
     {
         var dbUser = await Repository.GetAsync(a => a.UserName == req.UserName &&
                                                     a.Password == req.Password.Pwd().Guid());
@@ -37,5 +41,16 @@ public class UserApi : ApiCrud<TbSysUser, IUserApi>, IUserApi
         if (!dbUser.BitSet.HasFlag(Enums.SysUserBits.Enabled)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Strings.MSG_USER_DISABLED);
         }
+
+        var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
+
+        var ret = new LoginRsp { AccessToken = JWTEncryption.Encrypt(tokenPayload) };
+        ret.RefreshToken = JWTEncryption.GenerateRefreshToken(ret.AccessToken);
+
+        // 设置响应报文头
+        App.HttpContext.Response.Headers[Strings.FLAG_ACCESS_TOKEN]   = ret.AccessToken;
+        App.HttpContext.Response.Headers[Strings.FLAG_X_ACCESS_TOKEN] = ret.RefreshToken;
+
+        return ret;
     }
 }

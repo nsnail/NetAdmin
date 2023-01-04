@@ -133,6 +133,59 @@ public static class Enums
     }
 
     /// <summary>
+    ///     日志等级
+    /// </summary>
+    public enum LogLevels
+    {
+        /// <summary>
+        ///     Trace
+        /// </summary>
+        [Description("[gray]TCE[/]")] Trace
+
+       ,
+
+        /// <summary>
+        ///     Debug
+        /// </summary>
+        [Description("[gray]DBG[/]")] Debug
+
+       ,
+
+        /// <summary>
+        ///     Information
+        /// </summary>
+        [Description("[green]INF[/]")] Information
+
+       ,
+
+        /// <summary>
+        ///     Warning
+        /// </summary>
+        [Description("[yellow]WRN[/]")] Warning
+
+       ,
+
+        /// <summary>
+        ///     Error
+        /// </summary>
+        [Description("[red]ERR[/]")] Error
+
+       ,
+
+        /// <summary>
+        ///     Critical
+        /// </summary>
+        [Description("[red]CTL[/]")] Critical
+
+       ,
+
+        /// <summary>
+        ///     None
+        /// </summary>
+        [Description("[gray]NON[/]")] None
+    }
+
+    /// <summary>
     ///     菜单类型
     /// </summary>
     public enum MenuTypes

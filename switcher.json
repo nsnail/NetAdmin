@@ -1,19 +1,9 @@
 {
-    "solution": "NetAdmin.sln",
-    "solutionFolder": null,
-    "mappings": {
-        "NSExt": "../../../../ForkedGitReps/ns-ext/src/NSExt.csproj"
-    },
-    "restore": [
-        {
-            "name": "NetAdmin",
-            "packages": [
-                {
-                    "packageName": "NSExt",
-                    "version": "1.0.9-alpha.0.5"
-                }
-            ]
-        }
-    ],
-    "removeProjects": true
+  "solution": "NetAdmin.sln",
+  "solutionFolder": null,
+  "mappings": {
+    "NSExt": "../../../../ForkedGitReps/ns-ext/src/NSExt.csproj",
+    "Furion.Pure.NS": "../../../../ForkedGitReps/Furion/framework/Furion.Pure/Furion.Pure.csproj"
+  },
+  "removeProjects": true
 }

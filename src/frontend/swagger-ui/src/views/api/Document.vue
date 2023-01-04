@@ -68,7 +68,7 @@
       :pagination="page">
       <template slot="descriptionValueTemplate" slot-scope="text,record">
         <span v-html="text"></span>
-        <span v-if="record.example">,示例值({{ record.example }})</span>
+        <span v-if="record.example">,<span v-html="$t('doc.example')"></span>({{ record.example }})</span>
       </template>
       <template slot="requireTemplate" slot-scope="text">
         <span v-if="text" style="color:red">{{ text.toLocaleString() }}</span>
@@ -158,9 +158,9 @@
       </div>
       <a-row :id="'knife4jDocumentShowEditor' + api.id">
         <editor-show @showDescription="showResponseEditFieldDescription" :value="
-          multipData.responseBasicType
-            ? multipData.responseText
-            : multipData.responseValue
+  multipData.responseBasicType
+    ? multipData.responseText
+    : multipData.responseValue
         "></editor-show>
 
       </a-row>
@@ -349,7 +349,6 @@ export default {
     filterChildrens(keys = [], childrens = [], parent) {
       if (keys.length === 0) return childrens;
       const that = this;
-      
       const arrs = parent
         ? childrens.filter(child => !keys.includes(`${parent}.${child.name}`))
         : childrens.filter(child => !keys.includes(child.name));
@@ -695,10 +694,12 @@ export default {
       // 这里不
       that.multipData = {};
       let rcodes = this.api.responseCodes;
-      // console.log("rcodes")
-      // console.log(rcodes)
+      //console.log("rcodes")
+      //console.log(rcodes)
       if (rcodes != null && rcodes != undefined) {
-        rcodes.forEach(function (rc) {
+        for(let i=0;i<rcodes.length;i++){
+          let rc=rcodes[i];
+          
           // 遍历
           if (rc.schema != undefined && rc.schema != null) {
             var respdata = [];
@@ -745,6 +746,17 @@ export default {
                           });
                         }
                       } else {
+                        //console.log("schemavalue--Not Existis,",schemaName)
+                        //非ref类型，在当前自己的params在过滤一边
+                        let childrenParamArray=respdata.filter(childrenParam=>childrenParam.pid==param.id);
+                        //console.log(childrenParamArray)
+                        if(KUtils.checkUndefined(childrenParamArray)){
+                          param.children=childrenParamArray.map(cd=>{
+                            const newObj = that.copyNewParameter(cd);
+                            newObj.pid = param.id;
+                            return newObj;
+                          })
+                        }
                         // //console("schemavalue--Not Existis");
                       }
                     }
@@ -764,8 +776,16 @@ export default {
               that.multipData = nresobj;
             }
             that.multipCodeDatas.push(nresobj);
+          }else{
+            // 只获取第一个
+            // https://gitee.com/xiaoym/knife4j/issues/I5W145
+            if(i==0){
+              //不存在schema，直接赋值
+              that.multipData=rc;
+            }
+            
           }
-        });
+        }
         var multipKeys = Object.keys(that.multipData);
         if (KUtils.arrNotEmpty(rcodes) && !KUtils.arrNotEmpty(multipKeys)) {
           var rc = rcodes[0];
@@ -775,7 +795,7 @@ export default {
           }
         }
       }
-      // console.log(that.multipData);
+      //console.log(that.multipData);
     },
     showResponseEditFieldDescription(p) {
       // 显示说明

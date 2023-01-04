@@ -15,14 +15,14 @@ namespace NetAdmin.Aop.Filters;
 ///     请求审计日志
 /// </summary>
 [SuppressSniffer]
-public class RequestAuditActionFilter : IAsyncActionFilter
+public class RequestAuditFilter : IAsyncActionFilter
 {
     private readonly IEventPublisher _eventPublisher;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RequestAuditActionFilter"/> class.
+    ///     Initializes a new instance of the <see cref="RequestAuditFilter" /> class.
     /// </summary>
-    public RequestAuditActionFilter(IEventPublisher eventPublisher)
+    public RequestAuditFilter(IEventPublisher eventPublisher)
     {
         _eventPublisher = eventPublisher;
     }
@@ -59,7 +59,7 @@ public class RequestAuditActionFilter : IAsyncActionFilter
 
         // 发布审计事件
         await _eventPublisher.PublishAsync( //
-            $"{nameof(RequestAuditActionFilter)}.{nameof(OnActionExecutionAsync)}", auditData);
+            $"{nameof(RequestAuditFilter)}.{nameof(OnActionExecutionAsync)}", auditData);
     }
 
     /// <summary>

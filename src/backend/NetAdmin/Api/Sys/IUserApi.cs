@@ -15,5 +15,5 @@ public interface IUserApi
     /// <summary>
     ///     用户登录
     /// </summary>
-    Task Login(LoginReq req);
+    Task<LoginRsp> Login(LoginReq req);
 }

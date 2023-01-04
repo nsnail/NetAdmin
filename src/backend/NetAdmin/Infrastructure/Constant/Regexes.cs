@@ -1,21 +1,23 @@
 using System.Text.RegularExpressions;
 
+#pragma warning disable SYSLIB1045
 namespace NetAdmin.Infrastructure.Constant;
 
-internal sealed partial class Regexes
+// 注意：使用 [GeneratedRegex] 新特性会生成重复key值的xmlcomment导致出错
+internal static class Regexes
 {
-    [GeneratedRegex("Api$", RegexOptions.IgnoreCase)]
-    public static partial Regex RegexEndWithApi();
+    public static readonly Regex
+        RegexDigitDot3 = new(@"([0-9\.]{3,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    [GeneratedRegex("Options$", RegexOptions.IgnoreCase)]
-    public static partial Regex RegexEndWithOptions();
+    public static readonly Regex RegexEndWithApi = new("Api$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    [GeneratedRegex("^/?index.html$", RegexOptions.IgnoreCase)]
-    public static partial Regex RegexIndexHtml();
+    public static readonly Regex RegexEndWithOptions = new("Options$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    [GeneratedRegex("^/*$", RegexOptions.IgnoreCase)]
-    public static partial Regex RegexSlash();
+    public static readonly Regex
+        RegexIndexHtml = new("^/?index.html$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    [GeneratedRegex("^/swagger-resources$", RegexOptions.IgnoreCase)]
-    public static partial Regex RegexSwaggerResources();
+    public static readonly Regex RegexSlash = new("^/*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    public static readonly Regex RegexSwaggerResources
+        = new("^/swagger-resources$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 }

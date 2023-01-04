@@ -3,15 +3,32 @@
     <a-spin tip="Loading..." :spinning="debugLoading">
       <div class="spin-content">
         <a-row>
-          <a-col :class="'knife4j-debug-api-' + api.methodType.toLowerCase()" :span="24">
+          <a-col :class="'knife4j-debug-api-' + debugMethodType.toLowerCase()" :span="24">
             <a-input-group compact>
-              <span class="knife4j-api-summary-method">
-                <a-icon v-if="api.securityFlag" style="font-size:16px;" type="unlock" /> {{ api.methodType }}
+              <span v-if="api.securityFlag" class="knife4j-api-summary-method">
+                <a-icon style="font-size:16px;" type="unlock" />
               </span>
-              <a-input :style="debugUrlStyle" :value="debugUrl" @change="debugUrlChange" />
+              <a-input :style="debugUrlStyle" :value="debugUrl" @change="debugUrlChange">
+                <template #addonBefore>
+                  <a-select v-model:value="debugMethodType" style="width: 110px">
+                    <a-select-option value="GET">GET</a-select-option>
+                    <a-select-option value="POST">POST</a-select-option>
+                    <a-select-option value="PUT">PUT</a-select-option>
+                    <a-select-option value="PATCH">PATCH</a-select-option>
+                    <a-select-option value="DELETE">DELETE</a-select-option>
+                    <a-select-option value="COPY">COPY</a-select-option>
+                    <a-select-option value="HEAD">HEAD</a-select-option>
+                    <a-select-option value="OPTIONS">OPTIONS</a-select-option>
+                    <a-select-option value="LINK">LINK</a-select-option>
+                    <a-select-option value="UNLINK">UNLINK</a-select-option>
+                    <a-select-option value="PURGE">PURGE</a-select-option>
+                  </a-select>
+                </template>
+              </a-input>
               <a-button v-html="$t('debug.send')" class="knife4j-api-send" type="primary" @click="sendRestfulApi">发 送
               </a-button>
               <a-button v-if="enableReloadCacheParameter" @click="reloadCacheParameter">刷新变量</a-button>
+              <a-button @click="resetCacheParameter">重置</a-button>
             </a-input-group>
           </a-col>
         </a-row>
@@ -45,7 +62,8 @@
                     </a-select>
                   </a-row>
                   <a-row v-else>
-                    <a-input :placeholder="$t('debug.tableHeader.holderValue')"
+                    <a-input
+                      :placeholder="(record.description != null && record.description != '') ? record.description : $t('debug.tableHeader.holderValue')"
                       :class="'knife4j-debug-param-require' + record.require" :data-key="record.id" :defaultValue="text"
                       @change="headerContentChnage" />
                   </a-row>
@@ -245,11 +263,13 @@
 import md5 from "js-md5";
 import qs from "qs"
 import KUtils from "@/core/utils";
+import Knife4jDebugger from "../../core/common/Knife4jDebugger";
 import KEnvironment from "@/core/Environment"
 import constant from "@/store/constants";
 /* import EditorDebugShow from "./EditorDebugShow";
 import DebugResponse from "./DebugResponse"; */
 import DebugAxios from "axios";
+import cloneDeep from 'lodash/cloneDeep'
 import vkbeautify from "@/components/utils/vkbeautify";
 
 export default {
@@ -271,13 +291,14 @@ export default {
   },
   data() {
     return {
+      oldApi: {},
       i18n: null,
       // 当前回调数据是否太大
       bigFlag: false,
       // 数据很大,raw显示会导致内存溢出
       bigBlobFlag: false,
       // 是否开启缓存
-      debugUrlStyle: "width: 80%",
+      debugUrlStyle: "width: 70%",
       enableRequestCache: false,
       // 是否动态参数
       enableDynamicParameter: false,
@@ -328,6 +349,8 @@ export default {
       globalParameters: [],
       // 调试接口
       debugUrl: "",
+      // 请求方式
+      debugMethodType: "",
       // 当前请求接口地址是否为path类型,如果是,在发送请求时需要对地址栏进行替换
       debugPathFlag: false,
       // 需要替换的参数值key
@@ -376,12 +399,13 @@ export default {
     // 初始化读取本地缓存全局参数
     this.initLocalGlobalParameters();
     this.initDebugUrl();
+    this.oldApi = cloneDeep(this.api);
     // 显示表单参数
     // this.initShowFormTable();
     if (this.enableReloadCacheParameter) {
-      this.debugUrlStyle = "width: 70%;"
+      this.debugUrlStyle = "width: 65%;"
     } else {
-      this.debugUrlStyle = "width: 80%;"
+      this.debugUrlStyle = "width: 70%;"
     }
   },
   computed: {
@@ -401,6 +425,22 @@ export default {
     }
   },
   methods: {
+    // 重置参数为原始默认值
+    resetCacheParameter() {
+      // this.$emit('update:api', cloneDeep(this.oldApi))
+      this.headerData = [];
+      this.formData = [];
+      this.urlFormData = [];
+      this.rawFormData = [];
+      this.rawText = KUtils.toString(this.oldApi.requestValue, "");
+      this.rawScript = "";
+      this.storeApiParams();
+      this.initLocalGlobalParameters()
+      this.initDebugUrl();
+      // this.debugUrl = cloneDeep(this.oldApi.url);
+      // this.debugMethodType = cloneDeep(this.oldApi.methodType)
+      // this.rawScript = cloneDeep(this.oldApi.rawScript);
+    },
     reloadCacheParameter() {
       // console.log("刷新变量,从缓存中重新读取变量值")
       // 刷新变量,从缓存中重新读取变量值
@@ -563,6 +603,7 @@ export default {
     },
     initDebugUrl() {
       this.debugUrl = this.api.url;
+      this.debugMethodType = this.api.methodType;
       // 判断是否为paht类型
       var reg = new RegExp("{(.*?)}", "ig");
       // console("地址是否为path");
@@ -677,7 +718,6 @@ export default {
       // console.log(this.globalParameters)
       // 本都缓存读取到参数，初始化header参数
       this.globalParameters.forEach(param => {
-        console.log(param)
         if (param.in == "header") {
           var newHeader = {
             id: KUtils.randomMd5(),
@@ -719,7 +759,7 @@ export default {
             };
             if (security.in == 'header') {
               // console.log("addHeader.", security)
-              // this.headerData.push(newHeader);
+              this.headerData.push(newHeader);
               // 判断该接口是否security-Authorize
               if (this.api.securityFlag) {
                 if (this.api.securityKeys.includes(security.key)) {
@@ -1979,7 +2019,6 @@ export default {
         } else if (this.formFlag) {
           this.debugSendFormRequest();
         } else if (this.urlFormFlag) {
-          // console.log("urlForm")
           this.debugSendUrlFormRequest();
         }
       } else {
@@ -2407,9 +2446,9 @@ export default {
       // console.log(formParams)
       if (["post", "put", "patch"].includes(methodType.toLowerCase())) {
         if (KUtils.checkUndefined(formParams)) {
-          requestData = qs.stringify(formParams);
-          //requestParams = qs.stringify(formParams);
-          //requestParams = formParams;
+          // requestData = qs.stringify(formParams);
+          // 改回query的形式？
+          requestParams = formParams;
         }
       } else {
         //requestData = formParams;
@@ -2451,7 +2490,7 @@ export default {
         // raw类型的请求需要判断是何种类型
         var headers = this.debugHeaders();
         var url = this.debugUrl;
-        var methodType = this.api.methodType.toLowerCase();
+        var methodType = this.debugMethodType.toLowerCase();
         var formParams = this.debugUrlFormParams();
         // 得到key-value的参数值,对请求类型进行判断，判断是否为path
         if (this.debugPathFlag) {
@@ -2512,7 +2551,8 @@ export default {
           // https://gitee.com/xiaoym/knife4j/issues/I374SP
           requestConfig = { ...requestConfig, responseType: "blob" };
         }
-        // console.log(requestConfig);
+        //console.log(requestConfig);
+        //requestConfig.data = null;
         const debugInstance = DebugAxios.create();
         // get请求编码问题
         // https://gitee.com/xiaoym/knife4j/issues/I19C8Y
@@ -2578,7 +2618,7 @@ export default {
         var headers = this.debugHeaders();
         var url = this.debugUrl;
 
-        var methodType = this.api.methodType.toLowerCase();
+        var methodType = this.debugMethodType.toLowerCase();
         var fileFlag = this.validateFormDataContaintsFile();
         var validateFormd = this.debugFormDataParams(fileFlag);
         // console(validateFormd);
@@ -2654,7 +2694,7 @@ export default {
         // raw类型的请求需要判断是何种类型
         var headers = this.debugHeaders();
         var url = this.debugUrl;
-        var methodType = this.api.methodType.toLowerCase();
+        var methodType = this.debugMethodType.toLowerCase();
         var data = this.rawText;
         var formParams = this.debugRawFormParams();
         // 得到key-value的参数值,对请求类型进行判断，判断是否为path
@@ -2725,34 +2765,48 @@ export default {
         this.$message.info(validateForm.message);
       }
     },
+    callAfterScript(data, headers) {
+      var groupid = this.swaggerInstance.id;
+      var allgroupid = this.swaggerInstance.allGroupIds;
+      // console.log("groupid:"+groupid);
+      // script不为空
+      var settings = {
+        allgroupids: allgroupid,
+        groupid: groupid,
+        response: {
+          data: data,
+          headers: headers
+        }
+      }
+      var ke = new KEnvironment(settings);
+      try {
+        var func = new Function('ke', this.rawScript);
+        // 执行
+        func(ke);
+        setTimeout(() => {
+          // console.log("开始执行...")
+          ke.global.action();
+        }, 1000);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    resolveOAS3Response(data) {
+      let _tempData = data.responseText;
+      if (data.responseTextType === 'application/json') {
+        _tempData = KUtils.json5parse(data.responseText);
+      }
+      this.callAfterScript(_tempData, data.headers);
+    },
     executeAfterScript(res) {
-      // console.log("executeAfterScript");
-      // console.log(res);
       if (KUtils.strNotBlank(this.rawScript)) {
-        var groupid = this.swaggerInstance.id;
-        var allgroupid = this.swaggerInstance.allGroupIds;
-        // console.log("groupid:"+groupid);
-        // script不为空
-        var settings = {
-          allgroupids: allgroupid,
-          groupid: groupid,
-          response: {
-            data: res.data,
-            headers: res.headers
-          }
+        if (!this.oas2) {
+          // OpenAPI3规范不是服务端响应的数据类型是什么，都是Blob类型，需要单独处理
+          Knife4jDebugger.resolveBlobResponse(res, this.resolveOAS3Response)
+        } else {
+          this.callAfterScript(res.data, res.headers);
         }
-        var ke = new KEnvironment(settings);
-        try {
-          var func = new Function('ke', this.rawScript);
-          // 执行
-          func(ke);
-          setTimeout(() => {
-            // console.log("开始执行...")
-            ke.global.action();
-          }, 1000);
-        } catch (e) {
-          console.error(e);
-        }
+
       }
     },
     handleDebugSuccess(startTime, endTime, res) {
@@ -2904,10 +2958,10 @@ export default {
       var httpReg = new RegExp("^(http|https):.*", "ig");
       var fullurl = "";
       if (httpReg.test(this.api.host)) {
-        // 如果包含,则不追究
+        // 如果包含,则不追加
         fullurl = this.api.host;
       } else {
-        fullurl = protocol + ":// " + this.api.host;
+        fullurl = protocol + "://" + this.api.host;
       }
       // 判断是否开启了Host的配置,如果开启则直接使用Host中的地址
       if (this.enableHost) {
@@ -2919,7 +2973,7 @@ export default {
       }
       fullurl += url;
       curlified.push("curl");
-      curlified.push("-X", this.api.methodType.toUpperCase());
+      curlified.push("-X", this.debugMethodType.toUpperCase());
       // 设置请求头
       var headers = this.debugHeaders();
       var ignoreHeaders = [];
@@ -3004,8 +3058,8 @@ export default {
           var tmpUrlStr = tmpUrls.join("&");
           if (KUtils.strNotBlank(tmpUrlStr)) {
             if (
-              this.api.methodType.toLowerCase() == "get" ||
-              this.api.methodType.toLowerCase() == "delete"
+              this.debugMethodType.toLowerCase() == "get" ||
+              this.debugMethodType.toLowerCase() == "delete"
             ) {
               // 地址栏追加参数
               if (fullurl.indexOf("?") == -1) {
@@ -3079,8 +3133,8 @@ export default {
             // console("tmpUrlStr:" + tmpUrlStr);
             if (KUtils.strNotBlank(tmpUrlStr)) {
               if (
-                this.api.methodType.toLowerCase() == "get" ||
-                this.api.methodType.toLowerCase() == "delete"
+                this.debugMethodType.toLowerCase() == "get" ||
+                this.debugMethodType.toLowerCase() == "delete"
               ) {
                 // 地址栏追加参数
                 if (fullurl.indexOf("?") == -1) {
@@ -3120,14 +3174,15 @@ export default {
       return params;
     },
     setResponseBody(res) {
-      // console.log("成功");
-      // console.log(res);
+      //console.log("成功");
+      //console.log(res);
       let that = this;
       if (KUtils.checkUndefined(res)) {
         var resp = res.request;
         // console.log(res);
         var headers = res.headers;
         if (KUtils.checkUndefined(resp)) {
+          //console.log('resp,', resp)
           var ctype = KUtils.propValue("content-type", headers, "");
           // 判断是否是blob类型
           var contentDisposition = KUtils.propValue("content-disposition", headers, "");
@@ -3187,8 +3242,8 @@ export default {
                         _hdvalue != ""
                       ) {
                         if (
-                          _hdvalue.toLowerCase() == "filename*" ||
-                          _hdvalue.toLowerCase() == "filename"
+                          _hdvalue.toLowerCase().trim() == "filename*" ||
+                          _hdvalue.toLowerCase().trim() == "filename"
                         ) {
                           // 对filename进行decode处理,防止出现中文的情况,去除双引号
                           let tmpHeader = headerValu[1].replace(/\"/g, "");
