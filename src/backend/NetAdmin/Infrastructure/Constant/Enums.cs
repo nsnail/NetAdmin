@@ -346,11 +346,4 @@ public static class Enums
         /// </summary>
         PlatformAdmin = 100
     }
-
-    [Flags]
-    internal enum UserBitSets : long
-    {
-        [Description(Strings.MSG_USER_DISABLED)]
-        Disabled = 1
-    }
 }

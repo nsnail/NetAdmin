@@ -1,7 +1,10 @@
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
+using Mapster;
 using NetAdmin.DataContract.DbMaps.Dependency;
+using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Infrastructure.Constant;
+using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.DbMaps;
 
@@ -9,7 +12,7 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     用户表
 /// </summary>
 [Table]
-public record TbSysUser : DefaultEntity, IFieldBitSet
+public record TbSysUser : DefaultEntity, IFieldBitSet, IRegister
 {
     /// <summary>
     ///     比特位 <see cref="Enums.SysUserBits" />
@@ -34,4 +37,13 @@ public record TbSysUser : DefaultEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     public virtual string UserName { get; set; }
+
+    /// <inheritdoc />
+    public void Register(TypeAdapterConfig config)
+    {
+        config.ForType<CreateUserReq, TbSysUser>()
+              .Map(dest => dest.Password, src => src.Password.Pwd().Guid())
+              .Map(dest => dest.Token,    src => Guid.NewGuid())
+              .Map(dest => dest.BitSet,   src => Enums.SysUserBits.Enabled);
+    }
 }

@@ -46,7 +46,7 @@ public static class ServiceCollectionExtensions
         me.AddFreeRepository(null, App.Assemblies.ToArray());
 
         // 事务拦截器
-        me.AddScoped<TransactionHandler>();
+        me.AddMvcFilter<TransactionHandler>();
         return me;
     }
 

@@ -1,4 +1,4 @@
-namespace NetAdmin.Attributes;
+namespace NetAdmin.Aop.Attributes;
 
 /// <summary>
 ///     标记一个字段是否启用服务器时间

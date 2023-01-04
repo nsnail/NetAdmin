@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using NetAdmin.Attributes;
+using NetAdmin.Aop.Attributes;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.Infrastructure.Constant;
 

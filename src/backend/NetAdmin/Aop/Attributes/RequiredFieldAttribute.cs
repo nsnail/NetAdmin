@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace NetAdmin.Attributes;
+namespace NetAdmin.Aop.Attributes;
 
 /// <summary>
 ///     必填项约束

@@ -1,6 +1,6 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-namespace NetAdmin.Attributes;
+namespace NetAdmin.Aop.Attributes;
 
 /// <summary>
 ///     标记一个字段是否启用雪花id生成

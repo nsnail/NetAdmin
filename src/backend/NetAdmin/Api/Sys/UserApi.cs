@@ -3,6 +3,7 @@ using Furion.DataEncryption;
 using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
+using NetAdmin.Aop.Attributes;
 using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Sys.User;
@@ -22,10 +23,12 @@ public class UserApi : ApiCrud<TbSysUser, IUserApi>, IUserApi
         : base(repository) { }
 
     /// <inheritdoc />
-    public Task CreateUser(CreateUserReq req)
+    [Transaction]
+    public async Task CreateUser(CreateUserReq req)
     {
-        Console.WriteLine(req);
-        return Task.CompletedTask;
+        var user = req.Adapt<TbSysUser>();
+        user = await Repository.InsertAsync(user);
+        var roles = req.RoleIds.ConvertAll(x => new TbSysUserRole { RoleId = x });
     }
 
     /// <inheritdoc />

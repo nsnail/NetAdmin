@@ -4,7 +4,7 @@ using FreeSql;
 using FreeSql.Aop;
 using FreeSql.DataAnnotations;
 using Furion;
-using NetAdmin.Attributes;
+using NetAdmin.Aop.Attributes;
 using NetAdmin.Infrastructure.Configuration.Options;
 using Newtonsoft.Json;
 using NSExt.Extensions;
