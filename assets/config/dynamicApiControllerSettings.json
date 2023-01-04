@@ -1,0 +1,64 @@
+{
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+    //  动态webapi配置
+    "DynamicApiControllerSettings": {
+        //  5.1.10 DynamicApiControllerSettings 配置
+        //  Furion 还提供动态 WebAPI 接口一些全局配置选项，如：
+        //
+        //  DefaultRoutePrefix：默认路由前缀，string，默认 api
+        //  DefaultHttpMethod：默认请求谓词，string，默认：POST
+        //  DefaultModule：默认模块名称（区域），可用作接口版本，string，默认：v1
+        //  LowercaseRoute：小写路由格式，bool，默认：true
+        //  AsLowerCamelCase：启用小驼峰命名（首字母小写），默认 false
+        //  KeepVerb：是否保留动作谓词，bool，默认：false
+        //  KeepName：是否保留默认名称，bool，默认：fasle
+        //  CamelCaseSeparator：骆驼(驼峰)/帕斯卡命名分隔符，string，默认：-
+        //  VersionSeparator：版本分隔符，string，默认：@
+        //  ModelToQuery：GET/HEAD 请求将 类类型参数转查询参数，bool，默认 false
+        //  SupportedMvcController：是否支持 Mvc Controller 动态配置，bool，默认 false
+        //  UrlParameterization：路由参数采用 [FromQuery] 化，默认 false（[FromRoute] 方式）
+        //  DefaultArea：配置默认区域，默认 null
+        //  ForceWithRoutePrefix：配置是否强制添加 DefaultRoutePrefix，当控制器自定义了 [Route] 有效，仅限 v3.4.1+版本有效
+        //  AbandonControllerAffixes：默认去除控制器名称前后缀列表名，string[]，默认：
+        //  AppServices
+        //  AppService
+        //  ApiController
+        //  Controller
+        //  Services
+        //  Service
+        //  AbandonActionAffixes：默认去除动作方法名称前后缀列表名，string[]，默认：
+        //  Async
+        //  VerbToHttpMethods：复写默认方法名转 [HttpMethod] 规则，string[][] 二维数组类型，内置匹配规则为：
+        //  ["post"] = "POST",
+        //  ["add"] = "POST",
+        //  ["create"] = "POST",
+        //  ["insert"] = "POST",
+        //  ["submit"] = "POST",
+        //  ["get"] = "GET",
+        //  ["find"] = "GET",
+        //  ["fetch"] = "GET",
+        //  ["query"] = "GET",
+        //  ["getlist"] = "GET",
+        //  ["getall"] = "GET",
+        //  ["put"] = "PUT",
+        //  ["update"] = "PUT",
+        //  ["delete"] = "DELETE",
+        //  ["remove"] = "DELETE",
+        //  ["clear"] = "DELETE",
+        //  ["patch"] = "PATCH"
+        //
+        //  复写示例
+        //  "DynamicApiControllerSettings": {
+        //  "VerbToHttpMethods": [
+        //  [ "getall", "HEAD" ],  // => getall 会被复写为 `[HttpHead]`
+        //  [ "other", "PUT" ]  // => 新增一条新规则，比如，一 `[other]` 开头会转换为 `[HttpPut]` 请求
+        //  ]
+        //  }
+        "CamelCaseSeparator": ".",
+        "UrlParameterization": true,
+        "KeepVerb": true,
+        "AbandonControllerAffixes": [
+            "Api"
+        ]
+    },
+}

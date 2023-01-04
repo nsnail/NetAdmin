@@ -41,6 +41,7 @@ public class Startup : AppStartup
             .UseAuthentication()                                   //                        认证授权
             .UseAuthorization()                                    //                        认证授权
             .UseInject(string.Empty)                               //             Furion基础中间件
+            .UseUnifyResultStatusCodes()                           //                        状态码中间件
             .UseCorsAccessor()                                     //                        跨域访问中间件
             .UseRouting()                                          //                        控制器路由映射
             .UseSwaggerSkin()                                      //                        新版swagger ui（knife4j）中间件

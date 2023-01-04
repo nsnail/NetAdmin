@@ -1,3 +1,4 @@
+using Furion;
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
@@ -44,41 +45,36 @@ public class ApiResultHandler : IUnifyResultProvider
         return new JsonResult(result) { StatusCode = StatusCodes.Status400BadRequest };
     }
 
-    /// <inheritdoc />
-    public Task OnResponseStatusCodes(HttpContext                context, int statusCode
-                                    , UnifyResultSettingsOptions unifyResultSettings = default)
+    /// <summary>
+    ///     特定状态码返回值
+    /// </summary>
+    public async Task OnResponseStatusCodes(//
+        HttpContext                context,
+        int                        statusCode,
+        UnifyResultSettingsOptions unifyResultSettings)
     {
-        throw new NotImplementedException();
-    }
+        // 设置响应状态码
+        UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
 
-    // /// <summary>
-    // ///     特定状态码返回值
-    // /// </summary>
-    //
-    //
-    //
-    //
-    // public async Task OnResponseStatusCodes(HttpContext                context,
-    //                                         int                        statusCode,
-    //                                         UnifyResultSettingsOptions unifyResultSettings)
-    // {
-    //     // 设置响应状态码
-    //     UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
-    //
-    //     var jsonOptions = App.GetOptions<JsonOptions>();
-    //     switch (statusCode) {
-    //         // 处理 401 状态码
-    //         case StatusCodes.Status401Unauthorized:
-    //             await context.Response.WriteAsJsonAsync(RestfulResult(ErrorCodes.未登录, null, nameof(ErrorCodes.未登录)),
-    //                                                     jsonOptions?.JsonSerializerOptions);
-    //             break;
-    //         // 处理 403 状态码
-    //         case StatusCodes.Status403Forbidden:
-    //             await context.Response.WriteAsJsonAsync(RestfulResult(ErrorCodes.未授权, null, nameof(ErrorCodes.未授权)),
-    //                                                     jsonOptions?.JsonSerializerOptions);
-    //             break;
-    //     }
-    // }
+        var jsonOptions = App.GetOptions<JsonOptions>();
+        #pragma warning disable IDE0010
+        switch (statusCode) {
+            #pragma warning restore IDE0010
+            // 处理 401 状态码
+            case StatusCodes.Status401Unauthorized:
+                await context.Response.WriteAsJsonAsync(//
+                    RestfulResult(Enums.ErrorCodes.IdentityMissing, null, nameof(Enums.ErrorCodes.IdentityMissing)),
+                    jsonOptions?.JsonSerializerOptions);
+                break;
+
+            // 处理 403 状态码
+            case StatusCodes.Status403Forbidden:
+                await context.Response.WriteAsJsonAsync(//
+                    RestfulResult(Enums.ErrorCodes.NoPermissions, null, nameof(Enums.ErrorCodes.IdentityMissing)),
+                    jsonOptions?.JsonSerializerOptions);
+                break;
+        }
+    }
 
     /// <summary>
     ///     成功返回值

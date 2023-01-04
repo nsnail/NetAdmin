@@ -1,4 +1,5 @@
 {
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
     "JWTSettings": {
         "ValidateIssuerSigningKey": true,
         // 是否验证密钥，bool 类型，默认true
@@ -20,9 +21,5 @@
         // 过期时间容错值，long 类型，单位秒，默认 5秒
         "Algorithm": "HS256"
         // 加密算法，string 类型，默认 HS256
-    },
-    "Secret": {
-        //密钥A，与前端保持一致
-        "SecretKeyA": "1Z?f(2)%v?:X5NYRl+]PSi.rDf7Ip#lB"
     }
 }
