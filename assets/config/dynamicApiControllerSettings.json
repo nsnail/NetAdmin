@@ -77,27 +77,27 @@
             ],
             [
                 "get",
-                "GET"
+                "POST"
             ],
             [
                 "find",
-                "GET"
+                "POST"
             ],
             [
                 "fetch",
-                "GET"
+                "POST"
             ],
             [
                 "query",
-                "GET"
+                "POST"
             ],
             [
                 "getlist",
-                "GET"
+                "POST"
             ],
             [
                 "getall",
-                "GET"
+                "POST"
             ],
             [
                 "put",

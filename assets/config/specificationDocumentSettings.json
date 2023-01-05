@@ -40,6 +40,10 @@
     //  License：配置协议，OpenApiLicense 类型
     "SpecificationDocumentSettings": {
         "RoutePrefix": "swagger",
+        "XmlComments": [
+            "NetAdmin.xml",
+            "FreeSql.xml",
+        ],
         "SecurityDefinitions": [
             {
                 "Id": "Authorization",

@@ -1,5 +1,6 @@
 using Furion.FriendlyException;
 using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Aop.Attributes;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
@@ -10,7 +11,7 @@ using NetAdmin.Repositories;
 namespace NetAdmin.Api.Sys.Implements;
 
 /// <inheritdoc cref="IRoleApi" />
-public class RoleApi : CrudApi<TbSysRole, IRoleApi>, IRoleApi
+public class RoleApi : CrudApi<TbSysRole, CreateRoleReq, UpdateRoleReq, RoleInfo, RoleInfo, DelReq, IRoleApi>, IRoleApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="RoleApi" /> class.
@@ -18,14 +19,18 @@ public class RoleApi : CrudApi<TbSysRole, IRoleApi>, IRoleApi
     public RoleApi(Repository<TbSysRole> repository) //
         : base(repository) { }
 
-    /// <inheritdoc />
-    public async Task Create(CreateRoleReq req)
+    /// <summary>
+    ///     创建角色
+    /// </summary>
+    public override async Task Create(CreateRoleReq req)
     {
         await Repository.InsertAsync(req);
     }
 
-    /// <inheritdoc />
-    public async Task<int> Delete(DelReq req)
+    /// <summary>
+    ///     删除角色
+    /// </summary>
+    public override async Task<int> Delete(DelReq req)
     {
         if (await Repository.Orm.Select<TbSysUserRole>().AnyAsync(a => a.RoleId == req.Id)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "该角色下存在用户，不允许删除");
@@ -58,14 +63,25 @@ public class RoleApi : CrudApi<TbSysRole, IRoleApi>, IRoleApi
     }
 
     /// <inheritdoc />
-    public async Task<List<RoleInfo>> Query()
+    [NonAction]
+    public override Task<PagedQueryRsp<RoleInfo>> PagedQuery(PagedQueryReq<RoleInfo> req)
     {
-        var ret = await Repository.Where(x => true).ToListAsync();
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    ///     查询角色
+    /// </summary>
+    public override async Task<List<RoleInfo>> Query(QueryReq<RoleInfo> req)
+    {
+        var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToListAsync();
         return ret.ConvertAll(x => x.Adapt<RoleInfo>());
     }
 
-    /// <inheritdoc />
-    public async Task<int> Update(UpdateRoleReq req)
+    /// <summary>
+    ///     更新角色
+    /// </summary>
+    public override async Task<int> Update(UpdateRoleReq req)
     {
         var ret = await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync();
         return ret;

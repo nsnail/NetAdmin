@@ -3,9 +3,11 @@ using Furion.DataEncryption;
 using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Aop.Attributes;
 using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
+using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Repositories;
@@ -14,7 +16,7 @@ using NSExt.Extensions;
 namespace NetAdmin.Api.Sys.Implements;
 
 /// <inheritdoc cref="IUserApi" />
-public class UserApi : CrudApi<TbSysUser, IUserApi>, IUserApi
+public class UserApi : CrudApi<TbSysUser, CreateUserReq, NopReq, NopReq, DataAbstraction, NopReq, IUserApi>, IUserApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserApi" /> class.
@@ -22,9 +24,11 @@ public class UserApi : CrudApi<TbSysUser, IUserApi>, IUserApi
     public UserApi(Repository<TbSysUser> repository) //
         : base(repository) { }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     创建用户
+    /// </summary>
     [Transaction]
-    public async Task CreateUser(CreateUserReq req)
+    public override async Task Create(CreateUserReq req)
     {
         req.RoleIds = req.RoleIds.Distinct().ToList();
         if (!req.RoleIds.All(x => Repository.Orm.Select<TbSysRole>().Any(a => a.Id == x))) {
@@ -38,6 +42,13 @@ public class UserApi : CrudApi<TbSysUser, IUserApi>, IUserApi
         if (effects != req.RoleIds.Count) {
             throw Oops.Oh(Enums.ErrorCodes.Unknown);
         }
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public override Task<int> Delete(NopReq req)
+    {
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -64,5 +75,26 @@ public class UserApi : CrudApi<TbSysUser, IUserApi>, IUserApi
         App.HttpContext.Response.Headers[Strings.FLG_X_ACCESS_TOKEN] = ret.RefreshToken;
 
         return ret;
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public override Task<PagedQueryRsp<DataAbstraction>> PagedQuery(PagedQueryReq<NopReq> req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public override Task<List<DataAbstraction>> Query(QueryReq<NopReq> req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public override Task<int> Update(NopReq req)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -17,6 +17,7 @@ public static class MvcBuilderExtensions
         return me.AddJsonOptions(options => {
             options.JsonSerializerOptions.CopyFrom(default(JsonSerializerOptions).NewJsonSerializerOptions());
             options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters("yyyy-MM-dd HH:mm:ss");
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
         });
     }
