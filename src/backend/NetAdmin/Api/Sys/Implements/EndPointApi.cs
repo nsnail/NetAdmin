@@ -3,7 +3,6 @@ using Furion;
 using Furion.SpecificationDocument;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Aop.Attributes;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Endpoint;
@@ -12,8 +11,7 @@ using NetAdmin.Repositories;
 namespace NetAdmin.Api.Sys.Implements;
 
 /// <inheritdoc cref="IEndPointApi" />
-public class EndPointApi : CrudApi<TbSysEndpoint, NopReq, NopReq, NopReq, DataAbstraction, NopReq, IEndPointApi>
-                         , IEndPointApi
+public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPointApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="EndPointApi" /> class.
@@ -23,14 +21,14 @@ public class EndPointApi : CrudApi<TbSysEndpoint, NopReq, NopReq, NopReq, DataAb
 
     /// <inheritdoc />
     [NonAction]
-    public override Task Create(NopReq req)
+    public Task Create(NopReq req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<int> Delete(NopReq req)
+    public Task<int> Delete(NopReq req)
     {
         throw new NotImplementedException();
     }
@@ -56,14 +54,14 @@ public class EndPointApi : CrudApi<TbSysEndpoint, NopReq, NopReq, NopReq, DataAb
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<PagedQueryRsp<DataAbstraction>> PagedQuery(PagedQueryReq<NopReq> req)
+    public Task<PagedQueryRsp<NopReq>> PagedQuery(PagedQueryReq<NopReq> req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<List<DataAbstraction>> Query(QueryReq<NopReq> req)
+    public Task<List<NopReq>> Query(QueryReq<NopReq> req)
     {
         throw new NotImplementedException();
     }
@@ -81,7 +79,7 @@ public class EndPointApi : CrudApi<TbSysEndpoint, NopReq, NopReq, NopReq, DataAb
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<int> Update(NopReq req)
+    public Task<int> Update(NopReq req)
     {
         throw new NotImplementedException();
     }

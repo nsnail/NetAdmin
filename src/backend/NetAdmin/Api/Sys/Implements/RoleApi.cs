@@ -11,7 +11,7 @@ using NetAdmin.Repositories;
 namespace NetAdmin.Api.Sys.Implements;
 
 /// <inheritdoc cref="IRoleApi" />
-public class RoleApi : CrudApi<TbSysRole, CreateRoleReq, UpdateRoleReq, RoleInfo, RoleInfo, DelReq, IRoleApi>, IRoleApi
+public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="RoleApi" /> class.
@@ -22,7 +22,7 @@ public class RoleApi : CrudApi<TbSysRole, CreateRoleReq, UpdateRoleReq, RoleInfo
     /// <summary>
     ///     创建角色
     /// </summary>
-    public override async Task Create(CreateRoleReq req)
+    public async Task Create(CreateRoleReq req)
     {
         await Repository.InsertAsync(req);
     }
@@ -30,7 +30,7 @@ public class RoleApi : CrudApi<TbSysRole, CreateRoleReq, UpdateRoleReq, RoleInfo
     /// <summary>
     ///     删除角色
     /// </summary>
-    public override async Task<int> Delete(DelReq req)
+    public async Task<int> Delete(DelReq req)
     {
         if (await Repository.Orm.Select<TbSysUserRole>().AnyAsync(a => a.RoleId == req.Id)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "该角色下存在用户，不允许删除");
@@ -64,7 +64,7 @@ public class RoleApi : CrudApi<TbSysRole, CreateRoleReq, UpdateRoleReq, RoleInfo
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<PagedQueryRsp<RoleInfo>> PagedQuery(PagedQueryReq<RoleInfo> req)
+    public Task<PagedQueryRsp<RoleInfo>> PagedQuery(PagedQueryReq<RoleInfo> req)
     {
         throw new NotImplementedException();
     }
@@ -72,7 +72,7 @@ public class RoleApi : CrudApi<TbSysRole, CreateRoleReq, UpdateRoleReq, RoleInfo
     /// <summary>
     ///     查询角色
     /// </summary>
-    public override async Task<List<RoleInfo>> Query(QueryReq<RoleInfo> req)
+    public async Task<List<RoleInfo>> Query(QueryReq<RoleInfo> req)
     {
         var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToListAsync();
         return ret.ConvertAll(x => x.Adapt<RoleInfo>());
@@ -81,7 +81,7 @@ public class RoleApi : CrudApi<TbSysRole, CreateRoleReq, UpdateRoleReq, RoleInfo
     /// <summary>
     ///     更新角色
     /// </summary>
-    public override async Task<int> Update(UpdateRoleReq req)
+    public async Task<int> Update(UpdateRoleReq req)
     {
         var ret = await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync();
         return ret;

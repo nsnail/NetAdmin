@@ -16,7 +16,7 @@ using NSExt.Extensions;
 namespace NetAdmin.Api.Sys.Implements;
 
 /// <inheritdoc cref="IUserApi" />
-public class UserApi : CrudApi<TbSysUser, CreateUserReq, NopReq, NopReq, DataAbstraction, NopReq, IUserApi>, IUserApi
+public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserApi" /> class.
@@ -28,7 +28,7 @@ public class UserApi : CrudApi<TbSysUser, CreateUserReq, NopReq, NopReq, DataAbs
     ///     创建用户
     /// </summary>
     [Transaction]
-    public override async Task Create(CreateUserReq req)
+    public async Task Create(CreateUserReq req)
     {
         req.RoleIds = req.RoleIds.Distinct().ToList();
         if (!req.RoleIds.All(x => Repository.Orm.Select<TbSysRole>().Any(a => a.Id == x))) {
@@ -46,7 +46,7 @@ public class UserApi : CrudApi<TbSysUser, CreateUserReq, NopReq, NopReq, DataAbs
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<int> Delete(NopReq req)
+    public Task<int> Delete(NopReq req)
     {
         throw new NotImplementedException();
     }
@@ -79,21 +79,27 @@ public class UserApi : CrudApi<TbSysUser, CreateUserReq, NopReq, NopReq, DataAbs
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<PagedQueryRsp<DataAbstraction>> PagedQuery(PagedQueryReq<NopReq> req)
+    public Task<PagedQueryRsp<UserInfo>> PagedQuery(PagedQueryReq<UserInfo> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <inheritdoc />
-    [NonAction]
-    public override Task<List<DataAbstraction>> Query(QueryReq<NopReq> req)
+    /// <summary>
+    ///     查询用户
+    /// </summary>
+    public async Task<List<UserInfo>> Query(QueryReq<UserInfo> req)
     {
-        throw new NotImplementedException();
+        var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter)
+                                  .WhereDynamic(req.Filter)
+                                  .Take(100)
+                                  .ToListAsync();
+
+        return ret.ConvertAll(x => x.Adapt<UserInfo>());
     }
 
     /// <inheritdoc />
     [NonAction]
-    public override Task<int> Update(NopReq req)
+    public Task<int> Update(NopReq req)
     {
         throw new NotImplementedException();
     }
