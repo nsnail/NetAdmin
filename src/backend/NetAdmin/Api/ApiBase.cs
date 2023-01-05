@@ -4,7 +4,7 @@ using Furion.DynamicApiController;
 namespace NetAdmin.Api;
 
 /// <summary>
-///     Api Controller 基类
+///     Api 基类
 /// </summary>
 public abstract class ApiBase<T> : IDynamicApiController
 {

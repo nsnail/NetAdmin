@@ -13,19 +13,7 @@ public class Repository<TEntity> : DefaultRepository<TEntity, long>, IRepository
     /// <summary>
     ///     Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
     /// </summary>
-    public Repository(IFreeSql fsql) //
-        : base(fsql) { }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
-    /// </summary>
-    public Repository(IFreeSql fsql, Expression<Func<TEntity, bool>> filter) //
-        : base(fsql, filter) { }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
-    /// </summary>
-    protected Repository(IFreeSql fsql, UnitOfWorkManager uowManger) //
+    public Repository(IFreeSql fsql, UnitOfWorkManager uowManger) //
         : base(fsql, uowManger) { }
 
     /// <inheritdoc />

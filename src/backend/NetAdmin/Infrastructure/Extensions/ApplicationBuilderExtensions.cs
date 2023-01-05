@@ -1,4 +1,5 @@
-using NetAdmin.Aop.Middlewares;
+using Furion.SpecificationDocument;
+using IGeekFan.AspNetCore.Knife4jUI;
 
 namespace NetAdmin.Infrastructure.Extensions;
 
@@ -12,6 +13,11 @@ public static class ApplicationBuilderExtensions
     /// </summary>
     public static IApplicationBuilder UseSwaggerSkin(this IApplicationBuilder app)
     {
-        return app.UseMiddleware<SwaggerSkinMiddleware>();
+        return app.UseKnife4UI(options => {
+            options.RoutePrefix = string.Empty; // 配置 Knife4UI 路由地址
+            foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups()) {
+                options.SwaggerEndpoint("/" + groupInfo.RouteTemplate, groupInfo.Title);
+            }
+        });
     }
 }

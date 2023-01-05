@@ -5,7 +5,7 @@ namespace NetAdmin.Api.Sys;
 /// <summary>
 ///     用户接口
 /// </summary>
-public interface IUserApi
+public interface IUserApi : IApi
 {
     /// <summary>
     ///     创建用户

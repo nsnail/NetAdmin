@@ -39,6 +39,26 @@
     //  Contact：配置联系方式，OpenApiContact 类型
     //  License：配置协议，OpenApiLicense 类型
     "SpecificationDocumentSettings": {
-        "RoutePrefix": "swagger"
+        "RoutePrefix": "swagger",
+        "SecurityDefinitions": [
+            {
+                "Id": "Authorization",
+                "Type": "Http",
+                "Name": "Authorization",
+                "Description": "JWT Authorization header using the Bearer scheme.",
+                "BearerFormat": "JWT",
+                "Scheme": "bearer",
+                "In": "Header",
+                "Requirement": {
+                    "Scheme": {
+                        "Reference": {
+                            "Id": "Authorization",
+                            "Type": "SecurityScheme"
+                        },
+                        "Accesses": []
+                    }
+                }
+            }
+        ]
     },
 }

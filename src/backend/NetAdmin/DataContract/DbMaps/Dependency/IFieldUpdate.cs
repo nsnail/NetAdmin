@@ -19,4 +19,9 @@ public interface IFieldUpdate
     ///     修改者
     /// </summary>
     string ModifiedUserName { get; set; }
+
+    /// <summary>
+    ///     数据版本
+    /// </summary>
+    long Version { get; set; }
 }

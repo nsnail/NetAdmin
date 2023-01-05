@@ -1,9 +1,9 @@
 {
-  "solution": "NetAdmin.sln",
-  "solutionFolder": null,
-  "mappings": {
-    "NSExt": "../../../../ForkedGitReps/ns-ext/src/NSExt.csproj",
-    "Furion.Pure.NS": "../../../../ForkedGitReps/Furion/framework/Furion.Pure/Furion.Pure.csproj"
-  },
-  "removeProjects": true
+    "solution": "NetAdmin.sln",
+    "solutionFolder": null,
+    "mappings": {
+        "NSExt": "../../../../ForkedGitReps/ns-ext/src/NSExt.csproj",
+        "Furion.Pure.NS": "../../../../ForkedGitReps/Furion/framework/Furion.Pure/Furion.Pure.csproj"
+    },
+    "removeProjects": true
 }

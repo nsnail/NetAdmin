@@ -6,7 +6,7 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 public interface IFieldPrimary
 {
     /// <summary>
-    ///     主键Id
+    ///     唯一编码
     /// </summary>
     long Id { get; set; }
 }

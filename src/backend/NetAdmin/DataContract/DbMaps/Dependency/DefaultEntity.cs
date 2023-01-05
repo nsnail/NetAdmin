@@ -9,8 +9,7 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 /// <summary>
 ///     默认实体
 /// </summary>
-public abstract record DefaultEntity : DataAbstraction, IEntity, IFieldPrimary, IFieldAdd, IFieldUpdate, IFieldDelete
-                                     , IFieldVersion
+public abstract record DefaultEntity : DataAbstraction, IEntity, IFieldPrimary, IFieldAdd, IFieldUpdate
 {
     /// <inheritdoc />
     [JsonIgnore]
@@ -36,11 +35,6 @@ public abstract record DefaultEntity : DataAbstraction, IEntity, IFieldPrimary, 
     [Column(IsIdentity = false, IsPrimary = true)]
     [Snowflake]
     public virtual long Id { get; set; }
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    [Description(Strings.DSC_IS_DELETED)]
-    public virtual bool IsDeleted { get; set; }
 
     /// <inheritdoc />
     [JsonIgnore]

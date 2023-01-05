@@ -56,7 +56,7 @@ public static class Enums
         /// <summary>
         ///     未知错误
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(Strings.MSG_ERROR_UNKNOWN)]
+        [ErrorCodeItemMetadata("系统异常")] [Description(Strings.MSG_ERROR_UNKNOWN)]
         Unknown = 4000
 
        ,
@@ -308,6 +308,25 @@ public static class Enums
         ///     Delete
         /// </summary>
         Delete
+    }
+
+    /// <summary>
+    ///     角色表比特位
+    /// </summary>
+    [Flags]
+    public enum SysRoleBits : long
+    {
+        /// <summary>
+        ///     启用
+        /// </summary>
+        Enabled = 0b0000_0000_0000_0000_0000_0000_0000_0001
+
+       ,
+
+        /// <summary>
+        ///     忽略权限控制（拥有所有权限）
+        /// </summary>
+        IgnorePermissionControl = 0b0000_0000_0000_0000_0000_0000_0000_0010
     }
 
     /// <summary>

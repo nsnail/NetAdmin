@@ -5,7 +5,7 @@ using NetAdmin.Repositories;
 namespace NetAdmin.Api;
 
 /// <summary>
-///     数据库Api基类
+///     增删改查 Api基类
 /// </summary>
 public abstract class ApiCrud<TEntity, TLogger> : ApiBase<TLogger>
     where TEntity : DataAbstraction, IEntity, new()

@@ -9,7 +9,7 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 /// <summary>
 ///     不可变实体
 /// </summary>
-public abstract record ImmutableEntity : DataAbstraction, IEntity, IFieldPrimary, IFieldAdd, IFieldDelete
+public abstract record ImmutableEntity : DataAbstraction, IEntity, IFieldPrimary, IFieldAdd
 {
     /// <inheritdoc />
     [JsonIgnore]
@@ -35,9 +35,4 @@ public abstract record ImmutableEntity : DataAbstraction, IEntity, IFieldPrimary
     [Column(IsIdentity = false, IsPrimary = true)]
     [Snowflake]
     public long Id { get; set; }
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    [Description(Strings.DSC_IS_DELETED)]
-    public bool IsDeleted { get; set; }
 }

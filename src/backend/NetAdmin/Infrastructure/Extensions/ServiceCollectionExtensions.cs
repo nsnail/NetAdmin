@@ -1,10 +1,14 @@
+using System.Globalization;
 using System.Reflection;
 using FreeSql;
 using Furion;
 using Furion.ConfigurableOptions;
 using NetAdmin.Aop.Filters;
 using NetAdmin.Infrastructure.Configuration.Options;
+using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Utils;
+using NSExt.Extensions;
+using Spectre.Console;
 using Yitter.IdGenerator;
 
 namespace NetAdmin.Infrastructure.Extensions;
@@ -35,6 +39,27 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    ///     注册控制台日志模板
+    /// </summary>
+    public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
+    {
+        return me.AddConsoleFormatter(options => {
+            options.WriteHandler = (message, _, _, _, _) => {
+                const int loggerWidth = 64;
+                AnsiConsole.MarkupLine( //
+                    CultureInfo.InvariantCulture
+                  , $"[gray][[{{0}} {{1}} {{2,-{loggerWidth}}} #{{3,4}}]][/] {{4}}"
+                  , message.LogDateTime.ToString(
+                        "HH:mm:ss.ffffff", CultureInfo.InvariantCulture)
+                  , ((Enums.LogLevels)message.LogLevel).Desc()
+                  , message.LogName.PadRight(loggerWidth, ' ')[^loggerWidth..]
+                  , message.ThreadId, Regexes.RegexDigitDot3.Replace( //
+                        message.Message.EscapeMarkup(), "[bold fuchsia]$1[/]"));
+            };
+        });
+    }
+
+    /// <summary>
     ///     注册freeSql orm工具
     /// </summary>
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
@@ -46,7 +71,7 @@ public static class ServiceCollectionExtensions
         me.AddFreeRepository(null, App.Assemblies.ToArray());
 
         // 事务拦截器
-        me.AddMvcFilter<TransactionHandler>();
+        me.AddMvcFilter<TransactionInterceptor>();
         return me;
     }
 
