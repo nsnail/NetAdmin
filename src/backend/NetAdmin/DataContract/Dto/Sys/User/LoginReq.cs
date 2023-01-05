@@ -13,12 +13,12 @@ public record LoginReq : TbSysUser
     /// <inheritdoc cref="TbSysUser.Password" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Required]
-    [RegularExpression(Strings.REGEX_PASSWORD, ErrorMessage = Strings.MSG_PASSWORD_STRONG)]
+    [RegularExpression(Strings.RGX_PASSWORD, ErrorMessage = Strings.MSG_PASSWORD_STRONG)]
     public new string Password { get; set; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Required]
-    [RegularExpression(Strings.REGEX_USERNAME, ErrorMessage = Strings.MSG_USERNAME_STRONG)]
+    [RegularExpression(Strings.RGX_USERNAME, ErrorMessage = Strings.MSG_USERNAME_STRONG)]
     public override string UserName { get; set; }
 }

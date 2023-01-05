@@ -6,7 +6,7 @@ namespace NetAdmin.Api;
 /// <summary>
 ///     Api 基类
 /// </summary>
-public abstract class ApiBase<T> : IDynamicApiController
+public abstract class ApiBase<TLogger> : IDynamicApiController
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="ApiBase{T}" /> class.
@@ -14,19 +14,11 @@ public abstract class ApiBase<T> : IDynamicApiController
     /// </summary>
     protected ApiBase()
     {
-        Logger = App.GetService<ILogger<T>>();
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ApiBase{T}" /> class.
-    /// </summary>
-    protected ApiBase(ILogger<T> logger)
-    {
-        Logger = logger;
+        Logger = App.GetService<ILogger<TLogger>>();
     }
 
     /// <summary>
     ///     日志记录器
     /// </summary>
-    protected ILogger<T> Logger { get; }
+    protected ILogger<TLogger> Logger { get; }
 }

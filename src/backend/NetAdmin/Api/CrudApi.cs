@@ -7,13 +7,13 @@ namespace NetAdmin.Api;
 /// <summary>
 ///     增删改查 Api基类
 /// </summary>
-public abstract class ApiCrud<TEntity, TLogger> : ApiBase<TLogger>
+public abstract class CrudApi<TEntity, TLogger> : ApiBase<TLogger>
     where TEntity : DataAbstraction, IEntity, new()
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ApiCrud{TEntity, TLogger}" /> class.
+    ///     Initializes a new instance of the <see cref="CrudApi{TEntity,TLogger}" /> class.
     /// </summary>
-    protected ApiCrud(Repository<TEntity> repository)
+    protected CrudApi(Repository<TEntity> repository)
     {
         Repository = repository;
     }

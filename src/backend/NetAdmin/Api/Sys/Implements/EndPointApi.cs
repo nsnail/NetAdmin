@@ -8,8 +8,8 @@ using NetAdmin.Repositories;
 
 namespace NetAdmin.Api.Sys.Implements;
 
-/// <inheritdoc cref="NetAdmin.Api.Sys.IEndPointApi" />
-public class EndPointApi : ApiCrud<TbSysEndpoint, IEndPointApi>, IEndPointApi
+/// <inheritdoc cref="IEndPointApi" />
+public class EndPointApi : CrudApi<TbSysEndpoint, IEndPointApi>, IEndPointApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="EndPointApi" /> class.

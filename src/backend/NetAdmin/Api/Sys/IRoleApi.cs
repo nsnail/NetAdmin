@@ -1,4 +1,4 @@
-using NetAdmin.Api.Pub;
+using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Role;
 
 namespace NetAdmin.Api.Sys;
@@ -6,7 +6,7 @@ namespace NetAdmin.Api.Sys;
 /// <summary>
 ///     角色接口
 /// </summary>
-public interface IRoleApi : IApi
+public interface IRoleApi : IRestfulApi
 {
     /// <summary>
     ///     增加角色

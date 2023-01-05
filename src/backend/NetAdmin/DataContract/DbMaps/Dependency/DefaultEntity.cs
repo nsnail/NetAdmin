@@ -38,7 +38,7 @@ public abstract record DefaultEntity : DataAbstraction, IEntity, IFieldPrimary, 
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(Strings.DESC_MODIFIED_TIME)]
+    [Description(Strings.DSC_MODIFIED_TIME)]
     [Column(CanInsert = false, ServerTime = DateTimeKind.Local)]
     public virtual DateTime? ModifiedTime { get; set; }
 

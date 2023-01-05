@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace NetAdmin.Api.Sys.Implements;
 
-/// <inheritdoc cref="NetAdmin.Api.Sys.IToolsApi" />
+/// <inheritdoc cref="IToolsApi" />
 public class ToolsApi : ApiBase<IToolsApi>, IToolsApi
 {
     /// <inheritdoc />

@@ -1,16 +1,16 @@
 using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Aop.Attributes;
-using NetAdmin.Api.Pub;
 using NetAdmin.DataContract.DbMaps;
+using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Role;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Repositories;
 
 namespace NetAdmin.Api.Sys.Implements;
 
-/// <inheritdoc cref="NetAdmin.Api.Sys.IRoleApi" />
-public class RoleApi : ApiCrud<TbSysRole, IRoleApi>, IRoleApi
+/// <inheritdoc cref="IRoleApi" />
+public class RoleApi : CrudApi<TbSysRole, IRoleApi>, IRoleApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="RoleApi" /> class.

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NetAdmin.DataContract.DbMaps;
 using NSExt.Extensions;
 
-namespace NetAdmin.Aop.Filters;
+namespace NetAdmin.Aop.Pipelines;
 
 /// <summary>
 ///     请求审计日志

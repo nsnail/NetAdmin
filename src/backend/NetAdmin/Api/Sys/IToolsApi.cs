@@ -3,7 +3,7 @@ namespace NetAdmin.Api.Sys;
 /// <summary>
 ///     工具接口
 /// </summary>
-public interface IToolsApi : IApi
+public interface IToolsApi : IRestfulApi
 {
     /// <summary>
     ///     服务器时间

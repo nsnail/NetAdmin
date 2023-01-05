@@ -5,7 +5,7 @@ namespace NetAdmin.Api.Sys;
 /// <summary>
 ///     端点接口
 /// </summary>
-public interface IEndPointApi : IApi
+public interface IEndPointApi : IRestfulApi
 {
     /// <summary>
     ///     端点列表

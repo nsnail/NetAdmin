@@ -13,8 +13,8 @@ using NSExt.Extensions;
 
 namespace NetAdmin.Api.Sys.Implements;
 
-/// <inheritdoc cref="NetAdmin.Api.Sys.IUserApi" />
-public class UserApi : ApiCrud<TbSysUser, IUserApi>, IUserApi
+/// <inheritdoc cref="IUserApi" />
+public class UserApi : CrudApi<TbSysUser, IUserApi>, IUserApi
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserApi" /> class.
@@ -60,8 +60,8 @@ public class UserApi : ApiCrud<TbSysUser, IUserApi>, IUserApi
         ret.RefreshToken = JWTEncryption.GenerateRefreshToken(ret.AccessToken);
 
         // 设置响应报文头
-        App.HttpContext.Response.Headers[Strings.FLAG_ACCESS_TOKEN]   = ret.AccessToken;
-        App.HttpContext.Response.Headers[Strings.FLAG_X_ACCESS_TOKEN] = ret.RefreshToken;
+        App.HttpContext.Response.Headers[Strings.FLG_ACCESS_TOKEN]   = ret.AccessToken;
+        App.HttpContext.Response.Headers[Strings.FLG_X_ACCESS_TOKEN] = ret.RefreshToken;
 
         return ret;
     }

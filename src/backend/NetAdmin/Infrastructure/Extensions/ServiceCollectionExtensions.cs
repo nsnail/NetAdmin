@@ -3,7 +3,7 @@ using System.Reflection;
 using FreeSql;
 using Furion;
 using Furion.ConfigurableOptions;
-using NetAdmin.Aop.Filters;
+using NetAdmin.Aop.Pipelines;
 using NetAdmin.Infrastructure.Configuration.Options;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Utils;

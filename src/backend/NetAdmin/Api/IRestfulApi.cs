@@ -1,6 +1,6 @@
 namespace NetAdmin.Api;
 
 /// <summary>
-///     Api 总接口
+///     Restful Api
 /// </summary>
-public interface IApi { }
+public interface IRestfulApi { }

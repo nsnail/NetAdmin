@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using NetAdmin.DataContract;
 
-namespace NetAdmin.Api.Pub;
+namespace NetAdmin.DataContract.Dto.Pub;
 
 /// <summary>
 ///     请求：通过id批量删除

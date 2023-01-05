@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using NetAdmin.DataContract.Dto;
 using NetAdmin.Infrastructure.Constant;
 
-namespace NetAdmin.Aop.Filters;
+namespace NetAdmin.Aop.Pipelines;
 
 /// <summary>
 ///     Api结果格式化处理器

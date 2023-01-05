@@ -4,7 +4,7 @@ using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NetAdmin.Aop.Attributes;
 
-namespace NetAdmin.Aop.Filters;
+namespace NetAdmin.Aop.Pipelines;
 
 /// <summary>
 ///     事务拦截器

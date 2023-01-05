@@ -5,7 +5,7 @@ namespace NetAdmin.Infrastructure.Constant;
 /// <summary>
 ///     https://en.wikipedia.org/wiki/ANSI_escape_code
 /// </summary>
-public struct AnsiColorCodes
+internal struct AnsiColorCodes
 {
     public const string BC_BLACK          = "40";
     public const string BC_BLUE           = "44";

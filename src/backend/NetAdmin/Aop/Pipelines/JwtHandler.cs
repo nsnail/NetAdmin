@@ -6,7 +6,7 @@ using NetAdmin.DataContract.DbMaps;
 using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
-namespace NetAdmin.Aop.Filters;
+namespace NetAdmin.Aop.Pipelines;
 
 /// <inheritdoc />
 [SuppressSniffer]

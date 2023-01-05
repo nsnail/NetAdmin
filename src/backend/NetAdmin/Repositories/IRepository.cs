@@ -38,30 +38,4 @@ public interface IRepository<TEntity> : IBaseRepository<TEntity>
     ///     根据条件获取实体
     /// </summary>
     Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> exp);
-
-    /// <summary>
-    ///     软删除
-    /// </summary>
-    /// <param name="id">主键</param>
-    Task<bool> SoftDeleteAsync(long id);
-
-    /// <summary>
-    ///     批量软删除
-    /// </summary>
-    /// <param name="ids">主键数组</param>
-    Task<bool> SoftDeleteAsync(long[] ids);
-
-    /// <summary>
-    ///     软删除
-    /// </summary>
-    /// <param name="exp">exp</param>
-    /// <param name="disableGlobalFilterNames">禁用全局过滤器名</param>
-    Task<bool> SoftDeleteAsync(Expression<Func<TEntity, bool>> exp, params string[] disableGlobalFilterNames);
-
-    /// <summary>
-    ///     递归软删除
-    /// </summary>
-    /// <param name="exp">exp</param>
-    /// <param name="disableGlobalFilterNames">禁用全局过滤器名</param>
-    Task<bool> SoftDeleteRecursiveAsync(Expression<Func<TEntity, bool>> exp, params string[] disableGlobalFilterNames);
 }
