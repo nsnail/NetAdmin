@@ -34,7 +34,7 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
 
     /// <inheritdoc />
     [NonAction]
-    public Task<PagedQueryRsp<MenuInfo>> PagedQuery(PagedQueryReq<MenuInfo> req)
+    public Task<PagedQueryRsp<QueryMenuRsp>> PagedQuery(PagedQueryReq<QueryMenuReq> req)
     {
         throw new NotImplementedException();
     }
@@ -42,12 +42,12 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public async Task<List<MenuInfo>> Query(QueryReq<MenuInfo> req)
+    public async Task<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
     {
         var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter)
                                   .WhereDynamic(req.Filter)
                                   .ToTreeListAsync();
-        return ret.ConvertAll(x => x.Adapt<MenuInfo>());
+        return ret.ConvertAll(x => x.Adapt<QueryMenuRsp>());
     }
 
     /// <summary>

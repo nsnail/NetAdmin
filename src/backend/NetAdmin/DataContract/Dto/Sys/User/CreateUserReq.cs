@@ -10,6 +10,10 @@ namespace NetAdmin.DataContract.Dto.Sys.User;
 /// </summary>
 public record CreateUserReq : TbSysUser
 {
+    /// <inheritdoc cref="TbSysUser.DeptId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long DeptId { get; set; }
+
     /// <inheritdoc cref="TbSysUser.Password" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Required]

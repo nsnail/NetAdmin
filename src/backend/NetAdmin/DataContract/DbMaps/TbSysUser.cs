@@ -21,6 +21,12 @@ public record TbSysUser : DefaultEntity, IFieldBitSet, IRegister
     public virtual long BitSet { get; set; }
 
     /// <summary>
+    ///     部门id
+    /// </summary>
+    [JsonIgnore]
+    public virtual long DeptId { get; set; }
+
+    /// <summary>
     ///     密码
     /// </summary>
     [JsonIgnore]

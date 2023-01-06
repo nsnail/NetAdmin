@@ -6,6 +6,7 @@ namespace NetAdmin.Api.Sys.Implements;
 public class ToolsApi : ApiBase<IToolsApi>, IToolsApi
 {
     /// <inheritdoc />
+    [AllowAnonymous]
     public DateTime GetServerUtcTime()
     {
         return DateTime.UtcNow;

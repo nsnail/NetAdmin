@@ -7,7 +7,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Menu;
 /// <summary>
 ///     信息：菜单
 /// </summary>
-public record MenuInfo : TbSysMenu
+public record QueryMenuRsp : TbSysMenu
 {
     /// <summary>
     ///     元数据
@@ -18,7 +18,7 @@ public record MenuInfo : TbSysMenu
     ///     子节点
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new List<MenuInfo> Children { get; set; }
+    public new List<QueryMenuRsp> Children { get; set; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

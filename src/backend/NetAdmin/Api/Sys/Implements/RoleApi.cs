@@ -30,13 +30,14 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     /// <summary>
     ///     删除角色
     /// </summary>
+    [Transaction]
     public async Task<int> Delete(DelReq req)
     {
-        if (await Repository.Orm.Select<TbSysUserRole>().AnyAsync(a => a.RoleId == req.Id)) {
+        if (await Repository.Orm.Select<TbSysUserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "该角色下存在用户，不允许删除");
         }
 
-        var ret = await Repository.DeleteAsync(x => x.Id == req.Id);
+        var ret = await Repository.DeleteAsync(a => a.Id == req.Id);
         return ret;
     }
 

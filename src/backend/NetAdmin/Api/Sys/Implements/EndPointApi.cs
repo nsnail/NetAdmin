@@ -34,9 +34,9 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
     }
 
     /// <inheritdoc />
-    public async Task<HashSet<EndpointInfo>> List()
+    public async Task<HashSet<QueryEndpointRsp>> List()
     {
-        var       ret  = new HashSet<EndpointInfo>();
+        var       ret  = new HashSet<QueryEndpointRsp>();
         using var http = new HttpClient();
         foreach (var url in SpecificationDocumentBuilder.GetOpenApiGroups()
                                                         .Select(
@@ -44,7 +44,7 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
                                                                 $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host}{x.RouteTemplate}")) {
             var json = await http.GetStringAsync(url);
             foreach (var p in JsonDocument.Parse(json).RootElement.GetProperty("paths").EnumerateObject()) {
-                ret.Add(new EndpointInfo( //
+                ret.Add(new QueryEndpointRsp( //
                             p.Value.EnumerateObject().First().Value.GetProperty("summary").GetString(), p.Name));
             }
         }
@@ -54,14 +54,14 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
 
     /// <inheritdoc />
     [NonAction]
-    public Task<PagedQueryRsp<NopReq>> PagedQuery(PagedQueryReq<NopReq> req)
+    public Task<PagedQueryRsp<QueryEndpointRsp>> PagedQuery(PagedQueryReq<NopReq> req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     [NonAction]
-    public Task<List<NopReq>> Query(QueryReq<NopReq> req)
+    public Task<List<QueryEndpointRsp>> Query(QueryReq<NopReq> req)
     {
         throw new NotImplementedException();
     }

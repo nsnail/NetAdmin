@@ -62,9 +62,89 @@ public static class Enums
     }
 
     /// <summary>
+    ///     菜单类型
+    /// </summary>
+    public enum MenuTypes
+    {
+        /// <summary>
+        ///     菜单
+        /// </summary>
+        [Description("菜单")] Menu = 1
+
+       ,
+
+        /// <summary>
+        ///     链接
+        /// </summary>
+        [Description("链接")] Link = 2
+
+       ,
+
+        /// <summary>
+        ///     框架
+        /// </summary>
+        [Description("框架")] Iframe = 3
+    }
+
+    /// <summary>
+    ///     部门表比特位
+    /// </summary>
+    [Flags]
+    public enum SysDeptBits : long
+    {
+        /// <summary>
+        ///     启用
+        /// </summary>
+        Enabled = 0b_0000_0001
+    }
+
+    /// <summary>
+    ///     菜单表比特位
+    /// </summary>
+    [Flags]
+    public enum SysMenuBits : long
+    {
+        /// <summary>
+        ///     启用
+        /// </summary>
+        Enabled = 0b_0000_0001
+    }
+
+    /// <summary>
+    ///     角色表比特位
+    /// </summary>
+    [Flags]
+    public enum SysRoleBits : long
+    {
+        /// <summary>
+        ///     启用
+        /// </summary>
+        Enabled = 0b_0000_0001
+
+       ,
+
+        /// <summary>
+        ///     忽略权限控制（拥有所有权限）
+        /// </summary>
+        IgnorePermissionControl = 0b_0000_0010
+    }
+
+    /// <summary>
+    ///     用户表比特位
+    /// </summary>
+    [Flags]
+    public enum SysUserBits : long
+    {
+        /// <summary>
+        ///     启用
+        /// </summary>
+        Enabled = 0b_0000_0001
+    }
+
+    /// <summary>
     ///     日志等级
     /// </summary>
-    public enum LogLevels
+    internal enum LogLevels
     {
         /// <summary>
         ///     Trace
@@ -112,73 +192,5 @@ public static class Enums
         ///     None
         /// </summary>
         [Description("[gray]NON[/]")] None
-    }
-
-    /// <summary>
-    ///     菜单类型
-    /// </summary>
-    public enum MenuTypes
-    {
-        /// <summary>
-        ///     菜单
-        /// </summary>
-        [Description("菜单")] Menu = 1
-
-       ,
-
-        /// <summary>
-        ///     链接
-        /// </summary>
-        [Description("链接")] Link = 2
-
-       ,
-
-        /// <summary>
-        ///     框架
-        /// </summary>
-        [Description("框架")] Iframe = 3
-    }
-
-    /// <summary>
-    ///     菜单表比特位
-    /// </summary>
-    [Flags]
-    public enum SysMenuBits : long
-    {
-        /// <summary>
-        ///     启用
-        /// </summary>
-        Enabled = 0b_0000_0001
-    }
-
-    /// <summary>
-    ///     角色表比特位
-    /// </summary>
-    [Flags]
-    public enum SysRoleBits : long
-    {
-        /// <summary>
-        ///     启用
-        /// </summary>
-        Enabled = 0b_0000_0001
-
-       ,
-
-        /// <summary>
-        ///     忽略权限控制（拥有所有权限）
-        /// </summary>
-        IgnorePermissionControl = 0b_0000_0010
-    }
-
-    /// <summary>
-    ///     用户表比特位
-    /// </summary>
-    [Flags]
-    public enum SysUserBits : long
-    {
-        /// <summary>
-        ///     启用
-        /// </summary>
-        Enabled = 0b_0000_0001
     }
 }

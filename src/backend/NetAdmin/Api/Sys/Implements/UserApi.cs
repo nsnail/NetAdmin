@@ -32,8 +32,12 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     public async Task Create(CreateUserReq req)
     {
         req.RoleIds = req.RoleIds.Distinct().ToList();
-        if (!req.RoleIds.All(x => Repository.Orm.Select<TbSysRole>().Any(a => a.Id == x))) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "角色id不存在");
+        if (!req.RoleIds.All(x => Repository.Orm.Select<TbSysRole>().ForUpdate().Any(a => a.Id == x))) {
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "角色不存在");
+        }
+
+        if (!await Repository.Orm.Select<TbSysDept>().ForUpdate().AnyAsync(a => a.Id == req.DeptId)) {
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "部门不存在");
         }
 
         var user = req.Adapt<TbSysUser>();

@@ -6,7 +6,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Endpoint;
 /// <summary>
 ///     信息：端点
 /// </summary>
-public record EndpointInfo(string Label, string Path) : TbSysEndpoint
+public record QueryEndpointRsp(string Label, string Path) : TbSysEndpoint
 {
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
