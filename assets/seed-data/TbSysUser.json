@@ -1,9 +1,24 @@
 [
     {
-        "id": 370942943322181,
-        "userName": "admin",
-        "bitSet": 1,
-        "password": "fbda040b-79f5-1123-cff6-e145f6d67221",
-        "token": "a9afd92e-a33d-4152-9a6c-a9c141d24887"
+        "Id": 370942943322181,
+        "UserName": "root",
+        "BitSet": 1,
+        //1234qwer
+        "Password": "a8e87d23-49bc-25a1-1c7c-59186bef5d15",
+        "Token": "a9afd92e-a33d-4152-9a6c-a9c141d24887"
+    },
+    {
+        "Id": 371922660679685,
+        "UserName": "admin",
+        "BitSet": 1,
+        "Password": "a8e87d23-49bc-25a1-1c7c-59186bef5d15",
+        "Token": "0f1b4026-2372-430c-b633-f6617e0b7bac"
+    },
+    {
+        "Id": 371922681249797,
+        "UserName": "user",
+        "BitSet": 1,
+        "Password": "a8e87d23-49bc-25a1-1c7c-59186bef5d15",
+        "Token": "13e32371-d422-4f72-b83e-c9c1fee90aed"
     }
 ]

@@ -53,12 +53,12 @@ public static class Strings
     public const string MSG_SMSCODE_WRONG        = "短信验证码不正确";
     public const string MSG_UNAME_PASSWORD_WRONG = "用户名或密码错误";
     public const string MSG_USER_DISABLED        = "用户已禁用";
-    public const string MSG_USERNAME_STRONG      = "5位以上（字母数字下划线）";
+    public const string MSG_USERNAME_STRONG      = "4位以上（字母数字下划线）";
 
     public const string RGX_MOBILE   = """^1(3\d|4[5-9]|5[0-35-9]|6[6]|7[2-8]|8\d|9[0-35-9])\d{8}$""";
-    public const string RGX_PASSWORD = """^(?![0-9]+$)(?![a-zA-Z]+$).{8,20}$""";
+    public const string RGX_PASSWORD = """^(?![0-9]+$)(?![a-zA-Z]+$).{8,16}$""";
     public const string RGX_SMSCODE  = """^\d{4}$""";
-    public const string RGX_USERNAME = """^[a-zA-Z0-9_]{5,20}$""";
+    public const string RGX_USERNAME = """^[a-zA-Z0-9_]{4,16}$""";
 
     public const string TMP_LOG_OUPUT
         = "[{Timestamp:HH:mm:ss.fff} {Level:u3} {SourceContext,64}] {Message:lj}{NewLine}{Exception}";
