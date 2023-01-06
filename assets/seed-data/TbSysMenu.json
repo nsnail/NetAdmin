@@ -1,0 +1,54 @@
+[
+    {
+        "Name": "home",
+        "Icon": "el-icon-house",
+        "Title": "首页",
+        "Path": "/home",
+        "Component": "home",
+        "Sort": 0,
+        "Type": 1,
+        "BitSet": 1,
+    },
+    {
+        "Name": "sys",
+        "Icon": "el-icon-setting",
+        "Title": "系统管理",
+        "Path": "/sys",
+        "Sort": 0,
+        "Type": 1,
+        "BitSet": 1,
+        "children": [
+            {
+                "Name": "sys-user",
+                "Icon": "el-icon-user",
+                "Title": "用户管理",
+                "Path": "/sys/user",
+                "Component": "sys/user",
+                "Sort": 0,
+                "Type": 1,
+                "BitSet": 1,
+            }
+        ]
+    },
+    {
+        "Name": "biz",
+        "Icon": "el-icon-money",
+        "Title": "业务管理",
+        "Path": "/biz",
+        "Sort": 0,
+        "Type": 1,
+        "BitSet": 1,
+        "children": [
+            {
+                "Name": "biz-order",
+                "Icon": "el-icon-tickets",
+                "Title": "订单管理",
+                "Path": "/biz/order",
+                "Component": "biz/order",
+                "Sort": 0,
+                "Type": 1,
+                "BitSet": 1,
+            }
+        ]
+    }
+]

@@ -9,45 +9,6 @@ namespace NetAdmin.Infrastructure.Constant;
 public static class Enums
 {
     /// <summary>
-    ///     数据范围
-    /// </summary>
-    public enum DataScopes
-    {
-        /// <summary>
-        ///     全部
-        /// </summary>
-        All = 1
-
-       ,
-
-        /// <summary>
-        ///     本部门和下级部门
-        /// </summary>
-        DeptWithChild = 2
-
-       ,
-
-        /// <summary>
-        ///     本部门
-        /// </summary>
-        Dept = 3
-
-       ,
-
-        /// <summary>
-        ///     本人数据
-        /// </summary>
-        Self = 4
-
-       ,
-
-        /// <summary>
-        ///     指定部门
-        /// </summary>
-        Custom = 5
-    }
-
-    /// <summary>
     ///     错误码（0 表示 成功）
     /// </summary>
     [ErrorCodeType]
@@ -98,38 +59,6 @@ public static class Enums
         /// </summary>
         [ErrorCodeItemMetadata("需进行人机验证")] [Description(Strings.MSG_HUMAN_VERIFICATION)]
         HumanVerification = 4040
-    }
-
-    /// <summary>
-    ///     FreeSql全局过滤器
-    /// </summary>
-    public enum FreeSqlGlobalFilters
-    {
-        /// <summary>
-        ///     数据权限
-        /// </summary>
-        [Description("数据权限")] Delete
-
-       ,
-
-        /// <summary>
-        ///     删除
-        /// </summary>
-        [Description("删除")] Self
-
-       ,
-
-        /// <summary>
-        ///     本人权限
-        /// </summary>
-        [Description("本人权限")] Tenant
-
-       ,
-
-        /// <summary>
-        ///     租户
-        /// </summary>
-        [Description("租户")] Data
     }
 
     /// <summary>
@@ -211,103 +140,15 @@ public static class Enums
     }
 
     /// <summary>
-    ///     操作者
+    ///     菜单表比特位
     /// </summary>
-    public enum Operators
+    [Flags]
+    public enum SysMenuBits : long
     {
         /// <summary>
-        ///     用户
+        ///     启用
         /// </summary>
-        User = 1
-
-       ,
-
-        /// <summary>
-        ///     管理员
-        /// </summary>
-        Administrator = 2
-
-       ,
-
-        /// <summary>
-        ///     服务程序
-        /// </summary>
-        Service = 3
-    }
-
-    /// <summary>
-    ///     权限类型
-    /// </summary>
-    public enum PermissionTypes
-    {
-        /// <summary>
-        ///     分组
-        /// </summary>
-        [Description("分组")] Group = 1
-
-       ,
-
-        /// <summary>
-        ///     菜单
-        /// </summary>
-        [Description("菜单")] Menu = 2
-
-       ,
-
-        /// <summary>
-        ///     权限点
-        /// </summary>
-        [Description("权限点")] Dot = 3
-    }
-
-    /// <summary>
-    ///     短信验证码类型
-    /// </summary>
-    public enum SmsCodeTypes
-    {
-        /// <summary>
-        ///     注册账号
-        /// </summary>
-        CreateUser = 1
-
-       ,
-
-        /// <summary>
-        ///     登录
-        /// </summary>
-        Login = 2
-    }
-
-    /// <summary>
-    ///     Sql命令类型
-    /// </summary>
-    public enum SqlCommandTypes
-    {
-        /// <summary>
-        ///     Select
-        /// </summary>
-        Select
-
-       ,
-
-        /// <summary>
-        ///     Insert
-        /// </summary>
-        Insert
-
-       ,
-
-        /// <summary>
-        ///     Update
-        /// </summary>
-        Update
-
-       ,
-
-        /// <summary>
-        ///     Delete
-        /// </summary>
-        Delete
+        Enabled = 0b_0000_0001
     }
 
     /// <summary>
@@ -319,14 +160,14 @@ public static class Enums
         /// <summary>
         ///     启用
         /// </summary>
-        Enabled = 0b0000_0000_0000_0000_0000_0000_0000_0001
+        Enabled = 0b_0000_0001
 
        ,
 
         /// <summary>
         ///     忽略权限控制（拥有所有权限）
         /// </summary>
-        IgnorePermissionControl = 0b0000_0000_0000_0000_0000_0000_0000_0010
+        IgnorePermissionControl = 0b_0000_0010
     }
 
     /// <summary>
@@ -338,31 +179,6 @@ public static class Enums
         /// <summary>
         ///     启用
         /// </summary>
-        Enabled = 0b0000_0000_0000_0000_0000_0000_0000_0001
-    }
-
-    /// <summary>
-    ///     用户类型
-    /// </summary>
-    public enum UserTypes
-    {
-        /// <summary>
-        ///     默认用户
-        /// </summary>
-        DefaultUser = 1
-
-       ,
-
-        /// <summary>
-        ///     租户管理员
-        /// </summary>
-        TenantAdmin = 10
-
-       ,
-
-        /// <summary>
-        ///     平台管理员
-        /// </summary>
-        PlatformAdmin = 100
+        Enabled = 0b_0000_0001
     }
 }

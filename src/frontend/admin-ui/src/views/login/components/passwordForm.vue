@@ -2,12 +2,6 @@
 	<el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large">
 		<el-form-item prop="user">
 			<el-input v-model="form.user" prefix-icon="el-icon-user" clearable :placeholder="$t('login.userPlaceholder')">
-				<template #append>
-					<el-select v-model="userType" style="width: 130px;">
-						<el-option :label="$t('login.admin')" value="admin"></el-option>
-						<el-option :label="$t('login.user')" value="user"></el-option>
-					</el-select>
-				</template>
 			</el-input>
 		</el-form-item>
 		<el-form-item prop="password">
@@ -34,10 +28,9 @@
 	export default {
 		data() {
 			return {
-				userType: 'admin',
 				form: {
-					user: "admin",
-					password: "admin",
+					user: "root",
+					password: "1234qwer",
 					autologin: false
 				},
 				rules: {
@@ -52,15 +45,7 @@
 			}
 		},
 		watch:{
-			userType(val){
-				if(val == 'admin'){
-					this.form.user = 'admin'
-					this.form.password = 'admin'
-				}else if(val == 'user'){
-					this.form.user = 'user'
-					this.form.password = 'user'
-				}
-			}
+
 		},
 		mounted() {
 
@@ -74,15 +59,13 @@
 				this.islogin = true
 				var data = {
 					username: this.form.user,
-					password: this.$TOOL.crypto.MD5(this.form.password)
+					password: this.form.password
 				}
 				//获取token
-				var user = await this.$API.auth.token.post(data)
-				if(user.code == 200){
-					this.$TOOL.cookie.set("TOKEN", user.data.token, {
-						expires: this.form.autologin? 24*60*60 : 0
-					})
-					this.$TOOL.data.set("USER_INFO", user.data.userInfo)
+				var user = await this.$API.sys_user.login.post(data)
+				if(user.code == 0){
+					var userInfo = await this.$API.sys_user.userInfo.post()
+					this.$TOOL.data.set("USER_INFO", userInfo.data)
 				}else{
 					this.islogin = false
 					this.$message.warning(user.message)
@@ -90,13 +73,9 @@
 				}
 				//获取菜单
 				var menu = null
-				if(this.form.user == 'admin'){
-					menu = await this.$API.system.menu.myMenus.get()
-				}else{
-					menu = await this.$API.demo.menu.get()
-				}
-				if(menu.code == 200){
-					if(menu.data.menu.length==0){
+				menu = await this.$API.sys_menu.query.post()
+				if(menu.code == 0){
+					if(menu.data.length==0){
 						this.islogin = false
 						this.$alert("当前用户无任何菜单权限，请联系系统管理员", "无权限访问", {
 							type: 'error',
@@ -104,7 +83,7 @@
 						})
 						return false
 					}
-					this.$TOOL.data.set("MENU", menu.data.menu)
+					this.$TOOL.data.set("MENU", menu.data)
 					this.$TOOL.data.set("PERMISSIONS", menu.data.permissions)
 				}else{
 					this.islogin = false

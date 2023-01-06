@@ -181,6 +181,17 @@ tool.groupSeparator = function (num) {
 
 /* 常用加解密 */
 tool.crypto = {
+	/**
+	 * 解密 JWT token 的信息
+	 * @param token jwt token 字符串
+	 * @returns <any>object
+	 */
+	 decryptJWT(token) {
+		token = token.replace(/_/g, "/").replace(/-/g, "+");
+		var json = decodeURIComponent(escape(window.atob(token.split(".")[1])));
+		return JSON.parse(json);
+	},
+
 	//MD5加密
 	MD5(data){
 		return CryptoJS.MD5(data).toString()

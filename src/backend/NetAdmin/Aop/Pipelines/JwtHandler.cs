@@ -1,9 +1,9 @@
 using Furion.Authorization;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Infrastructure.Extensions;
 using NSExt.Extensions;
 
 namespace NetAdmin.Aop.Pipelines;
@@ -26,16 +26,8 @@ public class JwtHandler : AppAuthorizeHandler
     public override async Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
     {
         // 无法从token中获取contextuser，拒绝访问
-        var claim = context.User.FindFirst(nameof(ContextUser));
-        if (claim is null) {
-            return false;
-        }
-
-        ContextUser contextUser;
-        try {
-            contextUser = claim.Value.Object<ContextUser>();
-        }
-        catch (Exception) {
+        var contextUser = context.User.AsContextUser();
+        if (contextUser is null) {
             return false;
         }
 

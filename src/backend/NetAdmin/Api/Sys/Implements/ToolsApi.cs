@@ -17,4 +17,11 @@ public class ToolsApi : ApiBase<IToolsApi>, IToolsApi
     {
         return string.Empty;
     }
+
+    /// <inheritdoc />
+    [AllowAnonymous]
+    public string Version()
+    {
+        return typeof(ToolsApi).Assembly.GetName().Version!.ToString();
+    }
 }

@@ -10,6 +10,7 @@ using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Infrastructure.Extensions;
 using NetAdmin.Repositories;
 using NSExt.Extensions;
 
@@ -102,5 +103,13 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     public Task<int> Update(NopReq req)
     {
         throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public async Task<UserInfo> UserInfo()
+    {
+        var contextUser = App.User.AsContextUser();
+        var dbUser      = await Repository.Where(x => x.Token == contextUser.Token).FirstAsync();
+        return dbUser.Adapt<UserInfo>();
     }
 }

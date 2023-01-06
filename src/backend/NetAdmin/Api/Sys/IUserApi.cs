@@ -16,4 +16,9 @@ public interface IUserApi : ICrudApi<CreateUserReq // 创建类型
     ///     用户登录
     /// </summary>
     Task<LoginRsp> Login(LoginReq req);
+
+    /// <summary>
+    ///     当前用户信息
+    /// </summary>
+    Task<UserInfo> UserInfo();
 }

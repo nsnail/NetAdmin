@@ -14,4 +14,9 @@ public interface IToolsApi : IRestfulApi
     ///     系统信息
     /// </summary>
     string SystemInfo();
+
+    /// <summary>
+    ///     版本信息
+    /// </summary>
+    string Version();
 }

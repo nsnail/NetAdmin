@@ -3,6 +3,8 @@ import { ElNotification, ElMessageBox } from 'element-plus';
 import sysConfig from "@/config";
 import tool from '@/utils/tool';
 import router from '@/router';
+import { generateHTMLTable } from 'json5-to-table';
+import config from "@/config";
 
 axios.defaults.baseURL = ''
 
@@ -12,9 +14,18 @@ axios.defaults.timeout = sysConfig.TIMEOUT
 axios.interceptors.request.use(
 	(config) => {
 		let token = tool.cookie.get("TOKEN");
-		if(token){
+		if(token) {
 			config.headers[sysConfig.TOKEN_NAME] = sysConfig.TOKEN_PREFIX + token
+			let expires = tool.data.get('TOKEN-EXP')
+			//accesstoken 已过期或 5分钟内过期 带上刷新token
+			if (!expires || expires - new Date().getTime() < 300000) {
+				let refresh_token = tool.data.get("X-TOKEN");
+				if (refresh_token){
+					config.headers[sysConfig.REFRESH_TOKEN_NAME] = sysConfig.TOKEN_PREFIX + refresh_token
+				}
+			}
 		}
+
 		if(!sysConfig.REQUEST_CACHE && config.method == 'get'){
 			config.params = config.params || {};
 			config.params['_'] = new Date().getTime();
@@ -30,6 +41,35 @@ axios.interceptors.request.use(
 // HTTP response 拦截器
 axios.interceptors.response.use(
 	(response) => {
+
+		let token = response.headers[config.TOKEN_RSPNAME];
+		let refreshToken = response.headers[config.REFRESH_TOKEN_RSPNAME];
+		if (token || refreshToken)
+		{
+			let cookieExpires =tool.data.get('REMEMBER_ME') ? 24*60*60*7 : 0;
+			if (token)
+			{
+				// 保存访问令牌
+				tool.cookie.set("TOKEN", token, {
+					expires: cookieExpires
+				})
+
+				// 解析访问令牌，保存令牌的失效时间
+				const jwt = tool.crypto.decryptJWT(token)
+				const secs = jwt.exp - jwt.iat
+				tool.cookie.set("TOKEN-EXP", new Date().getTime() + secs*1000, {
+					expires: cookieExpires
+				})
+			}
+
+			if (refreshToken)
+			{
+				// 保存刷新令牌
+				tool.cookie.set("X-TOKEN", token, {
+					expires: cookieExpires
+				})
+			}
+		}
 		return response;
 	},
 	(error) => {
@@ -39,12 +79,7 @@ axios.interceptors.response.use(
 					title: '请求错误',
 					message: "Status:404，正在请求不存在的服务器记录！"
 				});
-			} else if (error.response.status == 500) {
-				ElNotification.error({
-					title: '请求错误',
-					message: error.response.data.message || "Status:500，服务器发生错误！"
-				});
-			} else if (error.response.status == 401) {
+			}  else if (error.response.status == 401) {
 				ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
 					type: 'error',
 					closeOnClickModal: false,
@@ -53,7 +88,42 @@ axios.interceptors.response.use(
 				}).then(() => {
 					router.replace({path: '/login'});
 				}).catch(() => {})
-			} else {
+			} else if (error.response.data.code){
+				let title = sysConfig.ENUMS.errorCodes.unknown.desc;
+				switch (error.response.data.code){
+					case sysConfig.ENUMS.errorCodes.invalidInput.value:
+						title = sysConfig.ENUMS.errorCodes.invalidInput.desc;
+						break;
+					case sysConfig.ENUMS.errorCodes.invalidOperation.value:
+						title = sysConfig.ENUMS.errorCodes.invalidOperation.desc;
+						break;
+					case sysConfig.ENUMS.errorCodes.identityMissing.value:
+						title = sysConfig.ENUMS.errorCodes.identityMissing.desc;
+						break;
+					case sysConfig.ENUMS.errorCodes.noPermissions.value:
+						title = sysConfig.ENUMS.errorCodes.noPermissions.desc;
+						break;
+					case sysConfig.ENUMS.errorCodes.humanVerification.value:
+						title = sysConfig.ENUMS.errorCodes.humanVerification.desc;
+						break;
+				}
+
+
+				if(typeof (error.response.data.msg) == 'object'){
+				ElNotification.error({
+					title: title,
+					dangerouslyUseHTMLString:true,
+					message: generateHTMLTable( error.response.data.msg)
+				});
+				}else{
+					ElNotification.error({
+						title: title,
+						message: error.response.data.msg
+					});
+				}
+			}
+
+			else {
 				ElNotification.error({
 					title: '请求错误',
 					message: error.message || `Status:${error.response.status}，未知错误！`

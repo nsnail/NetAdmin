@@ -46,8 +46,8 @@
         ],
         "SecurityDefinitions": [
             {
-                "Id": "Authorization",
-                "Type": "Http",
+                "Id": "Bearer",
+                "Type": "ApiKey",
                 "Name": "Authorization",
                 "Description": "JWT Authorization header using the Bearer scheme.",
                 "BearerFormat": "JWT",
@@ -56,7 +56,7 @@
                 "Requirement": {
                     "Scheme": {
                         "Reference": {
-                            "Id": "Authorization",
+                            "Id": "Bearer",
                             "Type": "SecurityScheme"
                         },
                         "Accesses": []

@@ -3,7 +3,7 @@ const DEFAULT_CONFIG = {
 	APP_NAME: process.env.VUE_APP_TITLE,
 
 	//首页地址
-	DASHBOARD_URL: "/dashboard",
+	DASHBOARD_URL: "/home",
 
 	//版本号
 	APP_VER: "1.6.6",
@@ -22,6 +22,12 @@ const DEFAULT_CONFIG = {
 
 	//Token前缀，注意最后有个空格，如不需要需设置空字符串
 	TOKEN_PREFIX: "Bearer ",
+
+	//Refresh TokenName
+	REFRESH_TOKEN_NAME: "X-Authorization",
+
+	TOKEN_RSPNAME:'access-token',
+	REFRESH_TOKEN_RSPNAME:'x-access-token',
 
 	//追加其他头
 	HEADERS: {},
@@ -64,7 +70,11 @@ const DEFAULT_CONFIG = {
 			['about', 'ver'],
 			['time', 'progress']
 		]
-	}
+	},
+	//常量字符串
+	STRINGS:null,
+	//常量枚举
+	ENUMS:null
 }
 
 //合并业务配置
