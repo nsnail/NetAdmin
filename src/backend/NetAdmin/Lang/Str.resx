@@ -33,4 +33,55 @@
     <data name="The allowed file formats are" xml:space="preserve">
         <value>允许的文件格式为：{0}</value>
     </data>
+    <data name="Invalid input" xml:space="preserve">
+        <value>无效输入</value>
+    </data>
+    <data name="Unknown error" xml:space="preserve">
+        <value>未知错误</value>
+    </data>
+    <data name="Man machine verification" xml:space="preserve">
+        <value>人机验证</value>
+    </data>
+    <data name="Not logged in" xml:space="preserve">
+        <value>未登录</value>
+    </data>
+    <data name="Invalid operation" xml:space="preserve">
+        <value>无效操作</value>
+    </data>
+    <data name="Mobile number has been registered" xml:space="preserve">
+        <value>手机号已被注册</value>
+    </data>
+    <data name="Mobile phone number that can be used normally" xml:space="preserve">
+        <value>能正常使用的手机号码</value>
+    </data>
+    <data name="Insufficient permissions" xml:space="preserve">
+        <value>权限不足</value>
+    </data>
+    <data name="Number letter combination of more than 8 digits" xml:space="preserve">
+        <value>8位以上数字字母组合</value>
+    </data>
+    <data name="Digits 4 in verification code sms" xml:space="preserve">
+        <value>验证码短信中的4位数字</value>
+    </data>
+    <data name="The sms verification code is incorrect" xml:space="preserve">
+        <value>短信验证码不正确</value>
+    </data>
+    <data name="User name or password error" xml:space="preserve">
+        <value>用户名或密码错误</value>
+    </data>
+    <data name="User disabled" xml:space="preserve">
+        <value>用户已禁用</value>
+    </data>
+    <data name="More than 4 digits alphanumeric underline" xml:space="preserve">
+        <value>4位以上（字母数字下划线）</value>
+    </data>
+    <data name="Menu" xml:space="preserve">
+        <value>菜单</value>
+    </data>
+    <data name="Link" xml:space="preserve">
+        <value>链接</value>
+    </data>
+    <data name="Iframe" xml:space="preserve">
+        <value>框架</value>
+    </data>
 </root>

@@ -29,20 +29,20 @@ public class FileApi : ApiBase<IFileApi>, IFileApi
     public async Task<string> Upload(IFormFile file)
     {
         if (file is null || file.Length < 1) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.File_cannot_be_empty);
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.FILE_CANNOT_BE_EMPTY);
         }
 
         if (!_uploadOptions.ContentTypes.Contains(file.ContentType)) {
             throw Oops.Oh( //
                 Enums.ErrorCodes.InvalidOperation
-              , string.Format(CultureInfo.InvariantCulture, Str.The_allowed_file_formats_are
+              , string.Format(CultureInfo.InvariantCulture, Str.THE_ALLOWED_FILE_FORMATS_ARE
                             , string.Join(",", _uploadOptions.ContentTypes)));
         }
 
         if (!(file.Length <= _uploadOptions.MaxSize)) {
             throw Oops.Oh( //
                 Enums.ErrorCodes.InvalidOperation
-              , string.Format(CultureInfo.InvariantCulture, Str.Maximum_number_of_file_bytes_allowed
+              , string.Format(CultureInfo.InvariantCulture, Str.MAXIMUM_NUMBER_OF_FILE_BYTES_ALLOWED
                             , _uploadOptions.MaxSize));
         }
 

@@ -3,7 +3,6 @@ import { ElNotification, ElMessageBox } from 'element-plus';
 import sysConfig from "@/config";
 import tool from '@/utils/tool';
 import router from '@/router';
-import { generateHTMLTable } from 'json5-to-table';
 import config from "@/config";
 
 axios.defaults.baseURL = ''
@@ -110,11 +109,17 @@ axios.interceptors.response.use(
 
 
 				if(typeof (error.response.data.msg) == 'object'){
-				ElNotification.error({
-					title: title,
-					dangerouslyUseHTMLString:true,
-					message: generateHTMLTable( error.response.data.msg)
-				});
+					let i = 0;
+					for (const item in error.response.data.msg){
+						i+=100;
+						setTimeout((title,msg)=>{
+							ElNotification.error({
+								title: title,
+								message: msg
+							});
+
+						},i,item, error.response.data.msg[item]);
+					}
 				}else{
 					ElNotification.error({
 						title: title,

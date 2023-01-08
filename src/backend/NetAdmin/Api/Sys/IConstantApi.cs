@@ -13,6 +13,11 @@ public interface IConstantApi
     object GetEnums();
 
     /// <summary>
+    ///     获得本地化字符串常量
+    /// </summary>
+    object GetLocalizedStrings();
+
+    /// <summary>
     ///     获得字符串常量
     /// </summary>
     IActionResult GetStrings();

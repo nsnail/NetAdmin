@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using Furion.FriendlyException;
+using NetAdmin.Lang;
+using NSExt.Attributes;
 
 namespace NetAdmin.Infrastructure.Constant;
 
@@ -17,7 +19,7 @@ public static class Enums
         /// <summary>
         ///     未知错误
         /// </summary>
-        [ErrorCodeItemMetadata("系统异常")] [Description(Strings.MSG_ERROR_UNKNOWN)]
+        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.UNKNOWN_ERROR))] [Localization(typeof(Str))]
         Unknown = 4000
 
        ,
@@ -25,7 +27,7 @@ public static class Enums
         /// <summary>
         ///     无效输入
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(Strings.MSG_ERROR_INVALID_INPUT)]
+        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.INVALID_INPUT))] [Localization(typeof(Str))]
         InvalidInput = 4010
 
        ,
@@ -33,7 +35,7 @@ public static class Enums
         /// <summary>
         ///     无效操作
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(Strings.MSG_INVALID_OPERATION)]
+        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.INVALID_OPERATION))] [Localization(typeof(Str))]
         InvalidOperation = 4020
 
        ,
@@ -41,7 +43,7 @@ public static class Enums
         /// <summary>
         ///     未登录
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(Strings.MSG_IDENTITY_MISSING)]
+        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.NOT_LOGGED_IN))] [Localization(typeof(Str))]
         IdentityMissing = 4030
 
        ,
@@ -49,7 +51,7 @@ public static class Enums
         /// <summary>
         ///     权限不足
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(Strings.MSG_NO_PERMISSIONS)]
+        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.INSUFFICIENT_PERMISSIONS))] [Localization(typeof(Str))]
         NoPermissions = 4031
 
        ,
@@ -57,7 +59,7 @@ public static class Enums
         /// <summary>
         ///     人机验证
         /// </summary>
-        [ErrorCodeItemMetadata("需进行人机验证")] [Description(Strings.MSG_HUMAN_VERIFICATION)]
+        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.MAN_MACHINE_VERIFICATION))] [Localization(typeof(Str))]
         HumanVerification = 4040
     }
 
@@ -69,21 +71,24 @@ public static class Enums
         /// <summary>
         ///     菜单
         /// </summary>
-        [Description("菜单")] Menu = 1
+        [Description(nameof(Str.MENU))] [Localization(typeof(Str))]
+        Menu = 1
 
        ,
 
         /// <summary>
         ///     链接
         /// </summary>
-        [Description("链接")] Link = 2
+        [Description(nameof(Str.LINK))] [Localization(typeof(Str))]
+        Link = 2
 
        ,
 
         /// <summary>
         ///     框架
         /// </summary>
-        [Description("框架")] Iframe = 3
+        [Description(nameof(Str.IFRAME))] [Localization(typeof(Str))]
+        Iframe = 3
     }
 
     /// <summary>

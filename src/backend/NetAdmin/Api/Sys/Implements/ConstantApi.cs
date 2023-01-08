@@ -1,8 +1,11 @@
+using System.Collections.Immutable;
+using System.Reflection;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.DataContract.Dto;
 using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Lang;
 using NSExt.Extensions;
 
 namespace NetAdmin.Api.Sys.Implements;
@@ -14,27 +17,40 @@ public class ConstantApi : ApiBase<IConstantApi>, IConstantApi
     /// <inheritdoc />
     public object GetEnums()
     {
-        return typeof(Enums).GetNestedTypes()
-                            .ToDictionary(
-                                x => x.Name
-                              , x => x.GetEnumValues()
-                                      .Cast<object>()
-                                      .ToDictionary(x.GetEnumName, y => new { Value = y, Desc = ((Enum)y).Desc() }));
+        return typeof(Enums).GetNestedTypes(BindingFlags.Public)
+                            .ToDictionary(x => x.Name, x => x.GetEnumValues()
+                                                             .Cast<object>()
+                                                             .ToImmutableSortedDictionary( //
+                                                                 x.GetEnumName
+                                                               , y => new { Value = y, Desc = ((Enum)y).Desc() }));
+    }
+
+    /// <inheritdoc />
+    [NonUnify]
+    public object GetLocalizedStrings()
+    {
+        var data = typeof(Str).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                              .Where(x => x.PropertyType == typeof(string))
+                              .ToImmutableSortedDictionary(x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
+        return OriginNamingResult(data);
     }
 
     /// <inheritdoc />
     [NonUnify]
     public IActionResult GetStrings()
     {
+        var data = typeof(Strings).GetFields(BindingFlags.Public | BindingFlags.Static)
+                                  .Where(x => x.FieldType == typeof(string))
+                                  .ToImmutableSortedDictionary( //
+                                      x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
+
+        return OriginNamingResult(data);
+    }
+
+    private static IActionResult OriginNamingResult(ImmutableSortedDictionary<string, string> data)
+    {
         var jsonOptions = default(JsonSerializerOptions).NewJsonSerializerOptions();
         jsonOptions.DictionaryKeyPolicy = null;
-        return new JsonResult(
-            new RestfulInfo<object> {
-                                        Code = 0
-                                      , Data = typeof(Strings).GetFields()
-                                                              .ToDictionary(
-                                                                  x => x.Name.ToString()
-                                                                , x => x.GetValue(null)?.ToString())
-                                    }, jsonOptions);
+        return new JsonResult(new RestfulInfo<object> { Code = 0, Data = data }, jsonOptions);
     }
 }

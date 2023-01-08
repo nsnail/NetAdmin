@@ -27,9 +27,11 @@
 			},
 		},
 		async created() {
-			const [strings, enums] = await Promise.all([this.$API.sys_constant.getStrings.post(),
+			const [strings,locStrings, enums] = await Promise.all([this.$API.sys_constant.getStrings.post(),
+				this.$API.sys_constant.getLocalizedStrings.post(),
 				this.$API.sys_constant.getEnums.post()]);
 			this.$CONFIG.STRINGS =  strings.data;
+			this.$CONFIG.LOC_STRINGS = locStrings.data;
 			this.config.stringsLoaded = true;
 			this.$CONFIG.ENUMS =  enums.data;
 			this.config.enumsLoaded = true;

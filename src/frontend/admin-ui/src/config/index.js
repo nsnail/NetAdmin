@@ -73,6 +73,8 @@ const DEFAULT_CONFIG = {
 	},
 	//常量字符串
 	STRINGS:null,
+	//本地化常量字符串
+	LOC_STRINGS:null,
 	//常量枚举
 	ENUMS:null
 }

@@ -7,8 +7,8 @@
 			<el-form-item label="登录账号" prop="userName">
 				<el-input v-model="form.userName" placeholder="用于登录系统" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="姓名" prop="name">
-				<el-input v-model="form.name" placeholder="请输入完整的真实姓名" clearable></el-input>
+			<el-form-item label="手机号" prop="mobile">
+				<el-input v-model="form.mobile" placeholder="请输入手机号" clearable></el-input>
 			</el-form-item>
 			<template v-if="mode=='add'">
 				<el-form-item label="登录密码" prop="password">
@@ -18,12 +18,13 @@
 					<el-input type="password" v-model="form.password2" clearable show-password></el-input>
 				</el-form-item>
 			</template>
-			<el-form-item label="所属部门" prop="dept">
-				<el-cascader v-model="form.dept" :options="depts" :props="deptsProps" clearable style="width: 100%;"></el-cascader>
+			<el-form-item label="所属部门" prop="deptId">
+				<el-cascader v-model="form.deptId" :options="depts" :props="deptsProps" clearable
+							 style="width: 100%;"></el-cascader>
 			</el-form-item>
-			<el-form-item label="所属角色" prop="group">
-				<el-select v-model="form.group" multiple filterable style="width: 100%">
-					<el-option v-for="item in groups" :key="item.id" :label="item.label" :value="item.id"/>
+			<el-form-item label="所属角色" prop="roleIds">
+				<el-select v-model="form.roleIds" multiple filterable style="width: 100%">
+					<el-option v-for="item in roles" :key="item.id" :label="item.label" :value="item.id"/>
 				</el-select>
 			</el-form-item>
 		</el-form>
@@ -53,22 +54,22 @@
 					userName: "",
 					avatar: "",
 					name: "",
-					dept: "",
-					group: []
+					deptId: "",
+					roleIds: []
 				},
 				//验证规则
 				rules: {
-					avatar:[
-						{required: true, message: '请上传头像'}
-					],
 					userName: [
-						{required: true, message: '请输入登录账号'}
+						{required: true, message: this.$CONFIG.LOC_STRINGS.MORE_THAN_4_DIGITS_ALPHANUMERIC_UNDERLINE,
+							pattern:this.$CONFIG.STRINGS.RGX_USERNAME}
 					],
-					name: [
-						{required: true, message: '请输入真实姓名'}
+					mobile: [
+						{ message: this.$CONFIG.LOC_STRINGS.MOBILE_PHONE_NUMBER_THAT_CAN_BE_USED_NORMALLY,
+							pattern:this.$CONFIG.STRINGS.RGX_MOBILE}
 					],
 					password: [
-						{required: true, message: '请输入登录密码'},
+						{required: true,
+							message: this.$CONFIG.LOC_STRINGS.NUMBER_LETTER_COMBINATION_OF_MORE_THAN_8_DIGITS,pattern:this.$CONFIG.STRINGS.RGX_PASSWORD},
 						{validator: (rule, value, callback) => {
 							if (this.form.password2 !== '') {
 								this.$refs.dialogForm.validateField('password2');
@@ -86,29 +87,25 @@
 							}
 						}}
 					],
-					dept: [
+					deptId: [
 						{required: true, message: '请选择所属部门'}
 					],
-					group: [
+					roleIds: [
 						{required: true, message: '请选择所属角色', trigger: 'change'}
 					]
 				},
 				//所需数据选项
-				groups: [],
-				groupsProps: {
-					value: "id",
-					multiple: true,
-					checkStrictly: true
-				},
+				roles: [],
 				depts: [],
 				deptsProps: {
+					emitPath:false,
 					value: "id",
 					checkStrictly: true
 				}
 			}
 		},
 		mounted() {
-			this.getGroup()
+			this.getRoles()
 			this.getDept()
 		},
 		methods: {
@@ -119,12 +116,12 @@
 				return this
 			},
 			//加载树数据
-			async getGroup(){
-				var res = await this.$API.system.role.list.get();
-				this.groups = res.data.rows;
+			async getRoles(){
+				var res = await this.$API.sys_role.query.post();
+				this.roles = res.data;
 			},
 			async getDept(){
-				var res = await this.$API.system.dept.list.get();
+				var res = await this.$API.sys_dept.query.post();
 				this.depts = res.data;
 			},
 			//表单提交方法
@@ -132,15 +129,14 @@
 				this.$refs.dialogForm.validate(async (valid) => {
 					if (valid) {
 						this.isSaveing = true;
-						var res = await this.$API.demo.post.post(this.form);
-						this.isSaveing = false;
-						if(res.code == 200){
+						try{
+					        await this.$API.sys_user.create.post(this.form);
 							this.$emit('success', this.form, this.mode)
 							this.visible = false;
 							this.$message.success("操作成功")
-						}else{
-							this.$alert(res.message, "提示", {type: 'error'})
+						}catch {
 						}
+						this.isSaveing = false;
 					}else{
 						return false;
 					}
@@ -152,8 +148,8 @@
 				this.form.userName = data.userName
 				this.form.avatar = data.avatar
 				this.form.name = data.name
-				this.form.group = data.group
-				this.form.dept = data.dept
+				this.form.roleIds = data.roleIds
+				this.form.deptId = data.deptId
 
 				//可以和上面一样单个注入，也可以像下面一样直接合并进去
 				//Object.assign(this.form, data)

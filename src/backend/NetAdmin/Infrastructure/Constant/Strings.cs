@@ -40,21 +40,6 @@ public static class Strings
     public const string FMT_YYYYMMDD              = "yyyyMMdd";
     public const string FMT_YYYYMMDDHHMMSSFFFZZZZ = "yyyyMMddHHmmssfffzzz";
 
-    public const string MSG_ERROR_INVALID_INPUT  = "无效输入";
-    public const string MSG_ERROR_UNKNOWN        = "未知错误";
-    public const string MSG_HUMAN_VERIFICATION   = "人机验证";
-    public const string MSG_IDENTITY_MISSING     = "未登录";
-    public const string MSG_INVALID_OPERATION    = "无效操作";
-    public const string MSG_MOBILE_EXISTS        = "手机号已被注册";
-    public const string MSG_MOBILE_USEFUL        = "能正常使用的手机号码";
-    public const string MSG_NO_PERMISSIONS       = "权限不足";
-    public const string MSG_PASSWORD_STRONG      = "8位以上数字字母组合";
-    public const string MSG_SMSCODE_NUMBER       = "验证码短信中的4位数字";
-    public const string MSG_SMSCODE_WRONG        = "短信验证码不正确";
-    public const string MSG_UNAME_PASSWORD_WRONG = "用户名或密码错误";
-    public const string MSG_USER_DISABLED        = "用户已禁用";
-    public const string MSG_USERNAME_STRONG      = "4位以上（字母数字下划线）";
-
     public const string RGX_MOBILE   = """^1(3\d|4[5-9]|5[0-35-9]|6[6]|7[2-8]|8\d|9[0-35-9])\d{8}$""";
     public const string RGX_PASSWORD = """^(?![0-9]+$)(?![a-zA-Z]+$).{8,16}$""";
     public const string RGX_SMSCODE  = """^\d{4}$""";

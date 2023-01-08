@@ -13,6 +13,7 @@ using NetAdmin.DataContract.Dto.Sys.Role;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Extensions;
+using NetAdmin.Lang;
 using NetAdmin.Repositories;
 using NSExt.Extensions;
 
@@ -65,11 +66,11 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
         var dbUser = await Repository.GetAsync(a => a.UserName == req.UserName &&
                                                     a.Password == req.Password.Pwd().Guid());
         if (dbUser is null) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Strings.MSG_UNAME_PASSWORD_WRONG);
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.USER_NAME_OR_PASSWORD_ERROR);
         }
 
         if (!dbUser.BitSet.HasFlag(Enums.SysUserBits.Enabled)) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Strings.MSG_USER_DISABLED);
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.USER_DISABLED);
         }
 
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
