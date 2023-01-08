@@ -33,6 +33,18 @@ export default {
 
 
 	/**
+	 * 分页查询用户
+	 */
+	pagedQuery :{
+		url: `${config.API_URL}/user/paged.query`,
+		name: `分页查询用户`,
+		post:async function(data, config={}) {
+			return await http.post(this.url,data, config)
+		}
+	},
+
+
+	/**
 	 * 查询用户
 	 */
 	query :{

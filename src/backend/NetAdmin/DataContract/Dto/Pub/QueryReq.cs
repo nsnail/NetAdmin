@@ -1,4 +1,5 @@
 using FreeSql.Internal.Model;
+using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.Dto.Pub;
 
@@ -17,4 +18,14 @@ public record QueryReq<T> : DataAbstraction
     ///     查询条件
     /// </summary>
     public T Filter { get; set; }
+
+    /// <summary>
+    ///     排序方式
+    /// </summary>
+    public Enums.Orders? Order { get; set; }
+
+    /// <summary>
+    ///     排序字段
+    /// </summary>
+    public string Prop { get; set; }
 }

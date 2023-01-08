@@ -8,6 +8,8 @@ using NetAdmin.Aop.Attributes;
 using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
+using NetAdmin.DataContract.Dto.Sys.Dept;
+using NetAdmin.DataContract.Dto.Sys.Role;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Extensions;
@@ -82,24 +84,62 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
         return ret;
     }
 
-    /// <inheritdoc />
-    [NonAction]
-    public Task<PagedQueryRsp<UserInfo>> PagedQuery(PagedQueryReq<UserInfo> req)
+    /// <summary>
+    ///     分页查询用户
+    /// </summary>
+    public async Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
     {
-        throw new NotImplementedException();
+        List<long> deptIds = null;
+        if (req.Filter?.DeptId > 0) {
+            deptIds = await Repository.Orm.Select<TbSysDept>()
+                                      .Where(a => a.Id == req.Filter.DeptId)
+                                      .AsTreeCte()
+                                      .ToListAsync(a => a.Id);
+        }
+
+        var list = await Repository.Orm.Select<TbSysUser, TbSysDept>()
+                                   .InnerJoin((a, b) => a.DeptId == b.Id)
+                                   .WhereDynamicFilter(req.DynamicFilter)
+                                   .WhereIf(deptIds != null, (a, b) => deptIds.Contains(a.DeptId))
+                                   .WhereIf( //
+                                       req.Filter?.RoleId > 0
+                                     , (a, b) => Repository.Orm.Select<TbSysUserRole>()
+                                                           .Any(aa => aa.UserId == a.Id &&
+                                                                      aa.RoleId == req.Filter.RoleId))
+                                   .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop
+                                                        ,                       req.Order == Enums.Orders.Ascending)
+                                   .Page(req.Page, req.PageSize)
+                                   .Count(out var total)
+                                   .ToListAsync((a, b) => new {
+                                                                  a
+                                                                , b
+                                                                , c = Repository.Orm
+                                                                      .Select<TbSysUser, TbSysUserRole, TbSysRole>()
+                                                                      .InnerJoin((aa, bb, cc) => aa.Id     == bb.UserId)
+                                                                      .InnerJoin((aa, bb, cc) => bb.RoleId == cc.Id)
+                                                                      .Where((aa,     bb, cc) => aa.Id     == a.Id)
+                                                                      .ToList((aa,    bb, cc) => cc)
+                                                              });
+
+        return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.ConvertAll(x => {
+            var ret = x.a.Adapt<QueryUserRsp>();
+            ret.Dept  = x.b.Adapt<QueryDeptRsp>();
+            ret.Roles = x.c.ConvertAll(xx => xx.Adapt<RoleInfo>());
+            return ret;
+        }));
     }
 
     /// <summary>
     ///     查询用户
     /// </summary>
-    public async Task<List<UserInfo>> Query(QueryReq<UserInfo> req)
+    public async Task<List<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
         var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter)
                                   .WhereDynamic(req.Filter)
-                                  .Take(100)
+                                  .Take(Numbers.QUERY_LIMIT)
                                   .ToListAsync();
 
-        return ret.ConvertAll(x => x.Adapt<UserInfo>());
+        return ret.ConvertAll(x => x.Adapt<QueryUserRsp>());
     }
 
     /// <inheritdoc />
@@ -110,10 +150,10 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     }
 
     /// <inheritdoc />
-    public async Task<UserInfo> UserInfo()
+    public async Task<QueryUserRsp> UserInfo()
     {
         var contextUser = App.User.AsContextUser();
         var dbUser      = await Repository.Where(x => x.Token == contextUser.Token).FirstAsync();
-        return dbUser.Adapt<UserInfo>();
+        return dbUser.Adapt<QueryUserRsp>();
     }
 }

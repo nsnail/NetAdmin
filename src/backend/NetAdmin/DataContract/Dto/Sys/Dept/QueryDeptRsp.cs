@@ -26,6 +26,10 @@ public record QueryDeptRsp : TbSysDept
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 
+    /// <inheritdoc cref="TbSysDept.Label" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string Label { get; set; }
+
     /// <inheritdoc cref="TbSysDept.Remark" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Remark { get; set; }
@@ -33,10 +37,6 @@ public record QueryDeptRsp : TbSysDept
     /// <inheritdoc cref="TbSysDept.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override int Sort { get; set; }
-
-    /// <inheritdoc cref="TbSysDept.Title" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Title { get; set; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

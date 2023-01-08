@@ -4,26 +4,31 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.686-preview20230105-ns1" />
+        <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.686-preview20230105-ns1"/>
         <PackageReference Include="FreeSql.NS" Version="3.2.686-preview20230105-ns1">
             <CopyToOutputDirectory>lib\netstandard2.1\*.xml</CopyToOutputDirectory>
         </PackageReference>
-        <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.686-preview20230105-ns1" />
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.4.8" />
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.4.8" />
-        <PackageReference Include="Furion.Pure.NS" Version="4.8.4.4-ns1" />
-        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.13-ns3" />
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.1" />
-        <PackageReference Include="NSExt" Version="1.0.11-alpha.0.2" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
-        <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
-        <PackageReference Include="Spectre.Console.NS" Version="0.45.1-preview.0.48" />
-        <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
+        <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.686-preview20230105-ns1"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.4.8"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.4.8"/>
+        <PackageReference Include="Furion.Pure.NS" Version="4.8.4.4-ns1"/>
+        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.13-ns3"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.1"/>
+        <PackageReference Include="Minio" Version="4.0.7"/>
+        <PackageReference Include="NSExt" Version="1.0.11-alpha.0.2"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
+        <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3"/>
+        <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15"/>
+        <PackageReference Include="Spectre.Console.NS" Version="0.45.1-preview.0.48"/>
+        <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Infrastructure\Configuration\Options\SubNodes" />
+        <EmbeddedResource Update="Lang\Str.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>Str.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
-    <Import Project="../../../CodeQuality.props" />
-    <Import Project="../../../CopyPackageXmlCommentFiles.target" />
+    <Import Project="../../../CodeQuality.props"/>
+    <Import Project="../../../CopyPackageXmlCommentFiles.targets"/>
+    <Import Project="../../../GenerateResx.targets"/>
 </Project>

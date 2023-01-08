@@ -182,7 +182,7 @@
 				Object.assign(reqData, this.tableParams)
 
 				try {
-					var res = await this.apiObj.get(reqData);
+					var res = await this.apiObj.post(reqData);
 				}catch(error){
 					this.loading = false;
 					this.emptyText = error.statusText;

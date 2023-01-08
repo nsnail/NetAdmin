@@ -9,7 +9,7 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     角色表
 /// </summary>
 [Table]
-[Index("idx_{tablename}_01", nameof(RoleName), true)]
+[Index("idx_{tablename}_01", nameof(Label), true)]
 public record TbSysRole : DefaultEntity, IFieldBitSet
 {
     /// <summary>
@@ -22,5 +22,5 @@ public record TbSysRole : DefaultEntity, IFieldBitSet
     ///     角色名
     /// </summary>
     [JsonIgnore]
-    public virtual string RoleName { get; set; }
+    public virtual string Label { get; set; }
 }

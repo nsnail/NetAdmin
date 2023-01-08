@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using NetAdmin.Infrastructure.Constant;
+
 namespace NetAdmin.DataContract.Dto.Pub;
 
 /// <summary>
@@ -7,8 +10,10 @@ public record PagedQueryReq<T> : QueryReq<T>, IPagedInfo
     where T : DataAbstraction, new()
 {
     /// <inheritdoc />
+    [Range(1, Numbers.QUERY_MAX_PAGENO)]
     public int Page { get; set; }
 
     /// <inheritdoc />
+    [Range(1, Numbers.QUERY_MAX_PAGESIZE)]
     public int PageSize { get; set; }
 }

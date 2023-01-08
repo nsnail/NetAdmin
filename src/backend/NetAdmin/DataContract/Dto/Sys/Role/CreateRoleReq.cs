@@ -22,8 +22,8 @@ public record CreateRoleReq : TbSysRole
     [Required]
     public bool IgnorePermissionControl { get; set; }
 
-    /// <inheritdoc cref="TbSysRole.RoleName" />
+    /// <inheritdoc cref="TbSysRole.Label" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Required]
-    public override string RoleName { get; set; }
+    public override string Label { get; set; }
 }

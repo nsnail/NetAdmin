@@ -20,9 +20,9 @@ public record RoleInfo : TbSysRole
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 
-    /// <inheritdoc cref="TbSysRole.RoleName" />
+    /// <inheritdoc cref="TbSysRole.Label" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string RoleName { get; set; }
+    public override string Label { get; set; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

@@ -25,6 +25,12 @@ public record TbSysDept : DefaultEntity, IFieldBitSet
     public virtual List<TbSysDept> Children { get; set; }
 
     /// <summary>
+    ///     部门名称
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Label { get; set; }
+
+    /// <summary>
     ///     父id
     /// </summary>
     [JsonIgnore]
@@ -41,10 +47,4 @@ public record TbSysDept : DefaultEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     public virtual int Sort { get; set; }
-
-    /// <summary>
-    ///     部门名称
-    /// </summary>
-    [JsonIgnore]
-    public virtual string Title { get; set; }
 }

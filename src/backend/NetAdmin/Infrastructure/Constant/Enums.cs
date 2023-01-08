@@ -87,6 +87,24 @@ public static class Enums
     }
 
     /// <summary>
+    ///     排序方式
+    /// </summary>
+    public enum Orders
+    {
+        /// <summary>
+        ///     顺序
+        /// </summary>
+        Ascending
+
+       ,
+
+        /// <summary>
+        ///     倒序
+        /// </summary>
+        Descending
+    }
+
+    /// <summary>
     ///     部门表比特位
     /// </summary>
     [Flags]

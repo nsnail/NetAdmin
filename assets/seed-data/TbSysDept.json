@@ -4,14 +4,14 @@
         "BitSet": 1,
         "Remark": "亚洲",
         "Sort": 0,
-        "Title": "亚洲",
+        "Label": "亚洲",
         "Children": [
             {
                 "Id": 372119396216837,
                 "BitSet": 1,
                 "Remark": "中国",
                 "Sort": 0,
-                "Title": "中国",
+                "Label": "中国",
             },
         ]
     },

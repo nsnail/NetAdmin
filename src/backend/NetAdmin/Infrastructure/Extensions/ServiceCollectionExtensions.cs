@@ -54,7 +54,7 @@ public static class ServiceCollectionExtensions
                   , ((Enums.LogLevels)message.LogLevel).Desc()
                   , message.LogName.PadRight(loggerWidth, ' ')[^loggerWidth..]
                   , message.ThreadId, Regexes.RegexDigitDot3.Replace( //
-                        message.Message.EscapeMarkup(), "[bold fuchsia]$1[/]"));
+                        message.Message.EscapeMarkup(), "[bold yellow]$1[/]"));
             };
         });
     }

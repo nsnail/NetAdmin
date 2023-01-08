@@ -1,0 +1,9 @@
+<Project>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <ItemGroup Condition="!Exists('$(ProjectDir)\Lang\Str.Designer.cs')">
+            <Compile Include="$(ProjectDir)\Lang\Str.Designer.cs"/>
+        </ItemGroup>
+        <Exec Command="dotnet tool restore" StdOutEncoding="utf-8"/>
+        <Exec WorkingDirectory="$(ProjectDir)\Lang" Command="dotnet t4 Str.tt" StdOutEncoding="utf-8"/>
+    </Target>
+</Project>

@@ -3,22 +3,22 @@ namespace NetAdmin.DataContract.Dto.Pub;
 /// <summary>
 ///     响应：分页查询
 /// </summary>
-public record PagedQueryRsp<T> : IPagedInfo
+public record PagedQueryRsp<T>(int Page, int PageSize, long Total, IEnumerable<T> Rows) : IPagedInfo
     where T : DataAbstraction
 {
     /// <inheritdoc />
-    public int Page { get; set; }
+    public int Page { get; set; } = Page;
 
     /// <inheritdoc />
-    public int PageSize { get; set; }
+    public int PageSize { get; set; } = PageSize;
 
     /// <summary>
     ///     数据行
     /// </summary>
-    public IEnumerable<T> Rows { get; set; }
+    public IEnumerable<T> Rows { get; set; } = Rows;
 
     /// <summary>
     ///     数据总条
     /// </summary>
-    public long Total { get; set; }
+    public long Total { get; set; } = Total;
 }

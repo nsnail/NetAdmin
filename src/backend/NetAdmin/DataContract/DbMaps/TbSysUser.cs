@@ -15,6 +15,12 @@ namespace NetAdmin.DataContract.DbMaps;
 public record TbSysUser : DefaultEntity, IFieldBitSet, IRegister
 {
     /// <summary>
+    ///     头像链接
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Avatar { get; set; }
+
+    /// <summary>
     ///     比特位 <see cref="Enums.SysUserBits" />
     /// </summary>
     [JsonIgnore]
@@ -25,6 +31,12 @@ public record TbSysUser : DefaultEntity, IFieldBitSet, IRegister
     /// </summary>
     [JsonIgnore]
     public virtual long DeptId { get; set; }
+
+    /// <summary>
+    ///     手机号
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Mobile { get; set; }
 
     /// <summary>
     ///     密码

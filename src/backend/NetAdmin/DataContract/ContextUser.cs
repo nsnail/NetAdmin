@@ -11,5 +11,9 @@ public record ContextUser : TbSysUser, IScoped
 {
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; set; }
+
+    /// <inheritdoc />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Guid Token { get; set; }
 }
