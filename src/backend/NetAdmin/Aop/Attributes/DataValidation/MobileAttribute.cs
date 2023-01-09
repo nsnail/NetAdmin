@@ -14,7 +14,7 @@ public class MobileAttribute : RegexAttribute
     public MobileAttribute() //
         : base(Strings.RGX_MOBILE)
     {
-        ErrorMessageResourceName = nameof(Str.MOBILE_PHONE_NUMBER_THAT_CAN_BE_USED_NORMALLY);
+        ErrorMessageResourceName = nameof(Str.Mobile_phone_number_that_can_be_used_normally);
         ErrorMessageResourceType = typeof(Str);
     }
 }

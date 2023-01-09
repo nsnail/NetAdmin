@@ -8,17 +8,17 @@ namespace NetAdmin.Api.Sys;
 public interface IConstantApi
 {
     /// <summary>
-    ///     获得枚举常量
+    ///     获得公共枚举值
     /// </summary>
     object GetEnums();
 
     /// <summary>
-    ///     获得本地化字符串常量
+    ///     获得本地化字符串
     /// </summary>
     object GetLocalizedStrings();
 
     /// <summary>
-    ///     获得字符串常量
+    ///     获得常量字符串
     /// </summary>
     IActionResult GetStrings();
 }

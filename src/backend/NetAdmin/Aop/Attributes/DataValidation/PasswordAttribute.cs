@@ -14,7 +14,7 @@ public class PasswordAttribute : RegexAttribute
     public PasswordAttribute() //
         : base(Strings.RGX_PASSWORD)
     {
-        ErrorMessageResourceName = nameof(Str.NUMBER_LETTER_COMBINATION_OF_MORE_THAN_8_DIGITS);
+        ErrorMessageResourceName = nameof(Str.Number_letter_combination_of_more_than_8_digits);
         ErrorMessageResourceType = typeof(Str);
     }
 }

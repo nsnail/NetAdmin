@@ -14,7 +14,7 @@ public class UserNameAttribute : RegexAttribute
     public UserNameAttribute() //
         : base(Strings.RGX_USERNAME)
     {
-        ErrorMessageResourceName = nameof(Str.MORE_THAN_4_DIGITS_ALPHANUMERIC_UNDERLINE);
+        ErrorMessageResourceName = nameof(Str.More_than_4_digits_alphanumeric_underline);
         ErrorMessageResourceType = typeof(Str);
     }
 }

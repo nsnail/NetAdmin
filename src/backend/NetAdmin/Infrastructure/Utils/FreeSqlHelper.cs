@@ -6,6 +6,7 @@ using FreeSql.DataAnnotations;
 using Furion;
 using NetAdmin.Aop.Attributes;
 using NetAdmin.Infrastructure.Configuration.Options;
+using NetAdmin.Lang;
 using Newtonsoft.Json;
 using NSExt.Extensions;
 using Yitter.IdGenerator;
@@ -120,10 +121,10 @@ public class FreeSqlHelper
             var entityTypes = GetEntityTypes();
 
             SyncStructure(freeSql, entityTypes);
-            _logger.LogInformation("数据库结构已同步");
+            _logger.LogInformation("{}", Str.The_database_structure_has_been_synchronized);
 
             InitSeedData(freeSql, entityTypes);
-            _logger.LogInformation("种子数据初始化完毕");
+            _logger.LogInformation("{}", Str.The_seed_data_is_fully_initialized);
         });
         return freeSql;
     }

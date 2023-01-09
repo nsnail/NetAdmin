@@ -87,4 +87,34 @@
     <data name="Enabled" xml:space="preserve">
         <value>启用</value>
     </data>
+    <data name="There are users under this department which cannot be deleted" xml:space="preserve">
+        <value>该部门下存在用户，不允许删除</value>
+    </data>
+    <data name="There are sub departments under this department which cannot be deleted" xml:space="preserve">
+        <value>该部门下存在子部门，不允许删除</value>
+    </data>
+    <data name="Parent department does not exist" xml:space="preserve">
+        <value>父部门不存在</value>
+    </data>
+    <data name="Users exist under this role and deletion is not allowed" xml:space="preserve">
+        <value>该角色下存在用户，不允许删除</value>
+    </data>
+    <data name="The character id does not exist" xml:space="preserve">
+        <value>角色id不存在</value>
+    </data>
+    <data name="Contains endpoint paths that do not exist" xml:space="preserve">
+        <value>包含了不存在的端点路径</value>
+    </data>
+    <data name="The character does not exist" xml:space="preserve">
+        <value>角色不存在</value>
+    </data>
+    <data name="The department does not exist" xml:space="preserve">
+        <value>部门不存在</value>
+    </data>
+    <data name="The database structure has been synchronized" xml:space="preserve">
+        <value>数据库结构已同步</value>
+    </data>
+    <data name="The seed data is fully initialized" xml:space="preserve">
+        <value>种子数据初始化完毕</value>
+    </data>
 </root>

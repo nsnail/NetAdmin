@@ -5,6 +5,7 @@ using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Dept;
 using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Lang;
 using NetAdmin.Repositories;
 
 namespace NetAdmin.Api.Sys.Implements;
@@ -24,7 +25,7 @@ public class DeptApi : RepositoryApi<TbSysDept, IDeptApi>, IDeptApi
     public async Task<QueryDeptRsp> Create(CreateDeptReq req)
     {
         if (req.ParentId != 0 && !await Repository.Select.AnyAsync(a => a.Id == req.ParentId)) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "父部门不存在");
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.Parent_department_does_not_exist);
         }
 
         var ret = await Repository.InsertAsync(req);
@@ -38,11 +39,14 @@ public class DeptApi : RepositoryApi<TbSysDept, IDeptApi>, IDeptApi
     public async Task<int> Delete(DelReq req)
     {
         if (await Repository.Orm.Select<TbSysUser>().AnyAsync(a => a.DeptId == req.Id)) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "该部门下存在用户，不允许删除");
+            throw Oops.Oh( //
+                Enums.ErrorCodes.InvalidOperation, Str.There_are_users_under_this_department_which_cannot_be_deleted);
         }
 
         if (await Repository.Select.AnyAsync(a => a.ParentId == req.Id)) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "该部门下存在子部门，不允许删除");
+            throw Oops.Oh( //
+                Enums.ErrorCodes.InvalidOperation
+              , Str.There_are_sub_departments_under_this_department_which_cannot_be_deleted);
         }
 
         var ret = await Repository.DeleteAsync(x => x.Id == req.Id);
@@ -63,6 +67,7 @@ public class DeptApi : RepositoryApi<TbSysDept, IDeptApi>, IDeptApi
     {
         var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter)
                                   .WhereDynamic(req.Filter)
+                                  .OrderByDescending(a => a.Sort)
                                   .ToTreeListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryDeptRsp>());
     }
@@ -72,7 +77,11 @@ public class DeptApi : RepositoryApi<TbSysDept, IDeptApi>, IDeptApi
     /// </summary>
     public async Task<QueryDeptRsp> Update(UpdateDeptReq req)
     {
-        var ret = await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync();
+        if (await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+            throw Oops.Oh(Enums.ErrorCodes.Unknown);
+        }
+
+        var ret = await Repository.Select.Where(a => a.Id == req.Id).ToOneAsync();
         return ret.Adapt<QueryDeptRsp>();
     }
 }

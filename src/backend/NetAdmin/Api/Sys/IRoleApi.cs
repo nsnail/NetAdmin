@@ -13,6 +13,11 @@ public interface IRoleApi : ICrudApi<CreateRoleReq, QueryRoleRsp // 创建类型
                             >, IRestfulApi
 {
     /// <summary>
+    ///     批量删除角色
+    /// </summary>
+    Task<int> BulkDelete(BulkDelReq req);
+
+    /// <summary>
     ///     角色端点映射
     /// </summary>
     Task<int> MapEndpoints(MapEndpointsReq req);

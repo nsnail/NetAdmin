@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Mapster;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
 using NetAdmin.Infrastructure.Constant;
@@ -9,7 +10,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Dept;
 /// <summary>
 ///     响应：查询部门
 /// </summary>
-public record QueryDeptRsp : TbSysDept
+public record QueryDeptRsp : TbSysDept, IRegister
 {
     /// <summary>
     ///     是否启用
@@ -22,6 +23,10 @@ public record QueryDeptRsp : TbSysDept
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public new virtual List<QueryDeptRsp> Children { get; set; }
 
+    /// <inheritdoc cref="IFieldAdd.CreatedTime" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override DateTime CreatedTime { get; set; }
+
     /// <inheritdoc cref="IFieldPrimary.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
@@ -29,6 +34,10 @@ public record QueryDeptRsp : TbSysDept
     /// <inheritdoc cref="TbSysDept.Label" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Label { get; set; }
+
+    /// <inheritdoc cref="TbSysDept.ParentId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long ParentId { get; set; }
 
     /// <inheritdoc cref="TbSysDept.Remark" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -41,4 +50,11 @@ public record QueryDeptRsp : TbSysDept
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; set; }
+
+    /// <inheritdoc />
+    public void Register(TypeAdapterConfig config)
+    {
+        config.ForType<TbSysDept, QueryDeptRsp>()
+              .Map(dest => dest.CreatedTime, src => src.CreatedTime.Is(default, DateTime.Now));
+    }
 }

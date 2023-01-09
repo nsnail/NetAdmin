@@ -11,7 +11,22 @@ namespace NetAdmin.DataContract.Dto.Sys.Dept;
 public record CreateDeptReq : TbSysDept
 {
     /// <inheritdoc cref="TbSysDept.BitSet" />
-    public override long BitSet => (long)Enums.SysDeptBits.Enabled;
+    public override long BitSet {
+        get {
+            var ret = 0L;
+            if (Enabled) {
+                ret |= (long)Enums.SysDeptBits.Enabled;
+            }
+
+            return ret;
+        }
+    }
+
+    /// <summary>
+    ///     是否启用
+    /// </summary>
+    [Required]
+    public bool Enabled { get; set; }
 
     /// <inheritdoc cref="TbSysDept.Label" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

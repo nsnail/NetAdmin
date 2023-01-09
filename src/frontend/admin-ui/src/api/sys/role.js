@@ -9,6 +9,18 @@ import http from "@/utils/request"
 export default {
 
 	/**
+	 * 批量删除角色
+	 */
+	bulkDelete :{
+		url: `${config.API_URL}/role/bulk.delete`,
+		name: `批量删除角色`,
+		post:async function(data, config={}) {
+			return await http.post(this.url,data, config)
+		}
+	},
+
+
+	/**
 	 * 创建角色
 	 */
 	create :{

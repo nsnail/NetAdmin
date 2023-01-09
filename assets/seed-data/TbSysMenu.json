@@ -30,14 +30,24 @@
             },
             {
                 "Name": "sys-role",
-                "Icon": "el-icon-reading",
+                "Icon": "sc-icon-role",
                 "Title": "角色管理",
                 "Path": "/sys/role",
                 "Component": "sys/role",
                 "Sort": 0,
                 "Type": 1,
                 "BitSet": 1,
-            }
+            },
+            {
+                "Name": "sys-dept",
+                "Icon": "sc-icon-dept",
+                "Title": "部门管理",
+                "Path": "/sys/dept",
+                "Component": "sys/dept",
+                "Sort": 0,
+                "Type": 1,
+                "BitSet": 1,
+            },
         ]
     },
     {

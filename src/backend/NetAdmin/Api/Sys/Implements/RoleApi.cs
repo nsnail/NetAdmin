@@ -5,6 +5,7 @@ using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Role;
 using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Lang;
 using NetAdmin.Repositories;
 
 namespace NetAdmin.Api.Sys.Implements;
@@ -17,6 +18,14 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     /// </summary>
     public RoleApi(Repository<TbSysRole> repository) //
         : base(repository) { }
+
+    /// <inheritdoc />
+    [Transaction]
+    public Task<int> BulkDelete(BulkDelReq req)
+    {
+        var ret = req.Ids.Sum(x => Delete(new DelReq { Id = x }).Result);
+        return Task.FromResult(ret);
+    }
 
     /// <summary>
     ///     创建角色
@@ -34,7 +43,8 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     public async Task<int> Delete(DelReq req)
     {
         if (await Repository.Orm.Select<TbSysUserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id)) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "该角色下存在用户，不允许删除");
+            throw Oops.Oh( //
+                Enums.ErrorCodes.InvalidOperation, Str.Users_exist_under_this_role_and_deletion_is_not_allowed);
         }
 
         var ret = await Repository.DeleteAsync(a => a.Id == req.Id);
@@ -46,12 +56,12 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     public async Task<int> MapEndpoints(MapEndpointsReq req)
     {
         if (!await Repository.Select.AnyAsync(a => a.Id == req.RoleId)) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "角色id不存在");
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_character_id_does_not_exist);
         }
 
         if (await Repository.Orm.Select<TbSysEndpoint>().Where(a => req.Paths.Contains(a.Path)).CountAsync() !=
             req.Paths.Count) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "包含了不存在的端点路径");
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.Contains_endpoint_paths_that_do_not_exist);
         }
 
         //删除原有端点映射

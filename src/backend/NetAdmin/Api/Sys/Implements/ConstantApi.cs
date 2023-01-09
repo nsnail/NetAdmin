@@ -26,13 +26,11 @@ public class ConstantApi : ApiBase<IConstantApi>, IConstantApi
     }
 
     /// <inheritdoc />
-    [NonUnify]
     public object GetLocalizedStrings()
     {
-        var data = typeof(Str).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                              .Where(x => x.PropertyType == typeof(string))
-                              .ToImmutableSortedDictionary(x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
-        return OriginNamingResult(data);
+        return typeof(Str).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                          .Where(x => x.PropertyType == typeof(string))
+                          .ToImmutableSortedDictionary(x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
     }
 
     /// <inheritdoc />

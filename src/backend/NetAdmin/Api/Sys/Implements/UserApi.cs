@@ -59,11 +59,11 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
         var dbUser = await Repository.GetAsync(a => a.UserName == req.UserName &&
                                                     a.Password == req.Password.Pwd().Guid());
         if (dbUser is null) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.USER_NAME_OR_PASSWORD_ERROR);
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.User_name_or_password_error);
         }
 
         if (!dbUser.BitSet.HasFlag(Enums.SysUserBits.Enabled)) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.USER_DISABLED);
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.User_disabled);
         }
 
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
@@ -168,10 +168,12 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
                                     .ToListAsync();
 
         if (roles.Count != req.RoleIds.Count) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "角色不存在");
+            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_character_does_not_exist);
         }
 
         var dept = await Repository.Orm.Select<TbSysDept>().ForUpdate().Where(a => a.Id == req.DeptId).ToOneAsync();
-        return dept is null ? throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "部门不存在") : (roles, dept);
+        return dept is null
+            ? throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_department_does_not_exist)
+            : (roles, dept);
     }
 }

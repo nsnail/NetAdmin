@@ -69,17 +69,25 @@
 				//验证规则
 				rules: {
 					userName: [
-						{required: true, message: this.$CONFIG.LOC_STRINGS.MORE_THAN_4_DIGITS_ALPHANUMERIC_UNDERLINE,
-							pattern:this.$CONFIG.STRINGS.RGX_USERNAME}
+						{
+							required: true, message: this.$CONFIG.LOC_STRINGS.more_than_4_digits_alphanumeric_underline,
+							pattern:this.$CONFIG.STRINGS.RGX_USERNAME
+						}
 					],
 					mobile: [
-						{ message: this.$CONFIG.LOC_STRINGS.MOBILE_PHONE_NUMBER_THAT_CAN_BE_USED_NORMALLY,
-							pattern:this.$CONFIG.STRINGS.RGX_MOBILE}
+						{
+							message: this.$CONFIG.LOC_STRINGS.mobile_phone_number_that_can_be_used_normally,
+							pattern:this.$CONFIG.STRINGS.RGX_MOBILE
+						}
 					],
 					passwordText: [
-						{required: true,
-							message: this.$CONFIG.LOC_STRINGS.NUMBER_LETTER_COMBINATION_OF_MORE_THAN_8_DIGITS,pattern:this.$CONFIG.STRINGS.RGX_PASSWORD},
-						{validator: (rule, value, callback) => {
+						{
+							required: true,
+							message: this.$CONFIG.LOC_STRINGS.number_letter_combination_of_more_than_8_digits,
+							pattern:this.$CONFIG.STRINGS.RGX_PASSWORD
+						},
+						{
+							validator: (rule, value, callback) => {
 							if (this.form.passwordText2 !== '') {
 								this.$refs.dialogForm.validateField('passwordText2');
 							}

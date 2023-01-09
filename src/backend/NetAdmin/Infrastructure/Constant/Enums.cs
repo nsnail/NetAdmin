@@ -19,7 +19,9 @@ public static class Enums
         /// <summary>
         ///     未知错误
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.UNKNOWN_ERROR))] [Localization(typeof(Str))]
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Str.Unknown_error))]
+        [Localization(typeof(Str))]
         Unknown = 4000
 
        ,
@@ -27,7 +29,9 @@ public static class Enums
         /// <summary>
         ///     无效输入
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.INVALID_INPUT))] [Localization(typeof(Str))]
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Str.Invalid_input))]
+        [Localization(typeof(Str))]
         InvalidInput = 4010
 
        ,
@@ -35,7 +39,9 @@ public static class Enums
         /// <summary>
         ///     无效操作
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.INVALID_OPERATION))] [Localization(typeof(Str))]
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Str.Invalid_operation))]
+        [Localization(typeof(Str))]
         InvalidOperation = 4020
 
        ,
@@ -43,7 +49,9 @@ public static class Enums
         /// <summary>
         ///     未登录
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.NOT_LOGGED_IN))] [Localization(typeof(Str))]
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Str.Not_logged_in))]
+        [Localization(typeof(Str))]
         IdentityMissing = 4030
 
        ,
@@ -51,7 +59,9 @@ public static class Enums
         /// <summary>
         ///     权限不足
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.INSUFFICIENT_PERMISSIONS))] [Localization(typeof(Str))]
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Str.Insufficient_permissions))]
+        [Localization(typeof(Str))]
         NoPermissions = 4031
 
        ,
@@ -59,7 +69,9 @@ public static class Enums
         /// <summary>
         ///     人机验证
         /// </summary>
-        [ErrorCodeItemMetadata("{0}")] [Description(nameof(Str.MAN_MACHINE_VERIFICATION))] [Localization(typeof(Str))]
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Str.Man_machine_verification))]
+        [Localization(typeof(Str))]
         HumanVerification = 4040
     }
 
@@ -71,7 +83,8 @@ public static class Enums
         /// <summary>
         ///     菜单
         /// </summary>
-        [Description(nameof(Str.MENU))] [Localization(typeof(Str))]
+        [Description(nameof(Str.Menu))]
+        [Localization(typeof(Str))]
         Menu = 1
 
        ,
@@ -79,7 +92,8 @@ public static class Enums
         /// <summary>
         ///     链接
         /// </summary>
-        [Description(nameof(Str.LINK))] [Localization(typeof(Str))]
+        [Description(nameof(Str.Link))]
+        [Localization(typeof(Str))]
         Link = 2
 
        ,
@@ -87,7 +101,8 @@ public static class Enums
         /// <summary>
         ///     框架
         /// </summary>
-        [Description(nameof(Str.IFRAME))] [Localization(typeof(Str))]
+        [Description(nameof(Str.Iframe))]
+        [Localization(typeof(Str))]
         Iframe = 3
     }
 
@@ -118,6 +133,8 @@ public static class Enums
         /// <summary>
         ///     启用
         /// </summary>
+        [Description(nameof(Str.Enabled))]
+        [Localization(typeof(Str))]
         Enabled = 0b_0000_0001
     }
 
@@ -130,6 +147,8 @@ public static class Enums
         /// <summary>
         ///     启用
         /// </summary>
+        [Description(nameof(Str.Enabled))]
+        [Localization(typeof(Str))]
         Enabled = 0b_0000_0001
     }
 
@@ -142,6 +161,8 @@ public static class Enums
         /// <summary>
         ///     启用
         /// </summary>
+        [Description(nameof(Str.Enabled))]
+        [Localization(typeof(Str))]
         Enabled = 0b_0000_0001
 
        ,
@@ -161,6 +182,8 @@ public static class Enums
         /// <summary>
         ///     启用
         /// </summary>
+        [Description(nameof(Str.Enabled))]
+        [Localization(typeof(Str))]
         Enabled = 0b_0000_0001
     }
 
@@ -172,48 +195,55 @@ public static class Enums
         /// <summary>
         ///     Trace
         /// </summary>
-        [Description("[gray]TCE[/]")] Trace
+        [Description("[gray]TCE[/]")]
+        Trace
 
        ,
 
         /// <summary>
         ///     Debug
         /// </summary>
-        [Description("[gray]DBG[/]")] Debug
+        [Description("[gray]DBG[/]")]
+        Debug
 
        ,
 
         /// <summary>
         ///     Information
         /// </summary>
-        [Description("[green]INF[/]")] Information
+        [Description("[green]INF[/]")]
+        Information
 
        ,
 
         /// <summary>
         ///     Warning
         /// </summary>
-        [Description("[yellow]WRN[/]")] Warning
+        [Description("[yellow]WRN[/]")]
+        Warning
 
        ,
 
         /// <summary>
         ///     Error
         /// </summary>
-        [Description("[red]ERR[/]")] Error
+        [Description("[red]ERR[/]")]
+        Error
 
        ,
 
         /// <summary>
         ///     Critical
         /// </summary>
-        [Description("[red]CTL[/]")] Critical
+        [Description("[red]CTL[/]")]
+        Critical
 
        ,
 
         /// <summary>
         ///     None
         /// </summary>
-        [Description("[gray]NON[/]")] None
+        [Description("[gray]NON[/]")]
+        None
     }
 }
