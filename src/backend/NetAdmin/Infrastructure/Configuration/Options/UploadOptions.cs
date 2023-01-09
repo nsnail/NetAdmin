@@ -10,7 +10,7 @@ public record UploadOptions : OptionAbstraction
     /// <summary>
     ///     允许的文件类型
     /// </summary>
-    public List<string> ContentTypes { get; set; }
+    public IReadOnlyCollection<string> ContentTypes { get; set; }
 
     /// <summary>
     ///     允许的文件大小（字节）

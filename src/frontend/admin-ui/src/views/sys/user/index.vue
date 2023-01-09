@@ -38,7 +38,8 @@
 					</div>
 					<div class="right-panel">
 						<div class="right-panel-search">
-							<el-input v-model="search.name" placeholder="登录账号 / 姓名" clearable></el-input>
+							<el-input v-model="search.keywords" placeholder="登录账号 / 手机号"
+									  clearable></el-input>
 							<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 						</div>
 					</div>
@@ -52,18 +53,27 @@
 								<el-avatar :src="getAvatar(scope)" size="small"></el-avatar>
 							</template>
 						</el-table-column>
-						<el-table-column label="登录账号" prop="userName" width="150" sortable='userName'
-										 column-key="filterUserName" :filters="[{text: '系统账号', value: '1'}, {text: '普通账号', value: '0'}]"></el-table-column>
-						<el-table-column label="手机号" prop="mobile" width="150" sortable='mobile'></el-table-column>
-						<el-table-column label="所属角色"  width="200">
+						<el-table-column label="登录账号" prop="userName" width="150" sortable='custom'></el-table-column>
+						<el-table-column label="手机号" prop="mobile" width="150" sortable='custom'></el-table-column>
+						<el-table-column label="所属角色"  width="300">
 							<template #default="scope">
 								<el-tag v-for="(item,index) in scope.row.roles" :key="index">
 									{{item.label}}
 								</el-tag>
 							</template>
 						</el-table-column>
+						<el-table-column label="所属部门" prop="dept.label" sortable="custom" sort-by="deptid" width="200">
+						</el-table-column>
+						<el-table-column label="启用"   width="100"
+										 column-key="filterUserName" :filters="[{text: '启用', value: '1'}, {text:
+										 '未启用', value: '0'}]">
+							<template #default="scope">
+								<el-switch v-model="scope.row.enabled" disabled>
+								</el-switch>
+							</template>
+						</el-table-column>
 						<el-table-column label="加入时间" prop="createdTime" width="170"
-										 sortable='createdTime'></el-table-column>
+										 sortable='custom'></el-table-column>
 						<el-table-column label="操作" fixed="right" align="right" width="160">
 							<template #default="scope">
 								<el-button-group>
@@ -98,7 +108,8 @@
 		data() {
 			return {
 				queryParams:{
-					filter:{ deptId : 0, roleId : 0}
+					filter:{ deptId : 0, roleId : 0},
+					dynamicFilter:null
 				},
 				activeNames: ['1','2'],
 				dialog: {
@@ -112,7 +123,7 @@
 				apiObj: this.$API.sys_user.pagedQuery,
 				selection: [],
 				search: {
-					name: null
+					keywords:null
 				}
 			}
 		},
@@ -228,12 +239,26 @@
 			},
 			//搜索
 			upsearch(){
-				this.$refs.table.upData(this.search)
+				this.queryParams.dynamicFilter = {
+					logic: 'or',
+					filters: [
+						{
+							field: 'userName',
+							operator: 'contains',
+							value: this.search.keywords
+						},
+						{
+							field: 'mobile',
+							operator: 'contains',
+							value: this.search.keywords
+						}
+					]
+				};
+				this.$refs.table.upData(this.queryParams)
 			},
 			//本地更新数据
 			handleSuccess(data, mode){
 				if(mode=='add'){
-					data.id = new Date().getTime()
 					this.$refs.table.tableData.unshift(data)
 				}else if(mode=='edit'){
 					this.$refs.table.tableData.filter(item => item.id===data.id ).forEach(item => {

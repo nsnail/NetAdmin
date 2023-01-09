@@ -7,12 +7,15 @@ namespace NetAdmin.Api;
 ///     增删改查接口
 /// </summary>
 /// <typeparam name="TCreateReq">创建请求类型</typeparam>
+/// <typeparam name="TCreateRsp">创建响应类型</typeparam>
 /// <typeparam name="TQueryReq">查询请求类型</typeparam>
 /// <typeparam name="TQueryRsp">查询响应类型</typeparam>
 /// <typeparam name="TUpdateReq">修改请求类型</typeparam>
+/// <typeparam name="TUpdateRsp">修改响应类型</typeparam>
 /// <typeparam name="TDelReq">删除请求类型</typeparam>
-public interface ICrudApi<in TCreateReq, TQueryReq, TQueryRsp, in TUpdateReq, in TDelReq>
+public interface ICrudApi<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in TUpdateReq, TUpdateRsp, in TDelReq>
     where TCreateReq : DataAbstraction, new()
+    where TCreateRsp : DataAbstraction
     where TQueryReq : DataAbstraction, new()
     where TQueryRsp : DataAbstraction
     where TUpdateReq : DataAbstraction, new()
@@ -21,7 +24,7 @@ public interface ICrudApi<in TCreateReq, TQueryReq, TQueryRsp, in TUpdateReq, in
     /// <summary>
     ///     创建实体
     /// </summary>
-    Task Create(TCreateReq req);
+    Task<TCreateRsp> Create(TCreateReq req);
 
     /// <summary>
     ///     删除实体
@@ -41,5 +44,5 @@ public interface ICrudApi<in TCreateReq, TQueryReq, TQueryRsp, in TUpdateReq, in
     /// <summary>
     ///     更新实体
     /// </summary>
-    Task<int> Update(TUpdateReq req);
+    Task<TUpdateRsp> Update(TUpdateReq req);
 }

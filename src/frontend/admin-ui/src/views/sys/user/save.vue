@@ -11,13 +11,14 @@
 				<el-input v-model="form.mobile" placeholder="请输入手机号" clearable></el-input>
 			</el-form-item>
 			<template v-if="mode=='add'">
-				<el-form-item label="登录密码" prop="password">
-					<el-input type="password" v-model="form.password" clearable show-password></el-input>
+				<el-form-item label="登录密码" prop="passwordText">
+					<el-input type="password" v-model="form.passwordText" clearable show-password></el-input>
 				</el-form-item>
-				<el-form-item label="确认密码" prop="password2">
-					<el-input type="password" v-model="form.password2" clearable show-password></el-input>
+				<el-form-item label="确认密码" prop="passwordText2">
+					<el-input type="password" v-model="form.passwordText2" clearable show-password></el-input>
 				</el-form-item>
 			</template>
+
 			<el-form-item label="所属部门" prop="deptId">
 				<el-cascader v-model="form.deptId" :options="depts" :props="deptsProps" clearable
 							 style="width: 100%;"></el-cascader>
@@ -27,6 +28,12 @@
 					<el-option v-for="item in roles" :key="item.id" :label="item.label" :value="item.id"/>
 				</el-select>
 			</el-form-item>
+
+			<template v-if="mode!='add'">
+				<el-form-item label="启用" prop="enabled">
+					<el-switch v-model="form.enabled"></el-switch>
+				</el-form-item>
+			</template>
 		</el-form>
 		<template #footer>
 			<el-button @click="visible=false" >取 消</el-button>
@@ -36,6 +43,7 @@
 </template>
 
 <script>
+
 	export default {
 		emits: ['success', 'closed'],
 		data() {
@@ -50,9 +58,10 @@
 				isSaveing: false,
 				//表单数据
 				form: {
+					mobile: null,
 					id:"",
 					userName: "",
-					avatar: "",
+					avatar: null,
 					name: "",
 					deptId: "",
 					roleIds: []
@@ -67,20 +76,20 @@
 						{ message: this.$CONFIG.LOC_STRINGS.MOBILE_PHONE_NUMBER_THAT_CAN_BE_USED_NORMALLY,
 							pattern:this.$CONFIG.STRINGS.RGX_MOBILE}
 					],
-					password: [
+					passwordText: [
 						{required: true,
 							message: this.$CONFIG.LOC_STRINGS.NUMBER_LETTER_COMBINATION_OF_MORE_THAN_8_DIGITS,pattern:this.$CONFIG.STRINGS.RGX_PASSWORD},
 						{validator: (rule, value, callback) => {
-							if (this.form.password2 !== '') {
-								this.$refs.dialogForm.validateField('password2');
+							if (this.form.passwordText2 !== '') {
+								this.$refs.dialogForm.validateField('passwordText2');
 							}
 							callback();
 						}}
 					],
-					password2: [
+					passwordText2: [
 						{required: true, message: '请再次输入密码'},
 						{validator: (rule, value, callback) => {
-							if (value !== this.form.password) {
+							if (value !== this.form.passwordText) {
 								callback(new Error('两次输入密码不一致!'));
 							}else{
 								callback();
@@ -130,8 +139,11 @@
 					if (valid) {
 						this.isSaveing = true;
 						try{
-					        await this.$API.sys_user.create.post(this.form);
-							this.$emit('success', this.form, this.mode)
+							if (!this.form.mobile)this.form.mobile=null;
+							const method =  ( this.mode == 'add' ?   this.$API.sys_user.create
+								:  this.$API.sys_user.update)
+							const res = await method.post(this.form);
+							this.$emit('success', res.data, this.mode)
 							this.visible = false;
 							this.$message.success("操作成功")
 						}catch {
@@ -144,12 +156,15 @@
 			},
 			//表单注入数据
 			setData(data){
+				this.form.enabled = data.enabled;
 				this.form.id = data.id
+				this.form.mobile = data.mobile
 				this.form.userName = data.userName
 				this.form.avatar = data.avatar
 				this.form.name = data.name
-				this.form.roleIds = data.roleIds
-				this.form.deptId = data.deptId
+				this.form.roleIds = data.roles.map(x=>x.id)
+				this.form.deptId = data.dept.id
+				this.form.version = data.version
 
 				//可以和上面一样单个注入，也可以像下面一样直接合并进去
 				//Object.assign(this.form, data)

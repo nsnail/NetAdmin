@@ -9,10 +9,10 @@ namespace NetAdmin.DataContract.Dto.Sys.Endpoint;
 public record QueryEndpointRsp(string Label, string Path) : TbSysEndpoint
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Label { get; set; } = Label;
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Path { get; set; } = Path;
 }

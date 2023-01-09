@@ -57,6 +57,18 @@ export default {
 
 
 	/**
+	 * 更新用户
+	 */
+	update :{
+		url: `${config.API_URL}/user/update`,
+		name: `更新用户`,
+		post:async function(data, config={}) {
+			return await http.post(this.url,data, config)
+		}
+	},
+
+
+	/**
 	 * 当前用户信息
 	 */
 	userInfo :{

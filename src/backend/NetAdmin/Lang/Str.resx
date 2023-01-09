@@ -84,4 +84,7 @@
     <data name="Iframe" xml:space="preserve">
         <value>框架</value>
     </data>
+    <data name="Enabled" xml:space="preserve">
+        <value>启用</value>
+    </data>
 </root>

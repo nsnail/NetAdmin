@@ -6,7 +6,7 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 public interface IFieldSort
 {
     /// <summary>
-    ///     排序字段
+    ///     排序值，越大越前
     /// </summary>
     int Sort { get; set; }
 }

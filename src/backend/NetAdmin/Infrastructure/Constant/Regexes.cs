@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 
-#pragma warning disable SYSLIB1045
 namespace NetAdmin.Infrastructure.Constant;
 
 // 注意：使用 [GeneratedRegex] 新特性会生成重复key值的xmlcomment导致出错

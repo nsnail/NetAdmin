@@ -21,7 +21,7 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
 
     /// <inheritdoc />
     [NonAction]
-    public Task Create(NopReq req)
+    public Task<NopReq> Create(NopReq req)
     {
         throw new NotImplementedException();
     }
@@ -79,7 +79,7 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
 
     /// <inheritdoc />
     [NonAction]
-    public Task<int> Update(NopReq req)
+    public Task<NopReq> Update(NopReq req)
     {
         throw new NotImplementedException();
     }

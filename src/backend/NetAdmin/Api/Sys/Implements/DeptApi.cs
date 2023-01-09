@@ -21,13 +21,15 @@ public class DeptApi : RepositoryApi<TbSysDept, IDeptApi>, IDeptApi
     /// <summary>
     ///     创建部门
     /// </summary>
-    public async Task Create(CreateDeptReq req)
+    public async Task<QueryDeptRsp> Create(CreateDeptReq req)
     {
         if (req.ParentId != 0 && !await Repository.Select.AnyAsync(a => a.Id == req.ParentId)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, "父部门不存在");
         }
 
-        await Repository.InsertAsync(req);
+        var ret = await Repository.InsertAsync(req);
+
+        return ret.Adapt<QueryDeptRsp>();
     }
 
     /// <summary>
@@ -68,9 +70,9 @@ public class DeptApi : RepositoryApi<TbSysDept, IDeptApi>, IDeptApi
     /// <summary>
     ///     更新部门
     /// </summary>
-    public async Task<int> Update(UpdateDeptReq req)
+    public async Task<QueryDeptRsp> Update(UpdateDeptReq req)
     {
         var ret = await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync();
-        return ret;
+        return ret.Adapt<QueryDeptRsp>();
     }
 }

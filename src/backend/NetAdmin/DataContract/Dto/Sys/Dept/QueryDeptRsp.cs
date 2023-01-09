@@ -19,7 +19,7 @@ public record QueryDeptRsp : TbSysDept
     /// <summary>
     ///     子节点
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public new virtual List<QueryDeptRsp> Children { get; set; }
 
     /// <inheritdoc cref="IFieldPrimary.Id" />
@@ -27,11 +27,11 @@ public record QueryDeptRsp : TbSysDept
     public override long Id { get; set; }
 
     /// <inheritdoc cref="TbSysDept.Label" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Label { get; set; }
 
     /// <inheritdoc cref="TbSysDept.Remark" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Remark { get; set; }
 
     /// <inheritdoc cref="TbSysDept.Sort" />

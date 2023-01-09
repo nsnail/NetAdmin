@@ -14,7 +14,7 @@ public record CreateDeptReq : TbSysDept
     public override long BitSet => (long)Enums.SysDeptBits.Enabled;
 
     /// <inheritdoc cref="TbSysDept.Label" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override string Label { get; set; }
 
@@ -23,7 +23,7 @@ public record CreateDeptReq : TbSysDept
     public override long ParentId { get; set; }
 
     /// <inheritdoc cref="TbSysDept.Remark" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Remark { get; set; }
 
     /// <inheritdoc cref="TbSysDept.Sort" />

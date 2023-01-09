@@ -278,7 +278,7 @@
 					return false
 				}
 				if(obj.column && obj.prop){
-					this.prop = obj.prop
+					this.prop = obj.column.sortBy? obj.column.sortBy : obj.prop
 					this.order = obj.order
 				}else{
 					this.prop = null

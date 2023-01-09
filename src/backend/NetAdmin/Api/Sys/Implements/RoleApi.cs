@@ -1,6 +1,5 @@
 using Furion.FriendlyException;
 using Mapster;
-using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Aop.Attributes;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
@@ -22,9 +21,10 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     /// <summary>
     ///     创建角色
     /// </summary>
-    public async Task Create(CreateRoleReq req)
+    public async Task<QueryRoleRsp> Create(CreateRoleReq req)
     {
-        await Repository.InsertAsync(req);
+        var ret = await Repository.InsertAsync(req);
+        return ret.Adapt<QueryRoleRsp>();
     }
 
     /// <summary>
@@ -58,33 +58,48 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
         await Repository.Orm.Delete<TbSysRoleEndpoint>().Where(a => a.RoleId == req.RoleId).ExecuteAffrowsAsync();
 
         //插入新的端点映射
-        var inserts = req.Paths.ConvertAll(x => new TbSysRoleEndpoint { RoleId = req.RoleId, Path = x });
+        var inserts = req.Paths.Select(x => new TbSysRoleEndpoint { RoleId = req.RoleId, Path = x });
         var ret     = await Repository.Orm.Insert(inserts).ExecuteAffrowsAsync();
         return ret;
     }
 
-    /// <inheritdoc />
-    [NonAction]
-    public Task<PagedQueryRsp<RoleInfo>> PagedQuery(PagedQueryReq<RoleInfo> req)
+    /// <summary>
+    ///     分页查询角色
+    /// </summary>
+    public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQuery(PagedQueryReq<QueryRoleReq> req)
     {
-        throw new NotImplementedException();
+        var list = await Repository.Select.WhereDynamicFilter(req.DynamicFilter)
+                                   .WhereDynamic(req.Filter)
+                                   .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop
+                                  ,                                             req.Order == Enums.Orders.Ascending)
+                                   .OrderByIf(req.Prop is not { Length: > 0 }, a => a.Sort, true)
+                                   .Page(req.Page, req.PageSize)
+                                   .Count(out var total)
+                                   .ToListAsync();
+
+        return new PagedQueryRsp<QueryRoleRsp>(req.Page, req.PageSize, total
+                                             , list.Select(x => x.Adapt<QueryRoleRsp>()));
     }
 
     /// <summary>
     ///     查询角色
     /// </summary>
-    public async Task<List<RoleInfo>> Query(QueryReq<RoleInfo> req)
+    public async Task<List<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
     {
         var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToListAsync();
-        return ret.ConvertAll(x => x.Adapt<RoleInfo>());
+        return ret.ConvertAll(x => x.Adapt<QueryRoleRsp>());
     }
 
     /// <summary>
     ///     更新角色
     /// </summary>
-    public async Task<int> Update(UpdateRoleReq req)
+    public async Task<QueryRoleRsp> Update(UpdateRoleReq req)
     {
-        var ret = await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync();
-        return ret;
+        if (await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+            throw Oops.Oh(Enums.ErrorCodes.Unknown);
+        }
+
+        var ret = await Repository.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        return ret.Adapt<QueryRoleRsp>();
     }
 }

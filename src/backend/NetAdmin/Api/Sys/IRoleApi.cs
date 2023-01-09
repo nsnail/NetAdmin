@@ -6,10 +6,10 @@ namespace NetAdmin.Api.Sys;
 /// <summary>
 ///     角色接口
 /// </summary>
-public interface IRoleApi : ICrudApi<CreateRoleReq // 创建类型
-                              , RoleInfo, RoleInfo // 查询类型
-                              , UpdateRoleReq      // 修改类型
-                              , DelReq             // 删除类型
+public interface IRoleApi : ICrudApi<CreateRoleReq, QueryRoleRsp // 创建类型
+                              , QueryRoleReq, QueryRoleRsp       // 查询类型
+                              , UpdateRoleReq, QueryRoleRsp      // 修改类型
+                              , DelReq                           // 删除类型
                             >, IRestfulApi
 {
     /// <summary>

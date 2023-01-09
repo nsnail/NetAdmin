@@ -19,7 +19,8 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// <summary>
     ///     创建菜单
     /// </summary>
-    public Task Create(CreateMenuReq req)
+    [NonAction]
+    public Task<QueryMenuRsp> Create(CreateMenuReq req)
     {
         throw new NotImplementedException();
     }
@@ -53,7 +54,8 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// <summary>
     ///     更新菜单
     /// </summary>
-    public Task<int> Update(NopReq req)
+    [NonAction]
+    public Task<NopReq> Update(NopReq req)
     {
         throw new NotImplementedException();
     }

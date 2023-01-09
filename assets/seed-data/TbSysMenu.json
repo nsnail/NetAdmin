@@ -27,6 +27,16 @@
                 "Sort": 0,
                 "Type": 1,
                 "BitSet": 1,
+            },
+            {
+                "Name": "sys-role",
+                "Icon": "el-icon-reading",
+                "Title": "角色管理",
+                "Path": "/sys/role",
+                "Component": "sys/role",
+                "Sort": 0,
+                "Type": 1,
+                "BitSet": 1,
             }
         ]
     },

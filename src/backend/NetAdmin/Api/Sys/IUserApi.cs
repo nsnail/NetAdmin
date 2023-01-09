@@ -6,10 +6,10 @@ namespace NetAdmin.Api.Sys;
 /// <summary>
 ///     用户接口
 /// </summary>
-public interface IUserApi : ICrudApi<CreateUserReq         // 创建类型
-                              , QueryUserReq, QueryUserRsp // 查询类型
-                              , NopReq                     // 修改类型
-                              , NopReq                     // 删除类型
+public interface IUserApi : ICrudApi<CreateUserReq, QueryUserRsp // 创建类型
+                              , QueryUserReq, QueryUserRsp       // 查询类型
+                              , UpdateUserReq, QueryUserRsp      // 修改类型
+                              , NopReq                           // 删除类型
                             >, IRestfulApi
 {
     /// <summary>

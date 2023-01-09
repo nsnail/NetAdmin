@@ -10,7 +10,7 @@ namespace NetAdmin.DataContract.DbMaps;
 /// </summary>
 [Table]
 [Index("idx_{tablename}_01", nameof(Label), true)]
-public record TbSysRole : DefaultEntity, IFieldBitSet
+public record TbSysRole : DefaultEntity, IFieldBitSet, IFieldSort
 {
     /// <summary>
     ///     比特位 <see cref="Enums.SysRoleBits" />
@@ -23,4 +23,14 @@ public record TbSysRole : DefaultEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     public virtual string Label { get; set; }
+
+    /// <summary>
+    ///     备注
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Remark { get; set; }
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    public virtual int Sort { get; set; }
 }
