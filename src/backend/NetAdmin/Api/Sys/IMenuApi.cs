@@ -9,5 +9,11 @@ namespace NetAdmin.Api.Sys;
 public interface IMenuApi : ICrudApi<CreateMenuReq, QueryMenuRsp // 创建类型
                               , QueryMenuReq, QueryMenuRsp       // 查询类型
                               , UpdateMenuReq, QueryMenuRsp      // 修改类型
-                              , NopReq                           // 删除类型
-                            >, IRestfulApi { }
+                              , DelReq                           // 删除类型
+                            >, IRestfulApi
+{
+    /// <summary>
+    ///     批量删除菜单
+    /// </summary>
+    Task<int> BulkDelete(BulkDelReq req);
+}

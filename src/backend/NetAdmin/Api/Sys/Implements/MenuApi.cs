@@ -18,6 +18,13 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     public MenuApi(Repository<TbSysMenu> repository) //
         : base(repository) { }
 
+    /// <inheritdoc />
+    public Task<int> BulkDelete(BulkDelReq req)
+    {
+        var ret = req.Ids.Sum(x => Delete(new DelReq { Id = x }).Result);
+        return Task.FromResult(ret);
+    }
+
     /// <summary>
     ///     创建菜单
     /// </summary>
@@ -30,9 +37,10 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// <summary>
     ///     删除菜单
     /// </summary>
-    public Task<int> Delete(NopReq req)
+    public async Task<int> Delete(DelReq req)
     {
-        throw new NotImplementedException();
+        var ret = await Repository.DeleteAsync(a => a.Id == req.Id);
+        return ret;
     }
 
     /// <inheritdoc />

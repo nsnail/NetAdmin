@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Mapster;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
 using NetAdmin.Infrastructure.Constant;
@@ -9,7 +10,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Menu;
 /// <summary>
 ///     信息：菜单
 /// </summary>
-public record QueryMenuRsp : TbSysMenu
+public record QueryMenuRsp : TbSysMenu, IRegister
 {
     /// <summary>
     ///     是否启用
@@ -61,4 +62,10 @@ public record QueryMenuRsp : TbSysMenu
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; set; }
+
+    /// <inheritdoc />
+    public void Register(TypeAdapterConfig config)
+    {
+        config.ForType<TbSysMenu, QueryMenuRsp>().Map(dest => dest.Path, src => src.Path ?? string.Empty);
+    }
 }

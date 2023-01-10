@@ -6,16 +6,17 @@
 		<template v-else>
 			<el-col :lg="12">
 				<h2>{{form.meta.title || "新增菜单"}}</h2>
-				<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="left">
+				<el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="left">
 					<el-form-item label="显示名称" prop="meta.title">
 						<el-input v-model="form.meta.title" clearable placeholder="菜单显示名字"></el-input>
 					</el-form-item>
 					<el-form-item label="上级菜单" prop="parentId">
-						<el-cascader v-model="form.parentId" :options="menuOptions" :props="menuProps" :show-all-levels="false" placeholder="顶级菜单" clearable disabled></el-cascader>
+						<el-cascader v-model="form.parentId" :options="menuOptions" :props="menuProps"
+									 :show-all-levels="false" placeholder="顶级菜单" clearable ></el-cascader>
 					</el-form-item>
 					<el-form-item label="类型" prop="meta.type">
 						<el-radio-group v-model="form.meta.type">
-							<el-radio-button v-for="(item,i) in this.$CONFIG.ENUMS.menuTypes" :key="i"
+							<el-radio-button v-for="(item,i) in this.$CONFIG.ENUMS.sysMenuTypes" :key="i"
 											 :label="item.value">{{item.desc}}
 							</el-radio-button>
 						</el-radio-group>
@@ -116,6 +117,7 @@
 				},
 				menuOptions: [],
 				menuProps: {
+					emitPath:false,
 					value: 'id',
 					label: 'title',
 					checkStrictly: true
@@ -129,7 +131,13 @@
 					'#409EFF',
 					'#c71585'
 				],
-				rules: [],
+				rules: {
+					meta: {
+						title:[
+							{required: true, message: '请输入显示名称'}
+						]
+					}
+				},
 				apiListAddTemplate: {
 					code: "",
 					url: ""
@@ -165,15 +173,20 @@
 			},
 			//保存
 			async save(){
-				this.loading = true
-				try{
-					const  res = await this.$API.sys_menu.update.post(this.form)
-					this.$message.success("保存成功")
-					this.$emit('success', res.data)
-				}catch {
+				this.$refs.dialogForm.validate(async (valid) => {
+					if (valid) {
+						this.loading = true
+						try{
+							if (!this.form.parentId)this.form.parentId=0;
+							const  res = await this.$API.sys_menu.update.post(this.form)
+							this.$message.success("保存成功")
+							this.$emit('success', res.data)
+						}catch {
 
-				}
-				this.loading = false
+						}
+						this.loading = false
+					}
+				})
 			},
 			//表单注入数据
 			setData(data, pid){

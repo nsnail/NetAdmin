@@ -5,8 +5,8 @@ namespace NetAdmin.DataContract.Dto.Sys.Menu;
 /// <summary>
 ///     信息：元数据
 /// </summary>
-public record MetaInfo(string Icon,     string Title, Enums.MenuTypes Type, bool Hidden, bool HiddenBreadCrumb
-                     , bool   FullPage, string Tag,   string          Color)
+public record MetaInfo(string Icon,     string Title, Enums.SysMenuTypes Type, bool Hidden, bool HiddenBreadCrumb
+                     , bool   FullPage, string Tag,   string             Color)
 {
     /// <summary>
     ///     背景颜色
@@ -46,5 +46,5 @@ public record MetaInfo(string Icon,     string Title, Enums.MenuTypes Type, bool
     /// <summary>
     ///     类型
     /// </summary>
-    public Enums.MenuTypes Type { get; set; } = Type;
+    public Enums.SysMenuTypes Type { get; set; } = Type;
 }

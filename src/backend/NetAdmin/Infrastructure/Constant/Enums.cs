@@ -76,37 +76,6 @@ public static class Enums
     }
 
     /// <summary>
-    ///     菜单类型
-    /// </summary>
-    public enum MenuTypes
-    {
-        /// <summary>
-        ///     菜单
-        /// </summary>
-        [Description(nameof(Str.Menu))]
-        [Localization(typeof(Str))]
-        Menu = 1
-
-       ,
-
-        /// <summary>
-        ///     链接
-        /// </summary>
-        [Description(nameof(Str.Link))]
-        [Localization(typeof(Str))]
-        Link = 2
-
-       ,
-
-        /// <summary>
-        ///     框架
-        /// </summary>
-        [Description(nameof(Str.Iframe))]
-        [Localization(typeof(Str))]
-        Iframe = 3
-    }
-
-    /// <summary>
     ///     排序方式
     /// </summary>
     public enum Orders
@@ -177,6 +146,46 @@ public static class Enums
         [Description(nameof(Str.Full_page_routing))]
         [Localization(typeof(Str))]
         FullPageRouting = 0b_0000_1000
+    }
+
+    /// <summary>
+    ///     菜单类型
+    /// </summary>
+    public enum SysMenuTypes
+    {
+        /// <summary>
+        ///     菜单
+        /// </summary>
+        [Description(nameof(Str.Menu))]
+        [Localization(typeof(Str))]
+        Menu = 1
+
+       ,
+
+        /// <summary>
+        ///     链接
+        /// </summary>
+        [Description(nameof(Str.Link))]
+        [Localization(typeof(Str))]
+        Link = 2
+
+       ,
+
+        /// <summary>
+        ///     框架
+        /// </summary>
+        [Description(nameof(Str.Iframe))]
+        [Localization(typeof(Str))]
+        Iframe = 3
+
+       ,
+
+        /// <summary>
+        ///     按钮
+        /// </summary>
+        [Description(nameof(Str.Button))]
+        [Localization(typeof(Str))]
+        Button = 4
     }
 
     /// <summary>

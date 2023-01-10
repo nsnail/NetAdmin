@@ -7,7 +7,7 @@
 				</el-header>
 				<el-main class="nopadding">
 					<el-tree ref="menu" class="menu" node-key="id" :data="menuList" :props="menuProps" draggable
-							 highlight-current :expand-on-click-node="false" check-strictly show-checkbox
+							 highlight-current :expand-on-click-node="false" show-checkbox
 							 :filter-node-method="menuFilterNode" @node-click="menuClick" @node-drop="nodeDrop"
 							 :default-expand-all="true">
 
@@ -97,10 +97,7 @@
 				var newMenuName = "未命名" + newMenuIndex++;
 				var newMenuData = {
 					parentId: data ? data.id : 0,
-					name: newMenuName,
-					path: "path",
-					title:"title",
-					component: "",
+					name: Math.random().toString(),
 					meta:{
 						title: newMenuName,
 						type: "menu"
@@ -109,7 +106,7 @@
 				this.menuloading = true
 				var res = await this.$API.sys_menu.create.post(newMenuData)
 				this.menuloading = false
-				newMenuData.id = res.data
+				newMenuData.id = res.data.id
 
 				this.$refs.menu.append(newMenuData, node)
 				this.$refs.menu.setCurrentKey(newMenuData.id)
@@ -137,20 +134,18 @@
 				var reqData = {
 					ids: CheckedNodes.map(item => item.id)
 				}
-				var res = await this.$API.demo.post.post(reqData)
-				this.menuloading = false
-
-				if(res.code == 200){
+				try{
+					await this.$API.sys_menu.bulkDelete.post(reqData);
 					CheckedNodes.forEach(item => {
-						var node = this.$refs.menu.getNode(item)
+						const node = this.$refs.menu.getNode(item);
 						if(node.isCurrent){
 							this.$refs.save.setData({})
 						}
 						this.$refs.menu.remove(item)
 					})
-				}else{
-					this.$message.warning(res.message)
-				}
+				}catch{}
+				this.menuloading = false
+
 			},
 			handleSuccess(){
 				this.$refs.save.setData({})

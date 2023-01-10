@@ -9,6 +9,7 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     菜单表
 /// </summary>
 [Table]
+[Index($"idx_{{tablename}}_{nameof(Name)}", nameof(Name), true)]
 public record TbSysMenu : DefaultEntity, IFieldBitSet
 {
     /// <summary>
@@ -94,5 +95,5 @@ public record TbSysMenu : DefaultEntity, IFieldBitSet
     ///     菜单类型
     /// </summary>
     [JsonIgnore]
-    public virtual Enums.MenuTypes Type { get; set; }
+    public virtual Enums.SysMenuTypes Type { get; set; }
 }

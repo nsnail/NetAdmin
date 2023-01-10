@@ -1,5 +1,6 @@
 using Furion;
 using NetAdmin.Aop.Pipelines;
+using NetAdmin.Api.Sys.Implements;
 using NetAdmin.Infrastructure.Extensions;
 using Spectre.Console;
 
@@ -15,9 +16,8 @@ public class Startup : AppStartup
     /// </summary>
     public static void Main(string[] args)
     {
-        // 打印banner
-        AnsiConsole.Write(new FigletText(nameof(NetAdmin)).LeftJustified().Color(Color.Green));
-        AnsiConsole.WriteLine();
+        //你好，世界！
+        HelloWorld();
 
         // 启动主机
         Serve.Run(RunOptions.Default.WithArgs(args));
@@ -67,5 +67,22 @@ public class Startup : AppStartup
                 .AddJsonSerializer()                //                 json序列化配置
                 .AddFurion()                        //                 注册Furion
             ;
+    }
+
+    private static void HelloWorld()
+    {
+        AnsiConsole.WriteLine();
+        var gridInfo = new Grid().AddColumn(new GridColumn().NoWrap().PadRight(10))
+                                 .AddColumn(new GridColumn().NoWrap())
+                                 .Expand();
+        foreach (var kv in ToolsApi.EnvironmentInfoInternal()) {
+            gridInfo.AddRow(kv.Key, kv.Value.ToString()!);
+        }
+
+        var gridWrap = new Grid().AddColumn()
+                                 .AddRow(new FigletText(nameof(NetAdmin)).Color(Color.Green))
+                                 .AddRow(gridInfo);
+        AnsiConsole.Write(new Panel(gridWrap).Header(ToolsApi.VersionInternal()).Expand());
+        AnsiConsole.WriteLine();
     }
 }

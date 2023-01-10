@@ -9,9 +9,7 @@ public class ToolsApi : ApiBase<IToolsApi>, IToolsApi
     /// <inheritdoc />
     public dynamic EnvironmentInfo()
     {
-        return typeof(Environment).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                                  .Where(x => x.Name != nameof(Environment.StackTrace))
-                                  .ToDictionary(x => x.Name, x => x.GetValue(null));
+        return EnvironmentInfoInternal();
     }
 
     /// <inheritdoc />
@@ -24,6 +22,18 @@ public class ToolsApi : ApiBase<IToolsApi>, IToolsApi
     /// <inheritdoc />
     [AllowAnonymous]
     public string Version()
+    {
+        return VersionInternal();
+    }
+
+    internal static Dictionary<string, object> EnvironmentInfoInternal()
+    {
+        return typeof(Environment).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                                  .Where(x => x.Name != nameof(Environment.StackTrace))
+                                  .ToDictionary(x => x.Name, x => x.GetValue(null));
+    }
+
+    internal static string VersionInternal()
     {
         return typeof(ToolsApi).Assembly.GetName().Version!.ToString();
     }
