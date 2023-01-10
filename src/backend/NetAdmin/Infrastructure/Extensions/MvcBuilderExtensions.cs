@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Furion.DependencyInjection;
 using NSExt.Extensions;
 
 namespace NetAdmin.Infrastructure.Extensions;
@@ -7,6 +8,7 @@ namespace NetAdmin.Infrastructure.Extensions;
 /// <summary>
 ///     IMvcBuilder 扩展方法
 /// </summary>
+[SuppressSniffer]
 public static class MvcBuilderExtensions
 {
     /// <summary>
@@ -17,7 +19,7 @@ public static class MvcBuilderExtensions
         return me.AddJsonOptions(options => {
             options.JsonSerializerOptions.CopyFrom(default(JsonSerializerOptions).NewJsonSerializerOptions());
             options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters("yyyy-MM-dd HH:mm:ss");
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
         });
     }

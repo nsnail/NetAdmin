@@ -1,8 +1,10 @@
+using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Menu;
+using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Repositories;
 
 namespace NetAdmin.Api.Sys.Implements;
@@ -19,10 +21,10 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// <summary>
     ///     创建菜单
     /// </summary>
-    [NonAction]
-    public Task<QueryMenuRsp> Create(CreateMenuReq req)
+    public async Task<QueryMenuRsp> Create(CreateMenuReq req)
     {
-        throw new NotImplementedException();
+        var ret = await Repository.InsertAsync(req);
+        return ret.Adapt<QueryMenuRsp>();
     }
 
     /// <summary>
@@ -54,9 +56,13 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// <summary>
     ///     更新菜单
     /// </summary>
-    [NonAction]
-    public Task<NopReq> Update(NopReq req)
+    public async Task<QueryMenuRsp> Update(UpdateMenuReq req)
     {
-        throw new NotImplementedException();
+        if (await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+            throw Oops.Oh(Enums.ErrorCodes.Unknown);
+        }
+
+        var ret = await Repository.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        return ret.Adapt<QueryMenuRsp>();
     }
 }

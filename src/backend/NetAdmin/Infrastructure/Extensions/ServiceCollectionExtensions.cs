@@ -3,7 +3,9 @@ using System.Reflection;
 using FreeSql;
 using Furion;
 using Furion.ConfigurableOptions;
+using Furion.DependencyInjection;
 using NetAdmin.Aop.Pipelines;
+using NetAdmin.Infrastructure.Configuration;
 using NetAdmin.Infrastructure.Configuration.Options;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Utils;
@@ -16,6 +18,7 @@ namespace NetAdmin.Infrastructure.Extensions;
 /// <summary>
 ///     ServiceCollection 扩展方法
 /// </summary>
+[SuppressSniffer]
 public static class ServiceCollectionExtensions
 {
     /// <summary>
@@ -73,6 +76,17 @@ public static class ServiceCollectionExtensions
         // 事务拦截器
         me.AddMvcFilter<TransactionInterceptor>();
         return me;
+    }
+
+    /// <summary>
+    ///     注册Furion
+    /// </summary>
+    public static IMvcBuilder AddFurion(this IMvcBuilder me)
+    {
+        return me.AddInjectWithUnifyResult<ApiResultHandler>(injectOptions => {
+            // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
+            injectOptions.ConfigureSwaggerGen(genOptions => { genOptions.SchemaFilter<SwaggerEnumSchemaFilter>(); });
+        });
     }
 
     /// <summary>

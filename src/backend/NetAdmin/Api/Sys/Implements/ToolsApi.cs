@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 
 namespace NetAdmin.Api.Sys.Implements;
@@ -6,17 +7,18 @@ namespace NetAdmin.Api.Sys.Implements;
 public class ToolsApi : ApiBase<IToolsApi>, IToolsApi
 {
     /// <inheritdoc />
-    [AllowAnonymous]
-    public DateTime GetServerUtcTime()
+    public dynamic EnvironmentInfo()
     {
-        return DateTime.UtcNow;
+        return typeof(Environment).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                                  .Where(x => x.Name != nameof(Environment.StackTrace))
+                                  .ToDictionary(x => x.Name, x => x.GetValue(null));
     }
 
     /// <inheritdoc />
     [AllowAnonymous]
-    public string SystemInfo()
+    public DateTime GetServerUtcTime()
     {
-        return string.Empty;
+        return DateTime.UtcNow;
     }
 
     /// <inheritdoc />

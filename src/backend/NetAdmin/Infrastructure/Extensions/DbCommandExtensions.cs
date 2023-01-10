@@ -2,6 +2,7 @@
 
 using System.Data.Common;
 using Furion;
+using Furion.DependencyInjection;
 using NSExt.Extensions;
 
 namespace NetAdmin.Infrastructure.Extensions;
@@ -9,6 +10,7 @@ namespace NetAdmin.Infrastructure.Extensions;
 /// <summary>
 ///     DbCommand 扩展方法
 /// </summary>
+[SuppressSniffer]
 public static class DbCommandExtensions
 {
     /// <summary>

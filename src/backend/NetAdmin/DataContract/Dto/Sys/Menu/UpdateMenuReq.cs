@@ -1,12 +1,12 @@
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps.Dependency;
 
-namespace NetAdmin.DataContract.Dto.Sys.Dept;
+namespace NetAdmin.DataContract.Dto.Sys.Menu;
 
 /// <summary>
-///     请求：更新部门
+///     请求：更新菜单
 /// </summary>
-public record UpdateDeptReq : CreateDeptReq
+public record UpdateMenuReq : CreateMenuReq
 {
     /// <inheritdoc cref="IFieldPrimary.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

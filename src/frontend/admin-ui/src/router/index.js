@@ -61,7 +61,7 @@ router.beforeEach(async (to, from, next) => {
 	}
 
 	//整页路由处理
-	if(to.meta.fullpage){
+	if(to.meta.fullPage){
 		to.matched = [to.matched[to.matched.length-1]]
 	}
 	//加载动态/静态路由

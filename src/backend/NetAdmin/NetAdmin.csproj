@@ -9,8 +9,8 @@
             <CopyToOutputDirectory>lib\netstandard2.1\*.xml</CopyToOutputDirectory>
         </PackageReference>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.686-preview20230105-ns1"/>
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.4.9"/>
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.4.9"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.4.11"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.4.11"/>
         <PackageReference Include="Furion.Pure.NS" Version="4.8.4.4-ns1"/>
         <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.13-ns3"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.1"/>

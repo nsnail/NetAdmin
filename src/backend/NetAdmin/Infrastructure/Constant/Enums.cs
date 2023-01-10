@@ -11,7 +11,7 @@ namespace NetAdmin.Infrastructure.Constant;
 public static class Enums
 {
     /// <summary>
-    ///     错误码（0 表示 成功）
+    ///     错误码
     /// </summary>
     [ErrorCodeType]
     public enum ErrorCodes
@@ -150,6 +150,33 @@ public static class Enums
         [Description(nameof(Str.Enabled))]
         [Localization(typeof(Str))]
         Enabled = 0b_0000_0001
+
+       ,
+
+        /// <summary>
+        ///     隐藏
+        /// </summary>
+        [Description(nameof(Str.Hidden))]
+        [Localization(typeof(Str))]
+        Hidden = 0b_0000_0010
+
+       ,
+
+        /// <summary>
+        ///     隐藏面包屑
+        /// </summary>
+        [Description(nameof(Str.Hidden_bread_crumb))]
+        [Localization(typeof(Str))]
+        HiddenBreadCrumb = 0b_0000_0100
+
+       ,
+
+        /// <summary>
+        ///     整页路由
+        /// </summary>
+        [Description(nameof(Str.Full_page_routing))]
+        [Localization(typeof(Str))]
+        FullPageRouting = 0b_0000_1000
     }
 
     /// <summary>

@@ -8,6 +8,6 @@ namespace NetAdmin.Api.Sys;
 /// </summary>
 public interface IMenuApi : ICrudApi<CreateMenuReq, QueryMenuRsp // 创建类型
                               , QueryMenuReq, QueryMenuRsp       // 查询类型
-                              , NopReq, NopReq                   // 修改类型
+                              , UpdateMenuReq, QueryMenuRsp      // 修改类型
                               , NopReq                           // 删除类型
                             >, IRestfulApi { }

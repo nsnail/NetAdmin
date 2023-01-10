@@ -13,9 +13,14 @@ public interface IEndPointApi : ICrudApi<NopReq, NopReq      // 创建类型
                                 >, IRestfulApi
 {
     /// <summary>
-    ///     端点列表
+    ///     端点列表 - OpenApi
     /// </summary>
-    Task<HashSet<QueryEndpointRsp>> List();
+    Task<HashSet<QueryEndpointRsp>> ListByOpenApi();
+
+    /// <summary>
+    ///     端点列表 - 反射
+    /// </summary>
+    Task<dynamic> ListByReflection();
 
     /// <summary>
     ///     端点同步

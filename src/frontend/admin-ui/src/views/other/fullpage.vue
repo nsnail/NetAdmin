@@ -11,7 +11,7 @@
 
 <script>
 	export default {
-		name: 'fullpage',
+		name: 'fullPage',
 		data() {
 			return {
 

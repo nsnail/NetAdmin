@@ -117,4 +117,13 @@
     <data name="The seed data is fully initialized" xml:space="preserve">
         <value>种子数据初始化完毕</value>
     </data>
+    <data name="Hidden" xml:space="preserve">
+        <value>隐藏</value>
+    </data>
+    <data name="Hidden bread crumb" xml:space="preserve">
+        <value>隐藏面包屑</value>
+    </data>
+    <data name="Full page routing" xml:space="preserve">
+        <value>整页路由</value>
+    </data>
 </root>

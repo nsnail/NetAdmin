@@ -24,8 +24,8 @@
 			</el-form>
 		</el-card>
 		<el-card shadow="never" header="整页路由" style="margin-top: 15px;">
-			<el-button type="primary" plain @click="fullpage">fullpage</el-button>
-			<el-alert title="变更路由的层级关系,向上推至顶级达到在layout视图中显示. 只需要在路由中设置 meta.fullpage 即可" style="margin-top: 20px;"></el-alert>
+			<el-button type="primary" plain @click="fullPage">fullPage</el-button>
+			<el-alert title="变更路由的层级关系,向上推至顶级达到在layout视图中显示. 只需要在路由中设置 meta.fullPage 即可" style="margin-top: 20px;"></el-alert>
 		</el-card>
 	</el-main>
 </template>
@@ -71,8 +71,8 @@
 			set1(){
 				useTabs.setTitle(this.input)
 			},
-			fullpage(){
-				this.$router.push('/other/fullpage')
+			fullPage(){
+				this.$router.push('/other/fullPage')
 			}
 		}
 	}

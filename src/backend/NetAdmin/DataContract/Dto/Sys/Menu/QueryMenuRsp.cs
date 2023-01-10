@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps;
+using NetAdmin.DataContract.DbMaps.Dependency;
 using NetAdmin.Infrastructure.Constant;
+using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.Dto.Sys.Menu;
 
@@ -10,9 +12,21 @@ namespace NetAdmin.DataContract.Dto.Sys.Menu;
 public record QueryMenuRsp : TbSysMenu
 {
     /// <summary>
+    ///     是否启用
+    /// </summary>
+    public bool Enabled => BitSet.HasFlag(Enums.SysMenuBits.Enabled);
+
+    /// <summary>
     ///     元数据
     /// </summary>
-    public MetaInfo Meta => new(Icon, Title, Type);
+    public MetaInfo Meta =>
+        new(Icon, Title, Type, BitSet.HasFlag(Enums.SysMenuBits.Hidden)
+          , BitSet.HasFlag(Enums.SysMenuBits.HiddenBreadCrumb), BitSet.HasFlag(Enums.SysMenuBits.FullPageRouting), Tag
+          , Color);
+
+    /// <inheritdoc cref="TbSysMenu.Active" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Active { get; set; }
 
     /// <summary>
     ///     子节点
@@ -20,36 +34,31 @@ public record QueryMenuRsp : TbSysMenu
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public new List<QueryMenuRsp> Children { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="TbSysMenu.Component" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Component { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldPrimary.Id" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; set; }
+
+    /// <inheritdoc cref="TbSysMenu.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Name { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="TbSysMenu.ParentId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long ParentId { get; set; }
+
+    /// <inheritdoc cref="TbSysMenu.Path" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Path { get; set; }
 
-    /// <summary>
-    ///     信息：元数据
-    /// </summary>
-    public record MetaInfo(string Icon, string Title, Enums.MenuTypes Type)
-    {
-        /// <summary>
-        ///     图标
-        /// </summary>
-        public string Icon { get; set; } = Icon;
+    /// <inheritdoc cref="TbSysMenu.Redirect" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Redirect { get; set; }
 
-        /// <summary>
-        ///     标题
-        /// </summary>
-        public string Title { get; set; } = Title;
-
-        /// <summary>
-        ///     类型
-        /// </summary>
-        public Enums.MenuTypes Type { get; set; } = Type;
-    }
+    /// <inheritdoc cref="IFieldUpdate.Version" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Version { get; set; }
 }

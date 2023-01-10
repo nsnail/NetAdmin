@@ -39,6 +39,7 @@
     //  Contact：配置联系方式，OpenApiContact 类型
     //  License：配置协议，OpenApiLicense 类型
     "SpecificationDocumentSettings": {
+        "EnableEnumSchemaFilter": false,
         "RoutePrefix": "swagger",
         "XmlComments": [
             "NetAdmin.xml",

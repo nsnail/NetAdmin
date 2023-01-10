@@ -12,6 +12,12 @@ namespace NetAdmin.DataContract.DbMaps;
 public record TbSysMenu : DefaultEntity, IFieldBitSet
 {
     /// <summary>
+    ///     子节点或详情页需要高亮的上级菜单路由地址
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Active { get; set; }
+
+    /// <summary>
     ///     比特位 <see cref="Enums.SysMenuBits" />
     /// </summary>
     [JsonIgnore]
@@ -23,6 +29,12 @@ public record TbSysMenu : DefaultEntity, IFieldBitSet
     [Navigate(nameof(ParentId))]
     [JsonIgnore]
     public virtual List<TbSysMenu> Children { get; set; }
+
+    /// <summary>
+    ///     背景颜色
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Color { get; set; }
 
     /// <summary>
     ///     组件
@@ -55,10 +67,22 @@ public record TbSysMenu : DefaultEntity, IFieldBitSet
     public virtual string Path { get; set; }
 
     /// <summary>
+    ///     重定向地址
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Redirect { get; set; }
+
+    /// <summary>
     ///     排序
     /// </summary>
     [JsonIgnore]
     public virtual int Sort { get; set; }
+
+    /// <summary>
+    ///     标签
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Tag { get; set; }
 
     /// <summary>
     ///     菜单标题

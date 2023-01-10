@@ -48,6 +48,16 @@
                 "Type": 1,
                 "BitSet": 1,
             },
+            {
+                "Name": "sys-menu",
+                "Icon": "el-icon-fold",
+                "Title": "菜单管理",
+                "Path": "/sys/menu",
+                "Component": "sys/menu",
+                "Sort": 0,
+                "Type": 1,
+                "BitSet": 1,
+            },
         ]
     },
     {

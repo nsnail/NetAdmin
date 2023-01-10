@@ -9,7 +9,7 @@
 			</el-card>
 		</el-main>
 	</div>
-	<work v-if="dashboard=='1'" @on-mounted="onMounted"></work>
+	<work v-if="dashboard=='0'" @on-mounted="onMounted"></work>
 	<widgets v-else @on-mounted="onMounted"></widgets>
 </template>
 

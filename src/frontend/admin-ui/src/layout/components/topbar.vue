@@ -4,7 +4,7 @@
 			<el-breadcrumb separator-icon="el-icon-arrow-right" class="hidden-sm-and-down">
 				<transition-group name="breadcrumb" mode="out-in">
 					<template v-for="item in breadList" :key="item.title" >
-						<el-breadcrumb-item v-if="item.path!='/' &&  !item.meta.hiddenBreadcrumb" :key="item.meta.title"><el-icon class="icon" v-if="item.meta.icon"><component :is="item.meta.icon" /></el-icon>{{item.meta.title}}</el-breadcrumb-item>
+						<el-breadcrumb-item v-if="item.path!='/' &&  !item.meta.hiddenBreadCrumb" :key="item.meta.title"><el-icon class="icon" v-if="item.meta.icon"><component :is="item.meta.icon" /></el-icon>{{item.meta.title}}</el-breadcrumb-item>
 					</template>
 				</transition-group>
 			</el-breadcrumb>

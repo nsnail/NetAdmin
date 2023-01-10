@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json;
 using Furion;
 using Furion.SpecificationDocument;
@@ -6,6 +7,7 @@ using NetAdmin.Aop.Attributes;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Endpoint;
+using NetAdmin.Infrastructure.Utils;
 using NetAdmin.Repositories;
 
 namespace NetAdmin.Api.Sys.Implements;
@@ -13,11 +15,16 @@ namespace NetAdmin.Api.Sys.Implements;
 /// <inheritdoc cref="IEndPointApi" />
 public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPointApi
 {
+    private readonly XmlCommentHelper _xmlCommentHelper;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="EndPointApi" /> class.
     /// </summary>
-    public EndPointApi(Repository<TbSysEndpoint> repository) //
-        : base(repository) { }
+    public EndPointApi(Repository<TbSysEndpoint> repository, XmlCommentHelper xmlCommentHelper) //
+        : base(repository)
+    {
+        _xmlCommentHelper = xmlCommentHelper;
+    }
 
     /// <inheritdoc />
     [NonAction]
@@ -34,7 +41,7 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
     }
 
     /// <inheritdoc />
-    public async Task<HashSet<QueryEndpointRsp>> List()
+    public async Task<HashSet<QueryEndpointRsp>> ListByOpenApi()
     {
         var       ret  = new HashSet<QueryEndpointRsp>();
         using var http = new HttpClient();
@@ -50,6 +57,19 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
         }
 
         return ret;
+    }
+
+    /// <inheritdoc />
+    public Task<dynamic> ListByReflection()
+    {
+        var ret = App.EffectiveTypes.Where(x => x.GetInterfaces().Contains(typeof(IRestfulApi)) && !x.IsInterface)
+                     .Select(x => new QueryEndpointRsp2 {
+                                                            Label    = _xmlCommentHelper.GetComments(x)
+                                                          , Path     = x.FullName
+                                                          , Children = GetChildren(x)
+                                                        });
+
+        return Task.FromResult<dynamic>(ret);
     }
 
     /// <inheritdoc />
@@ -73,7 +93,7 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
         // 清空TbSysEndPoint表
         await Repository.DeleteAsync(x => true);
 
-        var endpoints = await List();
+        var endpoints = await ListByOpenApi();
         await Repository.InsertAsync(endpoints);
     }
 
@@ -82,5 +102,13 @@ public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPoint
     public Task<NopReq> Update(NopReq req)
     {
         throw new NotImplementedException();
+    }
+
+    private List<QueryEndpointRsp2> GetChildren(Type x)
+    {
+        return x.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                .Where(xx => xx.DeclaringType == x && xx.GetCustomAttribute<NonActionAttribute>() is null)
+                .Select(xx => new QueryEndpointRsp2 { Label = _xmlCommentHelper.GetComments(xx), Path = xx.Name })
+                .ToList();
     }
 }

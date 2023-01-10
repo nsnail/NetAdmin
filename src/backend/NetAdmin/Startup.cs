@@ -57,14 +57,15 @@ public class Startup : AppStartup
                 #if DEBUG
                 .AddMonitorLogging() //                                日志监视信息
                 #endif
-                .AddMvcFilter<RequestAuditFilter>()           //       请求审计日志
-                .AddSnowflake()                               //       雪花id生成器
-                .AddEventBus()                                //       事件总线
-                .AddFreeSql()                                 //       注册freeSql
-                .AddAllOptions()                              //       注册配置项
-                .AddCorsAccessor()                            //       支持跨域访问
-                .AddControllers()                             //       注册控制器
-                .AddInjectWithUnifyResult<ApiResultHandler>() //       api响应结果模板
-                .AddJsonSerializer();                         //       json序列化配置
+                .AddMvcFilter<RequestAuditFilter>() //                 请求审计日志
+                .AddSnowflake()                     //                 雪花id生成器
+                .AddEventBus()                      //                 事件总线
+                .AddFreeSql()                       //                 注册freeSql
+                .AddAllOptions()                    //                 注册配置项
+                .AddCorsAccessor()                  //                 支持跨域访问
+                .AddControllers()                   //                 注册控制器
+                .AddJsonSerializer()                //                 json序列化配置
+                .AddFurion()                        //                 注册Furion
+            ;
     }
 }

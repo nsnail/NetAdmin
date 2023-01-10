@@ -6,10 +6,10 @@ namespace NetAdmin.DataContract.Dto.Pub;
 public record PagedQueryRsp<T>(int Page, int PageSize, long Total, IEnumerable<T> Rows) : IPagedInfo
     where T : DataAbstraction
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPagedInfo.Page" />
     public int Page { get; set; } = Page;
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPagedInfo.PageSize" />
     public int PageSize { get; set; } = PageSize;
 
     /// <summary>

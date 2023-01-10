@@ -1,3 +1,4 @@
+using Furion.DependencyInjection;
 using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.Infrastructure.Extensions;
@@ -5,6 +6,7 @@ namespace NetAdmin.Infrastructure.Extensions;
 /// <summary>
 ///     String  扩展方法
 /// </summary>
+[SuppressSniffer]
 public static class StringExtensions
 {
     /// <summary>

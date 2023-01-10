@@ -9,11 +9,11 @@ namespace NetAdmin.DataContract.Dto.Pub;
 public record PagedQueryReq<T> : QueryReq<T>, IPagedInfo
     where T : DataAbstraction, new()
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPagedInfo.Page" />
     [Range(1, Numbers.QUERY_MAX_PAGENO)]
     public int Page { get; set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPagedInfo.PageSize" />
     [Range(1, Numbers.QUERY_MAX_PAGESIZE)]
     public int PageSize { get; set; }
 }

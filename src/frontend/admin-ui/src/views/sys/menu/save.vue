@@ -15,10 +15,9 @@
 					</el-form-item>
 					<el-form-item label="类型" prop="meta.type">
 						<el-radio-group v-model="form.meta.type">
-							<el-radio-button label="menu">菜单</el-radio-button>
-							<el-radio-button label="iframe">Iframe</el-radio-button>
-							<el-radio-button label="link">外链</el-radio-button>
-							<el-radio-button label="button">按钮</el-radio-button>
+							<el-radio-button v-for="(item,i) in this.$CONFIG.ENUMS.menuTypes" :key="i"
+											 :label="item.value">{{item.desc}}
+							</el-radio-button>
 						</el-radio-group>
 					</el-form-item>
 					<el-form-item label="别名" prop="name">
@@ -98,8 +97,8 @@
 		data(){
 			return {
 				form: {
-					id: "",
-					parentId: "",
+					id: 0,
+					parentId: 0,
 					name: "",
 					path: "",
 					component: "",
@@ -167,13 +166,14 @@
 			//保存
 			async save(){
 				this.loading = true
-				var res = await this.$API.demo.post.post(this.form)
-				this.loading = false
-				if(res.code == 200){
+				try{
+					const  res = await this.$API.sys_menu.update.post(this.form)
 					this.$message.success("保存成功")
-				}else{
-					this.$message.warning(res.message)
+					this.$emit('success', res.data)
+				}catch {
+
 				}
+				this.loading = false
 			},
 			//表单注入数据
 			setData(data, pid){
