@@ -3,28 +3,24 @@
 		<el-tabs tab-position="top">
 			<el-tab-pane label="菜单权限">
 				<div class="treeMain">
-					<el-tree ref="menu" node-key="name" :data="menu.list" :props="menu.props" show-checkbox></el-tree>
+					<el-tree ref="menu" node-key="name" :data="menu.list" :props="menu.props" show-checkbox
+							 default-expand-all></el-tree>
 				</div>
 			</el-tab-pane>
 			<el-tab-pane label="数据权限">
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="规则类型">
-						<el-select v-model="data.dataType" placeholder="请选择">
-							<el-option label="全部可见" value="1"></el-option>
-							<el-option label="本人可见" value="2"></el-option>
-							<el-option label="所在部门可见" value="3"></el-option>
-							<el-option label="所在部门及子级可见" value="4"></el-option>
-							<el-option label="选择的部门可见" value="5"></el-option>
-							<el-option label="自定义" value="6"></el-option>
+						<el-select v-model="$props.role.dataScope" placeholder="请选择">
+							<el-option v-for="(item,i) in this.$CONFIG.ENUMS.dataScopes" :key="i" :label="item.desc"
+									   :value="item.value"
+							></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="选择部门" v-show="data.dataType=='5'">
+					<el-form-item label="选择部门" v-show="$props.role.dataScope=='specificDept'">
 						<div class="treeMain" style="width: 100%;">
-							<el-tree ref="dept" node-key="id" :data="data.list" :props="data.props" show-checkbox></el-tree>
+							<el-tree ref="dept" node-key="id" :data="data.list" :props="data.props" show-checkbox
+							></el-tree>
 						</div>
-					</el-form-item>
-					<el-form-item label="规则值" v-show="data.dataType=='6'">
-						<el-input v-model="data.rule" clearable type="textarea" :rows="6" placeholder="请输入自定义规则代码"></el-input>
 					</el-form-item>
 				</el-form>
 			</el-tab-pane>
@@ -51,6 +47,7 @@
 
 <script>
 	export default {
+		props:['role'],
 		emits: ['success', 'closed'],
 		data() {
 			return {
@@ -66,10 +63,10 @@
 					}
 				},
 				data: {
-					dataType :"1",
 					list: [],
 					checked: [],
-					props: {},
+					props: {
+					},
 					rule: ""
 				},
 				dashboard: "0",
@@ -96,9 +93,8 @@
 			open(){
 				this.visible = true;
 			},
-			submit(){
+			async submit(){
 				this.isSaveing = true;
-
 				//选中的和半选的合并后传值接口
 				var checkedKeys = this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys())
 				console.log(checkedKeys)
@@ -106,28 +102,38 @@
 				var checkedKeys_dept = this.$refs.dept.getCheckedKeys().concat(this.$refs.dept.getHalfCheckedKeys())
 				console.log(checkedKeys_dept)
 
-				setTimeout(()=>{
-					this.isSaveing = false;
+				try{
+					//角色-菜单映射
+				 	await this.$API.sys_role.mapMenus.post({roleId:this.role.id,menuNames:checkedKeys});
+					//更新角色
+					var res = await
+						this.$API.sys_role.update.post(Object.assign({dpetIdsInDataScope:checkedKeys_dept}, this.role))
 					this.visible = false;
 					this.$message.success("操作成功")
-					this.$emit('success')
-				},1000)
+					this.$emit('success',res.data)
+				}catch{
+				}
+
+				this.isSaveing = false;
+
+
 			},
 			async getMenu(){
-				var res = await this.$API.system.menu.list.get()
-				this.menu.list = res.data
+				var res = await this.$API.sys_role.getMenus.get({roleid:this.role.id})
+				this.menu.checked = res.data.map(x=>x.menuName);
 
+				res = await this.$API.sys_menu.query.post()
+				this.menu.list = res.data
 				//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
-				this.menu.checked = ["system", "user", "user.add", "user.edit", "user.del", "directive.edit", "other", "directive"]
 				this.$nextTick(() => {
 					let filterKeys = this.menu.checked.filter(key => this.$refs.menu.getNode(key).isLeaf)
 					this.$refs.menu.setCheckedKeys(filterKeys, true)
 				})
 			},
 			async getDept(){
-				var res = await this.$API.system.dept.list.get();
+				var res = await this.$API.sys_dept.query.post();
 				this.data.list = res.data
-				this.data.checked = ["12", "2", "21", "22", "1"]
+				this.data.checked = []
 				this.$nextTick(() => {
 					let filterKeys = this.data.checked.filter(key => this.$refs.dept.getNode(key).isLeaf)
 					this.$refs.dept.setCheckedKeys(filterKeys, true)

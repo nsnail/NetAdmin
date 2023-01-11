@@ -129,4 +129,28 @@
     <data name="Button" xml:space="preserve">
         <value>按钮</value>
     </data>
+    <data name="Contains a menu that does not exist" xml:space="preserve">
+        <value>包含了不存在的菜单</value>
+    </data>
+    <data name="Personal data" xml:space="preserve">
+        <value>本人数据</value>
+    </data>
+    <data name="Department data" xml:space="preserve">
+        <value>本部门数据</value>
+    </data>
+    <data name="This department and subordinate departments" xml:space="preserve">
+        <value>本部门和下级部门</value>
+    </data>
+    <data name="Designated department" xml:space="preserve">
+        <value>指定部门</value>
+    </data>
+    <data name="All" xml:space="preserve">
+        <value>全部</value>
+    </data>
+    <data name="No department specified" xml:space="preserve">
+        <value>未指定部门</value>
+    </data>
+    <data name="Include departments that do not exist" xml:space="preserve">
+        <value>包含了不存在的部门</value>
+    </data>
 </root>

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using NetAdmin.Aop.Attributes.DataValidation;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
 using NetAdmin.Infrastructure.Constant;
@@ -27,16 +28,24 @@ public record CreateRoleReq : TbSysRole
         }
     }
 
+    /// <inheritdoc cref="TbSysRole.DataScope" />
+    [EnumDataType(typeof(Enums.DataScopes))]
+    public override Enums.DataScopes DataScope { get; set; } = Enums.DataScopes.All;
+
+    /// <summary>
+    ///     当 DataScope = SpecificDept ，此参数指定部门id
+    /// </summary>
+    [SpecificDept]
+    public IReadOnlyCollection<long> DpetIdsInDataScope { get; set; }
+
     /// <summary>
     ///     是否启用
     /// </summary>
-    [Required]
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     /// <summary>
     ///     是否忽略权限控制
     /// </summary>
-    [Required]
     public bool IgnorePermissionControl { get; set; }
 
     /// <inheritdoc cref="TbSysRole.Label" />

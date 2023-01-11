@@ -4,7 +4,7 @@
 			<el-empty description="请选择左侧菜单后操作" :image-size="100"></el-empty>
 		</el-col>
 		<template v-else>
-			<el-col :lg="12">
+			<el-col>
 				<h2>{{form.meta.title || "新增菜单"}}</h2>
 				<el-form :model="form" :rules="rules" ref="dialogForm" label-width="100px" label-position="left">
 					<el-form-item label="显示名称" prop="meta.title">
@@ -65,21 +65,7 @@
 				</el-form>
 
 			</el-col>
-			<el-col :lg="12" class="apilist">
-				<h2>接口权限</h2>
-				<sc-form-table v-model="form.apiList" :addTemplate="apiListAddTemplate" placeholder="暂无匹配接口权限">
-					<el-table-column prop="code" label="标识" width="150">
-						<template #default="scope">
-							<el-input v-model="scope.row.code" placeholder="请输入内容"></el-input>
-						</template>
-					</el-table-column>
-					<el-table-column prop="url" label="Api url">
-						<template #default="scope">
-							<el-input v-model="scope.row.url" placeholder="请输入内容"></el-input>
-						</template>
-					</el-table-column>
-				</sc-form-table>
-			</el-col>
+
 		</template>
 	</el-row>
 

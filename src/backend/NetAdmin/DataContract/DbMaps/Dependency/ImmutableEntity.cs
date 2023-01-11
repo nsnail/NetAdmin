@@ -9,7 +9,7 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 /// <summary>
 ///     不可变实体
 /// </summary>
-public abstract record ImmutableEntity : DataAbstraction, IEntity, IFieldPrimary, IFieldAdd
+public abstract record ImmutableEntity : EntityBase, IFieldPrimary, IFieldAdd
 {
     /// <inheritdoc />
     [JsonIgnore]

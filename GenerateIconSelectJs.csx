@@ -1,6 +1,10 @@
+using System.Text.RegularExpressions;
+
+
+	var template = """
 	//图标选择器配置
-export default {
-	icons: [{
+export default {{
+	icons: [{{
 			name: '默认',
 			icons: [
 				"el-icon-add-location",
@@ -287,25 +291,29 @@ export default {
 				"el-icon-zoom-in",
 				"el-icon-zoom-out"
 			]
-		},
-		{
+		}},
+		{{
 			name: '扩展',
 			icons: [
-				"sc-icon-bug-fill",
-				"sc-icon-bug-line",
-				"sc-icon-code",
-				"sc-icon-dept",
-				"sc-icon-download",
-				"sc-icon-file-excel",
-				"sc-icon-file-ppt",
-				"sc-icon-file-word",
-				"sc-icon-js",
-				"sc-icon-organization",
-				"sc-icon-role",
-				"sc-icon-upload",
-				"sc-icon-vue",
-				"sc-icon-wechat",
+				{0}
 			]
-		}
+		}}
 	]
-}
+}}
+
+""";
+
+	var icons = string.Join(Environment.NewLine+"\t\t\t\t",
+		Directory.GetFiles(@"src\frontend\admin-ui\src\assets\icons\", "*.vue")
+
+		.Select(x =>
+
+		"\"sc-icon-" +
+		Regex.Replace(
+		Path.GetFileNameWithoutExtension(x)
+		, "^(..*?)([A-Z])"
+		, x => $"{x.Groups[1].Value}-{x.Groups[2].Value}")
+		.ToLower() + "\","
+		));
+
+		File.WriteAllText(@"src\frontend\admin-ui\src\config\iconSelect.js",string.Format(template,icons));

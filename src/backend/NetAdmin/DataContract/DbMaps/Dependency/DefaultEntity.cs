@@ -9,7 +9,7 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 /// <summary>
 ///     默认实体
 /// </summary>
-public abstract record DefaultEntity : DataAbstraction, IEntity, IFieldPrimary, IFieldAdd, IFieldUpdate
+public abstract record DefaultEntity : EntityBase, IFieldPrimary, IFieldAdd, IFieldUpdate
 {
     /// <inheritdoc />
     [JsonIgnore]

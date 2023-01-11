@@ -61,6 +61,27 @@
         ]
     },
     {
+        "Name": "dev",
+        "Icon": "sc-icon-code",
+        "Title": "开发管理",
+        "Path": "/dev",
+        "Sort": 0,
+        "Type": 1,
+        "BitSet": 1,
+        "children": [
+            {
+                "Name": "dev-front",
+                "Icon": "sc-icon-js",
+                "Title": "前端代码",
+                "Path": "/dev/front",
+                "Component": "dev/front",
+                "Sort": 0,
+                "Type": 1,
+                "BitSet": 1,
+            }
+        ]
+    },
+    {
         "Name": "biz",
         "Icon": "el-icon-money",
         "Title": "业务管理",

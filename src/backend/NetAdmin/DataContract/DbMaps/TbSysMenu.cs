@@ -74,6 +74,13 @@ public record TbSysMenu : DefaultEntity, IFieldBitSet
     public virtual string Redirect { get; set; }
 
     /// <summary>
+    ///     角色集合
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(TbSysRoleMenu))]
+    public virtual ICollection<TbSysRole> Roles { get; set; }
+
+    /// <summary>
     ///     排序
     /// </summary>
     [JsonIgnore]

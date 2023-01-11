@@ -9,7 +9,7 @@ namespace NetAdmin.Repositories;
 ///     基础仓储接口
 /// </summary>
 public interface IRepository<TEntity> : IBaseRepository<TEntity>
-    where TEntity : DataAbstraction, IEntity
+    where TEntity : EntityBase
 {
     /// <summary>
     ///     当前上下文关联的用户

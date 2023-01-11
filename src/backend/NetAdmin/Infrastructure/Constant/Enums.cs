@@ -11,6 +11,55 @@ namespace NetAdmin.Infrastructure.Constant;
 public static class Enums
 {
     /// <summary>
+    ///     数据范围
+    /// </summary>
+    public enum DataScopes
+    {
+        /// <summary>
+        ///     全部
+        /// </summary>
+        [Description(nameof(Str.All))]
+        [Localization(typeof(Str))]
+        All = 1
+
+       ,
+
+        /// <summary>
+        ///     本部门和下级部门
+        /// </summary>
+        [Description(nameof(Str.This_department_and_subordinate_departments))]
+        [Localization(typeof(Str))]
+        DeptWithChild = 2
+
+       ,
+
+        /// <summary>
+        ///     本部门
+        /// </summary>
+        [Description(nameof(Str.Department_data))]
+        [Localization(typeof(Str))]
+        Dept = 3
+
+       ,
+
+        /// <summary>
+        ///     本人数据
+        /// </summary>
+        [Description(nameof(Str.Personal_data))]
+        [Localization(typeof(Str))]
+        Self = 4
+
+       ,
+
+        /// <summary>
+        ///     指定部门
+        /// </summary>
+        [Description(nameof(Str.Designated_department))]
+        [Localization(typeof(Str))]
+        SpecificDept = 5
+    }
+
+    /// <summary>
     ///     错误码
     /// </summary>
     [ErrorCodeType]

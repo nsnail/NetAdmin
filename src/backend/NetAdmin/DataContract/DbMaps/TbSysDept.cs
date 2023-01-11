@@ -43,6 +43,12 @@ public record TbSysDept : DefaultEntity, IFieldBitSet
     public virtual string Remark { get; set; }
 
     /// <summary>
+    ///     角色集合
+    /// </summary>
+    [Navigate(ManyToMany = typeof(TbSysRoleDept))]
+    public virtual ICollection<TbSysRole> Roles { get; set; }
+
+    /// <summary>
     ///     排序
     /// </summary>
     [JsonIgnore]

@@ -34,8 +34,9 @@
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>
-							<el-button text type="primary" size="small" @click="table_show(scope.row, scope.$index)">查看</el-button>
 							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
+							<el-button text type="primary" size="small" @click="permission(scope.row)">
+								权限</el-button>
 							<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 								<template #reference>
 									<el-button text type="primary" size="small">删除</el-button>
@@ -51,7 +52,10 @@
 
 	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
 
-	<permission-dialog v-if="dialog.permission" ref="permissionDialog" @closed="dialog.permission=false"></permission-dialog>
+	<permission-dialog v-if="dialog.permission" ref="permissionDialog" @success="handleSaveSuccess"
+					   @closed="dialog.permission=false"
+					   :role="role"
+	></permission-dialog>
 
 </template>
 
@@ -75,7 +79,8 @@
 				selection: [],
 				search: {
 					keyword: null
-				}
+				},
+				role:null,
 			}
 		},
 		methods: {
@@ -101,7 +106,8 @@
 				})
 			},
 			//权限设置
-			permission(){
+			permission(role){
+				this.role = role
 				this.dialog.permission = true
 				this.$nextTick(() => {
 					this.$refs.permissionDialog.open()
@@ -111,7 +117,7 @@
 			async table_del(row){
 				var reqData = {id: row.id}
 				try{
-					await this.$API.sys_role.deleteAsync.post(reqData);
+					await this.$API.sys_role.delete.post(reqData);
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
 				}catch{}
@@ -167,12 +173,8 @@
 				return target
 			},
 			//本地更新数据
-			handleSaveSuccess(data, mode){
-				if(mode=='add'){
-					this.$refs.table.refresh()
-				}else if(mode=='edit'){
-					this.$refs.table.refresh()
-				}
+			handleSaveSuccess(){
+				this.$refs.table.refresh()
 			}
 		}
 	}

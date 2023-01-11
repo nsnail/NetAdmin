@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		Directory.Build.props = Directory.Build.props
 		docker-compose-minio.yml = docker-compose-minio.yml
 		dotnet-tools.json = dotnet-tools.json
+		GenerateIconSelectJs.csx = GenerateIconSelectJs.csx
 		GenerateResx.targets = GenerateResx.targets
 		git-clean.cmd = git-clean.cmd
 		global.json = global.json
@@ -38,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		StyleCopAnalyzers.ruleset = StyleCopAnalyzers.ruleset
 		switch-nuget.cmd = switch-nuget.cmd
 		switch-project.cmd = switch-project.cmd
+		switcher.freesql.json = switcher.freesql.json
 		switcher.json = switcher.json
 	EndProjectSection
 EndProject

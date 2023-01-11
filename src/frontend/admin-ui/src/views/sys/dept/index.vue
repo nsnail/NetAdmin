@@ -90,7 +90,7 @@
 			async table_del(row){
 				var reqData = {id: row.id}
 				try{
-					await this.$API.sys_dept.deleteAsync.post(reqData);
+					await this.$API.sys_dept.delete.post(reqData);
 					this.$refs.table.refresh()
 					this.$message.success("删除成功")
 				}catch{}

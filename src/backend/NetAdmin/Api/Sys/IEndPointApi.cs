@@ -13,17 +13,13 @@ public interface IEndPointApi : ICrudApi<NopReq, NopReq      // 创建类型
                                 >, IRestfulApi
 {
     /// <summary>
-    ///     端点列表 - OpenApi
+    ///     生成前端代码
     /// </summary>
-    Task<HashSet<QueryEndpointRsp>> ListByOpenApi();
+    /// <param name="diskPath">磁盘路径</param>
+    Task GenerateJsCode(string diskPath);
 
     /// <summary>
-    ///     端点列表 - 反射
+    ///     端点列表
     /// </summary>
-    Task<dynamic> ListByReflection();
-
-    /// <summary>
-    ///     端点同步
-    /// </summary>
-    Task Sync();
+    Task<IEnumerable<QueryEndpointRsp>> List();
 }

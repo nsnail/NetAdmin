@@ -19,10 +19,28 @@ public record TbSysRole : DefaultEntity, IFieldBitSet, IFieldSort
     public virtual long BitSet { get; set; }
 
     /// <summary>
+    ///     数据范围
+    /// </summary>
+    [JsonIgnore]
+    public virtual Enums.DataScopes DataScope { get; set; }
+
+    /// <summary>
+    ///     角色-部门映射
+    /// </summary>
+    [Navigate(ManyToMany = typeof(TbSysRoleDept))]
+    public ICollection<TbSysDept> Depts { get; set; }
+
+    /// <summary>
     ///     角色名
     /// </summary>
     [JsonIgnore]
     public virtual string Label { get; set; }
+
+    /// <summary>
+    ///     角色-菜单映射
+    /// </summary>
+    [Navigate(ManyToMany = typeof(TbSysRoleMenu))]
+    public ICollection<TbSysMenu> Menus { get; set; }
 
     /// <summary>
     ///     备注

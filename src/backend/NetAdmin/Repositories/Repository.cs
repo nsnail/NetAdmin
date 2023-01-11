@@ -8,7 +8,7 @@ namespace NetAdmin.Repositories;
 
 /// <inheritdoc cref="IRepository{TEntity}" />
 public class Repository<TEntity> : DefaultRepository<TEntity, long>, IRepository<TEntity>
-    where TEntity : DataAbstraction, IEntity
+    where TEntity : EntityBase
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
