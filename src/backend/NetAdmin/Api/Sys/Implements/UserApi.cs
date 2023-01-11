@@ -23,8 +23,8 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserApi" /> class.
     /// </summary>
-    public UserApi(Repository<TbSysUser> repository) //
-        : base(repository) { }
+    public UserApi(Repository<TbSysUser> repo) //
+        : base(repo) { }
 
     /// <summary>
     ///     创建用户
@@ -34,10 +34,10 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         var (roles, dept) = await SelectRolesAndDept(req);
         var user = req.Adapt<TbSysUser>();
-        user = await Repository.InsertAsync(user);
+        user = await Repo.InsertAsync(user);
 
         var userRoles = req.RoleIds.Select(x => new TbSysUserRole { RoleId = x, UserId = user.Id });
-        var effects   = await Repository.Orm.Insert(userRoles).ExecuteAffrowsAsync();
+        var effects   = await Repo.Orm.Insert(userRoles).ExecuteAffrowsAsync();
         var ret = effects != req.RoleIds.Count
             ? throw Oops.Oh(Enums.ErrorCodes.Unknown)
             : new Tuple<TbSysUser, TbSysDept, IEnumerable<TbSysRole>>(user, dept, roles).Adapt<QueryUserRsp>();
@@ -56,8 +56,7 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     [AllowAnonymous]
     public async Task<LoginRsp> Login(LoginReq req)
     {
-        var dbUser = await Repository.GetAsync(a => a.UserName == req.UserName &&
-                                                    a.Password == req.Password.Pwd().Guid());
+        var dbUser = await Repo.GetAsync(a => a.UserName == req.UserName && a.Password == req.Password.Pwd().Guid());
         if (dbUser is null) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.User_name_or_password_error);
         }
@@ -85,32 +84,23 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         List<long> deptIds = null;
         if (req.Filter?.DeptId > 0) {
-            deptIds = await Repository.Orm.Select<TbSysDept>()
-                                      .Where(a => a.Id == req.Filter.DeptId)
-                                      .AsTreeCte()
-                                      .ToListAsync(a => a.Id);
+            deptIds = await Repo.Orm.Select<TbSysDept>()
+                                .Where(a => a.Id == req.Filter.DeptId)
+                                .AsTreeCte()
+                                .ToListAsync(a => a.Id);
         }
 
-        var list = await Repository.Orm.Select<TbSysUser, TbSysDept>()
-                                   .InnerJoin((a, b) => a.DeptId == b.Id)
-                                   .WhereDynamicFilter(req.DynamicFilter)
-                                   .WhereIf(deptIds != null, (a, b) => deptIds.Contains(a.DeptId))
-                                   .WhereIf( //
-                                       req.Filter?.RoleId > 0
-                                     , (a, b) => Repository.Orm.Select<TbSysUserRole>()
-                                                           .Any(aa => aa.UserId == a.Id &&
-                                                                      aa.RoleId == req.Filter.RoleId))
-                                   .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop
-                                                        ,                       req.Order == Enums.Orders.Ascending)
-                                   .Page(req.Page, req.PageSize)
-                                   .Count(out var total)
-                                   .ToListAsync((a, b) => new Tuple<TbSysUser, TbSysDept, IEnumerable<TbSysRole>>(
-                                                    a, b
-                                                  , Repository.Orm.Select<TbSysUser, TbSysUserRole, TbSysRole>()
-                                                              .InnerJoin((aa, bb, cc) => aa.Id     == bb.UserId)
-                                                              .InnerJoin((aa, bb, cc) => bb.RoleId == cc.Id)
-                                                              .Where((aa,     bb, cc) => aa.Id     == a.Id)
-                                                              .ToList((aa,    bb, cc) => cc)));
+        var list = await Repo.Select.Include(a => a.Dept)
+                             .IncludeMany(a => a.Roles)
+                             .WhereDynamicFilter(req.DynamicFilter)
+                             .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
+                             .WhereIf( //
+                                 req.Filter?.RoleId > 0
+                               , a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
+                             .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                             .Page(req.Page, req.PageSize)
+                             .Count(out var total)
+                             .ToListAsync();
 
         return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total
                                              , list.Select(x => x.Adapt<QueryUserRsp>()));
@@ -131,22 +121,22 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         var (roles, dept) = await SelectRolesAndDept(req);
 
-        if (await Repository.Orm.Delete<TbSysUserRole>().Where(a => a.UserId == req.Id).ExecuteAffrowsAsync() <= 0) {
+        if (await Repo.Orm.Delete<TbSysUserRole>().Where(a => a.UserId == req.Id).ExecuteAffrowsAsync() <= 0) {
             throw Oops.Oh(Enums.ErrorCodes.Unknown);
         }
 
-        var effects = await Repository.UpdateDiy.SetSource(req)
-                                      .IgnoreColumns(a => new { a.Password, a.Token })
-                                      .ExecuteAffrowsAsync();
+        var effects = await Repo.UpdateDiy.SetSource(req)
+                                .IgnoreColumns(a => new { a.Password, a.Token })
+                                .ExecuteAffrowsAsync();
 
         var userRoles = req.RoleIds.Select(x => new TbSysUserRole { RoleId = x, UserId = req.Id });
-        effects += await Repository.Orm.Insert(userRoles).ExecuteAffrowsAsync();
+        effects += await Repo.Orm.Insert(userRoles).ExecuteAffrowsAsync();
 
         if (effects != req.RoleIds.Count + 1) {
             throw Oops.Oh(Enums.ErrorCodes.Unknown);
         }
 
-        var user = await Repository.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var user = await Repo.Select.Where(a => a.Id == req.Id).ToOneAsync();
         return new Tuple<TbSysUser, TbSysDept, IEnumerable<TbSysRole>>(user, dept, roles).Adapt<QueryUserRsp>();
     }
 
@@ -154,7 +144,7 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     public async Task<QueryUserRsp> UserInfo()
     {
         var contextUser = App.User.AsContextUser();
-        var dbUser      = await Repository.Where(x => x.Token == contextUser.Token).FirstAsync();
+        var dbUser      = await Repo.Where(x => x.Token == contextUser.Token).FirstAsync();
         return dbUser.Adapt<QueryUserRsp>();
     }
 
@@ -162,16 +152,13 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         req.RoleIds = req.RoleIds.Distinct().ToList();
 
-        var roles = await Repository.Orm.Select<TbSysRole>()
-                                    .ForUpdate()
-                                    .Where(a => req.RoleIds.Contains(a.Id))
-                                    .ToListAsync();
+        var roles = await Repo.Orm.Select<TbSysRole>().ForUpdate().Where(a => req.RoleIds.Contains(a.Id)).ToListAsync();
 
         if (roles.Count != req.RoleIds.Count) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_character_does_not_exist);
         }
 
-        var dept = await Repository.Orm.Select<TbSysDept>().ForUpdate().Where(a => a.Id == req.DeptId).ToOneAsync();
+        var dept = await Repo.Orm.Select<TbSysDept>().ForUpdate().Where(a => a.Id == req.DeptId).ToOneAsync();
         return dept is null
             ? throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_department_does_not_exist)
             : (roles, dept);

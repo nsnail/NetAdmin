@@ -45,18 +45,6 @@ export default {
 
 
     /**
-     * 获取角色菜单
-     */
-    getMenus :{
-        url: `${config.API_URL}/api/role/get.menus`,
-        name: `获取角色菜单`,
-        get:async function(data, config={}) {
-            return await http.get(this.url,data, config)
-        }
-    },
-
-
-    /**
      * 角色端点映射
      */
     mapEndpoints :{

@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using Mapster;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Dept;
 using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
@@ -34,7 +33,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// <summary>
     ///     角色-部门映射
     /// </summary>
-    public new IEnumerable<QueryDeptRsp> Depts { get; set; }
+    public IEnumerable<long> DeptIds { get; set; }
 
     /// <inheritdoc cref="IFieldPrimary.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -43,6 +42,11 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// <inheritdoc cref="TbSysRole.Label" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Label { get; set; }
+
+    /// <summary>
+    ///     角色-菜单映射
+    /// </summary>
+    public ICollection<long> MenuIds { get; set; }
 
     /// <inheritdoc cref="TbSysRole.Remark" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -60,6 +64,13 @@ public record QueryRoleRsp : TbSysRole, IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.ForType<TbSysRole, QueryRoleRsp>()
-              .Map(dest => dest.Depts, src => src.Depts.Select(x => x.Adapt<QueryDeptRsp>()));
+              .IgnoreIf((src, dest) => src.Depts.NullOrEmpty(), dest => dest.DeptIds)
+              .IgnoreIf((src, dest) => src.Menus.NullOrEmpty(), dest => dest.MenuIds)
+              .Map(dest => dest.DeptIds,     src => src.Depts.Select(x => x.Id))
+              .Map(dest => dest.MenuIds,     src => src.Menus.Select(x => x.Id))
+              .Map(dest => dest.CreatedTime, src => src.CreatedTime.Is(default, DateTime.Now))
+
+            //
+            ;
     }
 }

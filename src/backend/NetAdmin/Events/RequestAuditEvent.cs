@@ -60,7 +60,7 @@ public class RequestAuditEvent : IEventSubscriber, ISingleton, IDisposable
 
         await _scope.ServiceProvider.GetRequiredService<Repository<TbSysOperationLog>>().InsertAsync(tbSysOperationLog);
 
-        //登录日志
+        // 登录日志
         if (tbSysOperationLog.Action.Equals(nameof(IUserApi.Login), StringComparison.OrdinalIgnoreCase) &&
             tbSysOperationLog.Controller.Equals(nameof(UserApi).TrimEndApi(), StringComparison.OrdinalIgnoreCase)) {
             var tbSysLoginLog = tbSysOperationLog.Adapt<TbSysLoginLog>();

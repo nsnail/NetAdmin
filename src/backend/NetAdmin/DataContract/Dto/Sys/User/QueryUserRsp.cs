@@ -30,7 +30,7 @@ public record QueryUserRsp : TbSysUser, IRegister
     /// <summary>
     ///     部门
     /// </summary>
-    public QueryDeptRsp Dept { get; set; }
+    public new QueryDeptRsp Dept { get; set; }
 
     /// <inheritdoc cref="IFieldPrimary.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -43,7 +43,7 @@ public record QueryUserRsp : TbSysUser, IRegister
     /// <summary>
     ///     角色列表
     /// </summary>
-    public List<QueryRoleRsp> Roles { get; set; }
+    public new IEnumerable<QueryRoleRsp> Roles { get; set; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -56,15 +56,9 @@ public record QueryUserRsp : TbSysUser, IRegister
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<Tuple<TbSysUser, TbSysDept, IEnumerable<TbSysRole>>, QueryUserRsp>()
-              .Map(dest => dest.BitSet,      src => src.Item1.BitSet)
-              .Map(dest => dest.Version,     src => src.Item1.Version)
-              .Map(dest => dest.Avatar,      src => src.Item1.Avatar)
-              .Map(dest => dest.CreatedTime, src => src.Item1.CreatedTime.Is(default, DateTime.Now))
-              .Map(dest => dest.Dept,        src => src.Item2.Adapt<QueryDeptRsp>())
-              .Map(dest => dest.Id,          src => src.Item1.Id)
-              .Map(dest => dest.Mobile,      src => src.Item1.Mobile)
-              .Map(dest => dest.Roles,       src => src.Item3.Select(x => x.Adapt<QueryRoleRsp>()))
-              .Map(dest => dest.UserName,    src => src.Item1.UserName);
+        config.ForType<TbSysUser, QueryUserRsp>()
+              .Map(dest => dest.CreatedTime, src => src.CreatedTime.Is(default, DateTime.Now))
+              .Map(dest => dest.Dept,        src => src.Dept.Adapt<QueryDeptRsp>())
+              .Map(dest => dest.Roles,       src => src.Roles.Select(x => x.Adapt<QueryRoleRsp>()));
     }
 }

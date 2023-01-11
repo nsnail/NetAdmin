@@ -8,9 +8,9 @@ namespace NetAdmin.DataContract.Dto.Sys.Role;
 /// </summary>
 public record GetMenusRsp : TbSysRoleMenu
 {
-    /// <inheritdoc cref="TbSysRoleMenu.MenuName" />
+    /// <inheritdoc cref="TbSysRoleMenu.MenuId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string MenuName { get; set; }
+    public override long MenuId { get; set; }
 
     /// <inheritdoc cref="TbSysRoleMenu.RoleId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

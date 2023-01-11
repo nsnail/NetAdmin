@@ -1,5 +1,6 @@
 [
     {
+        "Id": 373837717815301,
         "Name": "home",
         "Icon": "el-icon-house",
         "Title": "首页",
@@ -10,6 +11,7 @@
         "BitSet": 1,
     },
     {
+        "Id": 373837917724677,
         "Name": "sys",
         "Icon": "el-icon-setting",
         "Title": "系统管理",
@@ -19,6 +21,7 @@
         "BitSet": 1,
         "children": [
             {
+                "Id": 373837957840901,
                 "Name": "sys-user",
                 "Icon": "el-icon-user",
                 "Title": "用户管理",
@@ -29,6 +32,7 @@
                 "BitSet": 1,
             },
             {
+                "Id": 373838018527237,
                 "Name": "sys-role",
                 "Icon": "sc-icon-role",
                 "Title": "角色管理",
@@ -39,6 +43,7 @@
                 "BitSet": 1,
             },
             {
+                "Id": 373838045605893,
                 "Name": "sys-dept",
                 "Icon": "sc-icon-dept",
                 "Title": "部门管理",
@@ -49,6 +54,7 @@
                 "BitSet": 1,
             },
             {
+                "Id": 373838070898693,
                 "Name": "sys-menu",
                 "Icon": "el-icon-fold",
                 "Title": "菜单管理",
@@ -61,6 +67,7 @@
         ]
     },
     {
+        "Id": 373838105399301,
         "Name": "dev",
         "Icon": "sc-icon-code",
         "Title": "开发管理",
@@ -70,6 +77,7 @@
         "BitSet": 1,
         "children": [
             {
+                "Id": 373838147022853,
                 "Name": "dev-front",
                 "Icon": "sc-icon-js",
                 "Title": "前端代码",
@@ -82,6 +90,7 @@
         ]
     },
     {
+        "Id": 373838175547397,
         "Name": "biz",
         "Icon": "el-icon-money",
         "Title": "业务管理",
@@ -91,6 +100,7 @@
         "BitSet": 1,
         "children": [
             {
+                "Id": 373838196350981,
                 "Name": "biz-order",
                 "Icon": "el-icon-tickets",
                 "Title": "订单管理",

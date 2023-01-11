@@ -46,6 +46,16 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
     {
+        static string Replace(string message)
+        {
+            message = Regexes.RegexDigitDot3.Replace( //
+                message, "[bold yellow]$1[/]");
+            message = Regexes.RegexSqlFrom.Replace( //
+                message, "[bold red]$1[/]");
+
+            return message;
+        }
+
         return me.AddConsoleFormatter(options => {
             options.WriteHandler = (message, _, _, _, _) => {
                 const int loggerWidth = 64;
@@ -56,8 +66,7 @@ public static class ServiceCollectionExtensions
                         "HH:mm:ss.ffffff", CultureInfo.InvariantCulture)
                   , ((Enums.LogLevels)message.LogLevel).Desc()
                   , message.LogName.PadRight(loggerWidth, ' ')[^loggerWidth..]
-                  , message.ThreadId, Regexes.RegexDigitDot3.Replace( //
-                        message.Message.EscapeMarkup(), "[bold yellow]$1[/]"));
+                  , message.ThreadId, Replace(message.Message.EscapeMarkup()));
             };
         });
     }
@@ -94,7 +103,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddSnowflake(this IServiceCollection me)
     {
-        //雪花漂移算法
+        // 雪花漂移算法
         var idGeneratorOptions = new IdGeneratorOptions(1) { WorkerIdBitLength = 6 };
         YitIdHelper.SetIdGenerator(idGeneratorOptions);
         return me;

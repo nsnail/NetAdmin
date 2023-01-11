@@ -8,10 +8,10 @@ namespace NetAdmin.DataContract.Dto.Sys.Role;
 public record MapMenusReq : DataAbstraction
 {
     /// <summary>
-    ///     端点路径
+    ///     菜单id
     /// </summary>
     [Required]
-    public IReadOnlyCollection<string> MenuNames { get; set; }
+    public IReadOnlyCollection<long> MenuIds { get; set; }
 
     /// <summary>
     ///     角色id

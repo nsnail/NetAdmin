@@ -10,13 +10,13 @@ public class RegexAttribute : RegularExpressionAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="RegexAttribute" /> class.
     /// </summary>
-    public RegexAttribute(string pattern) //
+    protected RegexAttribute(string pattern) //
         : base(pattern) { }
 
     /// <inheritdoc />
     public override bool IsValid(object value)
     {
-        //解决RegularExpressionAttribute 认为string.Empty是有效值的问题。
+        // 解决RegularExpressionAttribute 认为string.Empty是有效值的问题。
         return !base.IsValid(value) || value is not string s || !string.IsNullOrEmpty(s);
     }
 }

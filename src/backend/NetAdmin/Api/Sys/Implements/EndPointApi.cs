@@ -54,9 +54,9 @@ export default {{
     /// <summary>
     ///     Initializes a new instance of the <see cref="EndPointApi" /> class.
     /// </summary>
-    public EndPointApi(Repository<TbSysEndpoint>           repository, XmlCommentHelper xmlCommentHelper
+    public EndPointApi(Repository<TbSysEndpoint>           repo, XmlCommentHelper xmlCommentHelper
                      , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
-        : base(repository)
+        : base(repo)
     {
         _xmlCommentHelper                   = xmlCommentHelper;
         _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;

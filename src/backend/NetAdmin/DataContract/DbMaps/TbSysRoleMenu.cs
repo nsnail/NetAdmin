@@ -8,7 +8,7 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     角色-菜单映射表
 /// </summary>
 [Table]
-[Index($"idx_{{tablename}}_{nameof(RoleId)}_{nameof(MenuName)}", $"{nameof(RoleId)},{nameof(MenuName)}", true)]
+[Index($"idx_{{tablename}}_{nameof(RoleId)}_{nameof(MenuId)}", $"{nameof(RoleId)},{nameof(MenuId)}", true)]
 public record TbSysRoleMenu : ImmutableEntity
 {
     /// <summary>
@@ -18,10 +18,10 @@ public record TbSysRoleMenu : ImmutableEntity
     public virtual TbSysMenu Menu { get; set; }
 
     /// <summary>
-    ///     菜单名称
+    ///     菜单id
     /// </summary>
     [JsonIgnore]
-    public virtual string MenuName { get; set; }
+    public virtual long MenuId { get; set; }
 
     /// <summary>
     ///     关联的角色

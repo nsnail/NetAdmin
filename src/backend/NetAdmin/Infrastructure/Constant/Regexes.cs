@@ -17,6 +17,8 @@ internal static class Regexes
 
     public static readonly Regex RegexSlash = new("^/*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+    public static readonly Regex RegexSqlFrom = new(@"(From ""\w+"")", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
     public static readonly Regex RegexSwaggerResources
         = new("^/swagger-resources$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 }

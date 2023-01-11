@@ -26,6 +26,13 @@ public record TbSysUser : DefaultEntity, IFieldBitSet
     public virtual long BitSet { get; set; }
 
     /// <summary>
+    ///     所属部门
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(nameof(DeptId))]
+    public virtual TbSysDept Dept { get; set; }
+
+    /// <summary>
     ///     部门id
     /// </summary>
     [JsonIgnore]
@@ -42,6 +49,13 @@ public record TbSysUser : DefaultEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     public virtual Guid Password { get; set; }
+
+    /// <summary>
+    ///     所属角色
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(TbSysUserRole))]
+    public virtual ICollection<TbSysRole> Roles { get; set; }
 
     /// <summary>
     ///     做授权验证的Token，全局唯一，可以随时重置（强制下线）

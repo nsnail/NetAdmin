@@ -38,7 +38,7 @@ public class FreeSqlHelper
 
     private static Type[] GetEntityTypes()
     {
-        //获取所有表实体
+        // 获取所有表实体
         var entityTypes = (from type in App.EffectiveTypes
                            from attr in type.GetCustomAttributes()
                            where attr is TableAttribute { DisableSyncStructure: false }
@@ -131,14 +131,14 @@ public class FreeSqlHelper
 
     private void DataAuditHandler(object sender, AuditValueEventArgs e)
     {
-        //设置服务器时间字段
+        // 设置服务器时间字段
         if (e.Property.GetCustomAttribute<ServerTimeAttribute>(false) is { Enable: true }   &&
             (e.Column.CsType == typeof(DateTime) || e.Column.CsType   == typeof(DateTime?)) &&
             (e.Value         == null             || (DateTime)e.Value == default || (DateTime?)e.Value == default)) {
             e.Value = DateTime.Now.Subtract(_timeOffset);
         }
 
-        //设置雪花id字段
+        // 设置雪花id字段
         if (e.Column.CsType == typeof(long)                                              &&
             e.Property.GetCustomAttribute<SnowflakeAttribute>(false) is { Enable: true } &&
             (e.Value == null || (long)e.Value == default || (long?)e.Value == default)) {

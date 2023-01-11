@@ -15,8 +15,8 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// <summary>
     ///     Initializes a new instance of the <see cref="MenuApi" /> class.
     /// </summary>
-    public MenuApi(Repository<TbSysMenu> repository) //
-        : base(repository) { }
+    public MenuApi(Repository<TbSysMenu> repo) //
+        : base(repo) { }
 
     /// <inheritdoc />
     public Task<int> BulkDelete(BulkDelReq req)
@@ -30,7 +30,7 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// </summary>
     public async Task<QueryMenuRsp> Create(CreateMenuReq req)
     {
-        var ret = await Repository.InsertAsync(req);
+        var ret = await Repo.InsertAsync(req);
         return ret.Adapt<QueryMenuRsp>();
     }
 
@@ -39,7 +39,7 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// </summary>
     public async Task<int> Delete(DelReq req)
     {
-        var ret = await Repository.DeleteAsync(a => a.Id == req.Id);
+        var ret = await Repo.DeleteAsync(a => a.Id == req.Id);
         return ret;
     }
 
@@ -55,9 +55,7 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// </summary>
     public async Task<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
     {
-        var ret = await Repository.Select.WhereDynamicFilter(req.DynamicFilter)
-                                  .WhereDynamic(req.Filter)
-                                  .ToTreeListAsync();
+        var ret = await Repo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryMenuRsp>());
     }
 
@@ -66,11 +64,11 @@ public class MenuApi : RepositoryApi<TbSysMenu, IMenuApi>, IMenuApi
     /// </summary>
     public async Task<QueryMenuRsp> Update(UpdateMenuReq req)
     {
-        if (await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+        if (await Repo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
             throw Oops.Oh(Enums.ErrorCodes.Unknown);
         }
 
-        var ret = await Repository.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Repo.Select.Where(a => a.Id == req.Id).ToOneAsync();
         return ret.Adapt<QueryMenuRsp>();
     }
 }

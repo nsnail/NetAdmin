@@ -16,7 +16,7 @@ public class Startup : AppStartup
     /// </summary>
     public static void Main(string[] args)
     {
-        //你好，世界！
+        // 你好，世界！
         HelloWorld();
 
         // 启动主机
@@ -30,13 +30,13 @@ public class Startup : AppStartup
     {
         app
             #if DEBUG
-            .UseDeveloperExceptionPage() //                                                  开发者异常信息页
+            .UseDeveloperExceptionPage() // /                                                开发者异常信息页
             .UseSwaggerSkin()            //                                                  Swagger皮肤中间件
             #else
             .UseHttpsRedirection() //                                                        强制https
             #endif
 
-            .UseAuthentication()                                   //                        认证中间件
+            .UseAuthentication()                                   // /                      认证中间件
             .UseAuthorization()                                    //                        授权中间件
             .UseInject(string.Empty)                               //             Furion基础中间件
             .UseUnifyResultStatusCodes()                           //                        状态码中间件
@@ -51,13 +51,13 @@ public class Startup : AppStartup
     /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddConsoleFormatter()                           //    控制台日志模板
+        services.AddConsoleFormatter()                           // /  控制台日志模板
                 .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //    Jwt 授权处理器
                 .Services
                 #if DEBUG
-                .AddMonitorLogging() //                                日志监视信息
+                .AddMonitorLogging() // /                              日志监视信息
                 #endif
-                .AddMvcFilter<RequestAuditFilter>() //                 请求审计日志
+                .AddMvcFilter<RequestAuditFilter>() // /               请求审计日志
                 .AddSnowflake()                     //                 雪花id生成器
                 .AddEventBus()                      //                 事件总线
                 .AddFreeSql()                       //                 注册freeSql

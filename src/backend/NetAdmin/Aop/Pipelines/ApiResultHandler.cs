@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NetAdmin.DataContract.Dto;
 using NetAdmin.Infrastructure.Constant;
+using NSExt.Extensions;
 
 namespace NetAdmin.Aop.Pipelines;
 
@@ -38,9 +39,8 @@ public class ApiResultHandler : IUnifyResultProvider
     /// </summary>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        var result = RestfulResult(//
-            metadata.OriginErrorCode is Enums.ErrorCodes code ? code : Enums.ErrorCodes.Unknown
-                                 , metadata.Data, metadata.Errors);
+        var errorCodes = metadata.OriginErrorCode is Enums.ErrorCodes code ? code : Enums.ErrorCodes.Unknown;
+        var result     = RestfulResult(errorCodes, metadata.Data, metadata.Errors);
 
         return new JsonResult(result) { StatusCode = StatusCodes.Status400BadRequest };
     }
@@ -48,30 +48,27 @@ public class ApiResultHandler : IUnifyResultProvider
     /// <summary>
     ///     特定状态码返回值
     /// </summary>
-    public async Task OnResponseStatusCodes(//
-        HttpContext                context,
-        int                        statusCode,
-        UnifyResultSettingsOptions unifyResultSettings)
+    public async Task OnResponseStatusCodes( //
+        HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
     {
         // 设置响应状态码
         UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
 
-        var jsonOptions = App.GetOptions<JsonOptions>();
-        #pragma warning disable IDE0010
+        var jsonOptions     = App.GetOptions<JsonOptions>();
+        var identityMissing = Enums.ErrorCodes.IdentityMissing.Desc();
         switch (statusCode) {
-            #pragma warning restore IDE0010
             // 处理 401 状态码
             case StatusCodes.Status401Unauthorized:
-                await context.Response.WriteAsJsonAsync(//
-                    RestfulResult(Enums.ErrorCodes.IdentityMissing, null, nameof(Enums.ErrorCodes.IdentityMissing)),
-                    jsonOptions?.JsonSerializerOptions);
+                await context.Response.WriteAsJsonAsync( //
+                    RestfulResult(Enums.ErrorCodes.IdentityMissing, null, identityMissing)
+                  , jsonOptions?.JsonSerializerOptions);
                 break;
 
             // 处理 403 状态码
             case StatusCodes.Status403Forbidden:
-                await context.Response.WriteAsJsonAsync(//
-                    RestfulResult(Enums.ErrorCodes.NoPermissions, null, nameof(Enums.ErrorCodes.IdentityMissing)),
-                    jsonOptions?.JsonSerializerOptions);
+                await context.Response.WriteAsJsonAsync( //
+                    RestfulResult(Enums.ErrorCodes.NoPermissions, null, identityMissing)
+                  , jsonOptions?.JsonSerializerOptions);
                 break;
         }
     }

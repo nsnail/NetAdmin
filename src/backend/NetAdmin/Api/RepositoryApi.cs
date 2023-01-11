@@ -14,13 +14,21 @@ public abstract class RepositoryApi<TEntity, TLogger> : ApiBase<TLogger>
     /// <summary>
     ///     Initializes a new instance of the <see cref="RepositoryApi{TEntity, TLogger}" /> class.
     /// </summary>
-    protected RepositoryApi(Repository<TEntity> repository)
+    protected RepositoryApi(Repository<TEntity> repo)
     {
-        Repository = repository;
+        Repo = repo;
     }
 
     /// <summary>
     ///     默认仓储
     /// </summary>
-    protected Repository<TEntity> Repository { get; }
+    protected Repository<TEntity> Repo { get; }
+
+    /// <summary>
+    ///     启用级联保存
+    /// </summary>
+    protected bool EnableCascadeSave {
+        get => Repo.DbContextOptions.EnableCascadeSave;
+        set => Repo.DbContextOptions.EnableCascadeSave = value;
+    }
 }

@@ -1,3 +1,4 @@
+using FreeSql;
 using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Aop.Attributes;
@@ -7,7 +8,6 @@ using NetAdmin.DataContract.Dto.Sys.Role;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Lang;
 using NetAdmin.Repositories;
-using NSExt.Extensions;
 
 namespace NetAdmin.Api.Sys.Implements;
 
@@ -17,8 +17,8 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     /// <summary>
     ///     Initializes a new instance of the <see cref="RoleApi" /> class.
     /// </summary>
-    public RoleApi(Repository<TbSysRole> repository) //
-        : base(repository) { }
+    public RoleApi(Repository<TbSysRole> repo) //
+        : base(repo) { }
 
     /// <inheritdoc />
     [Transaction]
@@ -34,13 +34,14 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     [Transaction]
     public async Task<QueryRoleRsp> Create(CreateRoleReq req)
     {
-        var ret = await Repository.InsertAsync(req);
+        var entity = req.Adapt<TbSysRole>();
+        var ret    = await Repo.InsertAsync(entity);
 
-        if (req.DataScope == Enums.DataScopes.SpecificDept) {
-            _ = await MapDataScopeWithDept(ret.Id, req.DpetIdsInDataScope);
-        }
+        await Repo.SaveManyAsync(entity, nameof(entity.Depts));
+        await Repo.SaveManyAsync(entity, nameof(entity.Menus));
 
-        return ret.Adapt<QueryRoleRsp>();
+        entity.Id = ret.Id;
+        return entity.Adapt<QueryRoleRsp>();
     }
 
     /// <summary>
@@ -49,12 +50,12 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     [Transaction]
     public async Task<int> Delete(DelReq req)
     {
-        if (await Repository.Orm.Select<TbSysUserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id)) {
+        if (await Repo.Orm.Select<TbSysUserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id)) {
             throw Oops.Oh( //
                 Enums.ErrorCodes.InvalidOperation, Str.Users_exist_under_this_role_and_deletion_is_not_allowed);
         }
 
-        var ret = await Repository.DeleteAsync(a => a.Id == req.Id);
+        var ret = await Repo.DeleteAsync(a => a.Id == req.Id);
         return ret;
     }
 
@@ -62,21 +63,21 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     [Transaction]
     public async Task<int> MapEndpoints(MapEndpointsReq req)
     {
-        if (!await Repository.Select.AnyAsync(a => a.Id == req.RoleId)) {
+        if (!await Repo.Select.AnyAsync(a => a.Id == req.RoleId)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_character_id_does_not_exist);
         }
 
-        if (await Repository.Orm.Select<TbSysEndpoint>().Where(a => req.Paths.Contains(a.Path)).CountAsync() !=
+        if (await Repo.Orm.Select<TbSysEndpoint>().Where(a => req.Paths.Contains(a.Path)).CountAsync() !=
             req.Paths.Count) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.Contains_endpoint_paths_that_do_not_exist);
         }
 
-        //删除原有端点映射
-        await Repository.Orm.Delete<TbSysRoleEndpoint>().Where(a => a.RoleId == req.RoleId).ExecuteAffrowsAsync();
+        // 删除原有端点映射
+        await Repo.Orm.Delete<TbSysRoleEndpoint>().Where(a => a.RoleId == req.RoleId).ExecuteAffrowsAsync();
 
-        //插入新的端点映射
+        // 插入新的端点映射
         var inserts = req.Paths.Select(x => new TbSysRoleEndpoint { RoleId = req.RoleId, Path = x });
-        var ret     = await Repository.Orm.Insert(inserts).ExecuteAffrowsAsync();
+        var ret     = await Repo.Orm.Insert(inserts).ExecuteAffrowsAsync();
         return ret;
     }
 
@@ -84,21 +85,21 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     [Transaction]
     public async Task<int> MapMenus(MapMenusReq req)
     {
-        if (!await Repository.Select.AnyAsync(a => a.Id == req.RoleId)) {
+        if (!await Repo.Select.AnyAsync(a => a.Id == req.RoleId)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_character_id_does_not_exist);
         }
 
-        if (await Repository.Orm.Select<TbSysMenu>().Where(a => req.MenuNames.Contains(a.Name)).CountAsync() !=
-            req.MenuNames.Count) {
+        if (await Repo.Orm.Select<TbSysMenu>().Where(a => req.MenuIds.Contains(a.Id)).CountAsync() !=
+            req.MenuIds.Count) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.Contains_a_menu_that_does_not_exist);
         }
 
-        //删除原有菜单映射
-        await Repository.Orm.Delete<TbSysRoleMenu>().Where(a => a.RoleId == req.RoleId).ExecuteAffrowsAsync();
+        // 删除原有菜单映射
+        await Repo.Orm.Delete<TbSysRoleMenu>().Where(a => a.RoleId == req.RoleId).ExecuteAffrowsAsync();
 
-        //插入新的端点映射
-        var inserts = req.MenuNames.Select(x => new TbSysRoleMenu { RoleId = req.RoleId, MenuName = x });
-        var ret     = await Repository.Orm.Insert(inserts).ExecuteAffrowsAsync();
+        // 插入新的端点映射
+        var inserts = req.MenuIds.Select(x => new TbSysRoleMenu { RoleId = req.RoleId, MenuId = x });
+        var ret     = await Repo.Orm.Insert(inserts).ExecuteAffrowsAsync();
         return ret;
     }
 
@@ -107,16 +108,7 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     /// </summary>
     public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQuery(PagedQueryReq<QueryRoleReq> req)
     {
-        var list = await Repository.Select.IncludeMany(a => a.Depts)
-                                   .IncludeMany(a => a.Menus)
-                                   .WhereDynamicFilter(req.DynamicFilter)
-                                   .WhereDynamic(req.Filter)
-                                   .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop
-                                  ,                                             req.Order == Enums.Orders.Ascending)
-                                   .OrderByIf(req.Prop is not { Length: > 0 }, a => a.Sort, true)
-                                   .Page(req.Page, req.PageSize)
-                                   .Count(out var total)
-                                   .ToListAsync();
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
         return new PagedQueryRsp<QueryRoleRsp>(req.Page, req.PageSize, total
                                              , list.Select(x => x.Adapt<QueryRoleRsp>()));
@@ -127,11 +119,7 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     /// </summary>
     public async Task<List<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
     {
-        var ret = await Repository.Select.IncludeMany(a => a.Depts)
-                                  .IncludeMany(a => a.Menus)
-                                  .WhereDynamicFilter(req.DynamicFilter)
-                                  .WhereDynamic(req.Filter)
-                                  .ToListAsync();
+        var ret = await QueryInternal(req).ToListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryRoleRsp>());
     }
 
@@ -141,32 +129,23 @@ public class RoleApi : RepositoryApi<TbSysRole, IRoleApi>, IRoleApi
     [Transaction]
     public async Task<QueryRoleRsp> Update(UpdateRoleReq req)
     {
-        if (await Repository.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw Oops.Oh(Enums.ErrorCodes.Unknown);
-        }
+        var entity = req.Adapt<TbSysRole>();
+        await Repo.UpdateAsync(entity);
+        await Repo.SaveManyAsync(entity, nameof(entity.Depts));
+        await Repo.SaveManyAsync(entity, nameof(entity.Menus));
 
-        if (req.DataScope == Enums.DataScopes.SpecificDept) {
-            _ = await MapDataScopeWithDept(req.Id, req.DpetIdsInDataScope);
-        }
-
-        var ret = await Repository.Select.Where(a => a.Id == req.Id).ToOneAsync();
-        return ret.Adapt<QueryRoleRsp>();
+        return entity.Adapt<QueryRoleRsp>();
     }
 
-    private async Task<int> MapDataScopeWithDept(long roleId, IReadOnlyCollection<long> deptIds)
+    private ISelect<TbSysRole> QueryInternal(QueryReq<QueryRoleReq> req)
     {
-        if (!deptIds.NullOrEmpty() &&
-            await Repository.Orm.Select<TbSysDept>().ForUpdate().Where(a => deptIds.Contains(a.Id)).CountAsync() !=
-            deptIds.Count) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.Include_departments_that_do_not_exist);
-        }
-
-        //删除原有部门映射
-        await Repository.Orm.Delete<TbSysRoleDept>().Where(a => a.RoleId == roleId).ExecuteAffrowsAsync();
-
-        //插入新的部门映射
-        var inserts = deptIds.Select(x => new TbSysRoleDept { RoleId = roleId, DeptId = x });
-        var ret     = await Repository.Orm.Insert(inserts).ExecuteAffrowsAsync();
+        var ret = Repo.Select.IncludeMany(a => a.Depts.Select(b => new TbSysDept { Id = b.Id }))
+                      .IncludeMany(a => a.Menus.Select(b => new TbSysMenu { Id        = b.Id }))
+                      .WhereDynamicFilter(req.DynamicFilter)
+                      .WhereDynamic(req.Filter)
+                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                      .OrderByIf(req.Prop is not { Length: > 0 }, a => a.Sort, true)
+                      .OrderByDescending(a => a.CreatedTime);
         return ret;
     }
 }

@@ -4,7 +4,6 @@
 			<div class="left-panel">
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
-				<el-button type="primary" plain :disabled="selection.length!=1" @click="permission">权限设置</el-button>
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
@@ -34,9 +33,8 @@
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>
-							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-							<el-button text type="primary" size="small" @click="permission(scope.row)">
-								权限</el-button>
+							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">
+								编辑</el-button>
 							<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 								<template #reference>
 									<el-button text type="primary" size="small">删除</el-button>
@@ -52,28 +50,20 @@
 
 	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
 
-	<permission-dialog v-if="dialog.permission" ref="permissionDialog" @success="handleSaveSuccess"
-					   @closed="dialog.permission=false"
-					   :role="role"
-	></permission-dialog>
-
 </template>
 
 <script>
 	import saveDialog from './save'
-	import permissionDialog from './permission'
 
 	export default {
 		name: 'role',
 		components: {
-			saveDialog,
-			permissionDialog
+			saveDialog
 		},
 		data() {
 			return {
 				dialog: {
-					save: false,
-					permission: false
+					save: false
 				},
 				apiObj: this.$API.sys_role.pagedQuery,
 				selection: [],
@@ -88,29 +78,22 @@
 			add(){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open()
+					this.$refs.saveDialog.open().loadTree()
 				})
 			},
 			//编辑
 			table_edit(row){
+				console.error(row)
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open('edit').setData(row)
+					this.$refs.saveDialog.open('edit').setData(row).loadTree()
 				})
 			},
 			//查看
 			table_show(row){
 				this.dialog.save = true
 				this.$nextTick(() => {
-					this.$refs.saveDialog.open('show').setData(row)
-				})
-			},
-			//权限设置
-			permission(role){
-				this.role = role
-				this.dialog.permission = true
-				this.$nextTick(() => {
-					this.$refs.permissionDialog.open()
+					this.$refs.saveDialog.open('show').setData(row).loadTree()
 				})
 			},
 			//删除
@@ -173,8 +156,14 @@
 				return target
 			},
 			//本地更新数据
-			handleSaveSuccess(){
-				this.$refs.table.refresh()
+			handleSaveSuccess(data,mode){
+				//为了减少网络请求，直接变更表格内存数据
+				if(mode=='add'){
+					console.error(data)
+					this.$refs.table.unshiftRow(data)
+				}else if(mode=='edit'){
+					this.$refs.table.updateKey(data)
+				}
 			}
 		}
 	}

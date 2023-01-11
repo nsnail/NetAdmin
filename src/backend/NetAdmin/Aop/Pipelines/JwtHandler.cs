@@ -37,7 +37,7 @@ public class JwtHandler : AppAuthorizeHandler
             return false;
         }
 
-        //数据库不存在有效的角色，拒绝访问
+        // 数据库不存在有效的角色，拒绝访问
         var roles = await _sql.Select<TbSysUserRole, TbSysRole>()
                               .InnerJoin((a, b) => a.RoleId == b.Id)
                               .Where((a, b) => a.UserId == dbUser.Id && (b.BitSet & (long)Enums.SysRoleBits.Enabled) ==
@@ -47,7 +47,7 @@ public class JwtHandler : AppAuthorizeHandler
             return false;
         }
 
-        //忽略权限控制，允许访问
+        // 忽略权限控制，允许访问
         return roles.Any(x => x.b.BitSet.HasFlag(Enums.SysRoleBits.IgnorePermissionControl));
     }
 }

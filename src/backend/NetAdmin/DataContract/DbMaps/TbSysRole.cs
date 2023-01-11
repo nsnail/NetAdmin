@@ -28,7 +28,8 @@ public record TbSysRole : DefaultEntity, IFieldBitSet, IFieldSort
     ///     角色-部门映射
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleDept))]
-    public ICollection<TbSysDept> Depts { get; set; }
+    [JsonIgnore]
+    public virtual ICollection<TbSysDept> Depts { get; set; }
 
     /// <summary>
     ///     角色名
@@ -40,7 +41,8 @@ public record TbSysRole : DefaultEntity, IFieldBitSet, IFieldSort
     ///     角色-菜单映射
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleMenu))]
-    public ICollection<TbSysMenu> Menus { get; set; }
+    [JsonIgnore]
+    public virtual ICollection<TbSysMenu> Menus { get; set; }
 
     /// <summary>
     ///     备注
@@ -51,4 +53,11 @@ public record TbSysRole : DefaultEntity, IFieldBitSet, IFieldSort
     /// <inheritdoc />
     [JsonIgnore]
     public virtual int Sort { get; set; }
+
+    /// <summary>
+    ///     此角色下的用户集合
+    /// </summary>
+    [Navigate(ManyToMany = typeof(TbSysUserRole))]
+    [JsonIgnore]
+    public ICollection<TbSysUser> Users { get; set; }
 }
