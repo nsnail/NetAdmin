@@ -10,7 +10,7 @@ public record RestfulInfo<T> : DataAbstraction
     /// <summary>
     ///     代码
     /// </summary>
-    public Enums.ErrorCodes Code { get; set; }
+    public Enums.ErrorCodes Code { get; init; }
 
     /// <summary>
     ///     数据

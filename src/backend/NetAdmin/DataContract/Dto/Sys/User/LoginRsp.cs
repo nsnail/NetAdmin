@@ -8,7 +8,7 @@ public record LoginRsp : DataAbstraction
     /// <summary>
     ///     访问令牌
     /// </summary>
-    public string AccessToken { get; set; }
+    public string AccessToken { get; init; }
 
     /// <summary>
     ///     刷新令牌

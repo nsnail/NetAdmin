@@ -14,5 +14,5 @@ public record GetMenusRsp : TbSysRoleMenu
 
     /// <inheritdoc cref="TbSysRoleMenu.RoleId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long RoleId { get; set; }
+    public override long RoleId { get; init; }
 }

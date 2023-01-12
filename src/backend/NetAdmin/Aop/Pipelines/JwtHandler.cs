@@ -43,11 +43,9 @@ public class JwtHandler : AppAuthorizeHandler
                               .Where((a, b) => a.UserId == dbUser.Id && (b.BitSet & (long)Enums.SysRoleBits.Enabled) ==
                                          (long)Enums.SysRoleBits.Enabled)
                               .ToListAsync((a, b) => new { a, b });
-        if (!roles.Any()) {
-            return false;
-        }
+        return roles.Any() &&
 
-        // 忽略权限控制，允许访问
-        return roles.Any(x => x.b.BitSet.HasFlag(Enums.SysRoleBits.IgnorePermissionControl));
+               // 忽略权限控制，允许访问
+               roles.Any(x => x.b.BitSet.HasFlag(Enums.SysRoleBits.IgnorePermissionControl));
     }
 }

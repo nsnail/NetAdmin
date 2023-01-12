@@ -20,5 +20,5 @@ public record TbSysRoleEndpoint : DefaultEntity
     ///     角色id
     /// </summary>
     [JsonIgnore]
-    public virtual long RoleId { get; set; }
+    public virtual long RoleId { get; init; }
 }

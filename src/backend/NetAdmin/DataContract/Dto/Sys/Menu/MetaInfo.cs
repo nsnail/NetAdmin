@@ -11,37 +11,37 @@ public record MetaInfo(string Icon,     string Title, Enums.SysMenuTypes Type, b
     /// <summary>
     ///     背景颜色
     /// </summary>
-    public string Color { get; init; } = Color;
+    public string Color { get; } = Color;
 
     /// <summary>
     ///     是否整页路由
     /// </summary>
-    public bool FullPage { get; init; } = FullPage;
+    public bool FullPage { get; } = FullPage;
 
     /// <summary>
     ///     是否隐藏
     /// </summary>
-    public bool Hidden { get; set; } = Hidden;
+    public bool Hidden { get; } = Hidden;
 
     /// <summary>
     ///     是否隐藏面包屑
     /// </summary>
-    public bool HiddenBreadCrumb { get; init; } = HiddenBreadCrumb;
+    public bool HiddenBreadCrumb { get; } = HiddenBreadCrumb;
 
     /// <summary>
     ///     图标
     /// </summary>
-    public string Icon { get; set; } = Icon;
+    public string Icon { get; } = Icon;
 
     /// <summary>
     ///     标签
     /// </summary>
-    public string Tag { get; set; } = Tag;
+    public string Tag { get; } = Tag;
 
     /// <summary>
     ///     标题
     /// </summary>
-    public string Title { get; set; } = Title;
+    public string Title { get; } = Title;
 
     /// <summary>
     ///     类型

@@ -20,7 +20,7 @@ public record TbSysUserRole : DefaultEntity
     ///     角色id
     /// </summary>
     [JsonIgnore]
-    public virtual long RoleId { get; set; }
+    public virtual long RoleId { get; init; }
 
     /// <summary>
     ///     关联的用户
@@ -32,5 +32,5 @@ public record TbSysUserRole : DefaultEntity
     ///     用户id
     /// </summary>
     [JsonIgnore]
-    public virtual long UserId { get; set; }
+    public virtual long UserId { get; init; }
 }

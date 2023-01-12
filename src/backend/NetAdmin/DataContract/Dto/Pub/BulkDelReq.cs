@@ -13,5 +13,5 @@ public record BulkDelReq : DataAbstraction
     [Required]
     [MinLength(1)]
     [MaxLength(100)]
-    public List<long> Ids { get; set; }
+    public IReadOnlyCollection<long> Ids { get; set; }
 }

@@ -13,25 +13,25 @@ public record QueryEndpointRsp : DataAbstraction
     /// <summary>
     ///     请求方式
     /// </summary>
-    public string Method { get; set; }
+    public string Method { get; init; }
 
     /// <summary>
     ///     名称
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
     ///     路径
     /// </summary>
-    public string Path { get; set; }
+    public string Path { get; init; }
 
     /// <summary>
     ///     说明
     /// </summary>
-    public string Summary { get; set; }
+    public string Summary { get; init; }
 
     /// <summary>
     ///     分类
     /// </summary>
-    public string Type { get; set; }
+    public string Type { get; init; }
 }

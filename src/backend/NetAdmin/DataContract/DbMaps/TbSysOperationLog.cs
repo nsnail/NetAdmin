@@ -13,7 +13,7 @@ public record TbSysOperationLog : ImmutableEntity
     ///     操作
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string Action { get; set; }
+    public virtual string Action { get; init; }
 
     /// <summary>
     ///     客户端IP
@@ -25,7 +25,7 @@ public record TbSysOperationLog : ImmutableEntity
     ///     控制器
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string Controller { get; set; }
+    public virtual string Controller { get; init; }
 
     /// <summary>
     ///     执行耗时（ms）
@@ -67,7 +67,7 @@ public record TbSysOperationLog : ImmutableEntity
     ///     请求参数
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string RequestParameters { get; set; }
+    public virtual string RequestParameters { get; init; }
 
     /// <summary>
     ///     请求地址
