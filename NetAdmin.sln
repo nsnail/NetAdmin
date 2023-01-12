@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C84EB5A0-37A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{4DAF9366-855F-46BB-AE4C-660C92FA0697}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin", "src\backend\NetAdmin\NetAdmin.csproj", "{F672F054-A416-4FC2-957B-ADD73C0346CF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0CAC-4828-A807-34A693F73859}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -43,6 +41,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		switcher.json = switcher.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Api", "src\backend\NetAdmin.Api\NetAdmin.Api.csproj", "{F672F054-A416-4FC2-957B-ADD73C0346CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.DataContract", "src\backend\NetAdmin.DataContract\NetAdmin.DataContract.csproj", "{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\backend\NetAdmin.Application\NetAdmin.Application.csproj", "{7D1EF02D-EDC1-4EC3-A094-887359748D1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin.Tests\NetAdmin.Tests.csproj", "{45F5B28F-F304-4369-9016-C27BC6DED297}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,9 +64,29 @@ Global
 		{F672F054-A416-4FC2-957B-ADD73C0346CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F672F054-A416-4FC2-957B-ADD73C0346CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F672F054-A416-4FC2-957B-ADD73C0346CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45F5B28F-F304-4369-9016-C27BC6DED297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F5B28F-F304-4369-9016-C27BC6DED297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45F5B28F-F304-4369-9016-C27BC6DED297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45F5B28F-F304-4369-9016-C27BC6DED297}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}
 		{F672F054-A416-4FC2-957B-ADD73C0346CF} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{8BCAF882-BA21-4C46-9EBE-0BD5807551EB} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{7D1EF02D-EDC1-4EC3-A094-887359748D1C} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{45F5B28F-F304-4369-9016-C27BC6DED297} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 	EndGlobalSection
 EndGlobal

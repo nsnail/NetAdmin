@@ -42,7 +42,7 @@
         "EnableEnumSchemaFilter": false,
         "RoutePrefix": "swagger",
         "XmlComments": [
-            "NetAdmin.xml",
+            "NetAdmin.Application.xml",
             "FreeSql.xml",
         ],
         "SecurityDefinitions": [
