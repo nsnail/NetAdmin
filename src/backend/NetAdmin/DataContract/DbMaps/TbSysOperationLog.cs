@@ -19,7 +19,7 @@ public record TbSysOperationLog : ImmutableEntity
     ///     客户端IP
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string ClientIp { get; set; }
+    public virtual string ClientIp { get; init; }
 
     /// <summary>
     ///     控制器
@@ -31,37 +31,37 @@ public record TbSysOperationLog : ImmutableEntity
     ///     执行耗时（ms）
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual uint Duration { get; set; }
+    public virtual uint Duration { get; init; }
 
     /// <summary>
     ///     服务端运行环境
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string Environment { get; set; }
+    public virtual string Environment { get; init; }
 
     /// <summary>
     ///     异常信息
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string Exception { get; set; }
+    public virtual string Exception { get; init; }
 
     /// <summary>
     ///     请求方法
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string Method { get; set; }
+    public virtual string Method { get; init; }
 
     /// <summary>
     ///     来源地址
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string ReferUrl { get; set; }
+    public virtual string ReferUrl { get; init; }
 
     /// <summary>
     ///     请求content-type
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string RequestContentType { get; set; }
+    public virtual string RequestContentType { get; init; }
 
     /// <summary>
     ///     请求参数
@@ -73,13 +73,13 @@ public record TbSysOperationLog : ImmutableEntity
     ///     请求地址
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string RequestUrl { get; set; }
+    public virtual string RequestUrl { get; init; }
 
     /// <summary>
     ///     响应原始类型
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string ResponseRawType { get; set; }
+    public virtual string ResponseRawType { get; init; }
 
     /// <summary>
     ///     响应结果
@@ -91,17 +91,17 @@ public record TbSysOperationLog : ImmutableEntity
     ///     响应封装类型
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string ResponseWrapType { get; set; }
+    public virtual string ResponseWrapType { get; init; }
 
     /// <summary>
     ///     服务器IP
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string ServerIp { get; set; }
+    public virtual string ServerIp { get; init; }
 
     /// <summary>
     ///     浏览器标识
     /// </summary>
     [Column(CanUpdate = false)]
-    public virtual string UserAgent { get; set; }
+    public virtual string UserAgent { get; init; }
 }

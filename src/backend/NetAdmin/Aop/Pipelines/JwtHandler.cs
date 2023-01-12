@@ -2,8 +2,8 @@ using Furion.Authorization;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using NetAdmin.DataContract.DbMaps;
+using NetAdmin.Extensions;
 using NetAdmin.Infrastructure.Constant;
-using NetAdmin.Infrastructure.Extensions;
 using NSExt.Extensions;
 
 namespace NetAdmin.Aop.Pipelines;
@@ -33,15 +33,15 @@ public class JwtHandler : AppAuthorizeHandler
 
         // 数据库不存在contextuser，或用户已被禁用，拒绝访问
         var dbUser = await _sql.Select<TbSysUser>().Where(x => x.Token == contextUser.Token).FirstAsync();
-        if (dbUser is null || !dbUser.BitSet.HasFlag(Enums.SysUserBits.Enabled)) {
+        if (dbUser is null || !dbUser.BitSet.HasFlag(Enums.BitSets.Enabled)) {
             return false;
         }
 
         // 数据库不存在有效的角色，拒绝访问
         var roles = await _sql.Select<TbSysUserRole, TbSysRole>()
                               .InnerJoin((a, b) => a.RoleId == b.Id)
-                              .Where((a, b) => a.UserId == dbUser.Id && (b.BitSet & (long)Enums.SysRoleBits.Enabled) ==
-                                         (long)Enums.SysRoleBits.Enabled)
+                              .Where((a, b) => a.UserId == dbUser.Id && (b.BitSet & (long)Enums.BitSets.Enabled) ==
+                                         (long)Enums.BitSets.Enabled)
                               .ToListAsync((a, b) => new { a, b });
         return roles.Any() &&
 

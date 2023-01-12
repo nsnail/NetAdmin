@@ -11,9 +11,9 @@ public record PagedQueryReq<T> : QueryReq<T>, IPagedInfo
 {
     /// <inheritdoc cref="IPagedInfo.Page" />
     [Range(1, Numbers.QUERY_MAX_PAGENO)]
-    public int Page { get; set; }
+    public int Page { get; init; }
 
     /// <inheritdoc cref="IPagedInfo.PageSize" />
     [Range(1, Numbers.QUERY_MAX_PAGESIZE)]
-    public int PageSize { get; set; }
+    public int PageSize { get; init; }
 }

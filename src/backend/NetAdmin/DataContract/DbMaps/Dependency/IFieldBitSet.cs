@@ -8,5 +8,5 @@ public interface IFieldBitSet
     /// <summary>
     ///     比特位
     /// </summary>
-    long BitSet { get; set; }
+    long BitSet { get; init; }
 }

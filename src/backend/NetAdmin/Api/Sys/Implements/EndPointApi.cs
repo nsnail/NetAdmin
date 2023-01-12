@@ -2,20 +2,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using NetAdmin.DataContract.DbMaps;
-using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Endpoint;
 using NetAdmin.Infrastructure.Utils;
-using NetAdmin.Repositories;
 
 namespace NetAdmin.Api.Sys.Implements;
 
 /// <inheritdoc cref="IEndPointApi" />
-public class EndPointApi : RepositoryApi<TbSysEndpoint, IEndPointApi>, IEndPointApi
+public class EndPointApi : ApiBase<IEndPointApi>, IEndPointApi
 {
     private const string _TMP_JSAPI_INNER = """
     /**
@@ -54,26 +50,11 @@ export default {{
     /// <summary>
     ///     Initializes a new instance of the <see cref="EndPointApi" /> class.
     /// </summary>
-    public EndPointApi(Repository<TbSysEndpoint>           repo, XmlCommentHelper xmlCommentHelper
-                     , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
-        : base(repo)
+    public EndPointApi( //
+        XmlCommentHelper xmlCommentHelper, IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
     {
         _xmlCommentHelper                   = xmlCommentHelper;
         _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
-    }
-
-    /// <inheritdoc />
-    [NonAction]
-    public Task<NopReq> Create(NopReq req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    [NonAction]
-    public Task<int> Delete(NopReq req)
-    {
-        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -135,27 +116,6 @@ export default {{
         var ret = actionGroup.Select(SelectQueryEndpointRsp);
 
         return Task.FromResult(ret);
-    }
-
-    /// <inheritdoc />
-    [NonAction]
-    public Task<PagedQueryRsp<QueryEndpointRsp>> PagedQuery(PagedQueryReq<NopReq> req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    [NonAction]
-    public Task<List<QueryEndpointRsp>> Query(QueryReq<NopReq> req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    [NonAction]
-    public Task<NopReq> Update(NopReq req)
-    {
-        throw new NotImplementedException();
     }
 
     private IEnumerable<QueryEndpointRsp> GetChildren(IEnumerable<ControllerActionDescriptor> actionDescriptors)

@@ -11,11 +11,11 @@ public record MapMenusReq : DataAbstraction
     ///     菜单id
     /// </summary>
     [Required]
-    public IReadOnlyCollection<long> MenuIds { get; set; }
+    public IReadOnlyCollection<long> MenuIds { get; init; }
 
     /// <summary>
     ///     角色id
     /// </summary>
     [Required]
-    public long RoleId { get; set; }
+    public long RoleId { get; init; }
 }

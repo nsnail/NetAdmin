@@ -2,9 +2,9 @@ using System.Globalization;
 using Furion;
 using Furion.FriendlyException;
 using Microsoft.Extensions.Options;
+using NetAdmin.Extensions;
 using NetAdmin.Infrastructure.Configuration.Options;
 using NetAdmin.Infrastructure.Constant;
-using NetAdmin.Infrastructure.Extensions;
 using NetAdmin.Infrastructure.Utils;
 using NetAdmin.Lang;
 

@@ -15,19 +15,19 @@ public record TbSysRoleMenu : ImmutableEntity
     ///     关联的菜单
     /// </summary>
     [JsonIgnore]
-    public virtual TbSysMenu Menu { get; set; }
+    public virtual TbSysMenu Menu { get; init; }
 
     /// <summary>
     ///     菜单id
     /// </summary>
     [JsonIgnore]
-    public virtual long MenuId { get; set; }
+    public virtual long MenuId { get; init; }
 
     /// <summary>
     ///     关联的角色
     /// </summary>
     [JsonIgnore]
-    public virtual TbSysRole Role { get; set; }
+    public virtual TbSysRole Role { get; init; }
 
     /// <summary>
     ///     角色id

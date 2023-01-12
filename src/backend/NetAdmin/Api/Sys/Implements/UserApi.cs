@@ -9,8 +9,8 @@ using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.User;
+using NetAdmin.Extensions;
 using NetAdmin.Infrastructure.Constant;
-using NetAdmin.Infrastructure.Extensions;
 using NetAdmin.Lang;
 using NetAdmin.Repositories;
 using NSExt.Extensions;
@@ -23,8 +23,8 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserApi" /> class.
     /// </summary>
-    public UserApi(Repository<TbSysUser> repo) //
-        : base(repo) { }
+    public UserApi(Repository<TbSysUser> rpo) //
+        : base(rpo) { }
 
     /// <summary>
     ///     创建用户
@@ -34,10 +34,10 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         var (roles, dept) = await SelectRolesAndDept(req);
         var user = req.Adapt<TbSysUser>();
-        user = await Repo.InsertAsync(user);
+        user = await Rpo.InsertAsync(user);
 
         var userRoles = req.RoleIds.Select(x => new TbSysUserRole { RoleId = x, UserId = user.Id });
-        var effects   = await Repo.Orm.Insert(userRoles).ExecuteAffrowsAsync();
+        var effects   = await Rpo.Orm.Insert(userRoles).ExecuteAffrowsAsync();
         var ret = effects != req.RoleIds.Count
             ? throw Oops.Oh(Enums.ErrorCodes.Unknown)
             : new Tuple<TbSysUser, TbSysDept, IEnumerable<TbSysRole>>(user, dept, roles).Adapt<QueryUserRsp>();
@@ -56,12 +56,12 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     [AllowAnonymous]
     public async Task<LoginRsp> Login(LoginReq req)
     {
-        var dbUser = await Repo.GetAsync(a => a.UserName == req.UserName && a.Password == req.Password.Pwd().Guid());
+        var dbUser = await Rpo.GetAsync(a => a.UserName == req.UserName && a.Password == req.Password.Pwd().Guid());
         if (dbUser is null) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.User_name_or_password_error);
         }
 
-        if (!dbUser.BitSet.HasFlag(Enums.SysUserBits.Enabled)) {
+        if (!dbUser.BitSet.HasFlag(Enums.BitSets.Enabled)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.User_disabled);
         }
 
@@ -84,23 +84,23 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         List<long> deptIds = null;
         if (req.Filter?.DeptId > 0) {
-            deptIds = await Repo.Orm.Select<TbSysDept>()
-                                .Where(a => a.Id == req.Filter.DeptId)
-                                .AsTreeCte()
-                                .ToListAsync(a => a.Id);
+            deptIds = await Rpo.Orm.Select<TbSysDept>()
+                               .Where(a => a.Id == req.Filter.DeptId)
+                               .AsTreeCte()
+                               .ToListAsync(a => a.Id);
         }
 
-        var list = await Repo.Select.Include(a => a.Dept)
-                             .IncludeMany(a => a.Roles)
-                             .WhereDynamicFilter(req.DynamicFilter)
-                             .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
-                             .WhereIf( //
-                                 req.Filter?.RoleId > 0
-                               , a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
-                             .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                             .Page(req.Page, req.PageSize)
-                             .Count(out var total)
-                             .ToListAsync();
+        var list = await Rpo.Select.Include(a => a.Dept)
+                            .IncludeMany(a => a.Roles)
+                            .WhereDynamicFilter(req.DynamicFilter)
+                            .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
+                            .WhereIf( //
+                                req.Filter?.RoleId > 0
+                              , a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
+                            .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                            .Page(req.Page, req.PageSize)
+                            .Count(out var total)
+                            .ToListAsync();
 
         return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total
                                              , list.Select(x => x.Adapt<QueryUserRsp>()));
@@ -121,22 +121,22 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         var (roles, dept) = await SelectRolesAndDept(req);
 
-        if (await Repo.Orm.Delete<TbSysUserRole>().Where(a => a.UserId == req.Id).ExecuteAffrowsAsync() <= 0) {
+        if (await Rpo.Orm.Delete<TbSysUserRole>().Where(a => a.UserId == req.Id).ExecuteAffrowsAsync() <= 0) {
             throw Oops.Oh(Enums.ErrorCodes.Unknown);
         }
 
-        var effects = await Repo.UpdateDiy.SetSource(req)
-                                .IgnoreColumns(a => new { a.Password, a.Token })
-                                .ExecuteAffrowsAsync();
+        var effects = await Rpo.UpdateDiy.SetSource(req)
+                               .IgnoreColumns(a => new { a.Password, a.Token })
+                               .ExecuteAffrowsAsync();
 
         var userRoles = req.RoleIds.Select(x => new TbSysUserRole { RoleId = x, UserId = req.Id });
-        effects += await Repo.Orm.Insert(userRoles).ExecuteAffrowsAsync();
+        effects += await Rpo.Orm.Insert(userRoles).ExecuteAffrowsAsync();
 
         if (effects != req.RoleIds.Count + 1) {
             throw Oops.Oh(Enums.ErrorCodes.Unknown);
         }
 
-        var user = await Repo.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var user = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
         return new Tuple<TbSysUser, TbSysDept, IEnumerable<TbSysRole>>(user, dept, roles).Adapt<QueryUserRsp>();
     }
 
@@ -144,7 +144,7 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     public async Task<QueryUserRsp> UserInfo()
     {
         var contextUser = App.User.AsContextUser();
-        var dbUser      = await Repo.Where(x => x.Token == contextUser.Token).FirstAsync();
+        var dbUser      = await Rpo.Where(x => x.Token == contextUser.Token).FirstAsync();
         return dbUser.Adapt<QueryUserRsp>();
     }
 
@@ -152,13 +152,13 @@ public class UserApi : RepositoryApi<TbSysUser, IUserApi>, IUserApi
     {
         req.RoleIds = req.RoleIds.Distinct().ToList();
 
-        var roles = await Repo.Orm.Select<TbSysRole>().ForUpdate().Where(a => req.RoleIds.Contains(a.Id)).ToListAsync();
+        var roles = await Rpo.Orm.Select<TbSysRole>().ForUpdate().Where(a => req.RoleIds.Contains(a.Id)).ToListAsync();
 
         if (roles.Count != req.RoleIds.Count) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_character_does_not_exist);
         }
 
-        var dept = await Repo.Orm.Select<TbSysDept>().ForUpdate().Where(a => a.Id == req.DeptId).ToOneAsync();
+        var dept = await Rpo.Orm.Select<TbSysDept>().ForUpdate().Where(a => a.Id == req.DeptId).ToOneAsync();
         return dept is null
             ? throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_department_does_not_exist)
             : (roles, dept);

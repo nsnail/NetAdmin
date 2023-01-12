@@ -8,20 +8,20 @@ public interface IFieldUpdate
     /// <summary>
     ///     修改时间
     /// </summary>
-    DateTime? ModifiedTime { get; set; }
+    DateTime? ModifiedTime { get; init; }
 
     /// <summary>
     ///     修改者Id
     /// </summary>
-    long? ModifiedUserId { get; set; }
+    long? ModifiedUserId { get; init; }
 
     /// <summary>
     ///     修改者
     /// </summary>
-    string ModifiedUserName { get; set; }
+    string ModifiedUserName { get; init; }
 
     /// <summary>
     ///     数据版本
     /// </summary>
-    long Version { get; set; }
+    long Version { get; init; }
 }

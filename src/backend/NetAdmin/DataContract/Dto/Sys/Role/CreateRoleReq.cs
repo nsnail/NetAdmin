@@ -19,7 +19,7 @@ public record CreateRoleReq : TbSysRole, IRegister
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.SysRoleBits.Enabled;
+                ret |= (long)Enums.BitSets.Enabled;
             }
 
             if (IgnorePermissionControl) {
@@ -32,41 +32,41 @@ public record CreateRoleReq : TbSysRole, IRegister
 
     /// <inheritdoc cref="TbSysRole.DataScope" />
     [EnumDataType(typeof(Enums.DataScopes))]
-    public override Enums.DataScopes DataScope { get; set; } = Enums.DataScopes.All;
+    public override Enums.DataScopes DataScope { get; init; } = Enums.DataScopes.All;
 
     /// <summary>
     ///     当 DataScope = SpecificDept ，此参数指定部门id
     /// </summary>
     [SpecificDept]
-    public IReadOnlyCollection<long> DeptIds { get; set; }
+    public IReadOnlyCollection<long> DeptIds { get; init; }
 
     /// <summary>
     ///     是否启用
     /// </summary>
-    public bool Enabled { get; set; } = true;
+    public bool Enabled { get; init; } = true;
 
     /// <summary>
     ///     是否忽略权限控制
     /// </summary>
-    public bool IgnorePermissionControl { get; set; }
+    public bool IgnorePermissionControl { get; init; }
 
     /// <inheritdoc cref="TbSysRole.Label" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
-    public override string Label { get; set; }
+    public override string Label { get; init; }
 
     /// <summary>
     ///     角色-菜单映射
     /// </summary>
-    public IReadOnlyCollection<long> MenuIds { get; set; }
+    public IReadOnlyCollection<long> MenuIds { get; init; }
 
     /// <inheritdoc cref="TbSysRole.Remark" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Remark { get; set; }
+    public override string Remark { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override int Sort { get; set; }
+    public override int Sort { get; init; }
 
     /// <inheritdoc />
     public virtual void Register(TypeAdapterConfig config)

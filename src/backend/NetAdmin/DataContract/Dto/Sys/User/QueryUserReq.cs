@@ -8,10 +8,10 @@ public record QueryUserReq : DataAbstraction
     /// <summary>
     ///     部门id
     /// </summary>
-    public long DeptId { get; set; }
+    public long DeptId { get; init; }
 
     /// <summary>
     ///     角色id
     /// </summary>
-    public long RoleId { get; set; }
+    public long RoleId { get; init; }
 }

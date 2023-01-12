@@ -15,10 +15,10 @@ public record RestfulInfo<T> : DataAbstraction
     /// <summary>
     ///     数据
     /// </summary>
-    public T Data { get; set; }
+    public T Data { get; init; }
 
     /// <summary>
     ///     消息
     /// </summary>
-    public object Msg { get; set; }
+    public object Msg { get; init; }
 }

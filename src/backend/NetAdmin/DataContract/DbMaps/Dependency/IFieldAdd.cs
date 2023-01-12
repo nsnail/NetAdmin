@@ -8,15 +8,15 @@ public interface IFieldAdd
     /// <summary>
     ///     创建时间
     /// </summary>
-    DateTime CreatedTime { get; set; }
+    DateTime CreatedTime { get; init; }
 
     /// <summary>
     ///     创建者Id
     /// </summary>
-    long? CreatedUserId { get; set; }
+    long? CreatedUserId { get; init; }
 
     /// <summary>
     ///     创建者
     /// </summary>
-    string CreatedUserName { get; set; }
+    string CreatedUserName { get; init; }
 }

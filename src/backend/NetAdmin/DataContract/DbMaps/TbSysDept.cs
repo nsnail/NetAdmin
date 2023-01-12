@@ -9,48 +9,48 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     部门表
 /// </summary>
 [Table]
-public record TbSysDept : DefaultEntity, IFieldBitSet
+public record TbSysDept : MutableEntity, IFieldBitSet
 {
     /// <summary>
-    ///     比特位 <see cref="Enums.SysDeptBits" />
+    ///     比特位（前4位是公共位<see cref="Enums.BitSets" />） <see cref="Enums.SysDeptBits" />
     /// </summary>
     [JsonIgnore]
-    public virtual long BitSet { get; set; }
+    public virtual long BitSet { get; init; }
 
     /// <summary>
     ///     子节点
     /// </summary>
     [Navigate(nameof(ParentId))]
     [JsonIgnore]
-    public virtual List<TbSysDept> Children { get; set; }
+    public virtual List<TbSysDept> Children { get; init; }
 
     /// <summary>
     ///     部门名称
     /// </summary>
     [JsonIgnore]
-    public virtual string Label { get; set; }
+    public virtual string Label { get; init; }
 
     /// <summary>
     ///     父id
     /// </summary>
     [JsonIgnore]
-    public virtual long ParentId { get; set; }
+    public virtual long ParentId { get; init; }
 
     /// <summary>
     ///     部门描述
     /// </summary>
     [JsonIgnore]
-    public virtual string Remark { get; set; }
+    public virtual string Remark { get; init; }
 
     /// <summary>
     ///     角色集合
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleDept))]
-    public virtual ICollection<TbSysRole> Roles { get; set; }
+    public virtual ICollection<TbSysRole> Roles { get; init; }
 
     /// <summary>
     ///     排序
     /// </summary>
     [JsonIgnore]
-    public virtual int Sort { get; set; }
+    public virtual int Sort { get; init; }
 }

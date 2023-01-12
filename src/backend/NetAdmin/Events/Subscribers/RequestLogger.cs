@@ -5,32 +5,32 @@ using NetAdmin.Aop.Pipelines;
 using NetAdmin.Api.Sys;
 using NetAdmin.Api.Sys.Implements;
 using NetAdmin.DataContract.DbMaps;
-using NetAdmin.Infrastructure.Extensions;
 using NetAdmin.Repositories;
 using NSExt.Extensions;
 
-namespace NetAdmin.Events;
+namespace NetAdmin.Events.Subscribers;
 
 /// <summary>
-///     请求审计事件
+///     请求日志记录
 /// </summary>
-public class RequestAuditEvent : IEventSubscriber, ISingleton, IDisposable
+public class RequestLogger : IEventSubscriber, ISingleton, IDisposable
 {
-    private readonly IServiceScope _scope;
+    private static readonly string        _userApiControllerName = nameof(UserApi)[..^3];
+    private readonly        IServiceScope _scope;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RequestAuditEvent" /> class.
+    ///     Initializes a new instance of the <see cref="RequestLogger" /> class.
     /// </summary>
     /// <param name="serviceProvider">serviceProvider</param>
-    public RequestAuditEvent(IServiceProvider serviceProvider)
+    public RequestLogger(IServiceProvider serviceProvider)
     {
         _scope = serviceProvider.CreateScope();
     }
 
     /// <summary>
-    ///     Finalizes an instance of the <see cref="RequestAuditEvent" /> class.
+    ///     Finalizes an instance of the <see cref="RequestLogger" /> class.
     /// </summary>
-    ~RequestAuditEvent()
+    ~RequestLogger()
     {
         Dispose(false);
     }
@@ -62,7 +62,7 @@ public class RequestAuditEvent : IEventSubscriber, ISingleton, IDisposable
 
         // 登录日志
         if (tbSysOperationLog.Action.Equals(nameof(IUserApi.Login), StringComparison.OrdinalIgnoreCase) &&
-            tbSysOperationLog.Controller.Equals(nameof(UserApi).TrimEndApi(), StringComparison.OrdinalIgnoreCase)) {
+            tbSysOperationLog.Controller.Equals(_userApiControllerName, StringComparison.OrdinalIgnoreCase)) {
             var tbSysLoginLog = tbSysOperationLog.Adapt<TbSysLoginLog>();
             await _scope.ServiceProvider.GetRequiredService<Repository<TbSysLoginLog>>().InsertAsync(tbSysLoginLog);
         }

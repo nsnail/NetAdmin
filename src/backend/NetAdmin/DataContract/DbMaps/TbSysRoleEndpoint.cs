@@ -8,13 +8,13 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     角色-端点映射表
 /// </summary>
 [Table]
-public record TbSysRoleEndpoint : DefaultEntity
+public record TbSysRoleEndpoint : ImmutableEntity
 {
     /// <summary>
     ///     端点路径
     /// </summary>
     [JsonIgnore]
-    public virtual string Path { get; set; }
+    public virtual string Path { get; init; }
 
     /// <summary>
     ///     角色id

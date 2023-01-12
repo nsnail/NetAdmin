@@ -12,20 +12,20 @@ public record QueryReq<T> : DataAbstraction
     /// <summary>
     ///     动态查询条件
     /// </summary>
-    public DynamicFilterInfo DynamicFilter { get; set; }
+    public DynamicFilterInfo DynamicFilter { get; init; }
 
     /// <summary>
     ///     查询条件
     /// </summary>
-    public T Filter { get; set; }
+    public T Filter { get; init; }
 
     /// <summary>
     ///     排序方式
     /// </summary>
-    public Enums.Orders? Order { get; set; }
+    public Enums.Orders? Order { get; init; }
 
     /// <summary>
     ///     排序字段
     /// </summary>
-    public string Prop { get; set; }
+    public string Prop { get; init; }
 }

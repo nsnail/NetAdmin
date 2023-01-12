@@ -8,10 +8,10 @@ public interface IPagedInfo
     /// <summary>
     ///     当前页码
     /// </summary>
-    int Page { get; set; }
+    int Page { get; init; }
 
     /// <summary>
     ///     页容量
     /// </summary>
-    int PageSize { get; set; }
+    int PageSize { get; init; }
 }

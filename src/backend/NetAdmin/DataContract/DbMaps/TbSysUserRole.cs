@@ -8,13 +8,13 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     用户-角色映射表
 /// </summary>
 [Table]
-public record TbSysUserRole : DefaultEntity
+public record TbSysUserRole : MutableEntity
 {
     /// <summary>
     ///     关联的角色
     /// </summary>
     [JsonIgnore]
-    public virtual TbSysRole Role { get; set; }
+    public virtual TbSysRole Role { get; init; }
 
     /// <summary>
     ///     角色id
@@ -26,7 +26,7 @@ public record TbSysUserRole : DefaultEntity
     ///     关联的用户
     /// </summary>
     [JsonIgnore]
-    public virtual TbSysUser User { get; set; }
+    public virtual TbSysUser User { get; init; }
 
     /// <summary>
     ///     用户id

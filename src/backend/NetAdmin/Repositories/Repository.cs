@@ -17,7 +17,7 @@ public class Repository<TEntity> : DefaultRepository<TEntity, long>, IRepository
         : base(fsql, uowManger) { }
 
     /// <inheritdoc />
-    public ContextUser ContextUser { get; set; }
+    public ContextUser ContextUser { get; init; }
 
     /// <inheritdoc />
     public virtual async Task<bool> DeleteRecursiveAsync( //

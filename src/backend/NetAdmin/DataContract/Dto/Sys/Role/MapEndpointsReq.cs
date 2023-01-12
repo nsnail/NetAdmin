@@ -12,11 +12,11 @@ public record MapEndpointsReq : DataAbstraction
     /// </summary>
     [Required]
     [MinLength(1)]
-    public IReadOnlyCollection<string> Paths { get; set; }
+    public IReadOnlyCollection<string> Paths { get; init; }
 
     /// <summary>
     ///     角色id
     /// </summary>
     [Required]
-    public long RoleId { get; set; }
+    public long RoleId { get; init; }
 }

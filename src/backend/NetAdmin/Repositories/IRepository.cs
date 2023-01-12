@@ -14,7 +14,7 @@ public interface IRepository<TEntity> : IBaseRepository<TEntity>
     /// <summary>
     ///     当前上下文关联的用户
     /// </summary>
-    ContextUser ContextUser { get; set; }
+    ContextUser ContextUser { get; init; }
 
     /// <summary>
     ///     递归删除

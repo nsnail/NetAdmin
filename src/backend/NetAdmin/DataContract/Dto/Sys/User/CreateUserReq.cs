@@ -16,23 +16,23 @@ public record CreateUserReq : TbSysUser, IRegister
     /// <inheritdoc cref="TbSysUser.Avatar" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Url]
-    public override string Avatar { get; set; }
+    public override string Avatar { get; init; }
 
     /// <inheritdoc cref="TbSysUser.DeptId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long DeptId { get; set; }
+    public override long DeptId { get; init; }
 
     /// <inheritdoc cref="TbSysUser.Mobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Mobile]
-    public override string Mobile { get; set; }
+    public override string Mobile { get; init; }
 
     /// <summary>
     ///     密码
     /// </summary>
     [Required]
     [Password]
-    public virtual string PasswordText { get; set; }
+    public virtual string PasswordText { get; init; }
 
     /// <summary>
     ///     角色id列表
@@ -46,7 +46,7 @@ public record CreateUserReq : TbSysUser, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     [UserName]
-    public override string UserName { get; set; }
+    public override string UserName { get; init; }
 
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
@@ -54,6 +54,6 @@ public record CreateUserReq : TbSysUser, IRegister
         config.ForType<CreateUserReq, TbSysUser>()
               .Map(dest => dest.Password, src => src.PasswordText.Pwd().Guid())
               .Map(dest => dest.Token,    src => Guid.NewGuid())
-              .Map(dest => dest.BitSet,   src => Enums.SysUserBits.Enabled);
+              .Map(dest => dest.BitSet,   src => Enums.BitSets.Enabled);
     }
 }

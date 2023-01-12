@@ -14,25 +14,25 @@ public abstract record ImmutableEntity : EntityBase, IFieldPrimary, IFieldAdd
     /// <inheritdoc />
     [JsonIgnore]
     [Description(Strings.DSC_CREATED_TIME)]
-    [Column(CanUpdate = false, ServerTime = DateTimeKind.Local)]
-    public DateTime CreatedTime { get; set; }
+    [Column(Position = -20, CanUpdate = false, ServerTime = DateTimeKind.Local)]
+    public virtual DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
     [Description(Strings.DSC_CREATED_USER_ID)]
-    [Column(CanUpdate = false)]
-    public long? CreatedUserId { get; set; }
+    [Column(Position = -22, CanUpdate = false)]
+    public virtual long? CreatedUserId { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
     [Description(Strings.DSC_CREATED_USER_NAME)]
-    [Column(CanUpdate = false)]
-    public string CreatedUserName { get; set; }
+    [Column(Position = -21, CanUpdate = false)]
+    public virtual string CreatedUserName { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
     [Description(Strings.DSC_ID)]
-    [Column(IsIdentity = false, IsPrimary = true)]
+    [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [Snowflake]
-    public long Id { get; set; }
+    public virtual long Id { get; set; }
 }

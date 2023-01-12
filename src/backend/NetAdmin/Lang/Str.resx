@@ -112,7 +112,7 @@
         <value>部门不存在</value>
     </data>
     <data name="The database structure has been synchronized" xml:space="preserve">
-        <value>数据库结构已同步</value>
+        <value>数据库结构同步完成</value>
     </data>
     <data name="The seed data is fully initialized" xml:space="preserve">
         <value>种子数据初始化完毕</value>
@@ -152,5 +152,14 @@
     </data>
     <data name="Include departments that do not exist" xml:space="preserve">
         <value>包含了不存在的部门</value>
+    </data>
+    <data name="Undefined" xml:space="preserve">
+        <value>未定义</value>
+    </data>
+    <data name="Ignoring permissions control" xml:space="preserve">
+        <value>忽略权限控制</value>
+    </data>
+    <data name="Database structure synchronization starts" xml:space="preserve">
+        <value>数据库同步开始</value>
     </data>
 </root>

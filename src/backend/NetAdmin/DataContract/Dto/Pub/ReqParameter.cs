@@ -8,5 +8,5 @@ public record ReqParameter<T>
     /// <summary>
     ///     Req
     /// </summary>
-    public T Req { get; set; }
+    public T Req { get; init; }
 }

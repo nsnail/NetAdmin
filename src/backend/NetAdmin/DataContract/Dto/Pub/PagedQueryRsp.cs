@@ -7,18 +7,18 @@ public record PagedQueryRsp<T>(int Page, int PageSize, long Total, IEnumerable<T
     where T : DataAbstraction
 {
     /// <inheritdoc cref="IPagedInfo.Page" />
-    public int Page { get; set; } = Page;
+    public int Page { get; init; } = Page;
 
     /// <inheritdoc cref="IPagedInfo.PageSize" />
-    public int PageSize { get; set; } = PageSize;
+    public int PageSize { get; init; } = PageSize;
 
     /// <summary>
     ///     数据行
     /// </summary>
-    public IEnumerable<T> Rows { get; set; } = Rows;
+    public IEnumerable<T> Rows { get; init; } = Rows;
 
     /// <summary>
     ///     数据总条
     /// </summary>
-    public long Total { get; set; } = Total;
+    public long Total { get; init; } = Total;
 }

@@ -4,7 +4,7 @@ using Furion.DependencyInjection;
 using NetAdmin.Infrastructure.Configuration;
 using NSExt.Extensions;
 
-namespace NetAdmin.Infrastructure.Extensions;
+namespace NetAdmin.Extensions;
 
 /// <summary>
 ///     IMvcBuilder 扩展方法

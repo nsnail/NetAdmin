@@ -3,7 +3,7 @@ using Furion.DependencyInjection;
 using NetAdmin.DataContract;
 using NSExt.Extensions;
 
-namespace NetAdmin.Infrastructure.Extensions;
+namespace NetAdmin.Extensions;
 
 /// <summary>
 ///     ClaimsPrincipal  扩展方法

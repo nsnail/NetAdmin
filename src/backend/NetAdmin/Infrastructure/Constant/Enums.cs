@@ -11,6 +11,46 @@ namespace NetAdmin.Infrastructure.Constant;
 public static class Enums
 {
     /// <summary>
+    ///     公用比特位
+    /// </summary>
+    public enum BitSets : long
+    {
+        /// <summary>
+        ///     启用
+        /// </summary>
+        [Description(nameof(Str.Enabled))]
+        [Localization(typeof(Str))]
+        Enabled = 0b_0001
+
+       ,
+
+        /// <summary>
+        ///     暂未定义
+        /// </summary>
+        [Description(nameof(Str.Undefined))]
+        [Localization(typeof(Str))]
+        Undefined1 = 0b_0010
+
+       ,
+
+        /// <summary>
+        ///     暂未定义
+        /// </summary>
+        [Description(nameof(Str.Undefined))]
+        [Localization(typeof(Str))]
+        Undefined2 = 0b_0100
+
+       ,
+
+        /// <summary>
+        ///     暂未定义
+        /// </summary>
+        [Description(nameof(Str.Undefined))]
+        [Localization(typeof(Str))]
+        Undefined3 = 0b_1000
+    }
+
+    /// <summary>
     ///     数据范围
     /// </summary>
     public enum DataScopes
@@ -146,15 +186,7 @@ public static class Enums
     ///     部门表比特位
     /// </summary>
     [Flags]
-    public enum SysDeptBits : long
-    {
-        /// <summary>
-        ///     启用
-        /// </summary>
-        [Description(nameof(Str.Enabled))]
-        [Localization(typeof(Str))]
-        Enabled = 0b_0000_0001
-    }
+    public enum SysDeptBits : long { }
 
     /// <summary>
     ///     菜单表比特位
@@ -163,20 +195,11 @@ public static class Enums
     public enum SysMenuBits : long
     {
         /// <summary>
-        ///     启用
-        /// </summary>
-        [Description(nameof(Str.Enabled))]
-        [Localization(typeof(Str))]
-        Enabled = 0b_0000_0001
-
-       ,
-
-        /// <summary>
         ///     隐藏
         /// </summary>
         [Description(nameof(Str.Hidden))]
         [Localization(typeof(Str))]
-        Hidden = 0b_0000_0010
+        Hidden = 0b_0000_0001_0000
 
        ,
 
@@ -185,7 +208,7 @@ public static class Enums
         /// </summary>
         [Description(nameof(Str.Hidden_bread_crumb))]
         [Localization(typeof(Str))]
-        HiddenBreadCrumb = 0b_0000_0100
+        HiddenBreadCrumb = 0b_0000_0010_0000
 
        ,
 
@@ -194,7 +217,7 @@ public static class Enums
         /// </summary>
         [Description(nameof(Str.Full_page_routing))]
         [Localization(typeof(Str))]
-        FullPageRouting = 0b_0000_1000
+        FullPageRouting = 0b_0000_0100_0000
     }
 
     /// <summary>
@@ -244,33 +267,18 @@ public static class Enums
     public enum SysRoleBits : long
     {
         /// <summary>
-        ///     启用
-        /// </summary>
-        [Description(nameof(Str.Enabled))]
-        [Localization(typeof(Str))]
-        Enabled = 0b_0000_0001
-
-       ,
-
-        /// <summary>
         ///     忽略权限控制（拥有所有权限）
         /// </summary>
-        IgnorePermissionControl = 0b_0000_0010
+        [Description(nameof(Str.Ignoring_permissions_control))]
+        [Localization(typeof(Str))]
+        IgnorePermissionControl = 0b_0000_0001_0000
     }
 
     /// <summary>
     ///     用户表比特位
     /// </summary>
     [Flags]
-    public enum SysUserBits : long
-    {
-        /// <summary>
-        ///     启用
-        /// </summary>
-        [Description(nameof(Str.Enabled))]
-        [Localization(typeof(Str))]
-        Enabled = 0b_0000_0001
-    }
+    public enum SysUserBits : long { }
 
     /// <summary>
     ///     日志等级

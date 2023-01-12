@@ -14,11 +14,11 @@ public record LoginReq : TbSysUser
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     [Password]
-    public new string Password { get; set; }
+    public new string Password { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     [UserName]
-    public override string UserName { get; set; }
+    public override string UserName { get; init; }
 }

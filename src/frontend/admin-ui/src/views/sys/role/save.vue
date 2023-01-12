@@ -28,6 +28,12 @@
 							 default-expand-all></el-tree>
 				</div>
 			</el-tab-pane>
+			<el-tab-pane label="接口权限">
+				<div class="treeMain">
+					<el-tree ref="endpoint" node-key="id" :data="endpoint.list" :props="endpoint.props" show-checkbox
+					></el-tree>
+				</div>
+			</el-tab-pane>
 			<el-tab-pane label="数据权限">
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="规则类型">
@@ -40,7 +46,7 @@
 					<el-form-item label="选择部门" v-show="form.dataScope=='specificDept'">
 						<div class="treeMain" style="width: 100%;">
 							<el-tree ref="dept" node-key="id" :data="data.list" :props="data.props" show-checkbox
-							default-expand-all ></el-tree>
+									 default-expand-all></el-tree>
 						</div>
 					</el-form-item>
 				</el-form>
@@ -49,7 +55,8 @@
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="控制台视图">
 						<el-select v-model="form.dashboard" placeholder="请选择">
-							<el-option v-for="item in dashboardOptions" :key="item.value" :label="item.label" :value="item.value">
+							<el-option v-for="item in dashboardOptions" :key="item.value" :label="item.label"
+									   :value="item.value">
 								<span style="float: left">{{ item.label }}</span>
 								<span style="float: right; color: #8492a6; font-size: 12px">{{ item.views }}</span>
 							</el-option>
@@ -83,16 +90,24 @@ export default {
 				list: [],
 				checked: [],
 				props: {
-					label: (data)=>{
+					label: (data) => {
 						return data.meta.title
+					}
+				}
+			},
+			endpoint: {
+				list: [],
+				checked: [],
+				props: {
+					label: (data) => {
+						return data.summary
 					}
 				}
 			},
 			data: {
 				list: [],
 				checked: [],
-				props: {
-				},
+				props: {},
 				rule: ""
 			},
 			dashboard: "0",
@@ -117,7 +132,7 @@ export default {
 				enabled: true,
 				ignorePermissionControl: false,
 				remark: "",
-				dataScope:'all'
+				dataScope: 'all'
 			},
 			//验证规则
 			rules: {
@@ -134,8 +149,7 @@ export default {
 
 	},
 	methods: {
-		async getMenu(){
-			console.error(this.form.menuIds)
+		async getMenu() {
 			this.menu.checked = this.form.menuIds || [];
 			const res = await this.$API.sys_menu.query.post()
 			this.menu.list = res.data
@@ -145,7 +159,17 @@ export default {
 				this.$refs.menu.setCheckedKeys(filterKeys, true)
 			})
 		},
-		async getDept(){
+		async getEndpoint() {
+			//this.menu.checked = this.form.menuIds || [];
+			const res = await this.$API.sys_endpoint.list.post()
+			this.endpoint.list = res.data
+			//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
+			this.$nextTick(() => {
+				let filterKeys = this.endpoint.checked.filter(key => this.$refs.endpoint.getNode(key).isLeaf)
+				this.$refs.endpoint.setCheckedKeys(filterKeys, true)
+			})
+		},
+		async getDept() {
 			var res = await this.$API.sys_dept.query.post();
 			this.data.list = res.data
 			this.data.checked = this.form.deptIds || [];
@@ -202,9 +226,10 @@ export default {
 
 			return this
 		},
-		loadTree(){
+		loadTree() {
 			this.getMenu()
 			this.getDept()
+			this.getEndpoint()
 		}
 	}
 }

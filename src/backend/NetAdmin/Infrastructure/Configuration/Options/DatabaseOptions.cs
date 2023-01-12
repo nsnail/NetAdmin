@@ -10,10 +10,10 @@ public record DatabaseOptions : OptionAbstraction
     /// <summary>
     ///     链接字符串
     /// </summary>
-    public string ConnStr { get; set; }
+    public string ConnStr { get; init; }
 
     /// <summary>
     ///     数据库类型
     /// </summary>
-    public DataType DbType { get; set; }
+    public DataType DbType { get; init; }
 }

@@ -1,7 +1,7 @@
 using Furion;
 using NetAdmin.Aop.Pipelines;
 using NetAdmin.Api.Sys.Implements;
-using NetAdmin.Infrastructure.Extensions;
+using NetAdmin.Extensions;
 using Spectre.Console;
 
 namespace NetAdmin;
@@ -51,21 +51,21 @@ public class Startup : AppStartup
     /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddConsoleFormatter()                           // /  控制台日志模板
-                .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //    Jwt 授权处理器
+        services.AddAllOptions()                                 // /                        注册配置项
+                .AddConsoleFormatter()                           // /                        控制台日志模板
+                .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //                          Jwt 授权处理器
                 .Services
                 #if DEBUG
-                .AddMonitorLogging() // /                              日志监视信息
+                .AddMonitorLogging() // /                                                     日志监视信息
                 #endif
-                .AddMvcFilter<RequestAuditFilter>() // /               请求审计日志
-                .AddSnowflake()                     //                 雪花id生成器
-                .AddEventBus()                      //                 事件总线
-                .AddFreeSql()                       //                 注册freeSql
-                .AddAllOptions()                    //                 注册配置项
-                .AddCorsAccessor()                  //                 支持跨域访问
-                .AddControllers()                   //                 注册控制器
-                .AddJsonSerializer()                //                 json序列化配置
-                .AddFurion()                        //                 注册Furion
+                .AddMvcFilter<RequestAuditFilter>() // /                                      请求审计日志
+                .AddSnowflake()                     //                                        雪花id生成器
+                .AddEventBus()                      //                                        事件总线
+                .AddFreeSql()                       //                                        注册freeSql
+                .AddCorsAccessor()                  //                                        支持跨域访问
+                .AddControllers()                   //                                        注册控制器
+                .AddJsonSerializer()                //                                        json序列化配置
+                .AddFurion()                        //                                        注册Furion
             ;
     }
 
@@ -76,7 +76,7 @@ public class Startup : AppStartup
                                  .AddColumn(new GridColumn().NoWrap())
                                  .Expand();
         foreach (var kv in ToolsApi.EnvironmentInfoInternal()) {
-            gridInfo.AddRow(kv.Key, kv.Value.ToString()!);
+            gridInfo.AddRow(kv.Key, kv.Value.ToString()!.EscapeMarkup());
         }
 
         var gridWrap = new Grid().AddColumn()

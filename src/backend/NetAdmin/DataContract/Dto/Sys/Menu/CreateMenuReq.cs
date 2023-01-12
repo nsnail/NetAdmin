@@ -12,14 +12,14 @@ public record CreateMenuReq : TbSysMenu
 {
     /// <inheritdoc cref="TbSysMenu.Active" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Active { get; set; }
+    public override string Active { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.BitSet" />
     public override long BitSet {
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.SysMenuBits.Enabled;
+                ret |= (long)Enums.BitSets.Enabled;
             }
 
             if (Meta.HiddenBreadCrumb) {
@@ -43,12 +43,12 @@ public record CreateMenuReq : TbSysMenu
 
     /// <inheritdoc cref="TbSysMenu.Component" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Component { get; set; }
+    public override string Component { get; init; }
 
     /// <summary>
     ///     是否启用
     /// </summary>
-    public bool Enabled { get; set; } = true;
+    public bool Enabled { get; init; } = true;
 
     /// <inheritdoc cref="TbSysMenu.Icon" />
     public override string Icon => Meta.Icon;
@@ -56,28 +56,28 @@ public record CreateMenuReq : TbSysMenu
     /// <summary>
     ///     元数据
     /// </summary>
-    public MetaInfo Meta { get; set; }
+    public MetaInfo Meta { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
-    public override string Name { get; set; }
+    public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.ParentId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long ParentId { get; set; } = 0;
+    public override long ParentId { get; init; } = 0;
 
     /// <inheritdoc cref="TbSysMenu.Path" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Path { get; set; }
+    public override string Path { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Redirect" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Redirect { get; set; }
+    public override string Redirect { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override int Sort { get; set; }
+    public override int Sort { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Tag" />
     public override string Tag => Meta.Tag;
@@ -89,5 +89,5 @@ public record CreateMenuReq : TbSysMenu
     /// <inheritdoc cref="TbSysMenu.Type" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(Enums.SysMenuTypes))]
-    public override Enums.SysMenuTypes Type { get; set; } = Enums.SysMenuTypes.Menu;
+    public override Enums.SysMenuTypes Type { get; init; } = Enums.SysMenuTypes.Menu;
 }

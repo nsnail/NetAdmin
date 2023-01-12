@@ -15,23 +15,23 @@ public record TbSysRoleDept : ImmutableEntity
     ///     关联的部门
     /// </summary>
     [JsonIgnore]
-    public TbSysDept Dept { get; set; }
+    public TbSysDept Dept { get; init; }
 
     /// <summary>
     ///     可访问的部门id
     /// </summary>
     [JsonIgnore]
-    public long DeptId { get; set; }
+    public long DeptId { get; init; }
 
     /// <summary>
     ///     关联的角色
     /// </summary>
     [JsonIgnore]
-    public TbSysRole Role { get; set; }
+    public TbSysRole Role { get; init; }
 
     /// <summary>
     ///     角色id
     /// </summary>
     [JsonIgnore]
-    public long RoleId { get; set; }
+    public long RoleId { get; init; }
 }

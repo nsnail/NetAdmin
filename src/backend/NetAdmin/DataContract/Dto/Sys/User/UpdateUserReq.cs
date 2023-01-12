@@ -16,7 +16,7 @@ public record UpdateUserReq : CreateUserReq
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.SysUserBits.Enabled;
+                ret |= (long)Enums.BitSets.Enabled;
             }
 
             return ret;
@@ -27,7 +27,7 @@ public record UpdateUserReq : CreateUserReq
     ///     启用
     /// </summary>
     [Required]
-    public bool Enabled { get; set; }
+    public bool Enabled { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -39,5 +39,5 @@ public record UpdateUserReq : CreateUserReq
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Version { get; set; }
+    public override long Version { get; init; }
 }

@@ -10,54 +10,61 @@ namespace NetAdmin.DataContract.DbMaps;
 /// </summary>
 [Table]
 [Index("idx_{tablename}_01", nameof(Label), true)]
-public record TbSysRole : DefaultEntity, IFieldBitSet, IFieldSort
+public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
 {
     /// <summary>
-    ///     比特位 <see cref="Enums.SysRoleBits" />
+    ///     比特位（前4位是公共位<see cref="Enums.BitSets" />） <see cref="Enums.SysRoleBits" />
     /// </summary>
     [JsonIgnore]
-    public virtual long BitSet { get; set; }
+    public virtual long BitSet { get; init; }
 
     /// <summary>
     ///     数据范围
     /// </summary>
     [JsonIgnore]
-    public virtual Enums.DataScopes DataScope { get; set; }
+    public virtual Enums.DataScopes DataScope { get; init; }
 
     /// <summary>
     ///     角色-部门映射
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleDept))]
     [JsonIgnore]
-    public virtual ICollection<TbSysDept> Depts { get; set; }
+    public virtual ICollection<TbSysDept> Depts { get; init; }
+
+    /// <summary>
+    ///     角色-端点映射
+    /// </summary>
+    [JsonIgnore]
+    [Navigate]
+    public ICollection<TbSysRoleEndpoint> Endpoints { get; set; }
 
     /// <summary>
     ///     角色名
     /// </summary>
     [JsonIgnore]
-    public virtual string Label { get; set; }
+    public virtual string Label { get; init; }
 
     /// <summary>
     ///     角色-菜单映射
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleMenu))]
     [JsonIgnore]
-    public virtual ICollection<TbSysMenu> Menus { get; set; }
+    public virtual ICollection<TbSysMenu> Menus { get; init; }
 
     /// <summary>
     ///     备注
     /// </summary>
     [JsonIgnore]
-    public virtual string Remark { get; set; }
+    public virtual string Remark { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    public virtual int Sort { get; set; }
+    public virtual int Sort { get; init; }
 
     /// <summary>
     ///     此角色下的用户集合
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysUserRole))]
     [JsonIgnore]
-    public ICollection<TbSysUser> Users { get; set; }
+    public ICollection<TbSysUser> Users { get; init; }
 }

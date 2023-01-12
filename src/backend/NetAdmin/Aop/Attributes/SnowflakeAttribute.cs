@@ -11,5 +11,5 @@ public class SnowflakeAttribute : Attribute
     /// <summary>
     ///     启用
     /// </summary>
-    public bool Enable { get; set; } = true;
+    public bool Enable { get; init; } = true;
 }

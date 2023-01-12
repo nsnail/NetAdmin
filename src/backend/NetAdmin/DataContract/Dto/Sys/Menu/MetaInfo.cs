@@ -46,5 +46,5 @@ public record MetaInfo(string Icon,     string Title, Enums.SysMenuTypes Type, b
     /// <summary>
     ///     类型
     /// </summary>
-    public Enums.SysMenuTypes Type { get; set; } = Type;
+    public Enums.SysMenuTypes Type { get; init; } = Type;
 }

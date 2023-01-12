@@ -15,7 +15,7 @@ public record CreateDeptReq : TbSysDept
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.SysDeptBits.Enabled;
+                ret |= (long)Enums.BitSets.Enabled;
             }
 
             return ret;
@@ -26,22 +26,22 @@ public record CreateDeptReq : TbSysDept
     ///     是否启用
     /// </summary>
     [Required]
-    public bool Enabled { get; set; }
+    public bool Enabled { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Label" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
-    public override string Label { get; set; }
+    public override string Label { get; init; }
 
     /// <inheritdoc cref="TbSysDept.ParentId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long ParentId { get; set; }
+    public override long ParentId { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Remark" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Remark { get; set; }
+    public override string Remark { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override int Sort { get; set; }
+    public override int Sort { get; init; }
 }

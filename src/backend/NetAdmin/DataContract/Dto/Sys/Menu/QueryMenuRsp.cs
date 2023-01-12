@@ -15,7 +15,7 @@ public record QueryMenuRsp : TbSysMenu, IRegister
     /// <summary>
     ///     是否启用
     /// </summary>
-    public bool Enabled => BitSet.HasFlag(Enums.SysMenuBits.Enabled);
+    public bool Enabled => BitSet.HasFlag(Enums.BitSets.Enabled);
 
     /// <summary>
     ///     元数据
@@ -27,17 +27,17 @@ public record QueryMenuRsp : TbSysMenu, IRegister
 
     /// <inheritdoc cref="TbSysMenu.Active" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Active { get; set; }
+    public override string Active { get; init; }
 
     /// <summary>
     ///     子节点
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public new List<QueryMenuRsp> Children { get; set; }
+    public new List<QueryMenuRsp> Children { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Component" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Component { get; set; }
+    public override string Component { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -45,23 +45,23 @@ public record QueryMenuRsp : TbSysMenu, IRegister
 
     /// <inheritdoc cref="TbSysMenu.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Name { get; set; }
+    public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.ParentId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long ParentId { get; set; }
+    public override long ParentId { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Path" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Path { get; set; }
+    public override string Path { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Redirect" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Redirect { get; set; }
+    public override string Redirect { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Version { get; set; }
+    public override long Version { get; init; }
 
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)

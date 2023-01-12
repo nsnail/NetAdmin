@@ -10,15 +10,15 @@ public record UploadOptions : OptionAbstraction
     /// <summary>
     ///     允许的文件类型
     /// </summary>
-    public IReadOnlyCollection<string> ContentTypes { get; set; }
+    public IReadOnlyCollection<string> ContentTypes { get; init; }
 
     /// <summary>
     ///     允许的文件大小（字节）
     /// </summary>
-    public long MaxSize { get; set; }
+    public long MaxSize { get; init; }
 
     /// <summary>
     ///     Minio 配置
     /// </summary>
-    public MinioNode Minio { get; set; }
+    public MinioNode Minio { get; init; }
 }

@@ -14,5 +14,5 @@ public record UpdateMenuReq : CreateMenuReq
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Version { get; set; }
+    public override long Version { get; init; }
 }
