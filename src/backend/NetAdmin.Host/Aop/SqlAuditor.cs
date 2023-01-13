@@ -3,9 +3,11 @@ using FreeSql.Aop;
 using Furion;
 using Furion.DependencyInjection;
 using NetAdmin.DataContract.Attributes;
+using NetAdmin.Infrastructure.Lang;
+using NSExt.Extensions;
 using Yitter.IdGenerator;
 
-namespace NetAdmin.Api.Aop;
+namespace NetAdmin.Host.Aop;
 
 /// <summary>
 ///     Sql审核器
@@ -30,7 +32,7 @@ public class SqlAuditor : ISingleton
         _timeOffset = DateTime.UtcNow.Subtract(
             App.GetRequiredService<IFreeSql>().Ado.QuerySingle(() => DateTime.UtcNow));
 
-        _logger.LogInformation("{}", $"{nameof(SqlAuditor)} 初始化完毕");
+        _logger.Info($"{Str.Database_server_clock_offset} {_timeOffset}");
     }
 
     /// <summary>

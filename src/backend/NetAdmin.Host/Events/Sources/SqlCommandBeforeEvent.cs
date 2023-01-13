@@ -2,7 +2,7 @@ using System.Globalization;
 using FreeSql.Aop;
 using NSExt.Extensions;
 
-namespace NetAdmin.Api.Events.Sources;
+namespace NetAdmin.Host.Events.Sources;
 
 /// <summary>
 ///     Sql命令执行前事件
@@ -23,6 +23,6 @@ public class SqlCommandBeforeEvent : SqlCommandEvent
     /// <inheritdoc />
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, "{0}: {1}", Id, Sql);
+        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {1}", Id, Sql);
     }
 }

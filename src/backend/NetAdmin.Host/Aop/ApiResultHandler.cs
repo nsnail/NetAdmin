@@ -9,7 +9,7 @@ using NetAdmin.DataContract.Dto;
 using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
-namespace NetAdmin.Api.Aop;
+namespace NetAdmin.Host.Aop;
 
 /// <summary>
 ///     Api结果格式化处理器

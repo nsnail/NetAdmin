@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../../CodeQuality.props" />
+    <Import Project="../../../CodeQuality.props"/>
     <ItemGroup>
-        <ProjectReference Include="../NetAdmin.DataContract/NetAdmin.DataContract.csproj" />
+        <ProjectReference Include="../NetAdmin.DataContract/NetAdmin.DataContract.csproj"/>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Service" />
-    </ItemGroup>
-    
 </Project>

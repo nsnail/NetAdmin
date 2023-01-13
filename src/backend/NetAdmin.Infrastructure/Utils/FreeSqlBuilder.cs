@@ -12,7 +12,6 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public class FreeSqlBuilder
 {
-    private const    string          _SEED_DATA_RELATIVE_PATH = ".data/seed-data";
     private readonly DatabaseOptions _databaseOptions;
 
     /// <summary>
@@ -50,19 +49,33 @@ public class FreeSqlBuilder
     }
 
     /// <summary>
+    ///     初始化数据库
+    /// </summary>
+    private Task InitDbAsync(IFreeSql freeSql)
+    {
+        return Task.Run(() => {
+            var entityTypes = GetEntityTypes();
+            SyncStructure(freeSql, entityTypes);
+            InsertSeedData(freeSql, entityTypes);
+        });
+    }
+
+    /// <summary>
     ///     插入种子数据
     /// </summary>
-    private static void InsertSeedData(IFreeSql freeSql, IEnumerable<Type> entityTypes)
+    private void InsertSeedData(IFreeSql freeSql, IEnumerable<Type> entityTypes)
     {
         foreach (var entityType in entityTypes) {
-            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _SEED_DATA_RELATIVE_PATH
+            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _databaseOptions.SeedDataRelativePath
                                   , $"{entityType.Name}.json");
             if (!File.Exists(file)) {
                 continue;
             }
 
+            var fileContent = File.ReadAllText(file);
+
             dynamic entities = JsonConvert.DeserializeObject( //
-                File.ReadAllText(file), typeof(List<>).MakeGenericType(entityType));
+                fileContent, typeof(List<>).MakeGenericType(entityType));
 
             // 如果表存在数据，跳过
             var select = typeof(IFreeSql).GetMethod(nameof(freeSql.Select), 1, Type.EmptyTypes)
@@ -94,18 +107,6 @@ public class FreeSqlBuilder
 
             insert?.Invoke(rep, new[] { entities });
         }
-    }
-
-    /// <summary>
-    ///     初始化数据库
-    /// </summary>
-    private Task InitDbAsync(IFreeSql freeSql)
-    {
-        return Task.Run(() => {
-            var entityTypes = GetEntityTypes();
-            SyncStructure(freeSql, entityTypes);
-            InsertSeedData(freeSql, entityTypes);
-        });
     }
 
     /// <summary>

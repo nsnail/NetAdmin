@@ -1,7 +1,7 @@
 using System.Globalization;
 using FreeSql.Aop;
 
-namespace NetAdmin.Api.Events.Sources;
+namespace NetAdmin.Host.Events.Sources;
 
 /// <summary>
 ///     Sql命令执行后事件
@@ -25,6 +25,6 @@ public class SqlCommandAfterEvent : SqlCommandBeforeEvent
     /// <inheritdoc />
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, "{0}: {1} ms", Id, ElapsedMilliseconds);
+        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {1} ms", Id, ElapsedMilliseconds);
     }
 }

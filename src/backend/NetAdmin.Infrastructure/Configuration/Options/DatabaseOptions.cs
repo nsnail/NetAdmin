@@ -16,4 +16,9 @@ public record DatabaseOptions : OptionAbstraction
     ///     数据库类型
     /// </summary>
     public DataType DbType { get; init; }
+
+    /// <summary>
+    ///     种子数据路径（相对）
+    /// </summary>
+    public string SeedDataRelativePath { get; init; }
 }

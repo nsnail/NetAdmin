@@ -4,16 +4,17 @@ using FreeSql;
 using Furion;
 using Furion.DependencyInjection;
 using Furion.EventBus;
-using NetAdmin.Api.Aop;
-using NetAdmin.Api.Events.Sources;
+using NetAdmin.Host.Aop;
+using NetAdmin.Host.Events.Sources;
 using NetAdmin.Infrastructure.Configuration;
 using NetAdmin.Infrastructure.Configuration.Options;
 using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Infrastructure.Utils;
 using NSExt.Extensions;
 using Spectre.Console;
 using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
 
-namespace NetAdmin.Api.Extensions;
+namespace NetAdmin.Host.Extensions;
 
 /// <summary>
 ///     ServiceCollection 扩展方法
@@ -38,22 +39,27 @@ public static class ServiceCollectionExtensions
                   , {
                         new Regex( //
                             @"(INSERT) ", RegexOptions.Compiled)
-                      , @$"[underline {nameof(ConsoleColor.Blue)}]$1[/] "
+                      , @$"[{nameof(ConsoleColor.Blue)}]$1[/] "
                     }
                   , {
                         new Regex( //
                             @"(SELECT) ", RegexOptions.Compiled)
-                      , @$"[underline {nameof(ConsoleColor.Green)}]$1[/] "
+                      , @$"[{nameof(ConsoleColor.Green)}]$1[/] "
                     }
                   , {
                         new Regex( //
                             @"(UPDATE) ", RegexOptions.Compiled)
-                      , @$"[underline {nameof(ConsoleColor.Yellow)}]$1[/] "
+                      , @$"[{nameof(ConsoleColor.Yellow)}]$1[/] "
                     }
                   , {
                         new Regex( //
                             @"(DELETE) ", RegexOptions.Compiled)
-                      , @$"[underline {nameof(ConsoleColor.Red)}]$1[/] "
+                      , @$"[{nameof(ConsoleColor.Red)}]$1[/] "
+                    }
+                  , {
+                        new Regex( //
+                            @"(<s:.+?>)", RegexOptions.Compiled)
+                      , @$"[underline {nameof(ConsoleColor.Gray)}]$1[/] "
                     }
                 };
 
@@ -64,7 +70,7 @@ public static class ServiceCollectionExtensions
     {
         return me.AddConsoleFormatter(options => {
             options.WriteHandler = (message, _, _, _, _) => {
-                var msg = _logKeywords.Aggregate(
+                var msg = _logKeywords.Aggregate( //
                     message.Message.EscapeMarkup()
                   , (current, regex) => regex.Key.Replace(current, regex.Value));
 
@@ -85,6 +91,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
     {
+        var logger  = LogHelper.Get<IServiceCollection>();
         var options = App.GetOptions<DatabaseOptions>();
         var freeSql = new FreeSqlBuilder(options).Build();
         me.AddSingleton(freeSql);

@@ -2,7 +2,7 @@ using System.Globalization;
 using FreeSql.Aop;
 using NetAdmin.Infrastructure.Lang;
 
-namespace NetAdmin.Api.Events.Sources;
+namespace NetAdmin.Host.Events.Sources;
 
 /// <summary>
 ///     同步数据库结构之后事件

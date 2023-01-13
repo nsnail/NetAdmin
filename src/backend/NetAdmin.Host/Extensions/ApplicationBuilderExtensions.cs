@@ -2,7 +2,7 @@ using Furion.DependencyInjection;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 
-namespace NetAdmin.Api.Extensions;
+namespace NetAdmin.Host.Extensions;
 
 /// <summary>
 ///     ApplicationBuilder对象 扩展方法

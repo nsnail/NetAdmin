@@ -1,6 +1,7 @@
+using System.Globalization;
 using Furion.EventBus;
 
-namespace NetAdmin.Api.Events.Sources;
+namespace NetAdmin.Host.Events.Sources;
 
 /// <summary>
 ///     Sql命令事件
@@ -10,7 +11,7 @@ public class SqlCommandEvent : IEventSource
     /// <summary>
     ///     标识符缩写
     /// </summary>
-    public string Id => Identifier.ToString()[..8];
+    public string Id => Identifier.ToString()[..8].ToUpper(CultureInfo.InvariantCulture);
 
     /// <inheritdoc />
     public CancellationToken CancellationToken { get; init; }

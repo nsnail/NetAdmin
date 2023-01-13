@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NSExt.Extensions;
 
-namespace NetAdmin.Api.Aop;
+namespace NetAdmin.Host.Aop;
 
 /// <summary>
 ///     请求审计日志

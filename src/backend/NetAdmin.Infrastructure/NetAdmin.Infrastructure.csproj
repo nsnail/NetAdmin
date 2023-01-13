@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../../CodeQuality.props" />
+    <Import Project="../../../CopyPackageXmlCommentFiles.targets" />
+    <Import Project="../../../GenerateResx.targets" />
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.686-preview20230105-ns1" />
         <PackageReference Include="FreeSql.NS" Version="3.2.686-preview20230105-ns1">
@@ -20,8 +23,4 @@
             <LastGenOutput>Str.Designer.cs</LastGenOutput>
         </EmbeddedResource>
     </ItemGroup>
-
-    <Import Project="../../../CodeQuality.props" />
-    <Import Project="../../../CopyPackageXmlCommentFiles.targets" />
-    <Import Project="../../../GenerateResx.targets" />
 </Project>

@@ -1,14 +1,14 @@
 using Furion.DependencyInjection;
 using Furion.EventBus;
 using Mapster;
-using NetAdmin.Api.Aop;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Service.Sys;
 using NetAdmin.Application.Service.Sys.Implements;
 using NetAdmin.DataContract.DbMaps;
+using NetAdmin.Host.Aop;
 using NSExt.Extensions;
 
-namespace NetAdmin.Api.Events.Subscribers;
+namespace NetAdmin.Host.Events.Subscribers;
 
 /// <summary>
 ///     请求日志记录

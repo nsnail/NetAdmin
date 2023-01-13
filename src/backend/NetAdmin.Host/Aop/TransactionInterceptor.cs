@@ -3,8 +3,10 @@ using FreeSql;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NetAdmin.DataContract.Attributes;
+using NetAdmin.Infrastructure.Lang;
+using NSExt.Extensions;
 
-namespace NetAdmin.Api.Aop;
+namespace NetAdmin.Host.Aop;
 
 /// <summary>
 ///     事务拦截器
@@ -38,18 +40,18 @@ public class TransactionInterceptor : IAsyncActionFilter
         using var unitOfWork = _uowManager.Begin();
         var       hashCode   = unitOfWork.GetHashCode();
         try {
-            _logger.LogInformation("事务 {HashCode} 开始", hashCode);
+            _logger.Info($"{Str.Transaction_starting}: {hashCode}");
             var result = await next();
             if (result.Exception is not null) {
                 throw result.Exception;
             }
 
             unitOfWork.Commit();
-            _logger.LogInformation("事务 {HashCode} 完成", hashCode);
+            _logger.Info($"{Str.Transaction_commited}: {hashCode}");
         }
         catch (Exception) {
             unitOfWork.Rollback();
-            _logger.LogError("事务 {HashCode} 回滚", hashCode);
+            _logger.Error($"{Str.Transaction_rollbacked}: {hashCode}");
             throw;
         }
     }

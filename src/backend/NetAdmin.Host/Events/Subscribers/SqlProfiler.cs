@@ -1,8 +1,9 @@
 using Furion.DependencyInjection;
 using Furion.EventBus;
-using NetAdmin.Api.Events.Sources;
+using NetAdmin.Host.Events.Sources;
+using NSExt.Extensions;
 
-namespace NetAdmin.Api.Events.Subscribers;
+namespace NetAdmin.Host.Events.Subscribers;
 
 /// <summary>
 ///     Sql性能分析
@@ -26,7 +27,7 @@ public class SqlProfiler : IEventSubscriber, ISingleton
     public Task CommandAfter(EventHandlerExecutingContext context)
     {
         var source = context.Source as SqlCommandAfterEvent;
-        _logger.LogInformation("{}", source?.ToString());
+        _logger.Info(source);
         return Task.CompletedTask;
     }
 
@@ -37,7 +38,7 @@ public class SqlProfiler : IEventSubscriber, ISingleton
     public Task CommandBefore(EventHandlerExecutingContext context)
     {
         var source = context.Source as SqlCommandBeforeEvent;
-        _logger.LogInformation("{}", source?.ToString());
+        _logger.Info(source);
         return Task.CompletedTask;
     }
 
@@ -48,7 +49,7 @@ public class SqlProfiler : IEventSubscriber, ISingleton
     public Task SyncStructureAfter(EventHandlerExecutingContext context)
     {
         var source = context.Source as SyncStructureAfterEvent;
-        _logger.LogInformation("{}", source?.ToString());
+        _logger.Info(source);
         return Task.CompletedTask;
     }
 
@@ -59,7 +60,7 @@ public class SqlProfiler : IEventSubscriber, ISingleton
     public Task SyncStructureBefore(EventHandlerExecutingContext context)
     {
         var source = context.Source as SyncStructureBeforeEvent;
-        _logger.LogInformation("{}", source?.ToString());
+        _logger.Info(source);
         return Task.CompletedTask;
     }
 }

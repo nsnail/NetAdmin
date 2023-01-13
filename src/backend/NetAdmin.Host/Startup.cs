@@ -1,11 +1,11 @@
 using Furion;
-using NetAdmin.Api.Aop;
-using NetAdmin.Api.Extensions;
 using NetAdmin.Application.Service.Sys.Implements;
+using NetAdmin.Host.Aop;
+using NetAdmin.Host.Extensions;
 using NetAdmin.Infrastructure.Extensions;
 using Spectre.Console;
 
-namespace NetAdmin.Api;
+namespace NetAdmin.Host;
 
 /// <summary>
 ///     启动类
@@ -51,8 +51,8 @@ public class Startup : AppStartup
     /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddAllOptions()                                 // /                        注册配置项
-                .AddConsoleFormatter()                           // /                        控制台日志模板
+        services.AddConsoleFormatter()                           // /                        控制台日志模板
+                .AddAllOptions()                                 // /                        注册配置项
                 .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //                          Jwt 授权处理器
                 .Services
                 #if DEBUG
