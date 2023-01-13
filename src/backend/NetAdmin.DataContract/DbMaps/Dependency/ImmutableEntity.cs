@@ -9,7 +9,20 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 /// <summary>
 ///     不可变实体
 /// </summary>
-public abstract record ImmutableEntity : EntityBase, IFieldPrimary, IFieldAdd
+public abstract record ImmutableEntity : ImmutableEntity<long>
+{
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
+    [Snowflake]
+    public override long Id { get; set; }
+}
+
+/// <summary>
+///     不可变实体
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public abstract record ImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IFieldAdd
 {
     /// <inheritdoc />
     [JsonIgnore]
@@ -29,10 +42,11 @@ public abstract record ImmutableEntity : EntityBase, IFieldPrimary, IFieldAdd
     [Column(Position = -21, CanUpdate = false)]
     public virtual string CreatedUserName { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [JsonIgnore]
     [Description(Strings.DSC_ID)]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [Snowflake]
-    public virtual long Id { get; set; }
+    public virtual T Id { get; set; }
 }

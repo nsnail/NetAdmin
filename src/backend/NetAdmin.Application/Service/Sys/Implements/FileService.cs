@@ -1,9 +1,9 @@
 using System.Globalization;
-using Furion;
+using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using NetAdmin.Application.Extensions;
+using NetAdmin.DataContract;
 using NetAdmin.Infrastructure.Configuration.Options;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Lang;
@@ -12,7 +12,7 @@ using NetAdmin.Infrastructure.Utils;
 namespace NetAdmin.Application.Service.Sys.Implements;
 
 /// <inheritdoc cref="IFileService" />
-public class FileService : ServiceBase<IFileService>, IFileService
+public class FileService : ServiceBase<IFileService>, IFileService, IDynamicApiController
 {
     private readonly MinioHelper   _minioHelper;
     private readonly UploadOptions _uploadOptions;
@@ -20,7 +20,8 @@ public class FileService : ServiceBase<IFileService>, IFileService
     /// <summary>
     ///     Initializes a new instance of the <see cref="FileService" /> class.
     /// </summary>
-    public FileService(IOptions<UploadOptions> uploadOptions, MinioHelper minioHelper)
+    public FileService(ContextUser user, IOptions<UploadOptions> uploadOptions, MinioHelper minioHelper) //
+        : base(user)
     {
         _minioHelper   = minioHelper;
         _uploadOptions = uploadOptions.Value;
@@ -48,7 +49,7 @@ public class FileService : ServiceBase<IFileService>, IFileService
         }
 
         var             fileName   = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-        var             objectName = $"{App.User.AsContextUser().Id}/{fileName}";
+        var             objectName = $"{User.Id}/{fileName}";
         await using var fs         = file.OpenReadStream();
         var             ret        = await _minioHelper.Upload(objectName, fs, file.ContentType, file.Length);
         return ret;

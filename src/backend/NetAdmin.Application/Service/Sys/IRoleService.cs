@@ -7,10 +7,10 @@ namespace NetAdmin.Application.Service.Sys;
 ///     角色服务
 /// </summary>
 public interface IRoleService : ICrudService<CreateRoleReq, QueryRoleRsp // 创建类型
-                                  , QueryRoleReq, QueryRoleRsp           // 查询类型
-                                  , UpdateRoleReq, QueryRoleRsp          // 修改类型
-                                  , DelReq                               // 删除类型
-                                >, IService
+  , QueryRoleReq, QueryRoleRsp                                           // 查询类型
+  , UpdateRoleReq, QueryRoleRsp                                          // 修改类型
+  , DelReq                                                               // 删除类型
+>
 {
     /// <summary>
     ///     批量删除角色

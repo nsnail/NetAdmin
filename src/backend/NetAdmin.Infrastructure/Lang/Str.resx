@@ -201,4 +201,10 @@
     <data name="Database server clock offset" xml:space="preserve">
         <value>数据库服务器时钟偏移</value>
     </data>
+    <data name="Action" xml:space="preserve">
+        <value>方法</value>
+    </data>
+    <data name="Controller" xml:space="preserve">
+        <value>控制器</value>
+    </data>
 </root>

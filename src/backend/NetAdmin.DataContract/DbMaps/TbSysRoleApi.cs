@@ -5,16 +5,16 @@ using NetAdmin.DataContract.DbMaps.Dependency;
 namespace NetAdmin.DataContract.DbMaps;
 
 /// <summary>
-///     角色-端点映射表
+///     角色-接口映射表
 /// </summary>
 [Table]
-public record TbSysRoleEndpoint : ImmutableEntity
+public record TbSysRoleApi : ImmutableEntity
 {
     /// <summary>
-    ///     端点路径
+    ///     接口id
     /// </summary>
     [JsonIgnore]
-    public virtual string Path { get; init; }
+    public virtual string ApiId { get; init; }
 
     /// <summary>
     ///     角色id

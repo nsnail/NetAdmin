@@ -1,7 +1,8 @@
+using Furion;
 using Furion.Authorization;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
-using NetAdmin.Application.Extensions;
+using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
@@ -26,13 +27,13 @@ public class JwtHandler : AppAuthorizeHandler
     public override async Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
     {
         // 无法从token中获取contextuser，拒绝访问
-        var contextUser = context.User.AsContextUser();
-        if (contextUser is null) {
+        var user = App.GetService<ContextUser>();
+        if (user.Id == 0) {
             return false;
         }
 
         // 数据库不存在contextuser，或用户已被禁用，拒绝访问
-        var dbUser = await _sql.Select<TbSysUser>().Where(x => x.Token == contextUser.Token).FirstAsync();
+        var dbUser = await _sql.Select<TbSysUser>().Where(x => x.Token == user.Token).FirstAsync();
         if (dbUser is null || !dbUser.BitSet.HasFlag(Enums.BitSets.Enabled)) {
             return false;
         }

@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps;
-using NetAdmin.DataContract.DbMaps.Dependency;
 
 namespace NetAdmin.DataContract.Dto.Sys.Dept;
 
@@ -9,7 +8,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Dept;
 /// </summary>
 public record QueryDeptReq : TbSysDept
 {
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 }

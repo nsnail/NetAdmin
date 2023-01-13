@@ -1,7 +1,9 @@
+using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Repositories;
+using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Dept;
@@ -11,24 +13,24 @@ using NetAdmin.Infrastructure.Lang;
 namespace NetAdmin.Application.Service.Sys.Implements;
 
 /// <inheritdoc cref="IDeptService" />
-public class DeptService : RepositoryService<TbSysDept, IDeptService>, IDeptService
+public class DeptService : RepositoryService<TbSysDept, IDeptService>, IDeptService, IDynamicApiController
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="DeptService" /> class.
     /// </summary>
-    public DeptService(Repository<TbSysDept> rpo) //
-        : base(rpo) { }
+    public DeptService(ContextUser user, Repository<TbSysDept> rpo) //
+        : base(user, rpo) { }
 
     /// <summary>
     ///     创建部门
     /// </summary>
-    public async Task<QueryDeptRsp> Create(CreateDeptReq @in)
+    public async Task<QueryDeptRsp> Create(CreateDeptReq req)
     {
-        if (@in.ParentId != 0 && !await Rpo.Select.AnyAsync(a => a.Id == @in.ParentId)) {
+        if (req.ParentId != 0 && !await Rpo.Select.AnyAsync(a => a.Id == req.ParentId)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.Parent_department_does_not_exist);
         }
 
-        var ret = await Rpo.InsertAsync(@in);
+        var ret = await Rpo.InsertAsync(req);
 
         return ret.Adapt<QueryDeptRsp>();
     }

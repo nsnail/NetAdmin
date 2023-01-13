@@ -2,7 +2,10 @@ using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
+using Furion;
 using Furion.DependencyInjection;
+using Furion.SpecificationDocument;
+using Microsoft.Extensions.Options;
 
 namespace NetAdmin.Infrastructure.Utils;
 
@@ -17,9 +20,10 @@ public class XmlCommentHelper : ISingleton
     /// <summary>
     ///     Initializes a new instance of the <see cref="XmlCommentHelper" /> class.
     /// </summary>
-    public XmlCommentHelper()
+    public XmlCommentHelper(IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettings)
     {
-        _xmlDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{nameof(NetAdmin)}.xml"));
+        var commentFile = specificationDocumentSettings.Value.XmlComments.First(x => x.Contains(nameof(NetAdmin)));
+        _xmlDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile));
     }
 
     /// <summary>
@@ -39,7 +43,7 @@ public class XmlCommentHelper : ISingleton
 
         var cref = node.FirstChild.Attributes?["cref"]?.Value;
         if (cref is not null) {
-            return GetComments(Type.GetType(cref[2..]));
+            return GetComments(App.EffectiveTypes.Single(x => x.FullName == cref[2..]));
         }
 
         var methodFromBaseType = memberInfo.DeclaringType?.BaseType?.GetMethod(memberInfo.Name);

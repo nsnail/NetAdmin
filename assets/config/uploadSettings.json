@@ -8,7 +8,7 @@
         ],
         "MaxSize": 1073741824,
         "Minio": {
-            "Endpoint": "vm-ubt-1:9000",
+            "ServerAddress": "vm-ubt-1:9000",
             "AccessKey": "nVMM0gSqwyIjM8iZ",
             "SecretKey": "F8OZngGrNsZSYn4MP9swwMSf5rfm61EC",
             "BucketName": "net-admin",

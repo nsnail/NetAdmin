@@ -30,7 +30,7 @@ public class MinioHelper : IScoped
     /// <returns>可访问的url地址</returns>
     public async Task<string> Upload(string objectName, Stream fileStream, string contentType, long fileSize)
     {
-        using var minio = new MinioClient().WithEndpoint(_uploadOptions.Minio.Endpoint)
+        using var minio = new MinioClient().WithEndpoint(_uploadOptions.Minio.ServerAddress)
                                            .WithCredentials( //
                                                _uploadOptions.Minio.AccessKey, _uploadOptions.Minio.SecretKey)
                                            .WithSSL(_uploadOptions.Minio.Secure)

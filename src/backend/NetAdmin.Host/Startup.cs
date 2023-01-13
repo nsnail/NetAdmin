@@ -55,9 +55,11 @@ public class Startup : AppStartup
                 .AddAllOptions()                                 // /                        注册配置项
                 .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //                          Jwt 授权处理器
                 .Services
+
                 #if DEBUG
                 .AddMonitorLogging() // /                                                     日志监视信息
                 #endif
+
                 .AddMvcFilter<RequestAuditFilter>() // /                                      请求审计日志
                 .AddSnowflake()                     //                                        雪花id生成器
                 .AddEventBus()                      //                                        事件总线

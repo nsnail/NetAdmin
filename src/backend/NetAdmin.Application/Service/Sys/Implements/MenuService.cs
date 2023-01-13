@@ -1,7 +1,9 @@
+using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Repositories;
+using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Menu;
@@ -10,13 +12,13 @@ using NetAdmin.Infrastructure.Constant;
 namespace NetAdmin.Application.Service.Sys.Implements;
 
 /// <inheritdoc cref="IMenuService" />
-public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuService
+public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuService, IDynamicApiController
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="MenuService" /> class.
     /// </summary>
-    public MenuService(Repository<TbSysMenu> rpo) //
-        : base(rpo) { }
+    public MenuService(ContextUser user, Repository<TbSysMenu> rpo) //
+        : base(user, rpo) { }
 
     /// <inheritdoc />
     public Task<int> BulkDelete(BulkDelReq req)
@@ -28,9 +30,9 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     创建菜单
     /// </summary>
-    public async Task<QueryMenuRsp> Create(CreateMenuReq @in)
+    public async Task<QueryMenuRsp> Create(CreateMenuReq req)
     {
-        var ret = await Rpo.InsertAsync(@in);
+        var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryMenuRsp>();
     }
 

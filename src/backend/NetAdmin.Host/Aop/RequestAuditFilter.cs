@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NetAdmin.DataContract.Dto.Sys.Log;
+using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
 
 namespace NetAdmin.Host.Aop;
@@ -37,28 +39,27 @@ public class RequestAuditFilter : IAsyncActionFilter
         var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
         var (retType, retData) = GetReturnData(resultContext);
 
-        var auditData = new {
-                                Action      = actionDescriptor?.ActionName
-                              , ClientIp    = context.HttpContext.GetRemoteIpAddressToIPv4()
-                              , Controller  = actionDescriptor?.ControllerName
-                              , Duration    = duration
-                              , Environment = App.WebHostEnvironment.EnvironmentName
-                              , context.HttpContext.Request.Method
-                              , ReferUrl           = context.HttpContext.Request.GetRefererUrlAddress()
-                              , RequestContentType = context.HttpContext.Request.ContentType
-                              , RequestParameters  = context.ActionArguments.Json()
-                              , RequestUrl         = context.HttpContext.Request.GetRequestUrlAddress()
-                              , ResponseRawType    = actionDescriptor?.MethodInfo.ReturnType.ToString()
-                              , Exception          = resultContext.Exception?.ToString()
-                              , ResponseWrapType   = retType?.ToString()
-                              , ResponseResult     = retData?.Json()
-                              , ServerIp           = context.HttpContext.GetLocalIpAddressToIPv4()
-                              , UserAgent          = context.HttpContext.Request.Headers["User-Agent"]
-                            };
+        var auditData = new CreateOperationLogReq {
+                                                      ClientIp = context.HttpContext.GetRemoteIpAddressToIPv4()
+                                                    , Duration = duration
+                                                    , Environment = App.WebHostEnvironment.EnvironmentName
+                                                    , Method = context.HttpContext.Request.Method
+                                                    , ReferUrl = context.HttpContext.Request.GetRefererUrlAddress()
+                                                    , RequestContentType = context.HttpContext.Request.ContentType
+                                                    , RequestParameters = context.ActionArguments.Json()
+                                                    , RequestUrl = context.HttpContext.Request.GetRequestUrlAddress()
+                                                    , ResponseRawType
+                                                          = actionDescriptor?.MethodInfo.ReturnType.ToString()
+                                                    , Exception = resultContext.Exception?.ToString()
+                                                    , ResponseWrapType = retType?.ToString()
+                                                    , ResponseResult = retData?.Json()
+                                                    , ServerIp = context.HttpContext.GetLocalIpAddressToIPv4()
+                                                    , UserAgent = context.HttpContext.Request.Headers["User-Agent"]
+                                                    , ApiId = actionDescriptor?.AttributeRouteInfo?.Template
+                                                  };
 
         // 发布审计事件
-        await _eventPublisher.PublishAsync( //
-            $"{nameof(RequestAuditFilter)}.{nameof(OnActionExecutionAsync)}", auditData);
+        await _eventPublisher.PublishAsync(new OperationEvent(auditData));
     }
 
     /// <summary>

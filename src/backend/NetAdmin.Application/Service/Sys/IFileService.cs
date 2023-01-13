@@ -5,7 +5,7 @@ namespace NetAdmin.Application.Service.Sys;
 /// <summary>
 ///     文件服务
 /// </summary>
-public interface IFileService : IService
+public interface IFileService
 {
     /// <summary>
     ///     文件上传

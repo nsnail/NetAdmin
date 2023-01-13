@@ -1,11 +1,6 @@
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
-using Mapster;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.DataContract.Dto;
-using NetAdmin.DataContract.Dto.Pub;
-using NetAdmin.DataContract.Dto.Sys.User;
-using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.DbMaps;
 
@@ -13,7 +8,7 @@ namespace NetAdmin.DataContract.DbMaps;
 ///     登录日志表
 /// </summary>
 [Table]
-public record TbSysLoginLog : ImmutableEntity, IRegister
+public record TbSysLoginLog : ImmutableEntity
 {
     /// <summary>
     ///     IP地址
@@ -44,16 +39,4 @@ public record TbSysLoginLog : ImmutableEntity, IRegister
     /// </summary>
     [JsonIgnore]
     public virtual string UserName { get; init; }
-
-    /// <inheritdoc />
-    public void Register(TypeAdapterConfig config)
-    {
-        config.ForType<TbSysOperationLog, TbSysLoginLog>()
-              .Map( //
-                  dest => dest.Succeed
-                , src => src.ResponseResult != null && src.ResponseResult.Object<RestfulInfo<object>>(null).Code == 0)
-              .Map( //
-                  dest => dest.UserName
-                , src => src.RequestParameters.Object<ReqParameter<LoginReq>>(null).Req.UserName);
-    }
 }

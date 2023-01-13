@@ -8,7 +8,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Dept;
 /// </summary>
 public record UpdateDeptReq : CreateDeptReq
 {
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 

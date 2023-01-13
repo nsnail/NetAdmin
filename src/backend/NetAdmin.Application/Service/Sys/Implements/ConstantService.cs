@@ -1,8 +1,10 @@
 using System.Collections.Immutable;
 using System.Reflection;
 using System.Text.Json;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NetAdmin.DataContract;
 using NetAdmin.DataContract.Dto;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Lang;
@@ -12,8 +14,14 @@ namespace NetAdmin.Application.Service.Sys.Implements;
 
 /// <inheritdoc cref="IConstantService" />
 [AllowAnonymous]
-public class ConstantService : ServiceBase<IConstantService>, IConstantService
+public class ConstantService : ServiceBase<IConstantService>, IConstantService, IDynamicApiController
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ConstantService" /> class.
+    /// </summary>
+    public ConstantService(ContextUser user) //
+        : base(user) { }
+
     /// <inheritdoc />
     public object GetEnums()
     {

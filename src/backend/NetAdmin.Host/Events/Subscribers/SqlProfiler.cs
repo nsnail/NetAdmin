@@ -1,4 +1,3 @@
-using Furion.DependencyInjection;
 using Furion.EventBus;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
@@ -8,7 +7,7 @@ namespace NetAdmin.Host.Events.Subscribers;
 /// <summary>
 ///     Sql性能分析
 /// </summary>
-public class SqlProfiler : IEventSubscriber, ISingleton
+public class SqlProfiler : IEventSubscriber
 {
     private readonly ILogger<SqlProfiler> _logger;
 

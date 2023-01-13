@@ -1,11 +1,9 @@
-using Furion.DependencyInjection;
+using Furion;
 using Furion.EventBus;
 using Mapster;
-using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Service.Sys;
-using NetAdmin.Application.Service.Sys.Implements;
-using NetAdmin.DataContract.DbMaps;
-using NetAdmin.Host.Aop;
+using NetAdmin.DataContract.Dto.Sys.Log;
+using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
 
 namespace NetAdmin.Host.Events.Subscribers;
@@ -13,68 +11,42 @@ namespace NetAdmin.Host.Events.Subscribers;
 /// <summary>
 ///     请求日志记录
 /// </summary>
-public class RequestLogger : IEventSubscriber, ISingleton, IDisposable
+public class RequestLogger : IEventSubscriber
 {
-    private static readonly string        _userApiControllerName = nameof(UserService)[..^3];
-    private readonly        IServiceScope _scope;
+    private readonly IEventPublisher        _eventPublisher;
+    private readonly ILogger<RequestLogger> _logger;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="RequestLogger" /> class.
     /// </summary>
-    /// <param name="serviceProvider">serviceProvider</param>
-    public RequestLogger(IServiceProvider serviceProvider)
+    public RequestLogger(ILogger<RequestLogger> logger, IEventPublisher eventPublisher)
     {
-        _scope = serviceProvider.CreateScope();
+        _logger         = logger;
+        _eventPublisher = eventPublisher;
     }
 
     /// <summary>
-    ///     Finalizes an instance of the <see cref="RequestLogger" /> class.
+    ///     保存操作日志到数据库
     /// </summary>
-    ~RequestLogger()
+    [EventSubscribe($"{nameof(OperationEvent)}")]
+    public async Task OperationEventDbRecord(EventHandlerExecutingContext context)
     {
-        Dispose(false);
-    }
-
-    /// <inheritdoc />
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this); // Violates rule
-    }
-
-    /// <summary>
-    ///     保存到数据库
-    /// </summary>
-    [EventSubscribe($"{nameof(RequestAuditFilter)}.{nameof(RequestAuditFilter.OnActionExecutionAsync)}")]
-    public async Task SaveToDb(EventHandlerExecutingContext context)
-    {
-        if (context.Source.Payload is not TbSysOperationLog tbSysOperationLog) {
+        if (context.Source is not OperationEvent operationEvent) {
             return;
         }
 
         // 截断过长的ResponseResult
         const int cutThreshold = 1000;
-        if (tbSysOperationLog.ResponseResult?.Length > cutThreshold) {
-            tbSysOperationLog.ResponseResult = $"{tbSysOperationLog.ResponseResult.Sub(0, cutThreshold)}...";
+        if (operationEvent.Data.ResponseResult?.Length > cutThreshold) {
+            operationEvent.Data.ResponseResult = $"{operationEvent.Data.ResponseResult.Sub(0, cutThreshold)}...";
         }
 
-        await _scope.ServiceProvider.GetRequiredService<Repository<TbSysOperationLog>>().InsertAsync(tbSysOperationLog);
+        var logService = App.GetRequiredService<ILogService>();
+        await logService.CreateOperationLog(operationEvent.Data);
 
-        // 登录日志
-        if (tbSysOperationLog.Action.Equals(nameof(IUserService.Login), StringComparison.OrdinalIgnoreCase) &&
-            tbSysOperationLog.Controller.Equals(_userApiControllerName, StringComparison.OrdinalIgnoreCase)) {
-            var tbSysLoginLog = tbSysOperationLog.Adapt<TbSysLoginLog>();
-            await _scope.ServiceProvider.GetRequiredService<Repository<TbSysLoginLog>>().InsertAsync(tbSysLoginLog);
-        }
-    }
-
-    /// <summary>
-    ///     Dispose
-    /// </summary>
-    protected virtual void Dispose(bool disposing)
-    {
-        if (disposing) {
-            _scope?.Dispose();
+        // 发布登录事件
+        if (operationEvent.Data.ApiId.Equals("api/user/login", StringComparison.OrdinalIgnoreCase)) {
+            await _eventPublisher.PublishAsync(new UserLoginEvent(operationEvent.Data.Adapt<CreateLoginLogReq>()));
         }
     }
 }

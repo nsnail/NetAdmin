@@ -3,7 +3,7 @@ namespace NetAdmin.Application.Service.Sys;
 /// <summary>
 ///     工具服务
 /// </summary>
-public interface IToolsService : IService
+public interface IToolsService
 {
     /// <summary>
     ///     运行环境

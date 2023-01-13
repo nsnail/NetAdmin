@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps;
-using NetAdmin.DataContract.DbMaps.Dependency;
 
 namespace NetAdmin.DataContract.Dto.Sys.Role;
 
@@ -9,7 +8,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Role;
 /// </summary>
 public record QueryRoleReq : TbSysRole
 {
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 }

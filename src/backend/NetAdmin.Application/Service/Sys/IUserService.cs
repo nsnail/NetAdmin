@@ -7,10 +7,10 @@ namespace NetAdmin.Application.Service.Sys;
 ///     用户服务
 /// </summary>
 public interface IUserService : ICrudService<CreateUserReq, QueryUserRsp // 创建类型
-                                  , QueryUserReq, QueryUserRsp           // 查询类型
-                                  , UpdateUserReq, QueryUserRsp          // 修改类型
-                                  , NopReq                               // 删除类型
-                                >, IService
+  , QueryUserReq, QueryUserRsp                                           // 查询类型
+  , UpdateUserReq, QueryUserRsp                                          // 修改类型
+  , NopReq                                                               // 删除类型
+>
 {
     /// <summary>
     ///     用户登录

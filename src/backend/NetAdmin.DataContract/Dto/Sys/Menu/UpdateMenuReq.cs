@@ -8,7 +8,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Menu;
 /// </summary>
 public record UpdateMenuReq : CreateMenuReq
 {
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 

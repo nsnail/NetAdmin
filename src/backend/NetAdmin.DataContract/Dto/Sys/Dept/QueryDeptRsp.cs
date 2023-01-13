@@ -27,7 +27,7 @@ public record QueryDeptRsp : TbSysDept, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 

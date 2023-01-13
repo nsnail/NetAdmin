@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps;
-using NetAdmin.DataContract.DbMaps.Dependency;
 
 namespace NetAdmin.DataContract.Dto.Sys.Menu;
 
@@ -9,7 +8,7 @@ namespace NetAdmin.DataContract.Dto.Sys.Menu;
 /// </summary>
 public record QueryMenuReq : TbSysMenu
 {
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 }

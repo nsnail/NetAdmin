@@ -1,7 +1,9 @@
 using FreeSql;
+using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
+using NetAdmin.DataContract;
 using NetAdmin.DataContract.Attributes;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
@@ -12,13 +14,13 @@ using NetAdmin.Infrastructure.Lang;
 namespace NetAdmin.Application.Service.Sys.Implements;
 
 /// <inheritdoc cref="IRoleService" />
-public class RoleService : RepositoryService<TbSysRole, IRoleService>, IRoleService
+public class RoleService : RepositoryService<TbSysRole, IRoleService>, IRoleService, IDynamicApiController
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="RoleService" /> class.
     /// </summary>
-    public RoleService(Repository<TbSysRole> rpo) //
-        : base(rpo) { }
+    public RoleService(ContextUser user, Repository<TbSysRole> rpo) //
+        : base(user, rpo) { }
 
     /// <inheritdoc />
     [Transaction]
@@ -32,9 +34,9 @@ public class RoleService : RepositoryService<TbSysRole, IRoleService>, IRoleServ
     ///     创建角色
     /// </summary>
     [Transaction]
-    public async Task<QueryRoleRsp> Create(CreateRoleReq @in)
+    public async Task<QueryRoleRsp> Create(CreateRoleReq req)
     {
-        var entity = @in.Adapt<TbSysRole>();
+        var entity = req.Adapt<TbSysRole>();
         var ret    = await Rpo.InsertAsync(entity);
 
         await Rpo.SaveManyAsync(entity, nameof(entity.Depts));

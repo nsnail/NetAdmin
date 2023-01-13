@@ -22,7 +22,7 @@ public record TbSysDept : MutableEntity, IFieldBitSet
     /// </summary>
     [Navigate(nameof(ParentId))]
     [JsonIgnore]
-    public virtual List<TbSysDept> Children { get; init; }
+    public virtual IEnumerable<TbSysDept> Children { get; init; }
 
     /// <summary>
     ///     部门名称

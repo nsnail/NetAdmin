@@ -44,6 +44,15 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    ///     注册事件总线
+    /// </summary>
+    public static IServiceCollection AddEventBus(this IServiceCollection me)
+    {
+        me.AddEventBus(builder => { builder.AddSubscribers(App.Assemblies.ToArray()); });
+        return me;
+    }
+
+    /// <summary>
     ///     注册雪花id生成器
     /// </summary>
     public static IServiceCollection AddSnowflake(this IServiceCollection me)

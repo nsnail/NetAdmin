@@ -29,7 +29,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
     /// </summary>
     [Navigate(nameof(ParentId))]
     [JsonIgnore]
-    public virtual List<TbSysMenu> Children { get; init; }
+    public virtual IEnumerable<TbSysMenu> Children { get; init; }
 
     /// <summary>
     ///     背景颜色

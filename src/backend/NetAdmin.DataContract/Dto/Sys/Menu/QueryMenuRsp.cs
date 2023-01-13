@@ -39,7 +39,7 @@ public record QueryMenuRsp : TbSysMenu, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Component { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 

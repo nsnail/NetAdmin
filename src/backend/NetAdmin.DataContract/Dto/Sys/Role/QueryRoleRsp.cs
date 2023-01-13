@@ -35,7 +35,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// </summary>
     public IEnumerable<long> DeptIds { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 

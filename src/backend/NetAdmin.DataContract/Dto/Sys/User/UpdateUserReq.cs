@@ -29,7 +29,7 @@ public record UpdateUserReq : CreateUserReq
     [Required]
     public bool Enabled { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary.Id" />
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 

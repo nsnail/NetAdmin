@@ -13,14 +13,6 @@ public static class LogHelper
     /// </summary>
     public static ILogger<T> Get<T>()
     {
-        return App.GetService<ILogger<T>>();
-    }
-
-    /// <summary>
-    ///     获取ILogger
-    /// </summary>
-    public static ILogger<T> GetRequired<T>()
-    {
         return App.GetRequiredService<ILogger<T>>();
     }
 }

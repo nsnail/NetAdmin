@@ -1,10 +1,10 @@
 using Furion;
 using Furion.DataEncryption;
+using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NetAdmin.Application.Extensions;
 using NetAdmin.Application.Repositories;
 using NetAdmin.DataContract;
 using NetAdmin.DataContract.Attributes;
@@ -18,27 +18,27 @@ using NSExt.Extensions;
 namespace NetAdmin.Application.Service.Sys.Implements;
 
 /// <inheritdoc cref="IUserService" />
-public class UserService : RepositoryService<TbSysUser, IUserService>, IUserService
+public class UserService : RepositoryService<TbSysUser, IUserService>, IUserService, IDynamicApiController
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserService" /> class.
     /// </summary>
-    public UserService(Repository<TbSysUser> rpo) //
-        : base(rpo) { }
+    public UserService(ContextUser user, Repository<TbSysUser> rpo) //
+        : base(user, rpo) { }
 
     /// <summary>
     ///     创建用户
     /// </summary>
     [Transaction]
-    public async Task<QueryUserRsp> Create(CreateUserReq @in)
+    public async Task<QueryUserRsp> Create(CreateUserReq req)
     {
-        var (roles, dept) = await SelectRolesAndDept(@in);
-        var user = @in.Adapt<TbSysUser>();
+        var (roles, dept) = await SelectRolesAndDept(req);
+        var user = req.Adapt<TbSysUser>();
         user = await Rpo.InsertAsync(user);
 
-        var userRoles = @in.RoleIds.Select(x => new TbSysUserRole { RoleId = x, UserId = user.Id });
+        var userRoles = req.RoleIds.Select(x => new TbSysUserRole { RoleId = x, UserId = user.Id });
         var effects   = await Rpo.Orm.Insert(userRoles).ExecuteAffrowsAsync();
-        var ret = effects != @in.RoleIds.Count
+        var ret = effects != req.RoleIds.Count
             ? throw Oops.Oh(Enums.ErrorCodes.Unknown)
             : new Tuple<TbSysUser, TbSysDept, IEnumerable<TbSysRole>>(user, dept, roles).Adapt<QueryUserRsp>();
 
@@ -143,12 +143,11 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <inheritdoc />
     public async Task<QueryUserRsp> UserInfo()
     {
-        var contextUser = App.User.AsContextUser();
-        var dbUser      = await Rpo.Where(x => x.Token == contextUser.Token).FirstAsync();
+        var dbUser = await Rpo.Where(x => x.Token == User.Token).FirstAsync();
         return dbUser.Adapt<QueryUserRsp>();
     }
 
-    private async Task<(List<TbSysRole> Roles, TbSysDept Dept)> SelectRolesAndDept(CreateUserReq req)
+    private async Task<(IEnumerable<TbSysRole> Roles, TbSysDept Dept)> SelectRolesAndDept(CreateUserReq req)
     {
         req.RoleIds = req.RoleIds.Distinct().ToList();
 
