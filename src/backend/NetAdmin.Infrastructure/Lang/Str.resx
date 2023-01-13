@@ -207,4 +207,7 @@
     <data name="Controller" xml:space="preserve">
         <value>控制器</value>
     </data>
+    <data name="Error in reading the user token" xml:space="preserve">
+        <value>读取用户Token出错</value>
+    </data>
 </root>

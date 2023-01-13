@@ -1,7 +1,6 @@
 using FreeSql;
 using Mapster;
 using NetAdmin.Application.Repositories;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Log;
@@ -15,8 +14,8 @@ public class OperationLogService : RepositoryService<TbSysOperationLog, IOperati
     /// <summary>
     ///     Initializes a new instance of the <see cref="OperationLogService" /> class.
     /// </summary>
-    public OperationLogService(ContextUser user, Repository<TbSysOperationLog> rpo) //
-        : base(user, rpo) { }
+    public OperationLogService(Repository<TbSysOperationLog> rpo) //
+        : base(rpo) { }
 
     /// <inheritdoc />
     public async Task<QueryOperationLogRsp> Create(CreateOperationLogReq req)

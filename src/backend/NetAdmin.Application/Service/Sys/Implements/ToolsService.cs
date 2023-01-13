@@ -1,19 +1,12 @@
 using System.Reflection;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Authorization;
-using NetAdmin.DataContract;
 
 namespace NetAdmin.Application.Service.Sys.Implements;
 
 /// <inheritdoc cref="IToolsService" />
 public class ToolsService : ServiceBase<IToolsService>, IToolsService, IDynamicApiController
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ToolsService" /> class.
-    /// </summary>
-    public ToolsService(ContextUser user) //
-        : base(user) { }
-
     /// <summary>
     ///     <see cref="EnvironmentInfo" />
     /// </summary>

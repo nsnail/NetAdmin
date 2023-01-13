@@ -28,10 +28,6 @@ public record QueryOperationLogRsp : TbSysOperationLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Exception { get; init; }
-
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Method { get; init; }
 
     /// <inheritdoc />
@@ -40,11 +36,11 @@ public record QueryOperationLogRsp : TbSysOperationLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string RequestContentType { get; init; }
+    public override string RequestBody { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string RequestParameters { get; init; }
+    public override string RequestContentType { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -52,15 +48,7 @@ public record QueryOperationLogRsp : TbSysOperationLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string ResponseRawType { get; init; }
-
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string ResponseResult { get; set; }
-
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string ResponseWrapType { get; init; }
+    public override string ResponseBody { get; set; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

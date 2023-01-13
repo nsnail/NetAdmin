@@ -3,7 +3,6 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Repositories;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Menu;
@@ -17,8 +16,8 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     Initializes a new instance of the <see cref="MenuService" /> class.
     /// </summary>
-    public MenuService(ContextUser user, Repository<TbSysMenu> rpo) //
-        : base(user, rpo) { }
+    public MenuService(Repository<TbSysMenu> rpo) //
+        : base(rpo) { }
 
     /// <inheritdoc />
     public Task<int> BulkDelete(BulkDelReq req)

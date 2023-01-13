@@ -28,20 +28,21 @@ public class Startup : AppStartup
     /// </summary>
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app
+        app //
+            .EnableBuffering() // /                                                          启用 Body 重复读功能
+            .UseMiddleware<RequestAuditMiddleware>() //                                      请求审计
             #if DEBUG
             .UseDeveloperExceptionPage() // /                                                开发者异常信息页
             .UseOpenApiSkin()            //                                                  Swagger皮肤中间件
             #else
             .UseHttpsRedirection() //                                                        强制https
             #endif
-
-            .UseAuthentication()                                   // /                      认证中间件
-            .UseAuthorization()                                    //                        授权中间件
-            .UseInject(string.Empty)                               //             Furion基础中间件
+            .UseInject(string.Empty)                               // /           Furion基础中间件
             .UseUnifyResultStatusCodes()                           //                        状态码中间件
             .UseCorsAccessor()                                     //                        跨域访问中间件
             .UseRouting()                                          //                        控制器路由映射
+            .UseAuthentication()                                   // /                      认证中间件
+            .UseAuthorization()                                    //                        授权中间件
             .UseEndpoints(endpoints => endpoints.MapControllers()) //    端点映射
             ;
     }
@@ -51,23 +52,25 @@ public class Startup : AppStartup
     /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddConsoleFormatter()                           // /                        控制台日志模板
-                .AddAllOptions()                                 // /                        注册配置项
-                .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //                          Jwt 授权处理器
+        services.AddConsoleFormatter()                           // /       控制台日志模板
+                .AddAllOptions()                                 // /       注册配置项
+                .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //         Jwt 授权处理器
                 .Services
 
                 #if DEBUG
-                .AddMonitorLogging() // /                                                     日志监视信息
+                .AddMonitorLogging() // /                                    日志监视信息
                 #endif
 
-                .AddMvcFilter<RequestAuditFilter>() // /                                      请求审计日志
-                .AddSnowflake()                     //                                        雪花id生成器
-                .AddEventBus()                      //                                        事件总线
-                .AddFreeSql()                       //                                        注册freeSql
-                .AddCorsAccessor()                  //                                        支持跨域访问
-                .AddControllers()                   //                                        注册控制器
-                .AddJsonSerializer()                //                                        json序列化配置
-                .AddFurion()                        //                                        注册Furion
+                .AddSnowflake()    // /                                      雪花id生成器
+                .AddEventBus()     //                                        事件总线
+                .AddFreeSql()      //                                        注册freeSql
+                .AddCorsAccessor() //                                        支持跨域访问
+                .AddContextUser()  //                                        注册上下文用户
+
+                // IMvcBuilder
+                .AddControllers()    //                                      注册控制器
+                .AddJsonSerializer() //                                      json序列化配置
+                .AddFurion()         //                                      注册Furion
             ;
     }
 

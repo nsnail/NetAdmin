@@ -37,8 +37,8 @@ public class RequestLogger : IEventSubscriber
 
         // 截断过长的ResponseResult
         const int cutThreshold = 1000;
-        if (operationEvent.Data.ResponseResult?.Length > cutThreshold) {
-            operationEvent.Data.ResponseResult = $"{operationEvent.Data.ResponseResult.Sub(0, cutThreshold)}...";
+        if (operationEvent.Data.ResponseBody?.Length > cutThreshold) {
+            operationEvent.Data.ResponseBody = $"{operationEvent.Data.ResponseBody.Sub(0, cutThreshold)}...";
         }
 
         var logService = App.GetRequiredService<ILogService>();

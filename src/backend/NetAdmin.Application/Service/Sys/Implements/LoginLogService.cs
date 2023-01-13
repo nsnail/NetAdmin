@@ -1,7 +1,6 @@
 using FreeSql;
 using Mapster;
 using NetAdmin.Application.Repositories;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Log;
@@ -15,8 +14,8 @@ public class LoginLogService : RepositoryService<TbSysLoginLog, ILoginLogService
     /// <summary>
     ///     Initializes a new instance of the <see cref="LoginLogService" /> class.
     /// </summary>
-    public LoginLogService(ContextUser user, Repository<TbSysLoginLog> rpo) //
-        : base(user, rpo) { }
+    public LoginLogService(Repository<TbSysLoginLog> rpo) //
+        : base(rpo) { }
 
     /// <inheritdoc />
     public async Task<QueryLoginLogRsp> Create(CreateLoginLogReq req)

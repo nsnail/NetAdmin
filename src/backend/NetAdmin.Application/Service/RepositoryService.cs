@@ -1,5 +1,4 @@
 using NetAdmin.Application.Repositories;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps.Dependency;
 
 namespace NetAdmin.Application.Service;
@@ -15,8 +14,7 @@ public abstract class RepositoryService<TEntity, TLogger> : ServiceBase<TLogger>
     /// <summary>
     ///     Initializes a new instance of the <see cref="RepositoryService{TEntity, TLogger}" /> class.
     /// </summary>
-    protected RepositoryService(ContextUser user, Repository<TEntity> rpo) //
-        : base(user)
+    protected RepositoryService(Repository<TEntity> rpo) //
     {
         Rpo = rpo;
     }

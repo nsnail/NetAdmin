@@ -42,12 +42,6 @@ public record TbSysOperationLog : ImmutableEntity
     public virtual string Environment { get; init; }
 
     /// <summary>
-    ///     异常信息
-    /// </summary>
-    [JsonIgnore]
-    public virtual string Exception { get; init; }
-
-    /// <summary>
     ///     请求方法
     /// </summary>
     [JsonIgnore]
@@ -60,16 +54,21 @@ public record TbSysOperationLog : ImmutableEntity
     public virtual string ReferUrl { get; init; }
 
     /// <summary>
+    ///     请求内容
+    /// </summary>
+    [JsonIgnore]
+    public virtual string RequestBody { get; init; }
+
+    /// <summary>
     ///     请求content-type
     /// </summary>
     [JsonIgnore]
     public virtual string RequestContentType { get; init; }
 
     /// <summary>
-    ///     请求参数
+    ///     请求头信息
     /// </summary>
-    [JsonIgnore]
-    public virtual string RequestParameters { get; init; }
+    public virtual string RequestHeaders { get; init; }
 
     /// <summary>
     ///     请求地址
@@ -78,28 +77,33 @@ public record TbSysOperationLog : ImmutableEntity
     public virtual string RequestUrl { get; init; }
 
     /// <summary>
-    ///     响应原始类型
+    ///     响应内容
     /// </summary>
     [JsonIgnore]
-    public virtual string ResponseRawType { get; init; }
+    public virtual string ResponseBody { get; set; }
 
     /// <summary>
-    ///     响应结果
+    ///     响应content-type
     /// </summary>
     [JsonIgnore]
-    public virtual string ResponseResult { get; set; }
+    public virtual string ResponseContentType { get; init; }
 
     /// <summary>
-    ///     响应封装类型
+    ///     响应头
     /// </summary>
     [JsonIgnore]
-    public virtual string ResponseWrapType { get; init; }
+    public virtual string ResponseHeaders { get; set; }
 
     /// <summary>
     ///     服务器IP
     /// </summary>
     [JsonIgnore]
     public virtual string ServerIp { get; init; }
+
+    /// <summary>
+    ///     响应状态码
+    /// </summary>
+    public virtual int StatusCode { get; set; }
 
     /// <summary>
     ///     浏览器标识

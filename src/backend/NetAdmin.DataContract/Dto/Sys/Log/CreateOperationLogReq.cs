@@ -17,9 +17,8 @@ public record CreateOperationLogReq : TbSysOperationLog, IRegister
         config.ForType<CreateOperationLogReq, CreateLoginLogReq>()
               .Map( //
                   dest => dest.Succeed
-                , src => src.ResponseResult != null && src.ResponseResult.Object<RestfulInfo<object>>(null).Code == 0)
+                , src => src.ResponseBody != null && src.ResponseBody.Object<RestfulInfo<object>>(null).Code == 0)
               .Map( //
-                  dest => dest.UserName
-                , src => src.RequestParameters.Object<ReqParameter<LoginReq>>(null).Req.UserName);
+                  dest => dest.UserName, src => src.RequestBody.Object<ReqParameter<LoginReq>>(null).Req.UserName);
     }
 }

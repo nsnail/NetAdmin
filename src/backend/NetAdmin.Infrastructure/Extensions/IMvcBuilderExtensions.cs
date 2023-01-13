@@ -12,7 +12,9 @@ namespace NetAdmin.Infrastructure.Extensions;
 ///     IMvcBuilder 扩展方法
 /// </summary>
 [SuppressSniffer]
-public static class MvcBuilderExtensions
+
+// ReSharper disable once InconsistentNaming
+public static class IMvcBuilderExtensions
 {
     /// <summary>
     ///     Json序列化配置

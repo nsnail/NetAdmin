@@ -11,8 +11,7 @@ public abstract class ServiceBase<TLogger> : ServiceBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="ServiceBase{TLogger}" /> class.
     /// </summary>
-    protected ServiceBase(ContextUser user) //
-        : base(user)
+    protected ServiceBase() //
     {
         Logger = App.GetRequiredService<ILogger<TLogger>>();
     }
@@ -31,9 +30,9 @@ public abstract class ServiceBase : IService, IScoped
     /// <summary>
     ///     Initializes a new instance of the <see cref="ServiceBase" /> class.
     /// </summary>
-    protected ServiceBase(ContextUser user)
+    protected ServiceBase()
     {
-        User = user;
+        User = App.GetService<ContextUser>();
         Id   = Guid.NewGuid();
     }
 

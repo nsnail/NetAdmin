@@ -3,7 +3,6 @@ using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.Attributes;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
@@ -19,8 +18,8 @@ public class RoleService : RepositoryService<TbSysRole, IRoleService>, IRoleServ
     /// <summary>
     ///     Initializes a new instance of the <see cref="RoleService" /> class.
     /// </summary>
-    public RoleService(ContextUser user, Repository<TbSysRole> rpo) //
-        : base(user, rpo) { }
+    public RoleService(Repository<TbSysRole> rpo) //
+        : base(rpo) { }
 
     /// <inheritdoc />
     [Transaction]

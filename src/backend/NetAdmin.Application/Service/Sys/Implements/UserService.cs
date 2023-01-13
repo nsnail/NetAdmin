@@ -23,8 +23,8 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserService" /> class.
     /// </summary>
-    public UserService(ContextUser user, Repository<TbSysUser> rpo) //
-        : base(user, rpo) { }
+    public UserService(Repository<TbSysUser> rpo) //
+        : base(rpo) { }
 
     /// <summary>
     ///     创建用户

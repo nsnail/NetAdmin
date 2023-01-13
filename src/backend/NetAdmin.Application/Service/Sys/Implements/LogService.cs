@@ -1,5 +1,4 @@
 using Furion.DynamicApiController;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Log;
 
@@ -14,8 +13,7 @@ public class LogService : ServiceBase<LogService>, ILogService, IDynamicApiContr
     /// <summary>
     ///     Initializes a new instance of the <see cref="LogService" /> class.
     /// </summary>
-    public LogService(ContextUser user, IOperationLogService operationLogService, ILoginLogService loginLogService) //
-        : base(user)
+    public LogService(IOperationLogService operationLogService, ILoginLogService loginLogService) //
     {
         _operationLogService = operationLogService;
         _loginLogService     = loginLogService;

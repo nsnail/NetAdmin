@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NetAdmin.Application.Repositories;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.Attributes;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
@@ -58,9 +57,9 @@ export default {{
     /// <summary>
     ///     Initializes a new instance of the <see cref="ApiService" /> class.
     /// </summary>
-    public ApiService(ContextUser user, Repository<TbSysApi> rpo, XmlCommentHelper xmlCommentHelper
+    public ApiService(Repository<TbSysApi>                rpo, XmlCommentHelper xmlCommentHelper
                     , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
-        : base(user, rpo)
+        : base(rpo)
     {
         _xmlCommentHelper                   = xmlCommentHelper;
         _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;

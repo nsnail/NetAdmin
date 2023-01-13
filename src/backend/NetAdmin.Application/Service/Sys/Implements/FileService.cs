@@ -3,7 +3,6 @@ using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using NetAdmin.DataContract;
 using NetAdmin.Infrastructure.Configuration.Options;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Lang;
@@ -20,8 +19,7 @@ public class FileService : ServiceBase<IFileService>, IFileService, IDynamicApiC
     /// <summary>
     ///     Initializes a new instance of the <see cref="FileService" /> class.
     /// </summary>
-    public FileService(ContextUser user, IOptions<UploadOptions> uploadOptions, MinioHelper minioHelper) //
-        : base(user)
+    public FileService(IOptions<UploadOptions> uploadOptions, MinioHelper minioHelper) //
     {
         _minioHelper   = minioHelper;
         _uploadOptions = uploadOptions.Value;

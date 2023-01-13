@@ -4,9 +4,9 @@ using FreeSql;
 using Furion;
 using Furion.DependencyInjection;
 using Furion.EventBus;
+using NetAdmin.DataContract;
 using NetAdmin.Host.Aop;
 using NetAdmin.Host.Events.Sources;
-using NetAdmin.Infrastructure.Configuration;
 using NetAdmin.Infrastructure.Configuration.Options;
 using NetAdmin.Infrastructure.Constant;
 using NetAdmin.Infrastructure.Utils;
@@ -87,6 +87,18 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    ///     注册上下文用户
+    /// </summary>
+    public static IServiceCollection AddContextUser(this IServiceCollection me)
+    {
+        me.AddScoped(typeof(ContextUser), _ => {
+            var claim = App.User?.FindFirst(nameof(ContextUser));
+            return claim?.Value.Object<ContextUser>();
+        });
+        return me;
+    }
+
+    /// <summary>
     ///     注册freeSql orm工具
     /// </summary>
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
@@ -124,16 +136,5 @@ public static class ServiceCollectionExtensions
         me.AddMvcFilter<TransactionInterceptor>();            // 注入事务拦截器
 
         return me;
-    }
-
-    /// <summary>
-    ///     注册Furion
-    /// </summary>
-    public static IMvcBuilder AddFurion(this IMvcBuilder me)
-    {
-        return me.AddInjectWithUnifyResult<ApiResultHandler>(injectOptions => {
-            // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
-            injectOptions.ConfigureSwaggerGen(genOptions => { genOptions.SchemaFilter<SwaggerEnumSchemaFilter>(); });
-        });
     }
 }

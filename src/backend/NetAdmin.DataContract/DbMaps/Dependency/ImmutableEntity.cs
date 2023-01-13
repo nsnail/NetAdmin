@@ -34,13 +34,13 @@ public abstract record ImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IField
     [JsonIgnore]
     [Description(Strings.DSC_CREATED_USER_ID)]
     [Column(Position = -22, CanUpdate = false)]
-    public virtual long? CreatedUserId { get; init; }
+    public virtual long? CreatedUserId { get; set; }
 
     /// <inheritdoc />
     [JsonIgnore]
     [Description(Strings.DSC_CREATED_USER_NAME)]
     [Column(Position = -21, CanUpdate = false)]
-    public virtual string CreatedUserName { get; init; }
+    public virtual string CreatedUserName { get; set; }
 
     /// <summary>
     ///     唯一编码

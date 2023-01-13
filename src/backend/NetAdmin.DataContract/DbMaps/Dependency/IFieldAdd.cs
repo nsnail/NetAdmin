@@ -13,10 +13,10 @@ public interface IFieldAdd
     /// <summary>
     ///     创建者Id
     /// </summary>
-    long? CreatedUserId { get; init; }
+    long? CreatedUserId { get; set; }
 
     /// <summary>
     ///     创建者
     /// </summary>
-    string CreatedUserName { get; init; }
+    string CreatedUserName { get; set; }
 }

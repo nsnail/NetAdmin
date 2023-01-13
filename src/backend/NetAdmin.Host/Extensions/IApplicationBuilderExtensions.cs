@@ -8,14 +8,16 @@ namespace NetAdmin.Host.Extensions;
 ///     ApplicationBuilder对象 扩展方法
 /// </summary>
 [SuppressSniffer]
-public static class ApplicationBuilderExtensions
+
+// ReSharper disable once InconsistentNaming
+public static class IApplicationBuilderExtensions
 {
     /// <summary>
     ///     使用 api skin （knife4j-vue）
     /// </summary>
-    public static IApplicationBuilder UseOpenApiSkin(this IApplicationBuilder app)
+    public static IApplicationBuilder UseOpenApiSkin(this IApplicationBuilder me)
     {
-        return app.UseKnife4UI(options => {
+        return me.UseKnife4UI(options => {
             options.RoutePrefix = string.Empty; // 配置 Knife4UI 路由地址
             foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups()) {
                 options.SwaggerEndpoint("/" + groupInfo.RouteTemplate, groupInfo.Title);

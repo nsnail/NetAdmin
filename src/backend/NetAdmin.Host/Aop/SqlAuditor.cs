@@ -2,7 +2,9 @@ using System.Reflection;
 using FreeSql.Aop;
 using Furion;
 using Furion.DependencyInjection;
+using NetAdmin.DataContract;
 using NetAdmin.DataContract.Attributes;
+using NetAdmin.DataContract.DbMaps.Dependency;
 using NetAdmin.Infrastructure.Lang;
 using NSExt.Extensions;
 using Yitter.IdGenerator;
@@ -14,6 +16,13 @@ namespace NetAdmin.Host.Aop;
 /// </summary>
 public class SqlAuditor : ISingleton
 {
+    private static readonly string[] _auditColumns = {
+                                                         nameof(IFieldAdd.CreatedUserName)
+                                                       , nameof(IFieldAdd.CreatedUserId)
+                                                       , nameof(IFieldUpdate.ModifiedUserName)
+                                                       , nameof(IFieldUpdate.ModifiedUserId)
+                                                     };
+
     private readonly ILogger<SqlAuditor> _logger;
 
     /// <summary>
@@ -40,18 +49,89 @@ public class SqlAuditor : ISingleton
     /// </summary>
     public void DataAuditHandler(object sender, AuditValueEventArgs e)
     {
-        // 设置服务器时间字段
-        if (e.Property.GetCustomAttribute<ServerTimeAttribute>(false) is { Enable: true }   &&
-            (e.Column.CsType == typeof(DateTime) || e.Column.CsType   == typeof(DateTime?)) &&
-            (e.Value         == null             || (DateTime)e.Value == default || (DateTime?)e.Value == default)) {
-            e.Value = DateTime.Now.Subtract(_timeOffset);
+        SetServerTime(e);
+        SetSnowflake(e);
+
+        if (!_auditColumns.Contains(e.Property.Name)) {
+            return;
         }
 
-        // 设置雪花id字段
-        if (e.Column.CsType == typeof(long)                                              &&
-            e.Property.GetCustomAttribute<SnowflakeAttribute>(false) is { Enable: true } &&
-            (e.Value == null || (long)e.Value == default || (long?)e.Value == default)) {
+        var user = App.GetService<ContextUser>();
+        if (user is null || user.Id == 0) {
+            return;
+        }
+
+        switch (e.AuditValueType) {
+            case AuditValueType.Insert:
+                SetCreator(e, user);
+                break;
+            case AuditValueType.Update:
+                SetUpdater(e, user);
+                break;
+            case AuditValueType.InsertOrUpdate:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(e));
+        }
+    }
+
+    /// <summary>
+    ///     设置创建人
+    /// </summary>
+    private static void SetCreator(AuditValueEventArgs e, ContextUser user)
+    {
+        switch (e.Property.Name) {
+            case nameof(IFieldAdd.CreatedUserId):
+                if (e.Value is null or long and 0) {
+                    e.Value = user.Id;
+                }
+
+                break;
+
+            case nameof(IFieldAdd.CreatedUserName):
+                if (e.Value is null or "") {
+                    e.Value = user.UserName;
+                }
+
+                break;
+        }
+    }
+
+    /// <summary>
+    ///     设置雪花id字段
+    /// </summary>
+    private static void SetSnowflake(AuditValueEventArgs e)
+    {
+        var isSnowflake = e.Property.GetCustomAttribute<SnowflakeAttribute>(false) is { Enable: true };
+        var isLongType  = e.Column.CsType == typeof(long);
+        var isNoValue   = e.Value is null or long and 0;
+        if (isSnowflake && isLongType && isNoValue) {
             e.Value = YitIdHelper.NextId();
+        }
+    }
+
+    /// <summary>
+    ///     设置更新人
+    /// </summary>
+    private static void SetUpdater(AuditValueEventArgs e, ContextUser user)
+    {
+        e.Value = e.Property.Name switch {
+                      nameof(IFieldUpdate.ModifiedUserId)   => user.Id
+                    , nameof(IFieldUpdate.ModifiedUserName) => user.UserName
+                    , _                                     => e.Value
+                  };
+    }
+
+    /// <summary>
+    ///     设置服务器时间字段
+    /// </summary>
+    private void SetServerTime(AuditValueEventArgs e)
+    {
+        var isServerTime = e.Property.GetCustomAttribute<ServerTimeAttribute>(false) is { Enable: true };
+        var isDateType   = e.Column.CsType == typeof(DateTime) || e.Column.CsType == typeof(DateTime?);
+        var isNoValue    = e.Value is null                     || (e.Value is DateTime val && val == default);
+        if (isServerTime && isDateType && isNoValue) {
+            e.Value = DateTime.Now.Subtract(_timeOffset);
         }
     }
 }

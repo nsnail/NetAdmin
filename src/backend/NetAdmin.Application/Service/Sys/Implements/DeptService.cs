@@ -3,7 +3,6 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Repositories;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.Dto.Pub;
 using NetAdmin.DataContract.Dto.Sys.Dept;
@@ -18,8 +17,8 @@ public class DeptService : RepositoryService<TbSysDept, IDeptService>, IDeptServ
     /// <summary>
     ///     Initializes a new instance of the <see cref="DeptService" /> class.
     /// </summary>
-    public DeptService(ContextUser user, Repository<TbSysDept> rpo) //
-        : base(user, rpo) { }
+    public DeptService(Repository<TbSysDept> rpo) //
+        : base(rpo) { }
 
     /// <summary>
     ///     创建部门
