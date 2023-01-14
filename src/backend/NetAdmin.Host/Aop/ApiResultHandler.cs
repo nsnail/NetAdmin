@@ -54,20 +54,19 @@ public class ApiResultHandler : IUnifyResultProvider
         // 设置响应状态码
         UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
 
-        var jsonOptions     = App.GetOptions<JsonOptions>();
-        var identityMissing = Enums.ErrorCodes.IdentityMissing.Desc();
+        var jsonOptions = App.GetOptions<JsonOptions>();
         switch (statusCode) {
             // 处理 401 状态码
             case StatusCodes.Status401Unauthorized:
                 await context.Response.WriteAsJsonAsync( //
-                    RestfulResult(Enums.ErrorCodes.IdentityMissing, null, identityMissing)
+                    RestfulResult(Enums.ErrorCodes.IdentityMissing, null, Enums.ErrorCodes.IdentityMissing.Desc())
                   , jsonOptions?.JsonSerializerOptions);
                 break;
 
             // 处理 403 状态码
             case StatusCodes.Status403Forbidden:
                 await context.Response.WriteAsJsonAsync( //
-                    RestfulResult(Enums.ErrorCodes.NoPermissions, null, identityMissing)
+                    RestfulResult(Enums.ErrorCodes.NoPermissions, null, Enums.ErrorCodes.NoPermissions.Desc())
                   , jsonOptions?.JsonSerializerOptions);
                 break;
         }

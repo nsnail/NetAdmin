@@ -3,7 +3,7 @@ const DEFAULT_CONFIG = {
 	APP_NAME: process.env.VUE_APP_TITLE,
 
 	//首页地址
-	DASHBOARD_URL: "/home",
+	DASHBOARD_URL: "/home/dashboard",
 
 	//版本号
 	APP_VER: "1.6.6",
@@ -26,8 +26,8 @@ const DEFAULT_CONFIG = {
 	//Refresh TokenName
 	REFRESH_TOKEN_NAME: "X-Authorization",
 
-	TOKEN_RSPNAME:'access-token',
-	REFRESH_TOKEN_RSPNAME:'x-access-token',
+	TOKEN_RSPNAME: 'access-token',
+	REFRESH_TOKEN_RSPNAME: 'x-access-token',
 
 	//追加其他头
 	HEADERS: {},
@@ -72,20 +72,21 @@ const DEFAULT_CONFIG = {
 		]
 	},
 	//常量字符串
-	STRINGS:null,
+	STRINGS: null,
 	//本地化常量字符串
-	LOC_STRINGS:null,
+	LOC_STRINGS: null,
 	//常量枚举
-	ENUMS:null
+	ENUMS: null
 }
 
 //合并业务配置
 import MY_CONFIG from "./myConfig"
+
 Object.assign(DEFAULT_CONFIG, MY_CONFIG)
 
 // 如果生产模式，就合并动态的APP_CONFIG
 // public/config.js
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
 	Object.assign(DEFAULT_CONFIG, APP_CONFIG)
 }
 

@@ -83,7 +83,6 @@
 			},
 			//编辑
 			table_edit(row){
-				console.error(row)
 				this.dialog.save = true
 				this.$nextTick(() => {
 					this.$refs.saveDialog.open('edit').setData(row).loadTree()
@@ -159,7 +158,6 @@
 			handleSaveSuccess(data,mode){
 				//为了减少网络请求，直接变更表格内存数据
 				if(mode=='add'){
-					console.error(data)
 					this.$refs.table.unshiftRow(data)
 				}else if(mode=='edit'){
 					this.$refs.table.updateKey(data)

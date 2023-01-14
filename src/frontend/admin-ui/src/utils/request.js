@@ -85,7 +85,7 @@ axios.interceptors.response.use(
 					center: true,
 					confirmButtonText: '重新登录'
 				}).then(() => {
-					router.replace({path: '/login'});
+					router.replace({projectPath: '/login'});
 				}).catch(() => {})
 			} else if (error.response.data.code){
 				let title = sysConfig.ENUMS.errorCodes.unknown.desc;

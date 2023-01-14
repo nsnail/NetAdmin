@@ -1,5 +1,5 @@
 /**
- *  常量接口
+ *  常量服务
  *  @module @/api/constant
  */
 

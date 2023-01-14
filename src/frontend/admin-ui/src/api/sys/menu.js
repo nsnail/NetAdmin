@@ -1,5 +1,5 @@
 /**
- *  菜单接口
+ *  菜单服务
  *  @module @/api/menu
  */
 
@@ -62,6 +62,18 @@ export default {
     update :{
         url: `${config.API_URL}/api/menu/update`,
         name: `更新菜单`,
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
+        }
+    },
+
+
+    /**
+     * 当前用户菜单
+     */
+    userMenus :{
+        url: `${config.API_URL}/api/menu/user.menus`,
+        name: `当前用户菜单`,
         post:async function(data, config={}) {
             return await http.post(this.url,data, config)
         }

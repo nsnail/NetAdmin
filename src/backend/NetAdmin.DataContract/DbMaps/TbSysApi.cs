@@ -42,6 +42,12 @@ public record TbSysApi : ImmutableEntity<string>
     public virtual string ParentId { get; init; }
 
     /// <summary>
+    ///     角色集合
+    /// </summary>
+    [Navigate(ManyToMany = typeof(TbSysRoleApi))]
+    public virtual ICollection<TbSysRole> Roles { get; init; }
+
+    /// <summary>
     ///     服务描述
     /// </summary>
     [JsonIgnore]

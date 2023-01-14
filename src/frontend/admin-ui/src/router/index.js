@@ -1,5 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
-import { ElNotification } from 'element-plus';
+import {ElNotification} from 'element-plus';
 import config from "@/config"
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -17,7 +17,8 @@ const routes_404 = {
 	hidden: true,
 	component: () => import(/* webpackChunkName: "404" */ '@/layout/other/404'),
 }
-let routes_404_r = ()=>{}
+let routes_404_r = () => {
+}
 
 const router = createRouter({
 	history: createWebHashHistory(),
@@ -38,7 +39,7 @@ router.beforeEach(async (to, from, next) => {
 
 	let token = tool.cookie.get("TOKEN");
 
-	if(to.path === "/login"){
+	if (to.path === "/login") {
 		//删除路由(替换当前layout路由)
 		router.addRoute(routes[0])
 		//删除路由(404)
@@ -48,12 +49,12 @@ router.beforeEach(async (to, from, next) => {
 		return false;
 	}
 
-	if(routes.findIndex(r => r.path === to.path) >= 0){
+	if (routes.findIndex(r => r.path === to.path) >= 0) {
 		next();
 		return false;
 	}
 
-	if(!token){
+	if (!token) {
 		next({
 			path: '/login'
 		});
@@ -61,15 +62,15 @@ router.beforeEach(async (to, from, next) => {
 	}
 
 	//整页路由处理
-	if(to.meta.fullPage){
-		to.matched = [to.matched[to.matched.length-1]]
+	if (to.meta.fullPage) {
+		to.matched = [to.matched[to.matched.length - 1]]
 	}
 	//加载动态/静态路由
-	if(!isGetRouter){
+	if (!isGetRouter) {
 		let apiMenu = tool.data.get("MENU") || []
 		let userInfo = tool.data.get("USER_INFO")
 		let userMenu = treeFilter(userRoutes, node => {
-			return node.meta.role ? node.meta.role.filter(item=>userInfo.role.indexOf(item)>-1).length > 0 : true
+			return node.meta.role ? node.meta.role.filter(item => userInfo.role.indexOf(item) > -1).length > 0 : true
 		})
 		let menu = [...userMenu, ...apiMenu]
 		var menuRouter = filterAsyncRouter(menu)
@@ -104,8 +105,9 @@ router.onError((error) => {
 router.sc_getMenu = () => {
 	var apiMenu = tool.data.get("MENU") || []
 	let userInfo = tool.data.get("USER_INFO")
+
 	let userMenu = treeFilter(userRoutes, node => {
-		return node.meta.role ? node.meta.role.filter(item=>userInfo.role.indexOf(item)>-1).length > 0 : true
+		return node.meta.role ? node.meta.role.filter(item => userInfo.role.indexOf(item) > -1).length > 0 : true
 	})
 	var menu = [...userMenu, ...apiMenu]
 	return menu
@@ -115,9 +117,9 @@ router.sc_getMenu = () => {
 function filterAsyncRouter(routerMap) {
 	const accessedRouters = []
 	routerMap.forEach(item => {
-		item.meta = item.meta?item.meta:{};
+		item.meta = item.meta ? item.meta : {};
 		//处理外部链接特殊路由
-		if(item.meta.type=='iframe'){
+		if (item.meta.type == 'iframe') {
 			item.meta.url = item.path;
 			item.path = `/i/${item.name}`;
 		}
@@ -134,44 +136,45 @@ function filterAsyncRouter(routerMap) {
 	})
 	return accessedRouters
 }
-function loadComponent(component){
-	if(component){
+
+function loadComponent(component) {
+	if (component) {
 		return () => import(/* webpackChunkName: "[request]" */ `@/views/${component}`)
-	}else{
+	} else {
 		return () => import(`@/layout/other/empty`)
 	}
 
 }
 
 //路由扁平化
-function flatAsyncRoutes(routes, breadcrumb=[]) {
+function flatAsyncRoutes(routes, breadcrumb = []) {
 	let res = []
 	routes.forEach(route => {
 		const tmp = {...route}
-        if (tmp.children) {
-            let childrenBreadcrumb = [...breadcrumb]
-            childrenBreadcrumb.push(route)
-            let tmpRoute = { ...route }
-            tmpRoute.meta.breadcrumb = childrenBreadcrumb
-            delete tmpRoute.children
-            res.push(tmpRoute)
-            let childrenRoutes = flatAsyncRoutes(tmp.children, childrenBreadcrumb)
-            childrenRoutes.map(item => {
-                res.push(item)
-            })
-        } else {
-            let tmpBreadcrumb = [...breadcrumb]
-            tmpBreadcrumb.push(tmp)
-            tmp.meta.breadcrumb = tmpBreadcrumb
-            res.push(tmp)
-        }
-    })
-    return res
+		if (tmp.children) {
+			let childrenBreadcrumb = [...breadcrumb]
+			childrenBreadcrumb.push(route)
+			let tmpRoute = {...route}
+			tmpRoute.meta.breadcrumb = childrenBreadcrumb
+			delete tmpRoute.children
+			res.push(tmpRoute)
+			let childrenRoutes = flatAsyncRoutes(tmp.children, childrenBreadcrumb)
+			childrenRoutes.map(item => {
+				res.push(item)
+			})
+		} else {
+			let tmpBreadcrumb = [...breadcrumb]
+			tmpBreadcrumb.push(tmp)
+			tmp.meta.breadcrumb = tmpBreadcrumb
+			res.push(tmp)
+		}
+	})
+	return res
 }
 
 //过滤树
 function treeFilter(tree, func) {
-	return tree.map(node => ({ ...node })).filter(node => {
+	return tree.map(node => ({...node})).filter(node => {
 		node.children = node.children && treeFilter(node.children, func)
 		return func(node) || (node.children && node.children.length)
 	})

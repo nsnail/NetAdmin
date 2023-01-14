@@ -1,5 +1,5 @@
 /**
- *  工具接口
+ *  工具服务
  *  @module @/api/tools
  */
 
@@ -26,18 +26,6 @@ export default {
     getServerUtcTime :{
         url: `${config.API_URL}/api/tools/get.server.utc.time`,
         name: `服务器时间`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
-
-
-    /**
-     * Test
-     */
-    test :{
-        url: `${config.API_URL}/api/tools/test`,
-        name: `Test`,
         post:async function(data, config={}) {
             return await http.post(this.url,data, config)
         }

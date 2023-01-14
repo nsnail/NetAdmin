@@ -12,7 +12,7 @@ public record QueryReq<T> : DataAbstraction
     /// <summary>
     ///     动态查询条件
     /// </summary>
-    public DynamicFilterInfo DynamicFilter { get; init; }
+    public DynamicFilterInfo DynamicFilter { get; set; }
 
     /// <summary>
     ///     查询条件

@@ -2,16 +2,32 @@
 	<router-view></router-view>
 	<el-main>
 		<el-row :gutter="15">
-			<el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="item in list" :key="item.title">
+			<el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="24">
 				<el-card shadow="hover" :body-style="{ padding: '0px' }">
 					<div class="code-item">
-						<div class="img" :style="{background: item.color}">
-							<el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, ${item.color} 100px)`"><component :is="item.icon" /></el-icon>
+						<div class="img" :style="{background: 'blue'}">
+							<el-icon
+								:style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`"><component :is="`sc-icon-js`" /></el-icon>
 						</div>
 						<div class="title">
-							<h2>{{item.title}}</h2>
-							<p><el-input v-model="item.url" placeholder="代码文件夹路径"></el-input></p>
-							<p><el-button @click="click(item.url)">生成</el-button></p>
+							<h2>生成接口代码</h2>
+							<p><el-button @click="generateJsCode()">生成</el-button></p>
+						</div>
+					</div>
+				</el-card>
+			</el-col>
+			<el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="24">
+				<el-card shadow="hover" :body-style="{ padding: '0px' }">
+					<div class="code-item">
+						<div class="img" :style="{background: 'green'}">
+							<el-icon
+								:style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`"><component :is="`el-icon-picture`" /></el-icon>
+						</div>
+						<div class="title">
+							<h2>生成图标代码</h2>
+							<p><el-input v-model="form.iconName" placeholder="图标名称"></el-input></p>
+							<p><el-input v-model="form.svgCode" placeholder="粘贴SVG代码"></el-input></p>
+							<p><el-button @click="generateIconCode()">生成</el-button></p>
 						</div>
 					</div>
 				</el-card>
@@ -25,22 +41,25 @@
 		name: 'autocode',
 		data() {
 			return {
-				list: [
-					{
-						title: "生成前端代码",
-						des: "配置型生成经典的增删改查列表",
-						icon: "sc-icon-js",
-						color: "blue",
-						ver: "开发中",
-						url: "d:\\Work\\SVN\\Tao\\NetAdmin\\src\\frontend\\admin-ui\\src\\api\\"
-					}
-				]
+				form:{
+					svgCode:'',
+					iconName:'',
+					projectPath:"d:\\Work\\SVN\\Tao\\NetAdmin\\src\\frontend\\admin-ui",
+				}
 			}
 		},
 		methods: {
-			async click(url){
+			async generateIconCode(){
 				try{
-					 await this.$API.sys_endpoint.generateJsCode.post(null, {params:{diskPath:url}})
+					await this.$API.sys_dev.generateIconCode.post(this.form)
+					this.$message.success( '生成完毕' )
+				}catch{
+
+				}
+			},
+			async generateJsCode(){
+				try{
+					await this.$API.sys_dev.generateJsCode.post(null, {params:{projectPath:this.form.projectPath}})
 					this.$message.success( '生成完毕' )
 				}catch{
 

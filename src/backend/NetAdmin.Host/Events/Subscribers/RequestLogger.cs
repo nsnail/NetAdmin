@@ -1,7 +1,7 @@
 using Furion;
 using Furion.EventBus;
 using Mapster;
-using NetAdmin.Application.Service.Sys;
+using NetAdmin.Application.Services.Sys;
 using NetAdmin.DataContract.Dto.Sys.Log;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;

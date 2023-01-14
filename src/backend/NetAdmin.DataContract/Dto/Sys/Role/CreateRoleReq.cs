@@ -14,6 +14,11 @@ namespace NetAdmin.DataContract.Dto.Sys.Role;
 /// </summary>
 public record CreateRoleReq : TbSysRole, IRegister
 {
+    /// <summary>
+    ///     角色-接口映射
+    /// </summary>
+    public IReadOnlyCollection<string> ApiIds { get; init; }
+
     /// <inheritdoc cref="TbSysRole.BitSet" />
     public override long BitSet {
         get {
@@ -82,6 +87,11 @@ public record CreateRoleReq : TbSysRole, IRegister
                 , src => src.MenuIds.NullOrEmpty()
                       ? Array.Empty<TbSysMenu>()
                       : src.MenuIds.Select(x => new TbSysMenu { Id = x }))
+              .Map( //
+                  dest => dest.Apis
+                , src => src.ApiIds.NullOrEmpty()
+                      ? Array.Empty<TbSysApi>()
+                      : src.ApiIds.Select(x => new TbSysApi { Id = x }))
 
             //
             ;

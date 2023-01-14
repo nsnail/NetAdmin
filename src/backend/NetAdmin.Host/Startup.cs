@@ -1,5 +1,5 @@
 using Furion;
-using NetAdmin.Application.Service.Sys.Implements;
+using NetAdmin.Application.Services.Sys.Implements;
 using NetAdmin.Host.Aop;
 using NetAdmin.Host.Extensions;
 using NetAdmin.Infrastructure.Extensions;
@@ -66,6 +66,7 @@ public class Startup : AppStartup
                 .AddFreeSql()      //                                        注册freeSql
                 .AddCorsAccessor() //                                        支持跨域访问
                 .AddContextUser()  //                                        注册上下文用户
+                .AddMemCache()     //                                        注册内存缓存
 
                 // IMvcBuilder
                 .AddControllers()    //                                      注册控制器

@@ -1,0 +1,135 @@
+using System.Reflection;
+using System.Text.RegularExpressions;
+using Furion.DynamicApiController;
+using Mapster;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using NetAdmin.Application.Repositories;
+using NetAdmin.DataContract.Attributes;
+using NetAdmin.DataContract.DbMaps;
+using NetAdmin.DataContract.Dto.Pub;
+using NetAdmin.DataContract.Dto.Sys.Api;
+using NetAdmin.Infrastructure.Utils;
+
+namespace NetAdmin.Application.Services.Sys.Implements;
+
+/// <inheritdoc cref="IApiService" />
+public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService, IDynamicApiController
+{
+    private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
+    private readonly XmlCommentHelper                    _xmlCommentHelper;
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="ApiService" /> class.
+    /// </summary>
+    public ApiService(Repository<TbSysApi>                rpo, XmlCommentHelper xmlCommentHelper
+                    , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
+        : base(rpo)
+    {
+        _xmlCommentHelper                   = xmlCommentHelper;
+        _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public ValueTask<QueryApiRsp> Create(CreateApiReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public ValueTask<int> Delete(DelReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public ValueTask<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    ///     查询接口
+    /// </summary>
+    public async ValueTask<List<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
+    {
+        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
+        return ret.ConvertAll(x => x.Adapt<QueryApiRsp>());
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public IEnumerable<QueryApiRsp> ReflectionList(bool excludeAnonymous = true)
+    {
+        var regex = new Regex(@"\.(\w+)\.Implements", RegexOptions.Compiled);
+
+        QueryApiRsp SelectQueryApiRsp(IGrouping<TypeInfo, ControllerActionDescriptor> group)
+        {
+            var first = group.First()!;
+            return new QueryApiRsp {
+                                       Summary = _xmlCommentHelper.GetComments(group.Key)
+                                     , Name    = first.ControllerName
+                                     , Id = Regex.Replace( //
+                                           first.AttributeRouteInfo!.Template!, $"/{first.ActionName}$", string.Empty)
+                                     , Children  = GetChildren(group)
+                                     , Namespace = regex.Match(group.Key.Namespace!).Groups[1].Value
+                                   };
+        }
+
+        var actionDescriptors //
+            = _actionDescriptorCollectionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>();
+
+        if (excludeAnonymous) {
+            actionDescriptors = actionDescriptors.Where(x => x.EndpointMetadata.All(
+                                                            y => y.GetType() != typeof(AllowAnonymousAttribute)));
+        }
+
+        var actionGroup //
+            = actionDescriptors.GroupBy(x => x.ControllerTypeInfo);
+
+        var ret = actionGroup.Select(SelectQueryApiRsp);
+
+        return ret;
+    }
+
+    /// <inheritdoc />
+    [Transaction]
+    public async ValueTask Sync()
+    {
+        await Rpo.DeleteAsync(a => true);
+
+        var list = ReflectionList();
+
+        EnableCascadeSave = true;
+        foreach (var item in list) {
+            var entity = item.Adapt<TbSysApi>();
+            await Rpo.InsertAsync(entity);
+        }
+    }
+
+    /// <inheritdoc />
+    [NonAction]
+    public ValueTask<NopReq> Update(NopReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IEnumerable<QueryApiRsp> GetChildren(IEnumerable<ControllerActionDescriptor> actionDescriptors)
+    {
+        return actionDescriptors //
+            .Select(x => new QueryApiRsp {
+                                             Summary = _xmlCommentHelper.GetComments(x.MethodInfo)
+                                           , Name    = x.ActionName
+                                           , Id      = x.AttributeRouteInfo!.Template
+                                           , Method = x.ActionConstraints?.OfType<HttpMethodActionConstraint>()
+                                                       .FirstOrDefault()
+                                                       ?.HttpMethods.First()
+                                         });
+    }
+}

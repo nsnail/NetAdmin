@@ -1,5 +1,5 @@
 /**
- *  角色接口
+ *  角色服务
  *  @module @/api/role
  */
 
@@ -38,30 +38,6 @@ export default {
     delete :{
         url: `${config.API_URL}/api/role/delete`,
         name: `删除角色`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
-
-
-    /**
-     * 角色端点映射
-     */
-    mapEndpoints :{
-        url: `${config.API_URL}/api/role/map.endpoints`,
-        name: `角色端点映射`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
-
-
-    /**
-     * 角色-菜单映射
-     */
-    mapMenus :{
-        url: `${config.API_URL}/api/role/map.menus`,
-        name: `角色-菜单映射`,
         post:async function(data, config={}) {
             return await http.post(this.url,data, config)
         }

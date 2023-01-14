@@ -30,7 +30,7 @@
 			</el-tab-pane>
 			<el-tab-pane label="接口权限">
 				<div class="treeMain">
-					<el-tree ref="endpoint" node-key="id" :data="endpoint.list" :props="endpoint.props" show-checkbox
+					<el-tree ref="api" node-key="id" :data="api.list" :props="api.props" show-checkbox
 					></el-tree>
 				</div>
 			</el-tab-pane>
@@ -95,7 +95,7 @@ export default {
 					}
 				}
 			},
-			endpoint: {
+			api: {
 				list: [],
 				checked: [],
 				props: {
@@ -159,14 +159,15 @@ export default {
 				this.$refs.menu.setCheckedKeys(filterKeys, true)
 			})
 		},
-		async getEndpoint() {
+		async getApi() {
 			//this.menu.checked = this.form.menuIds || [];
-			const res = await this.$API.sys_endpoint.list.post()
-			this.endpoint.list = res.data
+			const res = await this.$API.sys_api.query.post()
+			this.api.list = res.data
+			this.api.checked = this.form.apiIds || [];
 			//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
 			this.$nextTick(() => {
-				let filterKeys = this.endpoint.checked.filter(key => this.$refs.endpoint.getNode(key).isLeaf)
-				this.$refs.endpoint.setCheckedKeys(filterKeys, true)
+				let filterKeys = this.api.checked.filter(key => this.$refs.api.getNode(key).isLeaf)
+				this.$refs.api.setCheckedKeys(filterKeys, true)
 			})
 		},
 		async getDept() {
@@ -192,12 +193,16 @@ export default {
 					//选中的和半选的合并后传值接口
 					const checkedKeys = this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys());
 					const checkedKeys_dept = this.$refs.dept.getCheckedKeys().concat(this.$refs.dept.getHalfCheckedKeys());
+					const checkedKeys_api =
+						this.$refs.api.getCheckedKeys().concat(this.$refs.api.getHalfCheckedKeys());
+					console.log(checkedKeys_api)
 
 					try {
 						const method = (this.mode == 'add' ? this.$API.sys_role.create
 							: this.$API.sys_role.update)
 						this.form.deptIds = checkedKeys_dept;
 						this.form.menuIds = checkedKeys;
+						this.form.apiIds = checkedKeys_api;
 						const res = await method.post(this.form);
 						this.$emit('success', res.data, this.mode)
 						this.visible = false;
@@ -220,6 +225,7 @@ export default {
 			this.form.version = data.version
 			this.form.deptIds = data.deptIds
 			this.form.menuIds = data.menuIds
+			this.form.apiIds = data.apiIds
 			this.form.dataScope = data.dataScope
 			//可以和上面一样单个注入，也可以像下面一样直接合并进去
 			//Object.assign(this.form, data)
@@ -229,7 +235,7 @@ export default {
 		loadTree() {
 			this.getMenu()
 			this.getDept()
-			this.getEndpoint()
+			this.getApi()
 		}
 	}
 }

@@ -16,8 +16,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
     ///     角色-接口映射
     /// </summary>
     [JsonIgnore]
-    [Navigate]
-    public ICollection<TbSysRoleApi> Apis { get; set; }
+    [Navigate(ManyToMany = typeof(TbSysRoleApi))]
+    public ICollection<TbSysApi> Apis { get; set; }
 
     /// <summary>
     ///     比特位（前4位是公共位<see cref="Enums.BitSets" />） <see cref="Enums.SysRoleBits" />

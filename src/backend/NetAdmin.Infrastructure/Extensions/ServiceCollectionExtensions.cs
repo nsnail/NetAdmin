@@ -53,6 +53,15 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    ///     注册内存缓存
+    /// </summary>
+    public static IServiceCollection AddMemCache(this IServiceCollection me)
+    {
+        me.AddMemoryCache(options => { options.TrackStatistics = true; });
+        return me;
+    }
+
+    /// <summary>
     ///     注册雪花id生成器
     /// </summary>
     public static IServiceCollection AddSnowflake(this IServiceCollection me)

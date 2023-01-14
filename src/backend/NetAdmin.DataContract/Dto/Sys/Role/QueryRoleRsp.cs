@@ -22,6 +22,11 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// </summary>
     public bool IgnorePermissionControl => BitSet.HasFlag(Enums.SysRoleBits.IgnorePermissionControl);
 
+    /// <summary>
+    ///     角色-接口映射
+    /// </summary>
+    public ICollection<string> ApiIds { get; init; }
+
     /// <inheritdoc cref="IFieldAdd.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
@@ -66,7 +71,9 @@ public record QueryRoleRsp : TbSysRole, IRegister
         config.ForType<TbSysRole, QueryRoleRsp>()
               .IgnoreIf((src, dest) => src.Depts == null, dest => dest.DeptIds)
               .IgnoreIf((src, dest) => src.Menus == null, dest => dest.MenuIds)
+              .IgnoreIf((src, dest) => src.Apis  == null, dest => dest.ApiIds)
               .Map(dest => dest.DeptIds,     src => src.Depts.Select(x => x.Id))
+              .Map(dest => dest.ApiIds,      src => src.Apis.Select(x => x.Id))
               .Map(dest => dest.MenuIds,     src => src.Menus.Select(x => x.Id))
               .Map(dest => dest.CreatedTime, src => src.CreatedTime.Is(default, DateTime.Now))
 

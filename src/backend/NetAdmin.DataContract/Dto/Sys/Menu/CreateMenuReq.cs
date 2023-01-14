@@ -89,5 +89,5 @@ public record CreateMenuReq : TbSysMenu
     /// <inheritdoc cref="TbSysMenu.Type" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(Enums.SysMenuTypes))]
-    public override Enums.SysMenuTypes Type { get; init; } = Enums.SysMenuTypes.Menu;
+    public override Enums.SysMenuTypes Type => Meta.Type;
 }
