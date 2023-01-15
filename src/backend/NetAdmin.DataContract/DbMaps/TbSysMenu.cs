@@ -1,7 +1,8 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Constant;
+using NSExt.Attributes;
 
 namespace NetAdmin.DataContract.DbMaps;
 
@@ -13,13 +14,85 @@ namespace NetAdmin.DataContract.DbMaps;
 public record TbSysMenu : MutableEntity, IFieldBitSet
 {
     /// <summary>
+    ///     菜单表比特位
+    /// </summary>
+    [Flags]
+    public enum MenuBits : long
+    {
+        /// <summary>
+        ///     隐藏
+        /// </summary>
+        [Description(nameof(Str.Hidden))]
+        [Localization(typeof(Str))]
+        Hidden = 0b_0000_0001_0000
+
+       ,
+
+        /// <summary>
+        ///     隐藏面包屑
+        /// </summary>
+        [Description(nameof(Str.Hidden_bread_crumb))]
+        [Localization(typeof(Str))]
+        HiddenBreadCrumb = 0b_0000_0010_0000
+
+       ,
+
+        /// <summary>
+        ///     整页路由
+        /// </summary>
+        [Description(nameof(Str.Full_page_routing))]
+        [Localization(typeof(Str))]
+        FullPageRouting = 0b_0000_0100_0000
+    }
+
+    /// <summary>
+    ///     菜单类型
+    /// </summary>
+    public enum MenuTypes
+    {
+        /// <summary>
+        ///     菜单
+        /// </summary>
+        [Description(nameof(Str.Menu))]
+        [Localization(typeof(Str))]
+        Menu = 1
+
+       ,
+
+        /// <summary>
+        ///     链接
+        /// </summary>
+        [Description(nameof(Str.Link))]
+        [Localization(typeof(Str))]
+        Link = 2
+
+       ,
+
+        /// <summary>
+        ///     框架
+        /// </summary>
+        [Description(nameof(Str.Iframe))]
+        [Localization(typeof(Str))]
+        Iframe = 3
+
+       ,
+
+        /// <summary>
+        ///     按钮
+        /// </summary>
+        [Description(nameof(Str.Button))]
+        [Localization(typeof(Str))]
+        Button = 4
+    }
+
+    /// <summary>
     ///     子节点或详情页需要高亮的上级菜单路由地址
     /// </summary>
     [JsonIgnore]
     public virtual string Active { get; init; }
 
     /// <summary>
-    ///     比特位（前4位是公共位<see cref="Enums.BitSets" />） <see cref="Enums.SysMenuBits" />
+    ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="MenuBits" />
     /// </summary>
     [JsonIgnore]
     public virtual long BitSet { get; init; }
@@ -102,5 +175,5 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
     ///     菜单类型
     /// </summary>
     [JsonIgnore]
-    public virtual Enums.SysMenuTypes Type { get; init; }
+    public virtual MenuTypes Type { get; init; }
 }

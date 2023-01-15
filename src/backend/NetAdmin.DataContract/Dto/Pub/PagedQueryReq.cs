@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.Dto.Pub;
 

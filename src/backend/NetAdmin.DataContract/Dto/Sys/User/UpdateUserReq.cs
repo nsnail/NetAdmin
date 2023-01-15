@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.Dto.Sys.User;
 
@@ -16,7 +15,7 @@ public record UpdateUserReq : CreateUserReq
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.BitSets.Enabled;
+                ret |= (long)BitSets.Enabled;
             }
 
             return ret;

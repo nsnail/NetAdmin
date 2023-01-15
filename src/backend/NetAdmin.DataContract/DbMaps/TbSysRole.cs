@@ -1,7 +1,8 @@
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Constant;
+using NSExt.Attributes;
 
 namespace NetAdmin.DataContract.DbMaps;
 
@@ -13,6 +14,20 @@ namespace NetAdmin.DataContract.DbMaps;
 public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
 {
     /// <summary>
+    ///     角色表比特位
+    /// </summary>
+    [Flags]
+    public enum RoleBits : long
+    {
+        /// <summary>
+        ///     忽略权限控制（拥有所有权限）
+        /// </summary>
+        [Description(nameof(Str.Ignoring_permissions_control))]
+        [Localization(typeof(Str))]
+        IgnorePermissionControl = 0b_0000_0001_0000
+    }
+
+    /// <summary>
     ///     角色-接口映射
     /// </summary>
     [JsonIgnore]
@@ -20,7 +35,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
     public ICollection<TbSysApi> Apis { get; set; }
 
     /// <summary>
-    ///     比特位（前4位是公共位<see cref="Enums.BitSets" />） <see cref="Enums.SysRoleBits" />
+    ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="RoleBits" />
     /// </summary>
     [JsonIgnore]
     public virtual long BitSet { get; init; }

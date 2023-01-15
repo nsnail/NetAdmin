@@ -3,7 +3,6 @@ using System.Text.Json.Serialization;
 using Mapster;
 using NetAdmin.DataContract.Attributes.DataValidation;
 using NetAdmin.DataContract.DbMaps;
-using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.Dto.Sys.User;
@@ -54,6 +53,6 @@ public record CreateUserReq : TbSysUser, IRegister
         config.ForType<CreateUserReq, TbSysUser>()
               .Map(dest => dest.Password, src => src.PasswordText.Pwd().Guid())
               .Map(dest => dest.Token,    src => Guid.NewGuid())
-              .Map(dest => dest.BitSet,   src => Enums.BitSets.Enabled);
+              .Map(dest => dest.BitSet,   src => BitSets.Enabled);
     }
 }

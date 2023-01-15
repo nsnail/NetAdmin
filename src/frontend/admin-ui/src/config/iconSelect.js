@@ -287,7 +287,7 @@
           "el-icon-zoom-in",
           "el-icon-zoom-out"
         ],
-        "name": "д╛хо"
+        "name": "д╛О©╫О©╫"
       },
       {
         "icons": [
@@ -307,9 +307,12 @@
           "sc-icon-wechat",
           "sc-icon-memory",
           "sc-icon-dashboard",
-          "sc-icon-api"
+          "sc-icon-api",
+          "sc-icon-code2",
+          "sc-icon-csharp",
+          "sc-icon-dic"
         ],
-        "name": "ю╘у╧"
+        "name": "О©╫О©╫у╧"
       }
     ]
   }

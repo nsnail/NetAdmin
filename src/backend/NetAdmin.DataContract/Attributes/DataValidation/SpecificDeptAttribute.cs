@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using NetAdmin.DataContract.Dto.Sys.Role;
-using NetAdmin.Infrastructure.Constant;
-using NetAdmin.Infrastructure.Lang;
 
 namespace NetAdmin.DataContract.Attributes.DataValidation;
 

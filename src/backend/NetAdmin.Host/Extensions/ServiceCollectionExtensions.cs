@@ -128,7 +128,7 @@ public static class ServiceCollectionExtensions
 
         // 全局过滤器设置
         // freeSql.GlobalFilter.ApplyOnly<IFieldBitSet>( // 启用/禁用
-        //     Strings.FLG_FILTER_BITSET, a => a.BitSet.HasFlag(Enums.BitSets.Enabled));
+        //     Strings.FLG_FILTER_BITSET, a => a.BitSet.HasFlag(BitSets.Enabled));
         // freeSql.GlobalFilter.ApplyOnly
         me.AddScoped<UnitOfWorkManager>();                    // 注入工作单元管理器
         me.AddFreeRepository(null, App.Assemblies.ToArray()); // 批量注入 Repository

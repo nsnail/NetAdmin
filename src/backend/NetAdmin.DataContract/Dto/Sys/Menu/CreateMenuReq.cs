@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps;
-using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.Dto.Sys.Menu;
 
@@ -19,19 +18,19 @@ public record CreateMenuReq : TbSysMenu
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.BitSets.Enabled;
+                ret |= (long)BitSets.Enabled;
             }
 
             if (Meta.HiddenBreadCrumb) {
-                ret |= (long)Enums.SysMenuBits.HiddenBreadCrumb;
+                ret |= (long)MenuBits.HiddenBreadCrumb;
             }
 
             if (Meta.Hidden) {
-                ret |= (long)Enums.SysMenuBits.Hidden;
+                ret |= (long)MenuBits.Hidden;
             }
 
             if (Meta.FullPage) {
-                ret |= (long)Enums.SysMenuBits.FullPageRouting;
+                ret |= (long)MenuBits.FullPageRouting;
             }
 
             return ret;
@@ -88,6 +87,6 @@ public record CreateMenuReq : TbSysMenu
 
     /// <inheritdoc cref="TbSysMenu.Type" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [EnumDataType(typeof(Enums.SysMenuTypes))]
-    public override Enums.SysMenuTypes Type => Meta.Type;
+    [EnumDataType(typeof(MenuTypes))]
+    public override MenuTypes Type => Meta.Type;
 }

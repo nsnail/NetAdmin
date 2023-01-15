@@ -9,6 +9,18 @@ import http from "@/utils/request"
 export default {
 
     /**
+     * 生成后端代码
+     */
+    generateCsCode :{
+        url: `${config.API_URL}/api/dev/generate.cs.code`,
+        name: `生成后端代码`,
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
+        }
+    },
+
+
+    /**
      * 生成图标代码
      */
     generateIconCode :{

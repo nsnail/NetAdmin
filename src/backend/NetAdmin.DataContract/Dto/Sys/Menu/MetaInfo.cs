@@ -1,12 +1,12 @@
-using NetAdmin.Infrastructure.Constant;
+using NetAdmin.DataContract.DbMaps;
 
 namespace NetAdmin.DataContract.Dto.Sys.Menu;
 
 /// <summary>
 ///     信息：元数据
 /// </summary>
-public record MetaInfo(string Icon,     string Title, Enums.SysMenuTypes Type, bool Hidden, bool HiddenBreadCrumb
-                     , bool   FullPage, string Tag,   string             Color)
+public record MetaInfo(string Icon,     string Title, TbSysMenu.MenuTypes Type, bool Hidden, bool HiddenBreadCrumb
+                     , bool   FullPage, string Tag,   string              Color)
 {
     /// <summary>
     ///     背景颜色
@@ -46,5 +46,5 @@ public record MetaInfo(string Icon,     string Title, Enums.SysMenuTypes Type, b
     /// <summary>
     ///     类型
     /// </summary>
-    public Enums.SysMenuTypes Type { get; init; } = Type;
+    public TbSysMenu.MenuTypes Type { get; init; } = Type;
 }

@@ -1,5 +1,4 @@
 using FreeSql.Internal.Model;
-using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.Dto.Pub;
 

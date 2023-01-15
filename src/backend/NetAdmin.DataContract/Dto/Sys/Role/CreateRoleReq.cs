@@ -4,7 +4,6 @@ using Mapster;
 using NetAdmin.DataContract.Attributes.DataValidation;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.Dto.Sys.Role;
@@ -24,11 +23,11 @@ public record CreateRoleReq : TbSysRole, IRegister
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.BitSets.Enabled;
+                ret |= (long)BitSets.Enabled;
             }
 
             if (IgnorePermissionControl) {
-                ret |= (long)Enums.SysRoleBits.IgnorePermissionControl;
+                ret |= (long)RoleBits.IgnorePermissionControl;
             }
 
             return ret;

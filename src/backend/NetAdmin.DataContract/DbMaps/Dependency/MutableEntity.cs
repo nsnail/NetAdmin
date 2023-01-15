@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
-using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.DbMaps.Dependency;
 

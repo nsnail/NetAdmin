@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using Mapster;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.Dto.Sys.Role;
@@ -15,12 +14,12 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// <summary>
     ///     是否启用
     /// </summary>
-    public bool Enabled => BitSet.HasFlag(Enums.BitSets.Enabled);
+    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <summary>
     ///     是否忽略权限控制
     /// </summary>
-    public bool IgnorePermissionControl => BitSet.HasFlag(Enums.SysRoleBits.IgnorePermissionControl);
+    public bool IgnorePermissionControl => BitSet.HasFlag(RoleBits.IgnorePermissionControl);
 
     /// <summary>
     ///     角色-接口映射

@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using Mapster;
 using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.Dto.Sys.Dept;
@@ -15,7 +14,7 @@ public record QueryDeptRsp : TbSysDept, IRegister
     /// <summary>
     ///     是否启用
     /// </summary>
-    public bool Enabled => BitSet.HasFlag(Enums.BitSets.Enabled);
+    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <summary>
     ///     子节点

@@ -14,6 +14,14 @@ public class DevController : ControllerBase<IDevService>, IDevModule
         : base(service) { }
 
     /// <summary>
+    ///     生成后端代码
+    /// </summary>
+    public ValueTask GenerateCsCode(GenerateCsCodeReq req)
+    {
+        return Service.GenerateCsCode(req);
+    }
+
+    /// <summary>
     ///     生成图标代码
     /// </summary>
     public async ValueTask GenerateIconCode(GenerateIconCodeReq req)

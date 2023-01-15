@@ -12,9 +12,42 @@
 							</el-icon>
 						</div>
 						<div class="title">
-							<h2>生成接口代码</h2>
+							<h2>生成前端代码</h2>
+							<p>
+								<el-input v-model="form.projectPath" placeholder="项目路径"></el-input>
+							</p>
 							<p>
 								<el-button @click="generateJsCode()">生成</el-button>
+							</p>
+						</div>
+					</div>
+				</el-card>
+			</el-col>
+			<el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="24">
+				<el-card shadow="hover" :body-style="{ padding: '0px' }">
+					<div class="code-item">
+						<div class="img" :style="{background: 'orange'}">
+							<el-icon
+								:style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
+								<component :is="`sc-icon-csharp`"/>
+							</el-icon>
+						</div>
+						<div class="title">
+							<h2>生成后端代码</h2>
+							<p>
+								<el-input v-model="formCs.projectPath" placeholder="项目路径"></el-input>
+							</p>
+							<p>
+								<el-input v-model="formCs.type" placeholder="模块类型"></el-input>
+							</p>
+							<p>
+								<el-input v-model="formCs.moduleName" placeholder="模块名称"></el-input>
+							</p>
+							<p>
+								<el-input v-model="formCs.moduleRemark" placeholder="模块说明"></el-input>
+							</p>
+							<p>
+								<el-button @click="generateCsCode()">生成</el-button>
 							</p>
 						</div>
 					</div>
@@ -64,6 +97,15 @@ export default {
 				svgCode: '',
 				iconName: '',
 				projectPath: "d:\\Work\\SVN\\Tao\\NetAdmin\\src\\frontend\\admin-ui",
+			},
+			formCs: {
+				moduleName: '',
+				///     模块说明
+				moduleRemark: '',
+				///     项目路径
+				projectPath: 'd:\\Work\\SVN\\Tao\\NetAdmin\\src\\backend',
+				///     模块类型
+				type: 'Sys',
 			}
 		}
 	},
@@ -78,7 +120,20 @@ export default {
 		},
 		async generateJsCode() {
 			try {
-				await this.$API.sys_dev.generateJsCode.post(null, {params: {projectPath: this.form.projectPath}})
+				await this.$API.sys_dev.generateJsCode.post(null, {
+					params: {
+						projectPath:
+						this.form.projectPath
+					}
+				})
+				this.$message.success('生成完毕')
+			} catch {
+
+			}
+		},
+		async generateCsCode() {
+			try {
+				await this.$API.sys_dev.generateCsCode.post(this.formCs)
 				this.$message.success('生成完毕')
 			} catch {
 

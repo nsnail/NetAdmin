@@ -4,7 +4,6 @@ using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Dept;
 using NetAdmin.DataContract.Dto.Sys.Role;
-using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.Dto.Sys.User;
@@ -17,7 +16,7 @@ public record QueryUserRsp : TbSysUser, IRegister
     /// <summary>
     ///     是否启用
     /// </summary>
-    public bool Enabled => BitSet.HasFlag(Enums.BitSets.Enabled);
+    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <inheritdoc cref="TbSysUser.Avatar" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

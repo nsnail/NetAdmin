@@ -1,6 +1,3 @@
-using NetAdmin.Infrastructure.Constant;
-using NetAdmin.Infrastructure.Lang;
-
 namespace NetAdmin.DataContract.Attributes.DataValidation;
 
 /// <summary>

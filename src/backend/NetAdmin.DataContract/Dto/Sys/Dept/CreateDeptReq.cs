@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps;
-using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.Dto.Sys.Dept;
 
@@ -15,7 +14,7 @@ public record CreateDeptReq : TbSysDept
         get {
             var ret = 0L;
             if (Enabled) {
-                ret |= (long)Enums.BitSets.Enabled;
+                ret |= (long)BitSets.Enabled;
             }
 
             return ret;

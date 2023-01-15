@@ -11,46 +11,6 @@ namespace NetAdmin.Infrastructure.Constant;
 public static class Enums
 {
     /// <summary>
-    ///     公用比特位
-    /// </summary>
-    public enum BitSets : long
-    {
-        /// <summary>
-        ///     启用
-        /// </summary>
-        [Description(nameof(Str.Enabled))]
-        [Localization(typeof(Str))]
-        Enabled = 0b_0001
-
-       ,
-
-        /// <summary>
-        ///     暂未定义
-        /// </summary>
-        [Description(nameof(Str.Undefined))]
-        [Localization(typeof(Str))]
-        Undefined1 = 0b_0010
-
-       ,
-
-        /// <summary>
-        ///     暂未定义
-        /// </summary>
-        [Description(nameof(Str.Undefined))]
-        [Localization(typeof(Str))]
-        Undefined2 = 0b_0100
-
-       ,
-
-        /// <summary>
-        ///     暂未定义
-        /// </summary>
-        [Description(nameof(Str.Undefined))]
-        [Localization(typeof(Str))]
-        Undefined3 = 0b_1000
-    }
-
-    /// <summary>
     ///     数据范围
     /// </summary>
     public enum DataScopes
@@ -225,6 +185,24 @@ public static class Enums
     }
 
     /// <summary>
+    ///     模块类型
+    /// </summary>
+    public enum ModuleTypes
+    {
+        /// <summary>
+        ///     系统模块
+        /// </summary>
+        Sys
+
+       ,
+
+        /// <summary>
+        ///     业务模块
+        /// </summary>
+        Biz
+    }
+
+    /// <summary>
     ///     排序方式
     /// </summary>
     public enum Orders
@@ -241,102 +219,4 @@ public static class Enums
         /// </summary>
         Descending
     }
-
-    /// <summary>
-    ///     部门表比特位
-    /// </summary>
-    [Flags]
-    public enum SysDeptBits : long { }
-
-    /// <summary>
-    ///     菜单表比特位
-    /// </summary>
-    [Flags]
-    public enum SysMenuBits : long
-    {
-        /// <summary>
-        ///     隐藏
-        /// </summary>
-        [Description(nameof(Str.Hidden))]
-        [Localization(typeof(Str))]
-        Hidden = 0b_0000_0001_0000
-
-       ,
-
-        /// <summary>
-        ///     隐藏面包屑
-        /// </summary>
-        [Description(nameof(Str.Hidden_bread_crumb))]
-        [Localization(typeof(Str))]
-        HiddenBreadCrumb = 0b_0000_0010_0000
-
-       ,
-
-        /// <summary>
-        ///     整页路由
-        /// </summary>
-        [Description(nameof(Str.Full_page_routing))]
-        [Localization(typeof(Str))]
-        FullPageRouting = 0b_0000_0100_0000
-    }
-
-    /// <summary>
-    ///     菜单类型
-    /// </summary>
-    public enum SysMenuTypes
-    {
-        /// <summary>
-        ///     菜单
-        /// </summary>
-        [Description(nameof(Str.Menu))]
-        [Localization(typeof(Str))]
-        Menu = 1
-
-       ,
-
-        /// <summary>
-        ///     链接
-        /// </summary>
-        [Description(nameof(Str.Link))]
-        [Localization(typeof(Str))]
-        Link = 2
-
-       ,
-
-        /// <summary>
-        ///     框架
-        /// </summary>
-        [Description(nameof(Str.Iframe))]
-        [Localization(typeof(Str))]
-        Iframe = 3
-
-       ,
-
-        /// <summary>
-        ///     按钮
-        /// </summary>
-        [Description(nameof(Str.Button))]
-        [Localization(typeof(Str))]
-        Button = 4
-    }
-
-    /// <summary>
-    ///     角色表比特位
-    /// </summary>
-    [Flags]
-    public enum SysRoleBits : long
-    {
-        /// <summary>
-        ///     忽略权限控制（拥有所有权限）
-        /// </summary>
-        [Description(nameof(Str.Ignoring_permissions_control))]
-        [Localization(typeof(Str))]
-        IgnorePermissionControl = 0b_0000_0001_0000
-    }
-
-    /// <summary>
-    ///     用户表比特位
-    /// </summary>
-    [Flags]
-    public enum SysUserBits : long { }
 }

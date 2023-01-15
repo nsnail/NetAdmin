@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Constant;
 
 namespace NetAdmin.DataContract.DbMaps;
 
@@ -12,7 +11,7 @@ namespace NetAdmin.DataContract.DbMaps;
 public record TbSysDept : MutableEntity, IFieldBitSet
 {
     /// <summary>
-    ///     比特位（前4位是公共位<see cref="Enums.BitSets" />） <see cref="Enums.SysDeptBits" />
+    ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />）
     /// </summary>
     [JsonIgnore]
     public virtual long BitSet { get; init; }

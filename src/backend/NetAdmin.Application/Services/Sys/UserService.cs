@@ -49,7 +49,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.User_name_or_password_error);
         }
 
-        if (!dbUser.BitSet.HasFlag(Enums.BitSets.Enabled)) {
+        if (!dbUser.BitSet.HasFlag(EntityBase.BitSets.Enabled)) {
             throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.User_disabled);
         }
 
@@ -129,19 +129,22 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <inheritdoc />
     public async ValueTask<QueryUserRsp> UserInfo()
     {
-        var dbUser = await Rpo.Where(a => a.Token == User.Token && (a.BitSet & (long)Enums.BitSets.Enabled) == 1)
+        var dbUser = await Rpo.Where(a => a.Token == User.Token && (a.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
                               .Include(a => a.Dept)
                               .IncludeMany( //
-                                  a => a.Roles, then => then.Where(a => (a.BitSet & (long)Enums.BitSets.Enabled) == 1)
-                                                            .IncludeMany( //
-                                                                a => a.Menus
-                                                              , menuThen => menuThen.Where(a =>
-                                                                    (a.BitSet & (long)Enums.BitSets.Enabled) == 1))
-                                                            .IncludeMany( //
-                                                                a => a.Depts
-                                                              , deptThen => deptThen.Where(a =>
-                                                                    (a.BitSet & (long)Enums.BitSets.Enabled) == 1))
-                                                            .IncludeMany(a => a.Apis))
+                                  a => a.Roles, then =>
+                                      then.Where(a => (a.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
+                                          .IncludeMany( //
+                                              a => a.Menus
+                                            , menuThen =>
+                                                  menuThen.Where(
+                                                      a => (a.BitSet & (long)EntityBase.BitSets.Enabled) == 1))
+                                          .IncludeMany( //
+                                              a => a.Depts
+                                            , deptThen =>
+                                                  deptThen.Where(
+                                                      a => (a.BitSet & (long)EntityBase.BitSets.Enabled) == 1))
+                                          .IncludeMany(a => a.Apis))
                               .ToOneAsync();
         return dbUser.Adapt<QueryUserRsp>();
     }
