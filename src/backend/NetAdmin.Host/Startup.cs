@@ -1,5 +1,5 @@
 using Furion;
-using NetAdmin.Application.Services.Sys.Implements;
+using NetAdmin.Application.Services.Sys;
 using NetAdmin.Host.Aop;
 using NetAdmin.Host.Extensions;
 using NetAdmin.Infrastructure.Extensions;

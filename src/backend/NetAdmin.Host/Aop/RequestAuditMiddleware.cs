@@ -4,11 +4,7 @@ using Furion.DynamicApiController;
 using Furion.EventBus;
 using Furion.SpecificationDocument;
 using Microsoft.Extensions.Options;
-using NetAdmin.DataContract;
-using NetAdmin.DataContract.Dto.Sys.Log;
 using NetAdmin.Host.Events.Sources;
-using NetAdmin.Infrastructure.Constant;
-using NetAdmin.Infrastructure.Lang;
 using NSExt.Extensions;
 
 namespace NetAdmin.Host.Aop;

@@ -2,8 +2,7 @@ using Furion;
 using Furion.Authorization;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
-using NetAdmin.Application.Services.Sys;
-using NetAdmin.DataContract;
+using NetAdmin.Host.Caches.Sys;
 
 namespace NetAdmin.Host.Aop;
 
@@ -26,9 +25,9 @@ public class JwtHandler : AppAuthorizeHandler
         }
 
         // 数据库不存在contextuser，或用户已被禁用，拒绝访问
-        var userService = App.GetRequiredService<IUserService>();
-        userService.User = user;
-        var userInfo = await userService.UserInfo();
+        var userCache = App.GetRequiredService<IUserCache>();
+        userCache.Service.User = user;
+        var userInfo = await userCache.UserInfo();
         if (userInfo is null) {
             return false;
         }

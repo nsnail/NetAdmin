@@ -128,7 +128,7 @@
         "UrlParameterization": true,
         "KeepVerb": true,
         "AbandonControllerAffixes": [
-            "Service"
+            "Controller"
         ]
     },
 }

@@ -2,10 +2,6 @@ using System.Reflection;
 using FreeSql.Aop;
 using Furion;
 using Furion.DependencyInjection;
-using NetAdmin.DataContract;
-using NetAdmin.DataContract.Attributes;
-using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Lang;
 using NSExt.Extensions;
 using Yitter.IdGenerator;
 
@@ -23,8 +19,6 @@ public class SqlAuditor : ISingleton
                                                        , nameof(IFieldUpdate.ModifiedUserId)
                                                      };
 
-    private readonly ILogger<SqlAuditor> _logger;
-
     /// <summary>
     ///     数据库服务器时钟偏移
     /// </summary>
@@ -35,13 +29,11 @@ public class SqlAuditor : ISingleton
     /// </summary>
     public SqlAuditor(ILogger<SqlAuditor> logger)
     {
-        _logger = logger;
-
         // 设置服务器时间偏差
         _timeOffset = DateTime.UtcNow.Subtract(
             App.GetRequiredService<IFreeSql>().Ado.QuerySingle(() => DateTime.UtcNow));
 
-        _logger.Info($"{Str.Database_server_clock_offset} {_timeOffset}");
+        logger.Info($"{Str.Database_server_clock_offset} {_timeOffset}");
     }
 
     /// <summary>

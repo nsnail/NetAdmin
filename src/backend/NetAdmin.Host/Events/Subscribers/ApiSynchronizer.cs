@@ -1,8 +1,6 @@
 using Furion;
 using Furion.EventBus;
-using NetAdmin.Application.Services.Sys;
 using NetAdmin.Host.Events.Sources;
-using NetAdmin.Infrastructure.Lang;
 using NSExt.Extensions;
 
 namespace NetAdmin.Host.Events.Subscribers;

@@ -5,8 +5,6 @@ using Furion.FriendlyException;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using NetAdmin.DataContract.Dto;
-using NetAdmin.Infrastructure.Constant;
 using NSExt.Extensions;
 
 namespace NetAdmin.Host.Aop;

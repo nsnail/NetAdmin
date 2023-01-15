@@ -1,5 +1,3 @@
-using NetAdmin.DataContract.Dto.Sys.Log;
-
 namespace NetAdmin.Host.Events.Sources;
 
 /// <summary>

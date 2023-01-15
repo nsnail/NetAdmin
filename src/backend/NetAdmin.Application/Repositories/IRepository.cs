@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using FreeSql;
-using NetAdmin.DataContract;
 using NetAdmin.DataContract.DbMaps.Dependency;
 
 namespace NetAdmin.Application.Repositories;

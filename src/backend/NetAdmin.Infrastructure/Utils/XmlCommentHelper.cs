@@ -14,16 +14,20 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public class XmlCommentHelper : ISingleton
 {
-    private const    string      _XPATH       = "//doc/members/member[@name=\"{0}\"]";
-    private readonly XmlDocument _xmlDocument = new();
+    private const    string            _XPATH        = "//doc/members/member[@name=\"{0}\"]";
+    private readonly List<XmlDocument> _xmlDocuments = new();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="XmlCommentHelper" /> class.
     /// </summary>
     public XmlCommentHelper(IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettings)
     {
-        var commentFile = specificationDocumentSettings.Value.XmlComments.First(x => x.Contains(nameof(NetAdmin)));
-        _xmlDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile));
+        foreach (var commentFile in specificationDocumentSettings.Value.XmlComments.Where(
+                     x => x.Contains(nameof(NetAdmin)))) {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile));
+            _xmlDocuments.Add(xmlDoc);
+        }
     }
 
     /// <summary>
@@ -71,13 +75,27 @@ public class XmlCommentHelper : ISingleton
             nodeName += $"({string.Join(',', parameters.Select(Replace))})";
         }
 
-        return _xmlDocument.SelectSingleNode( //
-            string.Format(NumberFormatInfo.InvariantInfo, _XPATH, nodeName));
+        foreach (var xmlDoc in _xmlDocuments) {
+            var ret = xmlDoc.SelectSingleNode( //
+                string.Format(NumberFormatInfo.InvariantInfo, _XPATH, nodeName));
+            if (ret is not null) {
+                return ret;
+            }
+        }
+
+        return null;
     }
 
     private XmlNode GetNodeByType(Type type)
     {
-        return _xmlDocument.SelectSingleNode(
-            string.Format(NumberFormatInfo.InvariantInfo, _XPATH, $"T:{type.FullName}"));
+        foreach (var xmlDoc in _xmlDocuments) {
+            var ret = xmlDoc.SelectSingleNode(string.Format(NumberFormatInfo.InvariantInfo, _XPATH
+                                                          , $"T:{type.FullName}"));
+            if (ret is not null) {
+                return ret;
+            }
+        }
+
+        return null;
     }
 }

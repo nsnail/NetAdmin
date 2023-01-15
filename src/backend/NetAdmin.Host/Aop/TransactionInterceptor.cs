@@ -2,8 +2,6 @@ using System.Reflection;
 using FreeSql;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Filters;
-using NetAdmin.DataContract.Attributes;
-using NetAdmin.Infrastructure.Lang;
 using NSExt.Extensions;
 
 namespace NetAdmin.Host.Aop;

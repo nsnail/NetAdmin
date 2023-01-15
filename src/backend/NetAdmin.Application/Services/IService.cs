@@ -1,5 +1,3 @@
-using NetAdmin.DataContract;
-
 namespace NetAdmin.Application.Services;
 
 /// <summary>
@@ -10,10 +8,10 @@ public interface IService
     /// <summary>
     ///     服务Id
     /// </summary>
-    Guid ServiceId { get; }
+    Guid ServiceId { get; set; }
 
     /// <summary>
-    ///     登录用户
+    ///     上下文用户
     /// </summary>
     ContextUser User { get; set; }
 }

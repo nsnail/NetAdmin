@@ -1,6 +1,5 @@
 using System.Globalization;
 using FreeSql.Aop;
-using NetAdmin.Infrastructure.Lang;
 
 namespace NetAdmin.Host.Events.Sources;
 
