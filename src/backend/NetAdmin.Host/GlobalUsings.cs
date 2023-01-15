@@ -2,6 +2,7 @@
 
 global using NetAdmin.Application.Modules.Sys;
 global using NetAdmin.Application.Services;
+global using NetAdmin.Application.Services.Sys;
 global using NetAdmin.Application.Services.Sys.Dependency;
 global using NetAdmin.DataContract;
 global using NetAdmin.DataContract.Attributes;
@@ -17,4 +18,5 @@ global using NetAdmin.DataContract.Dto.Sys.Menu;
 global using NetAdmin.DataContract.Dto.Sys.Role;
 global using NetAdmin.DataContract.Dto.Sys.User;
 global using NetAdmin.Infrastructure.Constant;
+global using NetAdmin.Infrastructure.Extensions;
 global using NetAdmin.Infrastructure.Lang;

@@ -42,6 +42,12 @@ public record TbSysOperationLog : ImmutableEntity
     public virtual string Environment { get; init; }
 
     /// <summary>
+    ///     异常信息
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Exception { get; init; }
+
+    /// <summary>
     ///     请求方法
     /// </summary>
     [JsonIgnore]

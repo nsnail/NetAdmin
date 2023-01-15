@@ -287,7 +287,7 @@
           "el-icon-zoom-in",
           "el-icon-zoom-out"
         ],
-        "name": "é»˜è®¤"
+        "name": "Ä¬ÈÏ"
       },
       {
         "icons": [
@@ -306,9 +306,10 @@
           "sc-icon-vue",
           "sc-icon-wechat",
           "sc-icon-memory",
-          "sc-icon-dashboard"
+          "sc-icon-dashboard",
+          "sc-icon-api"
         ],
-        "name": "æ‰©å±•"
+        "name": "À©Õ¹"
       }
     ]
   }

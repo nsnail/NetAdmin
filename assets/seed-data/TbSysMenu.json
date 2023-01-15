@@ -166,6 +166,16 @@
                 "Sort": 0,
                 "Type": 3,
                 "BitSet": 1,
+            },
+            {
+                "Id": 375239645380613,
+                "Name": "dev-api",
+                "Icon": "sc-icon-api",
+                "Title": "Api文档",
+                "Path": "http://localhost:5000",
+                "Sort": 0,
+                "Type": 3,
+                "BitSet": 1,
             }
         ]
     },

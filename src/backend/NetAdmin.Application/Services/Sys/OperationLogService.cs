@@ -35,7 +35,7 @@ public class OperationLogService : RepositoryService<TbSysOperationLog, IOperati
                          .Count(out var total)
                          .ToListAsync(a => new {
                                                    a.ApiId
-                                                 , a.Api.Summary
+                                                 , ApiSummary = a.Api.Summary
                                                  , a.ClientIp
                                                  , a.CreatedTime
                                                  , a.CreatedUserName

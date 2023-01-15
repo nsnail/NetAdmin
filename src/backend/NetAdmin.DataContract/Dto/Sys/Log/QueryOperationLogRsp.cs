@@ -45,6 +45,10 @@ public record QueryOperationLogRsp : TbSysOperationLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Exception { get; init; }
+
+    /// <inheritdoc />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Method { get; init; }
 
     /// <inheritdoc />

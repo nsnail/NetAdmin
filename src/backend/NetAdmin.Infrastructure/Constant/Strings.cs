@@ -17,10 +17,9 @@ public static class Strings
     public const string DSC_MODIFIED_USER_NAME = "修改者";
     public const string DSC_VERSION            = "版本";
 
-    public const string FLG_ACCESS_TOKEN = "ACCESS-TOKEN";
-
-    public const string FLG_FILTER_BITSET = nameof(FLG_FILTER_BITSET);
-
+    public const string FLG_ACCESS_TOKEN        = "ACCESS-TOKEN";
+    public const string FLG_APPLICATION_JSON    = "application/json";
+    public const string FLG_FILTER_BITSET       = nameof(FLG_FILTER_BITSET);
     public const string FLG_HTTP_METHOD_CONNECT = "CONNECT";
     public const string FLG_HTTP_METHOD_DELETE  = "DELETE";
     public const string FLG_HTTP_METHOD_GET     = "GET";

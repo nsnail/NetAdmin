@@ -3,6 +3,7 @@ using Furion.DataEncryption;
 using Furion.DynamicApiController;
 using Furion.EventBus;
 using Furion.SpecificationDocument;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Options;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
@@ -67,6 +68,7 @@ public class RequestAuditMiddleware
         await ms.CopyToAsync(stream);
         context.Response.Body = stream;
 
+        var exception = context.Features.Get<IExceptionHandlerFeature>();
         var auditData = new CreateOperationLogReq {
                                                       ClientIp            = context.GetRemoteIpAddressToIPv4()
                                                     , Duration            = (uint)sw.ElapsedMilliseconds
@@ -84,6 +86,7 @@ public class RequestAuditMiddleware
                                                     , ResponseContentType = context.Response.ContentType
                                                     , ResponseHeaders     = context.Response.Headers.Json()
                                                     , StatusCode          = context.Response.StatusCode
+                                                    , Exception           = exception?.Error.ToString()
                                                   };
 
         // 从请求头中读取用户信息

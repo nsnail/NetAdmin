@@ -1,8 +1,6 @@
 using Furion;
-using NetAdmin.Application.Services.Sys;
 using NetAdmin.Host.Aop;
 using NetAdmin.Host.Extensions;
-using NetAdmin.Infrastructure.Extensions;
 using Spectre.Console;
 
 namespace NetAdmin.Host;
@@ -29,22 +27,21 @@ public class Startup : AppStartup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app //
-            .EnableBuffering() // /                                                          启用 Body 重复读功能
-            .UseMiddleware<RequestAuditMiddleware>() //                                      请求审计
+            .EnableBuffering() // /                                                             启用 Body 重复读功能
+            .UseMiddleware<RequestAuditMiddleware>() //                                         请求审计
             #if DEBUG
-            .UseDeveloperExceptionPage() // /                                                开发者异常信息页
-            .UseOpenApiSkin()            //                                                  Swagger皮肤中间件
+            .UseOpenApiSkin() // /                                                              Swagger皮肤中间件
             #else
-            .UseHttpsRedirection() //                                                        强制https
+            .UseHttpsRedirection() //                                                           强制https
             #endif
-            .UseInject(string.Empty)                               // /           Furion基础中间件
-            .UseUnifyResultStatusCodes()                           //                        状态码中间件
-            .UseCorsAccessor()                                     //                        跨域访问中间件
-            .UseRouting()                                          //                        控制器路由映射
-            .UseAuthentication()                                   // /                      认证中间件
-            .UseAuthorization()                                    //                        授权中间件
-            .UseEndpoints(endpoints => endpoints.MapControllers()) //    端点映射
-            ;
+            .UseInject(string.Empty) // /                                           Furion基础中间件
+            .UseUnifyResultStatusCodes() //                                                     状态码中间件
+            .UseCorsAccessor() //                                                               跨域访问中间件
+            .UseRouting() //                                                                    控制器路由映射
+            .UseAuthentication() // /                                                           认证中间件
+            .UseAuthorization() //                                                              授权中间件
+            .UseMiddleware<RemoveNullPropertyMiddleware>() //                                   删除json null属性
+            .UseEndpoints(endpoints => endpoints.MapControllers()); // /    端点映射
     }
 
     /// <summary>
