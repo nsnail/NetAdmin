@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Mapster;
@@ -57,7 +58,7 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     /// <inheritdoc />
     public IEnumerable<QueryApiRsp> ReflectionList(bool excludeAnonymous = true)
     {
-        var regex = new Regex(@"\.(\w+)\.Implements", RegexOptions.Compiled);
+        var regex = new Regex(@"\.(\w+)$", RegexOptions.Compiled);
 
         QueryApiRsp SelectQueryApiRsp(IGrouping<TypeInfo, ControllerActionDescriptor> group)
         {
@@ -67,8 +68,10 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
                                      , Name    = first.ControllerName
                                      , Id = Regex.Replace( //
                                            first.AttributeRouteInfo!.Template!, $"/{first.ActionName}$", string.Empty)
-                                     , Children  = GetChildren(group)
-                                     , Namespace = regex.Match(group.Key.Namespace!).Groups[1].Value
+                                     , Children = GetChildren(group)
+                                     , Namespace = regex.Match(group.Key.Namespace!)
+                                                        .Groups[1]
+                                                        .Value.ToLower(CultureInfo.InvariantCulture)
                                    };
         }
 
@@ -93,7 +96,7 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     {
         await Rpo.DeleteAsync(a => true);
 
-        var list = ReflectionList();
+        var list = ReflectionList(false);
 
         EnableCascadeSave = true;
         foreach (var item in list) {

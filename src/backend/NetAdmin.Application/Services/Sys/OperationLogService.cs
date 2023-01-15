@@ -30,7 +30,21 @@ public class OperationLogService : RepositoryService<TbSysOperationLog, IOperati
     /// <inheritdoc />
     public async ValueTask<PagedQueryRsp<QueryOperationLogRsp>> PagedQuery(PagedQueryReq<QueryOperationLogReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync(a => new {
+                                                   a.ApiId
+                                                 , a.Api.Summary
+                                                 , a.ClientIp
+                                                 , a.CreatedTime
+                                                 , a.CreatedUserName
+                                                 , a.Duration
+                                                 , a.Method
+                                                 , a.UserAgent
+                                                 , a.StatusCode
+                                                 , a.Id
+                                               });
 
         return new PagedQueryRsp<QueryOperationLogRsp>(req.Page, req.PageSize, total
                                                      , list.Select(x => x.Adapt<QueryOperationLogRsp>()));
@@ -39,7 +53,7 @@ public class OperationLogService : RepositoryService<TbSysOperationLog, IOperati
     /// <inheritdoc />
     public async ValueTask<List<QueryOperationLogRsp>> Query(QueryReq<QueryOperationLogReq> req)
     {
-        var ret = await QueryInternal(req).ToListAsync();
+        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryOperationLogRsp>());
     }
 

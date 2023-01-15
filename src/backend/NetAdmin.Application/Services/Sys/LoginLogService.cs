@@ -39,7 +39,7 @@ public class LoginLogService : RepositoryService<TbSysLoginLog, ILoginLogService
     /// <inheritdoc />
     public async ValueTask<List<QueryLoginLogRsp>> Query(QueryReq<QueryLoginLogReq> req)
     {
-        var ret = await QueryInternal(req).ToListAsync();
+        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryLoginLogRsp>());
     }
 

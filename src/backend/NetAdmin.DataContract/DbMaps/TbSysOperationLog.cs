@@ -68,6 +68,7 @@ public record TbSysOperationLog : ImmutableEntity
     /// <summary>
     ///     请求头信息
     /// </summary>
+    [JsonIgnore]
     public virtual string RequestHeaders { get; init; }
 
     /// <summary>

@@ -1,3 +1,5 @@
+using NetAdmin.Host.Aop;
+
 namespace NetAdmin.Host.WebApi.Sys;
 
 /// <summary>
@@ -22,9 +24,26 @@ public class LogController : ControllerBase<ILogService>, ILogModule
     /// <summary>
     ///     分页查询操作日志
     /// </summary>
+    [JsonIgnoreNull]
     public async ValueTask<PagedQueryRsp<QueryOperationLogRsp>> PagedQueryOperationLog(
         PagedQueryReq<QueryOperationLogReq> req)
     {
         return await Service.PagedQueryOperationLog(req);
+    }
+
+    /// <summary>
+    ///     查询登录日志
+    /// </summary>
+    public async ValueTask<List<QueryLoginLogRsp>> QueryLoginLog(QueryReq<QueryLoginLogReq> req)
+    {
+        return await Service.QueryLoginLog(req);
+    }
+
+    /// <summary>
+    ///     查询操作日志
+    /// </summary>
+    public async ValueTask<List<QueryOperationLogRsp>> QueryOperationLog(QueryReq<QueryOperationLogReq> req)
+    {
+        return await Service.QueryOperationLog(req);
     }
 }

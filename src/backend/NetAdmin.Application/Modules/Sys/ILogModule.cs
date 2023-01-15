@@ -14,4 +14,14 @@ public interface ILogModule
     ///     分页查询操作日志
     /// </summary>
     ValueTask<PagedQueryRsp<QueryOperationLogRsp>> PagedQueryOperationLog(PagedQueryReq<QueryOperationLogReq> req);
+
+    /// <summary>
+    ///     查询登录日志
+    /// </summary>
+    ValueTask<List<QueryLoginLogRsp>> QueryLoginLog(QueryReq<QueryLoginLogReq> req);
+
+    /// <summary>
+    ///     查询操作日志
+    /// </summary>
+    ValueTask<List<QueryOperationLogRsp>> QueryOperationLog(QueryReq<QueryOperationLogReq> req);
 }

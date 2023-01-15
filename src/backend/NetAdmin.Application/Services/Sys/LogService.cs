@@ -41,4 +41,16 @@ public class LogService : ServiceBase<LogService>, ILogService
     {
         return await _operationLogService.PagedQuery(req);
     }
+
+    /// <inheritdoc />
+    public async ValueTask<List<QueryLoginLogRsp>> QueryLoginLog(QueryReq<QueryLoginLogReq> req)
+    {
+        return await _loginLogService.Query(req);
+    }
+
+    /// <inheritdoc />
+    public async ValueTask<List<QueryOperationLogRsp>> QueryOperationLog(QueryReq<QueryOperationLogReq> req)
+    {
+        return await _operationLogService.Query(req);
+    }
 }
