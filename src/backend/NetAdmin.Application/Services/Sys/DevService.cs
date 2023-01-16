@@ -10,7 +10,8 @@ namespace NetAdmin.Application.Services.Sys;
 /// <inheritdoc cref="IDevService" />
 public class DevService : ServiceBase<DevService>, IDevService
 {
-    private const string _ASSETS_CODE_TEMPLATES_FRONTEND = @"../../assets/code-templates/frontend";
+    private const           string _ASSETS_CODE_TEMPLATES_FRONTEND = @"../../assets/code-templates/frontend";
+    private static readonly string _webapi                         = "WebApi";
 
     private readonly IApiService _apiService;
 
@@ -59,13 +60,13 @@ public class DevService : ServiceBase<DevService>, IDevService
         }
 
         // 数据契约层 - Entity目录
-        var entityDir = Path.Combine(dataDir, nameof(DataContract.DbMaps));
+        var entityDir = Path.Combine(dataDir, nameof(DataContract.DbMaps), moduleType);
         if (!Directory.Exists(entityDir)) {
             Directory.CreateDirectory(entityDir);
         }
 
         // Api接口层 - Controller目录
-        var controllerDir = Path.Combine(hostDir, "WebApi", moduleType);
+        var controllerDir = Path.Combine(hostDir, _webapi, moduleType);
         if (!Directory.Exists(controllerDir)) {
             Directory.CreateDirectory(controllerDir);
         }
@@ -84,24 +85,28 @@ public class DevService : ServiceBase<DevService>, IDevService
                      ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
 
         // controller
-        await WriteCodeFile(req, Path.Combine(hostDir,       "WebApi", nameof(Tpl), "ExampleController.cs")
+        await WriteCodeFile(req, Path.Combine(hostDir,       _webapi, nameof(Tpl), "ExampleController.cs")
                      ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
 
         // createReq
-        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "CreateExampleReq.cs")
-                     ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
+        await WriteCodeFile(
+            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "CreateExampleReq.cs")
+     ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
 
         // updateReq
-        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "UpdateExampleReq.cs")
-                     ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
+        await WriteCodeFile(
+            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "UpdateExampleReq.cs")
+     ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
 
         // queryReq
-        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "QueryExampleReq.cs")
-                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
+        await WriteCodeFile(
+            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "QueryExampleReq.cs")
+     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
 
         // queryRsp
-        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "QueryExampleRsp.cs")
-                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
+        await WriteCodeFile(
+            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "QueryExampleRsp.cs")
+     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
 
         // entity
         await WriteCodeFile(req, Path.Combine(dataDir,   nameof(DataContract.DbMaps), nameof(Tpl), "TbTplExample.cs")

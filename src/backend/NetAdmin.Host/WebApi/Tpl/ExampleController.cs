@@ -1,6 +1,7 @@
 using NetAdmin.Application.Modules.Tpl;
 using NetAdmin.Application.Services.Tpl.Dependency;
-using NetAdmin.DataContract.Dto.Tpl;
+using NetAdmin.DataContract.Dto.Tpl.Example;
+using NetAdmin.Host.Aop;
 
 namespace NetAdmin.Host.WebApi.Tpl;
 
@@ -18,6 +19,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     创建示例
     /// </summary>
+    [Transaction]
     public async ValueTask<QueryExampleRsp> Create(CreateExampleReq req)
     {
         return await Service.Create(req);
@@ -26,6 +28,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     删除示例
     /// </summary>
+    [Transaction]
     public async ValueTask<int> Delete(DelReq req)
     {
         return await Service.Delete(req);
@@ -50,6 +53,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     更新示例
     /// </summary>
+    [Transaction]
     public async ValueTask<QueryExampleRsp> Update(UpdateExampleReq req)
     {
         return await Service.Update(req);

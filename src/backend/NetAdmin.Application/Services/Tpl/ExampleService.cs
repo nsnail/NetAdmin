@@ -1,7 +1,9 @@
+using FreeSql;
+using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Tpl.Dependency;
 using NetAdmin.DataContract.DbMaps.Tpl;
-using NetAdmin.DataContract.Dto.Tpl;
+using NetAdmin.DataContract.Dto.Tpl.Example;
 
 namespace NetAdmin.Application.Services.Tpl;
 
@@ -15,32 +17,48 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
         : base(rpo) { }
 
     /// <inheritdoc />
-    public ValueTask<QueryExampleRsp> Create(CreateExampleReq req)
+    public async ValueTask<QueryExampleRsp> Create(CreateExampleReq req)
     {
-        throw new NotImplementedException();
+        var ret = await Rpo.InsertAsync(req);
+        return ret.Adapt<QueryExampleRsp>();
     }
 
     /// <inheritdoc />
-    public ValueTask<int> Delete(DelReq req)
+    public async ValueTask<int> Delete(DelReq req)
     {
-        throw new NotImplementedException();
+        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
+        return ret;
     }
 
     /// <inheritdoc />
-    public ValueTask<PagedQueryRsp<QueryExampleRsp>> PagedQuery(PagedQueryReq<QueryExampleReq> req)
+    public async ValueTask<PagedQueryRsp<QueryExampleRsp>> PagedQuery(PagedQueryReq<QueryExampleReq> req)
     {
-        throw new NotImplementedException();
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+
+        return new PagedQueryRsp<QueryExampleRsp>(req.Page, req.PageSize, total
+                                                , list.Select(x => x.Adapt<QueryExampleRsp>()));
     }
 
     /// <inheritdoc />
-    public ValueTask<List<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
+    public async ValueTask<List<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
+        return ret.ConvertAll(x => x.Adapt<QueryExampleRsp>());
     }
 
     /// <inheritdoc />
-    public ValueTask<QueryExampleRsp> Update(UpdateExampleReq req)
+    public async ValueTask<QueryExampleRsp> Update(UpdateExampleReq req)
     {
-        throw new NotImplementedException();
+        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
+        return ret.FirstOrDefault()?.Adapt<QueryExampleRsp>();
+    }
+
+    private ISelect<TbTplExample> QueryInternal(QueryReq<QueryExampleReq> req)
+    {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                     .OrderByDescending(a => a.Id);
+        return ret;
     }
 }

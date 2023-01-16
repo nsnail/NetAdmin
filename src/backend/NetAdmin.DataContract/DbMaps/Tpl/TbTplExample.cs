@@ -12,5 +12,5 @@ public record TbTplExample : MutableEntity, IFieldBitSet
     /// <summary>
     ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />）
     /// </summary>
-    public long BitSet { get; init; }
+    public virtual long BitSet { get; init; }
 }
