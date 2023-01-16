@@ -10,7 +10,6 @@ namespace NetAdmin.Application.Services.Sys;
 /// <inheritdoc cref="IDevService" />
 public class DevService : ServiceBase<DevService>, IDevService
 {
-    private const string _ASSETS_CODE_TEMPLATES_BACKEND  = @"../../assets/code-templates/backend";
     private const string _ASSETS_CODE_TEMPLATES_FRONTEND = @"../../assets/code-templates/frontend";
 
     private readonly IApiService _apiService;
@@ -27,7 +26,9 @@ public class DevService : ServiceBase<DevService>, IDevService
     public async ValueTask GenerateCsCode(GenerateCsCodeReq req)
     {
         var projectDirs = Directory.GetDirectories(req.ProjectPath);
-        var moduleType  = Enum.GetName(req.Type)!;
+
+        // 模块类型（Sys、Biz、等）
+        var moduleType = Enum.GetName(req.Type)!;
 
         // 业务逻辑层目录
         var appDir = projectDirs.First(x => x.EndsWith(nameof(Application), true, CultureInfo.InvariantCulture));
@@ -37,9 +38,6 @@ public class DevService : ServiceBase<DevService>, IDevService
 
         // Api接口层目录
         var hostDir = projectDirs.First(x => x.EndsWith("Host", true, CultureInfo.InvariantCulture));
-
-        // 模板目录
-        var tplDir = Path.Combine(req.ProjectPath, _ASSETS_CODE_TEMPLATES_BACKEND);
 
         // 业务逻辑层 - 模块目录
         var modulesDir = Path.Combine(appDir, nameof(Modules), moduleType);
@@ -73,39 +71,40 @@ public class DevService : ServiceBase<DevService>, IDevService
         }
 
         // iModule
-        await WriteCodeFile(req, Path.Combine(tplDir,     "IModule.tpl")
+        await WriteCodeFile(req, Path.Combine(appDir,     nameof(Modules), nameof(Tpl), "IExampleModule.cs")
                      ,           Path.Combine(modulesDir, $"I{req.ModuleName}Module.cs"));
 
         // iService
-        await WriteCodeFile(req, Path.Combine(tplDir,                "IService.tpl")
-                     ,           Path.Combine(servicesDependencyDir, $"I{req.ModuleName}Service.cs"));
+        await WriteCodeFile(
+            req, Path.Combine(appDir, nameof(Services), nameof(Tpl), nameof(Dependency), "IExampleService.cs")
+     ,           Path.Combine(servicesDependencyDir, $"I{req.ModuleName}Service.cs"));
 
         // service
-        await WriteCodeFile(req, Path.Combine(tplDir,      "Service.tpl")
+        await WriteCodeFile(req, Path.Combine(appDir,      nameof(Services), nameof(Tpl), "ExampleService.cs")
                      ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
 
         // controller
-        await WriteCodeFile(req, Path.Combine(tplDir,        "Controller.tpl")
+        await WriteCodeFile(req, Path.Combine(hostDir,       "WebApi", nameof(Tpl), "ExampleController.cs")
                      ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
 
         // createReq
-        await WriteCodeFile(req, Path.Combine(tplDir, "CreateReq.tpl")
-                     ,           Path.Combine(dtoDir, $"Create{req.ModuleName}Req.cs"));
+        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "CreateExampleReq.cs")
+                     ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
 
         // updateReq
-        await WriteCodeFile(req, Path.Combine(tplDir, "UpdateReq.tpl")
-                     ,           Path.Combine(dtoDir, $"Update{req.ModuleName}Req.cs"));
+        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "UpdateExampleReq.cs")
+                     ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
 
         // queryReq
-        await WriteCodeFile(req, Path.Combine(tplDir, "QueryReq.tpl")
-                     ,           Path.Combine(dtoDir, $"Query{req.ModuleName}Req.cs"));
+        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "QueryExampleReq.cs")
+                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
 
         // queryRsp
-        await WriteCodeFile(req, Path.Combine(tplDir, "QueryRsp.tpl")
-                     ,           Path.Combine(dtoDir, $"Query{req.ModuleName}Rsp.cs"));
+        await WriteCodeFile(req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "QueryExampleRsp.cs")
+                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
 
         // entity
-        await WriteCodeFile(req, Path.Combine(tplDir,    "Entity.tpl")
+        await WriteCodeFile(req, Path.Combine(dataDir,   nameof(DataContract.DbMaps), nameof(Tpl), "TbTplExample.cs")
                      ,           Path.Combine(entityDir, $"Tb{moduleType}{req.ModuleName}.cs"));
     }
 
@@ -194,10 +193,12 @@ public class DevService : ServiceBase<DevService>, IDevService
 
     private static async Task WriteCodeFile(GenerateCsCodeReq req, string tplFile, string writeFile)
     {
-        var content = string.Format( //
-            CultureInfo.InvariantCulture, await File.ReadAllTextAsync(tplFile), nameof(NetAdmin), req.Type
-          , req.ModuleName, req.ModuleRemark);
+        var tplContent = await File.ReadAllTextAsync(tplFile);
+        tplContent = tplContent.Replace(nameof(Tpl), Enum.GetName(req.Type));
+        tplContent = tplContent.Replace("示例",        req.ModuleRemark);
+        tplContent = tplContent.Replace("Example",   req.ModuleName);
+        tplContent = tplContent.Replace("NetAdmin",  nameof(NetAdmin));
 
-        await File.WriteAllTextAsync(writeFile, content);
+        await File.WriteAllTextAsync(writeFile, tplContent);
     }
 }

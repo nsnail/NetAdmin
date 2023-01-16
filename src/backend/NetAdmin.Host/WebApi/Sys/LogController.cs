@@ -6,9 +6,9 @@ using NetAdmin.DataContract.Dto.Sys.RequestLog;
 namespace NetAdmin.Host.WebApi.Sys;
 
 /// <summary>
-///     日志服务
+///     请求日志服务
 /// </summary>
-public class LogController : ControllerBase<IRequestLogService>, ILogModule
+public class LogController : ControllerBase<IRequestLogService>, IRequestLogModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="LogController" /> class.
