@@ -2,6 +2,8 @@ using System.Collections.Immutable;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NetAdmin.Application.Modules.Sys;
+using NetAdmin.Application.Services.Sys.Dependency;
 using NSExt.Extensions;
 
 namespace NetAdmin.Host.WebApi.Sys;

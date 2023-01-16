@@ -1,4 +1,4 @@
-using NetAdmin.DataContract.DbMaps;
+using NetAdmin.DataContract.DbMaps.Sys;
 
 namespace NetAdmin.DataContract.Dto.Sys.Menu;
 

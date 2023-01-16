@@ -59,6 +59,11 @@ export default {
         templates: {
             type: Array,
             default: () => []
+        },
+        options: {
+            type: Object,
+            default: () => {
+            }
         }
     },
     data() {
@@ -86,6 +91,7 @@ export default {
                 quickbars_insert_toolbar: false,
                 image_caption: true,
                 image_advtab: true,
+                convert_urls: false,
                 images_upload_handler: function (blobInfo) {
                     return new Promise((resolve, reject) => {
                         const data = new FormData();
@@ -113,7 +119,8 @@ export default {
                             }, 0)
                         }
                     })
-                }
+                },
+                ...this.options
             },
             contentValue: this.modelValue
         }

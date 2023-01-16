@@ -41,7 +41,7 @@
     <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess"
                  @closed="dialog.save=false"></save-dialog>
 
-    <el-drawer v-model="dialog.info" :size="800" title="详细" custom-class="drawerBG" direction="rtl" destroy-on-close>
+    <el-drawer v-model="dialog.info" :size="800" title="详细" direction="rtl" destroy-on-close>
         <info ref="infoDialog"></info>
     </el-drawer>
 

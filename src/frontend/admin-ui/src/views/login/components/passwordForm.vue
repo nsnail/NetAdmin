@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large">
+    <el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large" @keyup.enter="login">
         <el-form-item prop="user">
             <el-input v-model="form.user" prefix-icon="el-icon-user" clearable
                       :placeholder="$t('login.userPlaceholder')">
@@ -98,6 +98,7 @@ export default {
                 }
                 this.$TOOL.data.set("MENU", menu.data)
                 this.$TOOL.data.set("PERMISSIONS", menu.data.permissions)
+                this.$TOOL.data.set("DASHBOARDGRID", menu.data.dashboardGrid)
             } catch {
                 this.islogin = false
                 return false

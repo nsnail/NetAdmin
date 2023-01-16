@@ -133,14 +133,14 @@ export default {
                 title: "提示",
                 type: "success"
             })
-            console.log(response);
+
             return false;
         },
         submitForm() {
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     alert('请看控制台输出');
-                    console.log(this.form);
+
                 } else {
                     return false;
                 }

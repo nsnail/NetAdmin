@@ -338,6 +338,12 @@ export default {
 </script>
 
 <style scoped>
+.menu:deep(.el-tree-node__label) {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
 .custom-tree-node {
     display: flex;
     flex: 1;

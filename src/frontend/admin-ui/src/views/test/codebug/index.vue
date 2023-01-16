@@ -67,11 +67,11 @@ export default {
     },
     methods: {
         ReferenceError() {
-            console.log(obj);
+
         },
         TypeError() {
             const obj = null
-            console.log(obj.a);
+
         },
         RangeError() {
             const n = 1

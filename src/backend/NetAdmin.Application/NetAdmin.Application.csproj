@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../../CodeQuality.props"/>
+    <Import Project="../../../CodeQuality.props" />
     <ItemGroup>
-        <Content Include="../../../assets/code-gen/templates/backend/**" LinkBase="Services/Sys/Dev/Templates"/>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="../NetAdmin.DataContract/NetAdmin.DataContract.csproj"/>
+        <ProjectReference Include="../NetAdmin.DataContract/NetAdmin.DataContract.csproj" />
     </ItemGroup>
 </Project>

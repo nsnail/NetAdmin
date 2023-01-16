@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Mapster;
 using NetAdmin.DataContract.Attributes.DataValidation;
-using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
+using NetAdmin.DataContract.DbMaps.Sys;
 using NSExt.Extensions;
 
 namespace NetAdmin.DataContract.Dto.Sys.Role;

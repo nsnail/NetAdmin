@@ -15,6 +15,7 @@
                     alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | pagebreak | \
                     image media table template preview | code selectall'
                 </el-descriptions-item>
+                <el-descriptions-item label="options">支持tinymce的其他配置项</el-descriptions-item>
             </el-descriptions>
         </el-card>
     </el-main>

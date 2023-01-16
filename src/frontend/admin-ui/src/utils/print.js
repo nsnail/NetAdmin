@@ -124,7 +124,7 @@ Print.prototype = {
                 frameWindow.close();
             }, 10);
         } catch (err) {
-            console.log('err', err);
+
         }
     },
     isDOM: (typeof HTMLElement === 'object') ?

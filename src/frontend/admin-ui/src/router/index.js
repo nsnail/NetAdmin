@@ -105,7 +105,6 @@ router.onError((error) => {
 router.sc_getMenu = () => {
     var apiMenu = tool.data.get("MENU") || []
     let userInfo = tool.data.get("USER_INFO")
-
     let userMenu = treeFilter(userRoutes, node => {
         return node.meta.role ? node.meta.role.filter(item => userInfo.role.indexOf(item) > -1).length > 0 : true
     })

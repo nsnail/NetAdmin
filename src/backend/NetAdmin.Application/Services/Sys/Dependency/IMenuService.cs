@@ -1,4 +1,6 @@
 using NetAdmin.Application.Modules.Sys;
+using NetAdmin.DataContract.Dto.Sys.Menu;
+using NetAdmin.DataContract.Dto.Sys.User;
 
 namespace NetAdmin.Application.Services.Sys.Dependency;
 

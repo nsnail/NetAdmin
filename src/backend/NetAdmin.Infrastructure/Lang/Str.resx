@@ -213,4 +213,7 @@
     <data name="Error in reading the user token" xml:space="preserve">
         <value>读取用户Token出错</value>
     </data>
+    <data name="Dictionary directory does not exist" xml:space="preserve">
+        <value>字典目录不存在</value>
+    </data>
 </root>

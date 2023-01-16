@@ -3,6 +3,9 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.DbMaps.Sys;
+using NetAdmin.DataContract.Dto.Sys.Menu;
+using NetAdmin.DataContract.Dto.Sys.User;
 using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;

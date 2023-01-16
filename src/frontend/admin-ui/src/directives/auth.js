@@ -1,22 +1,18 @@
-import {permission} from '@/utils/permission'
+import {permissionAll} from '@/utils/permission'
+import tool from '@/utils/tool';
 
+/**
+ * 用户权限指令
+ * @directive 单个权限验证（v-auth="'xxx'"）
+ * @directive 多个权限验证，满足一个则显示（v-auths="['xxx','xxx']"）
+ * @directive 多个权限验证，全部满足则显示（v-auths-all="['xxx','xxx']"）
+ */
 export default {
     mounted(el, binding) {
-        const {value} = binding
-        if (Array.isArray(value)) {
-            let ishas = false;
-            value.forEach(item => {
-                if (permission(item)) {
-                    ishas = true;
-                }
-            })
-            if (!ishas) {
-                el.parentNode.removeChild(el)
-            }
-        } else {
-            if (!permission(value)) {
-                el.parentNode.removeChild(el);
-            }
+        if (permissionAll()) {
+            return
         }
+        let permissions = tool.data.get("PERMISSIONS");
+        if (!permissions.some((v) => v === binding.value)) el.parentNode.removeChild(el);
     }
-};
+}

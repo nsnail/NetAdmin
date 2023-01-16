@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Mapster;
-using NetAdmin.DataContract.DbMaps;
 using NetAdmin.DataContract.DbMaps.Dependency;
+using NetAdmin.DataContract.DbMaps.Sys;
 using NetAdmin.DataContract.Dto.Sys.Dept;
 using NetAdmin.DataContract.Dto.Sys.Role;
 using NSExt.Extensions;

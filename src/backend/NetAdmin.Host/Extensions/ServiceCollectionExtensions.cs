@@ -76,7 +76,7 @@ public static class ServiceCollectionExtensions
                     CultureInfo.InvariantCulture
                   , $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{_LOGGER_WIDTH}}} #{{3,4}}]][/] {{4}}"
                   , message.LogDateTime.ToString(
-                        Strings.FMT_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture)
+                        Strings.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture)
                   , ((Enums.LogLevels)message.LogLevel).Desc()
                   , message.LogName.PadRight(_LOGGER_WIDTH, ' ')[^_LOGGER_WIDTH..]
                   , message.ThreadId, msg);

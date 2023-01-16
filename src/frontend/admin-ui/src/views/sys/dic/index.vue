@@ -10,18 +10,18 @@
                              :highlight-current="true" :expand-on-click-node="false" :filter-node-method="dicFilterNode"
                              @node-click="dicClick" default-expand-all>
                         <template #default="{node, data}">
-							<span class="custom-tree-node">
-								<span class="label">{{ data.label }}</span>
-								<span class="code">{{ data.code }}</span>
-								<span class="do">
-									<el-button-group>
-										<el-button icon="el-icon-edit" size="small"
+                            <span class="custom-tree-node">
+                                <span class="label">{{ data.label }}</span>
+                                <span class="code">{{ data.code }}</span>
+                                <span class="do">
+                                    <el-button-group>
+                                        <el-button icon="el-icon-edit" size="small"
                                                    @click.stop="dicEdit(data)"></el-button>
-										<el-button icon="el-icon-delete" size="small"
+                                        <el-button icon="el-icon-delete" size="small"
                                                    @click.stop="dicDel(node, data)"></el-button>
-									</el-button-group>
-								</span>
-							</span>
+                                    </el-button-group>
+                                </span>
+                            </span>
                         </template>
                     </el-tree>
                 </el-main>
@@ -207,9 +207,8 @@ export default {
             this.dialog.list = true
             this.$nextTick(() => {
                 var dicCurrentKey = this.$refs.dic.getCurrentKey();
-
                 const data = {
-                    dic: dicCurrentKey
+                    catalogId: dicCurrentKey
                 }
                 this.$refs.listDialog.open().setData(data)
             })
@@ -224,20 +223,25 @@ export default {
         //删除明细
         async table_del(row, index) {
             var reqData = {id: row.id}
-            var res = await this.$API.demo.post.post(reqData);
-            if (res.code == 200) {
+            try {
+                var res = await this.$API.sys_dic.deleteContent.post(reqData);
                 this.$refs.table.tableData.splice(index, 1);
                 this.$message.success("删除成功")
-            } else {
-                this.$alert(res.message, "提示", {type: 'error'})
+            } catch {
             }
+
         },
         //批量删除
         async batch_del() {
             this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
                 type: 'warning'
-            }).then(() => {
+            }).then(async () => {
                 const loading = this.$loading();
+                try {
+                    const res = await this.$API.sys_dic.bulkDeleteContent.post({ids: this.selection.map(x => x.id)});
+                    this.$message.success(`删除成功 ${res.data} 条`)
+                } catch {
+                }
                 this.selection.forEach(item => {
                     this.$refs.table.tableData.forEach((itemI, indexI) => {
                         if (item.id === itemI.id) {
@@ -246,24 +250,8 @@ export default {
                     })
                 })
                 loading.close();
-                this.$message.success("操作成功")
             }).catch(() => {
 
-            })
-        },
-        //提交明细
-        saveList() {
-            this.$refs.listDialog.submit(async (formData) => {
-                this.isListSaveing = true;
-                var res = await this.$API.demo.post.post(formData);
-                this.isListSaveing = false;
-                if (res.code == 200) {
-                    //这里选择刷新整个表格 OR 插入/编辑现有表格数据
-                    this.listDialogVisible = false;
-                    this.$message.success("操作成功")
-                } else {
-                    this.$alert(res.message, "提示", {type: 'error'})
-                }
             })
         },
         //表格选择后回调事件
@@ -271,17 +259,19 @@ export default {
             this.selection = selection;
         },
         //表格内开关事件
-        changeSwitch(val, row) {
+        async changeSwitch(val, row) {
             //1.还原数据
             //row.yx = row.yx == '1' ? '0' : '1'
             //2.执行加载
             row.$switch_yx = true;
             //3.等待接口返回后改变值
-            setTimeout(() => {
-                delete row.$switch_yx;
-                row.yx = val;
-                this.$message.success(`操作成功id:${row.id} val:${val}`)
-            }, 500)
+            try {
+                const res = await this.$API.sys_dic.updateContent.post(row);
+                row.version = res.data.version
+                this.$message.success("操作成功")
+            } catch {
+            }
+            delete row.$switch_yx;
         },
         //本地更新数据
         handleDicSuccess(data, mode) {
@@ -335,6 +325,12 @@ export default {
 </script>
 
 <style scoped>
+.menu:deep(.el-tree-node__label) {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
 .custom-tree-node {
     display: flex;
     flex: 1;

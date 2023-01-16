@@ -37,6 +37,9 @@ axios.interceptors.request.use(
     }
 );
 
+//FIX 多个API同时401时疯狂弹窗BUG
+let MessageBox_401_show = false
+
 // HTTP response 拦截器
 axios.interceptors.response.use(
     (response) => {
@@ -76,15 +79,22 @@ axios.interceptors.response.use(
                     message: "Status:404，正在请求不存在的服务器记录！"
                 });
             } else if (error.response.status == 401) {
-                ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
-                    type: 'error',
-                    closeOnClickModal: false,
-                    center: true,
-                    confirmButtonText: '重新登录'
-                }).then(() => {
-                    router.replace({projectPath: '/login'});
-                }).catch(() => {
-                })
+                if (!MessageBox_401_show) {
+                    MessageBox_401_show = true
+                    ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
+                        type: 'error',
+                        closeOnClickModal: false,
+                        center: true,
+                        confirmButtonText: '重新登录',
+                        beforeClose: (action, instance, done) => {
+                            MessageBox_401_show = false
+                            done()
+                        }
+                    }).then(() => {
+                        router.replace({path: '/login'});
+                    }).catch(() => {
+                    })
+                }
             } else if (error.response.data.code) {
                 let title = sysConfig.ENUMS.errorCodes.unknown.desc;
                 switch (error.response.data.code) {
@@ -139,7 +149,7 @@ axios.interceptors.response.use(
 
         return Promise.reject(error.response);
     }
-);
+)
 
 var http = {
 

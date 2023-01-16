@@ -16,7 +16,7 @@
 import scWorkflow from '@/components/scWorkflow'
 
 export default {
-    name: "workflow",
+    name: 'workflow',
     components: {
         scWorkflow
     },

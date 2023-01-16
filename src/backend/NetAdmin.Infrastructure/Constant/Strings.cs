@@ -29,28 +29,23 @@ public static class Strings
     public const string FLG_HTTP_METHOD_POST    = "POST";
     public const string FLG_HTTP_METHOD_PUT     = "PUT";
     public const string FLG_HTTP_METHOD_TRACE   = "TRACE";
-    public const string FLG_X_ACCESS_TOKEN      = "X-ACCESS-TOKEN";
 
-    public const string FMT_DATE_HH_MM_SS_FFFFFF       = "HH:mm:ss.ffffff";
-    public const string FMT_DATE_YYYY_MM_DD            = "yyyy-MM-dd";
-    public const string FMT_DATE_YYYY_MM_DD_HH_MM_SS   = "yyyy-MM-dd HH:mm:ss";
-    public const string FMT_DATE_YYYYMMDD              = "yyyyMMdd";
-    public const string FMT_DATE_YYYYMMDDHHMMSSFFFZZZZ = "yyyyMMddHHmmssfffzzz";
-
-    public const string FMT_UA_MOBILE
+    public const string FLG_UA_MOBILE
         = "Mozilla/5.0 (Linux; Android 9; Redmi Note 8 Pro Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.96 Mobile Safari/537.36";
 
-    public const string FMT_UA_PC
+    public const string FLG_UA_PC
         = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36";
+
+    public const string FLG_X_ACCESS_TOKEN = "X-ACCESS-TOKEN";
 
     public const string RGX_MOBILE   = """^1(3\d|4[5-9]|5[0-35-9]|6[6]|7[2-8]|8\d|9[0-35-9])\d{8}$""";
     public const string RGX_PASSWORD = """^(?![0-9]+$)(?![a-zA-Z]+$).{8,16}$""";
     public const string RGX_SMSCODE  = """^\d{4}$""";
     public const string RGX_USERNAME = """^[a-zA-Z0-9_]{4,16}$""";
 
-    public const string TMP_LOG_OUPUT
-        = "[{Timestamp:HH:mm:ss.fff} {Level:u3} {SourceContext,64}] {Message:lj}{NewLine}{Exception}";
-
-    public const string TMP_SMSCODE            = "您正在进行 {0} 操作，验证码为：{1}，5分钟内有效，如非本人操作，请忽略。";
-    public const string TMP_TRYSEND_SECS_AFTER = "{0} 秒后，可再次发送";
+    public const string TPL_DATE_HH_MM_SS_FFFFFF       = "HH:mm:ss.ffffff";
+    public const string TPL_DATE_YYYY_MM_DD            = "yyyy-MM-dd";
+    public const string TPL_DATE_YYYY_MM_DD_HH_MM_SS   = "yyyy-MM-dd HH:mm:ss";
+    public const string TPL_DATE_YYYYMMDD              = "yyyyMMdd";
+    public const string TPL_DATE_YYYYMMDDHHMMSSFFFZZZZ = "yyyyMMddHHmmssfffzzz";
 }

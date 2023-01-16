@@ -5,6 +5,7 @@ using Furion.EventBus;
 using Furion.SpecificationDocument;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Options;
+using NetAdmin.DataContract.Dto.Sys.RequestLog;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
 
@@ -17,7 +18,6 @@ public class RequestAuditMiddleware
 {
     private readonly PathString                      _defaultRoutePrefix;
     private readonly IEventPublisher                 _eventPublisher;
-    private readonly string                          _hostEnvironmentName;
     private readonly ILogger<RequestAuditMiddleware> _logger;
     private readonly RequestDelegate                 _next;
     private readonly int                             _tokenPrefxLength;
@@ -25,17 +25,16 @@ public class RequestAuditMiddleware
     /// <summary>
     ///     Initializes a new instance of the <see cref="RequestAuditMiddleware" /> class.
     /// </summary>
-    public RequestAuditMiddleware(RequestDelegate                                next, IHostEnvironment hostEnvironment
-                                , IOptions<DynamicApiControllerSettingsOptions>  dynamicApiControllerSettingsOptions
-                                , IEventPublisher                                eventPublisher
-                                , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
-                                , ILogger<RequestAuditMiddleware>                logger)
+    public RequestAuditMiddleware( //
+        RequestDelegate next, IOptions<DynamicApiControllerSettingsOptions> dynamicApiControllerSettingsOptions
+      , IEventPublisher eventPublisher
+      , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
+      , ILogger<RequestAuditMiddleware> logger)
     {
-        _next                = next;
-        _hostEnvironmentName = hostEnvironment.EnvironmentName;
-        _eventPublisher      = eventPublisher;
-        _logger              = logger;
-        _defaultRoutePrefix  = new PathString($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
+        _next               = next;
+        _eventPublisher     = eventPublisher;
+        _logger             = logger;
+        _defaultRoutePrefix = new PathString($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
         _tokenPrefxLength
             = specificationDocumentSettingsOptions.Value.SecurityDefinitions.First().Scheme.Length + 1; // eg. "Bearer "
     }
@@ -69,25 +68,24 @@ public class RequestAuditMiddleware
         context.Response.Body = stream;
 
         var exception = context.Features.Get<IExceptionHandlerFeature>();
-        var auditData = new CreateOperationLogReq {
-                                                      ClientIp            = context.GetRemoteIpAddressToIPv4()
-                                                    , Duration            = (uint)sw.ElapsedMilliseconds
-                                                    , Environment         = _hostEnvironmentName
-                                                    , Method              = context.Request.Method
-                                                    , ReferUrl            = context.Request.GetRefererUrlAddress()
-                                                    , RequestContentType  = context.Request.ContentType
-                                                    , RequestBody         = await context.ReadBodyContentAsync()
-                                                    , RequestUrl          = context.Request.GetRequestUrlAddress()
-                                                    , ResponseBody        = responseBody
-                                                    , ServerIp            = context.GetLocalIpAddressToIPv4()
-                                                    , UserAgent           = context.Request.Headers["User-Agent"]
-                                                    , ApiId               = context.Request.Path.Value?.TrimStart('/')
-                                                    , RequestHeaders      = context.Request.Headers.Json()
-                                                    , ResponseContentType = context.Response.ContentType
-                                                    , ResponseHeaders     = context.Response.Headers.Json()
-                                                    , StatusCode          = context.Response.StatusCode
-                                                    , Exception           = exception?.Error.ToString()
-                                                  };
+        var auditData = new CreateRequestLogReq {
+                                                    ClientIp            = context.GetRemoteIpAddressToIPv4()
+                                                  , Duration            = (uint)sw.ElapsedMilliseconds
+                                                  , Method              = context.Request.Method
+                                                  , ReferUrl            = context.Request.GetRefererUrlAddress()
+                                                  , RequestContentType  = context.Request.ContentType
+                                                  , RequestBody         = await context.ReadBodyContentAsync()
+                                                  , RequestUrl          = context.Request.GetRequestUrlAddress()
+                                                  , ResponseBody        = responseBody
+                                                  , ServerIp            = context.GetLocalIpAddressToIPv4()
+                                                  , UserAgent           = context.Request.Headers["User-Agent"]
+                                                  , ApiId               = context.Request.Path.Value?.TrimStart('/')
+                                                  , RequestHeaders      = context.Request.Headers.Json()
+                                                  , ResponseContentType = context.Response.ContentType
+                                                  , ResponseHeaders     = context.Response.Headers.Json()
+                                                  , StatusCode          = context.Response.StatusCode
+                                                  , Exception           = exception?.Error.ToString()
+                                                };
 
         // 从请求头中读取用户信息
         var token = context.Request.Headers.Authorization.FirstOrDefault();

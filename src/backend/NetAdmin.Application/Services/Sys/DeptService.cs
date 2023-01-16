@@ -2,6 +2,8 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.DbMaps.Sys;
+using NetAdmin.DataContract.Dto.Sys.Dept;
 
 namespace NetAdmin.Application.Services.Sys;
 

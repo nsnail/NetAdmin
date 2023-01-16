@@ -120,30 +120,6 @@
                 "Sort": 0,
                 "Type": 1,
                 "BitSet": 1,
-                "children": [
-                    {
-                        "Id": 374793811869701,
-                        "Name": "sys-log-operation",
-                        "Icon": "el-icon-tickets",
-                        "Title": "操作日志",
-                        "Path": "/sys/log/operation",
-                        "Component": "sys/log/operation",
-                        "Sort": 0,
-                        "Type": 1,
-                        "BitSet": 1,
-                    },
-                    {
-                        "Id": 374793569021957,
-                        "Name": "sys-log-login",
-                        "Icon": "el-icon-tickets",
-                        "Title": "登录日志",
-                        "Path": "/sys/log/login",
-                        "Component": "sys/log/login",
-                        "Sort": 0,
-                        "Type": 1,
-                        "BitSet": 1,
-                    }
-                ]
             },
         ]
     },

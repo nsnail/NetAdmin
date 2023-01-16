@@ -1,3 +1,5 @@
+using NetAdmin.DataContract.Dto.Sys.User;
+
 namespace NetAdmin.Application.Modules.Sys;
 
 /// <summary>

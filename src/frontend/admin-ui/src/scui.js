@@ -24,6 +24,8 @@ import scStatusIndicator from './components/scMini/scStatusIndicator'
 import scTrend from './components/scMini/scTrend'
 
 import auth from './directives/auth'
+import auths from './directives/auths'
+import authsAll from './directives/authsAll'
 import role from './directives/role'
 import time from './directives/time'
 import copy from './directives/copy'
@@ -63,6 +65,8 @@ export default {
 
         //注册全局指令
         app.directive('auth', auth)
+        app.directive('auths', auths)
+        app.directive('auths-all', authsAll)
         app.directive('role', role)
         app.directive('time', time)
         app.directive('copy', copy)

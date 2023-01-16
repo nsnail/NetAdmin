@@ -215,6 +215,8 @@
     <el-drawer title="布局实时演示" v-model="settingDialog" :size="400" append-to-body destroy-on-close>
         <setting></setting>
     </el-drawer>
+
+    <auto-exit></auto-exit>
 </template>
 
 <script>
@@ -225,6 +227,7 @@ import NavMenu from './components/NavMenu.vue';
 import userbar from './components/userbar.vue';
 import setting from './components/setting.vue';
 import iframeView from './components/iframeView.vue';
+import autoExit from './other/autoExit.js';
 
 export default {
     name: 'index',
@@ -235,7 +238,8 @@ export default {
         NavMenu,
         userbar,
         setting,
-        iframeView
+        iframeView,
+        autoExit
     },
     data() {
         return {

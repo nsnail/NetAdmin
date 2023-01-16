@@ -7,7 +7,7 @@
                         <el-avatar :size="70" src="img/avatar.jpg"></el-avatar>
                         <h2>{{ user.userName }}</h2>
                         <p>
-                            <el-tag effect="dark" round size="large">{{ user.role }}</el-tag>
+                            <el-tag effect="dark" round size="large" disable-transitions>{{ user.role }}</el-tag>
                         </p>
                     </div>
                 </el-header>

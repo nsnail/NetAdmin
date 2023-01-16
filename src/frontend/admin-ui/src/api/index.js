@@ -3,10 +3,10 @@
  * @description 自动import导入所有 api 模块
  */
 
-const model = require.context('./model', false, /\.js$/)
+const files = require.context('./model', false, /\.js$/)
 const modules = {}
-model.keys().forEach((key) => {
-    modules[key.replace(/(\.\/|\.js)/g, '')] = model(key).default
+files.keys().forEach((key) => {
+    modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
 })
 const sys = require.context('./sys', false, /\.js$/)
 sys.keys().forEach((key) => {

@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Sys.Api;
+using NetAdmin.DataContract.Dto.Sys.Dev;
 using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -8,46 +10,8 @@ namespace NetAdmin.Application.Services.Sys;
 /// <inheritdoc cref="IDevService" />
 public class DevService : ServiceBase<DevService>, IDevService
 {
-    private const string _TMP_EXPORT = """
-export {{ default as {0} }} from './{0}.vue'
-""";
-
-    private const string _TMP_JSAPI_INNER = """
-    /**
-     * {0}
-     */
-    {1} :{{
-        url: `${{config.API_URL}}/{2}`,
-        name: `{0}`,
-        {3}:async function(data, config={{}}) {{
-            return await http.{3}(this.url,data, config)
-        }}
-    }},
-
-""";
-
-    private const string _TMP_JSAPI_OUTER = """
-/**
- *  {0}
- *  @module @/{1}
- */
-
-import config from "@/config"
-import http from "@/utils/request"
-
-export default {{
-
-{2}
-
-}}
-
-""";
-
-    private const string _TMP_SVG = """
-<template>
-    {0}
-</template>
-""";
+    private const string _ASSETS_CODE_TEMPLATES_BACKEND  = @"../../assets/code-templates/backend";
+    private const string _ASSETS_CODE_TEMPLATES_FRONTEND = @"../../assets/code-templates/frontend";
 
     private readonly IApiService _apiService;
 
@@ -75,7 +39,7 @@ export default {{
         var hostDir = projectDirs.First(x => x.EndsWith("Host", true, CultureInfo.InvariantCulture));
 
         // 模板目录
-        var tempDir = Path.Combine(req.ProjectPath, @"../../assets/code-gen/templates/backend");
+        var tplDir = Path.Combine(req.ProjectPath, _ASSETS_CODE_TEMPLATES_BACKEND);
 
         // 业务逻辑层 - 模块目录
         var modulesDir = Path.Combine(appDir, nameof(Modules), moduleType);
@@ -109,46 +73,51 @@ export default {{
         }
 
         // iModule
-        await WriteCodeFile(req, Path.Combine(tempDir,    "App/IModule.txt")
+        await WriteCodeFile(req, Path.Combine(tplDir,     "IModule.tpl")
                      ,           Path.Combine(modulesDir, $"I{req.ModuleName}Module.cs"));
 
         // iService
-        await WriteCodeFile(req, Path.Combine(tempDir,               "App/IService.txt")
+        await WriteCodeFile(req, Path.Combine(tplDir,                "IService.tpl")
                      ,           Path.Combine(servicesDependencyDir, $"I{req.ModuleName}Service.cs"));
 
         // service
-        await WriteCodeFile(req, Path.Combine(tempDir,     "App/Service.txt")
+        await WriteCodeFile(req, Path.Combine(tplDir,      "Service.tpl")
                      ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
 
         // controller
-        await WriteCodeFile(req, Path.Combine(tempDir,       "Host/Controller.txt")
+        await WriteCodeFile(req, Path.Combine(tplDir,        "Controller.tpl")
                      ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
 
         // createReq
-        await WriteCodeFile(req, Path.Combine(tempDir, "Data/CreateReq.txt")
-                     ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
+        await WriteCodeFile(req, Path.Combine(tplDir, "CreateReq.tpl")
+                     ,           Path.Combine(dtoDir, $"Create{req.ModuleName}Req.cs"));
 
         // updateReq
-        await WriteCodeFile(req, Path.Combine(tempDir, "Data/UpdateReq.txt")
-                     ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
+        await WriteCodeFile(req, Path.Combine(tplDir, "UpdateReq.tpl")
+                     ,           Path.Combine(dtoDir, $"Update{req.ModuleName}Req.cs"));
 
         // queryReq
-        await WriteCodeFile(req, Path.Combine(tempDir, "Data/QueryReq.txt")
-                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
+        await WriteCodeFile(req, Path.Combine(tplDir, "QueryReq.tpl")
+                     ,           Path.Combine(dtoDir, $"Query{req.ModuleName}Req.cs"));
 
         // queryRsp
-        await WriteCodeFile(req, Path.Combine(tempDir, "Data/QueryRsp.txt")
-                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
+        await WriteCodeFile(req, Path.Combine(tplDir, "QueryRsp.tpl")
+                     ,           Path.Combine(dtoDir, $"Query{req.ModuleName}Rsp.cs"));
 
         // entity
-        await WriteCodeFile(req, Path.Combine(tempDir,   "Data/Entity.txt")
+        await WriteCodeFile(req, Path.Combine(tplDir,    "Entity.tpl")
                      ,           Path.Combine(entityDir, $"Tb{moduleType}{req.ModuleName}.cs"));
     }
 
     /// <inheritdoc />
     public async ValueTask GenerateIconCode(GenerateIconCodeReq req)
     {
-        var vueContent = string.Format(CultureInfo.InvariantCulture, _TMP_SVG, req.SvgCode);
+        // 模板文件
+        var tplDir    = FrontTplDir(req.ProjectPath);
+        var tplSvg    = await File.ReadAllTextAsync(Path.Combine(tplDir, "vueSvg.tpl"));
+        var tplExport = await File.ReadAllTextAsync(Path.Combine(tplDir, "jsApiExport.tpl"));
+
+        var vueContent = string.Format(CultureInfo.InvariantCulture, tplSvg, req.SvgCode);
         var dir        = Path.Combine(req.ProjectPath, "src", "assets", "icons");
         if (!Directory.Exists(dir)) {
             Directory.CreateDirectory(dir);
@@ -160,7 +129,7 @@ export default {{
         var indexjsFile = Path.Combine(dir, "index.js");
         await File.AppendAllTextAsync(
             indexjsFile
-          , $"{Environment.NewLine}{string.Format(CultureInfo.InvariantCulture, _TMP_EXPORT, req.IconName)}");
+          , $"{Environment.NewLine}{string.Format(CultureInfo.InvariantCulture, tplExport, req.IconName)}");
 
         // 修改iconSelect.js
         var iconSelectFile    = Path.Combine(req.ProjectPath, "src", "config", "iconSelect.js");
@@ -182,11 +151,16 @@ export default {{
     /// <inheritdoc />
     public async ValueTask GenerateJsCode(string projectPath)
     {
-        static IEnumerable<string> Select(QueryApiRsp item)
+        // 模板文件
+        var tplDir   = FrontTplDir(projectPath);
+        var tplOuter = await File.ReadAllTextAsync(Path.Combine(tplDir, "jsApiOuter.tpl"));
+        var tplInner = await File.ReadAllTextAsync(Path.Combine(tplDir, "jsApiInner.tpl"));
+
+        IEnumerable<string> Select(QueryApiRsp item)
         {
             return item.Children.Select(x => string.Format(              //
                                             CultureInfo.InvariantCulture //
-                                          , _TMP_JSAPI_INNER             //
+                                          , tplInner                     //
                                           , x.Summary                    //
                                           , Regex.Replace(x.Name, @"\.(\w)"
                                                         , y => y.Groups[1]
@@ -204,7 +178,7 @@ export default {{
             var file = Path.Combine(dir, $"{item.Name.Replace(".", string.Empty)}.js");
             var content = string.Format(                                               //
                 CultureInfo.InvariantCulture                                           //
-              , _TMP_JSAPI_OUTER                                                       //
+              , tplOuter                                                               //
               , item.Summary                                                           //
               , item.Id                                                                //
               , string.Join(Environment.NewLine + Environment.NewLine, Select(item))); //
@@ -212,10 +186,16 @@ export default {{
         }
     }
 
-    private static async Task WriteCodeFile(GenerateCsCodeReq req, string templateFile, string writeFile)
+    private static string FrontTplDir(string projectPath)
+    {
+        var tplDir = Path.Combine(projectPath, _ASSETS_CODE_TEMPLATES_FRONTEND);
+        return tplDir;
+    }
+
+    private static async Task WriteCodeFile(GenerateCsCodeReq req, string tplFile, string writeFile)
     {
         var content = string.Format( //
-            CultureInfo.InvariantCulture, await File.ReadAllTextAsync(templateFile), nameof(NetAdmin), req.Type
+            CultureInfo.InvariantCulture, await File.ReadAllTextAsync(tplFile), nameof(NetAdmin), req.Type
           , req.ModuleName, req.ModuleRemark);
 
         await File.WriteAllTextAsync(writeFile, content);

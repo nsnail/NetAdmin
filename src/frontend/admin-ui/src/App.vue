@@ -6,6 +6,7 @@
 
 <script>
 import colorTool from '@/utils/color'
+import tool from "@/utils/tool";
 
 export default {
     name: 'App',
@@ -48,10 +49,13 @@ export default {
             }
         }
 
-        this.$API.sys_menu.userMenus.post().then(res => {
-                this.$TOOL.data.set("MENU", res.data)
-            }
-        )
+        let token = tool.cookie.get("TOKEN");
+        if (token) {
+            this.$API.sys_menu.userMenus.post().then(res => {
+                    this.$TOOL.data.set("MENU", res.data)
+                }
+            )
+        }
     }
 }
 </script>

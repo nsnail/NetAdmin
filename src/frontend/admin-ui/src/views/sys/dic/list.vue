@@ -77,7 +77,7 @@ export default {
         },
         //获取字典列表
         async getDic() {
-            var res = await this.$API.sys_dic.queryCatalog.post();
+            const res = await this.$API.sys_dic.queryCatalog.post();
             this.dic = res.data;
         },
         //表单提交方法
@@ -88,7 +88,7 @@ export default {
                     try {
                         const method = (this.mode == 'add' ? this.$API.sys_dic.createContent
                             : this.$API.sys_dic.updateContent)
-                        var res = await method.post(this.form);
+                        const res = await method.post(this.form);
                         this.$emit('success', res.data, this.mode)
                         this.visible = false;
                         this.$message.success("操作成功")
@@ -102,14 +102,7 @@ export default {
         },
         //表单注入数据
         setData(data) {
-            this.form.version = data.version
-            this.form.id = data.id
-            this.form.key = data.key
-            this.form.value = data.value
-            this.form.enabled = data.enabled
-            this.form.catalogId = data.catalogId
-
-
+            Object.assign(this.form, data)
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <el-table ref="table" :data="columnData" row-key="prop" style="width: 100%" border>
         <el-table-column prop="" label="排序" width="60">
-            <el-tag class="move" style="cursor: move;">
+            <el-tag disable-transitions class="move" style="cursor: move;">
                 <el-icon style="cursor: move;">
                     <el-icon-d-caret/>
                 </el-icon>
@@ -9,8 +9,8 @@
         </el-table-column>
         <el-table-column prop="label" label="列名">
             <template #default="scope">
-                <el-tag round :effect="scope.row.hide?'light':'dark'" :type="scope.row.hide?'info':''">
-                    {{ scope.row.label }}
+                <el-tag round disable-transitions :effect="scope.row.hide?'light':'dark'"
+                        :type="scope.row.hide?'info':''">{{ scope.row.label }}
                 </el-tag>
             </template>
         </el-table-column>

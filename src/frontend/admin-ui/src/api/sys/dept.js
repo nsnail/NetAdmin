@@ -11,11 +11,11 @@ export default {
     /**
      * 创建部门
      */
-    create: {
+    create :{
         url: `${config.API_URL}/api/dept/create`,
         name: `创建部门`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -23,11 +23,11 @@ export default {
     /**
      * 删除部门
      */
-    delete: {
+    delete :{
         url: `${config.API_URL}/api/dept/delete`,
         name: `删除部门`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -35,11 +35,11 @@ export default {
     /**
      * 查询部门
      */
-    query: {
+    query :{
         url: `${config.API_URL}/api/dept/query`,
         name: `查询部门`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -47,11 +47,11 @@ export default {
     /**
      * 更新部门
      */
-    update: {
+    update :{
         url: `${config.API_URL}/api/dept/update`,
         name: `更新部门`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 

@@ -224,7 +224,7 @@ export default {
                 try {
                     var data = await item.field.extend.request()
                 } catch (error) {
-                    console.log(error);
+
                 }
                 item.field.extend.data = data;
                 item.selectLoading = false;
@@ -237,7 +237,7 @@ export default {
                 try {
                     var data = await item.field.extend.request(query);
                 } catch (error) {
-                    console.log(error);
+
                 }
                 item.field.extend.data = data;
                 item.selectLoading = false;
@@ -293,7 +293,7 @@ export default {
                         var save = await config.saveMy(this.filterName, saveObj)
                     } catch (error) {
                         this.saveLoading = false
-                        console.log(error);
+
                         return false
                     }
                     if (!save) {

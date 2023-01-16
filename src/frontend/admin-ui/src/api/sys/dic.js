@@ -9,13 +9,25 @@ import http from "@/utils/request"
 export default {
 
     /**
+     * 批量删除字典内容
+     */
+    bulkDeleteContent :{
+        url: `${config.API_URL}/api/dic/bulk.delete.content`,
+        name: `批量删除字典内容`,
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
+        }
+    },
+
+
+    /**
      * 创建字典目录
      */
-    createCatalog: {
+    createCatalog :{
         url: `${config.API_URL}/api/dic/create.catalog`,
         name: `创建字典目录`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -23,11 +35,11 @@ export default {
     /**
      * 创建字典内容
      */
-    createContent: {
+    createContent :{
         url: `${config.API_URL}/api/dic/create.content`,
         name: `创建字典内容`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -35,11 +47,11 @@ export default {
     /**
      * 删除字典目录
      */
-    deleteCatalog: {
+    deleteCatalog :{
         url: `${config.API_URL}/api/dic/delete.catalog`,
         name: `删除字典目录`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -47,11 +59,11 @@ export default {
     /**
      * 删除字典内容
      */
-    deleteContent: {
+    deleteContent :{
         url: `${config.API_URL}/api/dic/delete.content`,
         name: `删除字典内容`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -59,11 +71,11 @@ export default {
     /**
      * 分页查询字典目录
      */
-    pagedQueryCatalog: {
+    pagedQueryCatalog :{
         url: `${config.API_URL}/api/dic/paged.query.catalog`,
         name: `分页查询字典目录`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -71,11 +83,11 @@ export default {
     /**
      * 分页查询字典内容
      */
-    pagedQueryContent: {
+    pagedQueryContent :{
         url: `${config.API_URL}/api/dic/paged.query.content`,
         name: `分页查询字典内容`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -83,11 +95,11 @@ export default {
     /**
      * 查询字典目录
      */
-    queryCatalog: {
+    queryCatalog :{
         url: `${config.API_URL}/api/dic/query.catalog`,
         name: `查询字典目录`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -95,11 +107,11 @@ export default {
     /**
      * 查询字典内容
      */
-    queryContent: {
+    queryContent :{
         url: `${config.API_URL}/api/dic/query.content`,
         name: `查询字典内容`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -107,11 +119,11 @@ export default {
     /**
      * 更新字典目录
      */
-    updateCatalog: {
+    updateCatalog :{
         url: `${config.API_URL}/api/dic/update.catalog`,
         name: `更新字典目录`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 
@@ -119,11 +131,11 @@ export default {
     /**
      * 更新字典内容
      */
-    updateContent: {
+    updateContent :{
         url: `${config.API_URL}/api/dic/update.content`,
         name: `更新字典内容`,
-        post: async function (data, config = {}) {
-            return await http.post(this.url, data, config)
+        post:async function(data, config={}) {
+            return await http.post(this.url,data, config)
         }
     },
 

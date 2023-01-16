@@ -1,5 +1,7 @@
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
+using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Sys.User;
 
 #pragma warning disable CS1591
 

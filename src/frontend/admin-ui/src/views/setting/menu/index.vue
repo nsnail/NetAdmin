@@ -11,12 +11,13 @@
                              :filter-node-method="menuFilterNode" @node-click="menuClick" @node-drop="nodeDrop">
 
                         <template #default="{node, data}">
-							<span class="custom-tree-node el-tree-node__label">
+							<span class="custom-tree-node">
 								<span class="label">
 									{{ node.label }}
 								</span>
 								<span class="do">
-									<el-icon @click.stop="add(node, data)"><el-icon-plus/></el-icon>
+									<el-button icon="el-icon-plus" size="small"
+                                               @click.stop="add(node, data)"></el-button>
 								</span>
 							</span>
                         </template>
@@ -156,14 +157,20 @@ export default {
 </script>
 
 <style scoped>
+.menu:deep(.el-tree-node__label) {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
 .custom-tree-node {
     display: flex;
     flex: 1;
     align-items: center;
     justify-content: space-between;
     font-size: 14px;
-    padding-right: 24px;
     height: 100%;
+    padding-right: 24px;
 }
 
 .custom-tree-node .label {

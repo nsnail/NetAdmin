@@ -1,4 +1,7 @@
-using NetAdmin.DataContract.Dto.Sys.Dic;
+using NetAdmin.Application.Modules.Sys.Dic;
+using NetAdmin.Application.Services.Sys.Dependency.Dic;
+using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
+using NetAdmin.DataContract.Dto.Sys.Dic.Content;
 using NetAdmin.Host.Aop;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -15,43 +18,96 @@ public class DicController : ControllerBase<IDicService>, IDicModule
         : base(service) { }
 
     /// <summary>
-    ///     创建字典
+    ///     批量删除字典内容
     /// </summary>
     [Transaction]
-    public ValueTask<QueryDicRsp> Create(CreateDicReq req)
+    public async ValueTask<int> BulkDeleteContent(BulkDelReq req)
     {
-        return Service.Create(req);
+        return await Service.BulkDeleteContent(req);
     }
 
     /// <summary>
-    ///     删除字典
+    ///     创建字典目录
     /// </summary>
-    public ValueTask<int> Delete(DelReq req)
+    [Transaction]
+    public async ValueTask<QueryDicCatalogRsp> CreateCatalog(CreateDicCatalogReq req)
     {
-        throw new NotImplementedException();
+        return await Service.CreateCatalog(req);
     }
 
     /// <summary>
-    ///     分页查询字典
+    ///     创建字典内容
     /// </summary>
-    public ValueTask<PagedQueryRsp<QueryDicRsp>> PagedQuery(PagedQueryReq<QueryDicReq> req)
+    [Transaction]
+    public async ValueTask<QueryDicContentRsp> CreateContent(CreateDicContentReq req)
     {
-        throw new NotImplementedException();
+        return await Service.CreateContent(req);
     }
 
     /// <summary>
-    ///     查询字典
+    ///     删除字典目录
     /// </summary>
-    public ValueTask<List<QueryDicRsp>> Query(QueryReq<QueryDicReq> req)
+    [Transaction]
+    public async ValueTask<int> DeleteCatalog(DelReq req)
     {
-        return Service.Query(req);
+        return await Service.DeleteCatalog(req);
     }
 
     /// <summary>
-    ///     更新字典
+    ///     删除字典内容
     /// </summary>
-    public ValueTask<QueryDicRsp> Update(UpdateDicReq req)
+    public async ValueTask<int> DeleteContent(DelReq req)
     {
-        throw new NotImplementedException();
+        return await Service.DeleteContent(req);
+    }
+
+    /// <summary>
+    ///     分页查询字典目录
+    /// </summary>
+    public async ValueTask<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalog(PagedQueryReq<QueryDicCatalogReq> req)
+    {
+        return await Service.PagedQueryCatalog(req);
+    }
+
+    /// <summary>
+    ///     分页查询字典内容
+    /// </summary>
+    public async ValueTask<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContent(PagedQueryReq<QueryDicContentReq> req)
+    {
+        return await Service.PagedQueryContent(req);
+    }
+
+    /// <summary>
+    ///     查询字典目录
+    /// </summary>
+    public async ValueTask<List<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
+    {
+        return await Service.QueryCatalog(req);
+    }
+
+    /// <summary>
+    ///     查询字典内容
+    /// </summary>
+    public async ValueTask<List<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
+    {
+        return await Service.QueryContent(req);
+    }
+
+    /// <summary>
+    ///     更新字典目录
+    /// </summary>
+    [Transaction]
+    public async ValueTask<QueryDicCatalogRsp> UpdateCatalog(UpdateDicCatalogReq req)
+    {
+        return await Service.UpdateCatalog(req);
+    }
+
+    /// <summary>
+    ///     更新字典内容
+    /// </summary>
+    [Transaction]
+    public async ValueTask<QueryDicContentRsp> UpdateContent(UpdateDicContentReq req)
+    {
+        return await Service.UpdateContent(req);
     }
 }

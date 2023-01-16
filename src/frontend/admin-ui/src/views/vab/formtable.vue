@@ -103,7 +103,7 @@ export default {
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     alert('请看控制台输出');
-                    console.log(this.form);
+
                 } else {
                     return false;
                 }

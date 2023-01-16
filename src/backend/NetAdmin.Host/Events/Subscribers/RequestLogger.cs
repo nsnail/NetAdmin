@@ -1,6 +1,7 @@
 using Furion;
 using Furion.EventBus;
-using Mapster;
+using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
 
@@ -11,20 +12,13 @@ namespace NetAdmin.Host.Events.Subscribers;
 /// </summary>
 public class RequestLogger : IEventSubscriber
 {
-    private readonly IEventPublisher        _eventPublisher;
-    private readonly ILogger<RequestLogger> _logger;
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="RequestLogger" /> class.
     /// </summary>
-    public RequestLogger(ILogger<RequestLogger> logger, IEventPublisher eventPublisher)
-    {
-        _logger         = logger;
-        _eventPublisher = eventPublisher;
-    }
+    public RequestLogger() { }
 
     /// <summary>
-    ///     保存操作日志到数据库
+    ///     保存请求日志到数据库
     /// </summary>
     [EventSubscribe($"{nameof(OperationEvent)}")]
     public async Task OperationEventDbRecord(EventHandlerExecutingContext context)
@@ -39,12 +33,18 @@ public class RequestLogger : IEventSubscriber
             operationEvent.Data.ResponseBody = $"{operationEvent.Data.ResponseBody.Sub(0, cutThreshold)}...";
         }
 
-        var logService = App.GetRequiredService<ILogService>();
-        await logService.CreateOperationLog(operationEvent.Data);
-
-        // 发布登录事件
+        // 登录日志 ，
         if (operationEvent.Data.ApiId.Equals("api/user/login", StringComparison.OrdinalIgnoreCase)) {
-            await _eventPublisher.PublishAsync(new UserLoginEvent(operationEvent.Data.Adapt<CreateLoginLogReq>()));
+            try {
+                var loginReq = operationEvent.Data.RequestBody.Object<LoginReq>();
+                operationEvent.Data.ExtraData = loginReq.UserName;
+            }
+            catch (Exception) {
+                // ignored
+            }
         }
+
+        var logService = App.GetRequiredService<IRequestLogService>();
+        await logService.Create(operationEvent.Data);
     }
 }

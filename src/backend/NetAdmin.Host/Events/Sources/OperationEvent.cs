@@ -1,14 +1,16 @@
+using NetAdmin.DataContract.Dto.Sys.RequestLog;
+
 namespace NetAdmin.Host.Events.Sources;
 
 /// <summary>
 ///     操作事件
 /// </summary>
-public class OperationEvent : IEventSourceGeneric<CreateOperationLogReq>
+public class OperationEvent : IEventSourceGeneric<CreateRequestLogReq>
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="OperationEvent" /> class.
     /// </summary>
-    public OperationEvent(CreateOperationLogReq data)
+    public OperationEvent(CreateRequestLogReq data)
     {
         Data = data;
     }
@@ -20,7 +22,7 @@ public class OperationEvent : IEventSourceGeneric<CreateOperationLogReq>
     public DateTime CreatedTime { get; }
 
     /// <inheritdoc />
-    public CreateOperationLogReq Data { get; }
+    public CreateRequestLogReq Data { get; }
 
     /// <inheritdoc />
     public string EventId => nameof(OperationEvent);

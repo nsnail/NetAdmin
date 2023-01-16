@@ -2,6 +2,7 @@ using System.Reflection;
 using Mapster;
 using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Sys.Cache;
 
 namespace NetAdmin.Application.Services.Sys;
 

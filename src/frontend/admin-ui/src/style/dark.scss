@@ -66,6 +66,19 @@ html.dark {
         --el-menu-hover-bg-color: #171819 !important;
     }
 
+    .adminui-header-menu .el-menu .el-sub-menu__title {
+        background-color: transparent !important;
+    }
+
+    //全局滚动条样式
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(163, 166, 173, 0.3);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(163, 166, 173, 0.5);
+    }
+
     //组件
     .el-header, .el-main.nopadding, .el-footer {
         background: var(--el-bg-color-overlay);

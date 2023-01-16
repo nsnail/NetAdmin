@@ -26,7 +26,7 @@ public class SqlProfiler : IEventSubscriber
     public Task CommandAfter(EventHandlerExecutingContext context)
     {
         var source = context.Source as SqlCommandAfterEvent;
-        _logger.Info(source);
+        _logger.Debug(source);
         return Task.CompletedTask;
     }
 
@@ -37,7 +37,7 @@ public class SqlProfiler : IEventSubscriber
     public Task CommandBefore(EventHandlerExecutingContext context)
     {
         var source = context.Source as SqlCommandBeforeEvent;
-        _logger.Info(source);
+        _logger.Debug(source);
         return Task.CompletedTask;
     }
 
@@ -48,7 +48,7 @@ public class SqlProfiler : IEventSubscriber
     public Task SyncStructureAfter(EventHandlerExecutingContext context)
     {
         var source = context.Source as SyncStructureAfterEvent;
-        _logger.Info(source);
+        _logger.Debug(source);
         return Task.CompletedTask;
     }
 
@@ -59,7 +59,7 @@ public class SqlProfiler : IEventSubscriber
     public Task SyncStructureBefore(EventHandlerExecutingContext context)
     {
         var source = context.Source as SyncStructureBeforeEvent;
-        _logger.Info(source);
+        _logger.Debug(source);
         return Task.CompletedTask;
     }
 }

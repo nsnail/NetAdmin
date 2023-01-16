@@ -1,10 +1,10 @@
 <!--
  * @Descripttion: scContextmenuItem组件
- * @version: 1.2
+ * @version: 1.3
  * @Author: sakuya
  * @Date: 2021年7月23日16:29:36
  * @LastEditors: sakuya
- * @LastEditTime: 2022年2月8日15:51:07
+ * @LastEditTime: 2022年11月23日10:09:54
 -->
 
 <template>
@@ -49,6 +49,9 @@ export default {
         openSubmenu(e) {
             var menu = e.target.querySelector('ul')
             if (!menu) {
+                return false
+            }
+            if (this.disabled) {
                 return false
             }
             menu.style.display = 'inline-block'
