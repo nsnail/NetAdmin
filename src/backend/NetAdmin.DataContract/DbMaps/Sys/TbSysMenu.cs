@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
 using NetAdmin.DataContract.DbMaps.Dependency;
+using NetAdmin.Infrastructure.Attributes;
 using NSExt.Attributes;
 
 namespace NetAdmin.DataContract.DbMaps.Sys;
@@ -14,7 +15,7 @@ namespace NetAdmin.DataContract.DbMaps.Sys;
 public record TbSysMenu : MutableEntity, IFieldBitSet
 {
     /// <summary>
-    ///     菜单表比特位
+    ///     菜单设置
     /// </summary>
     [Flags]
     public enum MenuBits : long
@@ -48,6 +49,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
     /// <summary>
     ///     菜单类型
     /// </summary>
+    [Export]
     public enum MenuTypes
     {
         /// <summary>
@@ -92,7 +94,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
     public virtual string Active { get; init; }
 
     /// <summary>
-    ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="MenuBits" />
+    ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="MenuBits" />
     /// </summary>
     [JsonIgnore]
     public virtual long BitSet { get; init; }

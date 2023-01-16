@@ -10,7 +10,7 @@ namespace {0}.DataContract.DbMaps;
 public record Tb{1}{2} : MutableEntity, IFieldBitSet
 {{
     /// <summary>
-    ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />）
+    ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />）
     /// </summary>
     [JsonIgnore]
     public virtual long BitSet {{ get; init; }}

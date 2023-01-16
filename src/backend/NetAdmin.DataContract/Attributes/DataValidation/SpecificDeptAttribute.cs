@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using NetAdmin.DataContract.DbMaps.Sys;
 using NetAdmin.DataContract.Dto.Sys.Role;
 
 namespace NetAdmin.DataContract.Attributes.DataValidation;
@@ -11,7 +12,7 @@ public class SpecificDeptAttribute : ValidationAttribute
     /// <inheritdoc />
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        return validationContext.ObjectInstance is not CreateRoleReq { DataScope: Enums.DataScopes.SpecificDept }
+        return validationContext.ObjectInstance is not CreateRoleReq { DataScope: TbSysRole.DataScopes.SpecificDept }
             ?
             ValidationResult.Success
             : (value as IEnumerable<long>)?.Any() ?? false

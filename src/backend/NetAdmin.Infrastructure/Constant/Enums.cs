@@ -1,68 +1,21 @@
 using System.ComponentModel;
 using Furion.FriendlyException;
+using NetAdmin.Infrastructure.Attributes;
 using NetAdmin.Infrastructure.Lang;
 using NSExt.Attributes;
 
 namespace NetAdmin.Infrastructure.Constant;
 
 /// <summary>
-///     枚举常量（public类型会通过接口暴露给前端）
+///     基础枚举常量
 /// </summary>
 public static class Enums
 {
     /// <summary>
-    ///     数据范围
-    /// </summary>
-    public enum DataScopes
-    {
-        /// <summary>
-        ///     全部
-        /// </summary>
-        [Description(nameof(Str.All))]
-        [Localization(typeof(Str))]
-        All = 1
-
-       ,
-
-        /// <summary>
-        ///     本部门和下级部门
-        /// </summary>
-        [Description(nameof(Str.This_department_and_subordinate_departments))]
-        [Localization(typeof(Str))]
-        DeptWithChild = 2
-
-       ,
-
-        /// <summary>
-        ///     本部门
-        /// </summary>
-        [Description(nameof(Str.Department_data))]
-        [Localization(typeof(Str))]
-        Dept = 3
-
-       ,
-
-        /// <summary>
-        ///     本人数据
-        /// </summary>
-        [Description(nameof(Str.Personal_data))]
-        [Localization(typeof(Str))]
-        Self = 4
-
-       ,
-
-        /// <summary>
-        ///     指定部门
-        /// </summary>
-        [Description(nameof(Str.Designated_department))]
-        [Localization(typeof(Str))]
-        SpecificDept = 5
-    }
-
-    /// <summary>
     ///     错误码
     /// </summary>
     [ErrorCodeType]
+    [Export]
     public enum ErrorCodes
     {
         /// <summary>
@@ -187,11 +140,14 @@ public static class Enums
     /// <summary>
     ///     模块类型
     /// </summary>
+    [Export]
     public enum ModuleTypes
     {
         /// <summary>
         ///     系统模块
         /// </summary>
+        [Description(nameof(Str.System_module))]
+        [Localization(typeof(Str))]
         Sys
 
        ,
@@ -199,17 +155,22 @@ public static class Enums
         /// <summary>
         ///     业务模块
         /// </summary>
+        [Description(nameof(Str.Business_module))]
+        [Localization(typeof(Str))]
         Biz
     }
 
     /// <summary>
     ///     排序方式
     /// </summary>
+    [Export]
     public enum Orders
     {
         /// <summary>
         ///     顺序
         /// </summary>
+        [Description(nameof(Str.Sort_in_order))]
+        [Localization(typeof(Str))]
         Ascending
 
        ,
@@ -217,6 +178,8 @@ public static class Enums
         /// <summary>
         ///     倒序
         /// </summary>
+        [Description(nameof(Str.Sort_in_reverse_order))]
+        [Localization(typeof(Str))]
         Descending
     }
 }

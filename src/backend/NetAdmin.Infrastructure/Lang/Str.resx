@@ -216,4 +216,43 @@
     <data name="Dictionary directory does not exist" xml:space="preserve">
         <value>字典目录不存在</value>
     </data>
+    <data name="Business module" xml:space="preserve">
+        <value>业务模块</value>
+    </data>
+    <data name="System module" xml:space="preserve">
+        <value>系统模块</value>
+    </data>
+    <data name="Sort in reverse order" xml:space="preserve">
+        <value>倒序排序</value>
+    </data>
+    <data name="Sort in order" xml:space="preserve">
+        <value>顺序排序</value>
+    </data>
+    <data name="Created time" xml:space="preserve">
+        <value>创建时间</value>
+    </data>
+    <data name="Creator id" xml:space="preserve">
+        <value>创建者Id</value>
+    </data>
+    <data name="Creator username" xml:space="preserve">
+        <value>创建者</value>
+    </data>
+    <data name="Unique id" xml:space="preserve">
+        <value>主键Id</value>
+    </data>
+    <data name="Delete or not" xml:space="preserve">
+        <value>是否删除</value>
+    </data>
+    <data name="Modification time" xml:space="preserve">
+        <value>修改时间</value>
+    </data>
+    <data name="Modifier Id" xml:space="preserve">
+        <value>修改者Id</value>
+    </data>
+    <data name="Modified by" xml:space="preserve">
+        <value>修改者</value>
+    </data>
+    <data name="Version" xml:space="preserve">
+        <value>版本</value>
+    </data>
 </root>

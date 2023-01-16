@@ -51,21 +51,15 @@ public class Startup : AppStartup
     /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddConsoleFormatter()                           // /       控制台日志模板
-                .AddAllOptions()                                 // /       注册配置项
-                .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //         Jwt 授权处理器
-                .Services
-
-                #if DEBUG
-                .AddMonitorLogging() // /                                    日志监视信息
-                #endif
-
-                .AddSnowflake()    // /                                      雪花id生成器
-                .AddEventBus()     //                                        事件总线
-                .AddFreeSql()      //                                        注册freeSql
-                .AddCorsAccessor() //                                        支持跨域访问
-                .AddContextUser()  //                                        注册上下文用户
-                .AddMemCache()     //                                        注册内存缓存
+        services.AddConsoleFormatter()                           // /                                      控制台日志模板
+                .AddAllOptions()                                 // /                                      注册配置项
+                .AddJwt<JwtHandler>(enableGlobalAuthorize: true) //                                        Jwt 授权处理器
+                .Services.AddSnowflake()                         // /                                      雪花id生成器
+                .AddEventBus()                                   //                                        事件总线
+                .AddFreeSql()                                    //                                        注册freeSql
+                .AddCorsAccessor()                               //                                        支持跨域访问
+                .AddContextUser()                                //                                        注册上下文用户
+                .AddMemCache()                                   //                                        注册内存缓存
 
                 // IMvcBuilder
                 .AddControllers()    //                                      注册控制器

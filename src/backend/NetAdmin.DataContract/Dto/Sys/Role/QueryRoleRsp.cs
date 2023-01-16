@@ -32,7 +32,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
 
     /// <inheritdoc cref="TbSysRole.DataScope" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override Enums.DataScopes DataScope { get; init; }
+    public override DataScopes DataScope { get; init; }
 
     /// <summary>
     ///     角色-部门映射

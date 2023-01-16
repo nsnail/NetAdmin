@@ -35,8 +35,8 @@ public record CreateRoleReq : TbSysRole, IRegister
     }
 
     /// <inheritdoc cref="TbSysRole.DataScope" />
-    [EnumDataType(typeof(Enums.DataScopes))]
-    public override Enums.DataScopes DataScope { get; init; } = Enums.DataScopes.All;
+    [EnumDataType(typeof(DataScopes))]
+    public override DataScopes DataScope { get; init; } = DataScopes.All;
 
     /// <summary>
     ///     当 DataScope = SpecificDept ，此参数指定部门id

@@ -7,16 +7,6 @@ namespace NetAdmin.Infrastructure.Constant;
 /// </summary>
 public static class Strings
 {
-    public const string DSC_CREATED_TIME       = "创建时间";
-    public const string DSC_CREATED_USER_ID    = "创建者Id";
-    public const string DSC_CREATED_USER_NAME  = "创建者";
-    public const string DSC_ID                 = "主键Id";
-    public const string DSC_IS_DELETED         = "是否删除";
-    public const string DSC_MODIFIED_TIME      = "修改时间";
-    public const string DSC_MODIFIED_USER_ID   = "修改者Id";
-    public const string DSC_MODIFIED_USER_NAME = "修改者";
-    public const string DSC_VERSION            = "版本";
-
     public const string FLG_ACCESS_TOKEN        = "ACCESS-TOKEN";
     public const string FLG_APPLICATION_JSON    = "application/json";
     public const string FLG_FILTER_BITSET       = nameof(FLG_FILTER_BITSET);

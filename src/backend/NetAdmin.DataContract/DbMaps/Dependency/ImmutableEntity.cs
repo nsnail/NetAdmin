@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
 using NetAdmin.DataContract.Attributes;
+using NSExt.Attributes;
 
 namespace NetAdmin.DataContract.DbMaps.Dependency;
 
@@ -25,19 +26,22 @@ public abstract record ImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IField
 {
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(Strings.DSC_CREATED_TIME)]
+    [Description(nameof(Str.Created_time))]
+    [Localization(typeof(Str))]
     [Column(Position = -20, CanUpdate = false, ServerTime = DateTimeKind.Local)]
     public virtual DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(Strings.DSC_CREATED_USER_ID)]
+    [Description(nameof(Str.Creator_id))]
+    [Localization(typeof(Str))]
     [Column(Position = -22, CanUpdate = false)]
     public virtual long? CreatedUserId { get; set; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(Strings.DSC_CREATED_USER_NAME)]
+    [Description(nameof(Str.Creator_username))]
+    [Localization(typeof(Str))]
     [Column(Position = -21, CanUpdate = false)]
     public virtual string CreatedUserName { get; set; }
 
@@ -45,7 +49,8 @@ public abstract record ImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IField
     ///     唯一编码
     /// </summary>
     [JsonIgnore]
-    [Description(Strings.DSC_ID)]
+    [Description(nameof(Str.Unique_id))]
+    [Localization(typeof(Str))]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public virtual T Id { get; set; }
 }

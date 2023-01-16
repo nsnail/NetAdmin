@@ -10,7 +10,7 @@ namespace NetAdmin.DataContract.DbMaps.Tpl;
 public record TbTplExample : MutableEntity, IFieldBitSet
 {
     /// <summary>
-    ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />）
+    ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />）
     /// </summary>
     public virtual long BitSet { get; init; }
 }

@@ -8,12 +8,16 @@ using Microsoft.Extensions.Options;
 using NetAdmin.DataContract.Dto.Sys.RequestLog;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
+using Spectre.Console;
 
 namespace NetAdmin.Host.Aop.Middlewares;
 
 /// <summary>
 ///     请求审计中间件
 /// </summary>
+/// <remarks>
+///     放在所有中间件最前面
+/// </remarks>
 public class RequestAuditMiddleware
 {
     private readonly PathString                      _defaultRoutePrefix;
@@ -54,6 +58,13 @@ public class RequestAuditMiddleware
         using var ms     = new MemoryStream();
         var       stream = context.Response.Body;
         context.Response.Body = ms;
+
+        // 在控制台上输出分割线，区分不同请求
+        #if DEBUG
+        AnsiConsole.Write(new Rule($"[{nameof(ConsoleColor.Yellow)} bold]{context.Request.Path}[/]")
+                          .RuleStyle(nameof(ConsoleColor.Yellow))
+                          .LeftJustified());
+        #endif
 
         // 调用下一个中间件
         var sw = Stopwatch.StartNew();

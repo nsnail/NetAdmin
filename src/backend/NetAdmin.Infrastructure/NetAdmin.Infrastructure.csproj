@@ -17,6 +17,7 @@
         <PackageReference Include="Minio" Version="4.0.7" />
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
     </ItemGroup>
+
     <ItemGroup>
         <EmbeddedResource Update="Lang\Str.resx">
             <Generator>PublicResXFileCodeGenerator</Generator>

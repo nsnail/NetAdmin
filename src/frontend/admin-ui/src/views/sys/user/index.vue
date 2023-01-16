@@ -50,8 +50,7 @@
                          remoteFilter>
                     <el-table-column type="selection" width="50"></el-table-column>
                     <el-table-column label="ID" prop="id" width="150" sortable='custom'></el-table-column>
-                    <el-table-column label="头像" width="80" column-key="filterAvatar"
-                                     :filters="[{text: '已上传', value: '1'}, {text: '未上传', value: '0'}]">
+                    <el-table-column label="头像" width="80" column-key="filterAvatar">
                         <template #default="scope">
                             <el-avatar :src="getAvatar(scope)" size="small"></el-avatar>
                         </template>

@@ -1,12 +1,12 @@
 namespace NetAdmin.DataContract.DbMaps.Dependency;
 
 /// <summary>
-///     比特位字段接口
+///     设置字段接口
 /// </summary>
 public interface IFieldBitSet
 {
     /// <summary>
-    ///     比特位
+    ///     设置
     /// </summary>
     long BitSet { get; init; }
 }

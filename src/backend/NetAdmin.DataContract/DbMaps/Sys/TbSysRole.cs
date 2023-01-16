@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
 using NetAdmin.DataContract.DbMaps.Dependency;
+using NetAdmin.Infrastructure.Attributes;
 using NSExt.Attributes;
 
 namespace NetAdmin.DataContract.DbMaps.Sys;
@@ -14,7 +15,57 @@ namespace NetAdmin.DataContract.DbMaps.Sys;
 public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
 {
     /// <summary>
-    ///     角色表比特位
+    ///     角色数据范围
+    /// </summary>
+    [Export]
+    public enum DataScopes
+    {
+        /// <summary>
+        ///     全部
+        /// </summary>
+        [Description(nameof(Str.All))]
+        [Localization(typeof(Str))]
+        All = 1
+
+       ,
+
+        /// <summary>
+        ///     本部门和下级部门
+        /// </summary>
+        [Description(nameof(Str.This_department_and_subordinate_departments))]
+        [Localization(typeof(Str))]
+        DeptWithChild = 2
+
+       ,
+
+        /// <summary>
+        ///     本部门
+        /// </summary>
+        [Description(nameof(Str.Department_data))]
+        [Localization(typeof(Str))]
+        Dept = 3
+
+       ,
+
+        /// <summary>
+        ///     本人数据
+        /// </summary>
+        [Description(nameof(Str.Personal_data))]
+        [Localization(typeof(Str))]
+        Self = 4
+
+       ,
+
+        /// <summary>
+        ///     指定部门
+        /// </summary>
+        [Description(nameof(Str.Designated_department))]
+        [Localization(typeof(Str))]
+        SpecificDept = 5
+    }
+
+    /// <summary>
+    ///     角色设置
     /// </summary>
     [Flags]
     public enum RoleBits : long
@@ -35,7 +86,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
     public ICollection<TbSysApi> Apis { get; set; }
 
     /// <summary>
-    ///     比特位（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="RoleBits" />
+    ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="RoleBits" />
     /// </summary>
     [JsonIgnore]
     public virtual long BitSet { get; init; }
@@ -44,7 +95,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
     ///     数据范围
     /// </summary>
     [JsonIgnore]
-    public virtual Enums.DataScopes DataScope { get; init; }
+    public virtual DataScopes DataScope { get; init; }
 
     /// <summary>
     ///     角色-部门映射

@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
 using System.Reflection;
+using Furion;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.Infrastructure.Attributes;
 using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -11,12 +13,11 @@ public class ConstantService : ServiceBase<IConstantService>, IConstantService
     /// <inheritdoc />
     public dynamic GetEnums()
     {
-        return typeof(Enums).GetNestedTypes(BindingFlags.Public)
-                            .ToDictionary(x => x.Name, x => x.GetEnumValues()
-                                                             .Cast<object>()
-                                                             .ToImmutableSortedDictionary( //
-                                                                 x.GetEnumName
-                                                               , y => new { Value = y, Desc = ((Enum)y).Desc() }));
+        return App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) is not null)
+                  .ToDictionary(x => x.Name, x => x.GetEnumValues()
+                                                   .Cast<object>()
+                                                   .ToImmutableSortedDictionary( //
+                                                       x.GetEnumName, y => new { Value = y, Desc = ((Enum)y).Desc() }));
     }
 
     /// <inheritdoc />

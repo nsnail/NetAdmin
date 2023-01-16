@@ -9,7 +9,7 @@ namespace NetAdmin.DataContract.DbMaps.Dependency;
 public abstract record EntityBase : DataAbstraction
 {
     /// <summary>
-    ///     公用比特位
+    ///     公用设置
     /// </summary>
     public enum BitSets : long
     {
