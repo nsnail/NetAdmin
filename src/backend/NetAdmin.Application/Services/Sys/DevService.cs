@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NSExt.Extensions;
 
-namespace NetAdmin.Application.Services.Sys.Dev;
+namespace NetAdmin.Application.Services.Sys;
 
 /// <inheritdoc cref="IDevService" />
 public class DevService : ServiceBase<DevService>, IDevService

@@ -5,11 +5,11 @@
  * Licensed under MIT (https://github.com/yanhaijing/template.js/blob/master/MIT-LICENSE.txt)
  */
 /* eslint-disable */
-;(function(root, factory) {
+;(function (root, factory) {
     var template = factory(root);
     if (typeof define === 'function' && define.amd) {
         // AMD
-        define('template', function() {
+        define('template', function () {
             return template;
         });
     } else if (typeof exports === 'object') {
@@ -19,7 +19,7 @@
         // Browser globals
         var _template = root.template;
 
-        template.noConflict = function() {
+        template.noConflict = function () {
             if (root.template === template) {
                 root.template = _template;
             }
@@ -28,42 +28,50 @@
         };
         root.template = template;
     }
-}(this, function(root) {
+}(this, function (root) {
     'use strict';
     var o = {
         sTag: '<%',//开始标签
         eTag: '%>',//结束标签
         compress: false,//是否压缩html
         escape: true, //默认输出是否进行HTML转义
-        error: function (e) {}//错误回调
+        error: function (e) {
+        }//错误回调
     };
     var functionMap = {}; //内部函数对象
     //修饰器前缀
     var modifierMap = {
-        '': function (param) {return nothing(param)},
-        'h': function (param) {return encodeHTML(param)},
-        'u': function (param) {return encodeURI(param)}
+        '': function (param) {
+            return nothing(param)
+        },
+        'h': function (param) {
+            return encodeHTML(param)
+        },
+        'u': function (param) {
+            return encodeURI(param)
+        }
     };
 
     var toString = {}.toString;
     var slice = [].slice;
+
     function type(x) {
-        if(x === null){
+        if (x === null) {
             return 'null';
         }
 
-        var t= typeof x;
+        var t = typeof x;
 
-        if(t !== 'object'){
+        if (t !== 'object') {
             return t;
         }
 
         var c = toString.call(x).slice(8, -1).toLowerCase();
-        if(c !== 'object'){
+        if (c !== 'object') {
             return c;
         }
 
-        if(x.constructor==Object){
+        if (x.constructor == Object) {
             return c;
         }
 
@@ -73,48 +81,57 @@
     function isObject(obj) {
         return type(obj) === 'object';
     }
+
     function isFunction(fn) {
         return type(fn) === 'function';
     }
+
     function isString(str) {
         return type(str) === 'string';
     }
+
     function extend() {
         var target = arguments[0] || {};
         var arrs = slice.call(arguments, 1);
         var len = arrs.length;
-     
+
         for (var i = 0; i < len; i++) {
             var arr = arrs[i];
             for (var name in arr) {
                 target[name] = arr[name];
             }
-     
+
         }
         return target;
     }
+
     function clone() {
         var args = slice.call(arguments);
         return extend.apply(null, [{}].concat(args));
     }
+
     function nothing(param) {
         return param;
     }
+
     function encodeHTML(source) {
         return String(source)
-            .replace(/&/g,'&amp;')
-            .replace(/</g,'&lt;')
-            .replace(/>/g,'&gt;')
-            .replace(/\\/g,'&#92;')
-            .replace(/"/g,'&quot;')
-            .replace(/'/g,'&#39;');
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\\/g, '&#92;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
+
     function compress(html) {
         return html.replace(/\s+/g, ' ').replace(/<!--[\w\W]*?-->/g, '');
     }
+
     function consoleAdapter(cmd, msg) {
         typeof console !== 'undefined' && console[cmd] && console[cmd](msg);
     }
+
     function handelError(e) {
         var message = 'template.js error\n\n';
 
@@ -125,19 +142,23 @@
         consoleAdapter('error', message);
 
         o.error(e);
+
         function error() {
             return 'template.js error';
         }
+
         error.toString = function () {
             return '__code__ = "template.js error"';
         }
         return error;
     }
+
     function parse(tpl, opt) {
         var code = '';
         var sTag = opt.sTag;
         var eTag = opt.eTag;
         var escape = opt.escape;
+
         function parsehtml(line) {
             // 单双引号转义，换行符替换为空格
             line = line.replace(/('|")/g, '\\$1');
@@ -148,7 +169,8 @@
             }
             return code;
         }
-        function parsejs(line) {              
+
+        function parsejs(line) {
             //var reg = /^(:?)(.*?)=(.*)$/;
             var reg = /^(?:=|(:.*?)=)(.*)$/
             var html;
@@ -169,7 +191,7 @@
 
                 return ';__code__ += __modifierMap__["' + modifier + '"](typeof (' + html + ') !== "undefined" ? (' + html + ') : "")\n';
             }
-            
+
             //原生js
             return ';' + line + '\n';
         }
@@ -190,41 +212,43 @@
         }
         return code;
     }
+
     function compiler(tpl, opt) {
         var mainCode = parse(tpl, opt);
 
-        var headerCode = '\n' + 
-        '    var html = (function (__data__, __modifierMap__) {\n' + 
-        '        var __str__ = "", __code__ = "";\n' + 
-        '        for(var key in __data__) {\n' + 
-        '            __str__+=("var " + key + "=__data__[\'" + key + "\'];");\n' + 
-        '        }\n' + 
-        '        eval(__str__);\n\n';
+        var headerCode = '\n' +
+            '    var html = (function (__data__, __modifierMap__) {\n' +
+            '        var __str__ = "", __code__ = "";\n' +
+            '        for(var key in __data__) {\n' +
+            '            __str__+=("var " + key + "=__data__[\'" + key + "\'];");\n' +
+            '        }\n' +
+            '        eval(__str__);\n\n';
 
-        var footerCode = '\n' + 
-        '        ;return __code__;\n' + 
-        '    }(__data__, __modifierMap__));\n' + 
-        '    return html;\n';
+        var footerCode = '\n' +
+            '        ;return __code__;\n' +
+            '    }(__data__, __modifierMap__));\n' +
+            '    return html;\n';
 
         var code = headerCode + mainCode + footerCode;
         code = code.replace(/[\r]/g, ' '); // ie 7 8 会报错，不知道为什么
         try {
-            var Render = new Function('__data__', '__modifierMap__', code); 
+            var Render = new Function('__data__', '__modifierMap__', code);
             Render.toString = function () {
                 return mainCode;
             }
             return Render;
-        } catch(e) {
+        } catch (e) {
             e.temp = 'function anonymous(__data__, __modifierMap__) {' + code + '}';
             throw e;
-        }  
+        }
     }
+
     function compile(tpl, opt) {
         opt = clone(o, opt);
 
         try {
             var Render = compiler(tpl, opt);
-        } catch(e) {
+        } catch (e) {
             e.name = 'CompileError';
             e.tpl = tpl;
             e.render = e.temp;
@@ -238,12 +262,12 @@
                 var html = Render(data, modifierMap);
                 html = opt.compress ? compress(html) : html;
                 return html;
-            } catch(e) {
+            } catch (e) {
                 e.name = 'RenderError';
                 e.tpl = tpl;
                 e.render = Render.toString();
                 return handelError(e)();
-            }            
+            }
         }
 
         render.toString = function () {
@@ -251,6 +275,7 @@
         };
         return render;
     }
+
     function template(tpl, data) {
         if (typeof tpl !== 'string') {
             return '';
@@ -271,7 +296,7 @@
         return clone(o);
     };
 
-    template.registerFunction = function(name, fn) {
+    template.registerFunction = function (name, fn) {
         if (!isString(name)) {
             return clone(functionMap);
         }
@@ -289,7 +314,7 @@
         return true;
     }
 
-    template.registerModifier = function(name, fn) {
+    template.registerModifier = function (name, fn) {
         if (!isString(name)) {
             return clone(modifierMap);
         }

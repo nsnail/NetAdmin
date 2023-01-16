@@ -11,11 +11,11 @@ export default {
     /**
      * 获得公共枚举值
      */
-    getEnums :{
+    getEnums: {
         url: `${config.API_URL}/api/constant/get.enums`,
         name: `获得公共枚举值`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -23,11 +23,11 @@ export default {
     /**
      * 获得本地化字符串
      */
-    getLocalizedStrings :{
+    getLocalizedStrings: {
         url: `${config.API_URL}/api/constant/get.localized.strings`,
         name: `获得本地化字符串`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -35,11 +35,11 @@ export default {
     /**
      * 获得常量字符串
      */
-    getStrings :{
+    getStrings: {
         url: `${config.API_URL}/api/constant/get.strings`,
         name: `获得常量字符串`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 

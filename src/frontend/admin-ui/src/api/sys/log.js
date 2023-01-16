@@ -11,11 +11,11 @@ export default {
     /**
      * 分页查询登录日志
      */
-    pagedQueryLoginLog :{
+    pagedQueryLoginLog: {
         url: `${config.API_URL}/api/log/paged.query.login.log`,
         name: `分页查询登录日志`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -23,11 +23,11 @@ export default {
     /**
      * 分页查询操作日志
      */
-    pagedQueryOperationLog :{
+    pagedQueryOperationLog: {
         url: `${config.API_URL}/api/log/paged.query.operation.log`,
         name: `分页查询操作日志`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -35,11 +35,11 @@ export default {
     /**
      * 查询登录日志
      */
-    queryLoginLog :{
+    queryLoginLog: {
         url: `${config.API_URL}/api/log/query.login.log`,
         name: `查询登录日志`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -47,11 +47,11 @@ export default {
     /**
      * 查询操作日志
      */
-    queryOperationLog :{
+    queryOperationLog: {
         url: `${config.API_URL}/api/log/query.operation.log`,
         name: `查询操作日志`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 

@@ -5,6 +5,6 @@
 //全局可使用 this.$CONFIG.MY_KEY 访问
 
 export default {
-	//是否显示第三方授权登录
-	MY_SHOW_LOGIN_OAUTH: true
+    //是否显示第三方授权登录
+    MY_SHOW_LOGIN_OAUTH: true
 }

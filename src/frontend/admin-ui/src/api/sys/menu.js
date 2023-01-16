@@ -11,11 +11,11 @@ export default {
     /**
      * 批量删除菜单
      */
-    bulkDelete :{
+    bulkDelete: {
         url: `${config.API_URL}/api/menu/bulk.delete`,
         name: `批量删除菜单`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -23,11 +23,11 @@ export default {
     /**
      * 创建菜单
      */
-    create :{
+    create: {
         url: `${config.API_URL}/api/menu/create`,
         name: `创建菜单`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -35,11 +35,11 @@ export default {
     /**
      * 删除菜单
      */
-    delete :{
+    delete: {
         url: `${config.API_URL}/api/menu/delete`,
         name: `删除菜单`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -47,11 +47,11 @@ export default {
     /**
      * 查询菜单
      */
-    query :{
+    query: {
         url: `${config.API_URL}/api/menu/query`,
         name: `查询菜单`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -59,11 +59,11 @@ export default {
     /**
      * 更新菜单
      */
-    update :{
+    update: {
         url: `${config.API_URL}/api/menu/update`,
         name: `更新菜单`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -71,11 +71,11 @@ export default {
     /**
      * 当前用户菜单
      */
-    userMenus :{
+    userMenus: {
         url: `${config.API_URL}/api/menu/user.menus`,
         name: `当前用户菜单`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 

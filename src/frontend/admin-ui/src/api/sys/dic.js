@@ -9,61 +9,121 @@ import http from "@/utils/request"
 export default {
 
     /**
-     * 创建字典
+     * 创建字典目录
      */
-    create :{
-        url: `${config.API_URL}/api/dic/create`,
-        name: `创建字典`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+    createCatalog: {
+        url: `${config.API_URL}/api/dic/create.catalog`,
+        name: `创建字典目录`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
 
     /**
-     * 删除字典
+     * 创建字典内容
      */
-    delete :{
-        url: `${config.API_URL}/api/dic/delete`,
-        name: `删除字典`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+    createContent: {
+        url: `${config.API_URL}/api/dic/create.content`,
+        name: `创建字典内容`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
 
     /**
-     * 分页查询字典
+     * 删除字典目录
      */
-    pagedQuery :{
-        url: `${config.API_URL}/api/dic/paged.query`,
-        name: `分页查询字典`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+    deleteCatalog: {
+        url: `${config.API_URL}/api/dic/delete.catalog`,
+        name: `删除字典目录`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
 
     /**
-     * 查询字典
+     * 删除字典内容
      */
-    query :{
-        url: `${config.API_URL}/api/dic/query`,
-        name: `查询字典`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+    deleteContent: {
+        url: `${config.API_URL}/api/dic/delete.content`,
+        name: `删除字典内容`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
 
     /**
-     * 更新字典
+     * 分页查询字典目录
      */
-    update :{
-        url: `${config.API_URL}/api/dic/update`,
-        name: `更新字典`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+    pagedQueryCatalog: {
+        url: `${config.API_URL}/api/dic/paged.query.catalog`,
+        name: `分页查询字典目录`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
+        }
+    },
+
+
+    /**
+     * 分页查询字典内容
+     */
+    pagedQueryContent: {
+        url: `${config.API_URL}/api/dic/paged.query.content`,
+        name: `分页查询字典内容`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
+        }
+    },
+
+
+    /**
+     * 查询字典目录
+     */
+    queryCatalog: {
+        url: `${config.API_URL}/api/dic/query.catalog`,
+        name: `查询字典目录`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
+        }
+    },
+
+
+    /**
+     * 查询字典内容
+     */
+    queryContent: {
+        url: `${config.API_URL}/api/dic/query.content`,
+        name: `查询字典内容`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
+        }
+    },
+
+
+    /**
+     * 更新字典目录
+     */
+    updateCatalog: {
+        url: `${config.API_URL}/api/dic/update.catalog`,
+        name: `更新字典目录`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
+        }
+    },
+
+
+    /**
+     * 更新字典内容
+     */
+    updateContent: {
+        url: `${config.API_URL}/api/dic/update.content`,
+        name: `更新字典内容`,
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 

@@ -11,11 +11,11 @@ export default {
     /**
      * 查询接口
      */
-    query :{
+    query: {
         url: `${config.API_URL}/api/api/query`,
         name: `查询接口`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -23,11 +23,11 @@ export default {
     /**
      * 同步接口
      */
-    sync :{
+    sync: {
         url: `${config.API_URL}/api/api/sync`,
         name: `同步接口`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 

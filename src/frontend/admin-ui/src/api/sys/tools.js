@@ -11,11 +11,11 @@ export default {
     /**
      * 运行环境
      */
-    environmentInfo :{
+    environmentInfo: {
         url: `${config.API_URL}/api/tools/environment.info`,
         name: `运行环境`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -23,11 +23,11 @@ export default {
     /**
      * 服务器时间
      */
-    getServerUtcTime :{
+    getServerUtcTime: {
         url: `${config.API_URL}/api/tools/get.server.utc.time`,
         name: `服务器时间`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -35,11 +35,11 @@ export default {
     /**
      * 版本信息
      */
-    version :{
+    version: {
         url: `${config.API_URL}/api/tools/version`,
         name: `版本信息`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 

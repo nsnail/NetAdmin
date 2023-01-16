@@ -11,11 +11,11 @@ export default {
     /**
      * 批量删除角色
      */
-    bulkDelete :{
+    bulkDelete: {
         url: `${config.API_URL}/api/role/bulk.delete`,
         name: `批量删除角色`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -23,11 +23,11 @@ export default {
     /**
      * 创建角色
      */
-    create :{
+    create: {
         url: `${config.API_URL}/api/role/create`,
         name: `创建角色`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -35,11 +35,11 @@ export default {
     /**
      * 删除角色
      */
-    delete :{
+    delete: {
         url: `${config.API_URL}/api/role/delete`,
         name: `删除角色`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -47,11 +47,11 @@ export default {
     /**
      * 分页查询角色
      */
-    pagedQuery :{
+    pagedQuery: {
         url: `${config.API_URL}/api/role/paged.query`,
         name: `分页查询角色`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -59,11 +59,11 @@ export default {
     /**
      * 查询角色
      */
-    query :{
+    query: {
         url: `${config.API_URL}/api/role/query`,
         name: `查询角色`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
@@ -71,11 +71,11 @@ export default {
     /**
      * 更新角色
      */
-    update :{
+    update: {
         url: `${config.API_URL}/api/role/update`,
         name: `更新角色`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
+        post: async function (data, config = {}) {
+            return await http.post(this.url, data, config)
         }
     },
 
