@@ -1,7 +1,7 @@
 using System.Data;
 using FreeSql;
 
-namespace NetAdmin.Host.Aop;
+namespace NetAdmin.Host.Attributes;
 
 /// <summary>
 ///     标记一个方法启用事务特性

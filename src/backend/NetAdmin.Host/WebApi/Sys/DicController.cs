@@ -2,7 +2,7 @@ using NetAdmin.Application.Modules.Sys.Dic;
 using NetAdmin.Application.Services.Sys.Dependency.Dic;
 using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
 using NetAdmin.DataContract.Dto.Sys.Dic.Content;
-using NetAdmin.Host.Aop;
+using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
 

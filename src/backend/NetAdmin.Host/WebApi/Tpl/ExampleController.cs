@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Tpl;
 using NetAdmin.Application.Services.Tpl.Dependency;
 using NetAdmin.DataContract.Dto.Tpl.Example;
-using NetAdmin.Host.Aop;
+using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Tpl;
 
@@ -20,6 +21,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     ///     创建示例
     /// </summary>
     [Transaction]
+    [NonAction]
     public async ValueTask<QueryExampleRsp> Create(CreateExampleReq req)
     {
         return await Service.Create(req);
@@ -29,6 +31,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     ///     删除示例
     /// </summary>
     [Transaction]
+    [NonAction]
     public async ValueTask<int> Delete(DelReq req)
     {
         return await Service.Delete(req);
@@ -37,6 +40,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     分页查询示例
     /// </summary>
+    [NonAction]
     public async ValueTask<PagedQueryRsp<QueryExampleRsp>> PagedQuery(PagedQueryReq<QueryExampleReq> req)
     {
         return await Service.PagedQuery(req);
@@ -45,6 +49,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     查询示例
     /// </summary>
+    [NonAction]
     public async ValueTask<List<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
     {
         return await Service.Query(req);
@@ -54,6 +59,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     ///     更新示例
     /// </summary>
     [Transaction]
+    [NonAction]
     public async ValueTask<QueryExampleRsp> Update(UpdateExampleReq req)
     {
         return await Service.Update(req);

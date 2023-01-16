@@ -2,9 +2,10 @@ using System.Reflection;
 using FreeSql;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Filters;
+using NetAdmin.Host.Attributes;
 using NSExt.Extensions;
 
-namespace NetAdmin.Host.Aop;
+namespace NetAdmin.Host.Aop.Filters;
 
 /// <summary>
 ///     事务拦截器

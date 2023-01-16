@@ -2,8 +2,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Furion.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using NetAdmin.Infrastructure.Configuration;
 using NetAdmin.Infrastructure.Constant;
+using NetAdmin.Infrastructure.Utils;
 using NSExt.Extensions;
 
 namespace NetAdmin.Infrastructure.Extensions;

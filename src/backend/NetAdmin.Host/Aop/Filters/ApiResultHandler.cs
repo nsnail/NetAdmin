@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NSExt.Extensions;
 
-namespace NetAdmin.Host.Aop;
+namespace NetAdmin.Host.Aop.Filters;
 
 /// <summary>
 ///     Api结果格式化处理器

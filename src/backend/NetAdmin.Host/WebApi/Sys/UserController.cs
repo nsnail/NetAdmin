@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.DataContract.Dto.Sys.User;
-using NetAdmin.Host.Aop;
+using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
 
 namespace NetAdmin.Host.WebApi.Sys;

@@ -5,7 +5,7 @@ using Furion.DependencyInjection;
 using NSExt.Extensions;
 using Yitter.IdGenerator;
 
-namespace NetAdmin.Host.Aop;
+namespace NetAdmin.Host.Utils;
 
 /// <summary>
 ///     Sql审核器

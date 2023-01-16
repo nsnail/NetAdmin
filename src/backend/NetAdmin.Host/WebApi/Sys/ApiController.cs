@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Api;
-using NetAdmin.Host.Aop;
+using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
 

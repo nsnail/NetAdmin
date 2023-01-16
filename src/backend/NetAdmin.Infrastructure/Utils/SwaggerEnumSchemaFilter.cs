@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using NSExt.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace NetAdmin.Infrastructure.Configuration;
+namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
 ///     修正 规范化文档 Enum 提示

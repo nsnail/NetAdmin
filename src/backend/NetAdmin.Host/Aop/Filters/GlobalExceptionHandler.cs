@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NSExt.Extensions;
 
-namespace NetAdmin.Host.Aop;
+namespace NetAdmin.Host.Aop.Filters;
 
 /// <summary>
 ///     全局捕异常日志

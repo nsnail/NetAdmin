@@ -9,7 +9,7 @@ using NetAdmin.DataContract.Dto.Sys.RequestLog;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;
 
-namespace NetAdmin.Host.Aop;
+namespace NetAdmin.Host.Aop.Middlewares;
 
 /// <summary>
 ///     请求审计中间件

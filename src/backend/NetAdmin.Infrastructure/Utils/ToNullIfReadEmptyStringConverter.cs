@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace NetAdmin.Infrastructure.Configuration;
+namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
 ///     String.Empty -> Null 转换器
