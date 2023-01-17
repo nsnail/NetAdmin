@@ -22,23 +22,23 @@ public class FileService : ServiceBase<IFileService>, IFileService
     }
 
     /// <inheritdoc />
-    public async ValueTask<string> Upload(IFormFile file)
+    public async Task<string> Upload(IFormFile file)
     {
         if (file is null || file.Length < 1) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.File_cannot_be_empty);
+            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.File_cannot_be_empty);
         }
 
         if (!_uploadOptions.ContentTypes.Contains(file.ContentType)) {
             throw Oops.Oh( //
-                Enums.ErrorCodes.InvalidOperation
-              , string.Format(CultureInfo.InvariantCulture, Str.The_allowed_file_formats_are
+                Enums.StatusCodes.InvalidOperation
+              , string.Format(CultureInfo.InvariantCulture, Ln.The_allowed_file_formats_are
                             , string.Join(",", _uploadOptions.ContentTypes)));
         }
 
         if (!(file.Length <= _uploadOptions.MaxSize)) {
             throw Oops.Oh( //
-                Enums.ErrorCodes.InvalidOperation
-              , string.Format(CultureInfo.InvariantCulture, Str.Maximum_number_of_file_bytes_allowed
+                Enums.StatusCodes.InvalidOperation
+              , string.Format(CultureInfo.InvariantCulture, Ln.Maximum_number_of_file_bytes_allowed
                             , _uploadOptions.MaxSize));
         }
 

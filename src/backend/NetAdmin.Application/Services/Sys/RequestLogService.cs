@@ -3,6 +3,7 @@ using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.DataContract.DbMaps.Sys;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.RequestLog;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -17,9 +18,22 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
         : base(rpo) { }
 
     /// <summary>
+    ///     批量删除请求日志
+    /// </summary>
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    {
+        var sum = 0;
+        foreach (var item in req.Items) {
+            sum += await Delete(item);
+        }
+
+        return sum;
+    }
+
+    /// <summary>
     ///     创建请求日志
     /// </summary>
-    public async ValueTask<QueryRequestLogRsp> Create(CreateRequestLogReq req)
+    public async Task<QueryRequestLogRsp> Create(CreateRequestLogReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryRequestLogRsp>();
@@ -28,7 +42,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     删除请求日志
     /// </summary>
-    public ValueTask<int> Delete(DelReq req)
+    public Task<int> Delete(DelReq req)
     {
         throw new NotImplementedException();
     }
@@ -36,7 +50,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     分页查询请求日志
     /// </summary>
-    public async ValueTask<PagedQueryRsp<QueryRequestLogRsp>> PagedQuery(PagedQueryReq<QueryRequestLogReq> req)
+    public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQuery(PagedQueryReq<QueryRequestLogReq> req)
     {
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
@@ -62,7 +76,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     查询请求日志
     /// </summary>
-    public async ValueTask<List<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
+    public async Task<List<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
     {
         var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryRequestLogRsp>());
@@ -71,7 +85,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     更新请求日志
     /// </summary>
-    public ValueTask<NopReq> Update(NopReq req)
+    public Task<NopReq> Update(NopReq req)
     {
         throw new NotImplementedException();
     }

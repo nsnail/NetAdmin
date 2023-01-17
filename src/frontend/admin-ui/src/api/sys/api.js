@@ -9,27 +9,27 @@ import http from "@/utils/request"
 export default {
 
     /**
-     * 查询接口
-     */
-    query :{
-        url: `${config.API_URL}/api/api/query`,
+ * 查询接口
+ */
+query :{
+    url: `${config.API_URL}/api/api/query`,
         name: `查询接口`,
         post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
+        return await http.post(this.url,data, config)
+    }
+},
 
 
-    /**
-     * 同步接口
-     */
-    sync :{
-        url: `${config.API_URL}/api/api/sync`,
+/**
+ * 同步接口
+ */
+sync :{
+    url: `${config.API_URL}/api/api/sync`,
         name: `同步接口`,
         post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
+        return await http.post(this.url,data, config)
+    }
+},
 
 
 }

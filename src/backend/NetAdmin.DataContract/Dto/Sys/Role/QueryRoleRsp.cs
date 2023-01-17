@@ -52,13 +52,13 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// </summary>
     public ICollection<long> MenuIds { get; init; }
 
-    /// <inheritdoc cref="TbSysRole.Remark" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Remark { get; init; }
-
     /// <inheritdoc cref="IFieldSort.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override int Sort { get; init; }
+
+    /// <inheritdoc cref="TbSysRole.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Summary { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

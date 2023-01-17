@@ -38,13 +38,13 @@ public record QueryDeptRsp : TbSysDept, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; }
 
-    /// <inheritdoc cref="TbSysDept.Remark" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Remark { get; init; }
-
     /// <inheritdoc cref="TbSysDept.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override int Sort { get; init; }
+
+    /// <inheritdoc cref="TbSysDept.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Summary { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

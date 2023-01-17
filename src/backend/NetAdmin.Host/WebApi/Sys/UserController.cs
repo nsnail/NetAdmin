@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
@@ -25,62 +26,71 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     }
 
     /// <summary>
+    ///     批量删除用户
+    /// </summary>
+    [NonAction]
+    [Transaction]
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    {
+        return await Service.BulkDelete(req);
+    }
+
+    /// <summary>
     ///     创建用户
     /// </summary>
     [Transaction]
-    public ValueTask<QueryUserRsp> Create(CreateUserReq req)
+    public async Task<QueryUserRsp> Create(CreateUserReq req)
     {
-        return Service.Create(req);
+        return await Service.Create(req);
     }
 
     /// <summary>
     ///     删除用户
     /// </summary>
     [NonAction]
-    public ValueTask<int> Delete(NopReq req)
+    public async Task<int> Delete(DelReq req)
     {
-        throw new NotImplementedException();
+        return await Service.Delete(req);
     }
 
     /// <summary>
     ///     用户登录
     /// </summary>
     [AllowAnonymous]
-    public ValueTask<LoginRsp> Login(LoginReq req)
+    public async Task<LoginRsp> Login(LoginReq req)
     {
-        return Service.Login(req);
+        return await Service.Login(req);
     }
 
     /// <summary>
     ///     分页查询用户
     /// </summary>
-    public ValueTask<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
+    public async Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
     {
-        return Service.PagedQuery(req);
+        return await Service.PagedQuery(req);
     }
 
     /// <summary>
     ///     查询用户
     /// </summary>
-    [NonAction]
-    public ValueTask<List<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    public async Task<List<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
-        throw new NotImplementedException();
+        return await Service.Query(req);
     }
 
     /// <summary>
     ///     更新用户
     /// </summary>
     [Transaction]
-    public ValueTask<QueryUserRsp> Update(UpdateUserReq req)
+    public async Task<QueryUserRsp> Update(UpdateUserReq req)
     {
-        return Service.Update(req);
+        return await Service.Update(req);
     }
 
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    public async ValueTask<QueryUserRsp> UserInfo()
+    public async Task<QueryUserRsp> UserInfo()
     {
         return await _userCache.UserInfo();
     }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Api;
 using NetAdmin.Host.Attributes;
 
@@ -18,36 +19,48 @@ public class ApiController : ControllerBase<IApiService>, IApiModule
         : base(service) { }
 
     /// <summary>
+    ///     批量删除接口
+    /// </summary>
+    [NonAction]
+    [Transaction]
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    {
+        return await Service.BulkDelete(req);
+    }
+
+    /// <summary>
     ///     创建接口
     /// </summary>
     [NonAction]
-    public ValueTask<QueryApiRsp> Create(CreateApiReq req)
+    [Transaction]
+    public async Task<QueryApiRsp> Create(CreateApiReq req)
     {
-        throw new NotImplementedException();
+        return await Service.Create(req);
     }
 
     /// <summary>
     ///     删除接口
     /// </summary>
     [NonAction]
-    public ValueTask<int> Delete(DelReq req)
+    [Transaction]
+    public async Task<int> Delete(DelReq req)
     {
-        throw new NotImplementedException();
+        return await Service.Delete(req);
     }
 
     /// <summary>
     ///     分页查询接口
     /// </summary>
     [NonAction]
-    public ValueTask<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
+    public async Task<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
     {
-        throw new NotImplementedException();
+        return await Service.PagedQuery(req);
     }
 
     /// <summary>
     ///     查询接口
     /// </summary>
-    public async ValueTask<List<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
+    public async Task<List<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
     {
         return await Service.Query(req);
     }
@@ -56,17 +69,17 @@ public class ApiController : ControllerBase<IApiService>, IApiModule
     ///     同步接口
     /// </summary>
     [Transaction]
-    public ValueTask Sync()
+    public async Task Sync()
     {
-        return Service.Sync();
+        await Service.Sync();
     }
 
     /// <summary>
     ///     更新接口
     /// </summary>
     [NonAction]
-    public ValueTask<NopReq> Update(NopReq req)
+    public async Task<NopReq> Update(NopReq req)
     {
-        throw new NotImplementedException();
+        return await Service.Update(req);
     }
 }

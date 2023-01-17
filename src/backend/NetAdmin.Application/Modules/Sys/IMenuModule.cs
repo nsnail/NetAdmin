@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Menu;
 
 namespace NetAdmin.Application.Modules.Sys;
@@ -12,12 +13,7 @@ public interface IMenuModule : ICrudModule<CreateMenuReq, QueryMenuRsp // 创建
 >
 {
     /// <summary>
-    ///     批量删除菜单
-    /// </summary>
-    ValueTask<int> BulkDelete(BulkDelReq req);
-
-    /// <summary>
     ///     当前用户菜单
     /// </summary>
-    ValueTask<List<QueryMenuRsp>> UserMenus();
+    Task<List<QueryMenuRsp>> UserMenus();
 }

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Menu;
+using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -25,7 +27,8 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// <summary>
     ///     批量删除菜单
     /// </summary>
-    public async ValueTask<int> BulkDelete(BulkDelReq req)
+    [Transaction]
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
     {
         return await Service.BulkDelete(req);
     }
@@ -33,7 +36,8 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// <summary>
     ///     创建菜单
     /// </summary>
-    public async ValueTask<QueryMenuRsp> Create(CreateMenuReq req)
+    [Transaction]
+    public async Task<QueryMenuRsp> Create(CreateMenuReq req)
     {
         return await Service.Create(req);
     }
@@ -41,7 +45,8 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// <summary>
     ///     删除菜单
     /// </summary>
-    public async ValueTask<int> Delete(DelReq req)
+    [Transaction]
+    public async Task<int> Delete(DelReq req)
     {
         return await Service.Delete(req);
     }
@@ -50,15 +55,15 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     ///     分页查询菜单
     /// </summary>
     [NonAction]
-    public ValueTask<PagedQueryRsp<QueryMenuRsp>> PagedQuery(PagedQueryReq<QueryMenuReq> req)
+    public async Task<PagedQueryRsp<QueryMenuRsp>> PagedQuery(PagedQueryReq<QueryMenuReq> req)
     {
-        throw new NotImplementedException();
+        return await Service.PagedQuery(req);
     }
 
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public async ValueTask<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
+    public async Task<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
     {
         return await Service.Query(req);
     }
@@ -66,7 +71,8 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// <summary>
     ///     更新菜单
     /// </summary>
-    public async ValueTask<QueryMenuRsp> Update(UpdateMenuReq req)
+    [Transaction]
+    public async Task<QueryMenuRsp> Update(UpdateMenuReq req)
     {
         return await Service.Update(req);
     }
@@ -74,7 +80,7 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// <summary>
     ///     当前用户菜单
     /// </summary>
-    public async ValueTask<List<QueryMenuRsp>> UserMenus()
+    public async Task<List<QueryMenuRsp>> UserMenus()
     {
         return await Service.UserMenus(await _userCache.UserInfo());
     }

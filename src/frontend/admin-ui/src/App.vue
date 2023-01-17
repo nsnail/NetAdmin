@@ -29,7 +29,7 @@ export default {
         },
     },
     async created() {
-        const [strings, locStrings, enums] = await Promise.all([this.$API.sys_constant.getStrings.post(),
+        const [strings, locStrings, enums] = await Promise.all([this.$API.sys_constant.getChars.post(),
             this.$API.sys_constant.getLocalizedStrings.post(),
             this.$API.sys_constant.getEnums.post()]);
         this.$CONFIG.STRINGS = strings.data;

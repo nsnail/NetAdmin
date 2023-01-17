@@ -1,6 +1,7 @@
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.User;
 
 #pragma warning disable CS1591
@@ -16,37 +17,42 @@ public class UserCache : CacheBase<IUserService>, IScoped, IUserCache
     public UserCache(IMemoryCache cache, IUserService service) //
         : base(cache, service) { }
 
-    public ValueTask<QueryUserRsp> Create(CreateUserReq req)
+    public Task<int> BulkDelete(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<int> Delete(NopReq req)
+    public Task<QueryUserRsp> Create(CreateUserReq req)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<LoginRsp> Login(LoginReq req)
+    public Task<int> Delete(DelReq req)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
+    public Task<LoginRsp> Login(LoginReq req)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<List<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    public Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<QueryUserRsp> Update(UpdateUserReq req)
+    public Task<List<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public async ValueTask<QueryUserRsp> UserInfo()
+    public Task<QueryUserRsp> Update(UpdateUserReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<QueryUserRsp> UserInfo()
     {
         return await Cache.GetOrCreateAsync( //
             $"{nameof(UserCache)}.{nameof(UserInfo)}.{Service.User.Id}", async entry => {

@@ -26,22 +26,22 @@ public abstract record ImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IField
 {
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(nameof(Str.Created_time))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Created_time))]
+    [Localization(typeof(Ln))]
     [Column(Position = -20, CanUpdate = false, ServerTime = DateTimeKind.Local)]
     public virtual DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(nameof(Str.Creator_id))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Creator_id))]
+    [Localization(typeof(Ln))]
     [Column(Position = -22, CanUpdate = false)]
     public virtual long? CreatedUserId { get; set; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(nameof(Str.Creator_username))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Creator_username))]
+    [Localization(typeof(Ln))]
     [Column(Position = -21, CanUpdate = false)]
     public virtual string CreatedUserName { get; set; }
 
@@ -49,8 +49,8 @@ public abstract record ImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IField
     ///     唯一编码
     /// </summary>
     [JsonIgnore]
-    [Description(nameof(Str.Unique_id))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Unique_id))]
+    [Localization(typeof(Ln))]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public virtual T Id { get; set; }
 }

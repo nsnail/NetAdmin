@@ -16,8 +16,8 @@ public abstract record EntityBase : DataAbstraction
         /// <summary>
         ///     启用
         /// </summary>
-        [Description(nameof(Str.Enabled))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Enabled))]
+        [Localization(typeof(Ln))]
         Enabled = 0b_0001
 
        ,
@@ -25,8 +25,8 @@ public abstract record EntityBase : DataAbstraction
         /// <summary>
         ///     暂未定义
         /// </summary>
-        [Description(nameof(Str.Undefined))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Undefined))]
+        [Localization(typeof(Ln))]
         Undefined1 = 0b_0010
 
        ,
@@ -34,8 +34,8 @@ public abstract record EntityBase : DataAbstraction
         /// <summary>
         ///     暂未定义
         /// </summary>
-        [Description(nameof(Str.Undefined))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Undefined))]
+        [Localization(typeof(Ln))]
         Undefined2 = 0b_0100
 
        ,
@@ -43,8 +43,8 @@ public abstract record EntityBase : DataAbstraction
         /// <summary>
         ///     暂未定义
         /// </summary>
-        [Description(nameof(Str.Undefined))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Undefined))]
+        [Localization(typeof(Ln))]
         Undefined3 = 0b_1000
     }
 }

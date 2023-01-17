@@ -17,6 +17,6 @@ public class SpecificDeptAttribute : ValidationAttribute
             ValidationResult.Success
             : (value as IEnumerable<long>)?.Any() ?? false
                 ? ValidationResult.Success
-                : new ValidationResult(Str.No_department_specified);
+                : new ValidationResult(Ln.No_department_specified);
     }
 }

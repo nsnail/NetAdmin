@@ -10,8 +10,7 @@ namespace NetAdmin.Application.Services.Sys;
 /// <inheritdoc cref="IDevService" />
 public class DevService : ServiceBase<DevService>, IDevService
 {
-    private const           string _ASSETS_CODE_TEMPLATES_FRONTEND = @"../../assets/code-templates/frontend";
-    private static readonly string _webapi                         = "WebApi";
+    private const string _REPLACE_TO_EMPTY = "//~";
 
     private readonly IApiService _apiService;
 
@@ -24,7 +23,7 @@ public class DevService : ServiceBase<DevService>, IDevService
     }
 
     /// <inheritdoc />
-    public async ValueTask GenerateCsCode(GenerateCsCodeReq req)
+    public async Task GenerateCsCode(GenerateCsCodeReq req)
     {
         var projectDirs = Directory.GetDirectories(req.ProjectPath);
 
@@ -66,7 +65,7 @@ public class DevService : ServiceBase<DevService>, IDevService
         }
 
         // Api接口层 - Controller目录
-        var controllerDir = Path.Combine(hostDir, _webapi, moduleType);
+        var controllerDir = Path.Combine(hostDir, "WebApi", moduleType);
         if (!Directory.Exists(controllerDir)) {
             Directory.CreateDirectory(controllerDir);
         }
@@ -85,7 +84,7 @@ public class DevService : ServiceBase<DevService>, IDevService
                      ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
 
         // controller
-        await WriteCodeFile(req, Path.Combine(hostDir,       _webapi, nameof(Tpl), "ExampleController.cs")
+        await WriteCodeFile(req, Path.Combine(hostDir,       "WebApi", nameof(Tpl), "ExampleController.cs")
                      ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
 
         // createReq
@@ -114,15 +113,16 @@ public class DevService : ServiceBase<DevService>, IDevService
     }
 
     /// <inheritdoc />
-    public async ValueTask GenerateIconCode(GenerateIconCodeReq req)
+    public async Task GenerateIconCode(GenerateIconCodeReq req)
     {
-        // 模板文件
-        var tplDir    = FrontTplDir(req.ProjectPath);
-        var tplSvg    = await File.ReadAllTextAsync(Path.Combine(tplDir, "vueSvg.tpl"));
-        var tplExport = await File.ReadAllTextAsync(Path.Combine(tplDir, "jsApiExport.tpl"));
+        var tplSvg = await File.ReadAllTextAsync(
+            Path.Combine(req.ProjectPath, "src", "assets", "icons", "tpl", "Svg.vue"));
+        var tplExport
+            = await File.ReadAllTextAsync(Path.Combine(req.ProjectPath, "src", "assets", "icons", "tpl", "export.js"));
 
-        var vueContent = string.Format(CultureInfo.InvariantCulture, tplSvg, req.SvgCode);
-        var dir        = Path.Combine(req.ProjectPath, "src", "assets", "icons");
+        var vueContent = tplSvg.Replace("$svgCode$", req.SvgCode).Replace(_REPLACE_TO_EMPTY, string.Empty);
+
+        var dir = Path.Combine(req.ProjectPath, "src", "assets", "icons");
         if (!Directory.Exists(dir)) {
             Directory.CreateDirectory(dir);
         }
@@ -131,9 +131,10 @@ public class DevService : ServiceBase<DevService>, IDevService
         await File.WriteAllTextAsync(vueFile, vueContent);
 
         var indexjsFile = Path.Combine(dir, "index.js");
+
         await File.AppendAllTextAsync(
             indexjsFile
-          , $"{Environment.NewLine}{string.Format(CultureInfo.InvariantCulture, tplExport, req.IconName)}");
+          , $"{Environment.NewLine}{tplExport.Replace("$iconName$", req.IconName).Replace(_REPLACE_TO_EMPTY, string.Empty)}");
 
         // 修改iconSelect.js
         var iconSelectFile    = Path.Combine(req.ProjectPath, "src", "config", "iconSelect.js");
@@ -153,24 +154,26 @@ public class DevService : ServiceBase<DevService>, IDevService
     }
 
     /// <inheritdoc />
-    public async ValueTask GenerateJsCode(string projectPath)
+    public async Task GenerateJsCode(string projectPath)
     {
         // 模板文件
-        var tplDir   = FrontTplDir(projectPath);
-        var tplOuter = await File.ReadAllTextAsync(Path.Combine(tplDir, "jsApiOuter.tpl"));
-        var tplInner = await File.ReadAllTextAsync(Path.Combine(tplDir, "jsApiInner.tpl"));
+        var tplOuter = await File.ReadAllTextAsync(Path.Combine(projectPath, "src", "api", "tpl", "outer.js"));
+        var tplInner = await File.ReadAllTextAsync(Path.Combine(projectPath, "src", "api", "tpl", "inner.js"));
 
         IEnumerable<string> Select(QueryApiRsp item)
         {
-            return item.Children.Select(x => string.Format(              //
-                                            CultureInfo.InvariantCulture //
-                                          , tplInner                     //
-                                          , x.Summary                    //
-                                          , Regex.Replace(x.Name, @"\.(\w)"
-                                                        , y => y.Groups[1]
-                                                                .Value.ToUpper(CultureInfo.InvariantCulture)) //
-                                          , x.Id                                                              //
-                                          , x.Method?.ToLower(CultureInfo.InvariantCulture)));                //
+            return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)
+                                                     .Replace( //
+                                                         "$actionName$"
+                                                       , Regex.Replace(x.Name, @"\.(\w)"
+                                                                     , y => y.Groups[1]
+                                                                             .Value.ToUpper(
+                                                                                 CultureInfo.InvariantCulture)))
+                                                     .Replace("$actionPath$", x.Id)
+                                                     .Replace( //
+                                                         "$actionMethod$"
+                                                 , x.Method?.ToLower(CultureInfo.InvariantCulture))
+                                                     .Replace(_REPLACE_TO_EMPTY, string.Empty)); //
         }
 
         foreach (var item in _apiService.ReflectionList(false)) {
@@ -180,20 +183,16 @@ public class DevService : ServiceBase<DevService>, IDevService
             }
 
             var file = Path.Combine(dir, $"{item.Name.Replace(".", string.Empty)}.js");
-            var content = string.Format(                                               //
-                CultureInfo.InvariantCulture                                           //
-              , tplOuter                                                               //
-              , item.Summary                                                           //
-              , item.Id                                                                //
-              , string.Join(Environment.NewLine + Environment.NewLine, Select(item))); //
+
+            var content = tplOuter.Replace("$controllerDesc$", item.Summary)
+                                  .Replace("$controllerPath$", item.Id)
+                                  .Replace( //
+                                      "$inner$"
+                       , string.Join(Environment.NewLine + Environment.NewLine, Select(item)))
+                                  .Replace(_REPLACE_TO_EMPTY, string.Empty);
+
             await File.WriteAllTextAsync(file, content);
         }
-    }
-
-    private static string FrontTplDir(string projectPath)
-    {
-        var tplDir = Path.Combine(projectPath, _ASSETS_CODE_TEMPLATES_FRONTEND);
-        return tplDir;
     }
 
     private static async Task WriteCodeFile(GenerateCsCodeReq req, string tplFile, string writeFile)

@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Dic.Content;
 
 namespace NetAdmin.Application.Modules.Sys.Dic;
@@ -9,10 +10,4 @@ public interface IDicContentModule : ICrudModule<CreateDicContentReq, QueryDicCo
   , QueryDicContentReq, QueryDicContentRsp                                               // 查询类型
   , UpdateDicContentReq, QueryDicContentRsp                                              // 修改类型
   , DelReq                                                                               // 删除类型
->
-{
-    /// <summary>
-    ///     批量删除字典内容
-    /// </summary>
-    ValueTask<int> BulkDelete(BulkDelReq req);
-}
+> { }

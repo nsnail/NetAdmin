@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+#if DEBUG
 using NetAdmin.Application.Modules.Tpl;
 using NetAdmin.Application.Services.Tpl.Dependency;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Tpl.Example;
 using NetAdmin.Host.Attributes;
 
@@ -18,11 +19,19 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
         : base(service) { }
 
     /// <summary>
+    ///     批量删除示例
+    /// </summary>
+    [Transaction]
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    {
+        return await Service.BulkDelete(req);
+    }
+
+    /// <summary>
     ///     创建示例
     /// </summary>
     [Transaction]
-    [NonAction]
-    public async ValueTask<QueryExampleRsp> Create(CreateExampleReq req)
+    public async Task<QueryExampleRsp> Create(CreateExampleReq req)
     {
         return await Service.Create(req);
     }
@@ -31,8 +40,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     ///     删除示例
     /// </summary>
     [Transaction]
-    [NonAction]
-    public async ValueTask<int> Delete(DelReq req)
+    public async Task<int> Delete(DelReq req)
     {
         return await Service.Delete(req);
     }
@@ -40,8 +48,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     分页查询示例
     /// </summary>
-    [NonAction]
-    public async ValueTask<PagedQueryRsp<QueryExampleRsp>> PagedQuery(PagedQueryReq<QueryExampleReq> req)
+    public async Task<PagedQueryRsp<QueryExampleRsp>> PagedQuery(PagedQueryReq<QueryExampleReq> req)
     {
         return await Service.PagedQuery(req);
     }
@@ -49,8 +56,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     查询示例
     /// </summary>
-    [NonAction]
-    public async ValueTask<List<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
+    public async Task<List<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
     {
         return await Service.Query(req);
     }
@@ -59,9 +65,9 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     ///     更新示例
     /// </summary>
     [Transaction]
-    [NonAction]
-    public async ValueTask<QueryExampleRsp> Update(UpdateExampleReq req)
+    public async Task<QueryExampleRsp> Update(UpdateExampleReq req)
     {
         return await Service.Update(req);
     }
 }
+#endif

@@ -9,9 +9,9 @@ public class PasswordAttribute : RegexAttribute
     ///     Initializes a new instance of the <see cref="PasswordAttribute" /> class.
     /// </summary>
     public PasswordAttribute() //
-        : base(Strings.RGX_PASSWORD)
+        : base(Chars.RGX_PASSWORD)
     {
-        ErrorMessageResourceName = nameof(Str.Number_letter_combination_of_more_than_8_digits);
-        ErrorMessageResourceType = typeof(Str);
+        ErrorMessageResourceName = nameof(Ln.Number_letter_combination_of_more_than_8_digits);
+        ErrorMessageResourceType = typeof(Ln);
     }
 }

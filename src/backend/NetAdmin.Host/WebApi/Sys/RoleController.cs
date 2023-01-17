@@ -1,5 +1,6 @@
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Role;
 using NetAdmin.Host.Attributes;
 
@@ -20,7 +21,7 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     ///     批量删除角色
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDelete(BulkDelReq req)
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
     {
         return await Service.BulkDelete(req);
     }
@@ -29,7 +30,7 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     ///     创建角色
     /// </summary>
     [Transaction]
-    public async ValueTask<QueryRoleRsp> Create(CreateRoleReq req)
+    public async Task<QueryRoleRsp> Create(CreateRoleReq req)
     {
         return await Service.Create(req);
     }
@@ -38,7 +39,7 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     ///     删除角色
     /// </summary>
     [Transaction]
-    public async ValueTask<int> Delete(DelReq req)
+    public async Task<int> Delete(DelReq req)
     {
         return await Service.Delete(req);
     }
@@ -46,7 +47,7 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     /// <summary>
     ///     分页查询角色
     /// </summary>
-    public async ValueTask<PagedQueryRsp<QueryRoleRsp>> PagedQuery(PagedQueryReq<QueryRoleReq> req)
+    public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQuery(PagedQueryReq<QueryRoleReq> req)
     {
         return await Service.PagedQuery(req);
     }
@@ -54,7 +55,7 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     /// <summary>
     ///     查询角色
     /// </summary>
-    public async ValueTask<List<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
+    public async Task<List<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
     {
         return await Service.Query(req);
     }
@@ -63,7 +64,7 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     ///     更新角色
     /// </summary>
     [Transaction]
-    public async ValueTask<QueryRoleRsp> Update(UpdateRoleReq req)
+    public async Task<QueryRoleRsp> Update(UpdateRoleReq req)
     {
         return await Service.Update(req);
     }

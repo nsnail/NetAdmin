@@ -33,7 +33,7 @@ public class SqlAuditor : ISingleton
         _timeOffset = DateTime.UtcNow.Subtract(
             App.GetRequiredService<IFreeSql>().Ado.QuerySingle(() => DateTime.UtcNow));
 
-        logger.Info($"{Str.Database_server_clock_offset} {_timeOffset}");
+        logger.Info($"{Ln.Database_server_clock_offset} {_timeOffset}");
     }
 
     /// <summary>

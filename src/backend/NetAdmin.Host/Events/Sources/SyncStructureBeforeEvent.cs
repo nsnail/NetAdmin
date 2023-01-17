@@ -28,6 +28,6 @@ public class SyncStructureBeforeEvent : SqlCommandEvent
     public override string ToString()
     {
         return string.Format(CultureInfo.InvariantCulture, "{0}: {1}", Id
-                           , Str.Database_structure_synchronization_starts);
+                           , Ln.Database_structure_synchronization_starts);
     }
 }

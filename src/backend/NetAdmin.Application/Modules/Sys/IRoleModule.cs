@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Role;
 
 namespace NetAdmin.Application.Modules.Sys;
@@ -9,10 +10,4 @@ public interface IRoleModule : ICrudModule<CreateRoleReq, QueryRoleRsp // 创建
   , QueryRoleReq, QueryRoleRsp                                         // 查询类型
   , UpdateRoleReq, QueryRoleRsp                                        // 修改类型
   , DelReq                                                             // 删除类型
->
-{
-    /// <summary>
-    ///     批量删除角色
-    /// </summary>
-    Task<int> BulkDelete(BulkDelReq req);
-}
+> { }

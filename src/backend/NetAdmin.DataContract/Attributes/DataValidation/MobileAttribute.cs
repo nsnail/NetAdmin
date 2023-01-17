@@ -9,9 +9,9 @@ public class MobileAttribute : RegexAttribute
     ///     Initializes a new instance of the <see cref="MobileAttribute" /> class.
     /// </summary>
     public MobileAttribute() //
-        : base(Strings.RGX_MOBILE)
+        : base(Chars.RGX_MOBILE)
     {
-        ErrorMessageResourceName = nameof(Str.Mobile_phone_number_that_can_be_used_normally);
-        ErrorMessageResourceType = typeof(Str);
+        ErrorMessageResourceName = nameof(Ln.Mobile_phone_number_that_can_be_used_normally);
+        ErrorMessageResourceType = typeof(Ln);
     }
 }

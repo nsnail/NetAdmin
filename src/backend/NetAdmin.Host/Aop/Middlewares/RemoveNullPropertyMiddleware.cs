@@ -26,7 +26,7 @@ public class RemoveNullPropertyMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         await _next(context);
-        if ((context.Response.ContentType?.Contains(Strings.FLG_APPLICATION_JSON) ?? false) &&
+        if ((context.Response.ContentType?.Contains(Chars.FLG_APPLICATION_JSON) ?? false) &&
             context.GetMetadata<JsonIgnoreNullAttribute>() is not null) {
             context.Response.Body.Seek(0, SeekOrigin.Begin);
             var sr         = new StreamReader(context.Response.Body);

@@ -78,6 +78,17 @@
                 "BitSet": 1,
             },
             {
+                "Id": 375858629672965,
+                "Name": "sys-position",
+                "Icon": "sc-icon-position",
+                "Title": "岗位管理",
+                "Path": "/sys/position",
+                "Component": "sys/position",
+                "Sort": 0,
+                "Type": 1,
+                "BitSet": 1,
+            },
+            {
                 "Id": 373838070898693,
                 "Name": "sys-menu",
                 "Icon": "el-icon-fold",
@@ -162,6 +173,29 @@
                 "Path": "http://localhost:5000",
                 "Sort": 0,
                 "Type": 3,
+                "BitSet": 1,
+            }
+        ]
+    },
+    {
+        "Id": 375907846438917,
+        "Name": "tpl",
+        "Icon": "sc-icon-tpl",
+        "Title": "模板管理",
+        "Path": "/tpl",
+        "Sort": 0,
+        "Type": 1,
+        "BitSet": 1,
+        "children": [
+            {
+                "Id": 375907877326853,
+                "Name": "tpl-example",
+                "Icon": "sc-icon-demo",
+                "Title": "示例管理",
+                "Path": "/tpl/example",
+                "Component": "tpl/example",
+                "Sort": 0,
+                "Type": 1,
                 "BitSet": 1,
             }
         ]

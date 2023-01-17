@@ -9,9 +9,9 @@ public class UserNameAttribute : RegexAttribute
     ///     Initializes a new instance of the <see cref="UserNameAttribute" /> class.
     /// </summary>
     public UserNameAttribute() //
-        : base(Strings.RGX_USERNAME)
+        : base(Chars.RGX_USERNAME)
     {
-        ErrorMessageResourceName = nameof(Str.More_than_4_digits_alphanumeric_underline);
-        ErrorMessageResourceType = typeof(Str);
+        ErrorMessageResourceName = nameof(Ln.More_than_4_digits_alphanumeric_underline);
+        ErrorMessageResourceType = typeof(Ln);
     }
 }

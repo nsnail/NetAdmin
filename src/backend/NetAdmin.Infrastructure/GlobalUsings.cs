@@ -1,0 +1,1 @@
+global using NetAdmin.Infrastructure.Languages;

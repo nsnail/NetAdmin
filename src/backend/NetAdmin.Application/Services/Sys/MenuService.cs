@@ -4,6 +4,7 @@ using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.DataContract.DbMaps.Sys;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Menu;
 using NetAdmin.DataContract.Dto.Sys.User;
 using NSExt.Extensions;
@@ -24,12 +25,14 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
         _userService = userService;
     }
 
-    /// <inheritdoc />
-    public async ValueTask<int> BulkDelete(BulkDelReq req)
+    /// <summary>
+    ///     批量删除菜单
+    /// </summary>
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
     {
         var sum = 0;
-        foreach (var id in req.Ids) {
-            sum += await Delete(new DelReq { Id = id });
+        foreach (var item in req.Items) {
+            sum += await Delete(item);
         }
 
         return sum;
@@ -38,7 +41,7 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     创建菜单
     /// </summary>
-    public async ValueTask<QueryMenuRsp> Create(CreateMenuReq req)
+    public async Task<QueryMenuRsp> Create(CreateMenuReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryMenuRsp>();
@@ -47,14 +50,14 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     删除菜单
     /// </summary>
-    public async ValueTask<int> Delete(DelReq req)
+    public async Task<int> Delete(DelReq req)
     {
         var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
         return ret;
     }
 
     /// <inheritdoc />
-    public ValueTask<PagedQueryRsp<QueryMenuRsp>> PagedQuery(PagedQueryReq<QueryMenuReq> req)
+    public Task<PagedQueryRsp<QueryMenuRsp>> PagedQuery(PagedQueryReq<QueryMenuReq> req)
     {
         throw new NotImplementedException();
     }
@@ -62,7 +65,7 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public async ValueTask<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
+    public async Task<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryMenuRsp>());
@@ -71,10 +74,10 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     更新菜单
     /// </summary>
-    public async ValueTask<QueryMenuRsp> Update(UpdateMenuReq req)
+    public async Task<QueryMenuRsp> Update(UpdateMenuReq req)
     {
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw Oops.Oh(Enums.ErrorCodes.Unknown);
+            throw Oops.Oh(Enums.StatusCodes.InvalidOperation);
         }
 
         var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
@@ -82,14 +85,14 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     }
 
     /// <inheritdoc />
-    public async ValueTask<List<QueryMenuRsp>> UserMenus()
+    public async Task<List<QueryMenuRsp>> UserMenus()
     {
         var userInfo = await _userService.UserInfo();
         return await UserMenus(userInfo);
     }
 
     /// <inheritdoc />
-    public async ValueTask<List<QueryMenuRsp>> UserMenus(QueryUserRsp userInfo)
+    public async Task<List<QueryMenuRsp>> UserMenus(QueryUserRsp userInfo)
     {
         var req = new QueryReq<QueryMenuReq>();
 

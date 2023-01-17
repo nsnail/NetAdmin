@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.DataContract.DbMaps.Sys;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Api;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -31,19 +32,25 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     }
 
     /// <inheritdoc />
-    public ValueTask<QueryApiRsp> Create(CreateApiReq req)
+    public Task<int> BulkDelete(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public ValueTask<int> Delete(DelReq req)
+    public Task<QueryApiRsp> Create(CreateApiReq req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public ValueTask<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
+    public Task<int> Delete(DelReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
     {
         throw new NotImplementedException();
     }
@@ -51,7 +58,7 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     /// <summary>
     ///     查询接口
     /// </summary>
-    public async ValueTask<List<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
+    public async Task<List<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryApiRsp>());
@@ -94,7 +101,7 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     }
 
     /// <inheritdoc />
-    public async ValueTask Sync()
+    public async Task Sync()
     {
         await Rpo.DeleteAsync(a => true);
 
@@ -108,7 +115,7 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     }
 
     /// <inheritdoc />
-    public ValueTask<NopReq> Update(NopReq req)
+    public Task<NopReq> Update(NopReq req)
     {
         throw new NotImplementedException();
     }

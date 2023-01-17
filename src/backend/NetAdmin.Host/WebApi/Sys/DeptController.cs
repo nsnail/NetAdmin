@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Dept;
+using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
 
@@ -17,9 +19,19 @@ public class DeptController : ControllerBase<IDeptService>, IDeptModule
         : base(service) { }
 
     /// <summary>
+    ///     批量删除部门
+    /// </summary>
+    [Transaction]
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    {
+        return await Service.BulkDelete(req);
+    }
+
+    /// <summary>
     ///     创建部门
     /// </summary>
-    public async ValueTask<QueryDeptRsp> Create(CreateDeptReq req)
+    [Transaction]
+    public async Task<QueryDeptRsp> Create(CreateDeptReq req)
     {
         return await Service.Create(req);
     }
@@ -27,7 +39,8 @@ public class DeptController : ControllerBase<IDeptService>, IDeptModule
     /// <summary>
     ///     删除部门
     /// </summary>
-    public async ValueTask<int> Delete(DelReq req)
+    [Transaction]
+    public async Task<int> Delete(DelReq req)
     {
         return await Service.Delete(req);
     }
@@ -36,15 +49,15 @@ public class DeptController : ControllerBase<IDeptService>, IDeptModule
     ///     分页查询部门
     /// </summary>
     [NonAction]
-    public ValueTask<PagedQueryRsp<QueryDeptRsp>> PagedQuery(PagedQueryReq<QueryDeptReq> req)
+    public async Task<PagedQueryRsp<QueryDeptRsp>> PagedQuery(PagedQueryReq<QueryDeptReq> req)
     {
-        throw new NotImplementedException();
+        return await Service.PagedQuery(req);
     }
 
     /// <summary>
     ///     查询部门
     /// </summary>
-    public async ValueTask<List<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
+    public async Task<List<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
     {
         return await Service.Query(req);
     }
@@ -52,7 +65,8 @@ public class DeptController : ControllerBase<IDeptService>, IDeptModule
     /// <summary>
     ///     更新部门
     /// </summary>
-    public async ValueTask<QueryDeptRsp> Update(UpdateDeptReq req)
+    [Transaction]
+    public async Task<QueryDeptRsp> Update(UpdateDeptReq req)
     {
         return await Service.Update(req);
     }

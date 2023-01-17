@@ -21,7 +21,7 @@ public class SyncStructureAfterEvent : SyncStructureBeforeEvent
     public override string ToString()
     {
         return string.Format(CultureInfo.InvariantCulture, "{0}: {1}: {2}", Id
-                           , Str.The_database_structure_has_been_synchronized
+                           , Ln.The_database_structure_has_been_synchronized
                            , string.Join(',', EntityTypes.Select(x => x.Name)));
     }
 }

@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.RequestLog;
 
 namespace NetAdmin.Application.Modules.Sys;

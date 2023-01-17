@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.User;
 
 namespace NetAdmin.Application.Modules.Sys;
@@ -8,16 +9,16 @@ namespace NetAdmin.Application.Modules.Sys;
 public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建类型
   , QueryUserReq, QueryUserRsp                                         // 查询类型
   , UpdateUserReq, QueryUserRsp                                        // 修改类型
-  , NopReq                                                             // 删除类型
+  , DelReq                                                             // 删除类型
 >
 {
     /// <summary>
     ///     用户登录
     /// </summary>
-    ValueTask<LoginRsp> Login(LoginReq req);
+    Task<LoginRsp> Login(LoginReq req);
 
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    ValueTask<QueryUserRsp> UserInfo();
+    Task<QueryUserRsp> UserInfo();
 }

@@ -64,13 +64,13 @@ public record CreateRoleReq : TbSysRole, IRegister
     /// </summary>
     public IReadOnlyCollection<long> MenuIds { get; init; }
 
-    /// <inheritdoc cref="TbSysRole.Remark" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Remark { get; init; }
-
     /// <inheritdoc cref="IFieldSort.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override int Sort { get; init; }
+
+    /// <inheritdoc cref="TbSysRole.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Summary { get; init; }
 
     /// <inheritdoc />
     public virtual void Register(TypeAdapterConfig config)

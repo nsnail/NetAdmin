@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+                id="root"
+                xmlns="">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="File cannot be empty" xml:space="preserve">
+        <value>文件不能为空</value>
+    </data>
+    <data name="Maximum number of file bytes allowed" xml:space="preserve">
+        <value>允许的最大文件字节数：{0}</value>
+    </data>
+    <data name="The allowed file formats are" xml:space="preserve">
+        <value>允许的文件格式为：{0}</value>
+    </data>
+    <data name="Invalid input" xml:space="preserve">
+        <value>无效输入</value>
+    </data>
+    <data name="Unexpected" xml:space="preserve">
+        <value>意外错误</value>
+    </data>
+    <data name="Man machine verification" xml:space="preserve">
+        <value>人机验证</value>
+    </data>
+    <data name="Not logged in" xml:space="preserve">
+        <value>未登录</value>
+    </data>
+    <data name="Invalid operation" xml:space="preserve">
+        <value>无效操作</value>
+    </data>
+    <data name="Mobile number has been registered" xml:space="preserve">
+        <value>手机号已被注册</value>
+    </data>
+    <data name="Mobile phone number that can be used normally" xml:space="preserve">
+        <value>能正常使用的手机号码</value>
+    </data>
+    <data name="Insufficient permissions" xml:space="preserve">
+        <value>权限不足</value>
+    </data>
+    <data name="Number letter combination of more than 8 digits" xml:space="preserve">
+        <value>8位以上数字字母组合</value>
+    </data>
+    <data name="Digits 4 in verification code sms" xml:space="preserve">
+        <value>验证码短信中的4位数字</value>
+    </data>
+    <data name="The sms verification code is incorrect" xml:space="preserve">
+        <value>短信验证码不正确</value>
+    </data>
+    <data name="User name or password error" xml:space="preserve">
+        <value>用户名或密码错误</value>
+    </data>
+    <data name="User disabled" xml:space="preserve">
+        <value>用户已禁用</value>
+    </data>
+    <data name="More than 4 digits alphanumeric underline" xml:space="preserve">
+        <value>4位以上（字母数字下划线）</value>
+    </data>
+    <data name="Menu" xml:space="preserve">
+        <value>菜单</value>
+    </data>
+    <data name="Link" xml:space="preserve">
+        <value>链接</value>
+    </data>
+    <data name="Iframe" xml:space="preserve">
+        <value>框架</value>
+    </data>
+    <data name="Enabled" xml:space="preserve">
+        <value>启用</value>
+    </data>
+    <data name="There are users under this department which cannot be deleted" xml:space="preserve">
+        <value>该部门下存在用户，不允许删除</value>
+    </data>
+    <data name="There are sub departments under this department which cannot be deleted" xml:space="preserve">
+        <value>该部门下存在子部门，不允许删除</value>
+    </data>
+    <data name="Parent department does not exist" xml:space="preserve">
+        <value>父部门不存在</value>
+    </data>
+    <data name="The parent node does not exist" xml:space="preserve">
+        <value>父节点不存在</value>
+    </data>
+    <data name="Users exist under this role and deletion is not allowed" xml:space="preserve">
+        <value>该角色下存在用户，不允许删除</value>
+    </data>
+    <data name="The character id does not exist" xml:space="preserve">
+        <value>角色id不存在</value>
+    </data>
+    <data name="Contains endpoint paths that do not exist" xml:space="preserve">
+        <value>包含了不存在的端点路径</value>
+    </data>
+    <data name="The character does not exist" xml:space="preserve">
+        <value>角色不存在</value>
+    </data>
+    <data name="The department does not exist" xml:space="preserve">
+        <value>部门不存在</value>
+    </data>
+    <data name="The database structure has been synchronized" xml:space="preserve">
+        <value>数据库结构同步完成</value>
+    </data>
+    <data name="The seed data is fully initialized" xml:space="preserve">
+        <value>种子数据初始化完毕</value>
+    </data>
+    <data name="Hidden" xml:space="preserve">
+        <value>隐藏</value>
+    </data>
+    <data name="Hidden bread crumb" xml:space="preserve">
+        <value>隐藏面包屑</value>
+    </data>
+    <data name="Full page routing" xml:space="preserve">
+        <value>整页路由</value>
+    </data>
+    <data name="Button" xml:space="preserve">
+        <value>按钮</value>
+    </data>
+    <data name="Contains a menu that does not exist" xml:space="preserve">
+        <value>包含了不存在的菜单</value>
+    </data>
+    <data name="Personal data" xml:space="preserve">
+        <value>本人数据</value>
+    </data>
+    <data name="Department data" xml:space="preserve">
+        <value>本部门数据</value>
+    </data>
+    <data name="This department and subordinate departments" xml:space="preserve">
+        <value>本部门和下级部门</value>
+    </data>
+    <data name="Designated department" xml:space="preserve">
+        <value>指定部门</value>
+    </data>
+    <data name="All" xml:space="preserve">
+        <value>全部</value>
+    </data>
+    <data name="No department specified" xml:space="preserve">
+        <value>未指定部门</value>
+    </data>
+    <data name="Include departments that do not exist" xml:space="preserve">
+        <value>包含了不存在的部门</value>
+    </data>
+    <data name="Undefined" xml:space="preserve">
+        <value>未定义</value>
+    </data>
+    <data name="Ignoring permissions control" xml:space="preserve">
+        <value>忽略权限控制</value>
+    </data>
+    <data name="Database structure synchronization starts" xml:space="preserve">
+        <value>数据库同步开始</value>
+    </data>
+    <data name="Initialization completed" xml:space="preserve">
+        <value>初始化完毕</value>
+    </data>
+    <data name="Configuration options" xml:space="preserve">
+        <value>配置选项</value>
+    </data>
+    <data name="Loaded" xml:space="preserve">
+        <value>加载完毕</value>
+    </data>
+    <data name="Transaction" xml:space="preserve">
+        <value>事务</value>
+    </data>
+    <data name="Start" xml:space="preserve">
+        <value>开始</value>
+    </data>
+    <data name="Completed" xml:space="preserve">
+        <value>完成</value>
+    </data>
+    <data name="Rollback" xml:space="preserve">
+        <value>回滚</value>
+    </data>
+    <data name="Transaction rollbacked" xml:space="preserve">
+        <value>事务已回滚</value>
+    </data>
+    <data name="Transaction starting" xml:space="preserve">
+        <value>开始事务</value>
+    </data>
+    <data name="Transaction commited" xml:space="preserve">
+        <value>事务已提交</value>
+    </data>
+    <data name="Console log format template" xml:space="preserve">
+        <value>控制台日志格式模板</value>
+    </data>
+    <data name="UnitOfWorkManager" xml:space="preserve">
+        <value>工作单元管理器</value>
+    </data>
+    <data name="Database server clock offset" xml:space="preserve">
+        <value>数据库服务器时钟偏移</value>
+    </data>
+    <data name="Action" xml:space="preserve">
+        <value>方法</value>
+    </data>
+    <data name="Controller" xml:space="preserve">
+        <value>控制器</value>
+    </data>
+    <data name="Error in reading the user token" xml:space="preserve">
+        <value>读取用户Token出错</value>
+    </data>
+    <data name="Dictionary directory does not exist" xml:space="preserve">
+        <value>字典目录不存在</value>
+    </data>
+    <data name="Business module" xml:space="preserve">
+        <value>业务模块</value>
+    </data>
+    <data name="System module" xml:space="preserve">
+        <value>系统模块</value>
+    </data>
+    <data name="Sort in reverse order" xml:space="preserve">
+        <value>倒序排序</value>
+    </data>
+    <data name="Sort in order" xml:space="preserve">
+        <value>顺序排序</value>
+    </data>
+    <data name="Created time" xml:space="preserve">
+        <value>创建时间</value>
+    </data>
+    <data name="Creator id" xml:space="preserve">
+        <value>创建者Id</value>
+    </data>
+    <data name="Creator username" xml:space="preserve">
+        <value>创建者</value>
+    </data>
+    <data name="Unique id" xml:space="preserve">
+        <value>主键Id</value>
+    </data>
+    <data name="Delete or not" xml:space="preserve">
+        <value>是否删除</value>
+    </data>
+    <data name="Modification time" xml:space="preserve">
+        <value>修改时间</value>
+    </data>
+    <data name="Modifier Id" xml:space="preserve">
+        <value>修改者Id</value>
+    </data>
+    <data name="Modified by" xml:space="preserve">
+        <value>修改者</value>
+    </data>
+    <data name="Version" xml:space="preserve">
+        <value>版本</value>
+    </data>
+    <data name="Succeed" xml:space="preserve">
+        <value>成功</value>
+    </data>
+    <data name="Identity missing" xml:space="preserve">
+        <value>身份未确认</value>
+    </data>
+    <data name="Position does not exist" xml:space="preserve">
+        <value>岗位不存在</value>
+    </data>
+</root>

@@ -30,7 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		ImageOptimize.csx = ImageOptimize.csx
 		LICENSE = LICENSE
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
-		NetAdmin.sln.DotSettings.user = NetAdmin.sln.DotSettings.user
 		PasswordGenerator.linq = PasswordGenerator.linq
 		README.md = README.md
 		stylecop.json = stylecop.json

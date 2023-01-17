@@ -20,13 +20,18 @@
                 </el-form-item>
             </template>
 
+            <el-form-item label="所属角色" prop="roleIds">
+                <el-select v-model="form.roleIds" multiple filterable style="width: 100%">
+                    <el-option v-for="item in roles" :key="item.id" :label="item.label" :value="item.id"/>
+                </el-select>
+            </el-form-item>
             <el-form-item label="所属部门" prop="deptId">
                 <el-cascader v-model="form.deptId" :options="depts" :props="deptsProps" clearable
                              style="width: 100%;"></el-cascader>
             </el-form-item>
-            <el-form-item label="所属角色" prop="roleIds">
-                <el-select v-model="form.roleIds" multiple filterable style="width: 100%">
-                    <el-option v-for="item in roles" :key="item.id" :label="item.label" :value="item.id"/>
+            <el-form-item label="所属岗位" prop="positionIds">
+                <el-select v-model="form.positionIds" multiple filterable style="width: 100%">
+                    <el-option v-for="item in positions" :key="item.id" :label="item.name" :value="item.id"/>
                 </el-select>
             </el-form-item>
 
@@ -60,12 +65,13 @@ export default {
             //表单数据
             form: {
                 mobile: null,
-                id: "",
+                id: 0,
                 userName: "",
                 avatar: null,
                 name: "",
-                deptId: "",
-                roleIds: []
+                deptId: 0,
+                roleIds: [],
+                positionIds: []
             },
             //验证规则
             rules: {
@@ -113,10 +119,14 @@ export default {
                 ],
                 roleIds: [
                     {required: true, message: '请选择所属角色', trigger: 'change'}
+                ],
+                positionIds: [
+                    {required: true, message: '请选择所属岗位', trigger: 'change'}
                 ]
             },
             //所需数据选项
             roles: [],
+            positions: [],
             depts: [],
             deptsProps: {
                 emitPath: false,
@@ -127,6 +137,7 @@ export default {
     },
     mounted() {
         this.getRoles()
+        this.getPositions()
         this.getDept()
     },
     methods: {
@@ -138,11 +149,15 @@ export default {
         },
         //加载树数据
         async getRoles() {
-            var res = await this.$API.sys_role.query.post();
+            const res = await this.$API.sys_role.query.post();
             this.roles = res.data;
         },
+        async getPositions() {
+            const res = await this.$API.sys_position.query.post();
+            this.positions = res.data;
+        },
         async getDept() {
-            var res = await this.$API.sys_dept.query.post();
+            const res = await this.$API.sys_dept.query.post();
             this.depts = res.data;
         },
         //表单提交方法
@@ -177,6 +192,7 @@ export default {
             this.form.roleIds = data.roles.map(x => x.id)
             this.form.deptId = data.dept.id
             this.form.version = data.version
+            this.form.positionIds = data.positions.map(x => x.id)
 
             //可以和上面一样单个注入，也可以像下面一样直接合并进去
             //Object.assign(this.form, data)

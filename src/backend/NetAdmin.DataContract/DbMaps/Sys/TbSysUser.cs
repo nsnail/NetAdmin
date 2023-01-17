@@ -50,6 +50,13 @@ public record TbSysUser : MutableEntity, IFieldBitSet
     public virtual Guid Password { get; init; }
 
     /// <summary>
+    ///     所属岗位
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(TbSysUserPosition))]
+    public virtual ICollection<TbSysPosition> Positions { get; init; }
+
+    /// <summary>
     ///     所属角色
     /// </summary>
     [JsonIgnore]

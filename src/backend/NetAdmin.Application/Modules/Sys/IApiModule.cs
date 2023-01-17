@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Api;
 
 namespace NetAdmin.Application.Modules.Sys;
@@ -14,5 +15,5 @@ public interface IApiModule : ICrudModule<CreateApiReq, QueryApiRsp // 创建类
     /// <summary>
     ///     同步接口
     /// </summary>
-    ValueTask Sync();
+    Task Sync();
 }

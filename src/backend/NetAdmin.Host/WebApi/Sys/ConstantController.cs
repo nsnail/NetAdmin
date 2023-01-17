@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +20,29 @@ public class ConstantController : ControllerBase<IConstantService>, IConstantMod
         : base(service) { }
 
     /// <summary>
+    ///     获得常量字符串
+    /// </summary>
+    [NonUnify]
+    public IActionResult GetChars()
+    {
+        var ret = GetCharsDic();
+        return OriginNamingResult(ret);
+    }
+
+    /// <summary>
+    ///     获得常量字符串
+    /// </summary>
+    [NonAction]
+    public IDictionary<string, string> GetCharsDic()
+    {
+        var ret = Service.GetCharsDic();
+        return ret;
+    }
+
+    /// <summary>
     ///     获得公共枚举值
     /// </summary>
-    public object GetEnums()
+    public IDictionary<string, Dictionary<string, string>> GetEnums()
     {
         return Service.GetEnums();
     }
@@ -31,22 +50,12 @@ public class ConstantController : ControllerBase<IConstantService>, IConstantMod
     /// <summary>
     ///     获得本地化字符串
     /// </summary>
-    public object GetLocalizedStrings()
+    public IDictionary<string, string> GetLocalizedStrings()
     {
         return Service.GetLocalizedStrings();
     }
 
-    /// <summary>
-    ///     获得常量字符串
-    /// </summary>
-    [NonUnify]
-    public dynamic GetStrings()
-    {
-        var ret = Service.GetStrings();
-        return OriginNamingResult(ret);
-    }
-
-    private static IActionResult OriginNamingResult(ImmutableSortedDictionary<string, string> data)
+    private static IActionResult OriginNamingResult(IDictionary<string, string> data)
     {
         var jsonOptions = default(JsonSerializerOptions).NewJsonSerializerOptions();
         jsonOptions.DictionaryKeyPolicy = null;

@@ -96,26 +96,7 @@ axios.interceptors.response.use(
                     })
                 }
             } else if (error.response.data.code) {
-                let title = sysConfig.ENUMS.errorCodes.unknown.desc;
-                switch (error.response.data.code) {
-                    case sysConfig.ENUMS.errorCodes.invalidInput.value:
-                        title = sysConfig.ENUMS.errorCodes.invalidInput.desc;
-                        break;
-                    case sysConfig.ENUMS.errorCodes.invalidOperation.value:
-                        title = sysConfig.ENUMS.errorCodes.invalidOperation.desc;
-                        break;
-                    case sysConfig.ENUMS.errorCodes.identityMissing.value:
-                        title = sysConfig.ENUMS.errorCodes.identityMissing.desc;
-                        break;
-                    case sysConfig.ENUMS.errorCodes.noPermissions.value:
-                        title = sysConfig.ENUMS.errorCodes.noPermissions.desc;
-                        break;
-                    case sysConfig.ENUMS.errorCodes.humanVerification.value:
-                        title = sysConfig.ENUMS.errorCodes.humanVerification.desc;
-                        break;
-                }
-
-
+                let title = sysConfig.ENUMS.statusCodes[error.response.data.code];
                 if (typeof (error.response.data.msg) == 'object') {
                     let i = 0;
                     for (const item in error.response.data.msg) {

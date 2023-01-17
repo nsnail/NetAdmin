@@ -49,8 +49,8 @@ public class RequestAuditMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         // 跳过处理的情况：
-        if (!context.Request.Path.StartsWithSegments(_defaultRoutePrefix)   // 非api请求
-            || context.Request.Method == Strings.FLG_HTTP_METHOD_OPTIONS) { // is options 请求
+        if (!context.Request.Path.StartsWithSegments(_defaultRoutePrefix) // 非api请求
+            || context.Request.Method == Chars.FLG_HTTP_METHOD_OPTIONS) { // is options 请求
             await _next(context);
             return;
         }
@@ -111,7 +111,7 @@ public class RequestAuditMiddleware
                 }
             }
             catch (Exception ex) {
-                _logger.Error($"{Str.Error_in_reading_the_user_token}: {ex}");
+                _logger.Error($"{Ln.Error_in_reading_the_user_token}: {ex}");
             }
         }
 

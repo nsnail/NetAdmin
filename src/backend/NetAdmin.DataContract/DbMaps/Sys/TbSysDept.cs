@@ -8,7 +8,7 @@ namespace NetAdmin.DataContract.DbMaps.Sys;
 ///     部门表
 /// </summary>
 [Table]
-public record TbSysDept : MutableEntity, IFieldBitSet
+public record TbSysDept : MutableEntity, IFieldBitSet, IFieldSummary
 {
     /// <summary>
     ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />）
@@ -36,12 +36,6 @@ public record TbSysDept : MutableEntity, IFieldBitSet
     public virtual long ParentId { get; init; }
 
     /// <summary>
-    ///     部门描述
-    /// </summary>
-    [JsonIgnore]
-    public virtual string Remark { get; init; }
-
-    /// <summary>
     ///     角色集合
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleDept))]
@@ -52,4 +46,10 @@ public record TbSysDept : MutableEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     public virtual int Sort { get; init; }
+
+    /// <summary>
+    ///     部门描述
+    /// </summary>
+    [JsonIgnore]
+    public virtual string Summary { get; init; }
 }

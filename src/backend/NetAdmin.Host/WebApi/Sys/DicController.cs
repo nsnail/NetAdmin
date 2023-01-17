@@ -1,5 +1,6 @@
 using NetAdmin.Application.Modules.Sys.Dic;
 using NetAdmin.Application.Services.Sys.Dependency.Dic;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
 using NetAdmin.DataContract.Dto.Sys.Dic.Content;
 using NetAdmin.Host.Attributes;
@@ -18,10 +19,19 @@ public class DicController : ControllerBase<IDicService>, IDicModule
         : base(service) { }
 
     /// <summary>
+    ///     批量删除字典目录
+    /// </summary>
+    [Transaction]
+    public async Task<int> BulkDeleteCatalog(BulkReq<DelReq> req)
+    {
+        return await Service.BulkDeleteCatalog(req);
+    }
+
+    /// <summary>
     ///     批量删除字典内容
     /// </summary>
     [Transaction]
-    public async ValueTask<int> BulkDeleteContent(BulkDelReq req)
+    public async Task<int> BulkDeleteContent(BulkReq<DelReq> req)
     {
         return await Service.BulkDeleteContent(req);
     }
@@ -30,7 +40,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     ///     创建字典目录
     /// </summary>
     [Transaction]
-    public async ValueTask<QueryDicCatalogRsp> CreateCatalog(CreateDicCatalogReq req)
+    public async Task<QueryDicCatalogRsp> CreateCatalog(CreateDicCatalogReq req)
     {
         return await Service.CreateCatalog(req);
     }
@@ -39,7 +49,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     ///     创建字典内容
     /// </summary>
     [Transaction]
-    public async ValueTask<QueryDicContentRsp> CreateContent(CreateDicContentReq req)
+    public async Task<QueryDicContentRsp> CreateContent(CreateDicContentReq req)
     {
         return await Service.CreateContent(req);
     }
@@ -48,7 +58,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     ///     删除字典目录
     /// </summary>
     [Transaction]
-    public async ValueTask<int> DeleteCatalog(DelReq req)
+    public async Task<int> DeleteCatalog(DelReq req)
     {
         return await Service.DeleteCatalog(req);
     }
@@ -56,7 +66,8 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     /// <summary>
     ///     删除字典内容
     /// </summary>
-    public async ValueTask<int> DeleteContent(DelReq req)
+    [Transaction]
+    public async Task<int> DeleteContent(DelReq req)
     {
         return await Service.DeleteContent(req);
     }
@@ -64,7 +75,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     /// <summary>
     ///     分页查询字典目录
     /// </summary>
-    public async ValueTask<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalog(PagedQueryReq<QueryDicCatalogReq> req)
+    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalog(PagedQueryReq<QueryDicCatalogReq> req)
     {
         return await Service.PagedQueryCatalog(req);
     }
@@ -72,7 +83,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     /// <summary>
     ///     分页查询字典内容
     /// </summary>
-    public async ValueTask<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContent(PagedQueryReq<QueryDicContentReq> req)
+    public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContent(PagedQueryReq<QueryDicContentReq> req)
     {
         return await Service.PagedQueryContent(req);
     }
@@ -80,7 +91,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     /// <summary>
     ///     查询字典目录
     /// </summary>
-    public async ValueTask<List<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
+    public async Task<List<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
     {
         return await Service.QueryCatalog(req);
     }
@@ -88,7 +99,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     /// <summary>
     ///     查询字典内容
     /// </summary>
-    public async ValueTask<List<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
+    public async Task<List<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
     {
         return await Service.QueryContent(req);
     }
@@ -97,7 +108,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     ///     更新字典目录
     /// </summary>
     [Transaction]
-    public async ValueTask<QueryDicCatalogRsp> UpdateCatalog(UpdateDicCatalogReq req)
+    public async Task<QueryDicCatalogRsp> UpdateCatalog(UpdateDicCatalogReq req)
     {
         return await Service.UpdateCatalog(req);
     }
@@ -106,7 +117,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     ///     更新字典内容
     /// </summary>
     [Transaction]
-    public async ValueTask<QueryDicContentRsp> UpdateContent(UpdateDicContentReq req)
+    public async Task<QueryDicContentRsp> UpdateContent(UpdateDicContentReq req)
     {
         return await Service.UpdateContent(req);
     }

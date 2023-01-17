@@ -8,7 +8,7 @@ namespace NetAdmin.DataContract.DbMaps.Sys;
 ///     Api接口表
 /// </summary>
 [Table]
-public record TbSysApi : ImmutableEntity<string>
+public record TbSysApi : ImmutableEntity<string>, IFieldSummary
 {
     /// <summary>
     ///     子节点

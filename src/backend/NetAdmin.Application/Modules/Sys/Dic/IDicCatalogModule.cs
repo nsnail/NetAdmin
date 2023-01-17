@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
 
 namespace NetAdmin.Application.Modules.Sys.Dic;

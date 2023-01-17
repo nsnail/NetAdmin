@@ -26,7 +26,7 @@ public static class IMvcBuilderExtensions
             options.JsonSerializerOptions.CopyFrom(default(JsonSerializerOptions).NewJsonSerializerOptions());
 
             // 日期格式
-            options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Strings.TPL_DATE_YYYY_MM_DD_HH_MM_SS);
+            options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Chars.TPL_DATE_YYYY_MM_DD_HH_MM_SS);
 
             // 枚举值显示Name（小驼峰）而非数字
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));

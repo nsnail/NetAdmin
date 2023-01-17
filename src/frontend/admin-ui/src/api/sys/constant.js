@@ -9,39 +9,39 @@ import http from "@/utils/request"
 export default {
 
     /**
-     * 获得公共枚举值
-     */
-    getEnums :{
-        url: `${config.API_URL}/api/constant/get.enums`,
-        name: `获得公共枚举值`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
-
-
-    /**
-     * 获得本地化字符串
-     */
-    getLocalizedStrings :{
-        url: `${config.API_URL}/api/constant/get.localized.strings`,
-        name: `获得本地化字符串`,
-        post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
-
-
-    /**
-     * 获得常量字符串
-     */
-    getStrings :{
-        url: `${config.API_URL}/api/constant/get.strings`,
+ * 获得常量字符串
+ */
+getChars :{
+    url: `${config.API_URL}/api/constant/get.chars`,
         name: `获得常量字符串`,
         post:async function(data, config={}) {
-            return await http.post(this.url,data, config)
-        }
-    },
+        return await http.post(this.url,data, config)
+    }
+},
+
+
+/**
+ * 获得公共枚举值
+ */
+getEnums :{
+    url: `${config.API_URL}/api/constant/get.enums`,
+        name: `获得公共枚举值`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+
+/**
+ * 获得本地化字符串
+ */
+getLocalizedStrings :{
+    url: `${config.API_URL}/api/constant/get.localized.strings`,
+        name: `获得本地化字符串`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
 
 
 }

@@ -1,1 +1,0 @@
-export {{ default as {0} }} from './{0}.vue'

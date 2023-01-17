@@ -11,29 +11,31 @@ namespace NetAdmin.Application.Services.Sys;
 public class ConstantService : ServiceBase<IConstantService>, IConstantService
 {
     /// <inheritdoc />
-    public dynamic GetEnums()
+    public IDictionary<string, string> GetCharsDic()
     {
-        return App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) is not null)
-                  .ToDictionary(x => x.Name, x => x.GetEnumValues()
-                                                   .Cast<object>()
-                                                   .ToImmutableSortedDictionary( //
-                                                       x.GetEnumName, y => new { Value = y, Desc = ((Enum)y).Desc() }));
+        var ret = typeof(Chars).GetFields(BindingFlags.Public | BindingFlags.Static)
+                               .Where(x => x.FieldType == typeof(string))
+                               .ToImmutableSortedDictionary( //
+                                   x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
+        return ret;
     }
 
     /// <inheritdoc />
-    public dynamic GetLocalizedStrings()
+    public IDictionary<string, Dictionary<string, string>> GetEnums()
     {
-        return typeof(Str).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                          .Where(x => x.PropertyType == typeof(string))
-                          .ToImmutableSortedDictionary(x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
+        var ret = App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) is not null)
+                     .ToDictionary(
+                         x => x.Name
+                       , x => x.GetEnumValues().Cast<Enum>().ToDictionary(y => y.ToString(), y => y.Desc()));
+        return ret;
     }
 
     /// <inheritdoc />
-    public dynamic GetStrings()
+    public IDictionary<string, string> GetLocalizedStrings()
     {
-        return typeof(Strings).GetFields(BindingFlags.Public | BindingFlags.Static)
-                              .Where(x => x.FieldType == typeof(string))
-                              .ToImmutableSortedDictionary( //
-                                  x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
+        var ret = typeof(Ln).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                            .Where(x => x.PropertyType == typeof(string))
+                            .ToImmutableSortedDictionary(x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
+        return ret;
     }
 }

@@ -19,15 +19,15 @@ public class DevController : ControllerBase<IDevService>, IDevModule
     /// <summary>
     ///     生成后端代码
     /// </summary>
-    public ValueTask GenerateCsCode(GenerateCsCodeReq req)
+    public async Task GenerateCsCode(GenerateCsCodeReq req)
     {
-        return Service.GenerateCsCode(req);
+        await Service.GenerateCsCode(req);
     }
 
     /// <summary>
     ///     生成图标代码
     /// </summary>
-    public async ValueTask GenerateIconCode(GenerateIconCodeReq req)
+    public async Task GenerateIconCode(GenerateIconCodeReq req)
     {
         await Service.GenerateIconCode(req);
     }
@@ -36,7 +36,7 @@ public class DevController : ControllerBase<IDevService>, IDevModule
     ///     生成接口代码
     /// </summary>
     /// <param name="projectPath">前端项目Src目录路径</param>
-    public async ValueTask GenerateJsCode([Required] string projectPath)
+    public async Task GenerateJsCode([Required] string projectPath)
     {
         await Service.GenerateJsCode(projectPath);
     }

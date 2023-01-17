@@ -4,6 +4,7 @@ using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency.Dic;
 using NetAdmin.DataContract.DbMaps.Sys;
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
 
 namespace NetAdmin.Application.Services.Sys.Dic;
@@ -17,26 +18,45 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     public DicCatalogService(Repository<TbSysDicCatalog> rpo) //
         : base(rpo) { }
 
-    /// <inheritdoc />
-    public async ValueTask<QueryDicCatalogRsp> Create(CreateDicCatalogReq req)
+    /// <summary>
+    ///     批量删除字典目录
+    /// </summary>
+    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    {
+        var sum = 0;
+        foreach (var item in req.Items) {
+            sum += await Delete(item);
+        }
+
+        return sum;
+    }
+
+    /// <summary>
+    ///     创建字典目录
+    /// </summary>
+    public async Task<QueryDicCatalogRsp> Create(CreateDicCatalogReq req)
     {
         if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_parent_node_does_not_exist);
+            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
         }
 
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 
-    /// <inheritdoc />
-    public async ValueTask<int> Delete(DelReq req)
+    /// <summary>
+    ///     删除字典目录
+    /// </summary>
+    public async Task<int> Delete(DelReq req)
     {
         var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id);
         return ret.Count;
     }
 
-    /// <inheritdoc />
-    public async ValueTask<PagedQueryRsp<QueryDicCatalogRsp>> PagedQuery(PagedQueryReq<QueryDicCatalogReq> req)
+    /// <summary>
+    ///     分页查询字典目录
+    /// </summary>
+    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQuery(PagedQueryReq<QueryDicCatalogReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
@@ -44,22 +64,26 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
                                                    , list.Select(x => x.Adapt<QueryDicCatalogRsp>()));
     }
 
-    /// <inheritdoc />
-    public async ValueTask<List<QueryDicCatalogRsp>> Query(QueryReq<QueryDicCatalogReq> req)
+    /// <summary>
+    ///     查询字典目录
+    /// </summary>
+    public async Task<List<QueryDicCatalogRsp>> Query(QueryReq<QueryDicCatalogReq> req)
     {
         var ret = await QueryInternal(req).ToTreeListAsync();
         return ret.ConvertAll(x => x.Adapt<QueryDicCatalogRsp>());
     }
 
-    /// <inheritdoc />
-    public async ValueTask<QueryDicCatalogRsp> Update(UpdateDicCatalogReq req)
+    /// <summary>
+    ///     更新字典目录
+    /// </summary>
+    public async Task<QueryDicCatalogRsp> Update(UpdateDicCatalogReq req)
     {
         if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
-            throw Oops.Oh(Enums.ErrorCodes.InvalidOperation, Str.The_parent_node_does_not_exist);
+            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
         }
 
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw Oops.Oh(Enums.ErrorCodes.Unknown);
+            throw Oops.Oh(Enums.StatusCodes.InvalidOperation);
         }
 
         var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();

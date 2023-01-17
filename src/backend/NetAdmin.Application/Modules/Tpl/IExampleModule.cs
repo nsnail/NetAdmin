@@ -1,3 +1,4 @@
+using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Tpl.Example;
 
 namespace NetAdmin.Application.Modules.Tpl;

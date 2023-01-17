@@ -66,12 +66,12 @@
                     </el-table-column>
                     <el-table-column label="所属部门" prop="dept.label" sortable="custom" sort-by="deptid" width="200">
                     </el-table-column>
-                    <el-table-column label="启用" width="100"
+                    <el-table-column label="状态" width="100"
                                      column-key="filterUserName" :filters="[{text: '启用', value: '1'}, {text:
-                                          '未启用', value: '0'}]">
+                                          '未启用', value: '0'}]" prop="enabled">
                         <template #default="scope">
-                            <el-switch v-model="scope.row.enabled" disabled>
-                            </el-switch>
+                            <sc-status-indicator v-if="scope.row.enabled" type="success"></sc-status-indicator>
+                            <sc-status-indicator v-if="!scope.row.enabled" pulse type="danger"></sc-status-indicator>
                         </template>
                     </el-table-column>
                     <el-table-column label="加入时间" prop="createdTime" width="170"
@@ -101,15 +101,19 @@
 
     <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
 
+    <el-drawer v-model="dialog.info" :size="800" title="详细" direction="rtl" destroy-on-close>
+        <info ref="infoDialog"></info>
+    </el-drawer>
 </template>
 
 <script>
 import saveDialog from './save'
+import info from './info'
 
 export default {
     name: 'user',
     components: {
-        saveDialog
+        saveDialog, info
     },
     data() {
         return {
@@ -119,7 +123,8 @@ export default {
             },
             activeNames: ['1', '2'],
             dialog: {
-                save: false
+                save: false,
+                info: false
             },
             showTreeloading: false,
             deptFilterText: '',
@@ -162,9 +167,9 @@ export default {
         },
         //查看
         table_show(row) {
-            this.dialog.save = true
+            this.dialog.info = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open('show').setData(row)
+                this.$refs.infoDialog.setData(row)
             })
         },
         //删除

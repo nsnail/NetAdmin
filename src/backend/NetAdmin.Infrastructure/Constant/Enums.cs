@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using Furion.FriendlyException;
 using NetAdmin.Infrastructure.Attributes;
-using NetAdmin.Infrastructure.Lang;
 using NSExt.Attributes;
 
 namespace NetAdmin.Infrastructure.Constant;
@@ -9,74 +8,11 @@ namespace NetAdmin.Infrastructure.Constant;
 /// <summary>
 ///     基础枚举常量
 /// </summary>
+/// <remarks>
+///     添加[Export]特性暴露给前端
+/// </remarks>
 public static class Enums
 {
-    /// <summary>
-    ///     错误码
-    /// </summary>
-    [ErrorCodeType]
-    [Export]
-    public enum ErrorCodes
-    {
-        /// <summary>
-        ///     未知错误
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Str.Unknown_error))]
-        [Localization(typeof(Str))]
-        Unknown = 4000
-
-       ,
-
-        /// <summary>
-        ///     无效输入
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Str.Invalid_input))]
-        [Localization(typeof(Str))]
-        InvalidInput = 4010
-
-       ,
-
-        /// <summary>
-        ///     无效操作
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Str.Invalid_operation))]
-        [Localization(typeof(Str))]
-        InvalidOperation = 4020
-
-       ,
-
-        /// <summary>
-        ///     未登录
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Str.Not_logged_in))]
-        [Localization(typeof(Str))]
-        IdentityMissing = 4030
-
-       ,
-
-        /// <summary>
-        ///     权限不足
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Str.Insufficient_permissions))]
-        [Localization(typeof(Str))]
-        NoPermissions = 4031
-
-       ,
-
-        /// <summary>
-        ///     人机验证
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Str.Man_machine_verification))]
-        [Localization(typeof(Str))]
-        HumanVerification = 4040
-    }
-
     /// <summary>
     ///     日志等级
     /// </summary>
@@ -146,8 +82,8 @@ public static class Enums
         /// <summary>
         ///     系统模块
         /// </summary>
-        [Description(nameof(Str.System_module))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.System_module))]
+        [Localization(typeof(Ln))]
         Sys
 
        ,
@@ -155,8 +91,8 @@ public static class Enums
         /// <summary>
         ///     业务模块
         /// </summary>
-        [Description(nameof(Str.Business_module))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Business_module))]
+        [Localization(typeof(Ln))]
         Biz
     }
 
@@ -169,8 +105,8 @@ public static class Enums
         /// <summary>
         ///     顺序
         /// </summary>
-        [Description(nameof(Str.Sort_in_order))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Sort_in_order))]
+        [Localization(typeof(Ln))]
         Ascending
 
        ,
@@ -178,8 +114,83 @@ public static class Enums
         /// <summary>
         ///     倒序
         /// </summary>
-        [Description(nameof(Str.Sort_in_reverse_order))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Sort_in_reverse_order))]
+        [Localization(typeof(Ln))]
         Descending
+    }
+
+    /// <summary>
+    ///     状态码
+    /// </summary>
+    [ErrorCodeType]
+    [Export]
+    public enum StatusCodes
+    {
+        /// <summary>
+        ///     成功
+        /// </summary>
+        [Description(nameof(Ln.Succeed))]
+        [Localization(typeof(Ln))]
+        Succeed = 0
+
+       ,
+
+        /// <summary>
+        ///     意外错误
+        /// </summary>
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Ln.Unexpected))]
+        [Localization(typeof(Ln))]
+        Unexpected = 4000
+
+       ,
+
+        /// <summary>
+        ///     无效输入
+        /// </summary>
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Ln.Invalid_input))]
+        [Localization(typeof(Ln))]
+        InvalidInput = 4010
+
+       ,
+
+        /// <summary>
+        ///     无效操作
+        /// </summary>
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Ln.Invalid_operation))]
+        [Localization(typeof(Ln))]
+        InvalidOperation = 4020
+
+       ,
+
+        /// <summary>
+        ///     未登录
+        /// </summary>
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Ln.Not_logged_in))]
+        [Localization(typeof(Ln))]
+        IdentityMissing = 4030
+
+       ,
+
+        /// <summary>
+        ///     权限不足
+        /// </summary>
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Ln.Insufficient_permissions))]
+        [Localization(typeof(Ln))]
+        NoPermissions = 4031
+
+       ,
+
+        /// <summary>
+        ///     人机验证
+        /// </summary>
+        [ErrorCodeItemMetadata("{0}")]
+        [Description(nameof(Ln.Man_machine_verification))]
+        [Localization(typeof(Ln))]
+        HumanVerification = 4040
     }
 }

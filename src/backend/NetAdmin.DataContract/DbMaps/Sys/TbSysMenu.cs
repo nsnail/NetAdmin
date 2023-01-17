@@ -23,8 +23,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     隐藏
         /// </summary>
-        [Description(nameof(Str.Hidden))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Hidden))]
+        [Localization(typeof(Ln))]
         Hidden = 0b_0000_0001_0000
 
        ,
@@ -32,8 +32,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     隐藏面包屑
         /// </summary>
-        [Description(nameof(Str.Hidden_bread_crumb))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Hidden_bread_crumb))]
+        [Localization(typeof(Ln))]
         HiddenBreadCrumb = 0b_0000_0010_0000
 
        ,
@@ -41,8 +41,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     整页路由
         /// </summary>
-        [Description(nameof(Str.Full_page_routing))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Full_page_routing))]
+        [Localization(typeof(Ln))]
         FullPageRouting = 0b_0000_0100_0000
     }
 
@@ -55,8 +55,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     菜单
         /// </summary>
-        [Description(nameof(Str.Menu))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Menu))]
+        [Localization(typeof(Ln))]
         Menu = 1
 
        ,
@@ -64,8 +64,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     链接
         /// </summary>
-        [Description(nameof(Str.Link))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Link))]
+        [Localization(typeof(Ln))]
         Link = 2
 
        ,
@@ -73,8 +73,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     框架
         /// </summary>
-        [Description(nameof(Str.Iframe))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Iframe))]
+        [Localization(typeof(Ln))]
         Iframe = 3
 
        ,
@@ -82,8 +82,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     按钮
         /// </summary>
-        [Description(nameof(Str.Button))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Button))]
+        [Localization(typeof(Ln))]
         Button = 4
     }
 

@@ -1,3 +1,5 @@
+using NetAdmin.DataContract.Dto.Dependency;
+
 namespace NetAdmin.Application.Modules;
 
 /// <summary>
@@ -10,7 +12,7 @@ namespace NetAdmin.Application.Modules;
 /// <typeparam name="TUpdateReq">修改请求类型</typeparam>
 /// <typeparam name="TUpdateRsp">修改响应类型</typeparam>
 /// <typeparam name="TDelReq">删除请求类型</typeparam>
-public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in TUpdateReq, TUpdateRsp, in TDelReq>
+public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in TUpdateReq, TUpdateRsp, TDelReq>
     where TCreateReq : DataAbstraction, new()
     where TCreateRsp : DataAbstraction
     where TQueryReq : DataAbstraction, new()
@@ -20,27 +22,32 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in
     where TDelReq : DataAbstraction, new()
 {
     /// <summary>
+    ///     批量删除实体
+    /// </summary>
+    Task<int> BulkDelete(BulkReq<TDelReq> req);
+
+    /// <summary>
     ///     创建实体
     /// </summary>
-    ValueTask<TCreateRsp> Create(TCreateReq req);
+    Task<TCreateRsp> Create(TCreateReq req);
 
     /// <summary>
     ///     删除实体
     /// </summary>
-    ValueTask<int> Delete(TDelReq req);
+    Task<int> Delete(TDelReq req);
 
     /// <summary>
     ///     分页查询实体
     /// </summary>
-    ValueTask<PagedQueryRsp<TQueryRsp>> PagedQuery(PagedQueryReq<TQueryReq> req);
+    Task<PagedQueryRsp<TQueryRsp>> PagedQuery(PagedQueryReq<TQueryReq> req);
 
     /// <summary>
     ///     查询实体
     /// </summary>
-    ValueTask<List<TQueryRsp>> Query(QueryReq<TQueryReq> req);
+    Task<List<TQueryRsp>> Query(QueryReq<TQueryReq> req);
 
     /// <summary>
     ///     更新实体
     /// </summary>
-    ValueTask<TUpdateRsp> Update(TUpdateReq req);
+    Task<TUpdateRsp> Update(TUpdateReq req);
 }

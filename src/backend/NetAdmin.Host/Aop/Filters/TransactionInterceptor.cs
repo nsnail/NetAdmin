@@ -39,18 +39,18 @@ public class TransactionInterceptor : IAsyncActionFilter
         using var unitOfWork = _uowManager.Begin();
         var       hashCode   = unitOfWork.GetHashCode();
         try {
-            _logger.Info($"{Str.Transaction_starting}: {hashCode}");
+            _logger.Info($"{Ln.Transaction_starting}: {hashCode}");
             var result = await next();
             if (result.Exception is not null) {
                 throw result.Exception;
             }
 
             unitOfWork.Commit();
-            _logger.Info($"{Str.Transaction_commited}: {hashCode}");
+            _logger.Info($"{Ln.Transaction_commited}: {hashCode}");
         }
         catch (Exception) {
             unitOfWork.Rollback();
-            _logger.Error($"{Str.Transaction_rollbacked}: {hashCode}");
+            _logger.Error($"{Ln.Transaction_rollbacked}: {hashCode}");
             throw;
         }
     }

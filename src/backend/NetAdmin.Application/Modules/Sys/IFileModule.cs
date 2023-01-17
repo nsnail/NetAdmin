@@ -10,5 +10,5 @@ public interface IFileModule
     /// <summary>
     ///     文件上传
     /// </summary>
-    ValueTask<string> Upload(IFormFile file);
+    Task<string> Upload(IFormFile file);
 }

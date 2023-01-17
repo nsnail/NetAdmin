@@ -12,29 +12,29 @@ public abstract record MutableEntity : ImmutableEntity, IFieldUpdate
 {
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(nameof(Str.Modification_time))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Modification_time))]
+    [Localization(typeof(Ln))]
     [Column(Position = -11, CanInsert = false, ServerTime = DateTimeKind.Local)]
     public virtual DateTime? ModifiedTime { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(nameof(Str.Modifier_Id))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Modifier_Id))]
+    [Localization(typeof(Ln))]
     [Column(Position = -13, CanInsert = false)]
     public virtual long? ModifiedUserId { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(nameof(Str.Modified_by))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Modified_by))]
+    [Localization(typeof(Ln))]
     [Column(Position = -12, CanInsert = false)]
     public virtual string ModifiedUserName { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore]
-    [Description(nameof(Str.Version))]
-    [Localization(typeof(Str))]
+    [Description(nameof(Ln.Version))]
+    [Localization(typeof(Ln))]
     [Column(Position = -10, IsVersion = true)]
     public virtual long Version { get; init; }
 }

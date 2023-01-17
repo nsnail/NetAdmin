@@ -1,0 +1,3 @@
+<template>
+    $svgCode$
+</template>

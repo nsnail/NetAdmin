@@ -5,7 +5,6 @@ using Furion;
 using Furion.ConfigurableOptions;
 using Furion.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using NetAdmin.Infrastructure.Lang;
 using NetAdmin.Infrastructure.Utils;
 using NSExt.Extensions;
 using Yitter.IdGenerator;
@@ -39,7 +38,7 @@ public static class ServiceCollectionExtensions
         }
 
         LogHelper.Get<IServiceCollection>()
-                 ?.Info($"{nameof(IConfigurableOptions)} {Str.Initialization_completed} {sbLog}");
+                 ?.Info($"{nameof(IConfigurableOptions)} {Ln.Initialization_completed} {sbLog}");
         return me;
     }
 

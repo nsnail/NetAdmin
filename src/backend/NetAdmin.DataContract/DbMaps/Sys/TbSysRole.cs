@@ -12,7 +12,7 @@ namespace NetAdmin.DataContract.DbMaps.Sys;
 /// </summary>
 [Table]
 [Index("idx_{tablename}_01", nameof(Label), true)]
-public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
+public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
 {
     /// <summary>
     ///     角色数据范围
@@ -23,8 +23,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     全部
         /// </summary>
-        [Description(nameof(Str.All))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.All))]
+        [Localization(typeof(Ln))]
         All = 1
 
        ,
@@ -32,8 +32,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     本部门和下级部门
         /// </summary>
-        [Description(nameof(Str.This_department_and_subordinate_departments))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.This_department_and_subordinate_departments))]
+        [Localization(typeof(Ln))]
         DeptWithChild = 2
 
        ,
@@ -41,8 +41,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     本部门
         /// </summary>
-        [Description(nameof(Str.Department_data))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Department_data))]
+        [Localization(typeof(Ln))]
         Dept = 3
 
        ,
@@ -50,8 +50,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     本人数据
         /// </summary>
-        [Description(nameof(Str.Personal_data))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Personal_data))]
+        [Localization(typeof(Ln))]
         Self = 4
 
        ,
@@ -59,8 +59,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     指定部门
         /// </summary>
-        [Description(nameof(Str.Designated_department))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Designated_department))]
+        [Localization(typeof(Ln))]
         SpecificDept = 5
     }
 
@@ -73,8 +73,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     忽略权限控制（拥有所有权限）
         /// </summary>
-        [Description(nameof(Str.Ignoring_permissions_control))]
-        [Localization(typeof(Str))]
+        [Description(nameof(Ln.Ignoring_permissions_control))]
+        [Localization(typeof(Ln))]
         IgnorePermissionControl = 0b_0000_0001_0000
     }
 
@@ -117,15 +117,15 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort
     [JsonIgnore]
     public virtual ICollection<TbSysMenu> Menus { get; init; }
 
+    /// <inheritdoc />
+    [JsonIgnore]
+    public virtual int Sort { get; init; }
+
     /// <summary>
     ///     备注
     /// </summary>
     [JsonIgnore]
-    public virtual string Remark { get; init; }
-
-    /// <inheritdoc />
-    [JsonIgnore]
-    public virtual int Sort { get; init; }
+    public virtual string Summary { get; init; }
 
     /// <summary>
     ///     此角色下的用户集合

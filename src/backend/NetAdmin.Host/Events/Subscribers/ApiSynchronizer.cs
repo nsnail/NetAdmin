@@ -29,6 +29,6 @@ public class ApiSynchronizer : IEventSubscriber
     {
         var logService = App.GetRequiredService<IApiService>();
         await logService.Sync();
-        _logger.Info($"{nameof(IApiService)}.{nameof(IApiService.Sync)} {Str.Completed}");
+        _logger.Info($"{nameof(IApiService)}.{nameof(IApiService.Sync)} {Ln.Completed}");
     }
 }

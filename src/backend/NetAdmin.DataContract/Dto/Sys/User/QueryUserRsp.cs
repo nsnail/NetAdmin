@@ -3,6 +3,7 @@ using Mapster;
 using NetAdmin.DataContract.DbMaps.Dependency;
 using NetAdmin.DataContract.DbMaps.Sys;
 using NetAdmin.DataContract.Dto.Sys.Dept;
+using NetAdmin.DataContract.Dto.Sys.Position;
 using NetAdmin.DataContract.Dto.Sys.Role;
 using NSExt.Extensions;
 
@@ -40,6 +41,11 @@ public record QueryUserRsp : TbSysUser, IRegister
     public override string Mobile { get; init; }
 
     /// <summary>
+    ///     岗位列表
+    /// </summary>
+    public new IEnumerable<QueryPositionRsp> Positions { get; init; }
+
+    /// <summary>
     ///     角色列表
     /// </summary>
     public new IEnumerable<QueryRoleRsp> Roles { get; init; }
@@ -56,9 +62,11 @@ public record QueryUserRsp : TbSysUser, IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.ForType<TbSysUser, QueryUserRsp>()
-              .IgnoreIf((src, dest) => src.Roles == null, dest => dest.Roles)
+              .IgnoreIf((src, dest) => src.Roles     == null, dest => dest.Roles)
+              .IgnoreIf((src, dest) => src.Positions == null, dest => dest.Positions)
               .Map(dest => dest.CreatedTime, src => src.CreatedTime.Is(default, DateTime.Now))
               .Map(dest => dest.Dept,        src => src.Dept.Adapt<QueryDeptRsp>())
-              .Map(dest => dest.Roles,       src => src.Roles.Select(x => x.Adapt<QueryRoleRsp>()));
+              .Map(dest => dest.Roles,       src => src.Roles.Select(x => x.Adapt<QueryRoleRsp>()))
+              .Map(dest => dest.Positions,   src => src.Positions.Select(x => x.Adapt<QueryPositionRsp>()));
     }
 }

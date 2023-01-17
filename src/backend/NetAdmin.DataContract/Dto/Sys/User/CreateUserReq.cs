@@ -34,11 +34,19 @@ public record CreateUserReq : TbSysUser, IRegister
     public virtual string PasswordText { get; init; }
 
     /// <summary>
+    ///     岗位id列表
+    /// </summary>
+    [Required]
+    [MinLength(1)]
+    [MaxLength(10)]
+    public List<long> PositionIds { get; set; }
+
+    /// <summary>
     ///     角色id列表
     /// </summary>
     [Required]
     [MinLength(1)]
-    [MaxLength(100)]
+    [MaxLength(10)]
     public List<long> RoleIds { get; set; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
@@ -53,6 +61,16 @@ public record CreateUserReq : TbSysUser, IRegister
         config.ForType<CreateUserReq, TbSysUser>()
               .Map(dest => dest.Password, src => src.PasswordText.Pwd().Guid())
               .Map(dest => dest.Token,    src => Guid.NewGuid())
-              .Map(dest => dest.BitSet,   src => BitSets.Enabled);
+              .Map(dest => dest.BitSet,   src => BitSets.Enabled)
+              .Map( //
+                  dest => dest.Roles
+                , src => src.RoleIds.NullOrEmpty()
+                      ? Array.Empty<TbSysRole>()
+                      : src.RoleIds.Select(x => new TbSysRole { Id = x }))
+              .Map( //
+                  dest => dest.Positions
+                , src => src.PositionIds.NullOrEmpty()
+                      ? Array.Empty<TbSysPosition>()
+                      : src.PositionIds.Select(x => new TbSysPosition { Id = x }));
     }
 }
