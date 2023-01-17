@@ -11,6 +11,9 @@
             <el-form-item label="手机号" prop="mobile">
                 <el-input v-model="form.mobile" placeholder="请输入手机号" clearable></el-input>
             </el-form-item>
+            <el-form-item label="邮箱" prop="email">
+                <el-input v-model="form.email" placeholder="请输入邮箱" clearable></el-input>
+            </el-form-item>
             <template v-if="mode=='add'">
                 <el-form-item label="登录密码" prop="passwordText">
                     <el-input type="password" v-model="form.passwordText" clearable show-password></el-input>
@@ -69,7 +72,7 @@ export default {
                 userName: "",
                 avatar: null,
                 name: "",
-                deptId: 0,
+                deptId: null,
                 roleIds: [],
                 positionIds: []
             },
@@ -85,6 +88,12 @@ export default {
                     {
                         message: this.$CONFIG.LOC_STRINGS.mobile_phone_number_that_can_be_used_normally,
                         pattern: this.$CONFIG.STRINGS.RGX_MOBILE
+                    }
+                ],
+                email: [
+                    {
+                        message: this.$CONFIG.LOC_STRINGS.email_address_that_can_be_used_normally,
+                        pattern: this.$CONFIG.STRINGS.RGX_EMAIL
                     }
                 ],
                 passwordText: [
@@ -186,6 +195,7 @@ export default {
             this.form.enabled = data.enabled;
             this.form.id = data.id
             this.form.mobile = data.mobile
+            this.form.email = data.email
             this.form.userName = data.userName
             this.form.avatar = data.avatar
             this.form.name = data.name

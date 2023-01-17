@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NetAdmin.DataContract.DbMaps.Dependency;
-using NetAdmin.DataContract.DbMaps.Sys;
 
 namespace NetAdmin.DataContract.Dto.Sys.User;
 
@@ -10,29 +8,13 @@ namespace NetAdmin.DataContract.Dto.Sys.User;
 /// </summary>
 public record UpdateUserReq : CreateUserReq
 {
-    /// <inheritdoc cref="TbSysUser.BitSet" />
-    public override long BitSet {
-        get {
-            var ret = 0L;
-            if (Enabled) {
-                ret |= (long)BitSets.Enabled;
-            }
-
-            return ret;
-        }
-    }
-
-    /// <summary>
-    ///     启用
-    /// </summary>
-    [Required]
-    public bool Enabled { get; init; }
-
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     此属性无意义
+    /// </summary>
     [JsonIgnore]
     public override string PasswordText => nameof(PasswordText);
 

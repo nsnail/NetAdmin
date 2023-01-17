@@ -26,6 +26,19 @@
                         </el-main>
                     </el-container>
                 </el-collapse-item>
+                <el-collapse-item title="岗位筛选" name="3">
+                    <el-container>
+                        <el-header>
+                            <el-input placeholder="输入关键字进行过滤" v-model="posiFilterText" clearable></el-input>
+                        </el-header>
+                        <el-main class="nopadding">
+                            <el-tree ref="posi" class="menu" node-key="id" :data="posi" :current-node-key="''"
+                                     :highlight-current="true" :expand-on-click-node="false"
+                                     :props="posiProps"
+                                     :filter-node-method="posiFilterNode" @node-click="posiClick"></el-tree>
+                        </el-main>
+                    </el-container>
+                </el-collapse-item>
             </el-collapse>
         </el-aside>
         <el-container>
@@ -48,25 +61,38 @@
             <el-main class="nopadding">
                 <scTable ref="table" :apiObj="apiObj" @selection-change="selectionChange" stripe remoteSort
                          remoteFilter>
-                    <el-table-column type="selection" width="50"></el-table-column>
-                    <el-table-column label="ID" prop="id" width="150" sortable='custom'></el-table-column>
-                    <el-table-column label="头像" width="80" column-key="filterAvatar">
+                    <el-table-column type="selection"></el-table-column>
+                    <el-table-column label="ID" prop="id" sortable='custom'></el-table-column>
+                    <el-table-column label="用户名" prop="userName" sortable='custom'>
                         <template #default="scope">
-                            <el-avatar :src="getAvatar(scope)" size="small"></el-avatar>
+                            <div style="display: flex;flex-direction: row;">
+                                <div style="margin-right: 10px">
+                                    <el-avatar :src="getAvatar(scope)" size="small"></el-avatar>
+                                </div>
+                                <div style="flex-grow: 1">{{ scope.row.userName }}</div>
+                            </div>
                         </template>
+
                     </el-table-column>
-                    <el-table-column label="登录账号" prop="userName" width="150" sortable='custom'></el-table-column>
-                    <el-table-column label="手机号" prop="mobile" width="150" sortable='custom'></el-table-column>
-                    <el-table-column label="所属角色" width="300">
+                    <el-table-column label="手机号" prop="mobile" sortable='custom'></el-table-column>
+                    <el-table-column label="所属角色">
                         <template #default="scope">
                             <el-tag v-for="(item,index) in scope.row.roles" :key="index">
                                 {{ item.label }}
                             </el-tag>
                         </template>
                     </el-table-column>
-                    <el-table-column label="所属部门" prop="dept.label" sortable="custom" sort-by="deptid" width="200">
+                    <el-table-column label="所属部门" prop="dept.label" align="center" width="120" sortable="custom"
+                                     sort-by="deptid">
                     </el-table-column>
-                    <el-table-column label="状态" width="100"
+                    <el-table-column label="岗位">
+                        <template #default="scope">
+                            <el-tag v-for="(item,index) in scope.row.positions" :key="index">
+                                {{ item.name }}
+                            </el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="状态" width="80" align="center"
                                      column-key="filterUserName" :filters="[{text: '启用', value: '1'}, {text:
                                           '未启用', value: '0'}]" prop="enabled">
                         <template #default="scope">
@@ -74,9 +100,9 @@
                             <sc-status-indicator v-if="!scope.row.enabled" pulse type="danger"></sc-status-indicator>
                         </template>
                     </el-table-column>
-                    <el-table-column label="加入时间" prop="createdTime" width="170"
+                    <el-table-column label="加入时间" prop="createdTime"
                                      sortable='custom'></el-table-column>
-                    <el-table-column label="操作" fixed="right" align="right" width="160">
+                    <el-table-column label="操作" fixed="right" align="right">
                         <template #default="scope">
                             <el-button-group>
                                 <el-button text type="primary" size="small"
@@ -119,9 +145,12 @@ export default {
         return {
             queryParams: {
                 filter: {deptId: 0, roleId: 0},
-                dynamicFilter: null
+                dynamicFilter: {
+                    logic: 'and',
+                    filters: []
+                }
             },
-            activeNames: ['1', '2'],
+            activeNames: ['1', '2', '3'],
             dialog: {
                 save: false,
                 info: false
@@ -129,8 +158,13 @@ export default {
             showTreeloading: false,
             deptFilterText: '',
             roleFilterText: '',
+            posiFilterText: '',
             dept: [],
             role: [],
+            posi: [],
+            posiProps: {
+                label: (data) => data.name
+            },
             apiObj: this.$API.sys_user.pagedQuery,
             selection: [],
             search: {
@@ -144,6 +178,9 @@ export default {
         },
         roleFilterText(val) {
             this.$refs.role.filter(val);
+        },
+        posiFilterText(val) {
+            this.$refs.posi.filter(val);
         }
     },
     computed: {},
@@ -213,16 +250,22 @@ export default {
 
             //加载部门数据
             var res = await this.$API.sys_dept.query.post();
-            var allNode = {id: '', label: '所有'}
+            var allNode = {id: '', label: '所有部门'}
             res.data.unshift(allNode);
             this.dept = res.data;
 
             //加载角色数据
             res = await this.$API.sys_role.query.post();
-            allNode = {id: '', label: '所有'}
+            allNode = {id: '', label: '所有角色'}
             res.data.unshift(allNode);
             this.role = res.data;
 
+
+            //加载岗位数据
+            res = await this.$API.sys_position.query.post();
+            allNode = {id: '', name: '所有岗位'}
+            res.data.unshift(allNode);
+            this.posi = res.data;
 
             this.showTreeloading = false;
         },
@@ -244,6 +287,16 @@ export default {
         //角色树点击事件
         roleClick(data) {
             this.queryParams.filter.roleId = data.id ? data.id : 0;
+            this.$refs.table.reload(this.queryParams)
+        },
+        //岗位树过滤
+        posiFilterNode(value, data) {
+            if (!value) return true;
+            return data.name.indexOf(value) !== -1;
+        },
+        //岗位树点击事件
+        posiClick(data) {
+            this.queryParams.filter.positionId = data.id ? data.id : 0;
             this.$refs.table.reload(this.queryParams)
         },
         //搜索

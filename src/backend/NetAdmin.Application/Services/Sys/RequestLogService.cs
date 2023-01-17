@@ -65,7 +65,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
                                                  , a.Duration
                                                  , a.Method
                                                  , a.UserAgent
-                                                 , a.StatusCode
+                                                 , StatusCode = a.HttpStatusCode
                                                  , a.Id
                                                });
 

@@ -77,7 +77,7 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     public async Task<QueryMenuRsp> Update(UpdateMenuReq req)
     {
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation);
         }
 
         var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();

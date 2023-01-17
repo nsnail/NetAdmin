@@ -25,19 +25,19 @@ public class FileService : ServiceBase<IFileService>, IFileService
     public async Task<string> Upload(IFormFile file)
     {
         if (file is null || file.Length < 1) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.File_cannot_be_empty);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.File_cannot_be_empty);
         }
 
         if (!_uploadOptions.ContentTypes.Contains(file.ContentType)) {
             throw Oops.Oh( //
-                Enums.StatusCodes.InvalidOperation
+                Enums.RspCodes.InvalidOperation
               , string.Format(CultureInfo.InvariantCulture, Ln.The_allowed_file_formats_are
                             , string.Join(",", _uploadOptions.ContentTypes)));
         }
 
         if (!(file.Length <= _uploadOptions.MaxSize)) {
             throw Oops.Oh( //
-                Enums.StatusCodes.InvalidOperation
+                Enums.RspCodes.InvalidOperation
               , string.Format(CultureInfo.InvariantCulture, Ln.Maximum_number_of_file_bytes_allowed
                             , _uploadOptions.MaxSize));
         }

@@ -8,7 +8,7 @@ public record RestfulInfo<T> : DataAbstraction
     /// <summary>
     ///     代码
     /// </summary>
-    public Enums.StatusCodes Code { get; init; }
+    public Enums.RspCodes Code { get; init; }
 
     /// <summary>
     ///     数据

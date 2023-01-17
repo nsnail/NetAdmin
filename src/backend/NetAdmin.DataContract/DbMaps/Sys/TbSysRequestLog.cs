@@ -48,6 +48,11 @@ public record TbSysRequestLog : ImmutableEntity
     public virtual string ExtraData { get; set; }
 
     /// <summary>
+    ///     HTTP状态码
+    /// </summary>
+    public virtual int HttpStatusCode { get; init; }
+
+    /// <summary>
     ///     请求方法
     /// </summary>
     [JsonIgnore]
@@ -102,15 +107,15 @@ public record TbSysRequestLog : ImmutableEntity
     public virtual string ResponseHeaders { get; set; }
 
     /// <summary>
+    ///     程序响应码
+    /// </summary>
+    public virtual Enums.RspCodes RspCode { get; set; }
+
+    /// <summary>
     ///     服务器IP
     /// </summary>
     [JsonIgnore]
     public virtual string ServerIp { get; init; }
-
-    /// <summary>
-    ///     响应状态码
-    /// </summary>
-    public virtual int StatusCode { get; set; }
 
     /// <summary>
     ///     浏览器标识

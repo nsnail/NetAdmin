@@ -37,7 +37,7 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     public async Task<QueryDicCatalogRsp> Create(CreateDicCatalogReq req)
     {
         if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
         }
 
         var ret = await Rpo.InsertAsync(req);
@@ -79,11 +79,11 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     public async Task<QueryDicCatalogRsp> Update(UpdateDicCatalogReq req)
     {
         if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
         }
 
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation);
         }
 
         var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();

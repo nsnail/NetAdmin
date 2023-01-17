@@ -264,4 +264,7 @@
     <data name="Position does not exist" xml:space="preserve">
         <value>岗位不存在</value>
     </data>
+    <data name="Email address that can be used normally" xml:space="preserve">
+        <value>能正常使用的邮箱地址</value>
+    </data>
 </root>

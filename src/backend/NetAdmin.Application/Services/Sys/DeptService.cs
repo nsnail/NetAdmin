@@ -36,7 +36,7 @@ public class DeptService : RepositoryService<TbSysDept, IDeptService>, IDeptServ
     public async Task<QueryDeptRsp> Create(CreateDeptReq req)
     {
         if (req.ParentId != 0 && !await Rpo.Select.AnyAsync(a => a.Id == req.ParentId)) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.Parent_department_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Parent_department_does_not_exist);
         }
 
         var ret = await Rpo.InsertAsync(req);
@@ -51,12 +51,12 @@ public class DeptService : RepositoryService<TbSysDept, IDeptService>, IDeptServ
     {
         if (await Rpo.Orm.Select<TbSysUser>().AnyAsync(a => a.DeptId == req.Id)) {
             throw Oops.Oh( //
-                Enums.StatusCodes.InvalidOperation, Ln.There_are_users_under_this_department_which_cannot_be_deleted);
+                Enums.RspCodes.InvalidOperation, Ln.There_are_users_under_this_department_which_cannot_be_deleted);
         }
 
         if (await Rpo.Select.AnyAsync(a => a.ParentId == req.Id)) {
             throw Oops.Oh( //
-                Enums.StatusCodes.InvalidOperation
+                Enums.RspCodes.InvalidOperation
               , Ln.There_are_sub_departments_under_this_department_which_cannot_be_deleted);
         }
 
@@ -88,7 +88,7 @@ public class DeptService : RepositoryService<TbSysDept, IDeptService>, IDeptServ
     public async Task<QueryDeptRsp> Update(UpdateDeptReq req)
     {
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation);
         }
 
         var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();

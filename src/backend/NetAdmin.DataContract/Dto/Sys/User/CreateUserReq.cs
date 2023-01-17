@@ -17,9 +17,32 @@ public record CreateUserReq : TbSysUser, IRegister
     [Url]
     public override string Avatar { get; init; }
 
+    /// <inheritdoc cref="TbSysUser.BitSet" />
+    public override long BitSet {
+        get {
+            var ret = 0L;
+            if (Enabled) {
+                ret |= (long)BitSets.Enabled;
+            }
+
+            return ret;
+        }
+    }
+
     /// <inheritdoc cref="TbSysUser.DeptId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long DeptId { get; init; }
+
+    /// <inheritdoc cref="TbSysUser.Email" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [EmailAddress]
+
+    public override string Email { get; set; }
+
+    /// <summary>
+    ///     启用
+    /// </summary>
+    public bool Enabled { get; init; } = true;
 
     /// <inheritdoc cref="TbSysUser.Mobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -38,7 +61,7 @@ public record CreateUserReq : TbSysUser, IRegister
     /// </summary>
     [Required]
     [MinLength(1)]
-    [MaxLength(10)]
+    [MaxLength(Numbers.BULK_REQ_LIMIT)]
     public List<long> PositionIds { get; set; }
 
     /// <summary>
@@ -46,7 +69,7 @@ public record CreateUserReq : TbSysUser, IRegister
     /// </summary>
     [Required]
     [MinLength(1)]
-    [MaxLength(10)]
+    [MaxLength(Numbers.BULK_REQ_LIMIT)]
     public List<long> RoleIds { get; set; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />

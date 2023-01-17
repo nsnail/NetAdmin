@@ -48,6 +48,9 @@ public record QueryRequestLogRsp : TbSysRequestLog, IRegister
     public override string ExtraData { get; set; }
 
     /// <inheritdoc />
+    public override int HttpStatusCode { get; init; }
+
+    /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Method { get; init; }
 
@@ -85,10 +88,11 @@ public record QueryRequestLogRsp : TbSysRequestLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string ServerIp { get; init; }
+    public override Enums.RspCodes RspCode { get; set; }
 
     /// <inheritdoc />
-    public override int StatusCode { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string ServerIp { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

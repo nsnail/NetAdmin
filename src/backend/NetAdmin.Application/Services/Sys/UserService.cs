@@ -63,11 +63,11 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     {
         var dbUser = await Rpo.GetAsync(a => a.UserName == req.UserName && a.Password == req.Password.Pwd().Guid());
         if (dbUser is null) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.User_name_or_password_error);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_name_or_password_error);
         }
 
         if (!dbUser.BitSet.HasFlag(EntityBase.BitSets.Enabled)) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.User_disabled);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_disabled);
         }
 
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
@@ -153,7 +153,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
                                          (a.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
                              .ToListAsync(a => a.Id);
         if (roles.Count != req.RoleIds.Count) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_character_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_character_does_not_exist);
         }
 
         // 检查岗位是否存在、有效
@@ -163,7 +163,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
                                              (a.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
                                  .ToListAsync(a => a.Id);
         if (positions.Count != req.PositionIds.Count) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.Position_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Position_does_not_exist);
         }
 
         // 检查部门是否存在、有效
@@ -173,7 +173,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
                             .ToListAsync(a => a.Id);
 
         if (dept.Count != 1) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_department_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_department_does_not_exist);
         }
     }
 
@@ -195,7 +195,10 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
                      .WhereIf( //
                          req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
                      .WhereIf( //
-                         req.Filter?.RoleId                  > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
+                         req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
+                     .WhereIf( //
+                         req.Filter?.PositionId > 0
+                       , a => a.Positions.Any(b => b.Id == req.Filter.PositionId))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending);
 
         return ret;
@@ -208,12 +211,12 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         var roles = await Rpo.Orm.Select<TbSysRole>().ForUpdate().Where(a => req.RoleIds.Contains(a.Id)).ToListAsync();
 
         if (roles.Count != req.RoleIds.Count) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_character_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_character_does_not_exist);
         }
 
         var dept = await Rpo.Orm.Select<TbSysDept>().ForUpdate().Where(a => a.Id == req.DeptId).ToOneAsync();
         return dept is null
-            ? throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.The_department_does_not_exist)
+            ? throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_department_does_not_exist)
             : (roles, dept);
     }
 }

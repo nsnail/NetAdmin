@@ -66,7 +66,7 @@
                     <el-main class="nopadding">
                         <scTable ref="table" :apiObj="apiObj" stripe highlightCurrentRow @row-click="rowClick"
                                  remoteSort remoteFilter>
-                            <el-table-column sortable="custom" label="状态码" prop="statusCode"
+                            <el-table-column sortable="custom" label="状态码" prop="httpStatusCode"
                                              width="100"></el-table-column>
                             <el-table-column sortable="custom" label="ID" prop="id" width="180"></el-table-column>
                             <el-table-column label="请求服务">
@@ -176,16 +176,16 @@ export default {
             },
             statusFilters: [
                 {label: '所有状态'},
-                {label: '成功请求', field: 'statusCode', operator: 'eq', value: 200},
+                {label: '成功请求', field: 'httpStatusCode', operator: 'eq', value: 200},
                 {
-                    label: '失败请求', field: 'statusCode', operator: 'NotAny', value: '200'
+                    label: '失败请求', field: 'httpStatusCode', operator: 'NotAny', value: '200'
                     , children: [
-                        {label: '400', field: 'statusCode', operator: 'eq', value: 400},
-                        {label: '401', field: 'statusCode', operator: 'eq', value: 401},
-                        {label: '403', field: 'statusCode', operator: 'eq', value: 403},
-                        {label: '404', field: 'statusCode', operator: 'eq', value: 404},
-                        {label: '500', field: 'statusCode', operator: 'eq', value: 500},
-                        {label: '其它', field: 'statusCode', operator: 'NotAny', value: '200,400,401,403,404,500'}
+                        {label: '400', field: 'httpStatusCode', operator: 'eq', value: 400},
+                        {label: '401', field: 'httpStatusCode', operator: 'eq', value: 401},
+                        {label: '403', field: 'httpStatusCode', operator: 'eq', value: 403},
+                        {label: '404', field: 'httpStatusCode', operator: 'eq', value: 404},
+                        {label: '500', field: 'httpStatusCode', operator: 'eq', value: 500},
+                        {label: '其它', field: 'httpStatusCode', operator: 'NotAny', value: '200,400,401,403,404,500'}
                     ]
                 },
             ],

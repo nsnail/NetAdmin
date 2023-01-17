@@ -37,7 +37,7 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     public async Task<QueryDicContentRsp> Create(CreateDicContentReq req)
     {
         if (!await Rpo.Orm.Select<TbSysDicCatalog>().Where(a => a.Id == req.CatalogId).ForUpdate().AnyAsync()) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.Dictionary_directory_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Dictionary_directory_does_not_exist);
         }
 
         var ret = await Rpo.InsertAsync(req);
@@ -79,11 +79,11 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     public async Task<QueryDicContentRsp> Update(UpdateDicContentReq req)
     {
         if (!await Rpo.Orm.Select<TbSysDicCatalog>().Where(a => a.Id == req.CatalogId).ForUpdate().AnyAsync()) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation, Ln.Dictionary_directory_does_not_exist);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Dictionary_directory_does_not_exist);
         }
 
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw Oops.Oh(Enums.StatusCodes.InvalidOperation);
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation);
         }
 
         var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();

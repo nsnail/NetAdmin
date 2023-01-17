@@ -79,6 +79,8 @@ public class RequestAuditMiddleware
         context.Response.Body = stream;
 
         var exception = context.Features.Get<IExceptionHandlerFeature>();
+        var rspCode = context.Response.Headers[nameof(Enums.RspCodes)].FirstOrDefault()?.Enum<Enums.RspCodes>() ??
+                      Enums.RspCodes.Succeed;
         var auditData = new CreateRequestLogReq {
                                                     ClientIp            = context.GetRemoteIpAddressToIPv4()
                                                   , Duration            = (uint)sw.ElapsedMilliseconds
@@ -94,7 +96,8 @@ public class RequestAuditMiddleware
                                                   , RequestHeaders      = context.Request.Headers.Json()
                                                   , ResponseContentType = context.Response.ContentType
                                                   , ResponseHeaders     = context.Response.Headers.Json()
-                                                  , StatusCode          = context.Response.StatusCode
+                                                  , HttpStatusCode      = context.Response.StatusCode
+                                                  , RspCode             = rspCode
                                                   , Exception           = exception?.Error.ToString()
                                                 };
 

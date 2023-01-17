@@ -124,7 +124,7 @@ public static class Enums
     /// </summary>
     [ErrorCodeType]
     [Export]
-    public enum StatusCodes
+    public enum RspCodes
     {
         /// <summary>
         ///     成功
@@ -136,61 +136,40 @@ public static class Enums
        ,
 
         /// <summary>
-        ///     意外错误
+        ///     未处理的异常
         /// </summary>
+        /// <remarks>
+        ///     通过全局异常过滤器捕获的问题
+        /// </remarks>
         [ErrorCodeItemMetadata("{0}")]
         [Description(nameof(Ln.Unexpected))]
         [Localization(typeof(Ln))]
-        Unexpected = 4000
+        Unexpected = 9000
 
        ,
 
         /// <summary>
         ///     无效输入
         /// </summary>
+        /// <remarks>
+        ///     请求参数格式不对、校验错误等问题
+        /// </remarks>
         [ErrorCodeItemMetadata("{0}")]
         [Description(nameof(Ln.Invalid_input))]
         [Localization(typeof(Ln))]
-        InvalidInput = 4010
+        InvalidInput = 9100
 
        ,
 
         /// <summary>
         ///     无效操作
         /// </summary>
+        /// <remarks>
+        ///     不允许的操作，事务失败等问题
+        /// </remarks>
         [ErrorCodeItemMetadata("{0}")]
         [Description(nameof(Ln.Invalid_operation))]
         [Localization(typeof(Ln))]
-        InvalidOperation = 4020
-
-       ,
-
-        /// <summary>
-        ///     未登录
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Ln.Not_logged_in))]
-        [Localization(typeof(Ln))]
-        IdentityMissing = 4030
-
-       ,
-
-        /// <summary>
-        ///     权限不足
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Ln.Insufficient_permissions))]
-        [Localization(typeof(Ln))]
-        NoPermissions = 4031
-
-       ,
-
-        /// <summary>
-        ///     人机验证
-        /// </summary>
-        [ErrorCodeItemMetadata("{0}")]
-        [Description(nameof(Ln.Man_machine_verification))]
-        [Localization(typeof(Ln))]
-        HumanVerification = 4040
+        InvalidOperation = 9200
     }
 }

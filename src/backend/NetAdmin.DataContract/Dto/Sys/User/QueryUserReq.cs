@@ -21,6 +21,11 @@ public record QueryUserReq : TbSysUser
     public override long Id { get; set; }
 
     /// <summary>
+    ///     岗位id
+    /// </summary>
+    public long PositionId { get; set; }
+
+    /// <summary>
     ///     角色id
     /// </summary>
     public long RoleId { get; init; }

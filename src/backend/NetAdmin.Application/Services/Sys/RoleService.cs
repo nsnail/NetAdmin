@@ -54,7 +54,7 @@ public class RoleService : RepositoryService<TbSysRole, IRoleService>, IRoleServ
     {
         if (await Rpo.Orm.Select<TbSysUserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id)) {
             throw Oops.Oh( //
-                Enums.StatusCodes.InvalidOperation, Ln.Users_exist_under_this_role_and_deletion_is_not_allowed);
+                Enums.RspCodes.InvalidOperation, Ln.Users_exist_under_this_role_and_deletion_is_not_allowed);
         }
 
         var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);

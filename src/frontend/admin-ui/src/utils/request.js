@@ -73,12 +73,12 @@ axios.interceptors.response.use(
     },
     (error) => {
         if (error.response) {
-            if (error.response.status == 404) {
+            if (error.response.status === 404) {
                 ElNotification.error({
                     title: '请求错误',
                     message: "Status:404，正在请求不存在的服务器记录！"
                 });
-            } else if (error.response.status == 401) {
+            } else if (error.response.status === 401 || error.response.status === 403) {
                 if (!MessageBox_401_show) {
                     MessageBox_401_show = true
                     ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
@@ -96,7 +96,7 @@ axios.interceptors.response.use(
                     })
                 }
             } else if (error.response.data.code) {
-                let title = sysConfig.ENUMS.statusCodes[error.response.data.code];
+                let title = sysConfig.ENUMS.rspCodes[error.response.data.code];
                 if (typeof (error.response.data.msg) == 'object') {
                     let i = 0;
                     for (const item in error.response.data.msg) {

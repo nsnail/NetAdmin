@@ -10,12 +10,14 @@ namespace NetAdmin.DataContract.DbMaps.Sys;
 [Table]
 [Index($"idx_{{tablename}}_{nameof(UserName)}", nameof(UserName), true)]
 [Index($"idx_{{tablename}}_{nameof(Mobile)}",   nameof(Mobile),   true)]
+[Index($"idx_{{tablename}}_{nameof(Email)}",    nameof(Email),    true)]
 public record TbSysUser : MutableEntity, IFieldBitSet
 {
     /// <summary>
     ///     头像链接
     /// </summary>
     [JsonIgnore]
+    [Column(StringLength = 128)]
     public virtual string Avatar { get; init; }
 
     /// <summary>
@@ -38,9 +40,16 @@ public record TbSysUser : MutableEntity, IFieldBitSet
     public virtual long DeptId { get; init; }
 
     /// <summary>
+    ///     邮箱
+    /// </summary>
+    [Column(StringLength = 64)]
+    public virtual string Email { get; set; }
+
+    /// <summary>
     ///     手机号
     /// </summary>
     [JsonIgnore]
+    [Column(StringLength = 16)]
     public virtual string Mobile { get; init; }
 
     /// <summary>
@@ -73,5 +82,6 @@ public record TbSysUser : MutableEntity, IFieldBitSet
     ///     用户名
     /// </summary>
     [JsonIgnore]
+    [Column(StringLength = 32)]
     public virtual string UserName { get; init; }
 }
