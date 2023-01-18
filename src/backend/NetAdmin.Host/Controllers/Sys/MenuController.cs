@@ -6,7 +6,7 @@ using NetAdmin.Domain.Dto.Sys.Menu;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
 ///     菜单服务

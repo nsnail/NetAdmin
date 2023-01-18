@@ -1,11 +1,11 @@
 using NetAdmin.Application.Modules.Sys;
-using NetAdmin.Application.Services.Sys.Dependency.Dic;
+using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 using NetAdmin.Host.Attributes;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
 ///     字典服务

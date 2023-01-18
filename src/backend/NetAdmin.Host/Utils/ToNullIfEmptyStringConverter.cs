@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 namespace NetAdmin.Host.Utils;
 
 /// <summary>
-///     String.Empty -> Null 转换器
+///     "" -> null 转换器
 /// </summary>
-public class ToNullIfReadEmptyStringConverter : JsonConverter<string>
+public class ToNullIfEmptyStringConverter : JsonConverter<string>
 {
     /// <inheritdoc />
     public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -18,6 +18,6 @@ public class ToNullIfReadEmptyStringConverter : JsonConverter<string>
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value);
+        writer.WriteStringValue(value.Length == 0 ? null : value);
     }
 }

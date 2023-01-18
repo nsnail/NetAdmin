@@ -37,7 +37,7 @@ public record TbSysDicCatalog : MutableEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     [Navigate(nameof(TbSysDicContent.CatalogId))]
-    public virtual ICollection<TbSysDicContent> Contents { get; init; }
+    public virtual IReadOnlyCollection<TbSysDicContent> Contents { get; init; }
 
     /// <summary>
     ///     字典名称

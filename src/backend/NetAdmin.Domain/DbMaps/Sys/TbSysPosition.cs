@@ -41,5 +41,5 @@ public record TbSysPosition : MutableEntity, IFieldBitSet, IFieldSort, IFieldSum
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysUserPosition))]
     [JsonIgnore]
-    public ICollection<TbSysUser> Users { get; init; }
+    public IReadOnlyCollection<TbSysUser> Users { get; init; }
 }

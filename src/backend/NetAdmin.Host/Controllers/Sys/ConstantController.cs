@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
 ///     常量服务

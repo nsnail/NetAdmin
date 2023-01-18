@@ -1,6 +1,6 @@
 using Furion.DynamicApiController;
 
-namespace NetAdmin.Host.WebApi;
+namespace NetAdmin.Host.Controllers;
 
 /// <summary>
 ///     控制器基类

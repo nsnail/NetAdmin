@@ -2,26 +2,25 @@ using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Host.Attributes;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
-///     请求日志服务
+///     部门服务
 /// </summary>
-public class LogController : ControllerBase<IRequestLogService>, IRequestLogModule
+public class DeptController : ControllerBase<IDeptService>, IDeptModule
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="LogController" /> class.
+    ///     Initializes a new instance of the <see cref="DeptController" /> class.
     /// </summary>
-    public LogController(IRequestLogService service) //
+    public DeptController(IDeptService service) //
         : base(service) { }
 
     /// <summary>
-    ///     批量删除请求日志
+    ///     批量删除部门
     /// </summary>
-    [NonAction]
     [Transaction]
     public async Task<int> BulkDelete(BulkReq<DelReq> req)
     {
@@ -29,19 +28,17 @@ public class LogController : ControllerBase<IRequestLogService>, IRequestLogModu
     }
 
     /// <summary>
-    ///     创建请求日志
+    ///     创建部门
     /// </summary>
-    [NonAction]
     [Transaction]
-    public async Task<QueryRequestLogRsp> Create(CreateRequestLogReq req)
+    public async Task<QueryDeptRsp> Create(CreateDeptReq req)
     {
         return await Service.Create(req);
     }
 
     /// <summary>
-    ///     删除请求日志
+    ///     删除部门
     /// </summary>
-    [NonAction]
     [Transaction]
     public async Task<int> Delete(DelReq req)
     {
@@ -49,27 +46,27 @@ public class LogController : ControllerBase<IRequestLogService>, IRequestLogModu
     }
 
     /// <summary>
-    ///     分页查询请求日志
+    ///     分页查询部门
     /// </summary>
-    public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQuery(PagedQueryReq<QueryRequestLogReq> req)
+    [NonAction]
+    public async Task<PagedQueryRsp<QueryDeptRsp>> PagedQuery(PagedQueryReq<QueryDeptReq> req)
     {
         return await Service.PagedQuery(req);
     }
 
     /// <summary>
-    ///     查询请求日志
+    ///     查询部门
     /// </summary>
-    public async Task<IEnumerable<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
+    public async Task<IEnumerable<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
     {
         return await Service.Query(req);
     }
 
     /// <summary>
-    ///     更新请求日志
+    ///     更新部门
     /// </summary>
-    [NonAction]
     [Transaction]
-    public async Task<NopReq> Update(NopReq req)
+    public async Task<QueryDeptRsp> Update(UpdateDeptReq req)
     {
         return await Service.Update(req);
     }

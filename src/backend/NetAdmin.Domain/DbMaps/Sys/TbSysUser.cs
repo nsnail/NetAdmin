@@ -64,14 +64,14 @@ public record TbSysUser : MutableEntity, IFieldBitSet, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysUserPosition))]
-    public virtual ICollection<TbSysPosition> Positions { get; init; }
+    public virtual IReadOnlyCollection<TbSysPosition> Positions { get; init; }
 
     /// <summary>
     ///     所属角色
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysUserRole))]
-    public virtual ICollection<TbSysRole> Roles { get; init; }
+    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
 
     /// <summary>
     ///     描述

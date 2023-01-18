@@ -161,7 +161,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysRoleMenu))]
-    public virtual ICollection<TbSysRole> Roles { get; init; }
+    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
 
     /// <summary>
     ///     排序

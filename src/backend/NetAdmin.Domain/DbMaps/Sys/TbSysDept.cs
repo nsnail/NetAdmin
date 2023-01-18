@@ -41,7 +41,7 @@ public record TbSysDept : MutableEntity, IFieldBitSet, IFieldSummary
     ///     角色集合
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleDept))]
-    public virtual ICollection<TbSysRole> Roles { get; init; }
+    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
 
     /// <summary>
     ///     排序

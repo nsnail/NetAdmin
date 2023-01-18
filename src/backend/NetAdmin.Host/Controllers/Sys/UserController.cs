@@ -8,7 +8,7 @@ using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
 ///     用户服务

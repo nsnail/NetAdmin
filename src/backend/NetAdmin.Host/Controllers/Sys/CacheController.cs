@@ -2,7 +2,7 @@ using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
 ///     缓存服务

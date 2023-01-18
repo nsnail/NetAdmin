@@ -2,25 +2,26 @@ using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.Dept;
+using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Host.Attributes;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
-///     部门服务
+///     接口服务
 /// </summary>
-public class DeptController : ControllerBase<IDeptService>, IDeptModule
+public class ApiController : ControllerBase<IApiService>, IApiModule
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DeptController" /> class.
+    ///     Initializes a new instance of the <see cref="ApiController" /> class.
     /// </summary>
-    public DeptController(IDeptService service) //
+    public ApiController(IApiService service) //
         : base(service) { }
 
     /// <summary>
-    ///     批量删除部门
+    ///     批量删除接口
     /// </summary>
+    [NonAction]
     [Transaction]
     public async Task<int> BulkDelete(BulkReq<DelReq> req)
     {
@@ -28,17 +29,19 @@ public class DeptController : ControllerBase<IDeptService>, IDeptModule
     }
 
     /// <summary>
-    ///     创建部门
+    ///     创建接口
     /// </summary>
+    [NonAction]
     [Transaction]
-    public async Task<QueryDeptRsp> Create(CreateDeptReq req)
+    public async Task<QueryApiRsp> Create(CreateApiReq req)
     {
         return await Service.Create(req);
     }
 
     /// <summary>
-    ///     删除部门
+    ///     删除接口
     /// </summary>
+    [NonAction]
     [Transaction]
     public async Task<int> Delete(DelReq req)
     {
@@ -46,27 +49,36 @@ public class DeptController : ControllerBase<IDeptService>, IDeptModule
     }
 
     /// <summary>
-    ///     分页查询部门
+    ///     分页查询接口
     /// </summary>
     [NonAction]
-    public async Task<PagedQueryRsp<QueryDeptRsp>> PagedQuery(PagedQueryReq<QueryDeptReq> req)
+    public async Task<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
     {
         return await Service.PagedQuery(req);
     }
 
     /// <summary>
-    ///     查询部门
+    ///     查询接口
     /// </summary>
-    public async Task<IEnumerable<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
+    public async Task<IEnumerable<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
     {
         return await Service.Query(req);
     }
 
     /// <summary>
-    ///     更新部门
+    ///     同步接口
     /// </summary>
     [Transaction]
-    public async Task<QueryDeptRsp> Update(UpdateDeptReq req)
+    public async Task Sync()
+    {
+        await Service.Sync();
+    }
+
+    /// <summary>
+    ///     更新接口
+    /// </summary>
+    [NonAction]
+    public async Task<NopReq> Update(NopReq req)
     {
         return await Service.Update(req);
     }

@@ -1,7 +1,7 @@
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
 ///     文件服务

@@ -1,6 +1,6 @@
 using NetAdmin.Application.Modules.Sys;
 
-namespace NetAdmin.Application.Services.Sys.Dependency.Dic;
+namespace NetAdmin.Application.Services.Sys.Dependency;
 
 /// <summary>
 ///     字典服务

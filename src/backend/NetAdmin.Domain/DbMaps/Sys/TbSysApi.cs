@@ -54,7 +54,7 @@ public record TbSysApi : ImmutableEntity<string>, IFieldSummary
     ///     角色集合
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleApi))]
-    public virtual ICollection<TbSysRole> Roles { get; init; }
+    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
 
     /// <summary>
     ///     服务描述

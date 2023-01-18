@@ -5,7 +5,7 @@ using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Tpl.Example;
 using NetAdmin.Host.Attributes;
 
-namespace NetAdmin.Host.WebApi.Tpl;
+namespace NetAdmin.Host.Controllers.Tpl;
 
 /// <summary>
 ///     示例服务

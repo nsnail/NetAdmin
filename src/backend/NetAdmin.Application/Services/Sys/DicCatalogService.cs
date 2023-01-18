@@ -2,12 +2,12 @@ using FreeSql;
 using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
-using NetAdmin.Application.Services.Sys.Dependency.Dic;
+using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 
-namespace NetAdmin.Application.Services.Sys.Dic;
+namespace NetAdmin.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicCatalogService" />
 public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogService>, IDicCatalogService

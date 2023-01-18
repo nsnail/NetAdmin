@@ -84,7 +84,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysRoleApi))]
-    public ICollection<TbSysApi> Apis { get; set; }
+    public IReadOnlyCollection<TbSysApi> Apis { get; set; }
 
     /// <summary>
     ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="RoleBits" />
@@ -103,14 +103,14 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleDept))]
     [JsonIgnore]
-    public virtual ICollection<TbSysDept> Depts { get; init; }
+    public virtual IReadOnlyCollection<TbSysDept> Depts { get; init; }
 
     /// <summary>
     ///     角色-菜单映射
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysRoleMenu))]
     [JsonIgnore]
-    public virtual ICollection<TbSysMenu> Menus { get; init; }
+    public virtual IReadOnlyCollection<TbSysMenu> Menus { get; init; }
 
     /// <summary>
     ///     角色名
@@ -135,5 +135,5 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     /// </summary>
     [Navigate(ManyToMany = typeof(TbSysUserRole))]
     [JsonIgnore]
-    public ICollection<TbSysUser> Users { get; init; }
+    public IReadOnlyCollection<TbSysUser> Users { get; init; }
 }

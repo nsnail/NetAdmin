@@ -27,7 +27,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
     ///     角色-接口映射
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public ICollection<string> ApiIds { get; init; }
+    public IReadOnlyCollection<string> ApiIds { get; init; }
 
     /// <inheritdoc cref="IFieldAdd.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -51,7 +51,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
     ///     角色-菜单映射
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public ICollection<long> MenuIds { get; init; }
+    public IReadOnlyCollection<long> MenuIds { get; init; }
 
     /// <inheritdoc cref="TbSysRole.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

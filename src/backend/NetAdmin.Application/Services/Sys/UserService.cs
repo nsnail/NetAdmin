@@ -215,20 +215,4 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
 
         return ret;
     }
-
-    private async Task<(IEnumerable<TbSysRole> Roles, TbSysDept Dept)> SelectRolesAndDept(CreateUserReq req)
-    {
-        req.RoleIds = req.RoleIds.Distinct().ToList();
-
-        var roles = await Rpo.Orm.Select<TbSysRole>().ForUpdate().Where(a => req.RoleIds.Contains(a.Id)).ToListAsync();
-
-        if (roles.Count != req.RoleIds.Count) {
-            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_character_does_not_exist);
-        }
-
-        var dept = await Rpo.Orm.Select<TbSysDept>().ForUpdate().Where(a => a.Id == req.DeptId).ToOneAsync();
-        return dept is null
-            ? throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_department_does_not_exist)
-            : (roles, dept);
-    }
 }

@@ -4,7 +4,7 @@ using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Position;
 using NetAdmin.Host.Attributes;
 
-namespace NetAdmin.Host.WebApi.Sys;
+namespace NetAdmin.Host.Controllers.Sys;
 
 /// <summary>
 ///     岗位服务

@@ -1,9 +1,9 @@
-using NetAdmin.Application.Services.Sys.Dependency.Dic;
+using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
-namespace NetAdmin.Application.Services.Sys.Dic;
+namespace NetAdmin.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicService" />
 public class DicService : ServiceBase<IDicService>, IDicService
