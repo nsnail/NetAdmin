@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using FreeSql;
+using NetAdmin.DataContract.Context;
 
 namespace NetAdmin.Application.Repositories;
 
@@ -12,7 +13,7 @@ public interface IRepository<TEntity> : IBaseRepository<TEntity>
     /// <summary>
     ///     当前上下文关联的用户
     /// </summary>
-    ContextUser ContextUser { get; }
+    ContextUser User { get; }
 
     /// <summary>
     ///     递归删除

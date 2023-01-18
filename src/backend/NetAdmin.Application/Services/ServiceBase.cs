@@ -1,6 +1,7 @@
 using Furion;
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetAdmin.DataContract.Context;
 
 namespace NetAdmin.Application.Services;
 

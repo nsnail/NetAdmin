@@ -1,4 +1,7 @@
-namespace NetAdmin.DataContract;
+using Furion;
+using NSExt.Extensions;
+
+namespace NetAdmin.DataContract.Context;
 
 /// <summary>
 ///     上下文用户信息
@@ -19,4 +22,13 @@ public record ContextUser
     ///     用户名
     /// </summary>
     public string UserName { get; init; }
+
+    /// <summary>
+    ///     从HttpContext ClaimsPrincipal 创建上下文用户
+    /// </summary>
+    public static ContextUser Create()
+    {
+        var claim = App.User?.FindFirst(nameof(ContextUser));
+        return claim?.Value.Object<ContextUser>();
+    }
 }

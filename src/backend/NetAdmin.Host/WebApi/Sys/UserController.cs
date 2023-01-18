@@ -1,3 +1,4 @@
+using Furion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
@@ -59,7 +60,12 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     [AllowAnonymous]
     public async Task<LoginRsp> Login(LoginReq req)
     {
-        return await Service.Login(req);
+        var ret = await Service.Login(req);
+
+        // 设置响应报文头
+        App.HttpContext.Response.Headers[Chars.FLG_ACCESS_TOKEN]   = ret.AccessToken;
+        App.HttpContext.Response.Headers[Chars.FLG_X_ACCESS_TOKEN] = ret.RefreshToken;
+        return ret;
     }
 
     /// <summary>

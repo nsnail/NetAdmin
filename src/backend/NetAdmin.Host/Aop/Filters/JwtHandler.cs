@@ -2,6 +2,7 @@ using Furion;
 using Furion.Authorization;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
+using NetAdmin.DataContract.Context;
 using NetAdmin.Host.Caches.Sys;
 
 namespace NetAdmin.Host.Aop.Filters;

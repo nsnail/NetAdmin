@@ -5,6 +5,7 @@ using Furion.EventBus;
 using Furion.SpecificationDocument;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Options;
+using NetAdmin.DataContract.Context;
 using NetAdmin.DataContract.Dto.Sys.RequestLog;
 using NetAdmin.Host.Events.Sources;
 using NSExt.Extensions;

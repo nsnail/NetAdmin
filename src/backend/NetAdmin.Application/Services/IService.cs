@@ -1,3 +1,5 @@
+using NetAdmin.DataContract.Context;
+
 namespace NetAdmin.Application.Services;
 
 /// <summary>

@@ -1,10 +1,10 @@
 using FreeSql;
-using Furion;
 using Furion.DataEncryption;
 using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.DataContract.Context;
 using NetAdmin.DataContract.DbMaps.Sys;
 using NetAdmin.DataContract.Dto.Dependency;
 using NetAdmin.DataContract.Dto.Sys.User;
@@ -74,10 +74,6 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
 
         var ret = new LoginRsp { AccessToken = JWTEncryption.Encrypt(tokenPayload) };
         ret.RefreshToken = JWTEncryption.GenerateRefreshToken(ret.AccessToken);
-
-        // 设置响应报文头
-        App.HttpContext.Response.Headers[Chars.FLG_ACCESS_TOKEN]   = ret.AccessToken;
-        App.HttpContext.Response.Headers[Chars.FLG_X_ACCESS_TOKEN] = ret.RefreshToken;
 
         return ret;
     }

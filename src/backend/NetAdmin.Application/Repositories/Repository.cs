@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using FreeSql;
 using FreeSql.Internal.Model;
+using NetAdmin.DataContract.Context;
 
 namespace NetAdmin.Application.Repositories;
 
@@ -11,14 +12,14 @@ public class Repository<TEntity> : DefaultRepository<TEntity, long>, IRepository
     /// <summary>
     ///     Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
     /// </summary>
-    public Repository(IFreeSql fsql, UnitOfWorkManager uowManger, ContextUser contextUser) //
+    public Repository(IFreeSql fsql, UnitOfWorkManager uowManger, ContextUser user) //
         : base(fsql, uowManger)
     {
-        ContextUser = contextUser;
+        User = user;
     }
 
     /// <inheritdoc />
-    public ContextUser ContextUser { get; }
+    public ContextUser User { get; }
 
     /// <inheritdoc />
     public virtual async Task<bool> DeleteRecursiveAsync( //

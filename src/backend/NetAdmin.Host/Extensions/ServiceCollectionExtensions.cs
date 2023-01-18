@@ -4,6 +4,7 @@ using FreeSql;
 using Furion;
 using Furion.DependencyInjection;
 using Furion.EventBus;
+using NetAdmin.DataContract.Context;
 using NetAdmin.Host.Aop.Filters;
 using NetAdmin.Host.Events.Sources;
 using NetAdmin.Host.Utils;
@@ -90,10 +91,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddContextUser(this IServiceCollection me)
     {
-        me.AddScoped(typeof(ContextUser), _ => {
-            var claim = App.User?.FindFirst(nameof(ContextUser));
-            return claim?.Value.Object<ContextUser>();
-        });
+        me.AddScoped(typeof(ContextUser), _ => ContextUser.Create());
         return me;
     }
 
