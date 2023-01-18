@@ -1,6 +1,6 @@
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Cache;
+using NetAdmin.Domain.Dto.Sys.Cache;
 
 namespace NetAdmin.Host.WebApi.Sys;
 

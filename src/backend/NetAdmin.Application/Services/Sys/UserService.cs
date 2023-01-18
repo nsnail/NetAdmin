@@ -4,10 +4,10 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Context;
-using NetAdmin.DataContract.DbMaps.Sys;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.User;
+using NetAdmin.Domain.Contexts;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.User;
 using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -84,18 +84,16 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     public async Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
     {
         var list = await (await QueryInternal(req)).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
-
-        return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total
-                                             , list.Select(x => x.Adapt<QueryUserRsp>()));
+        return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
     }
 
     /// <summary>
     ///     查询用户
     /// </summary>
-    public async Task<List<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    public async Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
         var list = await (await QueryInternal(req)).Take(Numbers.QUERY_LIMIT).ToListAsync();
-        return new List<QueryUserRsp>(list.Select(x => x.Adapt<QueryUserRsp>()));
+        return list.Adapt<List<QueryUserRsp>>();
     }
 
     /// <summary>
@@ -184,7 +182,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         }
 
         var ret = Rpo.Select.Include(a => a.Dept)
-                     .IncludeMany(a => a.Roles)
+                     .IncludeMany(a => a.Roles.Select(b => new TbSysRole { Id = b.Id, Name = b.Name }))
                      .IncludeMany(a => a.Positions)
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))

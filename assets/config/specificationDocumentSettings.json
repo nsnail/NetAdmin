@@ -44,7 +44,7 @@
         "XmlComments": [
             "NetAdmin.Host.xml",
             "NetAdmin.Application.xml",
-            "NetAdmin.DataContract.xml",
+            "NetAdmin.Domain.xml",
             "FreeSql.xml",
         ],
         "SecurityDefinitions": [

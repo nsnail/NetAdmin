@@ -1,8 +1,8 @@
-using NetAdmin.Application.Modules.Sys.Dic;
+using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency.Dic;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
-using NetAdmin.DataContract.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
 using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -91,7 +91,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     /// <summary>
     ///     查询字典目录
     /// </summary>
-    public async Task<List<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
+    public async Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
     {
         return await Service.QueryCatalog(req);
     }
@@ -99,7 +99,7 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     /// <summary>
     ///     查询字典内容
     /// </summary>
-    public async Task<List<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
+    public async Task<IEnumerable<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
     {
         return await Service.QueryContent(req);
     }

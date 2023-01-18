@@ -2,7 +2,7 @@ using System.Reflection;
 using Mapster;
 using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Cache;
+using NetAdmin.Domain.Dto.Sys.Cache;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -36,7 +36,7 @@ public class CacheService : ServiceBase<ICacheService>, ICacheService
     /// <summary>
     ///     GetAllEntrys
     /// </summary>
-    public List<GetAllEntrysRsp> GetAllEntrys()
+    public IEnumerable<GetAllEntrysRsp> GetAllEntrys()
     {
         var ret = new List<GetAllEntrysRsp>();
         var coherentState = typeof(MemoryCache).GetRuntimeFields()

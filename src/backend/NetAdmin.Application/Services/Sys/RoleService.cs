@@ -3,9 +3,9 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.DbMaps.Sys;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Role;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Role;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -75,10 +75,10 @@ public class RoleService : RepositoryService<TbSysRole, IRoleService>, IRoleServ
     /// <summary>
     ///     查询角色
     /// </summary>
-    public async Task<List<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
+    public async Task<IEnumerable<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
     {
         var ret = await QueryInternal(req).ToListAsync();
-        return ret.ConvertAll(x => x.Adapt<QueryRoleRsp>());
+        return ret.Adapt<IEnumerable<QueryRoleRsp>>();
     }
 
     /// <summary>

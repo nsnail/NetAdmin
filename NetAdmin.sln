@@ -44,7 +44,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\backen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.DataContract", "src\backend\NetAdmin.DataContract\NetAdmin.DataContract.csproj", "{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Domain", "src\backend\NetAdmin.Domain\NetAdmin.Domain.csproj", "{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\backend\NetAdmin.Application\NetAdmin.Application.csproj", "{7D1EF02D-EDC1-4EC3-A094-887359748D1C}"
 EndProject

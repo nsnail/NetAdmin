@@ -1,5 +1,5 @@
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Position;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Position;
 
 namespace NetAdmin.Application.Modules.Sys;
 

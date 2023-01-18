@@ -1,4 +1,4 @@
-using NetAdmin.DataContract.Dto.Dependency;
+using NetAdmin.Domain.Dto.Dependency;
 
 namespace NetAdmin.Application.Modules;
 
@@ -44,7 +44,7 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in
     /// <summary>
     ///     查询实体
     /// </summary>
-    Task<List<TQueryRsp>> Query(QueryReq<TQueryReq> req);
+    Task<IEnumerable<TQueryRsp>> Query(QueryReq<TQueryReq> req);
 
     /// <summary>
     ///     更新实体

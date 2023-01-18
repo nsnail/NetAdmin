@@ -1,8 +1,8 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Api;
-using NetAdmin.DataContract.Dto.Sys.Dev;
+using NetAdmin.Domain.Dto.Sys.Api;
+using NetAdmin.Domain.Dto.Sys.Dev;
 using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -34,7 +34,7 @@ public class DevService : ServiceBase<DevService>, IDevService
         var appDir = projectDirs.First(x => x.EndsWith(nameof(Application), true, CultureInfo.InvariantCulture));
 
         // 数据契约层目录
-        var dataDir = projectDirs.First(x => x.EndsWith(nameof(DataContract), true, CultureInfo.InvariantCulture));
+        var dataDir = projectDirs.First(x => x.EndsWith(nameof(Domain), true, CultureInfo.InvariantCulture));
 
         // Api接口层目录
         var hostDir = projectDirs.First(x => x.EndsWith("Host", true, CultureInfo.InvariantCulture));
@@ -53,13 +53,13 @@ public class DevService : ServiceBase<DevService>, IDevService
         }
 
         // 数据契约层 - DTO目录
-        var dtoDir = Path.Combine(dataDir, nameof(DataContract.Dto), moduleType, req.ModuleName);
+        var dtoDir = Path.Combine(dataDir, nameof(Domain.Dto), moduleType, req.ModuleName);
         if (!Directory.Exists(dtoDir)) {
             Directory.CreateDirectory(dtoDir);
         }
 
         // 数据契约层 - Entity目录
-        var entityDir = Path.Combine(dataDir, nameof(DataContract.DbMaps), moduleType);
+        var entityDir = Path.Combine(dataDir, nameof(Domain.DbMaps), moduleType);
         if (!Directory.Exists(entityDir)) {
             Directory.CreateDirectory(entityDir);
         }
@@ -89,26 +89,24 @@ public class DevService : ServiceBase<DevService>, IDevService
 
         // createReq
         await WriteCodeFile(
-            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "CreateExampleReq.cs")
+            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "CreateExampleReq.cs")
      ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
 
         // updateReq
         await WriteCodeFile(
-            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "UpdateExampleReq.cs")
+            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "UpdateExampleReq.cs")
      ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
 
         // queryReq
-        await WriteCodeFile(
-            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "QueryExampleReq.cs")
-     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
+        await WriteCodeFile(req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleReq.cs")
+                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
 
         // queryRsp
-        await WriteCodeFile(
-            req, Path.Combine(dataDir, nameof(DataContract.Dto), nameof(Tpl), "Example", "QueryExampleRsp.cs")
-     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
+        await WriteCodeFile(req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleRsp.cs")
+                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
 
         // entity
-        await WriteCodeFile(req, Path.Combine(dataDir,   nameof(DataContract.DbMaps), nameof(Tpl), "TbTplExample.cs")
+        await WriteCodeFile(req, Path.Combine(dataDir,   nameof(Domain.DbMaps), nameof(Tpl), "TbTplExample.cs")
                      ,           Path.Combine(entityDir, $"Tb{moduleType}{req.ModuleName}.cs"));
     }
 

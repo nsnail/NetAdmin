@@ -3,9 +3,9 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency.Dic;
-using NetAdmin.DataContract.DbMaps.Sys;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 
 namespace NetAdmin.Application.Services.Sys.Dic;
 
@@ -67,10 +67,10 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     /// <summary>
     ///     查询字典目录
     /// </summary>
-    public async Task<List<QueryDicCatalogRsp>> Query(QueryReq<QueryDicCatalogReq> req)
+    public async Task<IEnumerable<QueryDicCatalogRsp>> Query(QueryReq<QueryDicCatalogReq> req)
     {
         var ret = await QueryInternal(req).ToTreeListAsync();
-        return ret.ConvertAll(x => x.Adapt<QueryDicCatalogRsp>());
+        return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
     }
 
     /// <summary>

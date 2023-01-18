@@ -2,9 +2,9 @@ using FreeSql;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.DbMaps.Sys;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.UserPosition;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.UserPosition;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -62,10 +62,10 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
     /// <summary>
     ///     查询用户-岗位映射
     /// </summary>
-    public async Task<List<QueryUserPositionRsp>> Query(QueryReq<QueryUserPositionReq> req)
+    public async Task<IEnumerable<QueryUserPositionRsp>> Query(QueryReq<QueryUserPositionReq> req)
     {
         var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
-        return ret.ConvertAll(x => x.Adapt<QueryUserPositionRsp>());
+        return ret.Adapt<IEnumerable<QueryUserPositionRsp>>();
     }
 
     /// <summary>

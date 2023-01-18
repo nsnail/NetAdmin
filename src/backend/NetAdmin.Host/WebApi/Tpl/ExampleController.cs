@@ -1,8 +1,8 @@
 #if DEBUG
 using NetAdmin.Application.Modules.Tpl;
 using NetAdmin.Application.Services.Tpl.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Tpl.Example;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Tpl.Example;
 using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Tpl;
@@ -56,7 +56,7 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     /// <summary>
     ///     查询示例
     /// </summary>
-    public async Task<List<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
+    public async Task<IEnumerable<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
     {
         return await Service.Query(req);
     }

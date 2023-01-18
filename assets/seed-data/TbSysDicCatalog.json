@@ -3,13 +3,13 @@
         "Id": 375317236772869,
         "BitSet": 1,
         "Code": "generic",
-        "Label": "通用字典",
+        "Name": "通用字典",
         "Children": [
             {
                 "Id": 375501028900869,
                 "BitSet": 1,
                 "Code": "sex",
-                "Label": "性别"
+                "Name": "性别"
             }
         ]
     }

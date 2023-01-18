@@ -25,7 +25,7 @@
 
             <el-form-item label="所属角色" prop="roleIds">
                 <el-select v-model="form.roleIds" multiple filterable style="width: 100%">
-                    <el-option v-for="item in roles" :key="item.id" :label="item.label" :value="item.id"/>
+                    <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id"/>
                 </el-select>
             </el-form-item>
             <el-form-item label="所属部门" prop="deptId">
@@ -138,6 +138,7 @@ export default {
             positions: [],
             depts: [],
             deptsProps: {
+                label: "name",
                 emitPath: false,
                 value: "id",
                 checkStrictly: true

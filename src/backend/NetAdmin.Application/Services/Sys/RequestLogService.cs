@@ -2,9 +2,9 @@ using FreeSql;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.DbMaps.Sys;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.RequestLog;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -76,10 +76,10 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     查询请求日志
     /// </summary>
-    public async Task<List<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
+    public async Task<IEnumerable<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
     {
         var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
-        return ret.ConvertAll(x => x.Adapt<QueryRequestLogRsp>());
+        return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
     }
 
     /// <summary>

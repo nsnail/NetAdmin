@@ -1,5 +1,5 @@
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Api;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Api;
 
 namespace NetAdmin.Application.Modules.Sys;
 

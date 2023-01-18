@@ -1,7 +1,7 @@
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Role;
 using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -55,7 +55,7 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     /// <summary>
     ///     查询角色
     /// </summary>
-    public async Task<List<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
+    public async Task<IEnumerable<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
     {
         return await Service.Query(req);
     }

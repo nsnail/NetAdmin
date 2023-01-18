@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Dept;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -57,7 +57,7 @@ public class DeptController : ControllerBase<IDeptService>, IDeptModule
     /// <summary>
     ///     查询部门
     /// </summary>
-    public async Task<List<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
+    public async Task<IEnumerable<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
     {
         return await Service.Query(req);
     }

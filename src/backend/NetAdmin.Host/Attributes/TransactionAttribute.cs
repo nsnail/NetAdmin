@@ -4,7 +4,7 @@ using FreeSql;
 namespace NetAdmin.Host.Attributes;
 
 /// <summary>
-///     标记一个方法启用事务特性
+///     标记一个Action启用事务
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public class TransactionAttribute : Attribute

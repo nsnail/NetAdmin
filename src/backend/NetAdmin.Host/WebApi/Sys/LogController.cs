@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -59,7 +59,7 @@ public class LogController : ControllerBase<IRequestLogService>, IRequestLogModu
     /// <summary>
     ///     查询请求日志
     /// </summary>
-    public async Task<List<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
+    public async Task<IEnumerable<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
     {
         return await Service.Query(req);
     }

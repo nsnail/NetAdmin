@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Menu;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Menu;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
 
@@ -63,7 +63,7 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public async Task<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
+    public async Task<IEnumerable<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
     {
         return await Service.Query(req);
     }
@@ -80,7 +80,7 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// <summary>
     ///     当前用户菜单
     /// </summary>
-    public async Task<List<QueryMenuRsp>> UserMenus()
+    public async Task<IEnumerable<QueryMenuRsp>> UserMenus()
     {
         return await Service.UserMenus(await _userCache.UserInfo());
     }

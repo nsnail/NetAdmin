@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Dev;
+using NetAdmin.Domain.Dto.Sys.Dev;
 
 namespace NetAdmin.Host.WebApi.Sys;
 

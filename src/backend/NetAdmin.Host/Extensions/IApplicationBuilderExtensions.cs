@@ -1,6 +1,7 @@
 using Furion.DependencyInjection;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
+using NetAdmin.Host.Middlewares;
 
 namespace NetAdmin.Host.Extensions;
 
@@ -17,11 +18,30 @@ public static class IApplicationBuilderExtensions
     /// </summary>
     public static IApplicationBuilder UseOpenApiSkin(this IApplicationBuilder me)
     {
-        return me.UseKnife4UI(options => {
+        me.UseKnife4UI(options => {
             options.RoutePrefix = string.Empty; // 配置 Knife4UI 路由地址
             foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups()) {
                 options.SwaggerEndpoint("/" + groupInfo.RouteTemplate, groupInfo.Title);
             }
         });
+
+        return me;
+    }
+
+    /// <summary>
+    ///     使用 删除json空节点
+    /// </summary>
+    public static IApplicationBuilder UseRemoveNullNode(this IApplicationBuilder me)
+    {
+        me.UseMiddleware<RemoveNullNodeMiddleware>();
+        return me;
+    }
+
+    /// <summary>
+    ///     使用 请求审计中间件
+    /// </summary>
+    public static IApplicationBuilder UseRequestAudit(this IApplicationBuilder me)
+    {
+        return me.UseMiddleware<RequestAuditMiddleware>();
     }
 }

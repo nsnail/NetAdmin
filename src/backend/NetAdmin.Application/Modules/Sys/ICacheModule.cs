@@ -1,4 +1,4 @@
-using NetAdmin.DataContract.Dto.Sys.Cache;
+using NetAdmin.Domain.Dto.Sys.Cache;
 
 namespace NetAdmin.Application.Modules.Sys;
 

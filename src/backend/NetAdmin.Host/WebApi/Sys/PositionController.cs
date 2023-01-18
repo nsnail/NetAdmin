@@ -1,7 +1,7 @@
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Position;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Position;
 using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -55,7 +55,7 @@ public class PositionController : ControllerBase<IPositionService>, IPositionMod
     /// <summary>
     ///     查询岗位
     /// </summary>
-    public async Task<List<QueryPositionRsp>> Query(QueryReq<QueryPositionReq> req)
+    public async Task<IEnumerable<QueryPositionRsp>> Query(QueryReq<QueryPositionReq> req)
     {
         return await Service.Query(req);
     }

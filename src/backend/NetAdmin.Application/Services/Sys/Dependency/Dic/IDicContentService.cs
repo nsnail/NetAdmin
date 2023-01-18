@@ -1,4 +1,4 @@
-using NetAdmin.Application.Modules.Sys.Dic;
+using NetAdmin.Application.Modules.Sys;
 
 namespace NetAdmin.Application.Services.Sys.Dependency.Dic;
 

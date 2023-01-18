@@ -3,10 +3,10 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.DbMaps.Sys;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Menu;
-using NetAdmin.DataContract.Dto.Sys.User;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Menu;
+using NetAdmin.Domain.Dto.Sys.User;
 using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -65,10 +65,10 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public async Task<List<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
+    public async Task<IEnumerable<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
-        return ret.ConvertAll(x => x.Adapt<QueryMenuRsp>());
+        return ret.Adapt<IEnumerable<QueryMenuRsp>>();
     }
 
     /// <summary>
@@ -85,14 +85,14 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     }
 
     /// <inheritdoc />
-    public async Task<List<QueryMenuRsp>> UserMenus()
+    public async Task<IEnumerable<QueryMenuRsp>> UserMenus()
     {
         var userInfo = await _userService.UserInfo();
         return await UserMenus(userInfo);
     }
 
     /// <inheritdoc />
-    public async Task<List<QueryMenuRsp>> UserMenus(QueryUserRsp userInfo)
+    public async Task<IEnumerable<QueryMenuRsp>> UserMenus(QueryUserRsp userInfo)
     {
         var req = new QueryReq<QueryMenuReq>();
 

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
 
@@ -79,7 +79,7 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     /// <summary>
     ///     查询用户
     /// </summary>
-    public async Task<List<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    public async Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
         return await Service.Query(req);
     }

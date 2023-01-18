@@ -216,7 +216,7 @@ public class UserAgentParser
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserAgentParser" /> class.
     /// </summary>
-    public UserAgentParser(string userAgentString)
+    private UserAgentParser(string userAgentString)
     {
         _agent = userAgentString.Trim();
         SetPlatform();
@@ -272,6 +272,14 @@ public class UserAgentParser
     ///     机器人
     /// </summary>
     public string Robot { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     创建 UserAgentParser
+    /// </summary>
+    public static UserAgentParser Create(string userAgentString)
+    {
+        return new UserAgentParser(userAgentString);
+    }
 
     private bool SetBrowser()
     {

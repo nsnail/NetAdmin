@@ -9,6 +9,7 @@
                         </el-header>
                         <el-main class="nopadding">
                             <el-tree ref="dept" class="menu" node-key="id" :data="dept" :current-node-key="''"
+                                     :props="deptProps"
                                      :highlight-current="true" :expand-on-click-node="false"
                                      :filter-node-method="deptFilterNode" @node-click="deptClick"></el-tree>
                         </el-main>
@@ -21,6 +22,7 @@
                         </el-header>
                         <el-main class="nopadding">
                             <el-tree ref="role" class="menu" node-key="id" :data="role" :current-node-key="''"
+                                     :props="roleProps"
                                      :highlight-current="true" :expand-on-click-node="false"
                                      :filter-node-method="roleFilterNode" @node-click="roleClick"></el-tree>
                         </el-main>
@@ -78,11 +80,11 @@
                     <el-table-column label="所属角色">
                         <template #default="scope">
                             <el-tag v-for="(item,index) in scope.row.roles" :key="index">
-                                {{ item.label }}
+                                {{ item.name }}
                             </el-tag>
                         </template>
                     </el-table-column>
-                    <el-table-column label="所属部门" prop="dept.label" align="center" width="120" sortable="custom"
+                    <el-table-column label="所属部门" prop="dept.name" align="center" width="120" sortable="custom"
                                      sort-by="deptid">
                     </el-table-column>
                     <el-table-column label="岗位">
@@ -160,7 +162,13 @@ export default {
             roleFilterText: '',
             posiFilterText: '',
             dept: [],
+            deptProps: {
+                label: (data) => data.name
+            },
             role: [],
+            roleProps: {
+                label: (data) => data.name
+            },
             posi: [],
             posiProps: {
                 label: (data) => data.name
@@ -250,13 +258,13 @@ export default {
 
             //加载部门数据
             var res = await this.$API.sys_dept.query.post();
-            var allNode = {id: '', label: '所有部门'}
+            var allNode = {id: '', name: '所有部门'}
             res.data.unshift(allNode);
             this.dept = res.data;
 
             //加载角色数据
             res = await this.$API.sys_role.query.post();
-            allNode = {id: '', label: '所有角色'}
+            allNode = {id: '', name: '所有角色'}
             res.data.unshift(allNode);
             this.role = res.data;
 
@@ -272,7 +280,7 @@ export default {
         //部门树过滤
         deptFilterNode(value, data) {
             if (!value) return true;
-            return data.label.indexOf(value) !== -1;
+            return data.name.indexOf(value) !== -1;
         },
         //部门树点击事件
         deptClick(data) {
@@ -282,7 +290,7 @@ export default {
         //角色树过滤
         roleFilterNode(value, data) {
             if (!value) return true;
-            return data.label.indexOf(value) !== -1;
+            return data.name.indexOf(value) !== -1;
         },
         //角色树点击事件
         roleClick(data) {

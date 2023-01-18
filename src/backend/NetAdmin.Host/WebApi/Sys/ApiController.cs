@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Api;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Host.Attributes;
 
 namespace NetAdmin.Host.WebApi.Sys;
@@ -60,7 +60,7 @@ public class ApiController : ControllerBase<IApiService>, IApiModule
     /// <summary>
     ///     查询接口
     /// </summary>
-    public async Task<List<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
+    public async Task<IEnumerable<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
     {
         return await Service.Query(req);
     }

@@ -2,9 +2,9 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.DataContract.DbMaps.Sys;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Dept;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Dept;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -73,13 +73,13 @@ public class DeptService : RepositoryService<TbSysDept, IDeptService>, IDeptServ
     /// <summary>
     ///     查询部门
     /// </summary>
-    public async Task<List<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
+    public async Task<IEnumerable<QueryDeptRsp>> Query(QueryReq<QueryDeptReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
                            .WhereDynamic(req.Filter)
                            .OrderByDescending(a => a.Sort)
                            .ToTreeListAsync();
-        return ret.ConvertAll(x => x.Adapt<QueryDeptRsp>());
+        return ret.Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
     /// <summary>

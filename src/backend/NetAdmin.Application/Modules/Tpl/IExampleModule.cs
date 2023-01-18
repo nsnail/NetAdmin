@@ -1,5 +1,5 @@
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Tpl.Example;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Tpl.Example;
 
 namespace NetAdmin.Application.Modules.Tpl;
 

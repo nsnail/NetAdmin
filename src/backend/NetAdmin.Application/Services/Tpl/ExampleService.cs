@@ -2,9 +2,9 @@ using FreeSql;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Tpl.Dependency;
-using NetAdmin.DataContract.DbMaps.Tpl;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Tpl.Example;
+using NetAdmin.Domain.DbMaps.Tpl;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Tpl.Example;
 
 namespace NetAdmin.Application.Services.Tpl;
 
@@ -62,10 +62,10 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
     /// <summary>
     ///     查询示例
     /// </summary>
-    public async Task<List<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
+    public async Task<IEnumerable<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
     {
         var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
-        return ret.ConvertAll(x => x.Adapt<QueryExampleRsp>());
+        return ret.Adapt<IEnumerable<QueryExampleRsp>>();
     }
 
     /// <summary>

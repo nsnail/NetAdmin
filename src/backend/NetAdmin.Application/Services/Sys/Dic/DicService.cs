@@ -1,7 +1,7 @@
 using NetAdmin.Application.Services.Sys.Dependency.Dic;
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Dic.Catalog;
-using NetAdmin.DataContract.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
 namespace NetAdmin.Application.Services.Sys.Dic;
 
@@ -69,13 +69,13 @@ public class DicService : ServiceBase<IDicService>, IDicService
     }
 
     /// <inheritdoc />
-    public Task<List<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
+    public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
     {
         return _catalogService.Query(req);
     }
 
     /// <inheritdoc />
-    public Task<List<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
+    public Task<IEnumerable<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
     {
         return _contentService.Query(req);
     }

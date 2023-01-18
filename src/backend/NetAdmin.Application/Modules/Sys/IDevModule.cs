@@ -1,4 +1,4 @@
-using NetAdmin.DataContract.Dto.Sys.Dev;
+using NetAdmin.Domain.Dto.Sys.Dev;
 
 namespace NetAdmin.Application.Modules.Sys;
 

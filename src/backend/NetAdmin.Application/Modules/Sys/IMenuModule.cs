@@ -1,5 +1,5 @@
-using NetAdmin.DataContract.Dto.Dependency;
-using NetAdmin.DataContract.Dto.Sys.Menu;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Menu;
 
 namespace NetAdmin.Application.Modules.Sys;
 
@@ -15,5 +15,5 @@ public interface IMenuModule : ICrudModule<CreateMenuReq, QueryMenuRsp // 创建
     /// <summary>
     ///     当前用户菜单
     /// </summary>
-    Task<List<QueryMenuRsp>> UserMenus();
+    Task<IEnumerable<QueryMenuRsp>> UserMenus();
 }

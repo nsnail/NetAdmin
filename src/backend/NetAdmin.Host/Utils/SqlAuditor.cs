@@ -2,7 +2,7 @@ using System.Reflection;
 using FreeSql.Aop;
 using Furion;
 using Furion.DependencyInjection;
-using NetAdmin.DataContract.Context;
+using NetAdmin.Domain.Contexts;
 using NSExt.Extensions;
 using Yitter.IdGenerator;
 
