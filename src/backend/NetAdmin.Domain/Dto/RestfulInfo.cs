@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace NetAdmin.Domain.Dto;
 
 /// <summary>
@@ -8,6 +10,7 @@ public record RestfulInfo<T> : DataAbstraction
     /// <summary>
     ///     代码
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public Enums.RspCodes Code { get; init; }
 
     /// <summary>

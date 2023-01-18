@@ -29,14 +29,14 @@ public record CreatePositionReq : TbSysPosition
 
     /// <inheritdoc cref="TbSysPosition.Name" />
     [Required]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override int Sort { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Summary { get; init; }
 }

@@ -9,10 +9,10 @@ namespace NetAdmin.Domain.Dto.Sys.Role;
 public record GetMenusRsp : TbSysRoleMenu
 {
     /// <inheritdoc cref="TbSysRoleMenu.MenuId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long MenuId { get; init; }
 
     /// <inheritdoc cref="TbSysRoleMenu.RoleId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long RoleId { get; init; }
 }

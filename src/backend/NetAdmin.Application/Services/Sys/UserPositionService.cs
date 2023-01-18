@@ -56,7 +56,7 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
         return new PagedQueryRsp<QueryUserPositionRsp>(req.Page, req.PageSize, total
-                                                     , list.Select(x => x.Adapt<QueryUserPositionRsp>()));
+                                                     , list.Adapt<IEnumerable<QueryUserPositionRsp>>());
     }
 
     /// <summary>

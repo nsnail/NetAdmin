@@ -70,7 +70,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
                                                });
 
         return new PagedQueryRsp<QueryRequestLogRsp>(req.Page, req.PageSize, total
-                                                   , list.Select(x => x.Adapt<QueryRequestLogRsp>()));
+                                                   , list.Adapt<IEnumerable<QueryRequestLogRsp>>());
     }
 
     /// <summary>

@@ -44,6 +44,9 @@ public static class IMvcBuilderExtensions
             // 读到String.Emtpy统一转为Null
             options.JsonSerializerOptions.Converters.Add(new ToNullIfReadEmptyStringConverter());
 
+            // 写入时，忽略默认值
+            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+
             // 允许读取引号包围的数字
             options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
         });

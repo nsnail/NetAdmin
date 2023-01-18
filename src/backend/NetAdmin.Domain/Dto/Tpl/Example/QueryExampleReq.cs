@@ -9,6 +9,6 @@ namespace NetAdmin.Domain.Dto.Tpl.Example;
 public record QueryExampleReq : TbTplExample
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Id { get; set; }
 }

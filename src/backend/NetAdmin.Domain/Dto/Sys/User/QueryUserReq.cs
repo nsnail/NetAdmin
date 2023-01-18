@@ -11,13 +11,13 @@ public record QueryUserReq : TbSysUser
     /// <summary>
     ///     部门id
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long DeptId { get; init; }
 
     /// <summary>
     ///     id
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Id { get; set; }
 
     /// <summary>

@@ -9,6 +9,6 @@ namespace NetAdmin.Domain.Dto.Sys.Position;
 public record QueryPositionReq : TbSysPosition
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Id { get; set; }
 }

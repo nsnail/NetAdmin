@@ -9,6 +9,6 @@ namespace NetAdmin.Domain.Dto.Sys.Menu;
 public record QueryMenuReq : TbSysMenu
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Id { get; set; }
 }

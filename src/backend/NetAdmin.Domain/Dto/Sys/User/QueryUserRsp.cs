@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using Mapster;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dept;
@@ -12,7 +11,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     响应：查询用户
 /// </summary>
-public record QueryUserRsp : TbSysUser, IRegister
+public record QueryUserRsp : TbSysUser
 {
     /// <summary>
     ///     是否启用
@@ -20,11 +19,11 @@ public record QueryUserRsp : TbSysUser, IRegister
     public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <inheritdoc cref="TbSysUser.Avatar" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Avatar { get; init; }
 
     /// <inheritdoc cref="IFieldAdd.CreatedTime" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override DateTime CreatedTime { get; init; }
 
     /// <summary>
@@ -33,11 +32,11 @@ public record QueryUserRsp : TbSysUser, IRegister
     public new QueryDeptRsp Dept { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Id { get; set; }
 
     /// <inheritdoc cref="TbSysUser.Mobile" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Mobile { get; init; }
 
     /// <summary>
@@ -51,21 +50,10 @@ public record QueryUserRsp : TbSysUser, IRegister
     public new IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string UserName { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Version { get; init; }
-
-    /// <inheritdoc />
-    public void Register(TypeAdapterConfig config)
-    {
-        config.ForType<TbSysUser, QueryUserRsp>()
-              .IgnoreIf((src, dest) => src.Roles     == null, dest => dest.Roles)
-              .IgnoreIf((src, dest) => src.Positions == null, dest => dest.Positions)
-              .Map(dest => dest.Dept,      src => src.Dept.Adapt<QueryDeptRsp>())
-              .Map(dest => dest.Roles,     src => src.Roles.Select(x => x.Adapt<QueryRoleRsp>()))
-              .Map(dest => dest.Positions, src => src.Positions.Select(x => x.Adapt<QueryPositionRsp>()));
-    }
 }

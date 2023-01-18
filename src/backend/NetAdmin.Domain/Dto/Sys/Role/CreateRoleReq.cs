@@ -60,16 +60,16 @@ public record CreateRoleReq : TbSysRole, IRegister
     public IReadOnlyCollection<long> MenuIds { get; init; }
 
     /// <inheritdoc cref="TbSysRole.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [Required]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override int Sort { get; init; }
 
     /// <inheritdoc cref="TbSysRole.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Summary { get; init; }
 
     /// <inheritdoc />

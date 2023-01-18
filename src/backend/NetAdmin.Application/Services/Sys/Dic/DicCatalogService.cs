@@ -61,7 +61,7 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
         return new PagedQueryRsp<QueryDicCatalogRsp>(req.Page, req.PageSize, total
-                                                   , list.Select(x => x.Adapt<QueryDicCatalogRsp>()));
+                                                   , list.Adapt<IEnumerable<QueryDicCatalogRsp>>());
     }
 
     /// <summary>

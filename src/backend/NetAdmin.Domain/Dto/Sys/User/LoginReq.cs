@@ -11,13 +11,12 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public record LoginReq : TbSysUser
 {
     /// <inheritdoc cref="TbSysUser.Password" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     [Password]
     public new string Password { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [Required]
     [UserName]
     public override string UserName { get; init; }

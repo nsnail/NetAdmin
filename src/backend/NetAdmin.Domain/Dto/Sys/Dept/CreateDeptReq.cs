@@ -28,19 +28,19 @@ public record CreateDeptReq : TbSysDept
     public bool Enabled { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [Required]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysDept.ParentId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long ParentId { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override int Sort { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Summary { get; init; }
 }

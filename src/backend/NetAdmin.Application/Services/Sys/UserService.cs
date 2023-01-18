@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FreeSql;
 using Furion.DataEncryption;
 using Furion.FriendlyException;
@@ -15,6 +16,21 @@ namespace NetAdmin.Application.Services.Sys;
 /// <inheritdoc cref="IUserService" />
 public class UserService : RepositoryService<TbSysUser, IUserService>, IUserService
 {
+    private readonly Expression<Func<TbSysUser, TbSysUser>> _selectUserFields = a => new TbSysUser {
+        Id          = a.Id
+      , Positions   = a.Positions
+      , Avatar      = a.Avatar
+      , Email       = a.Email
+      , Mobile      = a.Mobile
+      , Summary     = a.Summary
+      , BitSet      = a.BitSet
+      , UserName    = a.UserName
+      , Version     = a.Version
+      , CreatedTime = a.CreatedTime
+      , Dept        = new TbSysDept { Id = a.Dept.Id, Name = a.Dept.Name }
+      , Roles       = a.Roles
+    };
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserService" /> class.
     /// </summary>
@@ -83,7 +99,9 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// </summary>
     public async Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
     {
-        var list = await (await QueryInternal(req)).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await (await QueryInternal(req)).Page(req.Page, req.PageSize)
+                                                   .Count(out var total)
+                                                   .ToListAsync(_selectUserFields);
         return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
     }
 
@@ -92,8 +110,8 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// </summary>
     public async Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
-        var list = await (await QueryInternal(req)).Take(Numbers.QUERY_LIMIT).ToListAsync();
-        return list.Adapt<List<QueryUserRsp>>();
+        var list = await (await QueryInternal(req)).Take(Numbers.QUERY_LIMIT).ToListAsync(_selectUserFields);
+        return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
 
     /// <summary>
@@ -182,8 +200,8 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         }
 
         var ret = Rpo.Select.Include(a => a.Dept)
-                     .IncludeMany(a => a.Roles.Select(b => new TbSysRole { Id = b.Id, Name = b.Name }))
-                     .IncludeMany(a => a.Positions)
+                     .IncludeMany(a => a.Roles.Select(b => new TbSysRole { Id         = b.Id, Name = b.Name }))
+                     .IncludeMany(a => a.Positions.Select(b => new TbSysPosition { Id = b.Id, Name = b.Name }))
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
                      .WhereIf( //

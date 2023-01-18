@@ -22,7 +22,7 @@ public record CreateDicContentReq : TbSysDicContent
     }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [Required]
     public override long CatalogId { get; init; }
 
@@ -32,12 +32,12 @@ public record CreateDicContentReq : TbSysDicContent
     public bool Enabled { get; init; } = true;
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [Required]
     public override string Key { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     [Required]
     public override string Value { get; init; }
 }

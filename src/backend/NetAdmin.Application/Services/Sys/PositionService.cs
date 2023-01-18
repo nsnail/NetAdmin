@@ -56,7 +56,7 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
         return new PagedQueryRsp<QueryPositionRsp>(req.Page, req.PageSize, total
-                                                 , list.Select(x => x.Adapt<QueryPositionRsp>()));
+                                                 , list.Adapt<IEnumerable<QueryPositionRsp>>());
     }
 
     /// <summary>

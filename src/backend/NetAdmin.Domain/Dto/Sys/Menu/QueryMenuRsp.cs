@@ -24,41 +24,40 @@ public record QueryMenuRsp : TbSysMenu, IRegister
           , BitSet.HasFlag(MenuBits.FullPageRouting), Tag, Color);
 
     /// <inheritdoc cref="TbSysMenu.Active" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Active { get; init; }
 
     /// <summary>
     ///     子节点
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public new List<QueryMenuRsp> Children { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Component" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Component { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Id { get; set; }
 
     /// <inheritdoc cref="TbSysMenu.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.ParentId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long ParentId { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Path" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Path { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Redirect" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Redirect { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long Version { get; init; }
 
     /// <inheritdoc />

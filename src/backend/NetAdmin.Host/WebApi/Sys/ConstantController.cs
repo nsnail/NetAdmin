@@ -1,9 +1,9 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NSExt.Extensions;
 
 namespace NetAdmin.Host.WebApi.Sys;
 
@@ -13,11 +13,16 @@ namespace NetAdmin.Host.WebApi.Sys;
 [AllowAnonymous]
 public class ConstantController : ControllerBase<IConstantService>, IConstantModule
 {
+    private readonly JsonOptions _jsonOptions;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="ConstantController" /> class.
     /// </summary>
-    public ConstantController(IConstantService service) //
-        : base(service) { }
+    public ConstantController(IConstantService service, IOptions<JsonOptions> jsonOptions) //
+        : base(service)
+    {
+        _jsonOptions = jsonOptions.Value;
+    }
 
     /// <summary>
     ///     获得常量字符串
@@ -55,10 +60,10 @@ public class ConstantController : ControllerBase<IConstantService>, IConstantMod
         return Service.GetLocalizedStrings();
     }
 
-    private static IActionResult OriginNamingResult(IDictionary<string, string> data)
+    private IActionResult OriginNamingResult(IDictionary<string, string> data)
     {
-        var jsonOptions = default(JsonSerializerOptions).NewJsonSerializerOptions();
-        jsonOptions.DictionaryKeyPolicy = null;
-        return new JsonResult(new RestfulInfo<object> { Code = 0, Data = data }, jsonOptions);
+        return new JsonResult( //
+            new RestfulInfo<IDictionary<string, string>> { Code = Enums.RspCodes.Succeed, Data = data }
+          , new JsonSerializerOptions(_jsonOptions.JsonSerializerOptions) { DictionaryKeyPolicy = null });
     }
 }
