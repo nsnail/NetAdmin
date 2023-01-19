@@ -332,6 +332,7 @@ export default {
                 this.$refs.table.tableData.unshift(data)
             } else if (mode == 'edit') {
                 this.$refs.table.tableData.filter(item => item.id === data.id).forEach(item => {
+                    Object.keys(item).forEach(x => delete item[x])
                     Object.assign(item, data)
                 })
             }

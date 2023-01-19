@@ -85,7 +85,7 @@ public class RequestAuditMiddleware
                       Enums.RspCodes.Succeed;
         var auditData = new CreateRequestLogReq {
                                                     ClientIp            = context.GetRemoteIpAddressToIPv4()
-                                                  , Duration            = (int)sw.ElapsedMilliseconds
+                                                  , Duration            = (long)sw.Elapsed.TotalMicroseconds
                                                   , Method              = context.Request.Method
                                                   , ReferUrl            = context.Request.GetRefererUrlAddress()
                                                   , RequestContentType  = context.Request.ContentType

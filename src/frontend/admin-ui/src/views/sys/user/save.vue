@@ -43,6 +43,9 @@
                     <el-switch v-model="form.enabled"></el-switch>
                 </el-form-item>
             </template>
+            <el-form-item label="备注" prop="summary">
+                <el-input v-model="form.summary" clearable type="textarea"></el-input>
+            </el-form-item>
         </el-form>
         <template #footer>
             <el-button @click="visible=false">取 消</el-button>
@@ -52,6 +55,8 @@
 </template>
 
 <script>
+
+import form from "@/views/vab/form.vue";
 
 export default {
     emits: ['success', 'closed'],
@@ -66,16 +71,7 @@ export default {
             visible: false,
             isSaveing: false,
             //表单数据
-            form: {
-                mobile: null,
-                id: 0,
-                userName: "",
-                avatar: null,
-                name: "",
-                deptId: null,
-                roleIds: [],
-                positionIds: []
-            },
+            form: {},
             //验证规则
             rules: {
                 userName: [
@@ -193,20 +189,13 @@ export default {
         },
         //表单注入数据
         setData(data) {
-            this.form.enabled = data.enabled;
-            this.form.id = data.id
-            this.form.mobile = data.mobile
-            this.form.email = data.email
-            this.form.userName = data.userName
-            this.form.avatar = data.avatar
-            this.form.name = data.name
-            this.form.roleIds = data.roles.map(x => x.id)
-            this.form.deptId = data.dept.id
-            this.form.version = data.version
-            this.form.positionIds = data.positions.map(x => x.id)
-
             //可以和上面一样单个注入，也可以像下面一样直接合并进去
-            //Object.assign(this.form, data)
+            this.form = Object.assign({}, data)
+
+
+            this.form.positionIds = this.form.positions.map(x => x.id)
+            this.form.roleIds = this.form.roles.map(x => x.id)
+            this.form.deptId = this.form.dept.id
         }
     }
 }

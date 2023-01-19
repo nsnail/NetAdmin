@@ -30,15 +30,15 @@ public record QueryMenuRsp : TbSysMenu, IRegister
     /// <summary>
     ///     子节点
     /// </summary>
-    public new List<QueryMenuRsp> Children { get; init; }
+    public new IEnumerable<QueryMenuRsp> Children { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Component" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Component { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override long Id { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

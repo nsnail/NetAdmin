@@ -12,8 +12,9 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" hidePagination>
-                <el-table-column label="部门名称" prop="label" width="250"></el-table-column>
+            <scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" hidePagination
+                     default-expand-all>
+                <el-table-column label="部门名称" prop="name" width="250"></el-table-column>
                 <el-table-column label="排序" prop="sort" width="150"></el-table-column>
                 <el-table-column label="启用" prop="enabled" width="80">
                     <template #default="scope">
@@ -21,7 +22,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="创建时间" prop="createdTime" width="180"></el-table-column>
-                <el-table-column label="备注" prop="remark" min-width="300"></el-table-column>
+                <el-table-column label="备注" prop="summary" min-width="300"></el-table-column>
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
                         <el-button-group>
@@ -46,21 +47,26 @@
 
     <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess"
                  @closed="dialog.save=false"></save-dialog>
+    <el-drawer v-model="dialog.info" :size="800" title="详细" direction="rtl" destroy-on-close>
+        <info ref="infoDialog"></info>
+    </el-drawer>
 
 </template>
 
 <script>
 import saveDialog from './save'
+import info from "./info.vue"
 
 export default {
     name: 'dept',
     components: {
-        saveDialog
+        saveDialog, info
     },
     data() {
         return {
             dialog: {
-                save: false
+                save: false,
+                info: false
             },
             apiObj: this.$API.sys_dept.query,
             selection: [],
@@ -86,9 +92,9 @@ export default {
         },
         //查看
         table_show(row) {
-            this.dialog.save = true
+            this.dialog.info = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open('show').setData(row)
+                this.$refs.infoDialog.setData(row)
             })
         },
         //删除

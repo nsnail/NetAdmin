@@ -35,6 +35,9 @@
                 <el-table-column label="操作" fixed="right" align="right" width="170">
                     <template #default="scope">
                         <el-button-group>
+                            <el-button text type="primary" size="small"
+                                       @click="table_show(scope.row, scope.$index)">查看
+                            </el-button>
                             <el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">
                                 编辑
                             </el-button>
@@ -54,20 +57,25 @@
     <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSaveSuccess"
                  @closed="dialog.save=false"></save-dialog>
 
+    <el-drawer v-model="dialog.info" :size="800" title="详细" direction="rtl" destroy-on-close>
+        <info ref="infoDialog"></info>
+    </el-drawer>
 </template>
 
 <script>
 import saveDialog from './save'
+import info from './info'
 
 export default {
     name: 'role',
     components: {
-        saveDialog
+        saveDialog, info
     },
     data() {
         return {
             dialog: {
-                save: false
+                save: false,
+                info: false
             },
             apiObj: this.$API.sys_role.pagedQuery,
             selection: [],
@@ -94,9 +102,9 @@ export default {
         },
         //查看
         table_show(row) {
-            this.dialog.save = true
+            this.dialog.info = true
             this.$nextTick(() => {
-                this.$refs.saveDialog.open('show').setData(row).loadTree()
+                this.$refs.infoDialog.setData(row)
             })
         },
         //删除

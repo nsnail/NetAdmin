@@ -4,8 +4,8 @@
             <el-form-item label="编码" prop="code">
                 <el-input v-model="form.code" clearable placeholder="字典编码"></el-input>
             </el-form-item>
-            <el-form-item label="字典名称" prop="label">
-                <el-input v-model="form.label" clearable placeholder="字典显示名称"></el-input>
+            <el-form-item label="字典名称" prop="name">
+                <el-input v-model="form.name" clearable placeholder="字典显示名称"></el-input>
             </el-form-item>
             <el-form-item label="父路径" prop="parentId">
                 <el-cascader v-model="form.parentId" :options="dic" :props="dicProps" :show-all-levels="false"
@@ -31,25 +31,19 @@ export default {
             },
             visible: false,
             isSaveing: false,
-            form: {
-                version: 0,
-                id: 0,
-                label: "",
-                code: "",
-                parentId: 0
-            },
+            form: {},
             rules: {
                 code: [
                     {required: true, message: '请输入编码'}
                 ],
-                label: [
+                name: [
                     {required: true, message: '请输入字典名称'}
                 ]
             },
             dic: [],
             dicProps: {
                 value: "id",
-                label: "label",
+                label: "name",
                 emitPath: false,
                 checkStrictly: true
             }
@@ -95,14 +89,8 @@ export default {
         },
         //表单注入数据
         setData(data) {
-            this.form.version = data.version
-            this.form.id = data.id
-            this.form.label = data.label
-            this.form.code = data.code
-            this.form.parentId = data.parentId
-
             //可以和上面一样单个注入，也可以像下面一样直接合并进去
-            //Object.assign(this.form, data)
+            Object.assign(this.form, data)
         }
     }
 }

@@ -14,7 +14,7 @@ public record QueryApiRsp : TbSysApi
     public new IEnumerable<QueryApiRsp> Children { get; init; }
 
     /// <inheritdoc />
-    public override string Id { get; set; }
+    public override string Id { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

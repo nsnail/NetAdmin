@@ -105,12 +105,14 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
             ownedMenuIds = new[] { 0L };
         }
 
-        req.DynamicFilter = new DynamicFilterInfo {
-                                                      Field    = nameof(QueryMenuReq.Id)
-                                                    , Operator = DynamicFilterOperator.Any
-                                                    , Value    = ownedMenuIds
-                                                  };
-        var ret = await Query(req);
+        var ret = await Query(req with {
+                                           DynamicFilter
+                                           = new DynamicFilterInfo {
+                                                                       Field    = nameof(QueryMenuReq.Id)
+                                                                     , Operator = DynamicFilterOperator.Any
+                                                                     , Value    = ownedMenuIds
+                                                                   }
+                                       });
         return ret;
     }
 }

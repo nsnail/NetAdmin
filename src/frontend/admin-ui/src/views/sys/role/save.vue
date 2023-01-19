@@ -125,15 +125,13 @@ export default {
                 },
             ],
             //表单数据
-            form: {
-                sort: 0
-            },
+            form: {},
             //验证规则
             rules: {
                 sort: [
                     {required: true, message: '请输入排序', trigger: 'change'}
                 ],
-                label: [
+                name: [
                     {required: true, message: '请输入角色名称'}
                 ]
             }

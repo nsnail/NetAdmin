@@ -11,6 +11,7 @@
     <div class="scTable" :style="{'height':_height}" ref="scTableMain" v-loading="loading">
         <div class="scTable-table" :style="{'height':_table_height}">
             <el-table v-bind="$attrs" :data="tableData" :row-key="rowKey" :key="toggleIndex" ref="scTable"
+                      :default-expand-all="config.defaultExpandAll"
                       :height="height=='auto'?null:'100%'" :size="config.size" :border="config.border"
                       :stripe="config.stripe" :summary-method="remoteSummary?remoteSummaryMethod:summaryMethod"
                       @sort-change="sortChange" @filter-change="filterChange">
@@ -100,6 +101,7 @@ export default {
         size: {type: String, default: "default"},
         border: {type: Boolean, default: false},
         stripe: {type: Boolean, default: false},
+        defaultExpandAll: {type: Boolean, default: false},
         pageSize: {type: Number, default: config.pageSize},
         pageSizes: {type: Array, default: config.pageSizes},
         rowKey: {type: String, default: ""},
@@ -159,7 +161,8 @@ export default {
             config: {
                 size: this.size,
                 border: this.border,
-                stripe: this.stripe
+                stripe: this.stripe,
+                defaultExpandAll: this.defaultExpandAll,
             }
         }
     },

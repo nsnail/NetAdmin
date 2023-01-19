@@ -37,7 +37,7 @@ public record CreateUserReq : TbSysUser, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EmailAddress]
 
-    public override string Email { get; set; }
+    public override string Email { get; init; }
 
     /// <summary>
     ///     启用
@@ -62,7 +62,7 @@ public record CreateUserReq : TbSysUser, IRegister
     [Required]
     [MinLength(1)]
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
-    public List<long> PositionIds { get; set; }
+    public IReadOnlyCollection<long> PositionIds { get; init; }
 
     /// <summary>
     ///     角色id列表
@@ -70,7 +70,11 @@ public record CreateUserReq : TbSysUser, IRegister
     [Required]
     [MinLength(1)]
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
-    public List<long> RoleIds { get; set; }
+    public IReadOnlyCollection<long> RoleIds { get; init; }
+
+    /// <inheritdoc cref="TbSysUser.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Summary { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

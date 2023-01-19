@@ -18,8 +18,8 @@ public record QueryPositionRsp : TbSysPosition
     public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override long Id { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; init; }
 
     /// <inheritdoc cref="TbSysPosition.Name" />
     [Required]

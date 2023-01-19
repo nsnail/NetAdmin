@@ -13,5 +13,5 @@ public record LoginRsp : DataAbstraction
     /// <summary>
     ///     刷新令牌
     /// </summary>
-    public string RefreshToken { get; set; }
+    public string RefreshToken { get; init; }
 }

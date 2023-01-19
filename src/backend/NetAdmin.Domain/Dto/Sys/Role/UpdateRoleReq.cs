@@ -11,7 +11,7 @@ public record UpdateRoleReq : CreateRoleReq
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
-    public override long Id { get; set; }
+    public override long Id { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

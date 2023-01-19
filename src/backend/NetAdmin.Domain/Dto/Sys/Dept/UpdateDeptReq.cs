@@ -10,7 +10,7 @@ public record UpdateDeptReq : CreateDeptReq
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; set; }
+    public override long Id { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

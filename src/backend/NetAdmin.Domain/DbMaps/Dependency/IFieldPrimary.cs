@@ -8,5 +8,5 @@ public interface IFieldPrimary<T>
     /// <summary>
     ///     唯一编码
     /// </summary>
-    T Id { get; set; }
+    T Id { get; init; }
 }

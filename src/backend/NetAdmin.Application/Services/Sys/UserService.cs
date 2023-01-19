@@ -89,8 +89,11 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
 
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
 
-        var ret = new LoginRsp { AccessToken = JWTEncryption.Encrypt(tokenPayload) };
-        ret.RefreshToken = JWTEncryption.GenerateRefreshToken(ret.AccessToken);
+        var accessToken = JWTEncryption.Encrypt(tokenPayload);
+        var ret = new LoginRsp {
+                                   AccessToken  = accessToken
+                                 , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
+                               };
 
         return ret;
     }
@@ -124,7 +127,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
 
         // 主表
         var entity = req.Adapt<TbSysUser>();
-        await Rpo.UpdateDiy.SetSource(entity).ExecuteAffrowsAsync();
+        await Rpo.UpdateDiy.SetSource(entity).IgnoreColumns(a => new { a.Password, a.Token }).ExecuteAffrowsAsync();
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
@@ -192,7 +195,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
 
     private async Task<ISelect<TbSysUser>> QueryInternal(QueryReq<QueryUserReq> req)
     {
-        List<long> deptIds = null;
+        IEnumerable<long> deptIds = null;
         if (req.Filter?.DeptId > 0) {
             deptIds = await Rpo.Orm.Select<TbSysDept>()
                                .Where(a => a.Id == req.Filter.DeptId)

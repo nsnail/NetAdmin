@@ -77,7 +77,14 @@
                                 <el-table-column sortable="custom" label="方法" prop="method"
                                                  width="100"></el-table-column>
                                 <el-table-column sortable="custom" label="耗时(毫秒)" prop="duration"
-                                                 width="120"></el-table-column>
+                                                 width="120">
+                                    <template #default="scope">
+                                        {{
+                                            scope.row.duration / 1000
+                                        }}
+                                    </template>
+
+                                </el-table-column>
                             </el-table-column>
                             <el-table-column sortable="custom" label="用户" prop="createdUserName"
                                              width="150">

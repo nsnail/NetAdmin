@@ -32,8 +32,8 @@ public record QueryUserRsp : TbSysUser
     public new QueryDeptRsp Dept { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override long Id { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; init; }
 
     /// <inheritdoc cref="TbSysUser.Mobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -48,6 +48,10 @@ public record QueryUserRsp : TbSysUser
     ///     角色列表
     /// </summary>
     public new IEnumerable<QueryRoleRsp> Roles { get; init; }
+
+    /// <inheritdoc cref="TbSysUser.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public override string Summary { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

@@ -36,8 +36,8 @@ public record QueryRequestLogRsp : TbSysRequestLog, IRegister
     public override string CreatedUserName { get; set; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override int Duration { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Duration { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -45,9 +45,10 @@ public record QueryRequestLogRsp : TbSysRequestLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override string ExtraData { get; set; }
+    public override string ExtraData { get; init; }
 
     /// <inheritdoc />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override int HttpStatusCode { get; init; }
 
     /// <inheritdoc />
@@ -76,7 +77,7 @@ public record QueryRequestLogRsp : TbSysRequestLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override string ResponseBody { get; set; }
+    public override string ResponseBody { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -84,11 +85,11 @@ public record QueryRequestLogRsp : TbSysRequestLog, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override string ResponseHeaders { get; set; }
+    public override string ResponseHeaders { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override Enums.RspCodes RspCode { get; set; }
+    public override Enums.RspCodes RspCode { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

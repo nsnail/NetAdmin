@@ -18,12 +18,12 @@ public record QueryUserReq : TbSysUser
     ///     id
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; set; }
+    public override long Id { get; init; }
 
     /// <summary>
     ///     岗位id
     /// </summary>
-    public long PositionId { get; set; }
+    public long PositionId { get; init; }
 
     /// <summary>
     ///     角色id

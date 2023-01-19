@@ -45,7 +45,7 @@ public record TbSysUser : MutableEntity, IFieldBitSet, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [MaxLength(63)]
-    public virtual string Email { get; set; }
+    public virtual string Email { get; init; }
 
     /// <summary>
     ///     手机号
@@ -79,7 +79,7 @@ public record TbSysUser : MutableEntity, IFieldBitSet, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [MaxLength(255)]
-    public string Summary { get; init; }
+    public virtual string Summary { get; init; }
 
     /// <summary>
     ///     做授权验证的Token，全局唯一，可以随时重置（强制下线）

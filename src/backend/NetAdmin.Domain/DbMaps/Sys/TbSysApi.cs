@@ -21,7 +21,7 @@ public record TbSysApi : ImmutableEntity<string>, IFieldSummary
     /// <inheritdoc />
     [JsonIgnore]
     [MaxLength(127)]
-    public override string Id { get; set; }
+    public override string Id { get; init; }
 
     /// <summary>
     ///     请求方式

@@ -24,8 +24,8 @@ public record QueryDicCatalogRsp : TbSysDicCatalog
     public override string Code { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override long Id { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

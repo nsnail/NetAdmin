@@ -33,10 +33,10 @@ public record TbSysRequestLog : ImmutableEntity
     public virtual string ClientIp { get; init; }
 
     /// <summary>
-    ///     执行耗时（ms）
+    ///     执行耗时（微秒）
     /// </summary>
     [JsonIgnore]
-    public virtual int Duration { get; init; }
+    public virtual long Duration { get; init; }
 
     /// <summary>
     ///     异常信息
@@ -50,7 +50,7 @@ public record TbSysRequestLog : ImmutableEntity
     /// </summary>
     [JsonIgnore]
     [MaxLength(255)]
-    public virtual string ExtraData { get; set; }
+    public virtual string ExtraData { get; init; }
 
     /// <summary>
     ///     HTTP状态码
@@ -105,7 +105,7 @@ public record TbSysRequestLog : ImmutableEntity
     /// </summary>
     [JsonIgnore]
     [MaxLength(255)]
-    public virtual string ResponseBody { get; set; }
+    public virtual string ResponseBody { get; init; }
 
     /// <summary>
     ///     响应content-type
@@ -119,19 +119,19 @@ public record TbSysRequestLog : ImmutableEntity
     /// </summary>
     [JsonIgnore]
     [MaxLength(255)]
-    public virtual string ResponseHeaders { get; set; }
+    public virtual string ResponseHeaders { get; init; }
 
     /// <summary>
     ///     程序响应码
     /// </summary>
     [JsonIgnore]
-    public virtual Enums.RspCodes RspCode { get; set; }
+    public virtual Enums.RspCodes RspCode { get; init; }
 
     /// <summary>
     ///     服务器IP
     /// </summary>
     [JsonIgnore]
-    [MaxLength(7)]
+    [MaxLength(15)]
     public virtual string ServerIp { get; init; }
 
     /// <summary>

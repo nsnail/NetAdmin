@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
         _consoleColors = new Dictionary<Regex, string> {
                                                            {
                                                                new Regex( //
-                                                                   @"(\d+ *ms)", RegexOptions.Compiled)
+                                                                   @"(\d{2,}\.\d+ ?ms)", RegexOptions.Compiled)
                                                              , @$"[{nameof(ConsoleColor.Magenta)}]$1[/]"
                                                            }
                                                          , {

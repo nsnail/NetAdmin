@@ -19,15 +19,15 @@ public record QueryDeptRsp : TbSysDept
     /// <summary>
     ///     子节点
     /// </summary>
-    public new virtual List<QueryDeptRsp> Children { get; init; }
+    public new virtual IEnumerable<QueryDeptRsp> Children { get; init; }
 
     /// <inheritdoc cref="IFieldAdd.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override long Id { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

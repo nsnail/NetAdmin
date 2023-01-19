@@ -15,7 +15,7 @@ public abstract record ImmutableEntity : ImmutableEntity<long>
     ///     唯一编码
     /// </summary>
     [Snowflake]
-    public override long Id { get; set; }
+    public override long Id { get; init; }
 }
 
 /// <summary>
@@ -52,5 +52,5 @@ public abstract record ImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IField
     [Description(nameof(Ln.Unique_id))]
     [Localization(typeof(Ln))]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    public virtual T Id { get; set; }
+    public virtual T Id { get; init; }
 }

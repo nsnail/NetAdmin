@@ -43,7 +43,7 @@ public class RoleService : RepositoryService<TbSysRole, IRoleService>, IRoleServ
         await Rpo.SaveManyAsync(entity, nameof(entity.Menus));
         await Rpo.SaveManyAsync(entity, nameof(entity.Apis));
 
-        entity.Id = ret.Id;
+        entity = entity with { Id = ret.Id };
         return entity.Adapt<QueryRoleRsp>();
     }
 

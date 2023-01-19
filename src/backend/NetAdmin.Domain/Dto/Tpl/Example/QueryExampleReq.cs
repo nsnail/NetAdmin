@@ -11,5 +11,5 @@ public record QueryExampleReq : TbTplExample
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; set; }
+    public override long Id { get; init; }
 }

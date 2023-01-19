@@ -1,6 +1,7 @@
 using Furion;
 using Furion.EventBus;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Events;
 using NSExt.Extensions;
@@ -27,19 +28,22 @@ public class RequestLogger : IEventSubscriber
             return;
         }
 
+        CreateRequestLogReq logReq = null;
+
         // 登录日志 ，
         if (operationEvent.Data.ApiId.Equals("api/user/login", StringComparison.OrdinalIgnoreCase)) {
             try {
                 var loginReq = operationEvent.Data.RequestBody.Object<LoginReq>();
-                operationEvent.Data.ExtraData = loginReq.UserName;
+                logReq = operationEvent.Data with { ExtraData = loginReq.UserName };
             }
             catch (Exception) {
                 // ignored
             }
         }
 
+        logReq ??= operationEvent.Data;
         var logService = App.GetRequiredService<IRequestLogService>();
-        operationEvent.Data.TruncateStrings();
-        await logService.Create(operationEvent.Data);
+        logReq.TruncateStrings();
+        await logService.Create(logReq);
     }
 }

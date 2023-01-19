@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
 using Furion.DependencyInjection;
 using NetAdmin.Host.Filters;
 using NetAdmin.Host.Utils;
@@ -93,61 +90,7 @@ public static class IMvcBuilderExtensions
             options.JsonSerializerOptions.Converters.Add(new ToNullIfEmptyStringConverter());
 
             // [] 转 null 双向
-            options.JsonSerializerOptions.TypeInfoResolver
-                = new DefaultJsonTypeInfoResolver { Modifiers = { CollectionValueModifier } };
-
-            static void CollectionValueModifier(JsonTypeInfo typeInfo)
-            {
-                foreach (var property in typeInfo.Properties) {
-                    // 跳过非集合属性
-                    if (!property.PropertyType.GetInterfaces().Contains(typeof(IEnumerable))) {
-                        continue;
-                    }
-
-                    // 跳过字符串
-                    if (property.PropertyType == typeof(string)) {
-                        continue;
-                    }
-
-                    var memberName = property.GetType()
-                                             .GetRuntimeProperties()
-                                             .First(x => x.Name == "MemberName")
-                                             .GetValue(property) as string;
-
-                    // object->json 只在count>0时返回其值，否则返回null
-                    property.Get = obj => {
-                        object prop;
-                        try {
-                            prop = obj.GetType().GetProperty(memberName!)?.GetValue(obj);
-                        }
-                        catch (AmbiguousMatchException) {
-                            // 这里处理子类new隐藏父类同名属性， 取得多个同名属性的问题
-                            prop = obj.GetType()
-                                      .GetProperties()
-                                      .Where(x => x.Name          == memberName)
-                                      .First(x => x.DeclaringType == x.ReflectedType)
-                                      .GetValue(obj);
-                        }
-
-                        return prop switch { string => prop, ICollection { Count: > 0 } => prop, _ => null };
-                    };
-
-                    // json->object 时 为对象分配属性， 改为只在count>0分配 ，否则分配null，而不是分配[]
-                    property.Set = (obj, val) => {
-                        val = val switch { string => val, ICollection { Count: > 0 } => val, _ => null };
-                        try {
-                            obj.GetType().GetProperty(memberName!)?.SetValue(obj, val);
-                        }
-                        catch (AmbiguousMatchException) {
-                            obj.GetType()
-                               .GetProperties()
-                               .Where(x => x.Name          == memberName)
-                               .First(x => x.DeclaringType == x.ReflectedType)
-                               .SetValue(obj, val);
-                        }
-                    };
-                }
-            }
+            options.JsonSerializerOptions.TypeInfoResolver = new CollectionJsonTypeInfoResolver();
 
             // 日期格式 2023-01-18 20:02:12
             options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Chars.TPL_DATE_YYYY_MM_DD_HH_MM_SS);

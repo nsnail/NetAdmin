@@ -56,7 +56,7 @@ export default {
             dic: [],
             dicProps: {
                 value: "id",
-                label: "label",
+                label: "name",
                 emitPath: false,
                 checkStrictly: true
             }

@@ -11,5 +11,5 @@ public record QueryDeptReq : TbSysDept
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; set; }
+    public override long Id { get; init; }
 }

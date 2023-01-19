@@ -75,7 +75,7 @@ public class FreeSqlBuilder
             var fileContent = File.ReadAllText(file);
 
             dynamic entities = JsonConvert.DeserializeObject( //
-                fileContent, typeof(List<>).MakeGenericType(entityType));
+                fileContent, typeof(IEnumerable<>).MakeGenericType(entityType));
 
             // 如果表存在数据，跳过
             var select = typeof(IFreeSql).GetMethod(nameof(freeSql.Select), 1, Type.EmptyTypes)
@@ -103,7 +103,8 @@ public class FreeSqlBuilder
                                                       nameof(IBaseRepository<dynamic>.Insert)
                                                     , BindingFlags.Public | BindingFlags.Instance, null
                                                     , CallingConventions.Any
-                                                    , new[] { typeof(List<>).MakeGenericType(entityType) }, null);
+                                                    , new[] { typeof(IEnumerable<>).MakeGenericType(entityType) }
+                                                    , null);
 
             insert?.Invoke(rep, new[] { entities });
         }

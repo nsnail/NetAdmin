@@ -59,7 +59,7 @@ public class Repository<TEntity> : DefaultRepository<TEntity, long>, IRepository
     /// <param name="page">页码</param>
     /// <param name="pageSize">页容量</param>
     /// <returns>分页列表和总条数</returns>
-    public virtual async Task<(List<TEntity> List, long Total)> GetPagedListAsync(
+    public virtual async Task<(IEnumerable<TEntity> List, long Total)> GetPagedListAsync(
         DynamicFilterInfo dynamicFilterInfo, int page, int pageSize)
     {
         var list = await Select.WhereDynamicFilter(dynamicFilterInfo)

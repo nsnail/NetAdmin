@@ -15,7 +15,7 @@ public record TbSysRoleApi : ImmutableEntity
     ///     关联的接口
     /// </summary>
     [JsonIgnore]
-    public TbSysApi Api { get; init; }
+    public virtual TbSysApi Api { get; init; }
 
     /// <summary>
     ///     接口id
@@ -28,7 +28,7 @@ public record TbSysRoleApi : ImmutableEntity
     ///     关联的角色
     /// </summary>
     [JsonIgnore]
-    public TbSysRole Role { get; init; }
+    public virtual TbSysRole Role { get; init; }
 
     /// <summary>
     ///     角色id

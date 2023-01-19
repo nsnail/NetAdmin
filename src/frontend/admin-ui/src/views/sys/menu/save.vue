@@ -17,7 +17,7 @@
                     <el-form-item label="类型" prop="meta.type">
                         <el-radio-group v-model="form.meta.type">
                             <el-radio-button v-for="(item,i) in this.$CONFIG.ENUMS.menuTypes" :key="i"
-                                             :label="item.value">{{ item.desc }}
+                                             :label="i">{{ item }}
                             </el-radio-button>
                         </el-radio-group>
                     </el-form-item>

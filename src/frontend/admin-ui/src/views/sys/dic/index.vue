@@ -11,7 +11,7 @@
                              @node-click="dicClick" default-expand-all>
                         <template #default="{node, data}">
                             <span class="custom-tree-node">
-                                <span class="label">{{ data.label }}</span>
+                                <span class="label">{{ data.name }}</span>
                                 <span class="code">{{ data.code }}</span>
                                 <span class="do">
                                     <el-button-group>
@@ -98,7 +98,7 @@ export default {
             dicList: [],
             dicFilterText: '',
             dicProps: {
-                label: 'label'
+                label: 'name'
             },
             listApi: null,
             listApiParams: {},
@@ -139,7 +139,7 @@ export default {
         //树过滤
         dicFilterNode(value, data) {
             if (!value) return true;
-            var targetText = data.label + data.code;
+            var targetText = data.name + data.code;
             return targetText.indexOf(value) !== -1;
         },
         //树增加
@@ -171,7 +171,7 @@ export default {
         },
         //删除树
         dicDel(node, data) {
-            this.$confirm(`确定删除 ${data.label} 项吗？`, '提示', {
+            this.$confirm(`确定删除 ${data.name} 项吗？`, '提示', {
                 type: 'warning'
             }).then(async () => {
                 this.showDicloading = true;

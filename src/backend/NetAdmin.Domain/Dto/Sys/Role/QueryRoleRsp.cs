@@ -45,7 +45,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; set; }
+    public override long Id { get; init; }
 
     /// <summary>
     ///     角色-菜单映射

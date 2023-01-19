@@ -8,7 +8,7 @@ public record IconExportJsInfo : DataAbstraction
     /// <summary>
     ///     ExportDefault
     /// </summary>
-    public ExportDefaultRecord ExportDefault { get; set; }
+    public ExportDefaultRecord ExportDefault { get; init; }
 
     /// <summary>
     ///     ExportDefaultRecord
@@ -18,7 +18,7 @@ public record IconExportJsInfo : DataAbstraction
         /// <summary>
         ///     Icons
         /// </summary>
-        public List<IconsItem> Icons { get; set; }
+        public IEnumerable<IconsItem> Icons { get; init; }
     }
 
     /// <summary>
@@ -29,11 +29,11 @@ public record IconExportJsInfo : DataAbstraction
         /// <summary>
         ///     Icons
         /// </summary>
-        public List<string> Icons { get; set; }
+        public ICollection<string> Icons { get; init; }
 
         /// <summary>
         ///     Name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }

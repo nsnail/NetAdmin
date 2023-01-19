@@ -11,17 +11,17 @@ public record GenerateIconCodeReq : DataAbstraction
     ///     图标名称
     /// </summary>
     [Required]
-    public string IconName { get; set; }
+    public string IconName { get; init; }
 
     /// <summary>
     ///     前端项目路径
     /// </summary>
     [Required]
-    public string ProjectPath { get; set; }
+    public string ProjectPath { get; init; }
 
     /// <summary>
     ///     图标代码
     /// </summary>
     [Required]
-    public string SvgCode { get; set; }
+    public string SvgCode { get; init; }
 }

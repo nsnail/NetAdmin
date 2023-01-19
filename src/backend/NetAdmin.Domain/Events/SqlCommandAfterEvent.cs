@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Globalization;
 using FreeSql.Aop;
 
@@ -14,17 +15,18 @@ public record SqlCommandAfterEvent : SqlCommandBeforeEvent
     public SqlCommandAfterEvent(CommandAfterEventArgs e) //
         : base(e)
     {
-        ElapsedMilliseconds = e.ElapsedMilliseconds;
+        ElapsedMicroseconds = (long)((double)e.ElapsedTicks / Stopwatch.Frequency * 1_000_000);
     }
 
     /// <summary>
-    ///     耗时（单位：毫秒）
+    ///     耗时（单位：微秒）
     /// </summary>
-    public long ElapsedMilliseconds { get; set; }
+    public long ElapsedMicroseconds { get; set; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {1} ms", Id, ElapsedMilliseconds);
+        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {1} {2} ms", Id, Sql[..Sql.IndexOf(' ')]
+                           , ElapsedMicroseconds / 1000f);
     }
 }

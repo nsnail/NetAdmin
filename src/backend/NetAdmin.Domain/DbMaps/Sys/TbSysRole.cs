@@ -90,7 +90,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysRoleApi))]
-    public ICollection<TbSysApi> Apis { get; set; }
+    public virtual ICollection<TbSysApi> Apis { get; init; }
 
     /// <summary>
     ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />） <see cref="RoleBits" />
@@ -141,5 +141,5 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysUserRole))]
-    public ICollection<TbSysUser> Users { get; init; }
+    public virtual ICollection<TbSysUser> Users { get; init; }
 }
