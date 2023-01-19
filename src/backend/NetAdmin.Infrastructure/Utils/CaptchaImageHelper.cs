@@ -23,6 +23,7 @@ public static class CaptchaImageHelper
     /// <param name="sliderSize">滑块尺寸</param>
     /// <returns> 背景图（base64），滑块图（base64），缺口坐标 </returns>
     #pragma warning disable SA1414
+    #pragma warning disable CodeLinesAnalyzer
     public static async Task<(string BackgroundImage, string SliderImage, Point OffsetSaw)> CreateSawSliderImage(
             string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope, Size sliderSize)
         #pragma warning restore SA1414
@@ -89,6 +90,7 @@ public static class CaptchaImageHelper
         return (backgroundImage.ToBase64String(PngFormat.Instance), sliderBlockImage.ToBase64String(PngFormat.Instance)
               , offsetRand);
     }
+    #pragma warning restore CodeLinesAnalyzer
 
     private static ComplexPolygon CalcBlockShape(Image<Rgba32> templateDarkImage)
     {

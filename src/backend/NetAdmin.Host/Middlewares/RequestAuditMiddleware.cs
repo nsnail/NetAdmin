@@ -83,44 +83,59 @@ public class RequestAuditMiddleware
         var exception = context.Features.Get<IExceptionHandlerFeature>();
         var rspCode = context.Response.Headers[nameof(Enums.RspCodes)].FirstOrDefault()?.Enum<Enums.RspCodes>() ??
                       Enums.RspCodes.Succeed;
-        var auditData = new CreateRequestLogReq {
-                                                    ClientIp            = context.GetRemoteIpAddressToIPv4()
-                                                  , Duration            = (long)sw.Elapsed.TotalMicroseconds
-                                                  , Method              = context.Request.Method
-                                                  , ReferUrl            = context.Request.GetRefererUrlAddress()
-                                                  , RequestContentType  = context.Request.ContentType
-                                                  , RequestBody         = await context.ReadBodyContentAsync()
-                                                  , RequestUrl          = context.Request.GetRequestUrlAddress()
-                                                  , ResponseBody        = responseBody
-                                                  , ServerIp            = context.GetLocalIpAddressToIPv4()
-                                                  , UserAgent           = context.Request.Headers["User-Agent"]
-                                                  , ApiId               = context.Request.Path.Value?.TrimStart('/')
-                                                  , RequestHeaders      = context.Request.Headers.Json()
-                                                  , ResponseContentType = context.Response.ContentType
-                                                  , ResponseHeaders     = context.Response.Headers.Json()
-                                                  , HttpStatusCode      = context.Response.StatusCode
-                                                  , RspCode             = rspCode
-                                                  , Exception           = exception?.Error.ToString()
-                                                };
+        var auditData
+            = await MakeAuditData(context, (long)sw.Elapsed.TotalMicroseconds, responseBody, rspCode, exception);
 
         // 从请求头中读取用户信息
-        var token = context.Request.Headers.Authorization.FirstOrDefault();
-        if (token is not null) {
-            try {
-                var jsonWebToken = JWTEncryption.ReadJwtToken(token[_tokenPrefxLength..]);
-                var claim        = jsonWebToken?.Claims.FirstOrDefault(y => y.Type == nameof(ContextUser));
-                var user         = claim?.Value.Object<ContextUser>();
-                if (user is not null) {
-                    auditData.CreatedUserId   = user.Id;
-                    auditData.CreatedUserName = user.UserName;
-                }
-            }
-            catch (Exception ex) {
-                _logger.Error($"{Ln.Error_in_reading_the_user_token}: {ex}");
-            }
-        }
+        SetAssociatedUser(context, auditData);
 
         // 发布审计事件
         await _eventPublisher.PublishAsync(new OperationEvent(auditData));
+    }
+
+    private static async Task<CreateRequestLogReq> MakeAuditData(HttpContext context, long duration, string responseBody
+                                                               , Enums.RspCodes rspCode
+                                                               , IExceptionHandlerFeature exception)
+    {
+        return new CreateRequestLogReq {
+                                           ClientIp            = context.GetRemoteIpAddressToIPv4()
+                                         , Duration            = duration
+                                         , Method              = context.Request.Method
+                                         , ReferUrl            = context.Request.GetRefererUrlAddress()
+                                         , RequestContentType  = context.Request.ContentType
+                                         , RequestBody         = await context.ReadBodyContentAsync()
+                                         , RequestUrl          = context.Request.GetRequestUrlAddress()
+                                         , ResponseBody        = responseBody
+                                         , ServerIp            = context.GetLocalIpAddressToIPv4()
+                                         , UserAgent           = context.Request.Headers["User-Agent"]
+                                         , ApiId               = context.Request.Path.Value?.TrimStart('/')
+                                         , RequestHeaders      = context.Request.Headers.Json()
+                                         , ResponseContentType = context.Response.ContentType
+                                         , ResponseHeaders     = context.Response.Headers.Json()
+                                         , HttpStatusCode      = context.Response.StatusCode
+                                         , RspCode             = rspCode
+                                         , Exception           = exception?.Error.ToString()
+                                       };
+    }
+
+    private void SetAssociatedUser(HttpContext context, IFieldAdd auditData)
+    {
+        var token = context.Request.Headers.Authorization.FirstOrDefault();
+        if (token is null) {
+            return;
+        }
+
+        try {
+            var jsonWebToken = JWTEncryption.ReadJwtToken(token[_tokenPrefxLength..]);
+            var claim        = jsonWebToken?.Claims.FirstOrDefault(y => y.Type == nameof(ContextUser));
+            var user         = claim?.Value.Object<ContextUser>();
+            if (user is not null) {
+                auditData.CreatedUserId   = user.Id;
+                auditData.CreatedUserName = user.UserName;
+            }
+        }
+        catch (Exception ex) {
+            _logger.Error($"{Ln.Error_in_reading_the_user_token}: {ex}");
+        }
     }
 }

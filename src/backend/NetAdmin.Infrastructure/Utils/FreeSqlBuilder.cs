@@ -48,6 +48,24 @@ public class FreeSqlBuilder
         return entityTypes;
     }
 
+    private static MethodInfo MakeGetRepositoryMethod(Type entityType)
+    {
+        return typeof(FreeSqlDbContextExtensions).GetMethods()
+                                                 .Where(x => x.Name == nameof(FreeSqlDbContextExtensions.GetRepository))
+                                                 .FirstOrDefault(x => x.GetGenericArguments().Length == 1)
+                                                 ?.MakeGenericMethod(entityType);
+    }
+
+    private static MethodInfo MakeInsertMethod(Type entityType)
+    {
+        return typeof(IBaseRepository<>).MakeGenericType(entityType)
+                                        .GetMethod( //
+                                            nameof(IBaseRepository<dynamic>.Insert)
+                                          , BindingFlags.Public | BindingFlags.Instance, null
+                                          , CallingConventions.Any
+                                          , new[] { typeof(IEnumerable<>).MakeGenericType(entityType) }, null);
+    }
+
     /// <summary>
     ///     初始化数据库
     /// </summary>
@@ -87,24 +105,13 @@ public class FreeSqlBuilder
                 continue;
             }
 
-            var rep = typeof(FreeSqlDbContextExtensions).GetMethods()
-                                                        .Where(x => x.Name ==
-                                                                    nameof(FreeSqlDbContextExtensions.GetRepository))
-                                                        .FirstOrDefault(x => x.GetGenericArguments().Length == 1)
-                                                        ?.MakeGenericMethod(entityType)
-                                                        .Invoke(null, new object[] { freeSql, null });
+            var rep = MakeGetRepositoryMethod(entityType)?.Invoke(null, new object[] { freeSql, null });
             if (rep?.GetType().GetProperty(nameof(DbContextOptions))?.GetValue(rep) is DbContextOptions options) {
                 options.EnableCascadeSave = true;
                 options.NoneParameter     = true;
             }
 
-            var insert = typeof(IBaseRepository<>).MakeGenericType(entityType)
-                                                  .GetMethod( //
-                                                      nameof(IBaseRepository<dynamic>.Insert)
-                                                    , BindingFlags.Public | BindingFlags.Instance, null
-                                                    , CallingConventions.Any
-                                                    , new[] { typeof(IEnumerable<>).MakeGenericType(entityType) }
-                                                    , null);
+            var insert = MakeInsertMethod(entityType);
 
             insert?.Invoke(rep, new[] { entities });
         }

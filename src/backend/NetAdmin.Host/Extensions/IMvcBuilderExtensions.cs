@@ -46,6 +46,7 @@ public static class IMvcBuilderExtensions
     ///     5、值为"" 转 null
     ///     6、值为[] 转 null
     /// </remarks>
+    #pragma warning disable CodeLinesAnalyzer
     public static IMvcBuilder AddJsonSerializer(this IMvcBuilder me)
     {
         return me.AddJsonOptions(options => {
@@ -99,4 +100,5 @@ public static class IMvcBuilderExtensions
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
         });
     }
+    #pragma warning restore CodeLinesAnalyzer
 }
