@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.tgitconfig = .tgitconfig
-		AddMetaFilesToSln.csx = AddMetaFilesToSln.csx
 		build.cake = build.cake
 		code-format.cmd = code-format.cmd
 		CodeCleanupOnSave.csx = CodeCleanupOnSave.csx
@@ -22,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		Directory.Build.props = Directory.Build.props
 		docker-compose-minio.yml = docker-compose-minio.yml
 		dotnet-tools.json = dotnet-tools.json
-		GenerateIconSelectJs.csx = GenerateIconSelectJs.csx
+		Experimental.linq = Experimental.linq
 		GenerateResx.targets = GenerateResx.targets
 		git-clean.cmd = git-clean.cmd
 		global.json = global.json
@@ -37,7 +36,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		switch-nuget.cmd = switch-nuget.cmd
 		switch-project.cmd = switch-project.cmd
 		switcher.freesql.json = switcher.freesql.json
-		switcher.json = switcher.json
+		switcher.furion.json = switcher.furion.json
+		switcher.nsext.json = switcher.nsext.json
+		SyncMetaFiles.csx = SyncMetaFiles.csx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\backend\NetAdmin.Host\NetAdmin.Host.csproj", "{F672F054-A416-4FC2-957B-ADD73C0346CF}"

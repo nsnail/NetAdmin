@@ -6,7 +6,7 @@ var slnFile = Directory.GetFiles(@".", "*.sln").First();
         $"""
 ProjectSection(SolutionItems) = preProject
 {string.Join('\n',
-             Directory.GetFiles(@".", "*").Where(x => !x.EndsWith(".sln"))
+             Directory.GetFiles(@".", "*").Where(x => !x.EndsWith(".sln") && !x.EndsWith(".user"))
                       .Select(x=>$"\t\t{Path.GetFileName(x)} = {Path.GetFileName(x)}"))}
 {'\t'}EndProjectSection
 """);

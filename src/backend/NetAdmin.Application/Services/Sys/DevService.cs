@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
@@ -145,7 +146,7 @@ public class DevService : ServiceBase<DevService>, IDevService
         var iconExportJsInfo = iconSelectContent.Object<IconExportJsInfo>();
         iconExportJsInfo.ExportDefault.Icons.Last()
                         .Icons.Add($"sc-icon-{req.IconName.ToLower(CultureInfo.InvariantCulture)}");
-        var newContent = iconExportJsInfo.Json(true)
+        var newContent = iconExportJsInfo.Json()
                                          .TrimStart('{')
                                          .TrimEnd('}')
                                          .Replace("\"exportDefault\":", "export default");

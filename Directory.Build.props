@@ -1,13 +1,26 @@
 <Project>
     <PropertyGroup>
+        <Authors>nsnail</Authors>
         <BaseIntermediateOutputPath>../../../dist</BaseIntermediateOutputPath>
         <BaseOutputPath>../../../dist</BaseOutputPath>
+        <Copyright>© 2006-2023 nsnail</Copyright>
+        <Description>A general authority management system based on RBAC</Description>
         <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <ImplicitUsings>enable</ImplicitUsings>
         <IntermediateOutputPath>$(BaseIntermediateOutputPath)/$(MSBuildProjectName)/obj</IntermediateOutputPath>
         <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)/$(MSBuildProjectName)/obj</MSBuildProjectExtensionsPath>
         <OutputPath>$(BaseOutputPath)/$(MSBuildProjectName)/bin</OutputPath>
+        <Product>NetAdmin</Product>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/nsnail/NetAdmin.git</RepositoryUrl>
         <TargetFramework>net7.0</TargetFramework>
+        <Title>$(AssemblyName)</Title>
     </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MinVer" Version="4.3.0-beta.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>
