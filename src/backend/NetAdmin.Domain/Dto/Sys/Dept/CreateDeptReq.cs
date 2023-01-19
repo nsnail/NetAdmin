@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Dept;
@@ -28,19 +29,19 @@ public record CreateDeptReq : TbSysDept
     public bool Enabled { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysDept.ParentId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; }
 
-    /// <inheritdoc cref="TbSysDept.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override int Sort { get; init; }
+    /// <inheritdoc cref="IFieldSort.Sort" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Sort { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Summary { get; init; }
 }

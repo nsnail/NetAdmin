@@ -27,6 +27,6 @@ public record QueryDicContentRsp : TbSysDicContent
     public override string Value { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

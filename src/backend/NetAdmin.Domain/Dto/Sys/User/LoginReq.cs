@@ -16,7 +16,7 @@ public record LoginReq : TbSysUser
     public new string Password { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     [UserName]
     public override string UserName { get; init; }

@@ -21,8 +21,8 @@ public record TbSysDicCatalog : MutableEntity, IFieldBitSet
     /// <summary>
     ///     子节点
     /// </summary>
-    [Navigate(nameof(ParentId))]
     [JsonIgnore]
+    [Navigate(nameof(ParentId))]
     public virtual IEnumerable<TbSysDicCatalog> Children { get; init; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public record TbSysDicCatalog : MutableEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     [Navigate(nameof(TbSysDicContent.CatalogId))]
-    public virtual IReadOnlyCollection<TbSysDicContent> Contents { get; init; }
+    public virtual ICollection<TbSysDicContent> Contents { get; init; }
 
     /// <summary>
     ///     字典名称

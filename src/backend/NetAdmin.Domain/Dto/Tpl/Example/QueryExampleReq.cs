@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Tpl;
 
 namespace NetAdmin.Domain.Dto.Tpl.Example;
@@ -8,7 +9,7 @@ namespace NetAdmin.Domain.Dto.Tpl.Example;
 /// </summary>
 public record QueryExampleReq : TbTplExample
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 }

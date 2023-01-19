@@ -59,13 +59,14 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
 
         // 主表
         var entity = req.Adapt<TbSysUser>();
-        var ret    = await Rpo.InsertAsync(entity);
+        var dbUser = await Rpo.InsertAsync(entity);
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
         await Rpo.SaveManyAsync(entity, nameof(entity.Positions));
-        entity.Id = ret.Id;
-        return entity.Adapt<QueryUserRsp>();
+
+        var ret = await Query(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } });
+        return ret.First();
     }
 
     /// <inheritdoc />

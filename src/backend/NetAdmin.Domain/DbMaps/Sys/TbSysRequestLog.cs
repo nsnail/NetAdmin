@@ -55,6 +55,7 @@ public record TbSysRequestLog : ImmutableEntity
     /// <summary>
     ///     HTTP状态码
     /// </summary>
+    [JsonIgnore]
     public virtual int HttpStatusCode { get; init; }
 
     /// <summary>
@@ -123,6 +124,7 @@ public record TbSysRequestLog : ImmutableEntity
     /// <summary>
     ///     程序响应码
     /// </summary>
+    [JsonIgnore]
     public virtual Enums.RspCodes RspCode { get; set; }
 
     /// <summary>

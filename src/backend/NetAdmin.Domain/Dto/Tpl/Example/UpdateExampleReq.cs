@@ -8,6 +8,6 @@ namespace NetAdmin.Domain.Dto.Tpl.Example;
 public record UpdateExampleReq : CreateExampleReq
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

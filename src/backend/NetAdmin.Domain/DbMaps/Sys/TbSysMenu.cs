@@ -13,7 +13,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// </summary>
 [Table]
 [Index($"idx_{{tablename}}_{nameof(Name)}", nameof(Name), true)]
-public record TbSysMenu : MutableEntity, IFieldBitSet
+public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
 {
     /// <summary>
     ///     菜单设置
@@ -24,6 +24,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     隐藏
         /// </summary>
+        [JsonIgnore]
         [Description(nameof(Ln.Hidden))]
         [Localization(typeof(Ln))]
         Hidden = 0b_0000_0001_0000
@@ -33,6 +34,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     隐藏面包屑
         /// </summary>
+        [JsonIgnore]
         [Description(nameof(Ln.Hidden_bread_crumb))]
         [Localization(typeof(Ln))]
         HiddenBreadCrumb = 0b_0000_0010_0000
@@ -42,6 +44,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     整页路由
         /// </summary>
+        [JsonIgnore]
         [Description(nameof(Ln.Full_page_routing))]
         [Localization(typeof(Ln))]
         FullPageRouting = 0b_0000_0100_0000
@@ -56,6 +59,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     菜单
         /// </summary>
+        [JsonIgnore]
         [Description(nameof(Ln.Menu))]
         [Localization(typeof(Ln))]
         Menu = 1
@@ -65,6 +69,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     链接
         /// </summary>
+        [JsonIgnore]
         [Description(nameof(Ln.Link))]
         [Localization(typeof(Ln))]
         Link = 2
@@ -74,6 +79,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     框架
         /// </summary>
+        [JsonIgnore]
         [Description(nameof(Ln.Iframe))]
         [Localization(typeof(Ln))]
         Iframe = 3
@@ -83,6 +89,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
         /// <summary>
         ///     按钮
         /// </summary>
+        [JsonIgnore]
         [Description(nameof(Ln.Button))]
         [Localization(typeof(Ln))]
         Button = 4
@@ -104,8 +111,8 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
     /// <summary>
     ///     子节点
     /// </summary>
-    [Navigate(nameof(ParentId))]
     [JsonIgnore]
+    [Navigate(nameof(ParentId))]
     public virtual IEnumerable<TbSysMenu> Children { get; init; }
 
     /// <summary>
@@ -161,13 +168,11 @@ public record TbSysMenu : MutableEntity, IFieldBitSet
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysRoleMenu))]
-    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
+    public virtual ICollection<TbSysRole> Roles { get; init; }
 
-    /// <summary>
-    ///     排序
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
-    public virtual int Sort { get; init; }
+    public virtual long Sort { get; init; }
 
     /// <summary>
     ///     标签

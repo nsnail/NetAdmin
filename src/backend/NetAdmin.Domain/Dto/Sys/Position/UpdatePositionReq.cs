@@ -8,6 +8,6 @@ namespace NetAdmin.Domain.Dto.Sys.Position;
 public record UpdatePositionReq : CreatePositionReq
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

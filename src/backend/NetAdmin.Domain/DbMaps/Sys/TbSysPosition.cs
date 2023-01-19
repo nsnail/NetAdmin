@@ -27,7 +27,7 @@ public record TbSysPosition : MutableEntity, IFieldBitSet, IFieldSort, IFieldSum
 
     /// <inheritdoc />
     [JsonIgnore]
-    public virtual int Sort { get; init; }
+    public virtual long Sort { get; init; }
 
     /// <summary>
     ///     岗位描述
@@ -39,7 +39,7 @@ public record TbSysPosition : MutableEntity, IFieldBitSet, IFieldSort, IFieldSum
     /// <summary>
     ///     此岗位下的用户集合
     /// </summary>
-    [Navigate(ManyToMany = typeof(TbSysUserPosition))]
     [JsonIgnore]
-    public IReadOnlyCollection<TbSysUser> Users { get; init; }
+    [Navigate(ManyToMany = typeof(TbSysUserPosition))]
+    public ICollection<TbSysUser> Users { get; init; }
 }

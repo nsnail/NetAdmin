@@ -8,11 +8,11 @@ namespace NetAdmin.Domain.Dto.Sys.Dept;
 /// </summary>
 public record UpdateDeptReq : CreateDeptReq
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

@@ -9,12 +9,12 @@ namespace NetAdmin.Domain.Dto.Sys.Role;
 public record UpdateRoleReq : CreateRoleReq
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override long Id { get; set; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override long Version { get; init; }
 }

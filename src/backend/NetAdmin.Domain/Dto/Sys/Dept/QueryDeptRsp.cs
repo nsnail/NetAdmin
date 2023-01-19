@@ -37,15 +37,15 @@ public record QueryDeptRsp : TbSysDept
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override long ParentId { get; init; }
 
-    /// <inheritdoc cref="TbSysDept.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override int Sort { get; init; }
+    /// <inheritdoc cref="IFieldSort.Sort" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Sort { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

@@ -14,11 +14,12 @@ public record TbSysApi : ImmutableEntity<string>, IFieldSummary
     /// <summary>
     ///     子节点
     /// </summary>
-    [Navigate(nameof(ParentId))]
     [JsonIgnore]
+    [Navigate(nameof(ParentId))]
     public virtual IEnumerable<TbSysApi> Children { get; init; }
 
     /// <inheritdoc />
+    [JsonIgnore]
     [MaxLength(127)]
     public override string Id { get; set; }
 
@@ -53,8 +54,9 @@ public record TbSysApi : ImmutableEntity<string>, IFieldSummary
     /// <summary>
     ///     角色集合
     /// </summary>
+    [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysRoleApi))]
-    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
+    public virtual ICollection<TbSysRole> Roles { get; init; }
 
     /// <summary>
     ///     服务描述

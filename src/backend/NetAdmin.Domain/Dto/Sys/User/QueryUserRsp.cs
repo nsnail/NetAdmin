@@ -54,6 +54,6 @@ public record QueryUserRsp : TbSysUser
     public override string UserName { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

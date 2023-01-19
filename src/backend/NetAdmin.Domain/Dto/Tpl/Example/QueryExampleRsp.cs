@@ -19,6 +19,6 @@ public record QueryExampleRsp : TbTplExample
     public override long Id { get; set; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

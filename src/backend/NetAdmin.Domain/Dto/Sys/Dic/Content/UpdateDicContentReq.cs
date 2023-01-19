@@ -8,6 +8,6 @@ namespace NetAdmin.Domain.Dto.Sys.Dic.Content;
 public record UpdateDicContentReq : CreateDicContentReq
 {
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

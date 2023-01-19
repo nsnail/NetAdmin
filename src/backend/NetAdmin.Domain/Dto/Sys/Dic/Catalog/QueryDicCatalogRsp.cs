@@ -36,6 +36,6 @@ public record QueryDicCatalogRsp : TbSysDicCatalog
     public override long ParentId { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

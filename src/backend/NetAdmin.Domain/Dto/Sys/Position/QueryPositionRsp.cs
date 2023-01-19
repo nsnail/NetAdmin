@@ -27,14 +27,14 @@ public record QueryPositionRsp : TbSysPosition
     public override string Name { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override int Sort { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Sort { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Summary { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

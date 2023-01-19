@@ -8,5 +8,5 @@ public interface IFieldSort
     /// <summary>
     ///     排序值，越大越前
     /// </summary>
-    int Sort { get; init; }
+    long Sort { get; init; }
 }

@@ -71,8 +71,11 @@ public static class IMvcBuilderExtensions
 
             ///////////////////////////// object -> json
 
+            #if DEBUG
+
             // 开启缩进
             options.JsonSerializerOptions.WriteIndented = true;
+            #endif
 
             // 转小驼峰
             options.JsonSerializerOptions.DictionaryKeyPolicy  = JsonNamingPolicy.CamelCase;
@@ -118,10 +121,12 @@ public static class IMvcBuilderExtensions
                             prop = obj.GetType().GetProperty(memberName!)?.GetValue(obj);
                         }
                         catch (AmbiguousMatchException) {
+                            // 这里处理子类new隐藏父类同名属性， 取得多个同名属性的问题
                             prop = obj.GetType()
                                       .GetProperties()
                                       .Where(x => x.Name          == memberName)
-                                      .First(x => x.DeclaringType == x.ReflectedType);
+                                      .First(x => x.DeclaringType == x.ReflectedType)
+                                      .GetValue(obj);
                         }
 
                         return prop switch { string => prop, ICollection { Count: > 0 } => prop, _ => null };
@@ -129,9 +134,17 @@ public static class IMvcBuilderExtensions
 
                     // json->object 时 为对象分配属性， 改为只在count>0分配 ，否则分配null，而不是分配[]
                     property.Set = (obj, val) => {
-                        obj.GetType()
-                           .GetProperty(memberName!)
-                           ?.SetValue(obj, val switch { string => val, ICollection { Count: > 0 } => val, _ => null });
+                        val = val switch { string => val, ICollection { Count: > 0 } => val, _ => null };
+                        try {
+                            obj.GetType().GetProperty(memberName!)?.SetValue(obj, val);
+                        }
+                        catch (AmbiguousMatchException) {
+                            obj.GetType()
+                               .GetProperties()
+                               .Where(x => x.Name          == memberName)
+                               .First(x => x.DeclaringType == x.ReflectedType)
+                               .SetValue(obj, val);
+                        }
                     };
                 }
             }

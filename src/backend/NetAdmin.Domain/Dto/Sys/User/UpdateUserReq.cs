@@ -8,8 +8,8 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// </summary>
 public record UpdateUserReq : CreateUserReq
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 
     /// <summary>
@@ -19,6 +19,6 @@ public record UpdateUserReq : CreateUserReq
     public override string PasswordText => nameof(PasswordText);
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

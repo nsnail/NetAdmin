@@ -43,6 +43,7 @@ public record TbSysUser : MutableEntity, IFieldBitSet, IFieldSummary
     /// <summary>
     ///     邮箱
     /// </summary>
+    [JsonIgnore]
     [MaxLength(63)]
     public virtual string Email { get; set; }
 
@@ -64,14 +65,14 @@ public record TbSysUser : MutableEntity, IFieldBitSet, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysUserPosition))]
-    public virtual IReadOnlyCollection<TbSysPosition> Positions { get; init; }
+    public virtual ICollection<TbSysPosition> Positions { get; init; }
 
     /// <summary>
     ///     所属角色
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysUserRole))]
-    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
+    public virtual ICollection<TbSysRole> Roles { get; init; }
 
     /// <summary>
     ///     描述

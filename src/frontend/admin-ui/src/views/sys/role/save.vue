@@ -4,8 +4,8 @@
             <el-tab-pane label="基本信息">
                 <el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px"
                          label-position="left">
-                    <el-form-item label="角色名称" prop="label">
-                        <el-input v-model="form.label" clearable></el-input>
+                    <el-form-item label="角色名称" prop="name">
+                        <el-input v-model="form.name" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="排序" prop="sort">
                         <el-input-number v-model="form.sort" controls-position="right" :min="0"
@@ -17,8 +17,8 @@
                     <el-form-item label="无限权限" prop="ignorePermissionControl">
                         <el-switch v-model="form.ignorePermissionControl"></el-switch>
                     </el-form-item>
-                    <el-form-item label="备注" prop="remark">
-                        <el-input v-model="form.remark" clearable type="textarea"></el-input>
+                    <el-form-item label="备注" prop="summary">
+                        <el-input v-model="form.summary" clearable type="textarea"></el-input>
                     </el-form-item>
                 </el-form>
             </el-tab-pane>
@@ -126,13 +126,7 @@ export default {
             ],
             //表单数据
             form: {
-                id: 0,
-                label: "",
-                sort: 0,
-                enabled: true,
-                ignorePermissionControl: false,
-                remark: "",
-                dataScope: 'all'
+                sort: 0
             },
             //验证规则
             rules: {
@@ -216,19 +210,9 @@ export default {
         },
         //表单注入数据
         setData(data) {
-            this.form.id = data.id
-            this.form.label = data.label
-            this.form.sort = data.sort
-            this.form.enabled = data.enabled
-            this.form.ignorePermissionControl = data.ignorePermissionControl
-            this.form.remark = data.remark
-            this.form.version = data.version
-            this.form.deptIds = data.deptIds
-            this.form.menuIds = data.menuIds
-            this.form.apiIds = data.apiIds
-            this.form.dataScope = data.dataScope
+
             //可以和上面一样单个注入，也可以像下面一样直接合并进去
-            //Object.assign(this.form, data)
+            Object.assign(this.form, data)
 
             return this
         },

@@ -9,7 +9,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     部门表
 /// </summary>
 [Table]
-public record TbSysDept : MutableEntity, IFieldBitSet, IFieldSummary
+public record TbSysDept : MutableEntity, IFieldBitSet, IFieldSummary, IFieldSort
 {
     /// <summary>
     ///     设置（前4位是公共位<see cref="EntityBase.BitSets" />）
@@ -20,8 +20,8 @@ public record TbSysDept : MutableEntity, IFieldBitSet, IFieldSummary
     /// <summary>
     ///     子节点
     /// </summary>
-    [Navigate(nameof(ParentId))]
     [JsonIgnore]
+    [Navigate(nameof(ParentId))]
     public virtual IEnumerable<TbSysDept> Children { get; init; }
 
     /// <summary>
@@ -40,14 +40,13 @@ public record TbSysDept : MutableEntity, IFieldBitSet, IFieldSummary
     /// <summary>
     ///     角色集合
     /// </summary>
-    [Navigate(ManyToMany = typeof(TbSysRoleDept))]
-    public virtual IReadOnlyCollection<TbSysRole> Roles { get; init; }
-
-    /// <summary>
-    ///     排序
-    /// </summary>
     [JsonIgnore]
-    public virtual int Sort { get; init; }
+    [Navigate(ManyToMany = typeof(TbSysRoleDept))]
+    public virtual ICollection<TbSysRole> Roles { get; init; }
+
+    /// <inheritdoc />
+    [JsonIgnore]
+    public virtual long Sort { get; init; }
 
     /// <summary>
     ///     部门描述

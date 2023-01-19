@@ -18,7 +18,7 @@
                      remoteFilter>
                 <el-table-column type="selection" width="50"></el-table-column>
                 <el-table-column label="ID" prop="id" width="150" sortable='custom'></el-table-column>
-                <el-table-column label="角色名称" prop="label" width="150" sortable='custom'></el-table-column>
+                <el-table-column label="角色名称" prop="name" width="150" sortable='custom'></el-table-column>
                 <el-table-column label="排序" prop="sort" width="80" sortable='custom'></el-table-column>
                 <el-table-column label="启用" prop="enabled" width="80">
                     <template #default="scope">

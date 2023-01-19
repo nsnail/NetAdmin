@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Position;
@@ -8,7 +9,7 @@ namespace NetAdmin.Domain.Dto.Sys.Position;
 /// </summary>
 public record QueryPositionReq : TbSysPosition
 {
-    /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 }

@@ -57,7 +57,7 @@ public record QueryMenuRsp : TbSysMenu, IRegister
     public override string Redirect { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 
     /// <inheritdoc />

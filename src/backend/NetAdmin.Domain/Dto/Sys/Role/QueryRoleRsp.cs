@@ -44,7 +44,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
     public IEnumerable<long> DeptIds { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; set; }
 
     /// <summary>
@@ -58,15 +58,15 @@ public record QueryRoleRsp : TbSysRole, IRegister
     public override string Name { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override int Sort { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Sort { get; init; }
 
     /// <inheritdoc cref="TbSysRole.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 
     /// <inheritdoc />

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Menu;
@@ -10,7 +11,7 @@ namespace NetAdmin.Domain.Dto.Sys.Menu;
 public record CreateMenuReq : TbSysMenu
 {
     /// <inheritdoc cref="TbSysMenu.Active" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Active { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.BitSet" />
@@ -41,7 +42,7 @@ public record CreateMenuReq : TbSysMenu
     public override string Color => Meta.Color;
 
     /// <inheritdoc cref="TbSysMenu.Component" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Component { get; init; }
 
     /// <summary>
@@ -58,25 +59,25 @@ public record CreateMenuReq : TbSysMenu
     public MetaInfo Meta { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.ParentId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; } = 0;
 
     /// <inheritdoc cref="TbSysMenu.Path" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Path { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Redirect" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Redirect { get; init; }
 
-    /// <inheritdoc cref="TbSysMenu.Sort" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override int Sort { get; init; }
+    /// <inheritdoc cref="IFieldSort.Sort" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Sort { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Tag" />
     public override string Tag => Meta.Tag;
@@ -86,7 +87,7 @@ public record CreateMenuReq : TbSysMenu
     public override string Title => Meta.Title;
 
     /// <inheritdoc cref="TbSysMenu.Type" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(MenuTypes))]
     public override MenuTypes Type => Meta.Type;
 }
