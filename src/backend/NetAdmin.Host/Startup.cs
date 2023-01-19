@@ -30,7 +30,7 @@ public class Startup : AppStartup
             #if DEBUG
             .UseOpenApiSkin() // /                                                              Swagger皮肤
             #else
-            .UseHttpsRedirection() //                                                           强制https
+            .UseHttpsRedirection() // /                                                         强制https
             #endif
             .UseInject(string.Empty) // /                                            Furion脚手架
             .UseUnifyResultStatusCodes() //                                                     状态码拦截
