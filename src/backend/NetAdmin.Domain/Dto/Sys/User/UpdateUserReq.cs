@@ -15,10 +15,10 @@ public record UpdateUserReq : CreateUserReq
     public override long Id { get; init; }
 
     /// <summary>
-    ///     此属性无意义
+    ///     此属性无意义，只是为了通过数据校验
     /// </summary>
     [JsonIgnore]
-    public override string PasswordText => nameof(PasswordText);
+    public override string PasswordText => "MOCK-1234";
 
     /// <summary>
     ///     用户档案

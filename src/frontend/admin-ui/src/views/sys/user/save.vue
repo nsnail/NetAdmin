@@ -168,12 +168,27 @@
                         </el-col>
                         <el-col :lg="12" :xs="24">
                             <el-form-item label="住宅电话" prop="profile.homeTelephone">
-                                <el-input v-model="form.profile.homeTelephone" clearable></el-input>
+                                <el-input v-model="form.profile.homeTelephone" clearable type="tel">
+                                    <template v-slot:prepend>+86</template>
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
                             <el-form-item label="住宅地址" prop="profile.homeAddress">
-                                <el-input v-model="form.profile.homeAddress" clearable type="textarea"></el-input>
+                                <el-input v-model="form.profile.homeAddress" clearable>
+                                    <template v-slot:prepend>
+                                        <el-select v-model="form.profile.homeArea"
+                                                   clearable
+                                                   filterable
+                                                   placeholder="请选择"
+                                        >
+                                            <el-option v-for="(item) in geoAreas" :key="item.value"
+                                                       :label="item.key"
+                                                       :value="item.value"/>
+                                        </el-select>
+                                    </template>
+
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12" :xs="24">
@@ -183,12 +198,28 @@
                         </el-col>
                         <el-col :lg="12" :xs="24">
                             <el-form-item label="工作电话" prop="profile.companyTelephone">
-                                <el-input v-model="form.profile.companyTelephone" clearable></el-input>
+                                <el-input v-model="form.profile.companyTelephone" clearable
+                                          type="tel">
+                                    <template v-slot:prepend>+86</template>
+
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
                             <el-form-item label="工作地址" prop="profile.companyAddress">
-                                <el-input v-model="form.profile.companyAddress" clearable type="textarea"></el-input>
+                                <el-input v-model="form.profile.companyAddress" clearable>
+                                    <template v-slot:prepend>
+                                        <el-select v-model="form.profile.companyArea"
+                                                   clearable
+                                                   filterable
+                                                   placeholder="请选择"
+                                        >
+                                            <el-option v-for="(item) in geoAreas" :key="item.value"
+                                                       :label="item.key"
+                                                       :value="item.value"/>
+                                        </el-select>
+                                    </template>
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12" :xs="24">
@@ -212,7 +243,7 @@
                         </el-col>
                         <el-col :lg="12" :xs="24">
                             <el-form-item label="联系人手机号" prop="profile.emergencyContactMobile">
-                                <el-input v-model="form.profile.emergencyContactMobile" clearable></el-input>
+                                <el-input v-model="form.profile.emergencyContactMobile" clearable type="tel"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
@@ -375,6 +406,7 @@ export default {
                     this.isSaveing = true;
                     try {
                         if (!this.form.mobile) this.form.mobile = null;
+                        if (!this.form.profile.height) this.form.profile.height = null;
                         const method = (this.mode == 'add' ? this.$API.sys_user.create
                             : this.$API.sys_user.update)
                         const res = await method.post(this.form);

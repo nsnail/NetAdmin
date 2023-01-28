@@ -16,7 +16,7 @@ public class RegexAttribute : RegularExpressionAttribute
     /// <inheritdoc />
     public override bool IsValid(object value)
     {
-        // 解决RegularExpressionAttribute 认为string.Empty是有效值的问题。
-        return !base.IsValid(value) || value is not string s || !string.IsNullOrEmpty(s);
+        var ret = base.IsValid(value);
+        return ret;
     }
 }

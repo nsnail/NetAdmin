@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
+using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
@@ -21,6 +22,7 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     证件号码
     /// </summary>
     [JsonIgnore]
+    [Certificate]
     [MaxLength(63)]
     public virtual string CertificateNumber { get; init; }
 
@@ -50,6 +52,7 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [MaxLength(31)]
+    [Telephone]
     public virtual string CompanyTelephone { get; init; }
 
     /// <summary>
@@ -69,6 +72,7 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     /// <summary>
     ///     紧急联系人手机号
     /// </summary>
+    [Mobile]
     [JsonIgnore]
     [MaxLength(15)]
     public virtual string EmergencyContactMobile { get; init; }
@@ -91,6 +95,7 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     身高
     /// </summary>
     [JsonIgnore]
+    [Range(100, 250)]
     public virtual int? Height { get; init; }
 
     /// <summary>
@@ -105,6 +110,7 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [MaxLength(31)]
+    [Telephone]
     public virtual string HomeTelephone { get; init; }
 
     /// <summary>

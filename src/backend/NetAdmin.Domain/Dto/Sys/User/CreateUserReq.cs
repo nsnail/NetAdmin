@@ -14,8 +14,8 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public record CreateUserReq : TbSysUser, IRegister
 {
     /// <inheritdoc cref="TbSysUser.Avatar" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Url]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Avatar { get; init; }
 
     /// <inheritdoc cref="TbSysUser.BitSet" />
@@ -35,8 +35,8 @@ public record CreateUserReq : TbSysUser, IRegister
     public override long DeptId { get; init; }
 
     /// <inheritdoc cref="TbSysUser.Email" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EmailAddress]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
 
     public override string Email { get; init; }
 
@@ -46,8 +46,8 @@ public record CreateUserReq : TbSysUser, IRegister
     public bool Enabled { get; init; } = true;
 
     /// <inheritdoc cref="TbSysUser.Mobile" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Mobile]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Mobile { get; init; }
 
     /// <summary>
@@ -80,9 +80,9 @@ public record CreateUserReq : TbSysUser, IRegister
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     [UserName]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string UserName { get; init; }
 
     /// <inheritdoc />

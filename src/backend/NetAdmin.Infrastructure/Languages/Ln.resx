@@ -517,4 +517,15 @@
     <data name="Berefted" xml:space="preserve">
         <value>丧偶</value>
     </data>
+
+    <data name="Mobile phone number or landline number" xml:space="preserve">
+        <value>能正常使用的手机号码或座机号码</value>
+    </data>
+
+    <data name="Area code telephone number extension number" xml:space="preserve">
+        <value>区号-电话号码-分机号</value>
+    </data>
+    <data name="Please enter a valid certificate number" xml:space="preserve">
+        <value>请输入有效证件号码</value>
+    </data>
 </root>
