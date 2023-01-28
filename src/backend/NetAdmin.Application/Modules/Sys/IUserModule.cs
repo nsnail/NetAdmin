@@ -1,5 +1,6 @@
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.Application.Modules.Sys;
 
@@ -16,6 +17,11 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     ///     用户登录
     /// </summary>
     Task<LoginRsp> Login(LoginReq req);
+
+    /// <summary>
+    ///     查询用户档案
+    /// </summary>
+    Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req);
 
     /// <summary>
     ///     当前用户信息

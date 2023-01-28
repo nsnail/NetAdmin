@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
@@ -67,7 +66,7 @@ public class DevService : ServiceBase<DevService>, IDevService
         }
 
         // Api接口层 - Controller目录
-        var controllerDir = Path.Combine(hostDir, "WebApi", moduleType);
+        var controllerDir = Path.Combine(hostDir, "Controllers", moduleType);
         if (!Directory.Exists(controllerDir)) {
             Directory.CreateDirectory(controllerDir);
         }
@@ -86,7 +85,7 @@ public class DevService : ServiceBase<DevService>, IDevService
                      ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
 
         // controller
-        await WriteCodeFile(req, Path.Combine(hostDir,       "WebApi", nameof(Tpl), "ExampleController.cs")
+        await WriteCodeFile(req, Path.Combine(hostDir,       "Controllers", nameof(Tpl), "ExampleController.cs")
                      ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
 
         // createReq

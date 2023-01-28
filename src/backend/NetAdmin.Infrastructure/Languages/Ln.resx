@@ -267,4 +267,254 @@
     <data name="Email address that can be used normally" xml:space="preserve">
         <value>能正常使用的邮箱地址</value>
     </data>
+    <data name="Male" xml:space="preserve">
+        <value>男</value>
+    </data>
+    <data name="Female" xml:space="preserve">
+        <value>女</value>
+    </data>
+    <data name="Secrecy" xml:space="preserve">
+        <value>保密</value>
+    </data>
+    <data name="Hong Kong Macao and Taiwan Pass" xml:space="preserve">
+        <value>港澳台通行证</value>
+    </data>
+    <data name="Identity card" xml:space="preserve">
+        <value>身份证</value>
+    </data>
+    <data name="Birth certificate" xml:space="preserve">
+        <value>出生证</value>
+    </data>
+    <data name="Passport" xml:space="preserve">
+        <value>护照</value>
+    </data>
+    <data name="Alien residence permit" xml:space="preserve">
+        <value>外国人居留证</value>
+    </data>
+    <data name="Pupil" xml:space="preserve">
+        <value>小学</value>
+    </data>
+    <data name="Junior school student" xml:space="preserve">
+        <value>初中</value>
+    </data>
+    <data name="High school" xml:space="preserve">
+        <value>高中</value>
+    </data>
+    <data name="Technical secondary school students" xml:space="preserve">
+        <value>中专</value>
+    </data>
+    <data name="Junior college students" xml:space="preserve">
+        <value>大专</value>
+    </data>
+    <data name="Undergraduate" xml:space="preserve">
+        <value>本科</value>
+    </data>
+    <data name="Postgraduate" xml:space="preserve">
+        <value>硕士</value>
+    </data>
+    <data name="Doctoral students" xml:space="preserve">
+        <value>博士</value>
+    </data>
+    <data name="Post doctoral" xml:space="preserve">
+        <value>博士后</value>
+    </data>
+
+    <data name="Member of the Communist Party of China" xml:space="preserve">
+        <value>中共党员</value>
+    </data>
+
+
+    <data name="Communist youth league member" xml:space="preserve">
+        <value>共青团员</value>
+    </data>
+
+
+    <data name="The masses" xml:space="preserve">
+        <value>群众</value>
+    </data>
+
+
+    <data name="Nation_han" xml:space="preserve">
+        <value>汉族</value>
+    </data>
+
+    <data name="Nation_zhuang" xml:space="preserve">
+        <value>壮族</value>
+    </data>
+    <data name="Nation_manchu" xml:space="preserve">
+        <value>满族</value>
+    </data>
+    <data name="Nation_hui" xml:space="preserve">
+        <value>回族</value>
+    </data>
+    <data name="Nation_miao" xml:space="preserve">
+        <value>苗族</value>
+    </data>
+    <data name="Nation_uyghur" xml:space="preserve">
+        <value>维吾尔族</value>
+    </data>
+    <data name="Nation_tujia" xml:space="preserve">
+        <value>土家族</value>
+    </data>
+    <data name="Nation_yi" xml:space="preserve">
+        <value>彝族</value>
+    </data>
+    <data name="Nation_mongolian" xml:space="preserve">
+        <value>蒙古族</value>
+    </data>
+    <data name="Nation_tibetan" xml:space="preserve">
+        <value>藏族</value>
+    </data>
+    <data name="Nation_buyei" xml:space="preserve">
+        <value>布依族</value>
+    </data>
+    <data name="Nation_dong" xml:space="preserve">
+        <value>侗族</value>
+    </data>
+    <data name="Nation_yao" xml:space="preserve">
+        <value>瑶族</value>
+    </data>
+    <data name="Nation_korean" xml:space="preserve">
+        <value>朝鲜族</value>
+    </data>
+    <data name="Nation_bai" xml:space="preserve">
+        <value>白族</value>
+    </data>
+    <data name="Nation_hani" xml:space="preserve">
+        <value>哈尼族</value>
+    </data>
+    <data name="Nation_kazakh" xml:space="preserve">
+        <value>哈萨克族</value>
+    </data>
+    <data name="Nation_li" xml:space="preserve">
+        <value>黎族</value>
+    </data>
+    <data name="Nation_dai" xml:space="preserve">
+        <value>傣族</value>
+    </data>
+    <data name="Nation_she" xml:space="preserve">
+        <value>畲族</value>
+    </data>
+    <data name="Nation_lisu" xml:space="preserve">
+        <value>傈僳族</value>
+    </data>
+    <data name="Nation_gelao" xml:space="preserve">
+        <value>仡佬族</value>
+    </data>
+    <data name="Nation_dongxiang" xml:space="preserve">
+        <value>东乡族</value>
+    </data>
+    <data name="Nation_gaoshan" xml:space="preserve">
+        <value>高山族</value>
+    </data>
+    <data name="Nation_lahu" xml:space="preserve">
+        <value>拉祜族族</value>
+    </data>
+    <data name="Nation_shui" xml:space="preserve">
+        <value>水族</value>
+    </data>
+    <data name="Nation_va" xml:space="preserve">
+        <value>佤族</value>
+    </data>
+    <data name="Nation_nakhi" xml:space="preserve">
+        <value>纳西族</value>
+    </data>
+    <data name="Nation_qiang" xml:space="preserve">
+        <value>羌族</value>
+    </data>
+    <data name="Nation_monguor" xml:space="preserve">
+        <value>土族</value>
+    </data>
+    <data name="Nation_mulao" xml:space="preserve">
+        <value>仫佬族</value>
+    </data>
+    <data name="Nation_xibe" xml:space="preserve">
+        <value>锡伯族</value>
+    </data>
+    <data name="Nation_kyrgyz" xml:space="preserve">
+        <value>柯尔克孜族</value>
+    </data>
+    <data name="Nation_daur" xml:space="preserve">
+        <value>达斡尔族</value>
+    </data>
+    <data name="Nation_jingpo" xml:space="preserve">
+        <value>景颇族</value>
+    </data>
+    <data name="Nation_maonan" xml:space="preserve">
+        <value>毛南族</value>
+    </data>
+    <data name="Nation_salar" xml:space="preserve">
+        <value>撒拉族</value>
+    </data>
+    <data name="Nation_blang" xml:space="preserve">
+        <value>布朗族</value>
+    </data>
+    <data name="Nation_tajik" xml:space="preserve">
+        <value>塔吉克族</value>
+    </data>
+    <data name="Nation_achang" xml:space="preserve">
+        <value>阿昌族</value>
+    </data>
+    <data name="Nation_pumi" xml:space="preserve">
+        <value>普米族</value>
+    </data>
+    <data name="Nation_evenk" xml:space="preserve">
+        <value>鄂温克族</value>
+    </data>
+    <data name="Nation_nu" xml:space="preserve">
+        <value>怒族</value>
+    </data>
+    <data name="Nation_kinh" xml:space="preserve">
+        <value>京族</value>
+    </data>
+    <data name="Nation_jino" xml:space="preserve">
+        <value>基诺族</value>
+    </data>
+    <data name="Nation_deang" xml:space="preserve">
+        <value>德昂族</value>
+    </data>
+    <data name="Nation_bonan" xml:space="preserve">
+        <value>保安族</value>
+    </data>
+    <data name="Nation_russian" xml:space="preserve">
+        <value>俄罗斯族</value>
+    </data>
+    <data name="Nation_yughur" xml:space="preserve">
+        <value>裕固族</value>
+    </data>
+    <data name="Nation_uzbek" xml:space="preserve">
+        <value>乌孜别克族</value>
+    </data>
+    <data name="Nation_monpa" xml:space="preserve">
+        <value>门巴族</value>
+    </data>
+    <data name="Nation_oroqen" xml:space="preserve">
+        <value>鄂伦春族</value>
+    </data>
+    <data name="Nation_derung" xml:space="preserve">
+        <value>独龙族</value>
+    </data>
+    <data name="Nation_tatar" xml:space="preserve">
+        <value>塔塔尔族</value>
+    </data>
+    <data name="Nation_nanai" xml:space="preserve">
+        <value>赫哲族</value>
+    </data>
+    <data name="Nation_lhoba" xml:space="preserve">
+        <value>珞巴族</value>
+    </data>
+
+
+    <data name="Unmarried" xml:space="preserve">
+        <value>未婚</value>
+    </data>
+    <data name="Married" xml:space="preserve">
+        <value>已婚</value>
+    </data>
+    <data name="Divorced" xml:space="preserve">
+        <value>离异</value>
+    </data>
+    <data name="Berefted" xml:space="preserve">
+        <value>丧偶</value>
+    </data>
 </root>

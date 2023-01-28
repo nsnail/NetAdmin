@@ -19,7 +19,6 @@ cacheStatistics :{
     }
 },
 
-
 /**
  * 清空缓存
  */
@@ -30,6 +29,5 @@ clear :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

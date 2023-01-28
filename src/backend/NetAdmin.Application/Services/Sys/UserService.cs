@@ -9,6 +9,7 @@ using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -22,7 +23,6 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
       , Avatar      = a.Avatar
       , Email       = a.Email
       , Mobile      = a.Mobile
-      , Summary     = a.Summary
       , BitSet      = a.BitSet
       , UserName    = a.UserName
       , Version     = a.Version
@@ -31,11 +31,16 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
       , Roles       = a.Roles
     };
 
+    private readonly IUserProfileService _userProfileService;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserService" /> class.
     /// </summary>
-    public UserService(Repository<TbSysUser> rpo) //
-        : base(rpo) { }
+    public UserService(Repository<TbSysUser> rpo, IUserProfileService userProfileService) //
+        : base(rpo)
+    {
+        _userProfileService = userProfileService;
+    }
 
     /// <summary>
     ///     批量删除用户
@@ -65,6 +70,8 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
         await Rpo.SaveManyAsync(entity, nameof(entity.Positions));
 
+        // 档案表
+        await _userProfileService.Create(req.Profile with { Id = dbUser.Id });
         var ret = await Query(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } });
         return ret.First();
     }
@@ -119,6 +126,14 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     }
 
     /// <summary>
+    ///     查询用户档案
+    /// </summary>
+    public async Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req)
+    {
+        return await _userProfileService.Query(req);
+    }
+
+    /// <summary>
     ///     更新用户
     /// </summary>
     public async Task<QueryUserRsp> Update(UpdateUserReq req)
@@ -128,6 +143,9 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         // 主表
         var entity = req.Adapt<TbSysUser>();
         await Rpo.UpdateDiy.SetSource(entity).IgnoreColumns(a => new { a.Password, a.Token }).ExecuteAffrowsAsync();
+
+        // 档案表
+        await _userProfileService.Update(req.Profile);
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));

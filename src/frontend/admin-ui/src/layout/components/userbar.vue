@@ -138,7 +138,7 @@ export default {
         //个人信息
         handleUser(command) {
             if (command == "uc") {
-                this.$router.push({path: '/usercenter'});
+                this.$router.push({path: '/home/profile'});
             }
             if (command == "cmd") {
                 this.$router.push({path: '/cmd'});

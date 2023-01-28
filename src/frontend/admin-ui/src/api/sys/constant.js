@@ -19,7 +19,6 @@ getChars :{
     }
 },
 
-
 /**
  * 获得公共枚举值
  */
@@ -31,7 +30,6 @@ getEnums :{
     }
 },
 
-
 /**
  * 获得本地化字符串
  */
@@ -42,6 +40,5 @@ getLocalizedStrings :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

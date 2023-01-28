@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Mapster;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NSExt.Extensions;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
@@ -65,16 +66,18 @@ public record CreateUserReq : TbSysUser, IRegister
     public IReadOnlyCollection<long> PositionIds { get; init; }
 
     /// <summary>
+    ///     用户档案
+    /// </summary>
+    [Required]
+    public new virtual CreateUserProfileReq Profile { get; init; }
+
+    /// <summary>
     ///     角色id列表
     /// </summary>
     [Required]
     [MinLength(1)]
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
     public IReadOnlyCollection<long> RoleIds { get; init; }
-
-    /// <inheritdoc cref="TbSysUser.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Summary { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

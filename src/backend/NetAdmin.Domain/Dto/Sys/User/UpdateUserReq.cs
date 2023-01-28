@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
 
@@ -17,6 +19,12 @@ public record UpdateUserReq : CreateUserReq
     /// </summary>
     [JsonIgnore]
     public override string PasswordText => nameof(PasswordText);
+
+    /// <summary>
+    ///     用户档案
+    /// </summary>
+    [Required]
+    public new virtual UpdateUserProfileReq Profile { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

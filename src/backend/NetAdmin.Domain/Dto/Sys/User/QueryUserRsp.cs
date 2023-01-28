@@ -49,10 +49,6 @@ public record QueryUserRsp : TbSysUser
     /// </summary>
     public new IEnumerable<QueryRoleRsp> Roles { get; init; }
 
-    /// <inheritdoc cref="TbSysUser.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public override string Summary { get; init; }
-
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string UserName { get; init; }

@@ -6,13 +6,13 @@ using NetAdmin.Domain.DbMaps.Dependency;
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>
-///     用户表
+///     用户基本信息表
 /// </summary>
 [Table]
 [Index($"idx_{{tablename}}_{nameof(UserName)}", nameof(UserName), true)]
 [Index($"idx_{{tablename}}_{nameof(Mobile)}",   nameof(Mobile),   true)]
 [Index($"idx_{{tablename}}_{nameof(Email)}",    nameof(Email),    true)]
-public record TbSysUser : MutableEntity, IFieldBitSet, IFieldSummary
+public record TbSysUser : MutableEntity, IFieldBitSet
 {
     /// <summary>
     ///     头像链接
@@ -68,18 +68,17 @@ public record TbSysUser : MutableEntity, IFieldBitSet, IFieldSummary
     public virtual ICollection<TbSysPosition> Positions { get; init; }
 
     /// <summary>
+    ///     用户档案
+    /// </summary>
+    [JsonIgnore]
+    public virtual TbSysUserProfile Profile { get; init; }
+
+    /// <summary>
     ///     所属角色
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(TbSysUserRole))]
     public virtual ICollection<TbSysRole> Roles { get; init; }
-
-    /// <summary>
-    ///     描述
-    /// </summary>
-    [JsonIgnore]
-    [MaxLength(255)]
-    public virtual string Summary { get; init; }
 
     /// <summary>
     ///     做授权验证的Token，全局唯一，可以随时重置（强制下线）

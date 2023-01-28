@@ -35,7 +35,6 @@ public record CreateRoleReq : TbSysRole, IRegister
     }
 
     /// <inheritdoc cref="TbSysRole.DataScope" />
-    [EnumDataType(typeof(DataScopes))]
     public override DataScopes DataScope { get; init; } = DataScopes.All;
 
     /// <summary>

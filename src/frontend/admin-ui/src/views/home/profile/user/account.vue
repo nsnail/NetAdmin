@@ -1,9 +1,6 @@
 <template>
-    <el-alert
-        title="异步组件动态加载使用了正处于试验阶段的<Suspense>组件, 其API和使用方式可能会改变. <Suspense> is an experimental feature and its API will likely change."
-        type="warning" show-icon style="margin-bottom: 15px;"/>
 
-    <el-card shadow="never" header="个人信息">
+    <el-card header="个人信息" shadow="never">
         <el-form ref="form" :model="form" label-width="120px" style="margin-top:20px;">
             <el-form-item label="账号">
                 <el-input v-model="form.user" disabled></el-input>
@@ -28,6 +25,7 @@
         </el-form>
     </el-card>
 </template>
+
 
 <script>
 export default {

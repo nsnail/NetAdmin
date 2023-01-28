@@ -19,7 +19,6 @@ pagedQuery :{
     }
 },
 
-
 /**
  * 查询请求日志
  */
@@ -30,6 +29,5 @@ query :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

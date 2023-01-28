@@ -5,6 +5,7 @@ using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Caches.Sys;
 
@@ -82,6 +83,14 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     public async Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
         return await Service.Query(req);
+    }
+
+    /// <summary>
+    ///     查询用户档案
+    /// </summary>
+    public async Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req)
+    {
+        return await Service.QueryProfile(req);
     }
 
     /// <summary>

@@ -19,7 +19,6 @@ query :{
     }
 },
 
-
 /**
  * 同步接口
  */
@@ -30,6 +29,5 @@ sync :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

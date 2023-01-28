@@ -19,7 +19,6 @@ create :{
     }
 },
 
-
 /**
  * 用户登录
  */
@@ -30,7 +29,6 @@ login :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 分页查询用户
@@ -43,6 +41,27 @@ pagedQuery :{
     }
 },
 
+/**
+ * 查询用户
+ */
+query :{
+    url: `${config.API_URL}/api/user/query`,
+        name: `查询用户`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
+ * 查询用户档案
+ */
+queryProfile :{
+    url: `${config.API_URL}/api/user/query.profile`,
+        name: `查询用户档案`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
 
 /**
  * 更新用户
@@ -55,7 +74,6 @@ update :{
     }
 },
 
-
 /**
  * 当前用户信息
  */
@@ -66,6 +84,5 @@ userInfo :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

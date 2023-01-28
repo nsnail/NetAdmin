@@ -24,7 +24,6 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         /// <summary>
         ///     全部
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.All))]
         [Localization(typeof(Ln))]
         All = 1
@@ -34,7 +33,6 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         /// <summary>
         ///     本部门和下级部门
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.This_department_and_subordinate_departments))]
         [Localization(typeof(Ln))]
         DeptWithChild = 2
@@ -44,7 +42,6 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         /// <summary>
         ///     本部门
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Department_data))]
         [Localization(typeof(Ln))]
         Dept = 3
@@ -54,7 +51,6 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         /// <summary>
         ///     本人数据
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Personal_data))]
         [Localization(typeof(Ln))]
         Self = 4
@@ -64,7 +60,6 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         /// <summary>
         ///     指定部门
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Designated_department))]
         [Localization(typeof(Ln))]
         SpecificDept = 5
@@ -79,7 +74,6 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         /// <summary>
         ///     忽略权限控制（拥有所有权限）
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Ignoring_permissions_control))]
         [Localization(typeof(Ln))]
         IgnorePermissionControl = 0b_0000_0001_0000
@@ -102,7 +96,8 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     ///     数据范围
     /// </summary>
     [JsonIgnore]
-    public virtual DataScopes DataScope { get; init; }
+    [EnumDataType(typeof(DataScopes))]
+    public virtual DataScopes DataScope { get; init; } = DataScopes.All;
 
     /// <summary>
     ///     角色-部门映射

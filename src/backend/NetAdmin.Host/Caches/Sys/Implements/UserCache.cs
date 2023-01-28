@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 #pragma warning disable CS1591
 
@@ -43,6 +44,11 @@ public class UserCache : CacheBase<IUserService>, IScoped, IUserCache
     }
 
     public Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req)
     {
         throw new NotImplementedException();
     }

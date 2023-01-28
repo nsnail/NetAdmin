@@ -19,7 +19,6 @@ environmentInfo :{
     }
 },
 
-
 /**
  * 服务器时间
  */
@@ -31,7 +30,6 @@ getServerUtcTime :{
     }
 },
 
-
 /**
  * 版本信息
  */
@@ -42,6 +40,5 @@ version :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

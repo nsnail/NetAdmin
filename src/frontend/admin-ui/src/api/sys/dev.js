@@ -19,7 +19,6 @@ generateCsCode :{
     }
 },
 
-
 /**
  * 生成图标代码
  */
@@ -31,7 +30,6 @@ generateIconCode :{
     }
 },
 
-
 /**
  * 生成接口代码
  */
@@ -42,6 +40,5 @@ generateJsCode :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

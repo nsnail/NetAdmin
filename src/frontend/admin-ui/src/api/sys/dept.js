@@ -19,7 +19,6 @@ bulkDelete :{
     }
 },
 
-
 /**
  * 创建部门
  */
@@ -30,7 +29,6 @@ create :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 删除部门
@@ -43,7 +41,6 @@ delete :{
     }
 },
 
-
 /**
  * 查询部门
  */
@@ -55,7 +52,6 @@ query :{
     }
 },
 
-
 /**
  * 更新部门
  */
@@ -66,6 +62,5 @@ update :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

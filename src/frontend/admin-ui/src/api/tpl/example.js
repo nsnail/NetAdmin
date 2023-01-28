@@ -19,7 +19,6 @@ bulkDelete :{
     }
 },
 
-
 /**
  * 创建示例
  */
@@ -30,7 +29,6 @@ create :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 删除示例
@@ -43,7 +41,6 @@ delete :{
     }
 },
 
-
 /**
  * 分页查询示例
  */
@@ -54,7 +51,6 @@ pagedQuery :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 查询示例
@@ -67,7 +63,6 @@ query :{
     }
 },
 
-
 /**
  * 更新示例
  */
@@ -78,6 +73,5 @@ update :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

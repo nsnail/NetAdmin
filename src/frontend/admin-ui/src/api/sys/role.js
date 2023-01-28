@@ -19,7 +19,6 @@ bulkDelete :{
     }
 },
 
-
 /**
  * 创建角色
  */
@@ -30,7 +29,6 @@ create :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 删除角色
@@ -43,7 +41,6 @@ delete :{
     }
 },
 
-
 /**
  * 分页查询角色
  */
@@ -54,7 +51,6 @@ pagedQuery :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 查询角色
@@ -67,7 +63,6 @@ query :{
     }
 },
 
-
 /**
  * 更新角色
  */
@@ -78,6 +73,5 @@ update :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

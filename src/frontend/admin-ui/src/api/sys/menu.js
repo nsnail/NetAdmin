@@ -19,7 +19,6 @@ bulkDelete :{
     }
 },
 
-
 /**
  * 创建菜单
  */
@@ -30,7 +29,6 @@ create :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 删除菜单
@@ -43,7 +41,6 @@ delete :{
     }
 },
 
-
 /**
  * 查询菜单
  */
@@ -54,7 +51,6 @@ query :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 更新菜单
@@ -67,7 +63,6 @@ update :{
     }
 },
 
-
 /**
  * 当前用户菜单
  */
@@ -78,6 +73,5 @@ userMenus :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }

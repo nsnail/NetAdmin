@@ -1,62 +1,239 @@
 <template>
-    <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
-        <el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px"
-                 label-position="left">
-            <el-form-item label="头像" prop="avatar">
-                <sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
-            </el-form-item>
-            <el-form-item label="登录账号" prop="userName">
-                <el-input v-model="form.userName" placeholder="用于登录系统" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="手机号" prop="mobile">
-                <el-input v-model="form.mobile" placeholder="请输入手机号" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-                <el-input v-model="form.email" placeholder="请输入邮箱" clearable></el-input>
-            </el-form-item>
-            <template v-if="mode=='add'">
-                <el-form-item label="登录密码" prop="passwordText">
-                    <el-input type="password" v-model="form.passwordText" clearable show-password></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="passwordText2">
-                    <el-input type="password" v-model="form.passwordText2" clearable show-password></el-input>
-                </el-form-item>
-            </template>
+    <el-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
+        <el-form ref="dialogForm" :disabled="mode=='show'" :model="form" :rules="rules" label-position="right"
+                 label-width="100px">
+            <el-tabs tab-position="top">
+                <el-tab-pane label="基本信息">
+                    <el-form-item label="头像" prop="avatar">
+                        <sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
+                    </el-form-item>
+                    <el-form-item label="登录账号" prop="userName">
+                        <el-input v-model="form.userName" clearable placeholder="用于登录系统"></el-input>
+                    </el-form-item>
+                    <el-row :gutter="10">
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="手机号" prop="mobile">
+                                <el-input v-model="form.mobile" clearable placeholder="请输入手机号"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="邮箱" prop="email">
+                                <el-input v-model="form.email" clearable placeholder="请输入邮箱"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <template v-if="mode=='add'">
+                        <el-row :gutter="10">
+                            <el-col :lg="12" :xs="24">
+                                <el-form-item label="登录密码" prop="passwordText">
+                                    <el-input v-model="form.passwordText" clearable show-password
+                                              type="password"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :lg="12" :xs="24">
+                                <el-form-item label="确认密码" prop="passwordText2">
+                                    <el-input v-model="form.passwordText2" clearable show-password
+                                              type="password"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
 
-            <el-form-item label="所属角色" prop="roleIds">
-                <el-select v-model="form.roleIds" multiple filterable style="width: 100%">
-                    <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id"/>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="所属部门" prop="deptId">
-                <el-cascader v-model="form.deptId" :options="depts" :props="deptsProps" clearable
-                             style="width: 100%;"></el-cascader>
-            </el-form-item>
-            <el-form-item label="所属岗位" prop="positionIds">
-                <el-select v-model="form.positionIds" multiple filterable style="width: 100%">
-                    <el-option v-for="item in positions" :key="item.id" :label="item.name" :value="item.id"/>
-                </el-select>
-            </el-form-item>
+                    </template>
 
-            <template v-if="mode!='add'">
-                <el-form-item label="启用" prop="enabled">
-                    <el-switch v-model="form.enabled"></el-switch>
-                </el-form-item>
-            </template>
-            <el-form-item label="备注" prop="summary">
-                <el-input v-model="form.summary" clearable type="textarea"></el-input>
-            </el-form-item>
+                    <el-form-item label="所属角色" prop="roleIds">
+                        <el-select v-model="form.roleIds" clearable filterable multiple style="width: 100%">
+                            <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id"/>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="所属部门" prop="deptId">
+                        <el-cascader v-model="form.deptId" :options="depts" :props="deptsProps" clearable
+                                     style="width: 100%;"></el-cascader>
+                    </el-form-item>
+                    <el-form-item label="所属岗位" prop="positionIds">
+                        <el-select v-model="form.positionIds" clearable filterable multiple style="width: 100%">
+                            <el-option v-for="item in positions" :key="item.id" :label="item.name" :value="item.id"/>
+                        </el-select>
+                    </el-form-item>
+
+                    <template v-if="mode!='add'">
+                        <el-form-item label="启用" prop="enabled">
+                            <el-switch v-model="form.enabled"></el-switch>
+                        </el-form-item>
+                    </template>
+                    <el-form-item label="备注" prop="summary">
+                        <el-input v-model="form.summary" clearable type="textarea"></el-input>
+                    </el-form-item>
+
+                </el-tab-pane>
+                <el-tab-pane label="档案信息">
+                    <el-row :gutter="10">
+
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="真实姓名" prop="profile.realName">
+                                <el-input v-model="form.profile.realName" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="性别" prop="profile.sex">
+                                <el-select v-model="form.profile.sex" clearable filterable
+                                           style="width: 100%">
+                                    <el-option v-for="(item,i) in $CONFIG.ENUMS.sexes" :key="i"
+                                               :label="item"
+                                               :value="i"/>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="出生日期" prop="profile.bornDate">
+
+                                <el-date-picker v-model="form.profile.bornDate" :teleported="false"
+                                                placeholder="出生日期"
+                                                style="width: 100%" type="date"
+                                                value-format="YYYY-MM-DD"></el-date-picker>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="婚姻状况" prop="profile.sex">
+                                <el-select v-model="form.profile.marriageStatus" clearable filterable
+                                           style="width: 100%">
+                                    <el-option v-for="(item,i) in $CONFIG.ENUMS.marriageStatues" :key="i"
+                                               :label="item"
+                                               :value="i"/>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="身高" prop="profile.height">
+                                <el-input v-model="form.profile.height" :max="250" :min="100" clearable type="number">
+                                    <template v-slot:append>cm</template>
+                                </el-input>
+
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="职业" prop="profile.profession">
+                                <el-input v-model="form.profile.profession" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="证件类型" prop="profile.certificateType">
+                                <el-select v-model="form.profile.certificateType" clearable filterable
+                                           style="width: 100%">
+                                    <el-option v-for="(item,i) in $CONFIG.ENUMS.certificateTypes" :key="i"
+                                               :label="item"
+                                               :value="i"/>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="证件号码" prop="profile.certificateNumber">
+                                <el-input v-model="form.profile.certificateNumber" clearable
+                                          type="text"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="民族" prop="profile.certificateNumber">
+                                <el-select v-model="form.profile.nation" clearable filterable style="width: 100%">
+                                    <el-option v-for="(item,i) in $CONFIG.ENUMS.nations" :key="i"
+                                               :label="item"
+                                               :value="i"/>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="籍贯" prop="profile.nationPlace">
+                                <el-select v-model="form.profile.nationPlace"
+                                           clearable
+                                           filterable
+                                           style="width: 100%">
+                                    <el-option v-for="(item) in geoAreas" :key="item.value"
+                                               :label="item.key"
+                                               :value="item.value"/>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="政治面貌" prop="profile.politicalStatus">
+                                <el-select v-model="form.profile.politicalStatus" clearable filterable
+                                           style="width: 100%">
+                                    <el-option v-for="(item,i) in $CONFIG.ENUMS.politicalStatues" :key="i"
+                                               :label="item"
+                                               :value="i"/>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="住宅电话" prop="profile.homeTelephone">
+                                <el-input v-model="form.profile.homeTelephone" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="住宅地址" prop="profile.homeAddress">
+                                <el-input v-model="form.profile.homeAddress" clearable type="textarea"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="工作单位" prop="profile.companyName">
+                                <el-input v-model="form.profile.companyName" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="工作电话" prop="profile.companyTelephone">
+                                <el-input v-model="form.profile.companyTelephone" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="工作地址" prop="profile.companyAddress">
+                                <el-input v-model="form.profile.companyAddress" clearable type="textarea"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="文化程度" prop="profile.education">
+                                <el-select v-model="form.profile.education" clearable filterable style="width: 100%">
+                                    <el-option v-for="(item,i) in $CONFIG.ENUMS.educations" :key="i"
+                                               :label="item"
+                                               :value="i"/>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="毕业学校" prop="profile.graduateSchool">
+                                <el-input v-model="form.profile.graduateSchool" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="紧急联系人" prop="profile.emergencyContactName">
+                                <el-input v-model="form.profile.emergencyContactName" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="12" :xs="24">
+                            <el-form-item label="联系人手机号" prop="profile.emergencyContactMobile">
+                                <el-input v-model="form.profile.emergencyContactMobile" clearable></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="联系人地址" prop="profile.emergencyContactAddress">
+                                <el-input v-model="form.profile.emergencyContactAddress" clearable
+                                          type="textarea"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-tab-pane>
+            </el-tabs>
         </el-form>
         <template #footer>
             <el-button @click="visible=false">取 消</el-button>
-            <el-button v-if="mode!='show'" type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+            <el-button v-if="mode!='show'" :loading="isSaveing" type="primary" @click="submit()">保 存</el-button>
         </template>
+
     </el-dialog>
 </template>
 
 <script>
-
-import form from "@/views/vab/form.vue";
 
 export default {
     emits: ['success', 'closed'],
@@ -71,7 +248,9 @@ export default {
             visible: false,
             isSaveing: false,
             //表单数据
-            form: {},
+            form: {
+                profile: {}
+            },
             //验证规则
             rules: {
                 userName: [
@@ -132,6 +311,7 @@ export default {
             //所需数据选项
             roles: [],
             positions: [],
+            geoAreas: [],
             depts: [],
             deptsProps: {
                 label: "name",
@@ -145,6 +325,7 @@ export default {
         this.getRoles()
         this.getPositions()
         this.getDept()
+        this.getGeoAreas()
     },
     methods: {
         //显示
@@ -162,12 +343,33 @@ export default {
             const res = await this.$API.sys_position.query.post();
             this.positions = res.data;
         },
+        async getGeoAreas() {
+            const res = await this.$API.sys_dic.queryContent.post({
+                "dynamicFilter": {
+                    "field": "catalogid",
+                    "operator": "eq",
+                    "value": 379794295185413
+                }
+            });
+            this.geoAreas = res.data;
+        },
+        async getProfile() {
+            const res = await this.$API.sys_user.queryProfile.post({
+                "dynamicFilter": {
+                    "field": "id",
+                    "operator": "eq",
+                    "value": this.form.id
+                }
+            });
+            this.form.profile = res.data[0];
+        },
         async getDept() {
             const res = await this.$API.sys_dept.query.post();
             this.depts = res.data;
         },
         //表单提交方法
         submit() {
+            console.log(this.form.profile)
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
                     this.isSaveing = true;
@@ -190,12 +392,15 @@ export default {
         //表单注入数据
         setData(data) {
             //可以和上面一样单个注入，也可以像下面一样直接合并进去
-            this.form = Object.assign({}, data)
+            this.form = Object.assign({profile: {}}, data)
 
 
             this.form.positionIds = this.form.positions.map(x => x.id)
             this.form.roleIds = this.form.roles.map(x => x.id)
             this.form.deptId = this.form.dept.id
+
+
+            this.getProfile()
         }
     }
 }

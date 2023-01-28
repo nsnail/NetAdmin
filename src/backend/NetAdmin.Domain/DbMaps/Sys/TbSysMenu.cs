@@ -24,7 +24,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     隐藏
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Hidden))]
         [Localization(typeof(Ln))]
         Hidden = 0b_0000_0001_0000
@@ -34,7 +33,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     隐藏面包屑
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Hidden_bread_crumb))]
         [Localization(typeof(Ln))]
         HiddenBreadCrumb = 0b_0000_0010_0000
@@ -44,7 +42,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     整页路由
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Full_page_routing))]
         [Localization(typeof(Ln))]
         FullPageRouting = 0b_0000_0100_0000
@@ -59,7 +56,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     菜单
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Menu))]
         [Localization(typeof(Ln))]
         Menu = 1
@@ -69,7 +65,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     链接
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Link))]
         [Localization(typeof(Ln))]
         Link = 2
@@ -79,7 +74,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     框架
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Iframe))]
         [Localization(typeof(Ln))]
         Iframe = 3
@@ -89,7 +83,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// <summary>
         ///     按钮
         /// </summary>
-        [JsonIgnore]
         [Description(nameof(Ln.Button))]
         [Localization(typeof(Ln))]
         Button = 4
@@ -192,5 +185,6 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
     ///     菜单类型
     /// </summary>
     [JsonIgnore]
+    [EnumDataType(typeof(MenuTypes))]
     public virtual MenuTypes Type { get; init; }
 }

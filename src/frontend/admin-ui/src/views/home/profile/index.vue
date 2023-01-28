@@ -4,15 +4,20 @@
             <el-container>
                 <el-header style="height: auto;display: block;">
                     <div class="user-info-top">
-                        <el-avatar :size="70" src="img/avatar.jpg"></el-avatar>
+                        <el-avatar :size="70" :src="getAvatar()"></el-avatar>
                         <h2>{{ user.userName }}</h2>
                         <p>
-                            <el-tag effect="dark" round size="large" disable-transitions>{{ user.role }}</el-tag>
+                            <el-tag v-for="(item, i) in user.roles.map(x=>x.name)" :key="i" disable-transitions
+                                    effect="dark"
+                                    round size="large">{{
+                                    item
+                                }}
+                            </el-tag>
                         </p>
                     </div>
                 </el-header>
                 <el-main class="nopadding">
-                    <el-menu class="menu" :default-active="page">
+                    <el-menu :default-active="page" class="menu">
                         <el-menu-item-group v-for="group in menu" :key="group.groupName" :title="group.groupName">
                             <el-menu-item v-for="item in group.list" :key="item.component" :index="item.component"
                                           @click="openPage">
@@ -43,6 +48,7 @@
 
 <script>
 import {defineAsyncComponent} from 'vue'
+import tool from "@/utils/tool";
 
 export default {
     name: 'profile',
@@ -110,8 +116,7 @@ export default {
                 }
             ],
             user: {
-                userName: "Sakuya",
-                role: "超级管理员",
+                roles: []
             },
             page: "account"
         }
@@ -132,7 +137,16 @@ export default {
             }
         })
     },
+    mounted() {
+        this.user = tool.data.get("USER_INFO");
+        console.log(this.user)
+        console.log(this.$CONFIG)
+    },
     methods: {
+        //获取头像
+        getAvatar() {
+            return this.user.avatar ? this.user.avatar : this.$CONFIG.DEF_AVATAR
+        },
         openPage(item) {
             this.page = item.index
         }

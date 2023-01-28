@@ -19,7 +19,6 @@ bulkDeleteCatalog :{
     }
 },
 
-
 /**
  * 批量删除字典内容
  */
@@ -30,7 +29,6 @@ bulkDeleteContent :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 创建字典目录
@@ -43,7 +41,6 @@ createCatalog :{
     }
 },
 
-
 /**
  * 创建字典内容
  */
@@ -54,7 +51,6 @@ createContent :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 删除字典目录
@@ -67,7 +63,6 @@ deleteCatalog :{
     }
 },
 
-
 /**
  * 删除字典内容
  */
@@ -78,7 +73,6 @@ deleteContent :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 分页查询字典目录
@@ -91,7 +85,6 @@ pagedQueryCatalog :{
     }
 },
 
-
 /**
  * 分页查询字典内容
  */
@@ -102,7 +95,6 @@ pagedQueryContent :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 查询字典目录
@@ -115,7 +107,6 @@ queryCatalog :{
     }
 },
 
-
 /**
  * 查询字典内容
  */
@@ -126,7 +117,6 @@ queryContent :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 /**
  * 更新字典目录
@@ -139,7 +129,6 @@ updateCatalog :{
     }
 },
 
-
 /**
  * 更新字典内容
  */
@@ -150,6 +139,5 @@ updateContent :{
         return await http.post(this.url,data, config)
     }
 },
-
 
 }
