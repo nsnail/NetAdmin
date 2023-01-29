@@ -11,6 +11,7 @@ namespace NetAdmin.Infrastructure.Constant;
 public static class Numbers
 {
     public const int  BULK_REQ_LIMIT          = 100;             // 批量请求允许的最大数量
+    public const long DEF_SORT_VAL            = 100;             // 排序默认值
     public const long DIC_CATALOG_ID_GEO_AREA = 379794295185413; // 字典目录id-行政区划字典
     public const int  HTTP_STATUS_FAIL        = 900;             // Http状态码-业务异常
     public const int  QUERY_DEF_PAGESIZE      = 20;              // 分页查询默认的页容量

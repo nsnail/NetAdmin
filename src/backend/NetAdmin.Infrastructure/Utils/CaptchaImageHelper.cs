@@ -22,7 +22,7 @@ public static class CaptchaImageHelper
     /// <param name="tempIndexScope">模板图随机序号范围（1-x）</param>
     /// <param name="sliderSize">滑块尺寸</param>
     /// <returns> 背景图（base64），滑块图（base64），缺口坐标 </returns>
-#pragma warning disable SA1414
+    #pragma warning disable SA1414
     public static async Task<(string BackgroundImage, string SliderImage, Point OffsetSaw)> CreateSawSliderImage(
             string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope, Size sliderSize)
         #pragma warning restore SA1414

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <root>
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
                 id="root"
                 xmlns="">
         <xsd:element name="root" msdata:IsDataSet="true">
-
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -318,26 +316,18 @@
     <data name="Post doctoral" xml:space="preserve">
         <value>博士后</value>
     </data>
-
     <data name="Member of the Communist Party of China" xml:space="preserve">
         <value>中共党员</value>
     </data>
-
-
     <data name="Communist youth league member" xml:space="preserve">
         <value>共青团员</value>
     </data>
-
-
     <data name="The masses" xml:space="preserve">
         <value>群众</value>
     </data>
-
-
     <data name="Nation_han" xml:space="preserve">
         <value>汉族</value>
     </data>
-
     <data name="Nation_zhuang" xml:space="preserve">
         <value>壮族</value>
     </data>
@@ -503,8 +493,6 @@
     <data name="Nation_lhoba" xml:space="preserve">
         <value>珞巴族</value>
     </data>
-
-
     <data name="Unmarried" xml:space="preserve">
         <value>未婚</value>
     </data>
@@ -517,11 +505,9 @@
     <data name="Berefted" xml:space="preserve">
         <value>丧偶</value>
     </data>
-
     <data name="Mobile phone number or landline number" xml:space="preserve">
         <value>能正常使用的手机号码或座机号码</value>
     </data>
-
     <data name="Area code telephone number extension number" xml:space="preserve">
         <value>区号-电话号码-分机号</value>
     </data>
@@ -531,9 +517,7 @@
     <data name="Display Dashboard" xml:space="preserve">
         <value>显示仪表板</value>
     </data>
-
     <data name="Incorrect SMS verification code" xml:space="preserve">
         <value>短信验证码不正确</value>
     </data>
-
 </root>

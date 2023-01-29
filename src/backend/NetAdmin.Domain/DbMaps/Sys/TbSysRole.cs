@@ -131,7 +131,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
 
     /// <inheritdoc />
     [JsonIgnore]
-    public virtual long Sort { get; init; }
+    public virtual long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
     /// <summary>
     ///     备注

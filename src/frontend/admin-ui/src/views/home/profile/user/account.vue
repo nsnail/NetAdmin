@@ -13,7 +13,7 @@
                 <el-input v-model="form.mobile" disabled prefix-icon="el-icon-iphone">
                     <template v-slot:append>
                         <el-button v-if="form.mobile" icon="sc-icon-unlink" @click="unlinkMobile">解绑手机</el-button>
-                        <el-button v-else icon="sc-icon-link">绑定手机</el-button>
+                        <el-button v-else icon="sc-icon-link" @click="linkMobile">绑定手机</el-button>
                     </template>
 
                 </el-input>
@@ -90,6 +90,9 @@ export default {
             }
         },
         unlinkMobile() {
+            this.dialogVisible = true;
+
+        }, linkMobile() {
             this.dialogVisible = true;
 
         },

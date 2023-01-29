@@ -24,6 +24,11 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req);
 
     /// <summary>
+    ///     注册用户
+    /// </summary>
+    Task<RegisterRsp> Register(RegisterReq req);
+
+    /// <summary>
     ///     当前用户信息
     /// </summary>
     Task<QueryUserRsp> UserInfo();

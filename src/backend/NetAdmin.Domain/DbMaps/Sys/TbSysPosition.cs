@@ -27,7 +27,7 @@ public record TbSysPosition : MutableEntity, IFieldBitSet, IFieldSort, IFieldSum
 
     /// <inheritdoc />
     [JsonIgnore]
-    public virtual long Sort { get; init; }
+    public virtual long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
     /// <summary>
     ///     岗位描述

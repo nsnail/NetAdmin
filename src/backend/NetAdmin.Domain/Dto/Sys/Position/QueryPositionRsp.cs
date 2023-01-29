@@ -28,7 +28,7 @@ public record QueryPositionRsp : TbSysPosition
 
     /// <inheritdoc cref="IFieldSort.Sort" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Sort { get; init; }
+    public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

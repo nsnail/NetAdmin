@@ -94,6 +94,14 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     }
 
     /// <summary>
+    ///     注册用户
+    /// </summary>
+    public Task<RegisterRsp> Register(RegisterReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
     ///     更新用户
     /// </summary>
     [Transaction]

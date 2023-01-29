@@ -133,6 +133,12 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         return await _userProfileService.Query(req);
     }
 
+    /// <inheritdoc />
+    public Task<RegisterRsp> Register(RegisterReq req)
+    {
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     ///     更新用户
     /// </summary>

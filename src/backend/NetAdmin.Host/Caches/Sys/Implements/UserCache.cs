@@ -53,6 +53,11 @@ public class UserCache : CacheBase<IUserService>, IScoped, IUserCache
         throw new NotImplementedException();
     }
 
+    public Task<RegisterRsp> Register(RegisterReq req)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<QueryUserRsp> Update(UpdateUserReq req)
     {
         throw new NotImplementedException();
