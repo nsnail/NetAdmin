@@ -528,4 +528,12 @@
     <data name="Please enter a valid certificate number" xml:space="preserve">
         <value>请输入有效证件号码</value>
     </data>
+    <data name="Display Dashboard" xml:space="preserve">
+        <value>显示仪表板</value>
+    </data>
+
+    <data name="Incorrect SMS verification code" xml:space="preserve">
+        <value>短信验证码不正确</value>
+    </data>
+
 </root>

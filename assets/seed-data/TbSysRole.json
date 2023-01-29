@@ -1,23 +1,20 @@
 [
     {
-        "BitSet": 17,
+        "BitSet": 49,
         "DataScope": 1,
         "Id": 370943613149253,
         "Name": "超级管理员",
-        "Summary": "无限权限"
     },
     {
         "BitSet": 1,
         "DataScope": 1,
         "Id": 371729860788229,
         "Name": "管理员",
-        "Summary": "业务管理权限",
     },
     {
         "BitSet": 1,
         "DataScope": 1,
         "Id": 371729946431493,
         "Name": "普通用户",
-        "Summary": "基本操作权限"
     }
 ]

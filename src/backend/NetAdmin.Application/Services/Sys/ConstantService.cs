@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Reflection;
 using Furion;
 using NetAdmin.Application.Services.Sys.Dependency;
@@ -36,6 +37,17 @@ public class ConstantService : ServiceBase<IConstantService>, IConstantService
         var ret = typeof(Ln).GetProperties(BindingFlags.Public | BindingFlags.Static)
                             .Where(x => x.PropertyType == typeof(string))
                             .ToImmutableSortedDictionary(x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
+        return ret;
+    }
+
+    /// <inheritdoc />
+    public IDictionary<string, long> GetNumbersDic()
+    {
+        var ret = typeof(Numbers).GetFields(BindingFlags.Public | BindingFlags.Static)
+                                 .Where(x => x.FieldType == typeof(int) || x.FieldType == typeof(long))
+                                 .ToImmutableSortedDictionary( //
+                                     x => x.Name.ToString()
+                                   , x => Convert.ToInt64(x.GetValue(null)!, CultureInfo.InvariantCulture));
         return ret;
     }
 }

@@ -31,6 +31,10 @@ public record QueryUserRsp : TbSysUser
     /// </summary>
     public new QueryDeptRsp Dept { get; init; }
 
+    /// <inheritdoc cref="TbSysUser.Email" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public override string Email { get; init; }
+
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }

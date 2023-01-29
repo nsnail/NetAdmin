@@ -30,6 +30,10 @@ public record CreateRoleReq : TbSysRole, IRegister
                 ret |= (long)RoleBits.IgnorePermissionControl;
             }
 
+            if (DisplayDashboard) {
+                ret |= (long)RoleBits.DisplayDashboard;
+            }
+
             return ret;
         }
     }
@@ -42,6 +46,11 @@ public record CreateRoleReq : TbSysRole, IRegister
     /// </summary>
     [SpecificDept]
     public IReadOnlyCollection<long> DeptIds { get; init; }
+
+    /// <summary>
+    ///     是否显示仪表板
+    /// </summary>
+    public bool DisplayDashboard { get; init; }
 
     /// <summary>
     ///     是否启用

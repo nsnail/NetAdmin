@@ -139,8 +139,6 @@ export default {
     },
     mounted() {
         this.user = tool.data.get("USER_INFO");
-        console.log(this.user)
-        console.log(this.$CONFIG)
     },
     methods: {
         //获取头像

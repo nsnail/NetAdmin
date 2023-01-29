@@ -1,7 +1,7 @@
-using System.Globalization;
 using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
 namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 
@@ -10,11 +10,6 @@ namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 /// </summary>
 public record QueryUserProfileRsp : TbSysUserProfile
 {
-    /// <summary>
-    ///     籍贯
-    /// </summary>
-    public new string NationPlace => base.NationPlace?.ToString(CultureInfo.InvariantCulture);
-
     /// <inheritdoc cref="TbSysUserProfile.BornDate" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override DateTime? BornDate { get; init; }
@@ -31,6 +26,11 @@ public record QueryUserProfileRsp : TbSysUserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string CompanyAddress { get; init; }
 
+    /// <summary>
+    ///     工作地区
+    /// </summary>
+    public new QueryDicContentRsp CompanyArea { get; init; }
+
     /// <inheritdoc cref="TbSysUserProfile.CompanyName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string CompanyName { get; init; }
@@ -46,6 +46,11 @@ public record QueryUserProfileRsp : TbSysUserProfile
     /// <inheritdoc cref="TbSysUserProfile.EmergencyContactAddress" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string EmergencyContactAddress { get; init; }
+
+    /// <summary>
+    ///     紧急联系地区
+    /// </summary>
+    public new QueryDicContentRsp EmergencyContactArea { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.EmergencyContactMobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -67,6 +72,11 @@ public record QueryUserProfileRsp : TbSysUserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string HomeAddress { get; init; }
 
+    /// <summary>
+    ///     住宅地区
+    /// </summary>
+    public new QueryDicContentRsp HomeArea { get; init; }
+
     /// <inheritdoc cref="TbSysUserProfile.HomeTelephone" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override string HomeTelephone { get; init; }
@@ -82,6 +92,11 @@ public record QueryUserProfileRsp : TbSysUserProfile
     /// <inheritdoc cref="TbSysUserProfile.Nation" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public override Enums.Nations? Nation { get; init; }
+
+    /// <summary>
+    ///     籍贯
+    /// </summary>
+    public new QueryDicContentRsp NationArea { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.PoliticalStatus" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

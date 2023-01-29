@@ -1,0 +1,6 @@
+{
+    "Captcha": {
+        "ImageRelativePath": ".data/captcha",
+        "SecretKey": "1Z?f(2)%v?:X5NYRl+]PSi.rDf7Ip#lB"
+    }
+}

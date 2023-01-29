@@ -4,6 +4,7 @@ using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.Application.Services.Sys;
@@ -35,7 +36,8 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// </summary>
     public async Task<QueryUserProfileRsp> Create(CreateUserProfileReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var entity = req.Adapt<TbSysUserProfile>();
+        var ret    = await Rpo.InsertAsync(entity);
         return ret.Adapt<QueryUserProfileRsp>();
     }
 
@@ -53,10 +55,27 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// </summary>
     public async Task<PagedQueryRsp<QueryUserProfileRsp>> PagedQuery(PagedQueryReq<QueryUserProfileReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync((a, b, c, d, e) =>
+                                          new {
+                                                  a
+                                                , b = new { b.Key, b.Value }
+                                                , c = new { c.Key, c.Value }
+                                                , d = new { d.Key, d.Value }
+                                                , e = new { e.Key, e.Value }
+                                              });
 
         return new PagedQueryRsp<QueryUserProfileRsp>(req.Page, req.PageSize, total
-                                                    , list.Adapt<IEnumerable<QueryUserProfileRsp>>());
+                                                    , list.ConvertAll(
+                                                          x => x.a.Adapt<QueryUserProfileRsp>() with {
+                                                                   NationArea = x.b.Adapt<QueryDicContentRsp>()
+                                                                 , CompanyArea = x.c.Adapt<QueryDicContentRsp>()
+                                                                 , HomeArea = x.d.Adapt<QueryDicContentRsp>()
+                                                                 , EmergencyContactArea
+                                                                   = x.e.Adapt<QueryDicContentRsp>()
+                                                               }));
     }
 
     /// <summary>
@@ -64,8 +83,25 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// </summary>
     public async Task<IEnumerable<QueryUserProfileRsp>> Query(QueryReq<QueryUserProfileReq> req)
     {
-        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
-        return ret.Adapt<IEnumerable<QueryUserProfileRsp>>();
+        var ret = await QueryInternal(req)
+                        .Take(Numbers.QUERY_LIMIT)
+                        .ToListAsync((a, b, c, d, e) =>
+                                         new {
+                                                 a
+                                               , b = new { b.Key, b.Value }
+                                               , c = new { c.Key, c.Value }
+                                               , d = new { d.Key, d.Value }
+                                               , e = new { e.Key, e.Value }
+                                             });
+        return ret.ConvertAll(x => x.a.Adapt<QueryUserProfileRsp>() with {
+                                                                             NationArea
+                                                                             = x.b.Adapt<QueryDicContentRsp>()
+                                                                           , CompanyArea
+                                                                             = x.c.Adapt<QueryDicContentRsp>()
+                                                                           , HomeArea = x.d.Adapt<QueryDicContentRsp>()
+                                                                           , EmergencyContactArea
+                                                                             = x.e.Adapt<QueryDicContentRsp>()
+                                                                         });
     }
 
     /// <summary>
@@ -73,33 +109,47 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// </summary>
     public async Task<QueryUserProfileRsp> Update(UpdateUserProfileReq req)
     {
+        var entity = req.Adapt<TbSysUserProfile>();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqlite(req);
+            return await UpdateForSqlite(entity);
         }
 
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
+        var ret = await Rpo.UpdateDiy.SetSource(entity).ExecuteUpdatedAsync();
         return ret.FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
     }
 
-    private ISelect<TbSysUserProfile> QueryInternal(QueryReq<QueryUserProfileReq> req)
+    private ISelect<TbSysUserProfile, TbSysDicContent, TbSysDicContent, TbSysDicContent, TbSysDicContent> QueryInternal(
+        QueryReq<QueryUserProfileReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
+        var ret = Rpo.Orm.Select<TbSysUserProfile, TbSysDicContent, TbSysDicContent, TbSysDicContent, TbSysDicContent>()
+                     .LeftJoin((a, b, c, d, e) => a.NationArea.ToString() == b.Value &&
+                                                  b.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
+                                                  (b.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
+                     .LeftJoin((a, b, c, d, e) => a.CompanyArea.ToString() == c.Value &&
+                                                  c.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
+                                                  (c.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
+                     .LeftJoin((a, b, c, d, e) => a.HomeArea.ToString() == d.Value &&
+                                                  d.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
+                                                  (d.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
+                     .LeftJoin((a, b, c, d, e) => a.EmergencyContactArea.ToString() == e.Value &&
+                                                  e.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
+                                                  (e.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
+                     .WhereDynamicFilter(req.DynamicFilter)
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending(a => a.Id);
+                     .OrderByDescending((a, b, c, d, e) => a.Id);
         return ret;
     }
 
     /// <summary>
     ///     非sqlite数据库请删掉
     /// </summary>
-    private async Task<QueryUserProfileRsp> UpdateForSqlite(UpdateUserProfileReq req)
+    private async Task<QueryUserProfileRsp> UpdateForSqlite(TbSysUserProfile entity)
     {
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+        if (await Rpo.UpdateDiy.SetSource(entity).ExecuteAffrowsAsync() <= 0) {
             return null;
         }
 
-        var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Select.Where(a => a.Id == entity.Id).ToOneAsync();
         return ret.Adapt<QueryUserProfileRsp>();
     }
 }

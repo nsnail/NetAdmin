@@ -1,5 +1,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Dto.Sys.Dev;
@@ -13,13 +15,15 @@ public class DevService : ServiceBase<DevService>, IDevService
     private const string _REPLACE_TO_EMPTY = "//~";
 
     private readonly IApiService _apiService;
+    private readonly JsonOptions _jsonOptions;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="DevService" /> class.
     /// </summary>
-    public DevService(IApiService apiService)
+    public DevService(IApiService apiService, IOptions<JsonOptions> jsonOptions)
     {
-        _apiService = apiService;
+        _apiService  = apiService;
+        _jsonOptions = jsonOptions.Value;
     }
 
     /// <inheritdoc />
@@ -142,10 +146,10 @@ public class DevService : ServiceBase<DevService>, IDevService
         iconSelectContent = iconSelectContent.Replace("export default", "exportDefault:").Replace("'", "\"");
         iconSelectContent = Regex.Replace(iconSelectContent, "([a-zA-Z]+):", "\"$1\":");
         iconSelectContent = "{" + iconSelectContent + "}";
-        var iconExportJsInfo = iconSelectContent.Object<IconExportJsInfo>();
+        var iconExportJsInfo = iconSelectContent.Object<IconExportJsInfo>(_jsonOptions.JsonSerializerOptions);
         iconExportJsInfo.ExportDefault.Icons.Last()
                         .Icons.Add($"sc-icon-{req.IconName.ToLower(CultureInfo.InvariantCulture)}");
-        var newContent = iconExportJsInfo.Json()
+        var newContent = iconExportJsInfo.Json(_jsonOptions.JsonSerializerOptions)
                                          .TrimStart('{')
                                          .TrimEnd('}')
                                          .Replace("\"exportDefault\":", "export default");

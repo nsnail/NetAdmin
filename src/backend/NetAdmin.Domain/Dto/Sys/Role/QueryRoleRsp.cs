@@ -12,6 +12,12 @@ namespace NetAdmin.Domain.Dto.Sys.Role;
 public record QueryRoleRsp : TbSysRole, IRegister
 {
     /// <summary>
+    ///     是否显示仪表板
+    /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool DisplayDashboard => BitSet.HasFlag(RoleBits.DisplayDashboard);
+
+    /// <summary>
     ///     是否启用
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

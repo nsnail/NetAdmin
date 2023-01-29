@@ -1,14 +1,14 @@
 <template>
-    <el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
+    <el-dialog v-model="visible" :title="titleMap[mode]" :width="500" destroy-on-close @closed="$emit('closed')">
         <el-tabs tab-position="top">
             <el-tab-pane label="基本信息">
-                <el-form :model="form" :rules="rules" :disabled="mode=='show'" ref="dialogForm" label-width="100px"
-                         label-position="left">
+                <el-form ref="dialogForm" :disabled="mode=='show'" :model="form" :rules="rules" label-position="left"
+                         label-width="100px">
                     <el-form-item label="角色名称" prop="name">
                         <el-input v-model="form.name" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="排序" prop="sort">
-                        <el-input-number v-model="form.sort" controls-position="right" :min="0"
+                        <el-input-number v-model="form.sort" :min="0" controls-position="right"
                                          style="width: 100%;"></el-input-number>
                     </el-form-item>
                     <el-form-item label="是否有效" prop="enabled">
@@ -24,41 +24,39 @@
             </el-tab-pane>
             <el-tab-pane label="菜单权限">
                 <div class="treeMain">
-                    <el-tree ref="menu" node-key="id" :data="menu.list" :props="menu.props" show-checkbox
-                             default-expand-all></el-tree>
+                    <el-tree ref="menu" :data="menu.list" :props="menu.props" default-expand-all node-key="id"
+                             show-checkbox></el-tree>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="接口权限">
                 <div class="treeMain">
-                    <el-tree ref="api" node-key="id" :data="api.list" :props="api.props" show-checkbox
+                    <el-tree ref="api" :data="api.list" :props="api.props" node-key="id" show-checkbox
                     ></el-tree>
                 </div>
             </el-tab-pane>
             <el-tab-pane label="数据权限">
-                <el-form label-width="100px" label-position="left">
+                <el-form label-position="left" label-width="100px">
                     <el-form-item label="规则类型">
                         <el-select v-model="form.dataScope" placeholder="请选择">
-                            <el-option v-for="(item,i) in this.$CONFIG.ENUMS.dataScopes" :key="i" :label="item.desc"
-                                       :value="item.value"
+                            <el-option v-for="(item,i) in this.$CONFIG.ENUMS.dataScopes" :key="i" :label="item"
+                                       :value="i"
                             ></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="选择部门" v-show="form.dataScope=='specificDept'">
+                    <el-form-item v-show="form.dataScope=='specificDept'" label="选择部门">
                         <div class="treeMain" style="width: 100%;">
-                            <el-tree ref="dept" node-key="id" :data="data.list" :props="data.props" show-checkbox
-                                     default-expand-all></el-tree>
+                            <el-tree ref="dept" :data="data.list" :props="data.props" default-expand-all node-key="id"
+                                     show-checkbox></el-tree>
                         </div>
                     </el-form-item>
                 </el-form>
             </el-tab-pane>
             <el-tab-pane label="控制台">
-                <el-form label-width="100px" label-position="left">
+                <el-form label-position="left" label-width="100px">
                     <el-form-item label="控制台视图">
-                        <el-select v-model="form.dashboard" placeholder="请选择">
+                        <el-select v-model="form.displayDashboard" placeholder="请选择">
                             <el-option v-for="item in dashboardOptions" :key="item.value" :label="item.label"
                                        :value="item.value">
-                                <span style="float: left">{{ item.label }}</span>
-                                <span style="float: right; color: #8492a6; font-size: 12px">{{ item.views }}</span>
                             </el-option>
                         </el-select>
                         <div class="el-form-item-msg">用于控制角色登录后控制台的视图</div>
@@ -68,7 +66,7 @@
         </el-tabs>
         <template #footer>
             <el-button @click="visible=false">取 消</el-button>
-            <el-button v-if="mode!='show'" type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
+            <el-button v-if="mode!='show'" :loading="isSaveing" type="primary" @click="submit()">保 存</el-button>
         </template>
     </el-dialog>
 </template>
@@ -99,33 +97,35 @@ export default {
                 list: [],
                 checked: [],
                 props: {
-                    label: (data) => {
-                        return data.summary
-                    }
+                    label: (data) =>
+                        data.summary
+
                 }
             },
             data: {
                 list: [],
                 checked: [],
-                props: {},
+                props: {
+                    label: (data) =>
+                        data.name
+
+                },
                 rule: ""
             },
             dashboard: "0",
             dashboardOptions: [
                 {
-                    value: '0',
-                    label: '数据统计',
-                    views: 'stats'
+                    value: true,
+                    label: '仪表板',
 
                 },
                 {
-                    value: '1',
+                    value: false,
                     label: '工作台',
-                    views: 'work'
                 },
             ],
             //表单数据
-            form: {},
+            form: {displayDashboard: false},
             //验证规则
             rules: {
                 sort: [

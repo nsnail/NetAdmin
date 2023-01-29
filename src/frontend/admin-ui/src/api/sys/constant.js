@@ -41,4 +41,15 @@ getLocalizedStrings :{
     }
 },
 
+/**
+ * 获得数字常量表
+ */
+getNumbers :{
+    url: `${config.API_URL}/api/constant/get.numbers`,
+        name: `获得数字常量表`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
 }

@@ -41,6 +41,12 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     public virtual string CompanyAddress { get; init; }
 
     /// <summary>
+    ///     工作地区
+    /// </summary>
+    [JsonIgnore]
+    public virtual int? CompanyArea { get; init; }
+
+    /// <summary>
     ///     工作单位
     /// </summary>
     [JsonIgnore]
@@ -68,6 +74,12 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     [JsonIgnore]
     [MaxLength(127)]
     public virtual string EmergencyContactAddress { get; init; }
+
+    /// <summary>
+    ///     紧急联系地区
+    /// </summary>
+    [JsonIgnore]
+    public virtual int? EmergencyContactArea { get; init; }
 
     /// <summary>
     ///     紧急联系人手机号
@@ -106,6 +118,12 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     public virtual string HomeAddress { get; init; }
 
     /// <summary>
+    ///     住宅地区
+    /// </summary>
+    [JsonIgnore]
+    public virtual int? HomeArea { get; init; }
+
+    /// <summary>
     ///     住宅电话
     /// </summary>
     [JsonIgnore]
@@ -132,7 +150,7 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     籍贯
     /// </summary>
     [JsonIgnore]
-    public virtual int? NationPlace { get; init; }
+    public virtual int? NationArea { get; init; }
 
     /// <summary>
     ///     政治面貌

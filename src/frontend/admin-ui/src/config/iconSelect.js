@@ -313,7 +313,11 @@
           "sc-icon-dic",
           "sc-icon-position",
           "sc-icon-tpl",
-          "sc-icon-demo"
+          "sc-icon-demo",
+          "sc-icon-link",
+          "sc-icon-unlink",
+          "sc-icon-send",
+          "sc-icon-smscode"
         ],
         "name": "扩展"
       }

@@ -77,6 +77,15 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         [Description(nameof(Ln.Ignoring_permissions_control))]
         [Localization(typeof(Ln))]
         IgnorePermissionControl = 0b_0000_0001_0000
+
+       ,
+
+        /// <summary>
+        ///     是否显示仪表板
+        /// </summary>
+        [Description(nameof(Ln.Display_Dashboard))]
+        [Localization(typeof(Ln))]
+        DisplayDashboard = 0b_0000_0010_0000
     }
 
     /// <summary>

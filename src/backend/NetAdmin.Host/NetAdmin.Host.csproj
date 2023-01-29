@@ -2,6 +2,7 @@
     <Import Project="../../../CodeQuality.props" />
     <ItemGroup>
         <Content Include="../../../assets/seed-data/**" LinkBase=".data/seed" CopyToOutputDirectory="PreserveNewest" />
+        <Content Include="../../../assets/captcha/**" LinkBase=".data/captcha" CopyToOutputDirectory="PreserveNewest" />
         <Content Include="../../../assets/config/**" LinkBase=".conf" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <ItemGroup>

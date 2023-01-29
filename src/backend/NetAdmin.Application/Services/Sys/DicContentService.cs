@@ -69,7 +69,7 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     /// </summary>
     public async Task<IEnumerable<QueryDicContentRsp>> Query(QueryReq<QueryDicContentReq> req)
     {
-        var ret = await QueryInternal(req).ToListAsync();
+        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
     }
 

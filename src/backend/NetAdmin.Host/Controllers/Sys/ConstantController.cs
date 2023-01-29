@@ -60,10 +60,29 @@ public class ConstantController : ControllerBase<IConstantService>, IConstantMod
         return Service.GetLocalizedStrings();
     }
 
-    private IActionResult OriginNamingResult(IDictionary<string, string> data)
+    /// <summary>
+    ///     获得数字常量表
+    /// </summary>
+    [NonUnify]
+    public IActionResult GetNumbers()
+    {
+        var ret = GetNumbersDic();
+        return OriginNamingResult(ret);
+    }
+
+    /// <summary>
+    ///     获得数字常量表
+    /// </summary>
+    [NonAction]
+    public IDictionary<string, long> GetNumbersDic()
+    {
+        return Service.GetNumbersDic();
+    }
+
+    private IActionResult OriginNamingResult<T>(T data)
     {
         return new JsonResult( //
-            new RestfulInfo<IDictionary<string, string>> { Code = Enums.RspCodes.Succeed, Data = data }
+            new RestfulInfo<T> { Code = Enums.RspCodes.Succeed, Data = data }
           , new JsonSerializerOptions(_jsonOptions.JsonSerializerOptions) { DictionaryKeyPolicy = null });
     }
 }

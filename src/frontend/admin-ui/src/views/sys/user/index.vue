@@ -1,43 +1,46 @@
 <template>
     <el-container>
-        <el-aside width="200px" v-loading="showTreeloading" class="el-aside-filter">
+        <el-aside v-loading="showTreeloading" class="el-aside-filter" width="200px">
             <el-collapse v-model="activeNames">
-                <el-collapse-item title="部门筛选" name="1">
+                <el-collapse-item name="1" title="部门筛选">
                     <el-container>
                         <el-header>
-                            <el-input placeholder="输入关键字进行过滤" v-model="deptFilterText" clearable></el-input>
+                            <el-input v-model="deptFilterText" clearable placeholder="输入关键字进行过滤"></el-input>
                         </el-header>
                         <el-main class="nopadding">
-                            <el-tree ref="dept" class="menu" node-key="id" :data="dept" :current-node-key="''"
-                                     :props="deptProps"
-                                     :highlight-current="true" :expand-on-click-node="false"
-                                     :filter-node-method="deptFilterNode" @node-click="deptClick"></el-tree>
+                            <el-tree ref="dept" :current-node-key="''" :data="dept" :expand-on-click-node="false"
+                                     :filter-node-method="deptFilterNode"
+                                     :highlight-current="true"
+                                     :props="deptProps" class="menu"
+                                     node-key="id" @node-click="deptClick"></el-tree>
                         </el-main>
                     </el-container>
                 </el-collapse-item>
-                <el-collapse-item title="角色筛选" name="2">
+                <el-collapse-item name="2" title="角色筛选">
                     <el-container>
                         <el-header>
-                            <el-input placeholder="输入关键字进行过滤" v-model="roleFilterText" clearable></el-input>
+                            <el-input v-model="roleFilterText" clearable placeholder="输入关键字进行过滤"></el-input>
                         </el-header>
                         <el-main class="nopadding">
-                            <el-tree ref="role" class="menu" node-key="id" :data="role" :current-node-key="''"
-                                     :props="roleProps"
-                                     :highlight-current="true" :expand-on-click-node="false"
-                                     :filter-node-method="roleFilterNode" @node-click="roleClick"></el-tree>
+                            <el-tree ref="role" :current-node-key="''" :data="role" :expand-on-click-node="false"
+                                     :filter-node-method="roleFilterNode"
+                                     :highlight-current="true"
+                                     :props="roleProps" class="menu"
+                                     node-key="id" @node-click="roleClick"></el-tree>
                         </el-main>
                     </el-container>
                 </el-collapse-item>
-                <el-collapse-item title="岗位筛选" name="3">
+                <el-collapse-item name="3" title="岗位筛选">
                     <el-container>
                         <el-header>
-                            <el-input placeholder="输入关键字进行过滤" v-model="posiFilterText" clearable></el-input>
+                            <el-input v-model="posiFilterText" clearable placeholder="输入关键字进行过滤"></el-input>
                         </el-header>
                         <el-main class="nopadding">
-                            <el-tree ref="posi" class="menu" node-key="id" :data="posi" :current-node-key="''"
-                                     :highlight-current="true" :expand-on-click-node="false"
-                                     :props="posiProps"
-                                     :filter-node-method="posiFilterNode" @node-click="posiClick"></el-tree>
+                            <el-tree ref="posi" :current-node-key="''" :data="posi" :expand-on-click-node="false"
+                                     :filter-node-method="posiFilterNode"
+                                     :highlight-current="true" :props="posiProps"
+                                     class="menu"
+                                     node-key="id" @node-click="posiClick"></el-tree>
                         </el-main>
                     </el-container>
                 </el-collapse-item>
@@ -46,23 +49,23 @@
         <el-container>
             <el-header>
                 <div class="left-panel">
-                    <el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-                    <el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0"
+                    <el-button icon="el-icon-plus" type="primary" @click="add"></el-button>
+                    <el-button :disabled="selection.length==0" icon="el-icon-delete" plain type="danger"
                                @click="batch_del"></el-button>
-                    <el-button type="primary" plain :disabled="selection.length==0">分配角色</el-button>
-                    <el-button type="primary" plain :disabled="selection.length==0">密码重置</el-button>
+                    <el-button :disabled="selection.length==0" plain type="primary">分配角色</el-button>
+                    <el-button :disabled="selection.length==0" plain type="primary">密码重置</el-button>
                 </div>
                 <div class="right-panel">
                     <div class="right-panel-search">
-                        <el-input v-model="search.keywords" placeholder="登录账号 / 手机号"
-                                  clearable></el-input>
-                        <el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+                        <el-input v-model="search.keywords" clearable
+                                  placeholder="登录账号 / 手机号"></el-input>
+                        <el-button icon="el-icon-search" type="primary" @click="upsearch"></el-button>
                     </div>
                 </div>
             </el-header>
             <el-main class="nopadding">
-                <scTable ref="table" :apiObj="apiObj" @selection-change="selectionChange" stripe remoteSort
-                         remoteFilter>
+                <scTable ref="table" :apiObj="apiObj" remoteFilter remoteSort stripe
+                         @selection-change="selectionChange">
                     <el-table-column type="selection"></el-table-column>
                     <el-table-column label="ID" prop="id" sortable='custom'></el-table-column>
                     <el-table-column label="用户名" prop="userName" sortable='custom'>
@@ -84,8 +87,8 @@
                             </el-tag>
                         </template>
                     </el-table-column>
-                    <el-table-column label="所属部门" prop="dept.name" align="center" width="120" sortable="custom"
-                                     sort-by="deptid">
+                    <el-table-column align="center" label="所属部门" prop="dept.name" sort-by="deptid" sortable="custom"
+                                     width="120">
                     </el-table-column>
                     <el-table-column label="岗位">
                         <template #default="scope">
@@ -94,9 +97,9 @@
                             </el-tag>
                         </template>
                     </el-table-column>
-                    <el-table-column label="状态" width="80" align="center"
-                                     column-key="filterUserName" :filters="[{text: '启用', value: '1'}, {text:
-                                          '未启用', value: '0'}]" prop="enabled">
+                    <el-table-column :filters="[{text: '启用', value: '1'}, {text:
+                                          '未启用', value: '0'}]" align="center" column-key="filterUserName"
+                                     label="状态" prop="enabled" width="80">
                         <template #default="scope">
                             <sc-status-indicator v-if="scope.row.enabled" type="success"></sc-status-indicator>
                             <sc-status-indicator v-if="!scope.row.enabled" pulse type="danger"></sc-status-indicator>
@@ -104,18 +107,18 @@
                     </el-table-column>
                     <el-table-column label="加入时间" prop="createdTime"
                                      sortable='custom'></el-table-column>
-                    <el-table-column label="操作" fixed="right" align="right">
+                    <el-table-column align="right" fixed="right" label="操作">
                         <template #default="scope">
                             <el-button-group>
-                                <el-button text type="primary" size="small"
+                                <el-button size="small" text type="primary"
                                            @click="table_show(scope.row, scope.$index)">查看
                                 </el-button>
-                                <el-button text type="primary" size="small"
+                                <el-button size="small" text type="primary"
                                            @click="table_edit(scope.row, scope.$index)">编辑
                                 </el-button>
                                 <el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
                                     <template #reference>
-                                        <el-button text type="primary" size="small">删除</el-button>
+                                        <el-button size="small" text type="primary">删除</el-button>
                                     </template>
                                 </el-popconfirm>
                             </el-button-group>
@@ -127,9 +130,9 @@
         </el-container>
     </el-container>
 
-    <save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
+    <save-dialog v-if="dialog.save" ref="saveDialog" @closed="dialog.save=false" @success="handleSuccess"></save-dialog>
 
-    <el-drawer v-model="dialog.info" :size="800" title="详细" direction="rtl" destroy-on-close>
+    <el-drawer v-model="dialog.info" :size="800" destroy-on-close direction="rtl" title="详细">
         <info ref="infoDialog"></info>
     </el-drawer>
 </template>

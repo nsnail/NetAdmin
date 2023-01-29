@@ -60,8 +60,8 @@
                             <el-switch v-model="form.enabled"></el-switch>
                         </el-form-item>
                     </template>
-                    <el-form-item label="备注" prop="summary">
-                        <el-input v-model="form.summary" clearable type="textarea"></el-input>
+                    <el-form-item label="备注" prop="profile.summary">
+                        <el-input v-model="form.profile.summary" clearable type="textarea"></el-input>
                     </el-form-item>
 
                 </el-tab-pane>
@@ -144,15 +144,26 @@
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12" :xs="24">
-                            <el-form-item label="籍贯" prop="profile.nationPlace">
-                                <el-select v-model="form.profile.nationPlace"
-                                           clearable
-                                           filterable
-                                           style="width: 100%">
-                                    <el-option v-for="(item) in geoAreas" :key="item.value"
-                                               :label="item.key"
-                                               :value="item.value"/>
-                                </el-select>
+                            <el-form-item label="籍贯" prop="profile.nationArea">
+                                <sc-table-select ref="tabSelectNationArea" v-model="form.profile.nationArea"
+                                                 :apiObj="$API.sys_dic.pagedQueryContent"
+                                                 :params="areaParams"
+                                                 :props="{label: 'key',value: 'value'}"
+                                                 :table-width="600"
+                                                 clearable>
+                                    <template #header>
+                                        <el-form :model="areaParams">
+                                            <el-form-item>
+                                                <el-input v-model="areaParams.keyword"
+                                                          clearable
+                                                          placeholder="请输入地区或代码"
+                                                          @input="tabSelectAreaSearch($refs.tabSelectNationArea)"></el-input>
+                                            </el-form-item>
+                                        </el-form>
+                                    </template>
+                                    <el-table-column label="地区" prop="key" width="400"></el-table-column>
+                                    <el-table-column label="代码" prop="value"></el-table-column>
+                                </sc-table-select>
                             </el-form-item>
                         </el-col>
 
@@ -177,15 +188,25 @@
                             <el-form-item label="住宅地址" prop="profile.homeAddress">
                                 <el-input v-model="form.profile.homeAddress" clearable>
                                     <template v-slot:prepend>
-                                        <el-select v-model="form.profile.homeArea"
-                                                   clearable
-                                                   filterable
-                                                   placeholder="请选择"
-                                        >
-                                            <el-option v-for="(item) in geoAreas" :key="item.value"
-                                                       :label="item.key"
-                                                       :value="item.value"/>
-                                        </el-select>
+                                        <sc-table-select ref="tabSelectHomeArea" v-model="form.profile.homeArea"
+                                                         :apiObj="$API.sys_dic.pagedQueryContent"
+                                                         :params="areaParams"
+                                                         :props="{label: 'key',value: 'value'}"
+                                                         :table-width="600"
+                                                         clearable>
+                                            <template #header>
+                                                <el-form :model="areaParams">
+                                                    <el-form-item>
+                                                        <el-input v-model="areaParams.keyword"
+                                                                  clearable
+                                                                  placeholder="请输入地区或代码"
+                                                                  @input="tabSelectAreaSearch($refs.tabSelectHomeArea)"></el-input>
+                                                    </el-form-item>
+                                                </el-form>
+                                            </template>
+                                            <el-table-column label="地区" prop="key" width="400"></el-table-column>
+                                            <el-table-column label="代码" prop="value"></el-table-column>
+                                        </sc-table-select>
                                     </template>
 
                                 </el-input>
@@ -209,15 +230,25 @@
                             <el-form-item label="工作地址" prop="profile.companyAddress">
                                 <el-input v-model="form.profile.companyAddress" clearable>
                                     <template v-slot:prepend>
-                                        <el-select v-model="form.profile.companyArea"
-                                                   clearable
-                                                   filterable
-                                                   placeholder="请选择"
-                                        >
-                                            <el-option v-for="(item) in geoAreas" :key="item.value"
-                                                       :label="item.key"
-                                                       :value="item.value"/>
-                                        </el-select>
+                                        <sc-table-select ref="tabSelectCompanyArea" v-model="form.profile.companyArea"
+                                                         :apiObj="$API.sys_dic.pagedQueryContent"
+                                                         :params="areaParams"
+                                                         :props="{label: 'key',value: 'value'}"
+                                                         :table-width="600"
+                                                         clearable>
+                                            <template #header>
+                                                <el-form :model="areaParams">
+                                                    <el-form-item>
+                                                        <el-input v-model="areaParams.keyword"
+                                                                  clearable
+                                                                  placeholder="请输入地区或代码"
+                                                                  @input="tabSelectAreaSearch($refs.tabSelectCompanyArea)"></el-input>
+                                                    </el-form-item>
+                                                </el-form>
+                                            </template>
+                                            <el-table-column label="地区" prop="key" width="400"></el-table-column>
+                                            <el-table-column label="代码" prop="value"></el-table-column>
+                                        </sc-table-select>
                                     </template>
                                 </el-input>
                             </el-form-item>
@@ -248,8 +279,30 @@
                         </el-col>
                         <el-col :span="24">
                             <el-form-item label="联系人地址" prop="profile.emergencyContactAddress">
-                                <el-input v-model="form.profile.emergencyContactAddress" clearable
-                                          type="textarea"></el-input>
+                                <el-input v-model="form.profile.emergencyContactAddress" clearable>
+                                    <template v-slot:prepend>
+                                        <sc-table-select ref="tabSelectEmergencyContactArea"
+                                                         v-model="form.profile.emergencyContactArea"
+                                                         :apiObj="$API.sys_dic.pagedQueryContent"
+                                                         :params="areaParams"
+                                                         :props="{label: 'key',value: 'value'}"
+                                                         :table-width="600"
+                                                         clearable>
+                                            <template #header>
+                                                <el-form :model="areaParams">
+                                                    <el-form-item>
+                                                        <el-input v-model="areaParams.keyword"
+                                                                  clearable
+                                                                  placeholder="请输入地区或代码"
+                                                                  @input="tabSelectAreaSearch($refs.tabSelectEmergencyContactArea)"></el-input>
+                                                    </el-form-item>
+                                                </el-form>
+                                            </template>
+                                            <el-table-column label="地区" prop="key" width="400"></el-table-column>
+                                            <el-table-column label="代码" prop="value"></el-table-column>
+                                        </sc-table-select>
+                                    </template>
+                                </el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -270,6 +323,18 @@ export default {
     emits: ['success', 'closed'],
     data() {
         return {
+            areaParams: {
+                "dynamicFilter": {
+                    "field": "catalogid",
+                    "operator": "eq",
+                    "value": this.$CONFIG.NUMBERS.DIC_CATALOG_ID_GEO_AREA,
+                    "logic": "or",
+                    "filters": []
+                },
+                prop: 'id',
+                order: 'Ascending'
+                , value: {}
+            },
             mode: "add",
             titleMap: {
                 add: '新增用户',
@@ -280,7 +345,7 @@ export default {
             isSaveing: false,
             //表单数据
             form: {
-                profile: {}
+                profile: {nationArea: {}, homeArea: {}, companyArea: {}, emergencyContactArea: {}}
             },
             //验证规则
             rules: {
@@ -359,6 +424,27 @@ export default {
         this.getGeoAreas()
     },
     methods: {
+        tabSelectAreaSearch(control) {
+            this.areaParams.dynamicFilter.filters = []
+            if (this.areaParams.keyword) {
+                this.areaParams.dynamicFilter.filters.push(
+                    {
+                        "field": "key",
+                        "operator": "contains",
+                        "value": this.areaParams.keyword
+                    }
+                );
+                this.areaParams.dynamicFilter.filters.push(
+                    {
+                        "field": "value",
+                        "operator": "contains",
+                        "value": this.areaParams.keyword
+                    }
+                );
+            }
+
+            control.reload();
+        },
         //显示
         open(mode = 'add') {
             this.mode = mode;
@@ -379,7 +465,7 @@ export default {
                 "dynamicFilter": {
                     "field": "catalogid",
                     "operator": "eq",
-                    "value": 379794295185413
+                    "value": this.$CONFIG.NUMBERS.DIC_CATALOG_ID_GEO_AREA
                 }
             });
             this.geoAreas = res.data;
@@ -392,7 +478,8 @@ export default {
                     "value": this.form.id
                 }
             });
-            this.form.profile = res.data[0];
+            Object.assign(this.form.profile, res.data[0]);
+
         },
         async getDept() {
             const res = await this.$API.sys_dept.query.post();
@@ -400,16 +487,25 @@ export default {
         },
         //表单提交方法
         submit() {
-            console.log(this.form.profile)
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
                     this.isSaveing = true;
+                    var reqData = JSON.parse(JSON.stringify(this.form))
+
                     try {
-                        if (!this.form.mobile) this.form.mobile = null;
-                        if (!this.form.profile.height) this.form.profile.height = null;
+                        if (!reqData.mobile) reqData.mobile = null;
+                        if (!reqData.profile.height) reqData.profile.height = null;
+                        if (!reqData.profile.nationArea || !reqData.profile.nationArea.value)
+                            reqData.profile.nationArea = null;
+                        if (!reqData.profile.homeArea || !reqData.profile.homeArea.value)
+                            reqData.profile.homeArea = null;
+                        if (!reqData.profile.companyArea || !reqData.profile.companyArea.value)
+                            reqData.profile.companyArea = null;
+                        if (!reqData.profile.emergencyContactArea || !reqData.profile.emergencyContactArea.value)
+                            reqData.profile.emergencyContactArea = null;
                         const method = (this.mode == 'add' ? this.$API.sys_user.create
                             : this.$API.sys_user.update)
-                        const res = await method.post(this.form);
+                        const res = await method.post(reqData);
                         this.$emit('success', res.data, this.mode)
                         this.visible = false;
                         this.$message.success("操作成功")
@@ -424,13 +520,10 @@ export default {
         //表单注入数据
         setData(data) {
             //可以和上面一样单个注入，也可以像下面一样直接合并进去
-            this.form = Object.assign({profile: {}}, data)
-
-
+            Object.assign(this.form, data)
             this.form.positionIds = this.form.positions.map(x => x.id)
             this.form.roleIds = this.form.roles.map(x => x.id)
             this.form.deptId = this.form.dept.id
-
 
             this.getProfile()
         }

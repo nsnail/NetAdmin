@@ -1,24 +1,25 @@
 <template>
     <el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large" @keyup.enter="login">
         <el-form-item prop="user">
-            <el-input v-model="form.user" prefix-icon="el-icon-user" clearable
-                      :placeholder="$t('login.userPlaceholder')">
+            <el-input v-model="form.user" :placeholder="$t('login.userPlaceholder')" clearable
+                      prefix-icon="el-icon-user">
             </el-input>
         </el-form-item>
         <el-form-item prop="password">
-            <el-input v-model="form.password" prefix-icon="el-icon-lock" clearable show-password
-                      :placeholder="$t('login.PWPlaceholder')"></el-input>
+            <el-input v-model="form.password" :placeholder="$t('login.PWPlaceholder')" clearable
+                      prefix-icon="el-icon-lock"
+                      show-password></el-input>
         </el-form-item>
         <el-form-item style="margin-bottom: 10px;">
             <el-col :span="12">
-                <el-checkbox :label="$t('login.rememberMe')" v-model="form.autologin"></el-checkbox>
+                <el-checkbox v-model="form.autologin" :label="$t('login.rememberMe')"></el-checkbox>
             </el-col>
             <el-col :span="12" class="login-forgot">
                 <router-link to="/reset_password">{{ $t('login.forgetPassword') }}？</router-link>
             </el-col>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" style="width: 100%;" :loading="islogin" round @click="login">{{
+            <el-button :loading="islogin" round style="width: 100%;" type="primary" @click="login">{{
                     $t('login.signIn')
                 }}
             </el-button>
@@ -97,12 +98,23 @@ export default {
                     return false
                 }
                 this.$TOOL.data.set("MENU", menu.data)
-                this.$TOOL.data.set("PERMISSIONS", menu.data.permissions)
-                this.$TOOL.data.set("DASHBOARDGRID", menu.data.dashboardGrid)
             } catch {
                 this.islogin = false
                 return false
             }
+
+
+            // this.$TOOL.data.set("PERMISSIONS", menu.data.permissions)
+
+
+            this.$TOOL.data.set("DASHBOARDGRID", [
+                "welcome",
+                "ver",
+                "time",
+                "progress",
+                "echarts",
+                "about"
+            ])
 
             this.$router.replace({
                 path: '/'
