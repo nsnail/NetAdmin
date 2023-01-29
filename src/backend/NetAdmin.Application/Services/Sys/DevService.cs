@@ -27,7 +27,6 @@ public class DevService : ServiceBase<DevService>, IDevService
     }
 
     /// <inheritdoc />
-    #pragma warning disable CodeLinesAnalyzer
     public async Task GenerateCsCode(GenerateCsCodeReq req)
     {
         var projectDirs = Directory.GetDirectories(req.ProjectPath);
@@ -114,7 +113,6 @@ public class DevService : ServiceBase<DevService>, IDevService
         await WriteCodeFile(req, Path.Combine(dataDir,   nameof(Domain.DbMaps), nameof(Tpl), "TbTplExample.cs")
                      ,           Path.Combine(entityDir, $"Tb{moduleType}{req.ModuleName}.cs"));
     }
-    #pragma warning restore CodeLinesAnalyzer
 
     /// <inheritdoc />
     public async Task GenerateIconCode(GenerateIconCodeReq req)

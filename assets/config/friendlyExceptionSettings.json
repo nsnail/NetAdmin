@@ -10,5 +10,5 @@
         //        LogError：是否输出异常日志，bool 类型，默认 true
         "HideErrorCode": true,
         "LogError": false
-    },
+    }
 }

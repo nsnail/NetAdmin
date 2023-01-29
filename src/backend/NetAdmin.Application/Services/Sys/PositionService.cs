@@ -8,7 +8,7 @@ using NetAdmin.Domain.Dto.Sys.Position;
 
 namespace NetAdmin.Application.Services.Sys;
 
-/// <inheritdoc cref="NetAdmin.Application.Services.Sys.Dependency.IPositionService" />
+/// <inheritdoc cref="IPositionService" />
 public class PositionService : RepositoryService<TbSysPosition, IPositionService>, IPositionService
 {
     /// <summary>

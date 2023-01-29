@@ -5,4 +5,4 @@ namespace NetAdmin.Domain.Dto.Sys.Api;
 /// <summary>
 ///     请求：查询接口
 /// </summary>
-public record QueryApiReq : TbSysApi { }
+public record QueryApiReq : TbSysApi;

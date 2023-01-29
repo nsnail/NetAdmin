@@ -5,7 +5,7 @@ using NetAdmin.Domain.Dto.Sys.Captcha;
 
 namespace NetAdmin.Host.Caches.Sys.Implements;
 
-/// <inheritdoc cref="NetAdmin.Host.Caches.Sys.ICaptchaCache" />
+/// <inheritdoc cref="ICaptchaCache" />
 public class CaptchaCache : CacheBase<ICaptchaService>, IScoped, ICaptchaCache
 {
     private readonly TimeSpan _absoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);

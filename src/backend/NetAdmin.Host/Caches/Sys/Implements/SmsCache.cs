@@ -6,7 +6,7 @@ using NetAdmin.Domain.Dto.Sys.Sms;
 
 namespace NetAdmin.Host.Caches.Sys.Implements;
 
-/// <inheritdoc cref="NetAdmin.Host.Caches.Sys.ISmsCache" />
+/// <inheritdoc cref="ISmsCache" />
 public class SmsCache : CacheBase<ISmsService>, IScoped, ISmsCache
 {
     private const int _CACHE_EXPIRES_SMSCODE = 300;
