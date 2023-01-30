@@ -2,6 +2,7 @@
     <common-page v-loading="loading" title="注册新账号">
         <el-steps :active="stepActive" finish-status="success" simple>
             <el-step title="填写帐号"/>
+            <el-step title="验证手机"/>
             <el-step title="完成注册"/>
         </el-steps>
         <el-form v-if="stepActive==0" ref="stepForm_0" :label-width="120" :model="form" :rules="rules">
@@ -24,8 +25,19 @@
                 <span class="link" @click="showAgree=true">《平台服务协议》</span>
             </el-form-item>
         </el-form>
-
-        <div v-if="stepActive==1">
+        <el-form v-if="stepActive==1" ref="stepForm_1" :label-width="120" :model="form" :rules="rules">
+            <el-form-item label="手机号码" prop="verifySmsCodeReq.destMobile">
+                <el-input v-model="form.verifySmsCodeReq.destMobile" placeholder="请输入手机号码"></el-input>
+            </el-form-item>
+            <el-form-item label="短信验证码" prop="verifySmsCodeReq.code">
+                <div class="yzm">
+                    <el-input v-model="form.verifySmsCodeReq.code" placeholder="请输入4位短信验证码"></el-input>
+                    <el-button :disabled="disabled" @click="getYzm">获取验证码<span v-if="disabled"> ({{ time }})</span>
+                    </el-button>
+                </div>
+            </el-form-item>
+        </el-form>
+        <div v-if="stepActive==2">
             <el-result icon="success" sub-title="可以使用登录账号以及手机号登录系统" title="注册成功">
                 <template #extra>
                     <el-button type="primary" @click="goLogin">前去登录</el-button>
@@ -33,7 +45,9 @@
             </el-result>
         </div>
         <el-form style="text-align: center;">
-            <el-button v-if="stepActive==0" type="primary" @click="save">提交</el-button>
+            <el-button v-if="stepActive>0 && stepActive<2" @click="pre">上一步</el-button>
+            <el-button v-if="stepActive<1" type="primary" @click="next">下一步</el-button>
+            <el-button v-if="stepActive==1" type="primary" @click="save">提交</el-button>
         </el-form>
         <el-dialog v-model="showAgree" :width="800" destroy-on-close title="平台服务协议">
             平台服务协议
@@ -74,8 +88,24 @@ export default {
                 passwordText2: "",
                 agree: false,
                 userName: "",
+                verifySmsCodeReq: {}
             },
             rules: {
+                verifySmsCodeReq: {
+                    destMobile: [
+                        {
+                            required: true,
+                            message: this.$CONFIG.LOC_STRINGS.mobile_phone_number_that_can_be_used_normally, pattern:
+                            this.$CONFIG.STRINGS.RGX_MOBILE
+                        },
+
+                    ],
+                    code: [
+                        {
+                            required: true, message: '请输入4位数字验证码'
+                        },
+                    ]
+                },
                 userName: [
                     {required: true, message: '请输入账号名'}
                 ],
@@ -112,11 +142,22 @@ export default {
 
     },
     methods: {
+        async getYzm() {
+            const formName = `stepForm_${this.stepActive}`
+            this.$refs[formName].validateField(['verifySmsCodeReq.destMobile'], valid => {
+                if (valid) {
+                    this.$refs.verify.show();
+                }
+            })
+        },
         async captchaSuccess(obj) {
             this.loading = true
             try {
-                await this.$API.sys_user.register.post(Object.assign({verifyCaptchaReq: obj}, this.form))
-                this.stepActive += 1
+                await this.$API.sys_sms.sendSmsCode.post({
+                    destMobile: this.form.verifySmsCodeReq.destMobile,
+                    type: 'register', verifyCaptchaReq: obj
+                })
+                this.$message.success("发送成功")
             } catch {
             }
             this.loading = false
@@ -138,7 +179,8 @@ export default {
             const formName = `stepForm_${this.stepActive}`
             await this.$refs[formName].validate(async (valid) => {
                 if (valid) {
-                    this.$refs.verify.show()
+                    await this.$API.sys_user.register.post(this.form)
+                    this.stepActive += 1
                 } else {
                     return false
                 }

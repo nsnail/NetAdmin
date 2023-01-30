@@ -529,4 +529,7 @@
     <data name="Man machine verification failed" xml:space="preserve">
         <value>人机验证未通过</value>
     </data>
+    <data name="Only once in 1 minute" xml:space="preserve">
+        <value>1分钟内只能发送1次</value>
+    </data>
 </root>

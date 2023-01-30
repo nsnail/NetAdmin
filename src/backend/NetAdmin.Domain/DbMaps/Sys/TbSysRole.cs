@@ -105,8 +105,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     ///     数据范围
     /// </summary>
     [JsonIgnore]
-    [EnumDataType(typeof(DataScopes))]
-    public virtual DataScopes DataScope { get; init; } = DataScopes.All;
+    public virtual DataScopes DataScope { get; init; }
 
     /// <summary>
     ///     角色-部门映射

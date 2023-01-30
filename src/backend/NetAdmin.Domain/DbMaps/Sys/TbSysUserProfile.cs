@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
@@ -22,7 +21,6 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     证件号码
     /// </summary>
     [JsonIgnore]
-    [Certificate]
     [MaxLength(63)]
     public virtual string CertificateNumber { get; init; }
 
@@ -30,7 +28,6 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     证件类型
     /// </summary>
     [JsonIgnore]
-    [EnumDataType(typeof(Enums.CertificateTypes))]
     public virtual Enums.CertificateTypes? CertificateType { get; init; }
 
     /// <summary>
@@ -58,14 +55,12 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [MaxLength(31)]
-    [Telephone]
     public virtual string CompanyTelephone { get; init; }
 
     /// <summary>
     ///     文化程度
     /// </summary>
     [JsonIgnore]
-    [EnumDataType(typeof(Enums.Educations))]
     public virtual Enums.Educations? Education { get; init; }
 
     /// <summary>
@@ -84,7 +79,6 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     /// <summary>
     ///     紧急联系人手机号
     /// </summary>
-    [Mobile]
     [JsonIgnore]
     [MaxLength(15)]
     public virtual string EmergencyContactMobile { get; init; }
@@ -107,7 +101,6 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     身高
     /// </summary>
     [JsonIgnore]
-    [Range(100, 250)]
     public virtual int? Height { get; init; }
 
     /// <summary>
@@ -128,14 +121,12 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [MaxLength(31)]
-    [Telephone]
     public virtual string HomeTelephone { get; init; }
 
     /// <summary>
     ///     婚姻状况
     /// </summary>
     [JsonIgnore]
-    [EnumDataType(typeof(Enums.MarriageStatues))]
     public virtual Enums.MarriageStatues? MarriageStatus { get; init; }
 
     /// <summary>
@@ -143,7 +134,6 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     /// </summary>
     /// 7
     [JsonIgnore]
-    [EnumDataType(typeof(Enums.Nations))]
     public virtual Enums.Nations? Nation { get; init; }
 
     /// <summary>
@@ -156,7 +146,6 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     政治面貌
     /// </summary>
     [JsonIgnore]
-    [EnumDataType(typeof(Enums.PoliticalStatues))]
     public virtual Enums.PoliticalStatues? PoliticalStatus { get; init; }
 
     /// <summary>
@@ -177,7 +166,6 @@ public record TbSysUserProfile : MutableEntity, IFieldSummary
     ///     性别
     /// </summary>
     [JsonIgnore]
-    [EnumDataType(typeof(Enums.Sexes))]
     public virtual Enums.Sexes? Sex { get; init; }
 
     /// <summary>

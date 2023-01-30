@@ -185,6 +185,5 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
     ///     菜单类型
     /// </summary>
     [JsonIgnore]
-    [EnumDataType(typeof(MenuTypes))]
     public virtual MenuTypes Type { get; init; }
 }

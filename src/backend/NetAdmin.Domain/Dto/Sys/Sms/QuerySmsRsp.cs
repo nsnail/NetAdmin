@@ -1,20 +1,18 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Sms;
 
 /// <summary>
-///     请求：核实短信验证码
+///     响应：查询短信
 /// </summary>
-public record VerifySmsCodeReq : TbSysSms
+public record QuerySmsRsp : TbSysSms
 {
     /// <inheritdoc />
-    [Required]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Code { get; init; }
+    public override long Id { get; init; }
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string DestMobile { get; init; }
+    public override long Version { get; init; }
 }

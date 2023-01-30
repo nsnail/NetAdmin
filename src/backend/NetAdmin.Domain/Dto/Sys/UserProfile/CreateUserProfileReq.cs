@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Mapster;
+using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
@@ -15,10 +17,12 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
     public override DateTime? BornDate { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.CertificateNumber" />
+    [Certificate]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string CertificateNumber { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.CertificateType" />
+    [EnumDataType(typeof(Enums.CertificateTypes))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Enums.CertificateTypes? CertificateType { get; init; }
 
@@ -36,10 +40,12 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
     public override string CompanyName { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.CompanyTelephone" />
+    [Telephone]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string CompanyTelephone { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.Education" />
+    [EnumDataType(typeof(Enums.Educations))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Enums.Educations? Education { get; init; }
 
@@ -53,6 +59,7 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
     public new QueryDicContentRsp EmergencyContactArea { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.EmergencyContactMobile" />
+    [Mobile]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string EmergencyContactMobile { get; init; }
 
@@ -65,6 +72,7 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
     public override string GraduateSchool { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.Height" />
+    [Range(100, 250)]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override int? Height { get; init; }
 
@@ -78,14 +86,17 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
     public new QueryDicContentRsp HomeArea { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.HomeTelephone" />
+    [Telephone]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string HomeTelephone { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.MarriageStatus" />
+    [EnumDataType(typeof(Enums.MarriageStatues))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Enums.MarriageStatues? MarriageStatus { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.Nation" />
+    [EnumDataType(typeof(Enums.Nations))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Enums.Nations? Nation { get; init; }
 
@@ -96,6 +107,7 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
 
     /// <inheritdoc cref="TbSysUserProfile.PoliticalStatus" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [EnumDataType(typeof(Enums.PoliticalStatues))]
     public override Enums.PoliticalStatues? PoliticalStatus { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.Profession" />
@@ -107,6 +119,7 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
     public override string RealName { get; init; }
 
     /// <inheritdoc cref="TbSysUserProfile.Sex" />
+    [EnumDataType(typeof(Enums.Sexes))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Enums.Sexes? Sex { get; init; }
 

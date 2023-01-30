@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Sys;
-using NetAdmin.Domain.Dto.Sys.Captcha;
+using NetAdmin.Domain.Dto.Sys.Sms;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
 
@@ -39,12 +39,13 @@ public record RegisterReq : TbSysUser
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [Required]
+    [UserName]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string UserName { get; init; }
 
     /// <summary>
-    ///     人机校验请求
+    ///     短信验证请求
     /// </summary>
     [Required]
-    public VerifyCaptchaReq VerifyCaptchaReq { get; init; }
+    public VerifySmsCodeReq VerifySmsCodeReq { get; init; }
 }

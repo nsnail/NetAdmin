@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NSExt.Attributes;
 
@@ -106,7 +105,6 @@ public record TbSysUser : MutableEntity, IFieldBitSet
     /// <summary>
     ///     用户名
     /// </summary>
-    [UserName]
     [JsonIgnore]
     [MaxLength(31)]
     public virtual string UserName { get; init; }

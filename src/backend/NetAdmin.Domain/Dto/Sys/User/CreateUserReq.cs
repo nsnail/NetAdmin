@@ -90,6 +90,7 @@ public record CreateUserReq : TbSysUser, IRegister
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [Required]
+    [UserName]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string UserName { get; init; }
 

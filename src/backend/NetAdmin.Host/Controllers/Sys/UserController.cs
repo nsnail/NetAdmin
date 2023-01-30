@@ -1,4 +1,5 @@
 using Furion;
+using Furion.FriendlyException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
@@ -16,20 +17,20 @@ namespace NetAdmin.Host.Controllers.Sys;
 /// </summary>
 public class UserController : ControllerBase<IUserService>, IUserModule
 {
-    private readonly ICaptchaCache _captchaCache;
-    private readonly IConfigCache  _configCache;
-    private readonly IUserCache    _userCache;
+    private readonly IConfigCache _configCache;
+    private readonly ISmsService  _smsService;
+    private readonly IUserCache   _userCache;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserController" /> class.
     /// </summary>
-    public UserController(IUserService  service, IUserCache userCache, IConfigCache configCache
-                        , ICaptchaCache captchaCache) //
+    public UserController(IUserService service, IUserCache userCache, IConfigCache configCache
+                        , ISmsService  smsService) //
         : base(service)
     {
-        _userCache    = userCache;
-        _configCache  = configCache;
-        _captchaCache = captchaCache;
+        _userCache   = userCache;
+        _configCache = configCache;
+        _smsService  = smsService;
     }
 
     /// <summary>
@@ -105,7 +106,9 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     [AllowAnonymous]
     public async Task Register(RegisterReq req)
     {
-        await _captchaCache.VerifyCaptchaAndRemove(req.VerifyCaptchaReq);
+        if (!await _smsService.VerifySmsCode(req.VerifySmsCodeReq)) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
+        }
 
         var config = await _configCache.GetLatestConfig();
 
@@ -115,6 +118,7 @@ public class UserController : ControllerBase<IUserService>, IUserModule
                                           , RoleIds = new[] { config.UserRegisterRoleId }
                                           , Profile = new CreateUserProfileReq()
                                           , Activated = !config.UserRegisterConfirm
+                                          , Mobile = req.VerifySmsCodeReq.DestMobile
                                         });
     }
 

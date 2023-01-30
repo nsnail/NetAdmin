@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Menu;
@@ -46,5 +47,6 @@ public record MetaInfo(string Icon,     string Title, TbSysMenu.MenuTypes Type, 
     /// <summary>
     ///     类型
     /// </summary>
+    [EnumDataType(typeof(TbSysMenu.MenuTypes))]
     public TbSysMenu.MenuTypes Type { get; init; } = Type;
 }

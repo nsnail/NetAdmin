@@ -28,7 +28,7 @@ public record TbSysDept : MutableEntity, IFieldBitSet, IFieldSummary, IFieldSort
     ///     部门名称
     /// </summary>
     [JsonIgnore]
-    [MaxLength(32)]
+    [MaxLength(31)]
     public virtual string Name { get; init; }
 
     /// <summary>
