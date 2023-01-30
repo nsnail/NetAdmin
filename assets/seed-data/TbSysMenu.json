@@ -22,7 +22,7 @@
                 "Id": 374967228141573,
                 "Name": "home-profile",
                 "Icon": "el-icon-user",
-                "Title": "帐号信息",
+                "Title": "账号信息",
                 "Tag": "NEW",
                 "Path": "/home/profile",
                 "Component": "home/profile",

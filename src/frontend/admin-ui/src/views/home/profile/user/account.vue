@@ -42,7 +42,7 @@
                 </el-input>
             </el-form-item>
             <el-form-item label="验证码">
-                <el-input v-model="form.mobile" prefix-icon="sc-icon-sms-code">
+                <el-input v-model="form.mobile" prefix-icon="el-icon-message">
                 </el-input>
             </el-form-item>
         </el-form>
@@ -91,10 +91,8 @@ export default {
         },
         unlinkMobile() {
             this.dialogVisible = true;
-
         }, linkMobile() {
             this.dialogVisible = true;
-
         },
         sendSmsCode() {
             this.$refs.verify.show();

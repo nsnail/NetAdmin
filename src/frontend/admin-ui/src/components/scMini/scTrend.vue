@@ -6,18 +6,16 @@
  * @LastEditors:
  * @LastEditTime:
 -->
-
 <template>
-	<span class="sc-trend" :class="'sc-trend--'+type">
-		<el-icon v-if="iconType=='P'" class="sc-trend-icon"><el-icon-top/></el-icon>
-		<el-icon v-if="iconType=='N'" class="sc-trend-icon"><el-icon-bottom/></el-icon>
-		<el-icon v-if="iconType=='Z'" class="sc-trend-icon"><el-icon-right/></el-icon>
-		<em class="sc-trend-prefix">{{ prefix }}</em>
-		<em class="sc-trend-value">{{ modelValue }}</em>
-		<em class="sc-trend-suffix">{{ suffix }}</em>
-	</span>
+    <span :class="'sc-trend--'+type" class="sc-trend">
+        <el-icon v-if="iconType=='P'" class="sc-trend-icon"><el-icon-top/></el-icon>
+        <el-icon v-if="iconType=='N'" class="sc-trend-icon"><el-icon-bottom/></el-icon>
+        <el-icon v-if="iconType=='Z'" class="sc-trend-icon"><el-icon-right/></el-icon>
+        <em class="sc-trend-prefix">{{ prefix }}</em>
+        <em class="sc-trend-value">{{ modelValue }}</em>
+        <em class="sc-trend-suffix">{{ suffix }}</em>
+    </span>
 </template>
-
 <script>
 export default {
     props: {
@@ -53,7 +51,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .sc-trend {
     display: flex;

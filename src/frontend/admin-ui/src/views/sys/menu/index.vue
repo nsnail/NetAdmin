@@ -1,43 +1,40 @@
 <template>
     <el-container>
-        <el-aside width="300px" v-loading="menuloading">
+        <el-aside v-loading="menuloading" width="300px">
             <el-container>
                 <el-header>
-                    <el-input placeholder="输入关键字进行过滤" v-model="menuFilterText" clearable></el-input>
+                    <el-input v-model="menuFilterText" clearable placeholder="输入关键字进行过滤"></el-input>
                 </el-header>
                 <el-main class="nopadding">
-                    <el-tree ref="menu" class="menu" node-key="id" :data="menuList" :props="menuProps" draggable
-                             highlight-current :expand-on-click-node="false" show-checkbox
-                             :filter-node-method="menuFilterNode" @node-click="menuClick" @node-drop="nodeDrop"
-                             :default-expand-all="true">
-
+                    <el-tree ref="menu" :data="menuList" :default-expand-all="true" :expand-on-click-node="false" :filter-node-method="menuFilterNode" :props="menuProps"
+                             class="menu" draggable highlight-current
+                             node-key="id" show-checkbox @node-click="menuClick"
+                             @node-drop="nodeDrop">
                         <template #default="{node, data}">
-							<span class="custom-tree-node el-tree-node__label">
-								<span class="label">
-									{{ node.label }}
-								</span>
-								<span class="do">
-									<el-icon @click.stop="add(node, data)"><el-icon-plus/></el-icon>
-								</span>
-							</span>
+                            <span class="custom-tree-node el-tree-node__label">
+                                <span class="label">
+                                    {{ node.label }}
+                                </span>
+                                <span class="do">
+                                    <el-icon @click.stop="add(node, data)"><el-icon-plus/></el-icon>
+                                </span>
+                            </span>
                         </template>
-
                     </el-tree>
                 </el-main>
                 <el-footer style="height:51px;">
-                    <el-button type="primary" size="small" icon="el-icon-plus" @click="add()"></el-button>
-                    <el-button type="danger" size="small" plain icon="el-icon-delete" @click="delMenu"></el-button>
+                    <el-button icon="el-icon-plus" size="small" type="primary" @click="add()"></el-button>
+                    <el-button icon="el-icon-delete" plain size="small" type="danger" @click="delMenu"></el-button>
                 </el-footer>
             </el-container>
         </el-aside>
         <el-container>
-            <el-main class="nopadding" style="padding:20px;" ref="main">
+            <el-main ref="main" class="nopadding" style="padding:20px;">
                 <save ref="save" :menu="menuList" @success="handleSuccess"></save>
             </el-main>
         </el-container>
     </el-container>
 </template>
-
 <script>
 let newMenuIndex = 1;
 import save from './save'
@@ -107,7 +104,6 @@ export default {
             var res = await this.$API.sys_menu.create.post(newMenuData)
             this.menuloading = false
             newMenuData.id = res.data.id
-
             this.$refs.menu.append(newMenuData, node)
             this.$refs.menu.setCurrentKey(newMenuData.id)
             var pid = node ? node.data.id : ""
@@ -120,7 +116,6 @@ export default {
                 this.$message.warning("请选择需要删除的项")
                 return false;
             }
-
             var confirm = await this.$confirm('确认删除已选择的菜单吗？', '提示', {
                 type: 'warning',
                 confirmButtonText: '删除',
@@ -130,7 +125,6 @@ export default {
             if (confirm != 'confirm') {
                 return false
             }
-
             this.menuloading = true
             var reqData = {
                 ids: CheckedNodes.map(item => item.id)
@@ -147,7 +141,6 @@ export default {
             } catch {
             }
             this.menuloading = false
-
         },
         handleSuccess() {
             this.$refs.save.setData({})
@@ -156,7 +149,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .menu:deep(.el-tree-node__label) {
     display: flex;

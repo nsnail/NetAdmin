@@ -134,13 +134,12 @@ export default {
             leftBarBorderColor = ref('#ddd'),
             iconColor = ref(undefined),
             iconClass = ref('icon-right'),
-            status = ref(false),	    //鼠标状态
-            isEnd = ref(false),		//是够验证完成
+            status = ref(false),        //鼠标状态
+            isEnd = ref(false),        //是够验证完成
             showRefresh = ref(true),
             transitionLeft = ref(''),
             transitionWidth = ref(''),
             startLeft = ref(0)
-
         const barArea = computed(() => {
             return proxy.$el.querySelector('.verify-bar-area')
         })
@@ -156,14 +155,12 @@ export default {
                 setSize.barWidth = barWidth
                 proxy.$parent.$emit('ready', proxy)
             })
-
             window.removeEventListener("touchmove", function (e) {
                 move(e);
             });
             window.removeEventListener("mousemove", function (e) {
                 move(e);
             });
-
             //鼠标松开
             window.removeEventListener("touchend", function () {
                 end();
@@ -171,14 +168,12 @@ export default {
             window.removeEventListener("mouseup", function () {
                 end();
             });
-
             window.addEventListener("touchmove", function (e) {
                 move(e);
             });
             window.addEventListener("mousemove", function (e) {
                 move(e);
             });
-
             //鼠标松开
             window.addEventListener("touchend", function () {
                 end();
@@ -255,7 +250,6 @@ export default {
                         aesEncrypt(moveLeftDistance, secretKey.value) : moveLeftDistance,
                     id: backToken.value
                 }
-
                 captcha.verifyCaptcha.post(data).then(res => {
                     if (res.data) {
                         moveBlockBackgroundColor.value = '#5cb85c'
@@ -300,19 +294,15 @@ export default {
         const refresh = () => {
             showRefresh.value = true
             finishText.value = ''
-
             transitionLeft.value = 'left .3s'
             moveBlockLeft.value = 0
-
             leftBarWidth.value = undefined
             transitionWidth.value = 'width .3s'
-
             leftBarBorderColor.value = '#ddd'
             moveBlockBackgroundColor.value = '#fff'
             iconColor.value = '#000'
             iconClass.value = 'icon-right'
             isEnd.value = false
-
             getPictrue()
             setTimeout(() => {
                 transitionWidth.value = ''
@@ -329,11 +319,9 @@ export default {
             var res;
             try {
                 res = await captcha.getCaptchaImage.post(data)
-
             } catch {
                 tipWords.value = '发生错误';
             }
-
             backImgBase.value = res.data.backgroundImage
             blockBackImgBase.value = res.data.sliderImage
             backToken.value = res.data.id
@@ -341,8 +329,6 @@ export default {
             if (secretKey.value.length > 32)
                 secretKey.value = secretKey.value.substring(0, 32)
             proxy.$parent.$emit('apiReady', res.data)
-
-
         }
 
         return {
@@ -367,8 +353,8 @@ export default {
             leftBarBorderColor,
             iconColor,
             iconClass,
-            status,	    //鼠标状态
-            isEnd,		//是够验证完成
+            status,        //鼠标状态
+            isEnd,        //是够验证完成
             showRefresh,
             transitionLeft,
             transitionWidth,

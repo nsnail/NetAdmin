@@ -42,6 +42,17 @@ delete :{
 },
 
 /**
+ * 获取最新有效配置
+ */
+getLatestConfig :{
+    url: `${config.API_URL}/api/config/get.latest.config`,
+        name: `获取最新有效配置`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
  * 分页查询配置
  */
 pagedQuery :{

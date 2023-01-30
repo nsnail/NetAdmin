@@ -1,36 +1,35 @@
 <template>
-    <el-dialog v-model="dialogVisible" :title="titleMap[type-1]" :width="type==1?680:460" destroy-on-close
-               append-to-body @closed="$emit('closed')">
-
+    <el-dialog v-model="dialogVisible" :title="titleMap[type-1]" :width="type==1?680:460" append-to-body
+               destroy-on-close @closed="$emit('closed')">
         <template v-if="type==1">
             <div class="sc-user-select">
                 <div class="sc-user-select__left">
                     <div class="sc-user-select__search">
-                        <el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="搜索成员">
+                        <el-input v-model="keyword" placeholder="搜索成员" prefix-icon="el-icon-search">
                             <template #append>
                                 <el-button icon="el-icon-search" @click="search"></el-button>
                             </template>
                         </el-input>
                     </div>
                     <div class="sc-user-select__select">
-                        <div class="sc-user-select__tree" v-loading="showGrouploading">
+                        <div v-loading="showGrouploading" class="sc-user-select__tree">
                             <el-scrollbar>
-                                <el-tree class="menu" ref="groupTree" :data="group" :node-key="groupProps.key"
-                                         :props="groupProps" highlight-current :expand-on-click-node="false"
-                                         :current-node-key="groupId" @node-click="groupClick"/>
+                                <el-tree ref="groupTree" :current-node-key="groupId" :data="group" :expand-on-click-node="false"
+                                         :node-key="groupProps.key" :props="groupProps" class="menu"
+                                         highlight-current @node-click="groupClick"/>
                             </el-scrollbar>
                         </div>
-                        <div class="sc-user-select__user" v-loading="showUserloading">
+                        <div v-loading="showUserloading" class="sc-user-select__user">
                             <div class="sc-user-select__user__list">
                                 <el-scrollbar ref="userScrollbar">
-                                    <el-tree class="menu" ref="userTree" :data="user" :node-key="userProps.key"
-                                             :props="userProps" :default-checked-keys="selectedIds" show-checkbox
-                                             check-on-click-node @check-change="userClick"></el-tree>
+                                    <el-tree ref="userTree" :data="user" :default-checked-keys="selectedIds" :node-key="userProps.key"
+                                             :props="userProps" check-on-click-node class="menu"
+                                             show-checkbox @check-change="userClick"></el-tree>
                                 </el-scrollbar>
                             </div>
                             <footer>
-                                <el-pagination background layout="prev,next" small :total="total" :page-size="pageSize"
-                                               v-model:currentPage="currentPage"
+                                <el-pagination v-model:currentPage="currentPage" :page-size="pageSize" :total="total" background layout="prev,next"
+                                               small
                                                @current-change="paginationChange"></el-pagination>
                             </footer>
                         </div>
@@ -46,30 +45,29 @@
                     <ul>
                         <el-scrollbar>
                             <li v-for="(item, index) in selected" :key="item.id">
-								<span class="name">
-									<el-avatar size="small">{{ item.name.substring(0, 1) }}</el-avatar>
-									<label>{{ item.name }}</label>
-								</span>
+                                <span class="name">
+                                    <el-avatar size="small">{{ item.name.substring(0, 1) }}</el-avatar>
+                                    <label>{{ item.name }}</label>
+                                </span>
                                 <span class="delete">
-									<el-button type="danger" icon="el-icon-delete" circle size="small"
+                                    <el-button circle icon="el-icon-delete" size="small" type="danger"
                                                @click="deleteSelected(index)"></el-button>
-								</span>
+                                </span>
                             </li>
                         </el-scrollbar>
                     </ul>
                 </div>
             </div>
         </template>
-
         <template v-if="type==2">
             <div class="sc-user-select sc-user-select-role">
                 <div class="sc-user-select__left">
                     <div class="sc-user-select__select">
-                        <div class="sc-user-select__tree" v-loading="showGrouploading">
+                        <div v-loading="showGrouploading" class="sc-user-select__tree">
                             <el-scrollbar>
-                                <el-tree class="menu" ref="groupTree" :data="role" :node-key="roleProps.key"
-                                         :props="roleProps" show-checkbox check-strictly check-on-click-node
-                                         :expand-on-click-node="false" :default-checked-keys="selectedIds"
+                                <el-tree ref="groupTree" :data="role" :default-checked-keys="selectedIds" :expand-on-click-node="false"
+                                         :node-key="roleProps.key" :props="roleProps" check-on-click-node check-strictly
+                                         class="menu" show-checkbox
                                          @check-change="roleClick"/>
                             </el-scrollbar>
                         </div>
@@ -85,28 +83,25 @@
                     <ul>
                         <el-scrollbar>
                             <li v-for="(item, index) in selected" :key="item.id">
-								<span class="name">
-									<label>{{ item.name }}</label>
-								</span>
+                                <span class="name">
+                                    <label>{{ item.name }}</label>
+                                </span>
                                 <span class="delete">
-									<el-button type="danger" icon="el-icon-delete" circle size="small"
+                                    <el-button circle icon="el-icon-delete" size="small" type="danger"
                                                @click="deleteSelected(index)"></el-button>
-								</span>
+                                </span>
                             </li>
                         </el-scrollbar>
                     </ul>
                 </div>
             </div>
         </template>
-
-
         <template #footer>
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="save">确 认</el-button>
         </template>
     </el-dialog>
 </template>
-
 <script>
 import config from "@/config/workflow";
 
@@ -119,7 +114,6 @@ export default {
             groupProps: config.group.props,
             userProps: config.user.props,
             roleProps: config.role.props,
-
             titleMap: ['人员选择', '角色选择'],
             dialogVisible: false,
             showGrouploading: false,
@@ -143,7 +137,6 @@ export default {
         }
     },
     mounted() {
-
     },
     methods: {
         //打开赋值
@@ -152,14 +145,12 @@ export default {
             this.value = data || []
             this.selected = JSON.parse(JSON.stringify(data || []))
             this.dialogVisible = true
-
             if (this.type == 1) {
                 this.getGroup()
                 this.getUser()
             } else if (this.type == 2) {
                 this.getRole()
             }
-
         },
         //获取组织
         async getGroup() {
@@ -252,7 +243,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .sc-user-select {
     display: flex;

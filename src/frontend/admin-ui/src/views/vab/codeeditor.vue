@@ -1,10 +1,10 @@
 <template>
     <el-main>
-        <el-alert title="感谢codeMirror组件" type="success" style="margin-bottom:20px;"></el-alert>
+        <el-alert style="margin-bottom:20px;" title="感谢codeMirror组件" type="success"></el-alert>
         <el-row :gutter="15">
             <el-col :lg="24">
-                <el-card shadow="never" header="JSON">
-                    <sc-code-editor ref="editor" v-model="json" mode="javascript" :height="200"></sc-code-editor>
+                <el-card header="JSON" shadow="never">
+                    <sc-code-editor ref="editor" v-model="json" :height="200" mode="javascript"></sc-code-editor>
                     <div style="margin-top: 15px;">
                         <el-button type="primary" @click="getCode">获取v-model</el-button>
                         <el-button type="primary" @click="getValue">getValue()</el-button>
@@ -13,25 +13,22 @@
                 </el-card>
             </el-col>
             <el-col :lg="12">
-                <el-card shadow="never" header="javascript Darcula主题">
+                <el-card header="javascript Darcula主题" shadow="never">
                     <sc-code-editor v-model="js" mode="javascript" theme="darcula"></sc-code-editor>
                 </el-card>
             </el-col>
-
             <el-col :lg="12">
-                <el-card shadow="never" header="SQL">
+                <el-card header="SQL" shadow="never">
                     <sc-code-editor v-model="sql" mode="sql"></sc-code-editor>
                 </el-card>
             </el-col>
         </el-row>
     </el-main>
 </template>
-
 <script>
 import {defineAsyncComponent} from 'vue';
 
 const scCodeEditor = defineAsyncComponent(() => import('@/components/scCodeEditor'));
-
 export default {
     name: "codeeditor",
     components: {
@@ -41,25 +38,25 @@ export default {
         return {
             json:
                 `{
-	"name": "SCUI",
-	"menu": [
-		{
-			"title": "VUE 3",
-			"type": true,
-			"link": "https://v3.cn.vuejs.org"
-		},
-		{
-			"title": "elementplus",
-			"type": false,
-			"link": "https://element-plus.gitee.io"
-		}
-	]
+    "name": "SCUI",
+    "menu": [
+        {
+            "title": "VUE 3",
+            "type": true,
+            "link": "https://v3.cn.vuejs.org"
+        },
+        {
+            "title": "elementplus",
+            "type": false,
+            "link": "https://element-plus.gitee.io"
+        }
+    ]
 }`,
             js:
                 `// Demo code (the actual new parser character stream implementation)
 function StringStream(string) {
-	this.pos = 0;
-	this.string = string;
+    this.pos = 0;
+    this.string = string;
 }`,
             sql:
                 `SELECT \`author\`, \`title\` FROM \`posts\`
@@ -70,12 +67,10 @@ ORDER BY \`created_at\` DESC, \`id\` DESC LIMIT 0, 10;`
     methods: {
         getCode() {
             this.$message("请查看控制台")
-
         },
         getValue() {
             this.$message("请查看控制台")
             var v = this.$refs.editor.coder.getValue()
-
         },
         setValue() {
             var v = `{"key":"newValue"}`
@@ -84,6 +79,5 @@ ORDER BY \`created_at\` DESC, \`id\` DESC LIMIT 0, 10;`
     }
 }
 </script>
-
 <style>
 </style>

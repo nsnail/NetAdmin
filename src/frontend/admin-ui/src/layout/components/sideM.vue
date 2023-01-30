@@ -1,29 +1,26 @@
 <template>
-    <div ref="" class="mobile-nav-button" @click="showMobileNav($event)" v-drag draggable="false">
+    <div ref="" v-drag class="mobile-nav-button" draggable="false" @click="showMobileNav($event)">
         <el-icon>
             <el-icon-menu/>
         </el-icon>
     </div>
-
-    <el-drawer ref="mobileNavBox" title="移动端菜单" :size="240" v-model="nav" direction="ltr" :with-header="false"
-               destroy-on-close>
+    <el-drawer ref="mobileNavBox" v-model="nav" :size="240" :with-header="false" destroy-on-close direction="ltr"
+               title="移动端菜单">
         <el-container class="mobile-nav">
             <el-header>
                 <div class="logo-bar"><img class="logo" src="img/logo.png"><span>{{ $CONFIG.APP_NAME }}</span></div>
             </el-header>
             <el-main>
                 <el-scrollbar>
-                    <el-menu :default-active="$route.meta.active || $route.fullPath" @select="select" router
-                             background-color="#212d3d" text-color="#fff" active-text-color="#409EFF">
+                    <el-menu :default-active="$route.meta.active || $route.fullPath" active-text-color="#409EFF" background-color="#212d3d"
+                             router text-color="#fff" @select="select">
                         <NavMenu :navMenus="menu"></NavMenu>
                     </el-menu>
                 </el-scrollbar>
             </el-main>
         </el-container>
     </el-drawer>
-
 </template>
-
 <script>
 import NavMenu from './NavMenu.vue';
 
@@ -42,7 +39,6 @@ export default {
         var menu = this.$router.sc_getMenu()
         this.menu = this.filterUrl(menu)
     },
-
     watch: {},
     methods: {
         showMobileNav(e) {
@@ -52,7 +48,6 @@ export default {
             } else {
                 this.nav = true;
             }
-
         },
         select() {
             this.$refs.mobileNavBox.handleClose()
@@ -85,7 +80,7 @@ export default {
             let firstTime = '', lastTime = '';
             //禁止选择网页上的文字
             // document.onselectstart = function() {
-            // 	return false;
+            //     return false;
             // };
             oDiv.onmousedown = function (e) {
                 //鼠标按下，计算当前元素距离可视区的距离
@@ -97,17 +92,13 @@ export default {
                     //通过事件委托，计算移动的距离
                     let l = e.clientX - disX;
                     let t = e.clientY - disY;
-
                     //移动当前元素
-
                     if (t > 0 && t < document.body.clientHeight - 50) {
                         oDiv.style.top = t + "px";
                     }
                     if (l > 0 && l < document.body.clientWidth - 50) {
                         oDiv.style.left = l + "px";
                     }
-
-
                 }
                 document.onmouseup = function () {
                     lastTime = new Date().getTime();
@@ -124,7 +115,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .mobile-nav-button {
     position: fixed;

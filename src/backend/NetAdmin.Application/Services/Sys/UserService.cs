@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using FreeSql;
 using Furion.DataEncryption;
@@ -5,9 +6,11 @@ using Furion.FriendlyException;
 using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Sms;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NSExt.Extensions;
@@ -31,15 +34,18 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
       , Roles       = a.Roles
     };
 
+    private readonly ISmsService _smsService;
+
     private readonly IUserProfileService _userProfileService;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserService" /> class.
     /// </summary>
-    public UserService(Repository<TbSysUser> rpo, IUserProfileService userProfileService) //
+    public UserService(Repository<TbSysUser> rpo, IUserProfileService userProfileService, ISmsService smsService) //
         : base(rpo)
     {
         _userProfileService = userProfileService;
+        _smsService         = smsService;
     }
 
     /// <summary>
@@ -53,6 +59,18 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         }
 
         return sum;
+    }
+
+    /// <inheritdoc />
+    public async Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req)
+    {
+        return !await Rpo.Select.Where(a => a.Mobile == req.Mobile).AnyAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req)
+    {
+        return !await Rpo.Select.Where(a => a.UserName == req.UserName).AnyAsync();
     }
 
     /// <summary>
@@ -82,33 +100,6 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         throw new NotImplementedException();
     }
 
-    /// <inheritdoc />
-    public async Task<LoginRsp> Login(LoginReq req)
-    {
-        var dbUser = await Rpo.GetAsync(a => a.UserName == req.UserName && a.Password == req.Password.Pwd().Guid());
-        if (dbUser is null) {
-            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_name_or_password_error);
-        }
-
-        if (!dbUser.BitSet.HasFlag(EntityBase.BitSets.Enabled)) {
-            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_disabled);
-        }
-
-        if (!dbUser.BitSet.HasFlag(TbSysUser.UserBits.Activated)) {
-            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Please_contact_the_administrator_to_activate_the_account);
-        }
-
-        var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
-
-        var accessToken = JWTEncryption.Encrypt(tokenPayload);
-        var ret = new LoginRsp {
-                                   AccessToken  = accessToken
-                                 , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
-                               };
-
-        return ret;
-    }
-
     /// <summary>
     ///     分页查询用户
     /// </summary>
@@ -118,6 +109,22 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
                                                    .Count(out var total)
                                                    .ToListAsync(_selectUserFields);
         return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
+    }
+
+    /// <inheritdoc />
+    public async Task<LoginRsp> PwdLogin(PwdLoginReq req)
+    {
+        var pwd = req.Password.Pwd().Guid();
+
+        var dbUser = new MobileAttribute().IsValid(req.Account)
+            ?
+            await Rpo.GetAsync(a => a.Mobile == req.Account && a.Password == pwd)
+            : new EmailAddressAttribute().IsValid(req.Account)
+                ? await Rpo.GetAsync(a => a.Email    == req.Account && a.Password == pwd)
+                : await Rpo.GetAsync(a => a.UserName == req.Account && a.Password == pwd);
+        return dbUser is null
+            ? throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_name_or_password_error)
+            : LoginInternal(dbUser);
     }
 
     /// <summary>
@@ -140,8 +147,42 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <inheritdoc />
     public async Task Register(RegisterReq req)
     {
+        if (!await _smsService.VerifySmsCode(req.VerifySmsCodeReq)) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
+        }
+
         var createReq = req.Adapt<CreateUserReq>();
         await Create(createReq);
+    }
+
+    /// <inheritdoc />
+    public async Task ResetPassword(ResetPasswordReq req)
+    {
+        if (!await _smsService.VerifySmsCode(req.VerifySmsCodeReq)) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
+        }
+
+        var dbUser = await Rpo.GetAsync(a => a.Mobile == req.VerifySmsCodeReq.DestMobile);
+        if (dbUser is null) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_does_not_exist);
+        }
+
+        dbUser.Password = req.PasswordText.Pwd().Guid();
+
+        await Rpo.UpdateDiy.SetSource(dbUser).ExecuteAffrowsAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task<LoginRsp> SmsLogin(SmsLoginReq req)
+    {
+        if (!await _smsService.VerifySmsCode(req.Adapt<VerifySmsCodeReq>())) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
+        }
+
+        var dbUser = await Rpo.GetAsync(a => a.Mobile == req.DestMobile);
+        return dbUser is null
+            ? throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_does_not_exist)
+            : LoginInternal(dbUser);
     }
 
     /// <summary>
@@ -187,6 +228,27 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
                                           .IncludeMany(a => a.Apis))
                               .ToOneAsync();
         return dbUser.Adapt<QueryUserRsp>();
+    }
+
+    private static LoginRsp LoginInternal(IFieldBitSet dbUser)
+    {
+        if (!dbUser.BitSet.HasFlag(EntityBase.BitSets.Enabled)) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_disabled);
+        }
+
+        if (!dbUser.BitSet.HasFlag(TbSysUser.UserBits.Activated)) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Please_contact_the_administrator_to_activate_the_account);
+        }
+
+        var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
+
+        var accessToken = JWTEncryption.Encrypt(tokenPayload);
+        var ret = new LoginRsp {
+                                   AccessToken  = accessToken
+                                 , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
+                               };
+
+        return ret;
     }
 
     private async Task CreateUpdateCheck(CreateUserReq req)

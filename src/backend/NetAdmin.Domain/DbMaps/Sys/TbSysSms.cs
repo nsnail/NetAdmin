@@ -73,6 +73,13 @@ public record TbSysSms : MutableEntity
         ///     注册
         /// </summary>
         Register = 4
+
+       ,
+
+        /// <summary>
+        ///     重设密码
+        /// </summary>
+        ResetPassword = 5
     }
 
     /// <summary>

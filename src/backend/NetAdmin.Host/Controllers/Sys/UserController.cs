@@ -1,5 +1,4 @@
 using Furion;
-using Furion.FriendlyException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
@@ -18,19 +17,16 @@ namespace NetAdmin.Host.Controllers.Sys;
 public class UserController : ControllerBase<IUserService>, IUserModule
 {
     private readonly IConfigCache _configCache;
-    private readonly ISmsService  _smsService;
     private readonly IUserCache   _userCache;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserController" /> class.
     /// </summary>
-    public UserController(IUserService service, IUserCache userCache, IConfigCache configCache
-                        , ISmsService  smsService) //
+    public UserController(IUserService service, IUserCache userCache, IConfigCache configCache) //
         : base(service)
     {
         _userCache   = userCache;
         _configCache = configCache;
-        _smsService  = smsService;
     }
 
     /// <summary>
@@ -41,6 +37,24 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     public async Task<int> BulkDelete(BulkReq<DelReq> req)
     {
         return await Service.BulkDelete(req);
+    }
+
+    /// <summary>
+    ///     检查手机号是否可用
+    /// </summary>
+    [AllowAnonymous]
+    public async Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req)
+    {
+        return await Service.CheckMobileAvaliable(req);
+    }
+
+    /// <summary>
+    ///     检查用户名是否可用
+    /// </summary>
+    [AllowAnonymous]
+    public async Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req)
+    {
+        return await Service.CheckUserNameAvaliable(req);
     }
 
     /// <summary>
@@ -62,25 +76,23 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     }
 
     /// <summary>
-    ///     用户登录
-    /// </summary>
-    [AllowAnonymous]
-    public async Task<LoginRsp> Login(LoginReq req)
-    {
-        var ret = await Service.Login(req);
-
-        // 设置响应报文头
-        App.HttpContext.Response.Headers[Chars.FLG_ACCESS_TOKEN]   = ret.AccessToken;
-        App.HttpContext.Response.Headers[Chars.FLG_X_ACCESS_TOKEN] = ret.RefreshToken;
-        return ret;
-    }
-
-    /// <summary>
     ///     分页查询用户
     /// </summary>
     public async Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
     {
         return await Service.PagedQuery(req);
+    }
+
+    /// <summary>
+    ///     密码登录
+    /// </summary>
+    [AllowAnonymous]
+    public async Task<LoginRsp> PwdLogin(PwdLoginReq req)
+    {
+        var ret = await Service.PwdLogin(req);
+
+        SetHeaderToken(ret);
+        return ret;
     }
 
     /// <summary>
@@ -106,10 +118,6 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     [AllowAnonymous]
     public async Task Register(RegisterReq req)
     {
-        if (!await _smsService.VerifySmsCode(req.VerifySmsCodeReq)) {
-            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
-        }
-
         var config = await _configCache.GetLatestConfig();
 
         await Service.Register(req with {
@@ -120,6 +128,27 @@ public class UserController : ControllerBase<IUserService>, IUserModule
                                           , Activated = !config.UserRegisterConfirm
                                           , Mobile = req.VerifySmsCodeReq.DestMobile
                                         });
+    }
+
+    /// <summary>
+    ///     重设密码
+    /// </summary>
+    [AllowAnonymous]
+    public async Task ResetPassword(ResetPasswordReq req)
+    {
+        await Service.ResetPassword(req);
+    }
+
+    /// <summary>
+    ///     短信登录
+    /// </summary>
+    [AllowAnonymous]
+    [Transaction]
+    public async Task<LoginRsp> SmsLogin(SmsLoginReq req)
+    {
+        var ret = await Service.SmsLogin(req);
+        SetHeaderToken(ret);
+        return ret;
     }
 
     /// <summary>
@@ -137,5 +166,12 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     public async Task<QueryUserRsp> UserInfo()
     {
         return await _userCache.UserInfo();
+    }
+
+    private static void SetHeaderToken(LoginRsp ret)
+    {
+        // 设置响应报文头
+        App.HttpContext.Response.Headers[Chars.FLG_ACCESS_TOKEN]   = ret.AccessToken;
+        App.HttpContext.Response.Headers[Chars.FLG_X_ACCESS_TOKEN] = ret.RefreshToken;
     }
 }

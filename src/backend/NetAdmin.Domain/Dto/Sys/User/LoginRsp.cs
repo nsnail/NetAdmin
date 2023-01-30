@@ -1,7 +1,7 @@
 namespace NetAdmin.Domain.Dto.Sys.User;
 
 /// <summary>
-///     响应：用户登录
+///     响应：密码登录
 /// </summary>
 public record LoginRsp : DataAbstraction
 {

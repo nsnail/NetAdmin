@@ -1,12 +1,12 @@
 <template>
     <el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large" @keyup.enter="login">
-        <el-form-item prop="user">
-            <el-input v-model="form.user" :placeholder="$t('login.userPlaceholder')" clearable
+        <el-form-item prop="account">
+            <el-input v-model="form.account" :placeholder="$t('login.userPlaceholder')" clearable maxlength="16"
                       prefix-icon="el-icon-user">
             </el-input>
         </el-form-item>
         <el-form-item prop="password">
-            <el-input v-model="form.password" :placeholder="$t('login.PWPlaceholder')" clearable
+            <el-input v-model="form.password" :placeholder="$t('login.PWPlaceholder')" clearable maxlength="16"
                       prefix-icon="el-icon-lock"
                       show-password></el-input>
         </el-form-item>
@@ -36,12 +36,12 @@ export default {
     data() {
         return {
             form: {
-                user: "root",
+                account: "root",
                 password: "1234qwer",
                 autologin: false
             },
             rules: {
-                user: [
+                account: [
                     {required: true, message: this.$t('login.userError'), trigger: 'blur'}
                 ],
                 password: [
@@ -53,7 +53,6 @@ export default {
     },
     watch: {},
     mounted() {
-
     },
     methods: {
         async login() {
@@ -62,21 +61,14 @@ export default {
             if (!validate) {
                 return false
             }
-
             this.islogin = true
-            var data = {
-                username: this.form.user,
-                password: this.form.password
-            }
             //获取token
             try {
-                await this.$API.sys_user.login.post(data)
+                await this.$API.sys_user.pwdLogin.post(this.form)
             } catch {
                 this.islogin = false
                 return false
             }
-
-
             //获取用户信息
             try {
                 var userInfo = await this.$API.sys_user.userInfo.post()
@@ -85,7 +77,6 @@ export default {
                 this.islogin = false
                 return false
             }
-
             //获取菜单
             try {
                 var menu = await this.$API.sys_menu.userMenus.post()
@@ -102,11 +93,7 @@ export default {
                 this.islogin = false
                 return false
             }
-
-
             // this.$TOOL.data.set("PERMISSIONS", menu.data.permissions)
-
-
             this.$TOOL.data.set("DASHBOARDGRID", [
                 "welcome",
                 "ver",
@@ -115,7 +102,6 @@ export default {
                 "echarts",
                 "about"
             ])
-
             this.$router.replace({
                 path: '/'
             })

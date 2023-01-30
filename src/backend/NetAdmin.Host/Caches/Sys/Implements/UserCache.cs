@@ -23,6 +23,16 @@ public class UserCache : CacheBase<IUserService>, IScoped, IUserCache
         throw new NotImplementedException();
     }
 
+    public Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<QueryUserRsp> Create(CreateUserReq req)
     {
         throw new NotImplementedException();
@@ -33,12 +43,12 @@ public class UserCache : CacheBase<IUserService>, IScoped, IUserCache
         throw new NotImplementedException();
     }
 
-    public Task<LoginRsp> Login(LoginReq req)
+    public Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
+    public Task<LoginRsp> PwdLogin(PwdLoginReq req)
     {
         throw new NotImplementedException();
     }
@@ -54,6 +64,16 @@ public class UserCache : CacheBase<IUserService>, IScoped, IUserCache
     }
 
     public Task Register(RegisterReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task ResetPassword(ResetPasswordReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<LoginRsp> SmsLogin(SmsLoginReq req)
     {
         throw new NotImplementedException();
     }

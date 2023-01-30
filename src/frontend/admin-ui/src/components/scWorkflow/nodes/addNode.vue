@@ -1,9 +1,9 @@
 <template>
     <div class="add-node-btn-box">
         <div class="add-node-btn">
-            <el-popover placement="right-start" :width="270" trigger="click" :hide-after="0" :show-after="0">
+            <el-popover :hide-after="0" :show-after="0" :width="270" placement="right-start" trigger="click">
                 <template #reference>
-                    <el-button type="primary" icon="el-icon-plus" circle></el-button>
+                    <el-button circle icon="el-icon-plus" type="primary"></el-button>
                 </template>
                 <div class="add-node-popover-body">
                     <ul>
@@ -31,7 +31,6 @@
         </div>
     </div>
 </template>
-
 <script>
 export default {
     props: {
@@ -44,7 +43,6 @@ export default {
         return {}
     },
     mounted() {
-
     },
     methods: {
         addType(type) {
@@ -52,18 +50,18 @@ export default {
             if (type == 1) {
                 node = {
                     nodeName: "审核人",
-                    type: 1,			//节点类型
-                    setType: 1,			//审核人类型
-                    nodeUserList: [],	//审核人成员
-                    nodeRoleList: [],	//审核角色
-                    examineLevel: 1,	//指定主管层级
-                    directorLevel: 1,	//自定义连续主管审批层级
-                    selectMode: 1,		//发起人自选类型
-                    termAuto: false,	//审批期限超时自动审批
-                    term: 0,			//审批期限
-                    termMode: 1,		//审批期限超时后执行类型
-                    examineMode: 1,		//多人审批时审批方式
-                    directorMode: 0,	//连续主管审批方式
+                    type: 1,            //节点类型
+                    setType: 1,            //审核人类型
+                    nodeUserList: [],    //审核人成员
+                    nodeRoleList: [],    //审核角色
+                    examineLevel: 1,    //指定主管层级
+                    directorLevel: 1,    //自定义连续主管审批层级
+                    selectMode: 1,        //发起人自选类型
+                    termAuto: false,    //审批期限超时自动审批
+                    term: 0,            //审批期限
+                    termMode: 1,        //审批期限超时后执行类型
+                    examineMode: 1,        //多人审批时审批方式
+                    directorMode: 0,    //连续主管审批方式
                     childNode: this.modelValue
                 }
             } else if (type == 2) {
@@ -74,7 +72,6 @@ export default {
                     nodeUserList: [],
                     childNode: this.modelValue
                 }
-
             } else if (type == 4) {
                 node = {
                     nodeName: "条件路由",
@@ -97,13 +94,11 @@ export default {
                     ],
                     childNode: this.modelValue
                 }
-
             }
             this.$emit("update:modelValue", node)
         }
     }
 }
 </script>
-
 <style>
 </style>

@@ -1,9 +1,8 @@
 <template>
     <div class="sceditor">
-        <Editor v-model="contentValue" :init="init" :disabled="disabled" :placeholder="placeholder" @onClick="onClick"/>
+        <Editor v-model="contentValue" :disabled="disabled" :init="init" :placeholder="placeholder" @onClick="onClick"/>
     </div>
 </template>
-
 <script>
 import API from "@/api";
 import Editor from '@tinymce/tinymce-vue'
@@ -11,20 +10,18 @@ import tinymce from 'tinymce/tinymce'
 import 'tinymce/themes/silver'
 import 'tinymce/icons/default'
 import 'tinymce/models/dom'
-
 // 引入编辑器插件
-import 'tinymce/plugins/code'  //编辑源码
-import 'tinymce/plugins/image'  //插入编辑图片
-import 'tinymce/plugins/media'  //插入视频
-import 'tinymce/plugins/link'  //超链接
-import 'tinymce/plugins/preview'//预览
-import 'tinymce/plugins/template'//模板
-import 'tinymce/plugins/table'  //表格
-import 'tinymce/plugins/pagebreak'  //分页
-import 'tinymce/plugins/lists'  //列
-import 'tinymce/plugins/advlist'  //列
-import 'tinymce/plugins/quickbars'  //快速工具条
-
+import 'tinymce/plugins/code' //编辑源码
+import 'tinymce/plugins/image' //插入编辑图片
+import 'tinymce/plugins/media' //插入视频
+import 'tinymce/plugins/link' //超链接
+import 'tinymce/plugins/preview' //预览
+import 'tinymce/plugins/template' //模板
+import 'tinymce/plugins/table' //表格
+import 'tinymce/plugins/pagebreak' //分页
+import 'tinymce/plugins/lists' //列
+import 'tinymce/plugins/advlist' //列
+import 'tinymce/plugins/quickbars' //快速工具条
 export default {
     components: {
         Editor
@@ -53,8 +50,8 @@ export default {
         toolbar: {
             type: [String, Array],
             default: 'undo redo |  forecolor backcolor bold italic underline strikethrough link | blocks fontfamily fontsize | \
-					alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | pagebreak | \
-					image media table template preview | code selectall'
+                    alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | pagebreak | \
+                    image media table template preview | code selectall'
         },
         templates: {
             type: Array,
@@ -143,6 +140,5 @@ export default {
     }
 }
 </script>
-
 <style>
 </style>

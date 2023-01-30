@@ -6,15 +6,15 @@
                 <h4>{{ $t('login.slogan') }}</h4>
                 <p>{{ $t('login.describe') }}</p>
                 <div>
-					<span>
-						<el-icon><sc-icon-vue/></el-icon>
-					</span>
                     <span>
-						<el-icon class="add"><el-icon-plus/></el-icon>
-					</span>
+                        <el-icon><sc-icon-vue/></el-icon>
+                    </span>
                     <span>
-						<el-icon><el-icon-eleme-filled/></el-icon>
-					</span>
+                        <el-icon class="add"><el-icon-plus/></el-icon>
+                    </span>
+                    <span>
+                        <el-icon><el-icon-eleme-filled/></el-icon>
+                    </span>
                 </div>
             </div>
             <div class="login_adv__mask"></div>
@@ -26,11 +26,12 @@
             <div class="login_config">
                 <el-button :icon="config.dark?'el-icon-sunny':'el-icon-moon'" circle type="info"
                            @click="configDark"></el-button>
-                <el-dropdown trigger="click" placement="bottom-end" @command="configLang">
+                <el-dropdown placement="bottom-end" trigger="click" @command="configLang">
                     <el-button circle>
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                             aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet"
-                             viewBox="0 0 512 512">
+                        <svg aria-hidden="true" height="1em"
+                             preserveAspectRatio="xMidYMid meet" role="img" viewBox="0 0 512 512" width="1em"
+                             xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <path
                                 d="M478.33 433.6l-90-218a22 22 0 0 0-40.67 0l-90 218a22 22 0 1 0 40.67 16.79L316.66 406h102.67l18.33 44.39A22 22 0 0 0 458 464a22 22 0 0 0 20.32-30.4zM334.83 362L368 281.65L401.17 362z"
                                 fill="currentColor"></path>
@@ -41,8 +42,9 @@
                     </el-button>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item v-for="item in lang" :key="item.value" :command="item"
-                                              :class="{'selected':config.lang==item.value}">{{ item.name }}
+                            <el-dropdown-item v-for="item in lang" :key="item.value"
+                                              :class="{'selected':config.lang==item.value}"
+                                              :command="item">{{ item.name }}
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
@@ -56,7 +58,7 @@
                     </div>
                 </div>
                 <el-tabs>
-                    <el-tab-pane :label="$t('login.accountLogin')" lazy>
+                    <el-tab-pane :label="$t('login.passwordLogin')" lazy>
                         <password-form></password-form>
                     </el-tab-pane>
                     <el-tab-pane :label="$t('login.mobileLogin')" lazy>
@@ -66,7 +68,7 @@
                 <template v-if="$CONFIG.MY_SHOW_LOGIN_OAUTH">
                     <el-divider>{{ $t('login.signInOther') }}</el-divider>
                     <div class="login-oauth">
-                        <el-button type="success" icon="sc-icon-wechat" circle @click="wechatLogin"></el-button>
+                        <el-button circle icon="sc-icon-wechat" type="success" @click="wechatLogin"></el-button>
                     </div>
                 </template>
             </div>
@@ -74,16 +76,15 @@
     </div>
     <el-dialog v-model="showWechatLogin" :title="$t('login.wechatLoginTitle')" :width="400" destroy-on-close>
         <div class="qrCodeLogin">
-            <sc-qr-code class="qrCode" :text="WechatLoginCode" :size="200"></sc-qr-code>
+            <sc-qr-code :size="200" :text="WechatLoginCode" class="qrCode"></sc-qr-code>
             <p class="msg">{{ $tc('login.wechatLoginMsg', 1) }}<br/>{{ $tc('login.wechatLoginMsg', 2) }}</p>
-            <div class="qrCodeLogin-result" v-if="isWechatLoginResult">
-                <el-result icon="success" :title="$tc('login.wechatLoginResult', 1)"
-                           :sub-title="$tc('login.wechatLoginResult', 2)"></el-result>
+            <div v-if="isWechatLoginResult" class="qrCodeLogin-result">
+                <el-result :sub-title="$tc('login.wechatLoginResult', 2)" :title="$tc('login.wechatLoginResult', 1)"
+                           icon="success"></el-result>
             </div>
         </div>
     </el-dialog>
 </template>
-
 <script>
 import passwordForm from './components/passwordForm'
 import phoneForm from './components/phoneForm'
@@ -139,7 +140,6 @@ export default {
         this.$store.commit("clearViewTags")
         this.$store.commit("clearKeepLive")
         this.$store.commit("clearIframeList")
-
     },
     methods: {
         configDark() {
@@ -159,7 +159,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .login_bg {
     width: 100%;

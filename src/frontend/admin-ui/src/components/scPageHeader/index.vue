@@ -6,13 +6,12 @@
  * @LastEditors:
  * @LastEditTime:
 -->
-
 <template>
     <div class="sc-page-header">
         <div v-if="icon" class="sc-page-header__icon">
-			<span>
-				<el-icon><component :is="icon"/></el-icon>
-			</span>
+            <span>
+                <el-icon><component :is="icon"/></el-icon>
+            </span>
         </div>
         <div class="sc-page-header__title">
             <h2>{{ title }}</h2>
@@ -27,7 +26,6 @@
         </div>
     </div>
 </template>
-
 <script>
 export default {
     props: {
@@ -37,7 +35,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .sc-page-header {
     background: #fff;

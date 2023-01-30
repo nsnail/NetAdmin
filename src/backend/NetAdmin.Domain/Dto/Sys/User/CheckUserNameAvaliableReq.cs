@@ -6,15 +6,10 @@ using NetAdmin.Domain.DbMaps.Sys;
 namespace NetAdmin.Domain.Dto.Sys.User;
 
 /// <summary>
-///     请求：用户登录
+///     请求：检查用户名是否可用
 /// </summary>
-public record LoginReq : TbSysUser
+public record CheckUserNameAvaliableReq : TbSysUser
 {
-    /// <inheritdoc cref="TbSysUser.Password" />
-    [Required]
-    [Password]
-    public new string Password { get; init; }
-
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]

@@ -524,12 +524,18 @@
         <value>已激活</value>
     </data>
     <data name="Please contact the administrator to activate the account" xml:space="preserve">
-        <value>请联系管理员激活帐户</value>
+        <value>请联系管理员激活账号</value>
     </data>
     <data name="Man machine verification failed" xml:space="preserve">
         <value>人机验证未通过</value>
     </data>
     <data name="Only once in 1 minute" xml:space="preserve">
         <value>1分钟内只能发送1次</value>
+    </data>
+    <data name="User name cannot be mobile phone number" xml:space="preserve">
+        <value>用户名不能是手机号</value>
+    </data>
+    <data name="User does not exist" xml:space="preserve">
+        <value>用户不存在</value>
     </data>
 </root>

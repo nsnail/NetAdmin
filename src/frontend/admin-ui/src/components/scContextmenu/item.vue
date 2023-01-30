@@ -6,25 +6,23 @@
  * @LastEditors: sakuya
  * @LastEditTime: 2022年11月23日10:09:54
 -->
-
 <template>
     <hr v-if="divided">
-    <li :class="disabled?'disabled':''" @click.stop="liClick" @mouseenter="openSubmenu($event)"
-        @mouseleave="closeSubmenu($event)">
-		<span class="title">
-			<el-icon class="sc-contextmenu__icon"><component v-if="icon" :is="icon"/></el-icon>
-			{{ title }}
-		</span>
+    <li :class="disabled?'disabled':''" @mouseenter="openSubmenu($event)" @mouseleave="closeSubmenu($event)"
+        @click.stop="liClick">
+        <span class="title">
+            <el-icon class="sc-contextmenu__icon"><component :is="icon" v-if="icon"/></el-icon>
+            {{ title }}
+        </span>
         <span class="sc-contextmenu__suffix">
-			<el-icon v-if="$slots.default"><el-icon-arrow-right/></el-icon>
-			<template v-else>{{ suffix }}</template>
-		</span>
+            <el-icon v-if="$slots.default"><el-icon-arrow-right/></el-icon>
+            <template v-else>{{ suffix }}</template>
+        </span>
         <ul v-if="$slots.default" class="sc-contextmenu__menu">
             <slot></slot>
         </ul>
     </li>
 </template>
-
 <script>
 export default {
     props: {
@@ -82,7 +80,5 @@ export default {
     }
 }
 </script>
-
 <style>
-
 </style>

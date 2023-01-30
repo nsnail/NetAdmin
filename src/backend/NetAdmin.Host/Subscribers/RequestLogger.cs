@@ -33,8 +33,8 @@ public class RequestLogger : IEventSubscriber
         // 登录日志 ，
         if (operationEvent.Data.ApiId.Equals("api/user/login", StringComparison.OrdinalIgnoreCase)) {
             try {
-                var loginReq = operationEvent.Data.RequestBody.Object<LoginReq>();
-                logReq = operationEvent.Data with { ExtraData = loginReq.UserName };
+                var loginReq = operationEvent.Data.RequestBody.Object<PwdLoginReq>();
+                logReq = operationEvent.Data with { ExtraData = loginReq.Account };
             }
             catch (Exception) {
                 // ignored

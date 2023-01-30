@@ -9,6 +9,28 @@ import http from "@/utils/request"
 export default {
 
     /**
+ * 检查手机号是否可用
+ */
+checkMobileAvaliable :{
+    url: `${config.API_URL}/api/user/check.mobile.avaliable`,
+        name: `检查手机号是否可用`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
+ * 检查用户名是否可用
+ */
+checkUserNameAvaliable :{
+    url: `${config.API_URL}/api/user/check.user.name.avaliable`,
+        name: `检查用户名是否可用`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
  * 创建用户
  */
 create :{
@@ -20,22 +42,22 @@ create :{
 },
 
 /**
- * 用户登录
+ * 分页查询用户
  */
-login :{
-    url: `${config.API_URL}/api/user/login`,
-        name: `用户登录`,
+pagedQuery :{
+    url: `${config.API_URL}/api/user/paged.query`,
+        name: `分页查询用户`,
         post:async function(data, config={}) {
         return await http.post(this.url,data, config)
     }
 },
 
 /**
- * 分页查询用户
+ * 密码登录
  */
-pagedQuery :{
-    url: `${config.API_URL}/api/user/paged.query`,
-        name: `分页查询用户`,
+pwdLogin :{
+    url: `${config.API_URL}/api/user/pwd.login`,
+        name: `密码登录`,
         post:async function(data, config={}) {
         return await http.post(this.url,data, config)
     }
@@ -69,6 +91,28 @@ queryProfile :{
 register :{
     url: `${config.API_URL}/api/user/register`,
         name: `注册用户`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
+ * 重设密码
+ */
+resetPassword :{
+    url: `${config.API_URL}/api/user/reset.password`,
+        name: `重设密码`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
+ * 短信登录
+ */
+smsLogin :{
+    url: `${config.API_URL}/api/user/sms.login`,
+        name: `短信登录`,
         post:async function(data, config={}) {
         return await http.post(this.url,data, config)
     }

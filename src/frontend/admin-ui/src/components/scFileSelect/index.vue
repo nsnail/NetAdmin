@@ -6,63 +6,62 @@
  * @LastEditors:
  * @LastEditTime:
 -->
-
 <template>
     <div class="sc-file-select">
-        <div class="sc-file-select__side" v-loading="menuLoading">
+        <div v-loading="menuLoading" class="sc-file-select__side">
             <div class="sc-file-select__side-menu">
-                <el-tree ref="group" class="menu" :data="menu" :node-key="treeProps.key" :props="treeProps"
-                         :current-node-key="menu.length>0?menu[0][treeProps.key]:''" highlight-current
+                <el-tree ref="group" :current-node-key="menu.length>0?menu[0][treeProps.key]:''" :data="menu" :node-key="treeProps.key" :props="treeProps"
+                         class="menu" highlight-current
                          @node-click="groupClick">
                     <template #default="{ node }">
-						<span class="el-tree-node__label">
-							<el-icon class="icon"><el-icon-folder/></el-icon>{{ node.label }}
-						</span>
+                        <span class="el-tree-node__label">
+                            <el-icon class="icon"><el-icon-folder/></el-icon>{{ node.label }}
+                        </span>
                     </template>
                 </el-tree>
             </div>
-            <div class="sc-file-select__side-msg" v-if="multiple">
+            <div v-if="multiple" class="sc-file-select__side-msg">
                 已选择 <b>{{ value.length }}</b> / <b>{{ max }}</b> 项
             </div>
         </div>
-        <div class="sc-file-select__files" v-loading="listLoading">
+        <div v-loading="listLoading" class="sc-file-select__files">
             <div class="sc-file-select__top">
-                <div class="upload" v-if="!hideUpload">
-                    <el-upload class="sc-file-select__upload" action="" multiple :show-file-list="false"
-                               :accept="accept" :on-change="uploadChange" :before-upload="uploadBefore"
-                               :on-progress="uploadProcess" :on-success="uploadSuccess" :on-error="uploadError"
-                               :http-request="uploadRequest">
-                        <el-button type="primary" icon="el-icon-upload">本地上传</el-button>
+                <div v-if="!hideUpload" class="upload">
+                    <el-upload :accept="accept" :before-upload="uploadBefore" :http-request="uploadRequest" :on-change="uploadChange"
+                               :on-error="uploadError" :on-progress="uploadProcess" :on-success="uploadSuccess"
+                               :show-file-list="false" action="" class="sc-file-select__upload"
+                               multiple>
+                        <el-button icon="el-icon-upload" type="primary">本地上传</el-button>
                     </el-upload>
                     <span class="tips"><el-icon><el-icon-warning/></el-icon>大小不超过{{ maxSize }}MB</span>
                 </div>
                 <div class="keyword">
-                    <el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="文件名搜索" clearable
-                              @keyup.enter="search" @clear="search"></el-input>
+                    <el-input v-model="keyword" clearable placeholder="文件名搜索" prefix-icon="el-icon-search"
+                              @clear="search" @keyup.enter="search"></el-input>
                 </div>
             </div>
             <div class="sc-file-select__list">
                 <el-scrollbar ref="scrollbar">
-                    <el-empty v-if="fileList.length==0 && data.length==0" description="无数据"
-                              :image-size="80"></el-empty>
+                    <el-empty v-if="fileList.length==0 && data.length==0" :image-size="80"
+                              description="无数据"></el-empty>
                     <div v-for="(file, index) in fileList" :key="index" class="sc-file-select__item">
                         <div class="sc-file-select__item__file">
                             <div class="sc-file-select__item__upload">
-                                <el-progress type="circle" :percentage="file.progress" :width="70"></el-progress>
+                                <el-progress :percentage="file.progress" :width="70" type="circle"></el-progress>
                             </div>
                             <el-image :src="file.tempImg" fit="contain"></el-image>
                         </div>
                         <p>{{ file.name }}</p>
                     </div>
-                    <div v-for="item in data" :key="item[fileProps.key]" class="sc-file-select__item"
-                         :class="{active: value.includes(item[fileProps.url]) }" @click="select(item)">
+                    <div v-for="item in data" :key="item[fileProps.key]" :class="{active: value.includes(item[fileProps.url]) }"
+                         class="sc-file-select__item" @click="select(item)">
                         <div class="sc-file-select__item__file">
-                            <div class="sc-file-select__item__checkbox" v-if="multiple">
+                            <div v-if="multiple" class="sc-file-select__item__checkbox">
                                 <el-icon>
                                     <el-icon-check/>
                                 </el-icon>
                             </div>
-                            <div class="sc-file-select__item__select" v-else>
+                            <div v-else class="sc-file-select__item__select">
                                 <el-icon>
                                     <el-icon-check/>
                                 </el-icon>
@@ -82,17 +81,16 @@
                 </el-scrollbar>
             </div>
             <div class="sc-file-select__pagination">
-                <el-pagination small background layout="prev, pager, next" :total="total" :page-size="pageSize"
-                               v-model:currentPage="currentPage" @current-change="reload"></el-pagination>
+                <el-pagination v-model:currentPage="currentPage" :page-size="pageSize" :total="total" background layout="prev, pager, next"
+                               small @current-change="reload"></el-pagination>
             </div>
             <div class="sc-file-select__do">
                 <slot name="do"></slot>
-                <el-button type="primary" :disabled="value.length<=0" @click="submit">确 定</el-button>
+                <el-button :disabled="value.length<=0" type="primary" @click="submit">确 定</el-button>
             </div>
         </div>
     </div>
 </template>
-
 <script>
 import config from "@/config/fileSelect"
 
@@ -257,7 +255,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .sc-file-select {
     display: flex;

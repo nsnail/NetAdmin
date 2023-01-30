@@ -14,9 +14,19 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
 >
 {
     /// <summary>
-    ///     用户登录
+    ///     检查手机号是否可用
     /// </summary>
-    Task<LoginRsp> Login(LoginReq req);
+    Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req);
+
+    /// <summary>
+    ///     检查用户名是否可用
+    /// </summary>
+    Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req);
+
+    /// <summary>
+    ///     密码登录
+    /// </summary>
+    Task<LoginRsp> PwdLogin(PwdLoginReq req);
 
     /// <summary>
     ///     查询用户档案
@@ -27,6 +37,16 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     ///     注册用户
     /// </summary>
     Task Register(RegisterReq req);
+
+    /// <summary>
+    ///     重设密码
+    /// </summary>
+    Task ResetPassword(ResetPasswordReq req);
+
+    /// <summary>
+    ///     短信登录
+    /// </summary>
+    Task<LoginRsp> SmsLogin(SmsLoginReq req);
 
     /// <summary>
     ///     当前用户信息

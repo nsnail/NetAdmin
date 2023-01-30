@@ -74,7 +74,7 @@ public record TbSysUser : MutableEntity, IFieldBitSet
     ///     密码
     /// </summary>
     [JsonIgnore]
-    public virtual Guid Password { get; init; }
+    public virtual Guid Password { get; set; }
 
     /// <summary>
     ///     所属岗位

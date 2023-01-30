@@ -1,32 +1,32 @@
 <template>
     <el-container>
-        <el-aside width="300px" v-loading="showDicloading">
+        <el-aside v-loading="showDicloading" width="300px">
             <el-container>
                 <el-header>
-                    <el-input placeholder="输入关键字进行过滤" v-model="dicFilterText" clearable></el-input>
+                    <el-input v-model="dicFilterText" clearable placeholder="输入关键字进行过滤"></el-input>
                 </el-header>
                 <el-main class="nopadding">
-                    <el-tree ref="dic" class="menu" node-key="id" :data="dicList" :props="dicProps"
-                             :highlight-current="true" :expand-on-click-node="false" :filter-node-method="dicFilterNode"
+                    <el-tree ref="dic" :data="dicList" :expand-on-click-node="false" :filter-node-method="dicFilterNode" :highlight-current="true"
+                             :props="dicProps" class="menu" node-key="id"
                              @node-click="dicClick">
                         <template #default="{node, data}">
-							<span class="custom-tree-node">
-								<span class="label">{{ node.label }}</span>
-								<span class="code">{{ data.code }}</span>
-								<span class="do">
-									<el-button-group>
-										<el-button icon="el-icon-edit" size="small"
+                            <span class="custom-tree-node">
+                                <span class="label">{{ node.label }}</span>
+                                <span class="code">{{ data.code }}</span>
+                                <span class="do">
+                                    <el-button-group>
+                                        <el-button icon="el-icon-edit" size="small"
                                                    @click.stop="dicEdit(data)"></el-button>
-										<el-button icon="el-icon-delete" size="small"
+                                        <el-button icon="el-icon-delete" size="small"
                                                    @click.stop="dicDel(node, data)"></el-button>
-									</el-button-group>
-								</span>
-							</span>
+                                    </el-button-group>
+                                </span>
+                            </span>
                         </template>
                     </el-tree>
                 </el-main>
                 <el-footer style="height:51px;">
-                    <el-button type="primary" size="small" icon="el-icon-plus" style="width: 100%;" @click="addDic">
+                    <el-button icon="el-icon-plus" size="small" style="width: 100%;" type="primary" @click="addDic">
                         字典分类
                     </el-button>
                 </el-footer>
@@ -35,14 +35,14 @@
         <el-container class="is-vertical">
             <el-header>
                 <div class="left-panel">
-                    <el-button type="primary" icon="el-icon-plus" @click="addInfo"></el-button>
-                    <el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0"
+                    <el-button icon="el-icon-plus" type="primary" @click="addInfo"></el-button>
+                    <el-button :disabled="selection.length==0" icon="el-icon-delete" plain type="danger"
                                @click="batch_del"></el-button>
                 </div>
             </el-header>
             <el-main class="nopadding">
-                <scTable ref="table" :apiObj="listApi" row-key="id" :params="listApiParams"
-                         @selection-change="selectionChange" stripe :paginationLayout="'prev, pager, next'">
+                <scTable ref="table" :apiObj="listApi" :paginationLayout="'prev, pager, next'" :params="listApiParams"
+                         row-key="id" stripe @selection-change="selectionChange">
                     <el-table-column type="selection" width="50"></el-table-column>
                     <el-table-column label="" width="60">
                         <template #default>
@@ -55,19 +55,19 @@
                     <el-table-column label="键值" prop="key" width="150"></el-table-column>
                     <el-table-column label="是否有效" prop="yx" width="100">
                         <template #default="scope">
-                            <el-switch v-model="scope.row.yx" @change="changeSwitch($event, scope.row)"
-                                       :loading="scope.row.$switch_yx" active-value="1" inactive-value="0"></el-switch>
+                            <el-switch v-model="scope.row.yx" :loading="scope.row.$switch_yx"
+                                       active-value="1" inactive-value="0" @change="changeSwitch($event, scope.row)"></el-switch>
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" fixed="right" align="right" width="120">
+                    <el-table-column align="right" fixed="right" label="操作" width="120">
                         <template #default="scope">
                             <el-button-group>
-                                <el-button text type="primary" size="small"
+                                <el-button size="small" text type="primary"
                                            @click="table_edit(scope.row, scope.$index)">编辑
                                 </el-button>
                                 <el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
                                     <template #reference>
-                                        <el-button text type="primary" size="small">删除</el-button>
+                                        <el-button size="small" text type="primary">删除</el-button>
                                     </template>
                                 </el-popconfirm>
                             </el-button-group>
@@ -77,14 +77,10 @@
             </el-main>
         </el-container>
     </el-container>
-
-    <dic-dialog v-if="dialog.dic" ref="dicDialog" @success="handleDicSuccess" @closed="dialog.dic=false"></dic-dialog>
-
-    <list-dialog v-if="dialog.list" ref="listDialog" @success="handleListSuccess"
-                 @closed="dialog.list=false"></list-dialog>
-
+    <dic-dialog v-if="dialog.dic" ref="dicDialog" @closed="dialog.dic=false" @success="handleDicSuccess"></dic-dialog>
+    <list-dialog v-if="dialog.list" ref="listDialog" @closed="dialog.list=false"
+                 @success="handleListSuccess"></list-dialog>
 </template>
-
 <script>
 import dicDialog from './dic'
 import listDialog from './list'
@@ -175,7 +171,6 @@ export default {
                 type: 'warning'
             }).then(() => {
                 this.showDicloading = true;
-
                 //删除节点是否为高亮当前 是的话 设置第一个节点高亮
                 var dicCurrentKey = this.$refs.dic.getCurrentKey();
                 this.$refs.dic.remove(data.id)
@@ -191,11 +186,9 @@ export default {
                         this.$refs.table.tableData = []
                     }
                 }
-
                 this.showDicloading = false;
                 this.$message.success("操作成功")
             }).catch(() => {
-
             })
         },
         //行拖拽
@@ -259,7 +252,6 @@ export default {
                 loading.close();
                 this.$message.success("操作成功")
             }).catch(() => {
-
             })
         },
         //提交明细
@@ -336,7 +328,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .menu:deep(.el-tree-node__label) {
     display: flex;

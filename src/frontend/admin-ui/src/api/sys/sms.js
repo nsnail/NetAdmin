@@ -9,6 +9,28 @@ import http from "@/utils/request"
 export default {
 
     /**
+ * 分页查询短信
+ */
+pagedQuery :{
+    url: `${config.API_URL}/api/sms/paged.query`,
+        name: `分页查询短信`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
+ * 查询短信
+ */
+query :{
+    url: `${config.API_URL}/api/sms/query`,
+        name: `查询短信`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
  * 发送短信验证码
  */
 sendSmsCode :{

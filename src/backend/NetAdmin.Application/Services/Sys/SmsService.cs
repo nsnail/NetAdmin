@@ -148,8 +148,7 @@ public class SmsService : RepositoryService<TbSysSms, ISmsService>, ISmsService
                                                                   , Order = Enums.Orders.Descending
                                                                   , Prop  = nameof(TbSysSms.Id)
                                                                 })
-                        .ForUpdate()
-                        .ToOneAsync();
+            .ToOneAsync();
         return ret;
     }
 
