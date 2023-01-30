@@ -13,7 +13,6 @@ public record QueryDeptRsp : TbSysDept
     /// <summary>
     ///     是否启用
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <summary>
@@ -22,7 +21,7 @@ public record QueryDeptRsp : TbSysDept
     public new virtual IEnumerable<QueryDeptRsp> Children { get; init; }
 
     /// <inheritdoc cref="IFieldAdd.CreatedTime" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
@@ -30,11 +29,11 @@ public record QueryDeptRsp : TbSysDept
     public override long Id { get; init; }
 
     /// <inheritdoc cref="TbSysDept.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysDept.ParentId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
@@ -42,7 +41,7 @@ public record QueryDeptRsp : TbSysDept
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
     /// <inheritdoc cref="TbSysDept.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />

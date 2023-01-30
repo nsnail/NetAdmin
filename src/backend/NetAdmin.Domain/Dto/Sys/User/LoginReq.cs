@@ -18,6 +18,5 @@ public record LoginReq : TbSysUser
     /// <inheritdoc cref="TbSysUser.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
-    [UserName]
     public override string UserName { get; init; }
 }

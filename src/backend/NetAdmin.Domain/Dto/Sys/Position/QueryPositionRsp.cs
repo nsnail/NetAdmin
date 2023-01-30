@@ -14,7 +14,6 @@ public record QueryPositionRsp : TbSysPosition
     /// <summary>
     ///     是否启用
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <inheritdoc />
@@ -23,7 +22,7 @@ public record QueryPositionRsp : TbSysPosition
 
     /// <inheritdoc cref="TbSysPosition.Name" />
     [Required]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
@@ -31,7 +30,7 @@ public record QueryPositionRsp : TbSysPosition
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
     /// <inheritdoc />

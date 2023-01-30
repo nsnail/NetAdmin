@@ -76,7 +76,7 @@ void Main()
 	var options = new JsonSerializerOptions
 	{
 		PropertyNameCaseInsensitive = true,
-		DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault,
+		DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
 
 		TypeInfoResolver
 					  = new DefaultJsonTypeInfoResolver { Modifiers = { DefaultValueModifier } },

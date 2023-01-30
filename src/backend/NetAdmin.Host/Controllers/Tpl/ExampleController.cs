@@ -1,4 +1,3 @@
-#if DEBUG
 using NetAdmin.Application.Modules.Tpl;
 using NetAdmin.Application.Services.Tpl.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
@@ -70,4 +69,3 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
         return await Service.Update(req);
     }
 }
-#endif

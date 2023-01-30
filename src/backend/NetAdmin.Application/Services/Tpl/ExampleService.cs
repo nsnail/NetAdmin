@@ -64,7 +64,7 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
     /// </summary>
     public async Task<IEnumerable<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
     {
-        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryExampleRsp>>();
     }
 

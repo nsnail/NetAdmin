@@ -520,4 +520,13 @@
     <data name="Incorrect SMS verification code" xml:space="preserve">
         <value>短信验证码不正确</value>
     </data>
+    <data name="Activated" xml:space="preserve">
+        <value>已激活</value>
+    </data>
+    <data name="Please contact the administrator to activate the account" xml:space="preserve">
+        <value>请联系管理员激活帐户</value>
+    </data>
+    <data name="Man machine verification failed" xml:space="preserve">
+        <value>人机验证未通过</value>
+    </data>
 </root>

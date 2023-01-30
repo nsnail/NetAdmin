@@ -59,6 +59,9 @@
                         <el-form-item label="启用" prop="enabled">
                             <el-switch v-model="form.enabled"></el-switch>
                         </el-form-item>
+                        <el-form-item label="激活" prop="activated">
+                            <el-switch v-model="form.activated"></el-switch>
+                        </el-form-item>
                     </template>
                     <el-form-item label="备注" prop="profile.summary">
                         <el-input v-model="form.profile.summary" clearable type="textarea"></el-input>

@@ -84,7 +84,7 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     public async Task<IEnumerable<QueryUserProfileRsp>> Query(QueryReq<QueryUserProfileReq> req)
     {
         var ret = await QueryInternal(req)
-                        .Take(Numbers.QUERY_LIMIT)
+                        .Take(req.Count)
                         .ToListAsync((a, b, c, d, e) =>
                                          new {
                                                  a

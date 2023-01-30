@@ -120,6 +120,16 @@
                 "Type": 1,
                 "BitSet": 1,
             },
+            {
+                "Id": 380415005847557,
+                "Name": "sys-config",
+                "Icon": "el-icon-set-up",
+                "Title": "系统设置",
+                "Path": "/sys/config",
+                "Component": "sys/config",
+                "Type": 1,
+                "BitSet": 1,
+            },
         ]
     },
     {

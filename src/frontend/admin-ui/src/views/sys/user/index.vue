@@ -97,12 +97,18 @@
                             </el-tag>
                         </template>
                     </el-table-column>
-                    <el-table-column :filters="[{text: '启用', value: '1'}, {text:
-                                          '未启用', value: '0'}]" align="center" column-key="filterUserName"
-                                     label="状态" prop="enabled" width="80">
+                    <el-table-column align="center"
+                                     label="有效" prop="enabled" width="80">
                         <template #default="scope">
                             <sc-status-indicator v-if="scope.row.enabled" type="success"></sc-status-indicator>
                             <sc-status-indicator v-if="!scope.row.enabled" pulse type="danger"></sc-status-indicator>
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="center"
+                                     label="激活" prop="activated" width="80">
+                        <template #default="scope">
+                            <sc-status-indicator v-if="scope.row.activated" type="success"></sc-status-indicator>
+                            <sc-status-indicator v-if="!scope.row.activated" pulse type="danger"></sc-status-indicator>
                         </template>
                     </el-table-column>
                     <el-table-column label="加入时间" prop="createdTime"

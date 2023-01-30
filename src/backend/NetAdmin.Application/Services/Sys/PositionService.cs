@@ -64,7 +64,7 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
     /// </summary>
     public async Task<IEnumerable<QueryPositionRsp>> Query(QueryReq<QueryPositionReq> req)
     {
-        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryPositionRsp>>();
     }
 

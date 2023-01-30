@@ -20,7 +20,7 @@ public record QueryDicCatalogRsp : TbSysDicCatalog
     public new IEnumerable<QueryDicCatalogRsp> Children { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Code { get; init; }
 
     /// <inheritdoc />
@@ -28,11 +28,11 @@ public record QueryDicCatalogRsp : TbSysDicCatalog
     public override long Id { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; }
 
     /// <inheritdoc />

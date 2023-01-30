@@ -14,16 +14,21 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public record QueryUserRsp : TbSysUser
 {
     /// <summary>
+    ///     是否激活
+    /// </summary>
+    public bool Activated => BitSet.HasFlag(UserBits.Activated);
+
+    /// <summary>
     ///     是否启用
     /// </summary>
     public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <inheritdoc cref="TbSysUser.Avatar" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Avatar { get; init; }
 
     /// <inheritdoc cref="IFieldAdd.CreatedTime" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
     /// <summary>
@@ -32,7 +37,7 @@ public record QueryUserRsp : TbSysUser
     public new QueryDeptRsp Dept { get; init; }
 
     /// <inheritdoc cref="TbSysUser.Email" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Email { get; init; }
 
     /// <inheritdoc />
@@ -40,7 +45,7 @@ public record QueryUserRsp : TbSysUser
     public override long Id { get; init; }
 
     /// <inheritdoc cref="TbSysUser.Mobile" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Mobile { get; init; }
 
     /// <summary>
@@ -54,7 +59,7 @@ public record QueryUserRsp : TbSysUser
     public new IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string UserName { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />

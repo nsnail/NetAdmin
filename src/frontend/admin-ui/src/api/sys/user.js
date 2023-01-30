@@ -64,6 +64,17 @@ queryProfile :{
 },
 
 /**
+ * 注册用户
+ */
+register :{
+    url: `${config.API_URL}/api/user/register`,
+        name: `注册用户`,
+        post:async function(data, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
  * 更新用户
  */
 update :{

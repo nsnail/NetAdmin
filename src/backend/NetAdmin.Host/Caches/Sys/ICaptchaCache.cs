@@ -1,5 +1,6 @@
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Dto.Sys.Captcha;
 
 namespace NetAdmin.Host.Caches.Sys;
 
@@ -12,4 +13,9 @@ public interface ICaptchaCache : ICache<ICaptchaService>, ICaptchaModule
     ///     删除缓存项
     /// </summary>
     void RemoveEntry(string id);
+
+    /// <summary>
+    ///     完成人机校验 ，并删除缓存项
+    /// </summary>
+    Task VerifyCaptchaAndRemove(VerifyCaptchaReq req);
 }

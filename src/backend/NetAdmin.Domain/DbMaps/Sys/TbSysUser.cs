@@ -1,7 +1,10 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using FreeSql.DataAnnotations;
+using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency;
+using NSExt.Attributes;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
 
@@ -14,6 +17,20 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 [Index($"idx_{{tablename}}_{nameof(Email)}",    nameof(Email),    true)]
 public record TbSysUser : MutableEntity, IFieldBitSet
 {
+    /// <summary>
+    ///     用户设置
+    /// </summary>
+    [Flags]
+    public enum UserBits : long
+    {
+        /// <summary>
+        ///     已激活
+        /// </summary>
+        [Description(nameof(Ln.Activated))]
+        [Localization(typeof(Ln))]
+        Activated = 0b_0000_0001_0000
+    }
+
     /// <summary>
     ///     头像链接
     /// </summary>
@@ -89,6 +106,7 @@ public record TbSysUser : MutableEntity, IFieldBitSet
     /// <summary>
     ///     用户名
     /// </summary>
+    [UserName]
     [JsonIgnore]
     [MaxLength(31)]
     public virtual string UserName { get; init; }

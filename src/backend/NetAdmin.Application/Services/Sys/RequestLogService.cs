@@ -78,7 +78,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// </summary>
     public async Task<IEnumerable<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
     {
-        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
     }
 

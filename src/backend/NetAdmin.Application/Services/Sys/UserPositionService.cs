@@ -64,7 +64,7 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
     /// </summary>
     public async Task<IEnumerable<QueryUserPositionRsp>> Query(QueryReq<QueryUserPositionReq> req)
     {
-        var ret = await QueryInternal(req).Take(Numbers.QUERY_LIMIT).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryUserPositionRsp>>();
     }
 

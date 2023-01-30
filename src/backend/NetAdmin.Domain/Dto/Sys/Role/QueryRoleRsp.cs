@@ -14,39 +14,36 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// <summary>
     ///     是否显示仪表板
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool DisplayDashboard => BitSet.HasFlag(RoleBits.DisplayDashboard);
 
     /// <summary>
     ///     是否启用
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <summary>
     ///     是否忽略权限控制
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool IgnorePermissionControl => BitSet.HasFlag(RoleBits.IgnorePermissionControl);
 
     /// <summary>
     ///     角色-接口映射
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyCollection<string> ApiIds { get; init; }
 
     /// <inheritdoc cref="IFieldAdd.CreatedTime" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc cref="TbSysRole.DataScope" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DataScopes DataScope { get; init; }
 
     /// <summary>
     ///     角色-部门映射
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<long> DeptIds { get; init; }
 
     /// <inheritdoc />
@@ -56,11 +53,11 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// <summary>
     ///     角色-菜单映射
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyCollection<long> MenuIds { get; init; }
 
     /// <inheritdoc cref="TbSysRole.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />
@@ -68,7 +65,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
     /// <inheritdoc cref="TbSysRole.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />

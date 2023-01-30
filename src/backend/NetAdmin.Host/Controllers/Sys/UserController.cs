@@ -16,15 +16,20 @@ namespace NetAdmin.Host.Controllers.Sys;
 /// </summary>
 public class UserController : ControllerBase<IUserService>, IUserModule
 {
-    private readonly IUserCache _userCache;
+    private readonly ICaptchaCache _captchaCache;
+    private readonly IConfigCache  _configCache;
+    private readonly IUserCache    _userCache;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserController" /> class.
     /// </summary>
-    public UserController(IUserService service, IUserCache userCache) //
+    public UserController(IUserService  service, IUserCache userCache, IConfigCache configCache
+                        , ICaptchaCache captchaCache) //
         : base(service)
     {
-        _userCache = userCache;
+        _userCache    = userCache;
+        _configCache  = configCache;
+        _captchaCache = captchaCache;
     }
 
     /// <summary>
@@ -96,9 +101,21 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     /// <summary>
     ///     注册用户
     /// </summary>
-    public Task<RegisterRsp> Register(RegisterReq req)
+    [Transaction]
+    [AllowAnonymous]
+    public async Task Register(RegisterReq req)
     {
-        throw new NotImplementedException();
+        await _captchaCache.VerifyCaptchaAndRemove(req.VerifyCaptchaReq);
+
+        var config = await _configCache.GetLatestConfig();
+
+        await Service.Register(req with {
+                                            DeptId = config.UserRegisterDeptId
+                                          , PositionIds = new[] { config.UserRegisterPosId }
+                                          , RoleIds = new[] { config.UserRegisterRoleId }
+                                          , Profile = new CreateUserProfileReq()
+                                          , Activated = !config.UserRegisterConfirm
+                                        });
     }
 
     /// <summary>

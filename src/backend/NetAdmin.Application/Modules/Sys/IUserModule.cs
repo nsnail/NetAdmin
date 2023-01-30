@@ -26,7 +26,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     注册用户
     /// </summary>
-    Task<RegisterRsp> Register(RegisterReq req);
+    Task Register(RegisterReq req);
 
     /// <summary>
     ///     当前用户信息

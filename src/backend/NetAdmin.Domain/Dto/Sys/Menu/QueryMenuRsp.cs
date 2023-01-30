@@ -24,7 +24,7 @@ public record QueryMenuRsp : TbSysMenu, IRegister
           , BitSet.HasFlag(MenuBits.FullPageRouting), Tag, Color);
 
     /// <inheritdoc cref="TbSysMenu.Active" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Active { get; init; }
 
     /// <summary>
@@ -33,7 +33,7 @@ public record QueryMenuRsp : TbSysMenu, IRegister
     public new IEnumerable<QueryMenuRsp> Children { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Component" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Component { get; init; }
 
     /// <inheritdoc />
@@ -41,19 +41,19 @@ public record QueryMenuRsp : TbSysMenu, IRegister
     public override long Id { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.ParentId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Path" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Path { get; init; }
 
     /// <inheritdoc cref="TbSysMenu.Redirect" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Redirect { get; init; }
 
     /// <inheritdoc cref="IFieldUpdate.Version" />

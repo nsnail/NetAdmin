@@ -1,4 +1,5 @@
 using Furion.DependencyInjection;
+using Furion.FriendlyException;
 using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Captcha;
@@ -35,5 +36,18 @@ public class CaptchaCache : CacheBase<ICaptchaService>, IScoped, ICaptchaCache
     {
         Cache.TryGetValue(req.Id, out var val);
         return Service.VerifyCaptcha(req with { SawOffsetX = (int?)val });
+    }
+
+    /// <inheritdoc />
+    public async Task VerifyCaptchaAndRemove(VerifyCaptchaReq req)
+    {
+        var ret = await VerifyCaptcha(req);
+        if (ret) {
+            // 人机验证通过，删除人机验证缓存
+            RemoveEntry(req.Id);
+        }
+        else {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Man_machine_verification_failed);
+        }
     }
 }

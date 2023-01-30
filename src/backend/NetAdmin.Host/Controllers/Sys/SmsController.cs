@@ -1,4 +1,3 @@
-using Furion.FriendlyException;
 using Microsoft.AspNetCore.Authorization;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
@@ -31,14 +30,9 @@ public class SmsController : ControllerBase<ISmsService>, ISmsModule
     [AllowAnonymous]
     public async Task<SendSmsCodeRsp> SendSmsCode(SendSmsCodeReq req)
     {
-        if (!await _captchaCache.VerifyCaptcha(req.VerifyCaptchaReq)) {
-            throw Oops.Oh(Enums.RspCodes.InvalidOperation);
-        }
-
-        // 人机验证通过，删除人机验证缓存
-        _captchaCache.RemoveEntry(req.VerifyCaptchaReq.Id);
-
-        return await _smsCache.SendSmsCode(req);
+        await _captchaCache.VerifyCaptchaAndRemove(req.VerifyCaptchaReq);
+        var ret = await _smsCache.SendSmsCode(req);
+        return ret;
     }
 
     /// <summary>

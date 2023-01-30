@@ -13,6 +13,11 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// </summary>
 public record CreateUserReq : TbSysUser, IRegister
 {
+    /// <summary>
+    ///     已激活
+    /// </summary>
+    public virtual bool Activated { get; init; } = true;
+
     /// <inheritdoc cref="TbSysUser.Avatar" />
     [Url]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -24,6 +29,10 @@ public record CreateUserReq : TbSysUser, IRegister
             var ret = 0L;
             if (Enabled) {
                 ret |= (long)BitSets.Enabled;
+            }
+
+            if (Activated) {
+                ret |= (long)UserBits.Activated;
             }
 
             return ret;
@@ -43,7 +52,7 @@ public record CreateUserReq : TbSysUser, IRegister
     /// <summary>
     ///     启用
     /// </summary>
-    public bool Enabled { get; init; } = true;
+    public virtual bool Enabled { get; init; } = true;
 
     /// <inheritdoc cref="TbSysUser.Mobile" />
     [Mobile]
@@ -63,7 +72,7 @@ public record CreateUserReq : TbSysUser, IRegister
     [Required]
     [MinLength(1)]
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
-    public IReadOnlyCollection<long> PositionIds { get; init; }
+    public virtual IReadOnlyCollection<long> PositionIds { get; init; }
 
     /// <summary>
     ///     用户档案
@@ -77,11 +86,10 @@ public record CreateUserReq : TbSysUser, IRegister
     [Required]
     [MinLength(1)]
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
-    public IReadOnlyCollection<long> RoleIds { get; init; }
+    public virtual IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="TbSysUser.UserName" />
     [Required]
-    [UserName]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string UserName { get; init; }
 

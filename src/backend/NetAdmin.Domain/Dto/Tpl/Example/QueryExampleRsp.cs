@@ -15,7 +15,7 @@ public record QueryExampleRsp : TbTplExample
     public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
 
     /// <inheritdoc />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
     /// <inheritdoc />

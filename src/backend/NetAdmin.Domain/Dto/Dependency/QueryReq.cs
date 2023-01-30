@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using FreeSql.Internal.Model;
 
 namespace NetAdmin.Domain.Dto.Dependency;
@@ -8,6 +9,12 @@ namespace NetAdmin.Domain.Dto.Dependency;
 public record QueryReq<T> : DataAbstraction
     where T : DataAbstraction, new()
 {
+    /// <summary>
+    ///     取前n条
+    /// </summary>
+    [Range(1, Numbers.QUERY_LIMIT)]
+    public int Count { get; init; } = Numbers.QUERY_LIMIT;
+
     /// <summary>
     ///     动态查询条件
     /// </summary>

@@ -94,6 +94,10 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_disabled);
         }
 
+        if (!dbUser.BitSet.HasFlag(TbSysUser.UserBits.Activated)) {
+            throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Please_contact_the_administrator_to_activate_the_account);
+        }
+
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
 
         var accessToken = JWTEncryption.Encrypt(tokenPayload);
@@ -121,7 +125,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// </summary>
     public async Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
     {
-        var list = await (await QueryInternal(req)).Take(Numbers.QUERY_LIMIT).ToListAsync(_selectUserFields);
+        var list = await (await QueryInternal(req)).Take(req.Count).ToListAsync(_selectUserFields);
         return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
 
@@ -134,9 +138,10 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     }
 
     /// <inheritdoc />
-    public Task<RegisterRsp> Register(RegisterReq req)
+    public async Task Register(RegisterReq req)
     {
-        throw new NotImplementedException();
+        var createReq = req.Adapt<CreateUserReq>();
+        await Create(createReq);
     }
 
     /// <summary>
