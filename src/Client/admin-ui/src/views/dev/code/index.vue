@@ -96,14 +96,14 @@ export default {
             form: {
                 svgCode: '',
                 iconName: '',
-                projectPath: "d:\\Work\\SVN\\Tao\\NetAdmin\\src\\frontend\\admin-ui",
+                projectPath: "d:\\Work\\SVN\\Tao\\NetAdmin\\src\\Client\\admin-ui",
             },
             formCs: {
                 moduleName: '',
                 ///     模块说明
                 moduleRemark: '',
                 ///     项目路径
-                projectPath: 'd:\\Work\\SVN\\Tao\\NetAdmin\\src\\backend',
+                projectPath: 'd:\\Work\\SVN\\Tao\\NetAdmin\\src\\Server',
                 ///     模块类型
                 type: 'Sys',
             }

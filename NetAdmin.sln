@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C84EB5A0-37AD-4B17-A51E-E36888C4441E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{4DAF9366-855F-46BB-AE4C-660C92FA0697}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{4DAF9366-855F-46BB-AE4C-660C92FA0697}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0CAC-4828-A807-34A693F73859}"
     ProjectSection(SolutionItems) = preProject
@@ -42,15 +42,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		SyncMetaFiles.csx = SyncMetaFiles.csx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\backend\NetAdmin.Host\NetAdmin.Host.csproj", "{F672F054-A416-4FC2-957B-ADD73C0346CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\Server\NetAdmin.Host\NetAdmin.Host.csproj", "{F672F054-A416-4FC2-957B-ADD73C0346CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\Server\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Domain", "src\backend\NetAdmin.Domain\NetAdmin.Domain.csproj", "{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Domain", "src\Server\NetAdmin.Domain\NetAdmin.Domain.csproj", "{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\backend\NetAdmin.Application\NetAdmin.Application.csproj", "{7D1EF02D-EDC1-4EC3-A094-887359748D1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\Server\NetAdmin.Application\NetAdmin.Application.csproj", "{7D1EF02D-EDC1-4EC3-A094-887359748D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin.Tests\NetAdmin.Tests.csproj", "{45F5B28F-F304-4369-9016-C27BC6DED297}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\Server\NetAdmin.Tests\NetAdmin.Tests.csproj", "{45F5B28F-F304-4369-9016-C27BC6DED297}"
 EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution

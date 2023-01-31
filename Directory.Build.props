@@ -1,17 +1,17 @@
 <Project>
     <PropertyGroup>
+        <!--        $(XXX) 定义有顺序 排序请注意-->
+        <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
+        <!--        -->
         <Authors>nsnail</Authors>
-        <BaseIntermediateOutputPath>$(SolutionDir)/dist</BaseIntermediateOutputPath>
-        <BaseOutputPath>$(SolutionDir)/dist</BaseOutputPath>
+        <BaseIntermediateOutputPath>$(SolutionDir)/dist/Server/$(MSBuildProjectName)/obj</BaseIntermediateOutputPath>
+        <BaseOutputPath>$(SolutionDir)/dist/Server/$(MSBuildProjectName)/bin</BaseOutputPath>
         <Copyright>© 2006-2023 nsnail</Copyright>
         <Description>A general authority management system based on RBAC</Description>
         <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <ImplicitUsings>enable</ImplicitUsings>
-        <IntermediateOutputPath>$(BaseIntermediateOutputPath)/$(MSBuildProjectName)/obj</IntermediateOutputPath>
-        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)/$(MSBuildProjectName)/obj</MSBuildProjectExtensionsPath>
-        <OutputPath>$(BaseOutputPath)/$(MSBuildProjectName)/bin</OutputPath>
-        <Product>NetAdmin</Product>
+        <Product>LineOpenPlatform</Product>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/nsnail/NetAdmin.git</RepositoryUrl>
         <TargetFramework>net7.0</TargetFramework>
