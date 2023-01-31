@@ -4,15 +4,15 @@
 ![logo](https://lolicode.gitee.io/scui-doc/logo.png)
 
 <p align="center">
-	<a href="https://v3.vuejs.org/" target="_blank">
-		<img src="https://img.shields.io/badge/VueCLI-5-green" alt="VueCLI">
-	</a>
-	<a href="https://v3.vuejs.org/" target="_blank">
-		<img src="https://img.shields.io/badge/Vue.js-3.x-green" alt="Vue">
-	</a>
-	<a href="https://element-plus.gitee.io/#/zh-CN/component/changelog" target="_blank">
-		<img src="https://img.shields.io/badge/element--plus-latest-blue" alt="element plus">
-	</a>
+    <a href="https://v3.vuejs.org/" target="_blank">
+        <img src="https://img.shields.io/badge/VueCLI-5-green" alt="VueCLI">
+    </a>
+    <a href="https://v3.vuejs.org/" target="_blank">
+        <img src="https://img.shields.io/badge/Vue.js-3.x-green" alt="Vue">
+    </a>
+    <a href="https://element-plus.gitee.io/#/zh-CN/component/changelog" target="_blank">
+        <img src="https://img.shields.io/badge/element--plus-latest-blue" alt="element plus">
+    </a>
 </p>
 
 <h1>SCUI Admin</h1>

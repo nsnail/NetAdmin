@@ -1,17 +1,17 @@
 //初始数据库结构
 const dbData = [
     {
-        dbName: "masterDB",					//数据库名称
-        version: 1,							//数据库版本号,当结构发生变化时
-        tables: [							//表
+        dbName: "masterDB",                    //数据库名称
+        version: 1,                            //数据库版本号,当结构发生变化时
+        tables: [                            //表
             {
-                name: "SYS_favorites",		//表名称
-                keyPath: "uid",				//主键
-                autoIncrement: false,		//主键是否自增
-                index: [					//索引
+                name: "SYS_favorites",        //表名称
+                keyPath: "uid",                //主键
+                autoIncrement: false,        //主键是否自增
+                index: [                    //索引
                     {
-                        name: "name_index",	//索引名称
-                        key: "name"			//索引key
+                        name: "name_index",    //索引名称
+                        key: "name"            //索引key
                     }
                 ]
             },
