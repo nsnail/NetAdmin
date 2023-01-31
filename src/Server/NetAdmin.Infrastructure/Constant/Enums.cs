@@ -150,7 +150,7 @@ public static class Enums
     }
 
     /// <summary>
-    ///     日志等级
+    ///     日志等级 与此严格对应： <see cref="Microsoft.Extensions.Logging.LogLevel" />
     /// </summary>
     public enum LogLevels
     {
@@ -158,7 +158,7 @@ public static class Enums
         ///     Trace
         /// </summary>
         [Description("[gray]TCE[/]")]
-        Trace = 1
+        Trace = 0
 
        ,
 
@@ -166,7 +166,7 @@ public static class Enums
         ///     Debug
         /// </summary>
         [Description("[gray]DBG[/]")]
-        Debug = 2
+        Debug = 1
 
        ,
 
@@ -174,7 +174,7 @@ public static class Enums
         ///     Information
         /// </summary>
         [Description("[green]INF[/]")]
-        Information = 3
+        Information = 2
 
        ,
 
@@ -182,7 +182,7 @@ public static class Enums
         ///     Warning
         /// </summary>
         [Description("[yellow]WRN[/]")]
-        Warning = 4
+        Warning = 3
 
        ,
 
@@ -190,7 +190,7 @@ public static class Enums
         ///     Error
         /// </summary>
         [Description("[red]ERR[/]")]
-        Error = 5
+        Error = 4
 
        ,
 
@@ -198,7 +198,7 @@ public static class Enums
         ///     Critical
         /// </summary>
         [Description("[red]CTL[/]")]
-        Critical = 6
+        Critical = 5
     }
 
     /// <summary>
