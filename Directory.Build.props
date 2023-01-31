@@ -1,8 +1,8 @@
 <Project>
     <PropertyGroup>
         <Authors>nsnail</Authors>
-        <BaseIntermediateOutputPath>../../../dist</BaseIntermediateOutputPath>
-        <BaseOutputPath>../../../dist</BaseOutputPath>
+        <BaseIntermediateOutputPath>$(SolutionDir)/dist</BaseIntermediateOutputPath>
+        <BaseOutputPath>$(SolutionDir)/dist</BaseOutputPath>
         <Copyright>© 2006-2023 nsnail</Copyright>
         <Description>A general authority management system based on RBAC</Description>
         <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>

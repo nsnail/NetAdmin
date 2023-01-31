@@ -6,5 +6,5 @@
 
 void Main()
 {
-	"admin".Pwd().Guid().Dump();
+    "admin".Pwd().Guid().Dump();
 }

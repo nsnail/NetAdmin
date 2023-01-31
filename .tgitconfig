@@ -1,4 +1,4 @@
 [hook "startcommit"]
-    cmdline = code-format.cmd
+    cmdline = dot-clean.cmd
     wait = true
     show = true

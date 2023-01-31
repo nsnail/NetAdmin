@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../../CodeQuality.props" />
-    <Import Project="../../../CopyPackageXmlCommentFiles.targets" />
-    <Import Project="../../../GenerateResx.targets" />
+    <Import Project="$(SolutionDir)/CodeQuality.props" />
+    <Import Project="$(SolutionDir)/CopyPackageXmlCommentFiles.targets" />
+    <Import Project="$(SolutionDir)/GenerateResx.targets" />
+    <ItemGroup>
+        <Content Include="$(SolutionDir)/assets/config/**" LinkBase="Configuration" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.686-preview20230105-ns1" />
         <PackageReference Include="FreeSql.NS" Version="3.2.687-preview20230119-ns1">
@@ -16,11 +19,5 @@
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15" />
         <PackageReference Include="Minio" Version="4.0.7" />
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
-    </ItemGroup>
-    <ItemGroup>
-        <EmbeddedResource Update="Languages\Ln.resx">
-            <Generator>PublicResXFileCodeGenerator</Generator>
-            <LastGenOutput>Ln.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
     </ItemGroup>
 </Project>
