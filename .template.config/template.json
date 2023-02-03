@@ -11,7 +11,7 @@
         "type": "project"
     },
     "sourceName": "NetAdmin", // 可选，要替换的名字
-    "preferNameDirectory": true, // 可选，添加目录  
+    "preferNameDirectory": true, // 可选，添加目录
     "sources": [
         {
             "modifiers": [
@@ -20,7 +20,8 @@
                         "**/.vs/**",
                         "**/.idea/**",
                         "**/.git/**",
-                        "**/dist/**"
+                        "**/dist/**",
+                        "**/node_modules/**"
                     ]
                 }
             ]
