@@ -1,6 +1,3 @@
-using System.Data;
-using FreeSql;
-
 namespace NetAdmin.Host.Attributes;
 
 /// <summary>

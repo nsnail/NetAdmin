@@ -1,6 +1,4 @@
-using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Sys;
-using NSExt.Extensions;
 
 namespace NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 

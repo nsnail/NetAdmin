@@ -1,10 +1,4 @@
-using System.Collections.Immutable;
-using System.Globalization;
-using System.Reflection;
-using Furion;
 using NetAdmin.Application.Services.Sys.Dependency;
-using NetAdmin.Infrastructure.Attributes;
-using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -14,40 +8,34 @@ public class ConstantService : ServiceBase<IConstantService>, IConstantService
     /// <inheritdoc />
     public IDictionary<string, string> GetCharsDic()
     {
-        var ret = typeof(Chars).GetFields(BindingFlags.Public | BindingFlags.Static)
-                               .Where(x => x.FieldType == typeof(string))
-                               .ToImmutableSortedDictionary( //
-                                   x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
-        return ret;
+        return typeof(Chars).GetFields(BindingFlags.Public | BindingFlags.Static)
+                            .Where(x => x.FieldType == typeof(string))
+                            .ToImmutableSortedDictionary( //
+                                x => x.Name, x => x.GetValue(null)?.ToString());
     }
 
     /// <inheritdoc />
     public IDictionary<string, Dictionary<string, string>> GetEnums()
     {
-        var ret = App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) is not null)
-                     .ToDictionary(
-                         x => x.Name
-                       , x => x.GetEnumValues().Cast<Enum>().ToDictionary(y => y.ToString(), y => y.Desc()));
-        return ret;
+        return App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) is not null)
+                  .ToDictionary(
+                      x => x.Name, x => x.GetEnumValues().Cast<Enum>().ToDictionary(y => y.ToString(), y => y.Desc()));
     }
 
     /// <inheritdoc />
     public IDictionary<string, string> GetLocalizedStrings()
     {
-        var ret = typeof(Ln).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                            .Where(x => x.PropertyType == typeof(string))
-                            .ToImmutableSortedDictionary(x => x.Name.ToString(), x => x.GetValue(null)?.ToString());
-        return ret;
+        return typeof(Ln).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                         .Where(x => x.PropertyType == typeof(string))
+                         .ToImmutableSortedDictionary(x => x.Name, x => x.GetValue(null)?.ToString());
     }
 
     /// <inheritdoc />
     public IDictionary<string, long> GetNumbersDic()
     {
-        var ret = typeof(Numbers).GetFields(BindingFlags.Public | BindingFlags.Static)
-                                 .Where(x => x.FieldType == typeof(int) || x.FieldType == typeof(long))
-                                 .ToImmutableSortedDictionary( //
-                                     x => x.Name.ToString()
-                                   , x => Convert.ToInt64(x.GetValue(null)!, CultureInfo.InvariantCulture));
-        return ret;
+        return typeof(Numbers).GetFields(BindingFlags.Public | BindingFlags.Static)
+                              .Where(x => x.FieldType == typeof(int) || x.FieldType == typeof(long))
+                              .ToImmutableSortedDictionary( //
+                                  x => x.Name, x => Convert.ToInt64(x.GetValue(null), CultureInfo.InvariantCulture));
     }
 }

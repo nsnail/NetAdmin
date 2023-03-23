@@ -1,7 +1,5 @@
-using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
-using NSExt.Extensions;
 
 namespace NetAdmin.Domain.Dto.Sys.Dept;
 

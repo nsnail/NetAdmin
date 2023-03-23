@@ -16,40 +16,40 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     检查手机号是否可用
     /// </summary>
-    Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req);
+    Task<bool> CheckMobileAvaliableAsync(CheckMobileAvaliableReq req);
 
     /// <summary>
     ///     检查用户名是否可用
     /// </summary>
-    Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req);
+    Task<bool> CheckUserNameAvaliableAsync(CheckUserNameAvaliableReq req);
 
     /// <summary>
     ///     密码登录
     /// </summary>
-    Task<LoginRsp> PwdLogin(PwdLoginReq req);
+    Task<LoginRsp> PwdLoginAsync(PwdLoginReq req);
 
     /// <summary>
     ///     查询用户档案
     /// </summary>
-    Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req);
+    Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req);
 
     /// <summary>
     ///     注册用户
     /// </summary>
-    Task Register(RegisterReq req);
+    Task RegisterAsync(RegisterReq req);
 
     /// <summary>
     ///     重设密码
     /// </summary>
-    Task ResetPassword(ResetPasswordReq req);
+    Task ResetPasswordAsync(ResetPasswordReq req);
 
     /// <summary>
     ///     短信登录
     /// </summary>
-    Task<LoginRsp> SmsLogin(SmsLoginReq req);
+    Task<LoginRsp> SmsLoginAsync(SmsLoginReq req);
 
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    Task<QueryUserRsp> UserInfo();
+    Task<QueryUserRsp> UserInfoAsync();
 }

@@ -1,7 +1,4 @@
-using Furion.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Minio;
-using NetAdmin.Infrastructure.Configuration.Options;
 
 namespace NetAdmin.Infrastructure.Utils;
 
@@ -28,7 +25,7 @@ public class MinioHelper : IScoped
     /// <param name="contentType">文件类型</param>
     /// <param name="fileSize">文件大小</param>
     /// <returns>可访问的url地址</returns>
-    public async Task<string> Upload(string objectName, Stream fileStream, string contentType, long fileSize)
+    public async Task<string> UploadAsync(string objectName, Stream fileStream, string contentType, long fileSize)
     {
         using var minio = new MinioClient().WithEndpoint(_uploadOptions.Minio.ServerAddress)
                                            .WithCredentials( //

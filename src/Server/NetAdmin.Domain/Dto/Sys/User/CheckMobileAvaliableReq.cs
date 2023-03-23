@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Sys;
 

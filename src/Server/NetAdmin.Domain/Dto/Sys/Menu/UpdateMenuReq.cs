@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Dependency;
 
 namespace NetAdmin.Domain.Dto.Sys.Menu;

@@ -1,8 +1,5 @@
-using Furion;
-using Furion.EventBus;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Events;
-using NSExt.Extensions;
 
 namespace NetAdmin.Host.Subscribers;
 
@@ -25,10 +22,10 @@ public class ApiSynchronizer : IEventSubscriber
     ///     同步Api接口
     /// </summary>
     [EventSubscribe(nameof(SyncStructureAfterEvent))]
-    public async Task SyncApi(EventHandlerExecutingContext content)
+    public async Task SyncApiAsync(EventHandlerExecutingContext _)
     {
         var logService = App.GetRequiredService<IApiService>();
-        await logService.Sync();
-        _logger.Info($"{nameof(IApiService)}.{nameof(IApiService.Sync)} {Ln.Completed}");
+        await logService.SyncAsync();
+        _logger.Info($"{nameof(IApiService)}.{nameof(IApiService.SyncAsync)} {Ln.Completed}");
     }
 }

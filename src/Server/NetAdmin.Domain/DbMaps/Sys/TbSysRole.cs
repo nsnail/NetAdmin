@@ -1,10 +1,4 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using FreeSql.DataAnnotations;
 using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Attributes;
-using NSExt.Attributes;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
 
@@ -72,11 +66,18 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
     public enum RoleBits : long
     {
         /// <summary>
+        ///     无
+        /// </summary>
+        None = 0
+
+       ,
+
+        /// <summary>
         ///     忽略权限控制（拥有所有权限）
         /// </summary>
         [Description(nameof(Ln.Ignoring_permissions_control))]
         [Localization(typeof(Ln))]
-        IgnorePermissionControl = 0b_0000_0001_0000
+        IgnorePermissionControl = 1 << 4
 
        ,
 
@@ -85,7 +86,7 @@ public record TbSysRole : MutableEntity, IFieldBitSet, IFieldSort, IFieldSummary
         /// </summary>
         [Description(nameof(Ln.Display_Dashboard))]
         [Localization(typeof(Ln))]
-        DisplayDashboard = 0b_0000_0010_0000
+        DisplayDashboard = 1 << 5
     }
 
     /// <summary>

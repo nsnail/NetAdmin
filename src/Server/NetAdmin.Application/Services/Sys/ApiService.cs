@@ -1,11 +1,3 @@
-using System.Globalization;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using Mapster;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
@@ -32,25 +24,25 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     }
 
     /// <inheritdoc />
-    public Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<QueryApiRsp> Create(CreateApiReq req)
+    public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
+    public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
         throw new NotImplementedException();
     }
@@ -58,7 +50,7 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
     /// <summary>
     ///     查询接口
     /// </summary>
-    public async Task<IEnumerable<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
+    public async Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
         return ret.Adapt<IEnumerable<QueryApiRsp>>();
@@ -95,27 +87,25 @@ public class ApiService : RepositoryService<TbSysApi, IApiService>, IApiService
         var actionGroup //
             = actionDescriptors.GroupBy(x => x.ControllerTypeInfo);
 
-        var ret = actionGroup.Select(SelectQueryApiRsp);
-
-        return ret;
+        return actionGroup.Select(SelectQueryApiRsp);
     }
 
     /// <inheritdoc />
-    public async Task Sync()
+    public async Task SyncAsync()
     {
-        await Rpo.DeleteAsync(a => true);
+        _ = await Rpo.DeleteAsync(_ => true);
 
         var list = ReflectionList(false);
 
         EnableCascadeSave = true;
         foreach (var item in list) {
             var entity = item.Adapt<TbSysApi>();
-            await Rpo.InsertAsync(entity);
+            _ = await Rpo.InsertAsync(entity);
         }
     }
 
     /// <inheritdoc />
-    public Task<NopReq> Update(NopReq req)
+    public Task<NopReq> UpdateAsync(NopReq req)
     {
         throw new NotImplementedException();
     }

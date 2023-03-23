@@ -1,6 +1,3 @@
-using Furion;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
@@ -34,62 +31,62 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
     ///     检查手机号是否可用
     /// </summary>
     [AllowAnonymous]
-    public async Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req)
+    public Task<bool> CheckMobileAvaliableAsync(CheckMobileAvaliableReq req)
     {
-        return await Service.CheckMobileAvaliable(req);
+        return Service.CheckMobileAvaliableAsync(req);
     }
 
     /// <summary>
     ///     检查用户名是否可用
     /// </summary>
     [AllowAnonymous]
-    public async Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req)
+    public Task<bool> CheckUserNameAvaliableAsync(CheckUserNameAvaliableReq req)
     {
-        return await Service.CheckUserNameAvaliable(req);
+        return Service.CheckUserNameAvaliableAsync(req);
     }
 
     /// <summary>
     ///     创建用户
     /// </summary>
     [Transaction]
-    public async Task<QueryUserRsp> Create(CreateUserReq req)
+    public Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
     ///     删除用户
     /// </summary>
     [NonAction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     分页查询用户
     /// </summary>
-    public async Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
+    public Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     密码登录
     /// </summary>
     [AllowAnonymous]
-    public async Task<LoginRsp> PwdLogin(PwdLoginReq req)
+    public async Task<LoginRsp> PwdLoginAsync(PwdLoginReq req)
     {
-        var ret = await Service.PwdLogin(req);
+        var ret = await Service.PwdLoginAsync(req);
 
         SetHeaderToken(ret);
         return ret;
@@ -98,17 +95,17 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     /// <summary>
     ///     查询用户
     /// </summary>
-    public async Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    public Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
     ///     查询用户档案
     /// </summary>
-    public async Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req)
+    public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
     {
-        return await Service.QueryProfile(req);
+        return Service.QueryProfileAsync(req);
     }
 
     /// <summary>
@@ -116,27 +113,27 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     [Transaction]
     [AllowAnonymous]
-    public async Task Register(RegisterReq req)
+    public async Task RegisterAsync(RegisterReq req)
     {
-        var config = await _configCache.GetLatestConfig();
+        var config = await _configCache.GetLatestConfigAsync();
 
-        await Service.Register(req with {
-                                            DeptId = config.UserRegisterDeptId
-                                          , PositionIds = new[] { config.UserRegisterPosId }
-                                          , RoleIds = new[] { config.UserRegisterRoleId }
-                                          , Profile = new CreateUserProfileReq()
-                                          , Activated = !config.UserRegisterConfirm
-                                          , Mobile = req.VerifySmsCodeReq.DestMobile
-                                        });
+        await Service.RegisterAsync(req with {
+                                                 DeptId = config.UserRegisterDeptId
+                                               , PositionIds = new[] { config.UserRegisterPosId }
+                                               , RoleIds = new[] { config.UserRegisterRoleId }
+                                               , Profile = new CreateUserProfileReq()
+                                               , Activated = !config.UserRegisterConfirm
+                                               , Mobile = req.VerifySmsCodeReq.DestMobile
+                                             });
     }
 
     /// <summary>
     ///     重设密码
     /// </summary>
     [AllowAnonymous]
-    public async Task ResetPassword(ResetPasswordReq req)
+    public Task ResetPasswordAsync(ResetPasswordReq req)
     {
-        await Service.ResetPassword(req);
+        return Service.ResetPasswordAsync(req);
     }
 
     /// <summary>
@@ -144,9 +141,9 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public async Task<LoginRsp> SmsLogin(SmsLoginReq req)
+    public async Task<LoginRsp> SmsLoginAsync(SmsLoginReq req)
     {
-        var ret = await Service.SmsLogin(req);
+        var ret = await Service.SmsLoginAsync(req);
         SetHeaderToken(ret);
         return ret;
     }
@@ -155,17 +152,17 @@ public class UserController : ControllerBase<IUserService>, IUserModule
     ///     更新用户
     /// </summary>
     [Transaction]
-    public async Task<QueryUserRsp> Update(UpdateUserReq req)
+    public Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    public async Task<QueryUserRsp> UserInfo()
+    public Task<QueryUserRsp> UserInfoAsync()
     {
-        return await _userCache.UserInfo();
+        return _userCache.UserInfoAsync();
     }
 
     private static void SetHeaderToken(LoginRsp ret)

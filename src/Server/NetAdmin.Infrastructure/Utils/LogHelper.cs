@@ -1,6 +1,3 @@
-using Furion;
-using Microsoft.Extensions.Logging;
-
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>

@@ -21,51 +21,51 @@ public class PositionController : ControllerBase<IPositionService>, IPositionMod
     ///     批量删除岗位
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
     ///     创建岗位
     /// </summary>
     [Transaction]
-    public async Task<QueryPositionRsp> Create(CreatePositionReq req)
+    public Task<QueryPositionRsp> CreateAsync(CreatePositionReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
     ///     删除岗位
     /// </summary>
     [Transaction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     分页查询岗位
     /// </summary>
-    public async Task<PagedQueryRsp<QueryPositionRsp>> PagedQuery(PagedQueryReq<QueryPositionReq> req)
+    public Task<PagedQueryRsp<QueryPositionRsp>> PagedQueryAsync(PagedQueryReq<QueryPositionReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询岗位
     /// </summary>
-    public async Task<IEnumerable<QueryPositionRsp>> Query(QueryReq<QueryPositionReq> req)
+    public Task<IEnumerable<QueryPositionRsp>> QueryAsync(QueryReq<QueryPositionReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
     ///     更新岗位
     /// </summary>
     [Transaction]
-    public async Task<QueryPositionRsp> Update(UpdatePositionReq req)
+    public Task<QueryPositionRsp> UpdateAsync(UpdatePositionReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 }

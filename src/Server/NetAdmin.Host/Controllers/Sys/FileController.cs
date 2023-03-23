@@ -17,8 +17,8 @@ public class FileController : ControllerBase<IFileService>, IFileModule
     /// <summary>
     ///     文件上传
     /// </summary>
-    public async Task<string> Upload(IFormFile file)
+    public Task<string> UploadAsync(IFormFile file)
     {
-        return await Service.Upload(file);
+        return Service.UploadAsync(file);
     }
 }

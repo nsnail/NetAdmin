@@ -1,19 +1,7 @@
-using System.Globalization;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using FreeSql;
-using Furion;
-using Furion.ConfigurableOptions;
-using Furion.DependencyInjection;
-using Furion.EventBus;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Events;
 using NetAdmin.Host.Filters;
 using NetAdmin.Host.Utils;
-using NetAdmin.Infrastructure.Configuration.Options;
-using NetAdmin.Infrastructure.Utils;
-using NSExt.Extensions;
 using Spectre.Console;
 using Yitter.IdGenerator;
 using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
@@ -26,48 +14,44 @@ namespace NetAdmin.Host.Extensions;
 [SuppressSniffer]
 public static class ServiceCollectionExtensions
 {
-    private static readonly Dictionary<Regex, string> _consoleColors;
-
-    static ServiceCollectionExtensions()
-    {
-        _consoleColors = new Dictionary<Regex, string> {
-                                                           {
-                                                               new Regex( //
-                                                                   @"(\d{2,}\.\d+ ?ms)", RegexOptions.Compiled)
-                                                             , @$"[{nameof(ConsoleColor.Magenta)}]$1[/]"
-                                                           }
-                                                         , {
-                                                               new Regex( //
-                                                                   @"(Tb[a-zA-Z0-9]+)", RegexOptions.Compiled)
-                                                             , @$"[{nameof(ConsoleColor.Cyan)}]$1[/]"
-                                                           }
-                                                         , {
-                                                               new Regex( //
-                                                                   @"(INSERT) ", RegexOptions.Compiled)
-                                                             , @$"[{nameof(ConsoleColor.Blue)}]$1[/] "
-                                                           }
-                                                         , {
-                                                               new Regex( //
-                                                                   @"(SELECT) ", RegexOptions.Compiled)
-                                                             , @$"[{nameof(ConsoleColor.Green)}]$1[/] "
-                                                           }
-                                                         , {
-                                                               new Regex( //
-                                                                   @"(UPDATE) ", RegexOptions.Compiled)
-                                                             , @$"[{nameof(ConsoleColor.Yellow)}]$1[/] "
-                                                           }
-                                                         , {
-                                                               new Regex( //
-                                                                   @"(DELETE) ", RegexOptions.Compiled)
-                                                             , @$"[{nameof(ConsoleColor.Red)}]$1[/] "
-                                                           }
-                                                         , {
-                                                               new Regex( //
-                                                                   @"(<s:.+?>)", RegexOptions.Compiled)
-                                                             , @$"[underline {nameof(ConsoleColor.Gray)}]$1[/] "
-                                                           }
-                                                       };
-    }
+    private static readonly Dictionary<Regex, string> _consoleColors //
+        = new() {
+                    {
+                        new Regex( //
+                            @"(\d{2,}\.\d+ ?ms)", RegexOptions.Compiled)
+                      , $"[{nameof(ConsoleColor.Magenta)}]$1[/]"
+                    }
+                  , {
+                        new Regex( //
+                            "(Tb[a-zA-Z0-9]+)", RegexOptions.Compiled)
+                      , $"[{nameof(ConsoleColor.Cyan)}]$1[/]"
+                    }
+                  , {
+                        new Regex( //
+                            "(INSERT) ", RegexOptions.Compiled)
+                      , $"[{nameof(ConsoleColor.Blue)}]$1[/] "
+                    }
+                  , {
+                        new Regex( //
+                            "(SELECT) ", RegexOptions.Compiled)
+                      , $"[{nameof(ConsoleColor.Green)}]$1[/] "
+                    }
+                  , {
+                        new Regex( //
+                            "(UPDATE) ", RegexOptions.Compiled)
+                      , $"[{nameof(ConsoleColor.Yellow)}]$1[/] "
+                    }
+                  , {
+                        new Regex( //
+                            "(DELETE) ", RegexOptions.Compiled)
+                      , $"[{nameof(ConsoleColor.Red)}]$1[/] "
+                    }
+                  , {
+                        new Regex( //
+                            "(<s:.+?>)", RegexOptions.Compiled)
+                      , $"[underline {nameof(ConsoleColor.Gray)}]$1[/] "
+                    }
+                };
 
     /// <summary>
     ///     扫描程序集中继承自IConfigurableOptions的选项，注册
@@ -85,8 +69,8 @@ public static class ServiceCollectionExtensions
             var configureMethod = typeof(ConfigurableOptionsServiceCollectionExtensions).GetMethod(
                 nameof(ConfigurableOptionsServiceCollectionExtensions.AddConfigurableOptions)
               , BindingFlags.Public | BindingFlags.Static, new[] { typeof(IServiceCollection) });
-            configureMethod!.MakeGenericMethod(type).Invoke(me, new object[] { me });
-            sbLog.Append(CultureInfo.InvariantCulture, $", {type.Name}");
+            _ = configureMethod!.MakeGenericMethod(type).Invoke(me, new object[] { me });
+            _ = sbLog.Append(CultureInfo.InvariantCulture, $", {type.Name}");
         }
 
         LogHelper.Get<IServiceCollection>()
@@ -121,7 +105,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddContextUser(this IServiceCollection me)
     {
-        me.AddScoped(typeof(ContextUser), _ => ContextUser.Create());
+        _ = me.AddScoped(typeof(ContextUser), _ => ContextUser.Create());
         return me;
     }
 
@@ -130,7 +114,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddEventBus(this IServiceCollection me)
     {
-        me.AddEventBus(builder => { builder.AddSubscribers(App.Assemblies.ToArray()); });
+        _ = me.AddEventBus(builder => builder.AddSubscribers(App.Assemblies.ToArray()));
         return me;
     }
 
@@ -140,35 +124,33 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
     {
         var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build();
-        me.AddSingleton(freeSql);
+        _ = me.AddSingleton(freeSql);
 
         var sqlAuditor = App.GetRequiredService<SqlAuditor>();
 
         freeSql.Aop.AuditValue += sqlAuditor.DataAuditHandler; // Insert/Update自动值处理
 
         // AOP事件发布（异步）
-        freeSql.Aop.CommandBefore += (_, e) => {
-            App.GetRequiredService<IEventPublisher>().PublishAsync(new SqlCommandBeforeEvent(e));
-        }; // 增删查改，执行命令之前触发
-        freeSql.Aop.CommandAfter += (_, e) => {
-            App.GetRequiredService<IEventPublisher>().PublishAsync(new SqlCommandAfterEvent(e));
-        }; // 增删查改，执行命令完成后触发
+        freeSql.Aop.CommandBefore += (_, e) =>
+            App.GetRequiredService<IEventPublisher>().PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
+        freeSql.Aop.CommandAfter += (_, e) =>
+            App.GetRequiredService<IEventPublisher>().PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
 
-        freeSql.Aop.SyncStructureBefore += (_, e) => {
-            App.GetRequiredService<IEventPublisher>().PublishAsync(new SyncStructureBeforeEvent(e));
-        }; // CodeFirst迁移，执行之前触发
+        freeSql.Aop.SyncStructureBefore += (_, e) =>
+            App.GetRequiredService<IEventPublisher>()
+               .PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
 
-        freeSql.Aop.SyncStructureAfter += (_, e) => {
-            App.GetRequiredService<IEventPublisher>().PublishAsync(new SyncStructureAfterEvent(e));
-        }; // CodeFirst迁移，执行完成触发
+        freeSql.Aop.SyncStructureAfter += (_, e) =>
+            App.GetRequiredService<IEventPublisher>()
+               .PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
 
         // 全局过滤器设置
         // freeSql.GlobalFilter.ApplyOnly<IFieldBitSet>( // 启用/禁用
         //     Strings.FLG_FILTER_BITSET, a => a.BitSet.HasFlag(BitSets.Enabled));
         // freeSql.GlobalFilter.ApplyOnly
-        me.AddScoped<UnitOfWorkManager>();                    // 注入工作单元管理器
-        me.AddFreeRepository(null, App.Assemblies.ToArray()); // 批量注入 Repository
-        me.AddMvcFilter<TransactionInterceptor>();            // 注入事务拦截器
+        _ = me.AddScoped<UnitOfWorkManager>();                    // 注入工作单元管理器
+        _ = me.AddFreeRepository(null, App.Assemblies.ToArray()); // 批量注入 Repository
+        _ = me.AddMvcFilter<TransactionInterceptor>();            // 注入事务拦截器
 
         return me;
     }
@@ -178,7 +160,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddJwt(this IServiceCollection me)
     {
-        me.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
+        _ = me.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
         return me;
     }
 
@@ -187,7 +169,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddMemCache(this IServiceCollection me)
     {
-        me.AddMemoryCache(options => { options.TrackStatistics = true; });
+        _ = me.AddMemoryCache(options => options.TrackStatistics = true);
         return me;
     }
 

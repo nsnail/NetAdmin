@@ -56,7 +56,7 @@
         <Rule Id="SA1115" Action="Warning" />          <!-- Parameter should follow comma -->
         <Rule Id="SA1116" Action="Warning" />          <!-- Split parameters should start on line after declaration -->
         <Rule Id="SA1117" Action="None" />             <!-- Parameters should be on same line or separate lines -->
-        <Rule Id="SA1118" Action="Warning" />          <!-- Parameter should not span multiple lines -->
+        <Rule Id="SA1118" Action="None" />          <!-- Parameter should not span multiple lines -->
         <Rule Id="SA1120" Action="None" />             <!-- Comments should contain text -->
         <Rule Id="SA1121" Action="Warning" />          <!-- Use built-in type alias -->
         <Rule Id="SA1122" Action="Warning" />          <!-- Use string.Empty for empty strings -->
@@ -111,7 +111,7 @@
         <Rule Id="SA1310" Action="None" />             <!-- Field names should not contain underscore -->
         <Rule Id="SA1311" Action="Warning" />          <!-- Static readonly fields should begin with upper-case letter -->
         <Rule Id="SA1312" Action="Warning" />          <!-- Variable names should begin with lower-case letter -->
-        <Rule Id="SA1313" Action="Warning" />             <!-- Parameter names should begin with lower-case letter -->
+        <Rule Id="SA1313" Action="None" />             <!-- Parameter names should begin with lower-case letter -->
         <Rule Id="SA1314" Action="Warning" />          <!-- Type parameter names should begin with T -->
         <Rule Id="SX1309" Action="Warning" />          <!-- Field names should begin with underscore -->
         <Rule Id="SX1309S" Action="Warning" />         <!-- Static field names should begin with underscore -->

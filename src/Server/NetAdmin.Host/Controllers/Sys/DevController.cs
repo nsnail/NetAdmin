@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dev;
@@ -19,25 +18,25 @@ public class DevController : ControllerBase<IDevService>, IDevModule
     /// <summary>
     ///     生成后端代码
     /// </summary>
-    public async Task GenerateCsCode(GenerateCsCodeReq req)
+    public Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
-        await Service.GenerateCsCode(req);
+        return Service.GenerateCsCodeAsync(req);
     }
 
     /// <summary>
     ///     生成图标代码
     /// </summary>
-    public async Task GenerateIconCode(GenerateIconCodeReq req)
+    public Task GenerateIconCodeAsync(GenerateIconCodeReq req)
     {
-        await Service.GenerateIconCode(req);
+        return Service.GenerateIconCodeAsync(req);
     }
 
     /// <summary>
     ///     生成接口代码
     /// </summary>
     /// <param name="projectPath">前端项目Src目录路径</param>
-    public async Task GenerateJsCode([Required] string projectPath)
+    public Task GenerateJsCodeAsync([Required] string projectPath)
     {
-        await Service.GenerateJsCode(projectPath);
+        return Service.GenerateJsCodeAsync(projectPath);
     }
 }

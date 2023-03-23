@@ -1,11 +1,4 @@
-using System.Globalization;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Xml;
-using Furion;
-using Furion.DependencyInjection;
-using Furion.SpecificationDocument;
-using Microsoft.Extensions.Options;
 
 namespace NetAdmin.Infrastructure.Utils;
 
@@ -33,6 +26,7 @@ public class XmlCommentReader : ISingleton
     /// <summary>
     ///     获取指定类型的注释
     /// </summary>
+    /// <exception cref="InvalidCastException">InvalidCastException</exception>
     public string GetComments(MemberInfo memberInfo)
     {
         var node = memberInfo switch {

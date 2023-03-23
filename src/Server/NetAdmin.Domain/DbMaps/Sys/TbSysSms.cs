@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using FreeSql.DataAnnotations;
 using NetAdmin.Domain.DbMaps.Dependency;
 
 namespace NetAdmin.Domain.DbMaps.Sys;

@@ -1,5 +1,3 @@
-using Furion.EventBus;
-
 namespace NetAdmin.Domain.Events;
 
 /// <summary>

@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
@@ -30,9 +28,9 @@ public class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -40,9 +38,9 @@ public class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<QuerySmsRsp> Create(CreateSmsReq req)
+    public Task<QuerySmsRsp> CreateAsync(CreateSmsReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
@@ -50,25 +48,25 @@ public class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     分页查询短信
     /// </summary>
-    public async Task<PagedQueryRsp<QuerySmsRsp>> PagedQuery(PagedQueryReq<QuerySmsReq> req)
+    public Task<PagedQueryRsp<QuerySmsRsp>> PagedQueryAsync(PagedQueryReq<QuerySmsReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询短信
     /// </summary>
-    public async Task<IEnumerable<QuerySmsRsp>> Query(QueryReq<QuerySmsReq> req)
+    public Task<IEnumerable<QuerySmsRsp>> QueryAsync(QueryReq<QuerySmsReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
@@ -76,21 +74,19 @@ public class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     [Transaction]
     [AllowAnonymous]
-    public async Task<SendSmsCodeRsp> SendSmsCode(SendSmsCodeReq req)
+    public async Task<SendSmsCodeRsp> SendSmsCodeAsync(SendSmsCodeReq req)
     {
         #if DEBUG
         try {
             #endif
-            await _captchaCache.VerifyCaptchaAndRemove(req.VerifyCaptchaReq);
+            await _captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq);
             #if DEBUG
         }
         catch {
             // ignored
         }
         #endif
-        var ret = await Service.SendSmsCode(req);
-
-        return ret;
+        return await Service.SendSmsCodeAsync(req);
     }
 
     /// <summary>
@@ -98,9 +94,9 @@ public class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<QuerySmsRsp> Update(UpdateSmsReq req)
+    public Task<QuerySmsRsp> UpdateAsync(UpdateSmsReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 
     /// <summary>
@@ -108,8 +104,8 @@ public class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     [Transaction]
     [AllowAnonymous]
-    public async Task<bool> VerifySmsCode(VerifySmsCodeReq req)
+    public Task<bool> VerifySmsCodeAsync(VerifySmsCodeReq req)
     {
-        return await Service.VerifySmsCode(req);
+        return Service.VerifySmsCodeAsync(req);
     }
 }

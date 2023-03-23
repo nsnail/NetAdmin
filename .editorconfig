@@ -14,18 +14,20 @@ trim_trailing_whitespace = true
 dotnet_analyzer_diagnostic.severity = warning
 dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.CA1716.severity = none
-dotnet_diagnostic.CA1848.severity = none
-dotnet_diagnostic.CA2254.severity = none
-dotnet_diagnostic.CA5350.severity = none
-dotnet_diagnostic.CA5351.severity = none
 dotnet_diagnostic.IDE0005.severity = none
 dotnet_diagnostic.IDE0008.severity = none
 dotnet_diagnostic.IDE0010.severity = none
-dotnet_diagnostic.IDE0017.severity = none
-dotnet_diagnostic.IDE0048.severity = none
 dotnet_diagnostic.IDE0055.severity = none
-dotnet_diagnostic.IDE0058.severity = none
 dotnet_diagnostic.IDE0160.severity = none
+dotnet_diagnostic.IDE0270.severity = none
+dotnet_diagnostic.RCS1141.severity = none
+dotnet_diagnostic.RCS1142.severity = none
+dotnet_diagnostic.RCS1181.severity = none
+dotnet_diagnostic.RCS1186.severity = none
+dotnet_diagnostic.S101.severity = none
+dotnet_diagnostic.S125.severity = none
+dotnet_diagnostic.S3925.severity = none
+dotnet_diagnostic.S4663.severity = none
 dotnet_diagnostic.SYSLIB1045.severity = none
 
 

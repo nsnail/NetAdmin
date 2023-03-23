@@ -1,13 +1,10 @@
-using FreeSql.Internal.Model;
 using Furion.FriendlyException;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Menu;
 using NetAdmin.Domain.Dto.Sys.User;
-using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -28,11 +25,11 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     批量删除菜单
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -41,7 +38,7 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     创建菜单
     /// </summary>
-    public async Task<QueryMenuRsp> Create(CreateMenuReq req)
+    public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryMenuRsp>();
@@ -50,14 +47,13 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     删除菜单
     /// </summary>
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
-        return ret;
+        return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryMenuRsp>> PagedQuery(PagedQueryReq<QueryMenuReq> req)
+    public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
     {
         throw new NotImplementedException();
     }
@@ -65,7 +61,7 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public async Task<IEnumerable<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
+    public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
         return ret.Adapt<IEnumerable<QueryMenuRsp>>();
@@ -74,7 +70,8 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     /// <summary>
     ///     更新菜单
     /// </summary>
-    public async Task<QueryMenuRsp> Update(UpdateMenuReq req)
+    /// <exception cref="AppFriendlyException">AppFriendlyException</exception>
+    public async Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
     {
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation);
@@ -85,19 +82,19 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryMenuRsp>> UserMenus()
+    public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {
-        var userInfo = await _userService.UserInfo();
-        return await UserMenus(userInfo);
+        var userInfo = await _userService.UserInfoAsync();
+        return await UserMenusAsync(userInfo);
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryMenuRsp>> UserMenus(QueryUserRsp userInfo)
+    public Task<IEnumerable<QueryMenuRsp>> UserMenusAsync(QueryUserRsp userInfo)
     {
         var req = new QueryReq<QueryMenuReq>();
 
         if (userInfo.Roles.Any(x => x.IgnorePermissionControl)) { // 忽略权限控制
-            return await Query(req);
+            return QueryAsync(req);
         }
 
         var ownedMenuIds = userInfo.Roles.SelectMany(x => x.MenuIds);
@@ -105,14 +102,13 @@ public class MenuService : RepositoryService<TbSysMenu, IMenuService>, IMenuServ
             ownedMenuIds = new[] { 0L };
         }
 
-        var ret = await Query(req with {
-                                           DynamicFilter
-                                           = new DynamicFilterInfo {
-                                                                       Field    = nameof(QueryMenuReq.Id)
-                                                                     , Operator = DynamicFilterOperator.Any
-                                                                     , Value    = ownedMenuIds
-                                                                   }
-                                       });
-        return ret;
+        return QueryAsync(req with {
+                                       DynamicFilter
+                                       = new DynamicFilterInfo {
+                                                                   Field    = nameof(QueryMenuReq.Id)
+                                                                 , Operator = DynamicFilterOperator.Any
+                                                                 , Value    = ownedMenuIds
+                                                               }
+                                   });
     }
 }

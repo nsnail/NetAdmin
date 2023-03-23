@@ -1,6 +1,3 @@
-using System.Reflection;
-using Mapster;
-using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 
@@ -45,7 +42,9 @@ public class CacheService : ServiceBase<ICacheService>, ICacheService
 
         var entriesCollection = coherentState?.GetType()
                                              .GetProperty( //
+                                                 #pragma warning disable S3011
                                                  "EntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance)
+                                             #pragma warning restore S3011
                                              ?.GetValue(coherentState);
         var entrys = entriesCollection?.GetType().GetProperty("Value")?.GetValue(entriesCollection);
 

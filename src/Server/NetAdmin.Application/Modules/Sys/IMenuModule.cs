@@ -15,5 +15,5 @@ public interface IMenuModule : ICrudModule<CreateMenuReq, QueryMenuRsp // 创建
     /// <summary>
     ///     当前用户菜单
     /// </summary>
-    Task<IEnumerable<QueryMenuRsp>> UserMenus();
+    Task<IEnumerable<QueryMenuRsp>> UserMenusAsync();
 }

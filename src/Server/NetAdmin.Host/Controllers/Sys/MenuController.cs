@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
@@ -28,60 +27,60 @@ public class MenuController : ControllerBase<IMenuService>, IMenuModule
     ///     批量删除菜单
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
     ///     创建菜单
     /// </summary>
     [Transaction]
-    public async Task<QueryMenuRsp> Create(CreateMenuReq req)
+    public Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
     ///     删除菜单
     /// </summary>
     [Transaction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     分页查询菜单
     /// </summary>
     [NonAction]
-    public async Task<PagedQueryRsp<QueryMenuRsp>> PagedQuery(PagedQueryReq<QueryMenuReq> req)
+    public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public async Task<IEnumerable<QueryMenuRsp>> Query(QueryReq<QueryMenuReq> req)
+    public Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
     ///     更新菜单
     /// </summary>
     [Transaction]
-    public async Task<QueryMenuRsp> Update(UpdateMenuReq req)
+    public Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 
     /// <summary>
     ///     当前用户菜单
     /// </summary>
-    public async Task<IEnumerable<QueryMenuRsp>> UserMenus()
+    public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {
-        return await Service.UserMenus(await _userCache.UserInfo());
+        return await Service.UserMenusAsync(await _userCache.UserInfoAsync());
     }
 }

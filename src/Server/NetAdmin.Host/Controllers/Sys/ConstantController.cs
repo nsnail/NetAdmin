@@ -1,9 +1,6 @@
-using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Dto;
 
 namespace NetAdmin.Host.Controllers.Sys;
 
@@ -40,8 +37,7 @@ public class ConstantController : ControllerBase<IConstantService>, IConstantMod
     [NonAction]
     public IDictionary<string, string> GetCharsDic()
     {
-        var ret = Service.GetCharsDic();
-        return ret;
+        return Service.GetCharsDic();
     }
 
     /// <summary>

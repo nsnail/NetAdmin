@@ -21,51 +21,51 @@ public class ExampleController : ControllerBase<IExampleService>, IExampleModule
     ///     批量删除示例
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
     ///     创建示例
     /// </summary>
     [Transaction]
-    public async Task<QueryExampleRsp> Create(CreateExampleReq req)
+    public Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
     ///     删除示例
     /// </summary>
     [Transaction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     分页查询示例
     /// </summary>
-    public async Task<PagedQueryRsp<QueryExampleRsp>> PagedQuery(PagedQueryReq<QueryExampleReq> req)
+    public Task<PagedQueryRsp<QueryExampleRsp>> PagedQueryAsync(PagedQueryReq<QueryExampleReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询示例
     /// </summary>
-    public async Task<IEnumerable<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
+    public Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
     ///     更新示例
     /// </summary>
     [Transaction]
-    public async Task<QueryExampleRsp> Update(UpdateExampleReq req)
+    public Task<QueryExampleRsp> UpdateAsync(UpdateExampleReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 }

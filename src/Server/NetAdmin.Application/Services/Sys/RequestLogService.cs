@@ -1,5 +1,3 @@
-using FreeSql;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
@@ -20,11 +18,11 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     批量删除请求日志
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -33,7 +31,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     创建请求日志
     /// </summary>
-    public async Task<QueryRequestLogRsp> Create(CreateRequestLogReq req)
+    public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryRequestLogRsp>();
@@ -42,7 +40,8 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     删除请求日志
     /// </summary>
-    public Task<int> Delete(DelReq req)
+    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
@@ -50,7 +49,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     分页查询请求日志
     /// </summary>
-    public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQuery(PagedQueryReq<QueryRequestLogReq> req)
+    public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
     {
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
@@ -76,7 +75,7 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     查询请求日志
     /// </summary>
-    public async Task<IEnumerable<QueryRequestLogRsp>> Query(QueryReq<QueryRequestLogReq> req)
+    public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
@@ -85,18 +84,18 @@ public class RequestLogService : RepositoryService<TbSysRequestLog, IRequestLogS
     /// <summary>
     ///     更新请求日志
     /// </summary>
-    public Task<NopReq> Update(NopReq req)
+    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    public Task<NopReq> UpdateAsync(NopReq req)
     {
         throw new NotImplementedException();
     }
 
     private ISelect<TbSysRequestLog> QueryInternal(QueryReq<QueryRequestLogReq> req)
     {
-        var ret = Rpo.Select.Include(a => a.Api)
-                     .WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending(a => a.Id);
-        return ret;
+        return Rpo.Select.Include(a => a.Api)
+                  .WhereDynamicFilter(req.DynamicFilter)
+                  .WhereDynamic(req.Filter)
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                  .OrderByDescending(a => a.Id);
     }
 }

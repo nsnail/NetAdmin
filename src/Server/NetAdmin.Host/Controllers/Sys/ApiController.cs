@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
@@ -23,9 +22,9 @@ public class ApiController : ControllerBase<IApiService>, IApiModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -33,9 +32,9 @@ public class ApiController : ControllerBase<IApiService>, IApiModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<QueryApiRsp> Create(CreateApiReq req)
+    public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
@@ -43,43 +42,43 @@ public class ApiController : ControllerBase<IApiService>, IApiModule
     /// </summary>
     [NonAction]
     [Transaction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     分页查询接口
     /// </summary>
     [NonAction]
-    public async Task<PagedQueryRsp<QueryApiRsp>> PagedQuery(PagedQueryReq<QueryApiReq> req)
+    public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询接口
     /// </summary>
-    public async Task<IEnumerable<QueryApiRsp>> Query(QueryReq<QueryApiReq> req)
+    public Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
     ///     同步接口
     /// </summary>
     [Transaction]
-    public async Task Sync()
+    public Task SyncAsync()
     {
-        await Service.Sync();
+        return Service.SyncAsync();
     }
 
     /// <summary>
     ///     更新接口
     /// </summary>
     [NonAction]
-    public async Task<NopReq> Update(NopReq req)
+    public Task<NopReq> UpdateAsync(NopReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 }

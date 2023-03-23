@@ -21,51 +21,51 @@ public class RoleController : ControllerBase<IRoleService>, IRoleModule
     ///     批量删除角色
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
     ///     创建角色
     /// </summary>
     [Transaction]
-    public async Task<QueryRoleRsp> Create(CreateRoleReq req)
+    public Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
     ///     删除角色
     /// </summary>
     [Transaction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     分页查询角色
     /// </summary>
-    public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQuery(PagedQueryReq<QueryRoleReq> req)
+    public Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询角色
     /// </summary>
-    public async Task<IEnumerable<QueryRoleRsp>> Query(QueryReq<QueryRoleReq> req)
+    public Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
     ///     更新角色
     /// </summary>
     [Transaction]
-    public async Task<QueryRoleRsp> Update(UpdateRoleReq req)
+    public Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 }

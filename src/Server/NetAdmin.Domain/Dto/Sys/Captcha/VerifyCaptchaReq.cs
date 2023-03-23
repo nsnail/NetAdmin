@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
 namespace NetAdmin.Domain.Dto.Sys.Captcha;
 
 /// <summary>

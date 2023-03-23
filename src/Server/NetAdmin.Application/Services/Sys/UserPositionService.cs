@@ -1,10 +1,9 @@
-using FreeSql;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.UserPosition;
+using DataType = FreeSql.DataType;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -20,11 +19,11 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
     /// <summary>
     ///     批量删除用户-岗位映射
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -33,7 +32,7 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
     /// <summary>
     ///     创建用户-岗位映射
     /// </summary>
-    public async Task<QueryUserPositionRsp> Create(CreateUserPositionReq req)
+    public async Task<QueryUserPositionRsp> CreateAsync(CreateUserPositionReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryUserPositionRsp>();
@@ -42,16 +41,15 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
     /// <summary>
     ///     删除用户-岗位映射
     /// </summary>
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
-        return ret;
+        return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <summary>
     ///     分页查询用户-岗位映射
     /// </summary>
-    public async Task<PagedQueryRsp<QueryUserPositionRsp>> PagedQuery(PagedQueryReq<QueryUserPositionReq> req)
+    public async Task<PagedQueryRsp<QueryUserPositionRsp>> PagedQueryAsync(PagedQueryReq<QueryUserPositionReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
@@ -62,7 +60,7 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
     /// <summary>
     ///     查询用户-岗位映射
     /// </summary>
-    public async Task<IEnumerable<QueryUserPositionRsp>> Query(QueryReq<QueryUserPositionReq> req)
+    public async Task<IEnumerable<QueryUserPositionRsp>> QueryAsync(QueryReq<QueryUserPositionReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryUserPositionRsp>>();
@@ -71,10 +69,10 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
     /// <summary>
     ///     更新用户-岗位映射
     /// </summary>
-    public async Task<QueryUserPositionRsp> Update(UpdateUserPositionReq req)
+    public async Task<QueryUserPositionRsp> UpdateAsync(UpdateUserPositionReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqlite(req);
+            return await UpdateForSqliteAsync(req);
         }
 
         var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
@@ -83,17 +81,16 @@ public class UserPositionService : RepositoryService<TbSysUserPosition, IUserPos
 
     private ISelect<TbSysUserPosition> QueryInternal(QueryReq<QueryUserPositionReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending(a => a.Id);
-        return ret;
+        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                  .WhereDynamic(req.Filter)
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                  .OrderByDescending(a => a.Id);
     }
 
     /// <summary>
     ///     非sqlite数据库请删掉
     /// </summary>
-    private async Task<QueryUserPositionRsp> UpdateForSqlite(UpdateUserPositionReq req)
+    private async Task<QueryUserPositionRsp> UpdateForSqliteAsync(UpdateUserPositionReq req)
     {
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
             return null;

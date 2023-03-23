@@ -1,5 +1,3 @@
-using Furion.ConfigurableOptions;
-
 namespace NetAdmin.Infrastructure.Configuration.Options;
 
 /// <summary>

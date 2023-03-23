@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using FreeSql.Internal.Model;
-
 namespace NetAdmin.Domain.Dto.Dependency;
 
 /// <summary>

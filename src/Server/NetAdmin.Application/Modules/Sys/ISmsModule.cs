@@ -15,10 +15,10 @@ public interface ISmsModule : ICrudModule<CreateSmsReq, QuerySmsRsp // 创建类
     /// <summary>
     ///     发送短信验证码
     /// </summary>
-    Task<SendSmsCodeRsp> SendSmsCode(SendSmsCodeReq req);
+    Task<SendSmsCodeRsp> SendSmsCodeAsync(SendSmsCodeReq req);
 
     /// <summary>
     ///     完成短信验证
     /// </summary>
-    Task<bool> VerifySmsCode(VerifySmsCodeReq req);
+    Task<bool> VerifySmsCodeAsync(VerifySmsCodeReq req);
 }

@@ -1,5 +1,3 @@
-using Furion.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
@@ -18,83 +16,83 @@ public class UserCache : CacheBase<IUserService>, IScoped, IUserCache
     public UserCache(IMemoryCache cache, IUserService service) //
         : base(cache, service) { }
 
-    public Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req)
+    public Task<bool> CheckMobileAvaliableAsync(CheckMobileAvaliableReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req)
+    public Task<bool> CheckUserNameAvaliableAsync(CheckUserNameAvaliableReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<QueryUserRsp> Create(CreateUserReq req)
+    public Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
+    public Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<LoginRsp> PwdLogin(PwdLoginReq req)
+    public Task<LoginRsp> PwdLoginAsync(PwdLoginReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    public Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req)
+    public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
     {
         throw new NotImplementedException();
     }
 
-    public Task Register(RegisterReq req)
+    public Task RegisterAsync(RegisterReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task ResetPassword(ResetPasswordReq req)
+    public Task ResetPasswordAsync(ResetPasswordReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<LoginRsp> SmsLogin(SmsLoginReq req)
+    public Task<LoginRsp> SmsLoginAsync(SmsLoginReq req)
     {
         throw new NotImplementedException();
     }
 
-    public Task<QueryUserRsp> Update(UpdateUserReq req)
+    public Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<QueryUserRsp> UserInfo()
+    public Task<QueryUserRsp> UserInfoAsync()
     {
-        return await Cache.GetOrCreateAsync( //
-            $"{nameof(UserCache)}.{nameof(UserInfo)}.{Service.User.Id}", async entry => {
+        return Cache.GetOrCreateAsync( //
+            $"{nameof(UserCache)}.{nameof(UserInfoAsync)}.{Service.User.Id}", async entry => {
                 SetExpires(entry);
-                return await Service.UserInfo();
+                return await Service.UserInfoAsync();
             });
     }
 
     private void SetExpires(ICacheEntry entry)
     {
-        entry.SetSlidingExpiration(_slidingExpiration);
+        _                                     = entry.SetSlidingExpiration(_slidingExpiration);
         entry.AbsoluteExpirationRelativeToNow = _absoluteExpirationRelativeToNow;
     }
 }

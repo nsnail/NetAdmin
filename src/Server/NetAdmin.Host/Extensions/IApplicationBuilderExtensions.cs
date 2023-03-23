@@ -1,5 +1,3 @@
-using Furion.DependencyInjection;
-using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 using NetAdmin.Host.Middlewares;
 
@@ -18,10 +16,10 @@ public static class IApplicationBuilderExtensions
     /// </summary>
     public static IApplicationBuilder UseOpenApiSkin(this IApplicationBuilder me)
     {
-        me.UseKnife4UI(options => {
+        _ = me.UseKnife4UI(options => {
             options.RoutePrefix = string.Empty; // 配置 Knife4UI 路由地址
             foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups()) {
-                options.SwaggerEndpoint("/" + groupInfo.RouteTemplate, groupInfo.Title);
+                options.SwaggerEndpoint($"/{groupInfo.RouteTemplate}", groupInfo.Title);
             }
         });
 
@@ -33,7 +31,7 @@ public static class IApplicationBuilderExtensions
     /// </summary>
     public static IApplicationBuilder UseRemoveNullNode(this IApplicationBuilder me)
     {
-        me.UseMiddleware<RemoveNullNodeMiddleware>();
+        _ = me.UseMiddleware<RemoveNullNodeMiddleware>();
         return me;
     }
 

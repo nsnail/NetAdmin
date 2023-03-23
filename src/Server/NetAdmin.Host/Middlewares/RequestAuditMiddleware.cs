@@ -1,15 +1,9 @@
-using System.Diagnostics;
-using Furion.DataEncryption;
-using Furion.DynamicApiController;
-using Furion.EventBus;
-using Furion.SpecificationDocument;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.Extensions.Options;
 using NetAdmin.Domain.Contexts;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Domain.Events;
-using NSExt.Extensions;
 using Spectre.Console;
+using Rule = Spectre.Console.Rule;
 
 namespace NetAdmin.Host.Middlewares;
 
@@ -41,7 +35,7 @@ public class RequestAuditMiddleware
         _logger             = logger;
         _defaultRoutePrefix = new PathString($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
         _tokenPrefxLength
-            = specificationDocumentSettingsOptions.Value.SecurityDefinitions.First().Scheme.Length + 1; // eg. "Bearer "
+            = specificationDocumentSettingsOptions.Value.SecurityDefinitions[0].Scheme.Length + 1; // eg. "Bearer "
     }
 
     /// <summary>
@@ -83,8 +77,8 @@ public class RequestAuditMiddleware
         var exception = context.Features.Get<IExceptionHandlerFeature>();
         var rspCode = context.Response.Headers[nameof(Enums.RspCodes)].FirstOrDefault()?.Enum<Enums.RspCodes>() ??
                       Enums.RspCodes.Succeed;
-        var auditData
-            = await MakeAuditData(context, (long)sw.Elapsed.TotalMicroseconds, responseBody, rspCode, exception);
+        var auditData = await MakeAuditDataAsync(context, (long)sw.Elapsed.TotalMicroseconds, responseBody, rspCode
+                                      ,                   exception);
 
         // 从请求头中读取用户信息
         SetAssociatedUser(context, auditData);
@@ -93,9 +87,9 @@ public class RequestAuditMiddleware
         await _eventPublisher.PublishAsync(new OperationEvent(auditData));
     }
 
-    private static async Task<CreateRequestLogReq> MakeAuditData(HttpContext context, long duration, string responseBody
-                                                               , Enums.RspCodes rspCode
-                                                               , IExceptionHandlerFeature exception)
+    private static async Task<CreateRequestLogReq> MakeAuditDataAsync(HttpContext context, long duration
+                                                                    , string responseBody, Enums.RspCodes rspCode
+                                                                    , IExceptionHandlerFeature exception)
     {
         return new CreateRequestLogReq {
                                            ClientIp            = context.GetRemoteIpAddressToIPv4()

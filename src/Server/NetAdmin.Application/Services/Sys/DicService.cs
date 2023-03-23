@@ -21,74 +21,74 @@ public class DicService : ServiceBase<IDicService>, IDicService
     }
 
     /// <inheritdoc />
-    public Task<int> BulkDeleteCatalog(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
     {
-        return _catalogService.BulkDelete(req);
+        return _catalogService.BulkDeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<int> BulkDeleteContent(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req)
     {
-        return _contentService.BulkDelete(req);
+        return _contentService.BulkDeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public async Task<QueryDicCatalogRsp> CreateCatalog(CreateDicCatalogReq req)
+    public Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
     {
-        return await _catalogService.Create(req);
+        return _catalogService.CreateAsync(req);
     }
 
     /// <inheritdoc />
-    public async Task<QueryDicContentRsp> CreateContent(CreateDicContentReq req)
+    public Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req)
     {
-        return await _contentService.Create(req);
+        return _contentService.CreateAsync(req);
     }
 
     /// <inheritdoc />
-    public async Task<int> DeleteCatalog(DelReq req)
+    public Task<int> DeleteCatalogAsync(DelReq req)
     {
-        return await _catalogService.Delete(req);
+        return _catalogService.DeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteContent(DelReq req)
+    public Task<int> DeleteContentAsync(DelReq req)
     {
-        return _contentService.Delete(req);
+        return _contentService.DeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalog(PagedQueryReq<QueryDicCatalogReq> req)
+    public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
-        return _catalogService.PagedQuery(req);
+        return _catalogService.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContent(PagedQueryReq<QueryDicContentReq> req)
+    public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req)
     {
-        return _contentService.PagedQuery(req);
+        return _contentService.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
+    public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req)
     {
-        return _catalogService.Query(req);
+        return _catalogService.QueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
+    public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
     {
-        return _contentService.Query(req);
+        return _contentService.QueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryDicCatalogRsp> UpdateCatalog(UpdateDicCatalogReq req)
+    public Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req)
     {
-        return _catalogService.Update(req);
+        return _catalogService.UpdateAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryDicContentRsp> UpdateContent(UpdateDicContentReq req)
+    public Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req)
     {
-        return _contentService.Update(req);
+        return _contentService.UpdateAsync(req);
     }
 }

@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace NetAdmin.Domain.Dto.Sys.Position;
 
 /// <summary>

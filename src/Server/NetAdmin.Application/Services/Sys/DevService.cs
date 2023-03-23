@@ -1,11 +1,6 @@
-using System.Globalization;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Dto.Sys.Dev;
-using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -27,7 +22,7 @@ public class DevService : ServiceBase<DevService>, IDevService
     }
 
     /// <inheritdoc />
-    public async Task GenerateCsCode(GenerateCsCodeReq req)
+    public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
         var projectDirs = Directory.GetDirectories(req.ProjectPath);
 
@@ -46,76 +41,78 @@ public class DevService : ServiceBase<DevService>, IDevService
         // 业务逻辑层 - 模块目录
         var modulesDir = Path.Combine(appDir, nameof(Modules), moduleType);
         if (!Directory.Exists(modulesDir)) {
-            Directory.CreateDirectory(modulesDir);
+            _ = Directory.CreateDirectory(modulesDir);
         }
 
         // 业务逻辑层 - 服务目录
         var servicesDir           = Path.Combine(appDir,      nameof(Services), moduleType);
         var servicesDependencyDir = Path.Combine(servicesDir, nameof(Dependency));
         if (!Directory.Exists(servicesDependencyDir)) {
-            Directory.CreateDirectory(servicesDependencyDir);
+            _ = Directory.CreateDirectory(servicesDependencyDir);
         }
 
         // 数据契约层 - DTO目录
         var dtoDir = Path.Combine(dataDir, nameof(Domain.Dto), moduleType, req.ModuleName);
         if (!Directory.Exists(dtoDir)) {
-            Directory.CreateDirectory(dtoDir);
+            _ = Directory.CreateDirectory(dtoDir);
         }
 
         // 数据契约层 - Entity目录
         var entityDir = Path.Combine(dataDir, nameof(Domain.DbMaps), moduleType);
         if (!Directory.Exists(entityDir)) {
-            Directory.CreateDirectory(entityDir);
+            _ = Directory.CreateDirectory(entityDir);
         }
 
         // Api接口层 - Controller目录
         var controllerDir = Path.Combine(hostDir, "Controllers", moduleType);
         if (!Directory.Exists(controllerDir)) {
-            Directory.CreateDirectory(controllerDir);
+            _ = Directory.CreateDirectory(controllerDir);
         }
 
         // iModule
-        await WriteCodeFile(req, Path.Combine(appDir,     nameof(Modules), nameof(Tpl), "IExampleModule.cs")
-                     ,           Path.Combine(modulesDir, $"I{req.ModuleName}Module.cs"));
+        await WriteCodeFileAsync(req, Path.Combine(appDir,     nameof(Modules), nameof(Tpl), "IExampleModule.cs")
+                          ,           Path.Combine(modulesDir, $"I{req.ModuleName}Module.cs"));
 
         // iService
-        await WriteCodeFile(
+        await WriteCodeFileAsync(
             req, Path.Combine(appDir, nameof(Services), nameof(Tpl), nameof(Dependency), "IExampleService.cs")
      ,           Path.Combine(servicesDependencyDir, $"I{req.ModuleName}Service.cs"));
 
         // service
-        await WriteCodeFile(req, Path.Combine(appDir,      nameof(Services), nameof(Tpl), "ExampleService.cs")
-                     ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
+        await WriteCodeFileAsync(req, Path.Combine(appDir,      nameof(Services), nameof(Tpl), "ExampleService.cs")
+                          ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
 
         // controller
-        await WriteCodeFile(req, Path.Combine(hostDir,       "Controllers", nameof(Tpl), "ExampleController.cs")
-                     ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
+        await WriteCodeFileAsync(req, Path.Combine(hostDir,       "Controllers", nameof(Tpl), "ExampleController.cs")
+                          ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
 
         // createReq
-        await WriteCodeFile(
+        await WriteCodeFileAsync(
             req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "CreateExampleReq.cs")
      ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
 
         // updateReq
-        await WriteCodeFile(
+        await WriteCodeFileAsync(
             req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "UpdateExampleReq.cs")
      ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
 
         // queryReq
-        await WriteCodeFile(req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleReq.cs")
-                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
+        await WriteCodeFileAsync(
+            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleReq.cs")
+     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
 
         // queryRsp
-        await WriteCodeFile(req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleRsp.cs")
-                     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
+        await WriteCodeFileAsync(
+            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleRsp.cs")
+     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
 
         // entity
-        await WriteCodeFile(req, Path.Combine(dataDir,   nameof(Domain.DbMaps), nameof(Tpl), "TbTplExample.cs")
-                     ,           Path.Combine(entityDir, $"Tb{moduleType}{req.ModuleName}.cs"));
+        await WriteCodeFileAsync(req, Path.Combine(dataDir,   nameof(Domain.DbMaps), nameof(Tpl), "TbTplExample.cs")
+                          ,           Path.Combine(entityDir, $"Tb{moduleType}{req.ModuleName}.cs"));
     }
 
     /// <inheritdoc />
-    public async Task GenerateIconCode(GenerateIconCodeReq req)
+    public async Task GenerateIconCodeAsync(GenerateIconCodeReq req)
     {
         var tplSvg = await File.ReadAllTextAsync(
             Path.Combine(req.ProjectPath, "src", "assets", "icons", "tpl", "Svg.vue"));
@@ -126,7 +123,7 @@ public class DevService : ServiceBase<DevService>, IDevService
 
         var dir = Path.Combine(req.ProjectPath, "src", "assets", "icons");
         if (!Directory.Exists(dir)) {
-            Directory.CreateDirectory(dir);
+            _ = Directory.CreateDirectory(dir);
         }
 
         var vueFile = Path.Combine(dir, $"{req.IconName}.vue");
@@ -136,7 +133,8 @@ public class DevService : ServiceBase<DevService>, IDevService
 
         await File.AppendAllTextAsync(
             indexjsFile
-          , $"{Environment.NewLine}{tplExport.Replace("$iconName$", req.IconName).Replace(_REPLACE_TO_EMPTY, string.Empty)}");
+          , Environment.NewLine +
+            tplExport.Replace("$iconName$", req.IconName).Replace(_REPLACE_TO_EMPTY, string.Empty));
 
         // 修改iconSelect.js
         var iconSelectFile    = Path.Combine(req.ProjectPath, "src", "config", "iconSelect.js");
@@ -156,7 +154,7 @@ public class DevService : ServiceBase<DevService>, IDevService
     }
 
     /// <inheritdoc />
-    public async Task GenerateJsCode(string projectPath)
+    public async Task GenerateJsCodeAsync(string projectPath)
     {
         // 模板文件
         var tplOuter = await File.ReadAllTextAsync(Path.Combine(projectPath, "src", "api", "tpl", "outer.js"));
@@ -181,7 +179,7 @@ public class DevService : ServiceBase<DevService>, IDevService
         foreach (var item in _apiService.ReflectionList(false)) {
             var dir = Path.Combine(projectPath, "src", "api", item.Namespace);
             if (!Directory.Exists(dir)) {
-                Directory.CreateDirectory(dir);
+                _ = Directory.CreateDirectory(dir);
             }
 
             var file = Path.Combine(dir, $"{item.Name.Replace(".", string.Empty)}.js");
@@ -197,13 +195,13 @@ public class DevService : ServiceBase<DevService>, IDevService
         }
     }
 
-    private static async Task WriteCodeFile(GenerateCsCodeReq req, string tplFile, string writeFile)
+    private static async Task WriteCodeFileAsync(GenerateCsCodeReq req, string tplFile, string writeFile)
     {
         var tplContent = await File.ReadAllTextAsync(tplFile);
-        tplContent = tplContent.Replace(nameof(Tpl), Enum.GetName(req.Type));
-        tplContent = tplContent.Replace("示例",        req.ModuleRemark);
-        tplContent = tplContent.Replace("Example",   req.ModuleName);
-        tplContent = tplContent.Replace("NetAdmin",  nameof(NetAdmin));
+        tplContent = tplContent.Replace(nameof(Tpl), Enum.GetName(req.Type))
+                               .Replace("示例",       req.ModuleRemark)
+                               .Replace("Example",  req.ModuleName)
+                               .Replace("NetAdmin", nameof(NetAdmin));
 
         await File.WriteAllTextAsync(writeFile, tplContent);
     }

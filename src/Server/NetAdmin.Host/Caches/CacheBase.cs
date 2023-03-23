@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Caching.Memory;
+using NetAdmin.Application.Services;
 
 namespace NetAdmin.Host.Caches;
 

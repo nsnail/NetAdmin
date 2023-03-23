@@ -1,9 +1,4 @@
-using System.Reflection;
-using FreeSql;
-using Furion.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.Filters;
 using NetAdmin.Host.Attributes;
-using NSExt.Extensions;
 
 namespace NetAdmin.Host.Filters;
 
@@ -32,7 +27,7 @@ public class TransactionInterceptor : IAsyncActionFilter
         // 跳过没有事务特性标记的方法
         if (context.HttpContext.GetControllerActionDescriptor()
                    .MethodInfo.GetCustomAttribute<TransactionAttribute>() is null) {
-            await next();
+            _ = await next();
             return;
         }
 

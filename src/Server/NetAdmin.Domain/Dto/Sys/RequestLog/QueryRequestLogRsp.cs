@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-using Mapster;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.RequestLog;
@@ -102,6 +100,6 @@ public record QueryRequestLogRsp : TbSysRequestLog, IRegister
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<TbSysRequestLog, QueryRequestLogRsp>().Map(dest => dest.ApiSummary, src => src.Api.Summary);
+        _ = config.ForType<TbSysRequestLog, QueryRequestLogRsp>().Map(dest => dest.ApiSummary, src => src.Api.Summary);
     }
 }

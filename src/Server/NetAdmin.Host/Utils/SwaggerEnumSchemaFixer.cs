@@ -1,9 +1,5 @@
-using System.Globalization;
-using System.Text;
-using Furion.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using NSExt.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace NetAdmin.Host.Utils;
@@ -28,13 +24,13 @@ public class SwaggerEnumSchemaFixer : ISchemaFilter
         schema.Enum.Clear();
         schema.Type = context.Type.Name;
         var sb = new StringBuilder();
-        sb.Append(schema.Description);
+        _ = sb.Append(schema.Description);
 
         foreach (var e in Enum.GetValues(context.Type).Cast<Enum>()) {
             var value = Convert.ToInt64(e, CultureInfo.InvariantCulture);
             schema.Enum.Add(new OpenApiLong(value));
-            sb.Append(wrap);
-            sb.Append( //
+            _ = sb.Append(wrap);
+            _ = sb.Append( //
                 CultureInfo.InvariantCulture, $"{Enum.GetName(context.Type, e)}({e.Desc()}) = {value}");
         }
 

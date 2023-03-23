@@ -1,10 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Mapster;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
-using NSExt.Extensions;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;
 
@@ -84,22 +80,22 @@ public record CreateRoleReq : TbSysRole, IRegister
     /// <inheritdoc />
     public virtual void Register(TypeAdapterConfig config)
     {
-        config.ForType<CreateRoleReq, TbSysRole>()
-              .Map( //
-                  dest => dest.Depts
-                , src => src.DeptIds.NullOrEmpty()
-                      ? Array.Empty<TbSysDept>()
-                      : src.DeptIds.Select(x => new TbSysDept { Id = x }))
-              .Map( //
-                  dest => dest.Menus
-                , src => src.MenuIds.NullOrEmpty()
-                      ? Array.Empty<TbSysMenu>()
-                      : src.MenuIds.Select(x => new TbSysMenu { Id = x }))
-              .Map( //
-                  dest => dest.Apis
-                , src => src.ApiIds.NullOrEmpty()
-                      ? Array.Empty<TbSysApi>()
-                      : src.ApiIds.Select(x => new TbSysApi { Id = x }))
+        _ = config.ForType<CreateRoleReq, TbSysRole>()
+                  .Map( //
+                      dest => dest.Depts
+                    , src => src.DeptIds.NullOrEmpty()
+                          ? Array.Empty<TbSysDept>()
+                          : src.DeptIds.Select(x => new TbSysDept { Id = x }))
+                  .Map( //
+                      dest => dest.Menus
+                    , src => src.MenuIds.NullOrEmpty()
+                          ? Array.Empty<TbSysMenu>()
+                          : src.MenuIds.Select(x => new TbSysMenu { Id = x }))
+                  .Map( //
+                      dest => dest.Apis
+                    , src => src.ApiIds.NullOrEmpty()
+                          ? Array.Empty<TbSysApi>()
+                          : src.ApiIds.Select(x => new TbSysApi { Id = x }))
 
             //
             ;

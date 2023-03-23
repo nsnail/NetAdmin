@@ -1,10 +1,9 @@
-using FreeSql;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Tpl.Dependency;
 using NetAdmin.Domain.DbMaps.Tpl;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Tpl.Example;
+using DataType = FreeSql.DataType;
 
 namespace NetAdmin.Application.Services.Tpl;
 
@@ -20,11 +19,11 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
     /// <summary>
     ///     批量删除示例
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -33,7 +32,7 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
     /// <summary>
     ///     创建示例
     /// </summary>
-    public async Task<QueryExampleRsp> Create(CreateExampleReq req)
+    public async Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryExampleRsp>();
@@ -42,16 +41,15 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
     /// <summary>
     ///     删除示例
     /// </summary>
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
-        return ret;
+        return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <summary>
     ///     分页查询示例
     /// </summary>
-    public async Task<PagedQueryRsp<QueryExampleRsp>> PagedQuery(PagedQueryReq<QueryExampleReq> req)
+    public async Task<PagedQueryRsp<QueryExampleRsp>> PagedQueryAsync(PagedQueryReq<QueryExampleReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
@@ -62,7 +60,7 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
     /// <summary>
     ///     查询示例
     /// </summary>
-    public async Task<IEnumerable<QueryExampleRsp>> Query(QueryReq<QueryExampleReq> req)
+    public async Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryExampleRsp>>();
@@ -71,10 +69,10 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
     /// <summary>
     ///     更新示例
     /// </summary>
-    public async Task<QueryExampleRsp> Update(UpdateExampleReq req)
+    public async Task<QueryExampleRsp> UpdateAsync(UpdateExampleReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqlite(req);
+            return await UpdateForSqliteAsync(req);
         }
 
         var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
@@ -83,17 +81,16 @@ public class ExampleService : RepositoryService<TbTplExample, IExampleService>, 
 
     private ISelect<TbTplExample> QueryInternal(QueryReq<QueryExampleReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending(a => a.Id);
-        return ret;
+        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                  .WhereDynamic(req.Filter)
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                  .OrderByDescending(a => a.Id);
     }
 
     /// <summary>
     ///     非sqlite数据库请删掉
     /// </summary>
-    private async Task<QueryExampleRsp> UpdateForSqlite(UpdateExampleReq req)
+    private async Task<QueryExampleRsp> UpdateForSqliteAsync(UpdateExampleReq req)
     {
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
             return null;

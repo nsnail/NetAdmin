@@ -12,5 +12,5 @@ public interface IMenuService : IService, IMenuModule
     /// <summary>
     ///     用户菜单
     /// </summary>
-    Task<IEnumerable<QueryMenuRsp>> UserMenus(QueryUserRsp userInfo);
+    Task<IEnumerable<QueryMenuRsp>> UserMenusAsync(QueryUserRsp userInfo);
 }

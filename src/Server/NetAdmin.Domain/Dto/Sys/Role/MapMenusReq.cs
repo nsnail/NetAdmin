@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace NetAdmin.Domain.Dto.Sys.Role;
 
 /// <summary>

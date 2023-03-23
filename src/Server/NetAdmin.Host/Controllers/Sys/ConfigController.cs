@@ -27,59 +27,59 @@ public class ConfigController : ControllerBase<IConfigService>, IConfigModule
     ///     批量删除配置
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDelete(req);
+        return Service.BulkDeleteAsync(req);
     }
 
     /// <summary>
     ///     创建配置
     /// </summary>
     [Transaction]
-    public async Task<QueryConfigRsp> Create(CreateConfigReq req)
+    public Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
-        return await Service.Create(req);
+        return Service.CreateAsync(req);
     }
 
     /// <summary>
     ///     删除配置
     /// </summary>
     [Transaction]
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        return await Service.Delete(req);
+        return Service.DeleteAsync(req);
     }
 
     /// <summary>
     ///     获取最新有效配置
     /// </summary>
-    public async Task<QueryConfigRsp> GetLatestConfig()
+    public Task<QueryConfigRsp> GetLatestConfigAsync()
     {
-        return await _configCache.GetLatestConfig();
+        return _configCache.GetLatestConfigAsync();
     }
 
     /// <summary>
     ///     分页查询配置
     /// </summary>
-    public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQuery(PagedQueryReq<QueryConfigReq> req)
+    public Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
-        return await Service.PagedQuery(req);
+        return Service.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询配置
     /// </summary>
-    public async Task<IEnumerable<QueryConfigRsp>> Query(QueryReq<QueryConfigReq> req)
+    public Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
-        return await Service.Query(req);
+        return Service.QueryAsync(req);
     }
 
     /// <summary>
     ///     更新配置
     /// </summary>
     [Transaction]
-    public async Task<QueryConfigRsp> Update(UpdateConfigReq req)
+    public Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
     {
-        return await Service.Update(req);
+        return Service.UpdateAsync(req);
     }
 }

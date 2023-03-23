@@ -1,19 +1,14 @@
-using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using FreeSql;
-using Furion.DataEncryption;
 using Furion.FriendlyException;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Sms;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
-using NSExt.Extensions;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -51,24 +46,24 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <summary>
     ///     批量删除用户
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
     }
 
     /// <inheritdoc />
-    public async Task<bool> CheckMobileAvaliable(CheckMobileAvaliableReq req)
+    public async Task<bool> CheckMobileAvaliableAsync(CheckMobileAvaliableReq req)
     {
         return !await Rpo.Select.Where(a => a.Mobile == req.Mobile).AnyAsync();
     }
 
     /// <inheritdoc />
-    public async Task<bool> CheckUserNameAvaliable(CheckUserNameAvaliableReq req)
+    public async Task<bool> CheckUserNameAvaliableAsync(CheckUserNameAvaliableReq req)
     {
         return !await Rpo.Select.Where(a => a.UserName == req.UserName).AnyAsync();
     }
@@ -76,9 +71,9 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <summary>
     ///     创建用户
     /// </summary>
-    public async Task<QueryUserRsp> Create(CreateUserReq req)
+    public async Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
-        await CreateUpdateCheck(req);
+        await CreateUpdateCheckAsync(req);
 
         // 主表
         var entity = req.Adapt<TbSysUser>();
@@ -89,13 +84,13 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         await Rpo.SaveManyAsync(entity, nameof(entity.Positions));
 
         // 档案表
-        await _userProfileService.Create(req.Profile with { Id = dbUser.Id });
-        var ret = await Query(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } });
+        _ = await _userProfileService.CreateAsync(req.Profile with { Id = dbUser.Id });
+        var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } });
         return ret.First();
     }
 
     /// <inheritdoc />
-    public Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
@@ -103,25 +98,31 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <summary>
     ///     分页查询用户
     /// </summary>
-    public async Task<PagedQueryRsp<QueryUserRsp>> PagedQuery(PagedQueryReq<QueryUserReq> req)
+    public async Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
-        var list = await (await QueryInternal(req)).Page(req.Page, req.PageSize)
-                                                   .Count(out var total)
-                                                   .ToListAsync(_selectUserFields);
+        var list = await (await QueryInternalAsync(req)).Page(req.Page, req.PageSize)
+                                                        .Count(out var total)
+                                                        .ToListAsync(_selectUserFields);
         return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<LoginRsp> PwdLogin(PwdLoginReq req)
+    public async Task<LoginRsp> PwdLoginAsync(PwdLoginReq req)
     {
         var pwd = req.Password.Pwd().Guid();
 
-        var dbUser = new MobileAttribute().IsValid(req.Account)
-            ?
-            await Rpo.GetAsync(a => a.Mobile == req.Account && a.Password == pwd)
-            : new EmailAddressAttribute().IsValid(req.Account)
+        TbSysUser dbUser;
+        #pragma warning disable IDE0045
+        if (new MobileAttribute().IsValid(req.Account)) {
+            #pragma warning restore IDE0045
+            dbUser = await Rpo.GetAsync(a => a.Mobile == req.Account && a.Password == pwd);
+        }
+        else {
+            dbUser = new EmailAddressAttribute().IsValid(req.Account)
                 ? await Rpo.GetAsync(a => a.Email    == req.Account && a.Password == pwd)
                 : await Rpo.GetAsync(a => a.UserName == req.Account && a.Password == pwd);
+        }
+
         return dbUser is null
             ? throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.User_name_or_password_error)
             : LoginInternal(dbUser);
@@ -130,35 +131,35 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <summary>
     ///     查询用户
     /// </summary>
-    public async Task<IEnumerable<QueryUserRsp>> Query(QueryReq<QueryUserReq> req)
+    public async Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
-        var list = await (await QueryInternal(req)).Take(req.Count).ToListAsync(_selectUserFields);
+        var list = await (await QueryInternalAsync(req)).Take(req.Count).ToListAsync(_selectUserFields);
         return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
 
     /// <summary>
     ///     查询用户档案
     /// </summary>
-    public async Task<IEnumerable<QueryUserProfileRsp>> QueryProfile(QueryReq<QueryUserProfileReq> req)
+    public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
     {
-        return await _userProfileService.Query(req);
+        return _userProfileService.QueryAsync(req);
     }
 
     /// <inheritdoc />
-    public async Task Register(RegisterReq req)
+    public async Task RegisterAsync(RegisterReq req)
     {
-        if (!await _smsService.VerifySmsCode(req.VerifySmsCodeReq)) {
+        if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
         }
 
         var createReq = req.Adapt<CreateUserReq>();
-        await Create(createReq);
+        _ = await CreateAsync(createReq);
     }
 
     /// <inheritdoc />
-    public async Task ResetPassword(ResetPasswordReq req)
+    public async Task ResetPasswordAsync(ResetPasswordReq req)
     {
-        if (!await _smsService.VerifySmsCode(req.VerifySmsCodeReq)) {
+        if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
         }
 
@@ -169,13 +170,13 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
 
         dbUser.Password = req.PasswordText.Pwd().Guid();
 
-        await Rpo.UpdateDiy.SetSource(dbUser).ExecuteAffrowsAsync();
+        _ = await Rpo.UpdateDiy.SetSource(dbUser).ExecuteAffrowsAsync();
     }
 
     /// <inheritdoc />
-    public async Task<LoginRsp> SmsLogin(SmsLoginReq req)
+    public async Task<LoginRsp> SmsLoginAsync(SmsLoginReq req)
     {
-        if (!await _smsService.VerifySmsCode(req.Adapt<VerifySmsCodeReq>())) {
+        if (!await _smsService.VerifySmsCodeAsync(req.Adapt<VerifySmsCodeReq>())) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Incorrect_SMS_verification_code);
         }
 
@@ -188,27 +189,27 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
     /// <summary>
     ///     更新用户
     /// </summary>
-    public async Task<QueryUserRsp> Update(UpdateUserReq req)
+    public async Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
     {
-        await CreateUpdateCheck(req);
+        await CreateUpdateCheckAsync(req);
 
         // 主表
         var entity = req.Adapt<TbSysUser>();
-        await Rpo.UpdateDiy.SetSource(entity).IgnoreColumns(a => new { a.Password, a.Token }).ExecuteAffrowsAsync();
+        _ = await Rpo.UpdateDiy.SetSource(entity).IgnoreColumns(a => new { a.Password, a.Token }).ExecuteAffrowsAsync();
 
         // 档案表
-        await _userProfileService.Update(req.Profile);
+        _ = await _userProfileService.UpdateAsync(req.Profile);
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
         await Rpo.SaveManyAsync(entity, nameof(entity.Positions));
 
-        var ret = await Query(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } });
+        var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } });
         return ret.First();
     }
 
     /// <inheritdoc />
-    public async Task<QueryUserRsp> UserInfo()
+    public async Task<QueryUserRsp> UserInfoAsync()
     {
         var dbUser = await Rpo.Where(a => a.Token == User.Token && (a.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
                               .Include(a => a.Dept)
@@ -243,15 +244,13 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUser), dbUser.Adapt<ContextUser>() } };
 
         var accessToken = JWTEncryption.Encrypt(tokenPayload);
-        var ret = new LoginRsp {
-                                   AccessToken  = accessToken
-                                 , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
-                               };
-
-        return ret;
+        return new LoginRsp {
+                                AccessToken  = accessToken
+                              , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
+                            };
     }
 
-    private async Task CreateUpdateCheck(CreateUserReq req)
+    private async Task CreateUpdateCheckAsync(CreateUserReq req)
     {
         // 检查角色是否存在、有效
         var roles = await Rpo.Orm.Select<TbSysRole>()
@@ -284,7 +283,7 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
         }
     }
 
-    private async Task<ISelect<TbSysUser>> QueryInternal(QueryReq<QueryUserReq> req)
+    private async Task<ISelect<TbSysUser>> QueryInternalAsync(QueryReq<QueryUserReq> req)
     {
         IEnumerable<long> deptIds = null;
         if (req.Filter?.DeptId > 0) {
@@ -294,20 +293,17 @@ public class UserService : RepositoryService<TbSysUser, IUserService>, IUserServ
                                .ToListAsync(a => a.Id);
         }
 
-        var ret = Rpo.Select.Include(a => a.Dept)
-                     .IncludeMany(a => a.Roles.Select(b => new TbSysRole { Id         = b.Id, Name = b.Name }))
-                     .IncludeMany(a => a.Positions.Select(b => new TbSysPosition { Id = b.Id, Name = b.Name }))
-                     .WhereDynamicFilter(req.DynamicFilter)
-                     .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
-                     .WhereIf( //
-                         req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
-                     .WhereIf( //
-                         req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
-                     .WhereIf( //
-                         req.Filter?.PositionId > 0
-                       , a => a.Positions.Any(b => b.Id == req.Filter.PositionId))
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending);
-
-        return ret;
+        return Rpo.Select.Include(a => a.Dept)
+                  .IncludeMany(a => a.Roles.Select(b => new TbSysRole { Id         = b.Id, Name = b.Name }))
+                  .IncludeMany(a => a.Positions.Select(b => new TbSysPosition { Id = b.Id, Name = b.Name }))
+                  .WhereDynamicFilter(req.DynamicFilter)
+                  .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
+                  .WhereIf( //
+                      req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
+                  .WhereIf( //
+                      req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
+                  .WhereIf( //
+                      req.Filter?.PositionId              > 0, a => a.Positions.Any(b => b.Id == req.Filter.PositionId))
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending);
     }
 }

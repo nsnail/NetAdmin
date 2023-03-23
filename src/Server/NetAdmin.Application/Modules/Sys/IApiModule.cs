@@ -15,5 +15,5 @@ public interface IApiModule : ICrudModule<CreateApiReq, QueryApiRsp // 创建类
     /// <summary>
     ///     同步接口
     /// </summary>
-    Task Sync();
+    Task SyncAsync();
 }

@@ -22,103 +22,103 @@ public class DicController : ControllerBase<IDicService>, IDicModule
     ///     批量删除字典目录
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDeleteCatalog(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDeleteCatalog(req);
+        return Service.BulkDeleteCatalogAsync(req);
     }
 
     /// <summary>
     ///     批量删除字典内容
     /// </summary>
     [Transaction]
-    public async Task<int> BulkDeleteContent(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req)
     {
-        return await Service.BulkDeleteContent(req);
+        return Service.BulkDeleteContentAsync(req);
     }
 
     /// <summary>
     ///     创建字典目录
     /// </summary>
     [Transaction]
-    public async Task<QueryDicCatalogRsp> CreateCatalog(CreateDicCatalogReq req)
+    public Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
     {
-        return await Service.CreateCatalog(req);
+        return Service.CreateCatalogAsync(req);
     }
 
     /// <summary>
     ///     创建字典内容
     /// </summary>
     [Transaction]
-    public async Task<QueryDicContentRsp> CreateContent(CreateDicContentReq req)
+    public Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req)
     {
-        return await Service.CreateContent(req);
+        return Service.CreateContentAsync(req);
     }
 
     /// <summary>
     ///     删除字典目录
     /// </summary>
     [Transaction]
-    public async Task<int> DeleteCatalog(DelReq req)
+    public Task<int> DeleteCatalogAsync(DelReq req)
     {
-        return await Service.DeleteCatalog(req);
+        return Service.DeleteCatalogAsync(req);
     }
 
     /// <summary>
     ///     删除字典内容
     /// </summary>
     [Transaction]
-    public async Task<int> DeleteContent(DelReq req)
+    public Task<int> DeleteContentAsync(DelReq req)
     {
-        return await Service.DeleteContent(req);
+        return Service.DeleteContentAsync(req);
     }
 
     /// <summary>
     ///     分页查询字典目录
     /// </summary>
-    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalog(PagedQueryReq<QueryDicCatalogReq> req)
+    public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
-        return await Service.PagedQueryCatalog(req);
+        return Service.PagedQueryCatalogAsync(req);
     }
 
     /// <summary>
     ///     分页查询字典内容
     /// </summary>
-    public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContent(PagedQueryReq<QueryDicContentReq> req)
+    public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req)
     {
-        return await Service.PagedQueryContent(req);
+        return Service.PagedQueryContentAsync(req);
     }
 
     /// <summary>
     ///     查询字典目录
     /// </summary>
-    public async Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req)
+    public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req)
     {
-        return await Service.QueryCatalog(req);
+        return Service.QueryCatalogAsync(req);
     }
 
     /// <summary>
     ///     查询字典内容
     /// </summary>
-    public async Task<IEnumerable<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req)
+    public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
     {
-        return await Service.QueryContent(req);
+        return Service.QueryContentAsync(req);
     }
 
     /// <summary>
     ///     更新字典目录
     /// </summary>
     [Transaction]
-    public async Task<QueryDicCatalogRsp> UpdateCatalog(UpdateDicCatalogReq req)
+    public Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req)
     {
-        return await Service.UpdateCatalog(req);
+        return Service.UpdateCatalogAsync(req);
     }
 
     /// <summary>
     ///     更新字典内容
     /// </summary>
     [Transaction]
-    public async Task<QueryDicContentRsp> UpdateContent(UpdateDicContentReq req)
+    public Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req)
     {
-        return await Service.UpdateContent(req);
+        return Service.UpdateContentAsync(req);
     }
 }

@@ -1,7 +1,5 @@
-using Microsoft.Extensions.Options;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Captcha;
-using NSExt.Extensions;
 using SixLabors.ImageSharp;
 using Yitter.IdGenerator;
 
@@ -21,26 +19,24 @@ public class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaService
     }
 
     /// <inheritdoc />
-    public async Task<GetCaptchaRsp> GetCaptchaImage()
+    public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
         var baseDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _captchaOptions.ImageRelativePath);
 
-        var (backgroundImage, sliderImage, offsetSaw) = await CaptchaImageHelper.CreateSawSliderImage(
+        var (backgroundImage, sliderImage, offsetSaw) = await CaptchaImageHelper.CreateSawSliderImageAsync(
             Path.Combine(baseDir, "background"), Path.Combine(baseDir, "template"), (1, 101), (1, 7), new Size(50, 50));
 
-        var id = $"{nameof(GetCaptchaImage)}_{YitIdHelper.NextId()}";
-        var captchaData = new GetCaptchaRsp {
-                                                Id              = id
-                                              , BackgroundImage = backgroundImage
-                                              , SliderImage     = sliderImage
-                                              , SawOffsetX      = offsetSaw.X
-                                            };
-
-        return captchaData;
+        var id = $"{nameof(GetCaptchaImageAsync)}_{YitIdHelper.NextId()}";
+        return new GetCaptchaRsp {
+                                     Id              = id
+                                   , BackgroundImage = backgroundImage
+                                   , SliderImage     = sliderImage
+                                   , SawOffsetX      = offsetSaw.X
+                                 };
     }
 
     /// <inheritdoc />
-    public Task<bool> VerifyCaptcha(VerifyCaptchaReq req)
+    public Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
     {
         if (req.SawOffsetX is null) {
             return Task.FromResult(false);

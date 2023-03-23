@@ -12,60 +12,60 @@ public interface IDicModule
     /// <summary>
     ///     批量删除字典目录
     /// </summary>
-    Task<int> BulkDeleteCatalog(BulkReq<DelReq> req);
+    Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req);
 
     /// <summary>
     ///     批量删除字典内容
     /// </summary>
-    Task<int> BulkDeleteContent(BulkReq<DelReq> req);
+    Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req);
 
     /// <summary>
     ///     创建字典目录
     /// </summary>
-    Task<QueryDicCatalogRsp> CreateCatalog(CreateDicCatalogReq req);
+    Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req);
 
     /// <summary>
     ///     创建字典内容
     /// </summary>
-    Task<QueryDicContentRsp> CreateContent(CreateDicContentReq req);
+    Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req);
 
     /// <summary>
     ///     删除字典目录
     /// </summary>
-    Task<int> DeleteCatalog(DelReq req);
+    Task<int> DeleteCatalogAsync(DelReq req);
 
     /// <summary>
     ///     删除字典内容
     /// </summary>
-    Task<int> DeleteContent(DelReq req);
+    Task<int> DeleteContentAsync(DelReq req);
 
     /// <summary>
     ///     分页查询字典目录
     /// </summary>
-    Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalog(PagedQueryReq<QueryDicCatalogReq> req);
+    Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req);
 
     /// <summary>
     ///     分页查询字典内容
     /// </summary>
-    Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContent(PagedQueryReq<QueryDicContentReq> req);
+    Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req);
 
     /// <summary>
     ///     查询字典目录
     /// </summary>
-    Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalog(QueryReq<QueryDicCatalogReq> req);
+    Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req);
 
     /// <summary>
     ///     查询字典内容
     /// </summary>
-    Task<IEnumerable<QueryDicContentRsp>> QueryContent(QueryReq<QueryDicContentReq> req);
+    Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req);
 
     /// <summary>
     ///     更新字典目录
     /// </summary>
-    Task<QueryDicCatalogRsp> UpdateCatalog(UpdateDicCatalogReq req);
+    Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req);
 
     /// <summary>
     ///     更新字典内容
     /// </summary>
-    Task<QueryDicContentRsp> UpdateContent(UpdateDicContentReq req);
+    Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req);
 }

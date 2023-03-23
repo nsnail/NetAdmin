@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 

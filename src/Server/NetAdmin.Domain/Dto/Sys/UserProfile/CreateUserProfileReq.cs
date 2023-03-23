@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Mapster;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
@@ -130,15 +127,15 @@ public record CreateUserProfileReq : TbSysUserProfile, IRegister
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<CreateUserProfileReq, TbSysUserProfile>()
-              .Map( //
-                  dest => dest.NationArea, src => src.NationArea == null ? null : src.NationArea.Value)
-              .Map( //
-                  dest => dest.CompanyArea, src => src.CompanyArea == null ? null : src.CompanyArea.Value)
-              .Map( //
-                  dest => dest.HomeArea, src => src.HomeArea == null ? null : src.HomeArea.Value)
-              .Map( //
-                  dest => dest.EmergencyContactArea
-                , src => src.EmergencyContactArea == null ? null : src.EmergencyContactArea.Value);
+        _ = config.ForType<CreateUserProfileReq, TbSysUserProfile>()
+                  .Map( //
+                      dest => dest.NationArea, src => src.NationArea == null ? null : src.NationArea.Value)
+                  .Map( //
+                      dest => dest.CompanyArea, src => src.CompanyArea == null ? null : src.CompanyArea.Value)
+                  .Map( //
+                      dest => dest.HomeArea, src => src.HomeArea == null ? null : src.HomeArea.Value)
+                  .Map( //
+                      dest => dest.EmergencyContactArea
+                    , src => src.EmergencyContactArea == null ? null : src.EmergencyContactArea.Value);
     }
 }

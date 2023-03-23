@@ -15,5 +15,5 @@ public interface IConfigModule : ICrudModule<CreateConfigReq, QueryConfigRsp // 
     /// <summary>
     ///     获取最新有效配置
     /// </summary>
-    Task<QueryConfigRsp> GetLatestConfig();
+    Task<QueryConfigRsp> GetLatestConfigAsync();
 }

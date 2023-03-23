@@ -1,7 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using NSExt.Extensions;
-
 namespace NetAdmin.Domain;
 
 /// <summary>

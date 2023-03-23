@@ -1,10 +1,7 @@
-using Furion;
-using Furion.EventBus;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Events;
-using NSExt.Extensions;
 
 namespace NetAdmin.Host.Subscribers;
 
@@ -21,8 +18,8 @@ public class RequestLogger : IEventSubscriber
     /// <summary>
     ///     保存请求日志到数据库
     /// </summary>
-    [EventSubscribe($"{nameof(OperationEvent)}")]
-    public async Task OperationEventDbRecord(EventHandlerExecutingContext context)
+    [EventSubscribe(nameof(OperationEvent))]
+    public async Task OperationEventDbRecordAsync(EventHandlerExecutingContext context)
     {
         if (context.Source is not OperationEvent operationEvent) {
             return;
@@ -36,7 +33,7 @@ public class RequestLogger : IEventSubscriber
                 var loginReq = operationEvent.Data.RequestBody.Object<PwdLoginReq>();
                 logReq = operationEvent.Data with { ExtraData = loginReq.Account };
             }
-            catch (Exception) {
+            catch {
                 // ignored
             }
         }
@@ -44,6 +41,6 @@ public class RequestLogger : IEventSubscriber
         logReq ??= operationEvent.Data;
         var logService = App.GetRequiredService<IRequestLogService>();
         logReq.TruncateStrings();
-        await logService.Create(logReq);
+        _ = await logService.CreateAsync(logReq);
     }
 }

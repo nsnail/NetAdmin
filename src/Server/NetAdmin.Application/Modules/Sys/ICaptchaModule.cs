@@ -10,10 +10,10 @@ public interface ICaptchaModule
     /// <summary>
     ///     获取人机校验图
     /// </summary>
-    Task<GetCaptchaRsp> GetCaptchaImage();
+    Task<GetCaptchaRsp> GetCaptchaImageAsync();
 
     /// <summary>
     ///     完成人机校验
     /// </summary>
-    Task<bool> VerifyCaptcha(VerifyCaptchaReq req);
+    Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req);
 }

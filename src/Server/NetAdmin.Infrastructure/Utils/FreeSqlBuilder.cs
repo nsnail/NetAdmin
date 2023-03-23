@@ -1,9 +1,5 @@
-using System.Reflection;
-using FreeSql;
-using FreeSql.DataAnnotations;
-using Furion;
-using NetAdmin.Infrastructure.Configuration.Options;
 using Newtonsoft.Json;
+using DataType = FreeSql.DataType;
 
 namespace NetAdmin.Infrastructure.Utils;
 
@@ -32,7 +28,7 @@ public class FreeSqlBuilder
                       .UseAutoSyncStructure(false)
                       .Build();
 
-        InitDbAsync(freeSql); // 初始化数据库 ，异步
+        _ = InitDbAsync(freeSql); // 初始化数据库 ，异步
         return freeSql;
     }
 
@@ -41,11 +37,10 @@ public class FreeSqlBuilder
     /// </summary>
     private static Type[] GetEntityTypes()
     {
-        var entityTypes = (from type in App.EffectiveTypes
-                           from attr in type.GetCustomAttributes()
-                           where attr is TableAttribute { DisableSyncStructure: false }
-                           select type).ToArray();
-        return entityTypes;
+        return (from type in App.EffectiveTypes
+                from attr in type.GetCustomAttributes()
+                where attr is TableAttribute { DisableSyncStructure: false }
+                select type).ToArray();
     }
 
     private static MethodInfo MakeGetRepositoryMethod(Type entityType)
@@ -113,7 +108,7 @@ public class FreeSqlBuilder
 
             var insert = MakeInsertMethod(entityType);
 
-            insert?.Invoke(rep, new[] { entities });
+            _ = insert?.Invoke(rep, new[] { entities });
         }
     }
 

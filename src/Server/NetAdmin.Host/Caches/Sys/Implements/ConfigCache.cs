@@ -1,5 +1,3 @@
-using Furion.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Config;
@@ -19,54 +17,54 @@ public class ConfigCache : CacheBase<IConfigService>, IScoped, IConfigCache
         : base(cache, service) { }
 
     /// <inheritdoc />
-    public Task<int> BulkDelete(BulkReq<DelReq> req)
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<QueryConfigRsp> Create(CreateConfigReq req)
+    public Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public async Task<QueryConfigRsp> GetLatestConfig()
+    public Task<QueryConfigRsp> GetLatestConfigAsync()
     {
-        return await Cache.GetOrCreateAsync( //
-            $"{nameof(ConfigCache)}.{nameof(GetLatestConfig)}", async entry => {
+        return Cache.GetOrCreateAsync( //
+            $"{nameof(ConfigCache)}.{nameof(GetLatestConfigAsync)}", async entry => {
                 SetExpires(entry);
-                return await Service.GetLatestConfig();
+                return await Service.GetLatestConfigAsync();
             });
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryConfigRsp>> PagedQuery(PagedQueryReq<QueryConfigReq> req)
+    public Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<QueryConfigRsp>> Query(QueryReq<QueryConfigReq> req)
+    public Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<QueryConfigRsp> Update(UpdateConfigReq req)
+    public Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
     {
         throw new NotImplementedException();
     }
 
     private void SetExpires(ICacheEntry entry)
     {
-        entry.SetSlidingExpiration(_slidingExpiration);
+        _                                     = entry.SetSlidingExpiration(_slidingExpiration);
         entry.AbsoluteExpirationRelativeToNow = _absoluteExpirationRelativeToNow;
     }
 }

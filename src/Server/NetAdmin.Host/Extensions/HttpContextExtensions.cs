@@ -1,6 +1,3 @@
-using System.Text;
-using System.Text.RegularExpressions;
-
 namespace NetAdmin.Host.Extensions;
 
 /// <summary>
@@ -13,7 +10,7 @@ public static class HttpContextExtensions
     /// <summary>
     ///     删除 response json body 中value 为null的节点
     /// </summary>
-    public static async Task RemoveJsonNodeWithNullValue(this HttpContext me)
+    public static async Task RemoveJsonNodeWithNullValueAsync(this HttpContext me)
     {
         // 非json格式，退出
         if (!(me.Response.ContentType?.Contains(Chars.FLG_APPLICATION_JSON) ?? false)) {
@@ -25,11 +22,11 @@ public static class HttpContextExtensions
             return;
         }
 
-        me.Response.Body.Seek(0, SeekOrigin.Begin);
+        _ = me.Response.Body.Seek(0, SeekOrigin.Begin);
         var sr         = new StreamReader(me.Response.Body);
         var bodyString = await sr.ReadToEndAsync();
         bodyString = _nullRegex.Replace(bodyString, string.Empty).Replace(",}", "}");
-        me.Response.Body.Seek(0, SeekOrigin.Begin);
+        _          = me.Response.Body.Seek(0, SeekOrigin.Begin);
         var bytes = Encoding.UTF8.GetBytes(bodyString);
         me.Response.Body.SetLength(bytes.Length);
         await me.Response.Body.WriteAsync(bytes);

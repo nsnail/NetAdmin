@@ -1,7 +1,3 @@
-using System.Diagnostics;
-using System.Globalization;
-using FreeSql.Aop;
-
 namespace NetAdmin.Domain.Events;
 
 /// <summary>

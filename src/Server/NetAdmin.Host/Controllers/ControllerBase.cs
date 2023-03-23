@@ -1,4 +1,4 @@
-using Furion.DynamicApiController;
+using NetAdmin.Application.Services;
 
 namespace NetAdmin.Host.Controllers;
 

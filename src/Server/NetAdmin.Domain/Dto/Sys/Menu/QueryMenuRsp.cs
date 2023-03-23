@@ -1,8 +1,5 @@
-using System.Text.Json.Serialization;
-using Mapster;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
-using NSExt.Extensions;
 
 namespace NetAdmin.Domain.Dto.Sys.Menu;
 
@@ -63,6 +60,6 @@ public record QueryMenuRsp : TbSysMenu, IRegister
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<TbSysMenu, QueryMenuRsp>().Map(dest => dest.Path, src => src.Path ?? string.Empty);
+        _ = config.ForType<TbSysMenu, QueryMenuRsp>().Map(dest => dest.Path, src => src.Path ?? string.Empty);
     }
 }

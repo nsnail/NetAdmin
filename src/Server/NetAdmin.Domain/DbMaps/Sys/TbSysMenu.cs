@@ -1,10 +1,4 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using FreeSql.DataAnnotations;
 using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Infrastructure.Attributes;
-using NSExt.Attributes;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
 
@@ -22,11 +16,18 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
     public enum MenuBits : long
     {
         /// <summary>
+        ///     无
+        /// </summary>
+        None = 0
+
+       ,
+
+        /// <summary>
         ///     隐藏
         /// </summary>
         [Description(nameof(Ln.Hidden))]
         [Localization(typeof(Ln))]
-        Hidden = 0b_0000_0001_0000
+        Hidden = 1 << 4
 
        ,
 
@@ -35,7 +36,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// </summary>
         [Description(nameof(Ln.Hidden_bread_crumb))]
         [Localization(typeof(Ln))]
-        HiddenBreadCrumb = 0b_0000_0010_0000
+        HiddenBreadCrumb = 1 << 5
 
        ,
 
@@ -44,7 +45,7 @@ public record TbSysMenu : MutableEntity, IFieldBitSet, IFieldSort
         /// </summary>
         [Description(nameof(Ln.Full_page_routing))]
         [Localization(typeof(Ln))]
-        FullPageRouting = 0b_0000_0100_0000
+        FullPageRouting = 1 << 6
     }
 
     /// <summary>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)/CodeQuality.props" />
     <Import Project="$(SolutionDir)/CopyPackageXmlCommentFiles.targets" />
-    <Import Project="$(SolutionDir)/GenerateResx.targets" />
+    <Import Project="$(SolutionDir)/PreBuild.targets" />
     <ItemGroup>
         <Content Include="$(SolutionDir)/assets/config/**" LinkBase="Configuration" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>

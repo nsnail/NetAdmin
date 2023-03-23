@@ -1,0 +1,17 @@
+<Project>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Exec Command="dotnet tool restore" StdOutEncoding="utf-8" />
+        <Exec WorkingDirectory="$(SolutionDir)"
+              Command="dotnet t4 GenerateResx.tt -o $(SolutionDir)/dist/Server/$(ProjectName)/Ln.cs"
+              StdOutEncoding="utf-8" />
+    </Target>
+    <ItemGroup>
+        <EmbeddedResource Include="$(SolutionDir)/assets/resx/Ln.resx">
+            <Link>Languages/Ln.resx</Link>
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <Compile Include="$(SolutionDir)/dist/Server/$(ProjectName)/Ln.Designer.cs">
+            <Link>Languages/Ln.Designer.cs</Link>
+        </Compile>
+    </ItemGroup>
+</Project>

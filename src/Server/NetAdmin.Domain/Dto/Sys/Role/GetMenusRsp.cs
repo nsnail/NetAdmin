@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;

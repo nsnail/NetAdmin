@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace NetAdmin.Domain.Attributes.DataValidation;
 
 /// <summary>
@@ -12,11 +10,4 @@ public class RegexAttribute : RegularExpressionAttribute
     /// </summary>
     protected RegexAttribute(string pattern) //
         : base(pattern) { }
-
-    /// <inheritdoc />
-    public override bool IsValid(object value)
-    {
-        var ret = base.IsValid(value);
-        return ret;
-    }
 }

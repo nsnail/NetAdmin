@@ -1,8 +1,5 @@
-using System.Text.Json.Serialization;
-using Mapster;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
-using NSExt.Extensions;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;
 
@@ -75,13 +72,13 @@ public record QueryRoleRsp : TbSysRole, IRegister
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<TbSysRole, QueryRoleRsp>()
-              .IgnoreIf((src, dest) => src.Depts == null, dest => dest.DeptIds)
-              .IgnoreIf((src, dest) => src.Menus == null, dest => dest.MenuIds)
-              .IgnoreIf((src, dest) => src.Apis  == null, dest => dest.ApiIds)
-              .Map(dest => dest.DeptIds, src => src.Depts.Select(x => x.Id))
-              .Map(dest => dest.ApiIds,  src => src.Apis.Select(x => x.Id))
-              .Map(dest => dest.MenuIds, src => src.Menus.Select(x => x.Id))
+        _ = config.ForType<TbSysRole, QueryRoleRsp>()
+                  .IgnoreIf((src, _) => src.Depts == null, dest => dest.DeptIds)
+                  .IgnoreIf((src, _) => src.Menus == null, dest => dest.MenuIds)
+                  .IgnoreIf((src, _) => src.Apis  == null, dest => dest.ApiIds)
+                  .Map(dest => dest.DeptIds, src => src.Depts.Select(x => x.Id))
+                  .Map(dest => dest.ApiIds,  src => src.Apis.Select(x => x.Id))
+                  .Map(dest => dest.MenuIds, src => src.Menus.Select(x => x.Id))
 
             //
             ;

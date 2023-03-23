@@ -17,5 +17,5 @@ public interface ICaptchaCache : ICache<ICaptchaService>, ICaptchaModule
     /// <summary>
     ///     完成人机校验 ，并删除缓存项
     /// </summary>
-    Task VerifyCaptchaAndRemove(VerifyCaptchaReq req);
+    Task VerifyCaptchaAndRemoveAsync(VerifyCaptchaReq req);
 }

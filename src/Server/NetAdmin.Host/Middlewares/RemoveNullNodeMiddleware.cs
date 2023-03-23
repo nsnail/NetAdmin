@@ -29,6 +29,6 @@ public class RemoveNullNodeMiddleware
             return;
         }
 
-        await context.RemoveJsonNodeWithNullValue();
+        await context.RemoveJsonNodeWithNullValueAsync();
     }
 }

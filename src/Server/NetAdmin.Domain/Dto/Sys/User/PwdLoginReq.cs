@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.User;

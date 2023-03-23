@@ -1,11 +1,7 @@
-using Furion;
-using Furion.EventBus;
-using Mapster;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Sms;
 using NetAdmin.Domain.Events;
-using NSExt.Extensions;
 
 namespace NetAdmin.Host.Subscribers;
 
@@ -28,7 +24,7 @@ public class SmsCodeSender : IEventSubscriber
     ///     发送短信
     /// </summary>
     [EventSubscribe(nameof(SmsCodeCreatedEvent))]
-    public async Task SyncApi(EventHandlerExecutingContext context)
+    public async Task SyncApiAsync(EventHandlerExecutingContext context)
     {
         if (context.Source is not SmsCodeCreatedEvent smsCodeCreatedEvent) {
             return;
@@ -38,7 +34,8 @@ public class SmsCodeSender : IEventSubscriber
         Console.WriteLine(1);
 
         var smsService = App.GetRequiredService<ISmsService>();
-        await smsService.Update(smsCodeCreatedEvent.Data.Adapt<UpdateSmsReq>() with { Status = TbSysSms.Statues.Sent });
-        _logger.Info($"{nameof(ISmsService)}.{nameof(ISmsService.Update)} {Ln.Completed}");
+        _ = await smsService.UpdateAsync(
+            smsCodeCreatedEvent.Data.Adapt<UpdateSmsReq>() with { Status = TbSysSms.Statues.Sent });
+        _logger.Info($"{nameof(ISmsService)}.{nameof(ISmsService.UpdateAsync)} {Ln.Completed}");
     }
 }

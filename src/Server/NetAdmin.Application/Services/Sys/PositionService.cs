@@ -1,10 +1,9 @@
-using FreeSql;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Position;
+using DataType = FreeSql.DataType;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -20,11 +19,11 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
     /// <summary>
     ///     批量删除岗位
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -33,7 +32,7 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
     /// <summary>
     ///     创建岗位
     /// </summary>
-    public async Task<QueryPositionRsp> Create(CreatePositionReq req)
+    public async Task<QueryPositionRsp> CreateAsync(CreatePositionReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryPositionRsp>();
@@ -42,16 +41,15 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
     /// <summary>
     ///     删除岗位
     /// </summary>
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
-        return ret;
+        return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <summary>
     ///     分页查询岗位
     /// </summary>
-    public async Task<PagedQueryRsp<QueryPositionRsp>> PagedQuery(PagedQueryReq<QueryPositionReq> req)
+    public async Task<PagedQueryRsp<QueryPositionRsp>> PagedQueryAsync(PagedQueryReq<QueryPositionReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
@@ -62,7 +60,7 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
     /// <summary>
     ///     查询岗位
     /// </summary>
-    public async Task<IEnumerable<QueryPositionRsp>> Query(QueryReq<QueryPositionReq> req)
+    public async Task<IEnumerable<QueryPositionRsp>> QueryAsync(QueryReq<QueryPositionReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryPositionRsp>>();
@@ -71,10 +69,10 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
     /// <summary>
     ///     更新岗位
     /// </summary>
-    public async Task<QueryPositionRsp> Update(UpdatePositionReq req)
+    public async Task<QueryPositionRsp> UpdateAsync(UpdatePositionReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqlite(req);
+            return await UpdateForSqliteAsync(req);
         }
 
         var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
@@ -83,17 +81,16 @@ public class PositionService : RepositoryService<TbSysPosition, IPositionService
 
     private ISelect<TbSysPosition> QueryInternal(QueryReq<QueryPositionReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending(a => a.Id);
-        return ret;
+        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                  .WhereDynamic(req.Filter)
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                  .OrderByDescending(a => a.Id);
     }
 
     /// <summary>
     ///     非sqlite数据库请删掉
     /// </summary>
-    private async Task<QueryPositionRsp> UpdateForSqlite(UpdatePositionReq req)
+    private async Task<QueryPositionRsp> UpdateForSqliteAsync(UpdatePositionReq req)
     {
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
             return null;

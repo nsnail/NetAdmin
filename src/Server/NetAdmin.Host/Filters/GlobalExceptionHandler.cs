@@ -1,8 +1,4 @@
-using Furion.DependencyInjection;
 using Furion.FriendlyException;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc.Filters;
-using NSExt.Extensions;
 
 namespace NetAdmin.Host.Filters;
 

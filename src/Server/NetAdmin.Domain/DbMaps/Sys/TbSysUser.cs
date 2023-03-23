@@ -1,9 +1,4 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using FreeSql.DataAnnotations;
 using NetAdmin.Domain.DbMaps.Dependency;
-using NSExt.Attributes;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
 
@@ -23,11 +18,18 @@ public record TbSysUser : MutableEntity, IFieldBitSet
     public enum UserBits : long
     {
         /// <summary>
+        ///     无
+        /// </summary>
+        None = 0
+
+       ,
+
+        /// <summary>
         ///     已激活
         /// </summary>
         [Description(nameof(Ln.Activated))]
         [Localization(typeof(Ln))]
-        Activated = 0b_0000_0001_0000
+        Activated = 1 << 4
     }
 
     /// <summary>

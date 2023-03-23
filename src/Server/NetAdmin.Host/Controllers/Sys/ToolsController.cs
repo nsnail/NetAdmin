@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 

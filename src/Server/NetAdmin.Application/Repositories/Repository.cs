@@ -1,7 +1,5 @@
-using System.Linq.Expressions;
-using FreeSql;
-using FreeSql.Internal.Model;
 using NetAdmin.Domain.Contexts;
+using NetAdmin.Domain.DbMaps.Dependency;
 
 namespace NetAdmin.Application.Repositories;
 
@@ -25,11 +23,11 @@ public class Repository<TEntity> : DefaultRepository<TEntity, long>, IRepository
     public virtual async Task<bool> DeleteRecursiveAsync( //
         Expression<Func<TEntity, bool>> exp, params string[] disableGlobalFilterNames)
     {
-        await Select.Where(exp)
-                    .DisableGlobalFilter(disableGlobalFilterNames)
-                    .AsTreeCte()
-                    .ToDelete()
-                    .ExecuteAffrowsAsync();
+        _ = await Select.Where(exp)
+                        .DisableGlobalFilter(disableGlobalFilterNames)
+                        .AsTreeCte()
+                        .ToDelete()
+                        .ExecuteAffrowsAsync();
 
         return true;
     }

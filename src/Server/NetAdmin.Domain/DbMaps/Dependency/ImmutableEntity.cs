@@ -1,8 +1,4 @@
-using System.ComponentModel;
-using System.Text.Json.Serialization;
-using FreeSql.DataAnnotations;
 using NetAdmin.Domain.Attributes;
-using NSExt.Attributes;
 
 namespace NetAdmin.Domain.DbMaps.Dependency;
 

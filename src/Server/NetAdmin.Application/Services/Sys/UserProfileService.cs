@@ -1,11 +1,11 @@
-using FreeSql;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
+using DataType = FreeSql.DataType;
 
 namespace NetAdmin.Application.Services.Sys;
 
@@ -21,11 +21,11 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// <summary>
     ///     批量删除用户档案
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -34,7 +34,7 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// <summary>
     ///     创建用户档案
     /// </summary>
-    public async Task<QueryUserProfileRsp> Create(CreateUserProfileReq req)
+    public async Task<QueryUserProfileRsp> CreateAsync(CreateUserProfileReq req)
     {
         var entity = req.Adapt<TbSysUserProfile>();
         var ret    = await Rpo.InsertAsync(entity);
@@ -44,16 +44,15 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// <summary>
     ///     删除用户档案
     /// </summary>
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
-        return ret;
+        return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <summary>
     ///     分页查询用户档案
     /// </summary>
-    public async Task<PagedQueryRsp<QueryUserProfileRsp>> PagedQuery(PagedQueryReq<QueryUserProfileReq> req)
+    public async Task<PagedQueryRsp<QueryUserProfileRsp>> PagedQueryAsync(PagedQueryReq<QueryUserProfileReq> req)
     {
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
@@ -81,7 +80,7 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// <summary>
     ///     查询用户档案
     /// </summary>
-    public async Task<IEnumerable<QueryUserProfileRsp>> Query(QueryReq<QueryUserProfileReq> req)
+    public async Task<IEnumerable<QueryUserProfileRsp>> QueryAsync(QueryReq<QueryUserProfileReq> req)
     {
         var ret = await QueryInternal(req)
                         .Take(req.Count)
@@ -107,11 +106,11 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     /// <summary>
     ///     更新用户档案
     /// </summary>
-    public async Task<QueryUserProfileRsp> Update(UpdateUserProfileReq req)
+    public async Task<QueryUserProfileRsp> UpdateAsync(UpdateUserProfileReq req)
     {
         var entity = req.Adapt<TbSysUserProfile>();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqlite(entity);
+            return await UpdateForSqliteAsync(entity);
         }
 
         var ret = await Rpo.UpdateDiy.SetSource(entity).ExecuteUpdatedAsync();
@@ -121,29 +120,28 @@ public class UserProfileService : RepositoryService<TbSysUserProfile, IUserProfi
     private ISelect<TbSysUserProfile, TbSysDicContent, TbSysDicContent, TbSysDicContent, TbSysDicContent> QueryInternal(
         QueryReq<QueryUserProfileReq> req)
     {
-        var ret = Rpo.Orm.Select<TbSysUserProfile, TbSysDicContent, TbSysDicContent, TbSysDicContent, TbSysDicContent>()
-                     .LeftJoin((a, b, c, d, e) => a.NationArea.ToString() == b.Value &&
+        return Rpo.Orm.Select<TbSysUserProfile, TbSysDicContent, TbSysDicContent, TbSysDicContent, TbSysDicContent>()
+                  .LeftJoin((a, b, _, __, ___) => a.NationArea.ToString() == b.Value &&
                                                   b.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
                                                   (b.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
-                     .LeftJoin((a, b, c, d, e) => a.CompanyArea.ToString() == c.Value &&
+                  .LeftJoin((a, _, c, __, ___) => a.CompanyArea.ToString() == c.Value &&
                                                   c.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
                                                   (c.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
-                     .LeftJoin((a, b, c, d, e) => a.HomeArea.ToString() == d.Value &&
+                  .LeftJoin((a, _, __, d, ___) => a.HomeArea.ToString() == d.Value &&
                                                   d.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
                                                   (d.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
-                     .LeftJoin((a, b, c, d, e) => a.EmergencyContactArea.ToString() == e.Value &&
+                  .LeftJoin((a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value &&
                                                   e.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA &&
                                                   (e.BitSet & (long)EntityBase.BitSets.Enabled) == 1)
-                     .WhereDynamicFilter(req.DynamicFilter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending((a, b, c, d, e) => a.Id);
-        return ret;
+                  .WhereDynamicFilter(req.DynamicFilter)
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                  .OrderByDescending((a, _, __, ___, ____) => a.Id);
     }
 
     /// <summary>
     ///     非sqlite数据库请删掉
     /// </summary>
-    private async Task<QueryUserProfileRsp> UpdateForSqlite(TbSysUserProfile entity)
+    private async Task<QueryUserProfileRsp> UpdateForSqliteAsync(TbSysUserProfile entity)
     {
         if (await Rpo.UpdateDiy.SetSource(entity).ExecuteAffrowsAsync() <= 0) {
             return null;

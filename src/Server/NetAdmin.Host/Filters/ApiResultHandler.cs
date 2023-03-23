@@ -1,9 +1,5 @@
-using Furion.DataValidation;
-using Furion.DependencyInjection;
 using Furion.FriendlyException;
-using Furion.UnifyResult;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+using NetAdmin.Domain.Dto;
 
 namespace NetAdmin.Host.Filters;
 
@@ -39,8 +35,9 @@ public class ApiResultHandler : IUnifyResultProvider
     /// <summary>
     ///     HTTP状态码处理
     /// </summary>
+    #pragma warning disable ASA001
     public Task OnResponseStatusCodes( //
-        HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings)
+        HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings = null)
     {
         // 设置响应状态码
         UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);

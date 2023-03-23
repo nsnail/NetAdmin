@@ -1,11 +1,9 @@
-using System.Text.RegularExpressions;
-
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
 ///     解析用户代理字符串
 /// </summary>
-public class UserAgentParser
+public sealed class UserAgentParser
 {
     private static readonly Dictionary<string, string> _browsers = new() {
                                                                              { "OPR", "Opera" }
@@ -219,7 +217,7 @@ public class UserAgentParser
     private UserAgentParser(string userAgentString)
     {
         _agent = userAgentString.Trim();
-        SetPlatform();
+        _      = SetPlatform();
         if (SetRobot()) {
             return;
         }
@@ -292,7 +290,7 @@ public class UserAgentParser
             IsBrowser      = true;
             BrowserVersion = match.Groups[1].Value;
             Browser        = item.Value;
-            SetMobile();
+            _              = SetMobile();
             return true;
         }
 
@@ -314,7 +312,9 @@ public class UserAgentParser
 
     private bool SetPlatform()
     {
+        #pragma warning disable S3267
         foreach (var item in _platforms) {
+            #pragma warning restore S3267
             if (Regex.IsMatch(_agent, $"{Regex.Escape(item.Key)}", RegexOptions.IgnoreCase)) {
                 Platform = item.Value;
                 return true;
@@ -327,11 +327,13 @@ public class UserAgentParser
 
     private bool SetRobot()
     {
+        #pragma warning disable S3267
         foreach (var item in _robots) {
+            #pragma warning restore S3267
             if (Regex.IsMatch(_agent, $"{Regex.Escape(item.Key)}", RegexOptions.IgnoreCase)) {
                 IsRobot = true;
                 Robot   = item.Value;
-                SetMobile();
+                _       = SetMobile();
                 return true;
             }
         }

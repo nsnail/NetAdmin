@@ -1,4 +1,3 @@
-using NSExt.Extensions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -23,7 +22,7 @@ public static class CaptchaImageHelper
     /// <param name="sliderSize">滑块尺寸</param>
     /// <returns> 背景图（base64），滑块图（base64），缺口坐标 </returns>
     #pragma warning disable SA1414
-    public static async Task<(string BackgroundImage, string SliderImage, Point OffsetSaw)> CreateSawSliderImage(
+    public static async Task<(string BackgroundImage, string SliderImage, Point OffsetSaw)> CreateSawSliderImageAsync(
             string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope, Size sliderSize)
         #pragma warning restore SA1414
     {
@@ -34,15 +33,15 @@ public static class CaptchaImageHelper
         // 深色模板图
         var templateIndex = new[] { tempIndexScope.Item1, tempIndexScope.Item2 }.Rand();
 
-        using var darkTemplateImage = await Image.LoadAsync<Rgba32>($@"{tempPath}/{templateIndex}/dark.png");
+        using var darkTemplateImage = await Image.LoadAsync<Rgba32>($"{tempPath}/{templateIndex}/dark.png");
 
         // 透明模板图
         using var transparentTemplateImage
-            = await Image.LoadAsync<Rgba32>($@"{tempPath}/{templateIndex}/transparent.png");
+            = await Image.LoadAsync<Rgba32>($"{tempPath}/{templateIndex}/transparent.png");
 
         // 调整模板图大小
-        darkTemplateImage.Mutate(x => { x.Resize(sliderSize); });
-        transparentTemplateImage.Mutate(x => { x.Resize(sliderSize); });
+        darkTemplateImage.Mutate(x => x.Resize(sliderSize));
+        transparentTemplateImage.Mutate(x => x.Resize(sliderSize));
 
         // 新建拼图
         using var blockImage = new Image<Rgba32>(sliderSize.Width, sliderSize.Height);
@@ -60,7 +59,7 @@ public static class CaptchaImageHelper
         // 生成拼图
         blockImage.Mutate(x => {
             // ReSharper disable once AccessToDisposedClosure
-            x.Clip(blockShape, p => p.DrawImage(backgroundImage, new Point(-offsetRand.X, -offsetRand.Y), 1));
+            _ = x.Clip(blockShape, p => p.DrawImage(backgroundImage, new Point(-offsetRand.X, -offsetRand.Y), 1));
         });
 
         // 拼图叠加透明模板图层

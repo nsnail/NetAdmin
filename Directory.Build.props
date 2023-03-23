@@ -11,7 +11,7 @@
         <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Product>LineOpenPlatform</Product>
+        <Product>NetAdmin</Product>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/nsnail/NetAdmin.git</RepositoryUrl>
         <TargetFramework>net7.0</TargetFramework>
@@ -22,5 +22,8 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs" />
     </ItemGroup>
 </Project>

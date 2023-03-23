@@ -1,10 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Mapster;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
-using NSExt.Extensions;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
 
@@ -97,18 +93,18 @@ public record CreateUserReq : TbSysUser, IRegister
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
     {
-        config.ForType<CreateUserReq, TbSysUser>()
-              .Map(dest => dest.Password, src => src.PasswordText.Pwd().Guid())
-              .Map(dest => dest.Token,    src => Guid.NewGuid())
-              .Map( //
-                  dest => dest.Roles
-                , src => src.RoleIds.NullOrEmpty()
-                      ? Array.Empty<TbSysRole>()
-                      : src.RoleIds.Select(x => new TbSysRole { Id = x }))
-              .Map( //
-                  dest => dest.Positions
-                , src => src.PositionIds.NullOrEmpty()
-                      ? Array.Empty<TbSysPosition>()
-                      : src.PositionIds.Select(x => new TbSysPosition { Id = x }));
+        _ = config.ForType<CreateUserReq, TbSysUser>()
+                  .Map(dest => dest.Password, src => src.PasswordText.Pwd().Guid())
+                  .Map(dest => dest.Token,    _ => Guid.NewGuid())
+                  .Map( //
+                      dest => dest.Roles
+                    , src => src.RoleIds.NullOrEmpty()
+                          ? Array.Empty<TbSysRole>()
+                          : src.RoleIds.Select(x => new TbSysRole { Id = x }))
+                  .Map( //
+                      dest => dest.Positions
+                    , src => src.PositionIds.NullOrEmpty()
+                          ? Array.Empty<TbSysPosition>()
+                          : src.PositionIds.Select(x => new TbSysPosition { Id = x }));
     }
 }

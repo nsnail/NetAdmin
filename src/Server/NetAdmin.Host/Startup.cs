@@ -1,4 +1,3 @@
-using Furion;
 using NetAdmin.Application.Services.Sys;
 using NetAdmin.Host.Extensions;
 using Spectre.Console;
@@ -16,13 +15,13 @@ public class Startup : AppStartup
     public static void Main(string[] args)
     {
         ShowBanner();
-        Serve.Run(RunOptions.Default.WithArgs(args));
+        _ = Serve.Run(RunOptions.Default.WithArgs(args));
     }
 
     /// <summary>
     ///     配置应用程序中间件
     /// </summary>
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app)
     {
         app                    //
             .EnableBuffering() // /                                                             启用 Body 重读
@@ -47,20 +46,20 @@ public class Startup : AppStartup
     /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddConsoleFormatter() // /                                      控制台日志模板
-                .AddAllOptions()       // /                                      注册配置项
-                .AddJwt()              //                                        Jwt 授权处理器
-                .AddSnowflake()        // /                                      雪花id生成器
-                .AddEventBus()         //                                        事件总线
-                .AddFreeSql()          //                                        freeSql
-                .AddCorsAccessor()     //                                        支持跨域访问
-                .AddContextUser()      //                                        上下文用户
-                .AddMemCache()         //                                        内存缓存
+        _ = services.AddConsoleFormatter() // /                                      控制台日志模板
+                    .AddAllOptions()       // /                                      注册配置项
+                    .AddJwt()              //                                        Jwt 授权处理器
+                    .AddSnowflake()        // /                                      雪花id生成器
+                    .AddEventBus()         //                                        事件总线
+                    .AddFreeSql()          //                                        freeSql
+                    .AddCorsAccessor()     //                                        支持跨域访问
+                    .AddContextUser()      //                                        上下文用户
+                    .AddMemCache()         //                                        内存缓存
 
-                // IMvcBuilder
-                .AddControllers()     //                                         注册控制器
-                .AddJsonSerializer()  //                                         json序列化配置
-                .AddApiResultHander() //                                         Api结果处理器
+                    // IMvcBuilder
+                    .AddControllers()     //                                         注册控制器
+                    .AddJsonSerializer()  //                                         json序列化配置
+                    .AddApiResultHander() //                                         Api结果处理器
             ;
     }
 
@@ -71,7 +70,7 @@ public class Startup : AppStartup
                                  .AddColumn(new GridColumn().NoWrap())
                                  .Expand();
         foreach (var kv in ToolsService.EnvironmentInfoStatic()) {
-            gridInfo.AddRow(kv.Key, kv.Value.ToString()!.EscapeMarkup());
+            _ = gridInfo.AddRow(kv.Key, kv.Value.ToString()!.EscapeMarkup());
         }
 
         var gridWrap = new Grid().AddColumn()

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using NetAdmin.Application.Modules.Sys;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Captcha;
@@ -26,17 +25,17 @@ public class CaptchaController : ControllerBase<ICaptchaService>, ICaptchaModule
     ///     获取人机校验图
     /// </summary>
     [AllowAnonymous]
-    public async Task<GetCaptchaRsp> GetCaptchaImage()
+    public Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
-        return await _captchaCache.GetCaptchaImage();
+        return _captchaCache.GetCaptchaImageAsync();
     }
 
     /// <summary>
     ///     完成人机校验
     /// </summary>
     [AllowAnonymous]
-    public async Task<bool> VerifyCaptcha(VerifyCaptchaReq req)
+    public Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
     {
-        return await _captchaCache.VerifyCaptcha(req);
+        return _captchaCache.VerifyCaptchaAsync(req);
     }
 }

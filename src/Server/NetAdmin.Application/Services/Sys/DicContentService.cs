@@ -1,6 +1,4 @@
-using FreeSql;
 using Furion.FriendlyException;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
@@ -21,11 +19,11 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     /// <summary>
     ///     批量删除字典内容
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -34,7 +32,8 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     /// <summary>
     ///     创建字典内容
     /// </summary>
-    public async Task<QueryDicContentRsp> Create(CreateDicContentReq req)
+    /// <exception cref="AppFriendlyException">AppFriendlyException</exception>
+    public async Task<QueryDicContentRsp> CreateAsync(CreateDicContentReq req)
     {
         if (!await Rpo.Orm.Select<TbSysDicCatalog>().Where(a => a.Id == req.CatalogId).ForUpdate().AnyAsync()) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Dictionary_directory_does_not_exist);
@@ -47,16 +46,15 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     /// <summary>
     ///     删除字典内容
     /// </summary>
-    public async Task<int> Delete(DelReq req)
+    public Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id);
-        return ret;
+        return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <summary>
     ///     分页查询字典内容
     /// </summary>
-    public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQuery(PagedQueryReq<QueryDicContentReq> req)
+    public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDicContentReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
@@ -67,7 +65,7 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     /// <summary>
     ///     查询字典内容
     /// </summary>
-    public async Task<IEnumerable<QueryDicContentRsp>> Query(QueryReq<QueryDicContentReq> req)
+    public async Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
@@ -76,7 +74,8 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
     /// <summary>
     ///     更新字典内容
     /// </summary>
-    public async Task<QueryDicContentRsp> Update(UpdateDicContentReq req)
+    /// <exception cref="AppFriendlyException">AppFriendlyException</exception>
+    public async Task<QueryDicContentRsp> UpdateAsync(UpdateDicContentReq req)
     {
         if (!await Rpo.Orm.Select<TbSysDicCatalog>().Where(a => a.Id == req.CatalogId).ForUpdate().AnyAsync()) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.Dictionary_directory_does_not_exist);
@@ -92,10 +91,9 @@ public class DicContentService : RepositoryService<TbSysDicContent, IDicContentS
 
     private ISelect<TbSysDicContent> QueryInternal(QueryReq<QueryDicContentReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending(a => a.Id);
-        return ret;
+        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                  .WhereDynamic(req.Filter)
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                  .OrderByDescending(a => a.Id);
     }
 }

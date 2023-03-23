@@ -1,9 +1,6 @@
-using System.Reflection;
-using FreeSql.Aop;
-using Furion;
-using Furion.DependencyInjection;
+using NetAdmin.Domain.Attributes;
 using NetAdmin.Domain.Contexts;
-using NSExt.Extensions;
+using NetAdmin.Domain.DbMaps.Dependency;
 using Yitter.IdGenerator;
 
 namespace NetAdmin.Host.Utils;
@@ -40,6 +37,7 @@ public class SqlAuditor : ISingleton
     /// <summary>
     ///     对Insert/Update的数据加工
     /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">ArgumentOutOfRangeException</exception>
     public void DataAuditHandler(object sender, AuditValueEventArgs e)
     {
         SetServerTime(e);
@@ -75,7 +73,7 @@ public class SqlAuditor : ISingleton
     {
         switch (e.Property.Name) {
             case nameof(IFieldAdd.CreatedUserId):
-                if (e.Value is null or long and 0) {
+                if (e.Value is null or (long and 0)) {
                     e.Value = user.Id;
                 }
 
@@ -97,7 +95,7 @@ public class SqlAuditor : ISingleton
     {
         var isSnowflake = e.Property.GetCustomAttribute<SnowflakeAttribute>(false) is { Enable: true };
         var isLongType  = e.Column.CsType == typeof(long);
-        var isNoValue   = e.Value is null or long and 0;
+        var isNoValue   = e.Value is null or (long and 0);
         if (isSnowflake && isLongType && isNoValue) {
             e.Value = YitIdHelper.NextId();
         }

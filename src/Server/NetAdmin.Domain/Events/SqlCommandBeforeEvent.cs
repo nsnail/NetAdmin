@@ -1,7 +1,3 @@
-using System.Globalization;
-using FreeSql.Aop;
-using NSExt.Extensions;
-
 namespace NetAdmin.Domain.Events;
 
 /// <summary>

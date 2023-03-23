@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-
 namespace NetAdmin.Application.Modules.Sys;
 
 /// <summary>
@@ -10,5 +8,5 @@ public interface IFileModule
     /// <summary>
     ///     文件上传
     /// </summary>
-    Task<string> Upload(IFormFile file);
+    Task<string> UploadAsync(IFormFile file);
 }

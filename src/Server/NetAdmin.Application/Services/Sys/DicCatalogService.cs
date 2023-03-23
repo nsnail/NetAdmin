@@ -1,6 +1,3 @@
-using FreeSql;
-using Furion.FriendlyException;
-using Mapster;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
@@ -21,11 +18,11 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     /// <summary>
     ///     批量删除字典目录
     /// </summary>
-    public async Task<int> BulkDelete(BulkReq<DelReq> req)
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await Delete(item);
+            sum += await DeleteAsync(item);
         }
 
         return sum;
@@ -34,7 +31,8 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     /// <summary>
     ///     创建字典目录
     /// </summary>
-    public async Task<QueryDicCatalogRsp> Create(CreateDicCatalogReq req)
+    /// <exception cref="AppFriendlyException">AppFriendlyException</exception>
+    public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
         if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
@@ -47,7 +45,7 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     /// <summary>
     ///     删除字典目录
     /// </summary>
-    public async Task<int> Delete(DelReq req)
+    public async Task<int> DeleteAsync(DelReq req)
     {
         var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id);
         return ret.Count;
@@ -56,7 +54,7 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     /// <summary>
     ///     分页查询字典目录
     /// </summary>
-    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQuery(PagedQueryReq<QueryDicCatalogReq> req)
+    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
 
@@ -67,7 +65,7 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     /// <summary>
     ///     查询字典目录
     /// </summary>
-    public async Task<IEnumerable<QueryDicCatalogRsp>> Query(QueryReq<QueryDicCatalogReq> req)
+    public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req)
     {
         var ret = await QueryInternal(req).ToTreeListAsync();
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
@@ -76,7 +74,8 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
     /// <summary>
     ///     更新字典目录
     /// </summary>
-    public async Task<QueryDicCatalogRsp> Update(UpdateDicCatalogReq req)
+    /// <exception cref="AppFriendlyException">AppFriendlyException</exception>
+    public async Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
     {
         if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
             throw Oops.Oh(Enums.RspCodes.InvalidOperation, Ln.The_parent_node_does_not_exist);
@@ -92,10 +91,9 @@ public class DicCatalogService : RepositoryService<TbSysDicCatalog, IDicCatalogS
 
     private ISelect<TbSysDicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
-                     .OrderByDescending(a => a.Id);
-        return ret;
+        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                  .WhereDynamic(req.Filter)
+                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Enums.Orders.Ascending)
+                  .OrderByDescending(a => a.Id);
     }
 }

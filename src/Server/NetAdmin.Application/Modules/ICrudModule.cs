@@ -1,3 +1,4 @@
+using NetAdmin.Domain;
 using NetAdmin.Domain.Dto.Dependency;
 
 namespace NetAdmin.Application.Modules;
@@ -24,30 +25,30 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in
     /// <summary>
     ///     批量删除实体
     /// </summary>
-    Task<int> BulkDelete(BulkReq<TDelReq> req);
+    Task<int> BulkDeleteAsync(BulkReq<TDelReq> req);
 
     /// <summary>
     ///     创建实体
     /// </summary>
-    Task<TCreateRsp> Create(TCreateReq req);
+    Task<TCreateRsp> CreateAsync(TCreateReq req);
 
     /// <summary>
     ///     删除实体
     /// </summary>
-    Task<int> Delete(TDelReq req);
+    Task<int> DeleteAsync(TDelReq req);
 
     /// <summary>
     ///     分页查询实体
     /// </summary>
-    Task<PagedQueryRsp<TQueryRsp>> PagedQuery(PagedQueryReq<TQueryReq> req);
+    Task<PagedQueryRsp<TQueryRsp>> PagedQueryAsync(PagedQueryReq<TQueryReq> req);
 
     /// <summary>
     ///     查询实体
     /// </summary>
-    Task<IEnumerable<TQueryRsp>> Query(QueryReq<TQueryReq> req);
+    Task<IEnumerable<TQueryRsp>> QueryAsync(QueryReq<TQueryReq> req);
 
     /// <summary>
     ///     更新实体
     /// </summary>
-    Task<TUpdateRsp> Update(TUpdateReq req);
+    Task<TUpdateRsp> UpdateAsync(TUpdateReq req);
 }

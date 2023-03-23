@@ -1,7 +1,3 @@
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Furion.DependencyInjection;
 using NetAdmin.Host.Filters;
 using NetAdmin.Host.Utils;
 
@@ -22,7 +18,7 @@ public static class IMvcBuilderExtensions
     {
         return me.AddInjectWithUnifyResult<ApiResultHandler>(injectOptions => {
             // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
-            injectOptions.ConfigureSwaggerGen(genOptions => { genOptions.SchemaFilter<SwaggerEnumSchemaFixer>(); });
+            injectOptions.ConfigureSwaggerGen(genOptions => genOptions.SchemaFilter<SwaggerEnumSchemaFixer>());
         });
     }
 

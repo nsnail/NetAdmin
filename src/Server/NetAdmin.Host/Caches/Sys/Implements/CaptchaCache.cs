@@ -1,6 +1,4 @@
-using Furion.DependencyInjection;
 using Furion.FriendlyException;
-using Microsoft.Extensions.Caching.Memory;
 using NetAdmin.Application.Services.Sys.Dependency;
 using NetAdmin.Domain.Dto.Sys.Captcha;
 
@@ -18,10 +16,10 @@ public class CaptchaCache : CacheBase<ICaptchaService>, IScoped, ICaptchaCache
         : base(cache, service) { }
 
     /// <inheritdoc />
-    public async Task<GetCaptchaRsp> GetCaptchaImage()
+    public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
-        var ret = await Service.GetCaptchaImage();
-        Cache.Set(ret.Id, ret.SawOffsetX, _absoluteExpirationRelativeToNow);
+        var ret = await Service.GetCaptchaImageAsync();
+        _ = Cache.Set(ret.Id, ret.SawOffsetX, _absoluteExpirationRelativeToNow);
         return ret;
     }
 
@@ -32,16 +30,16 @@ public class CaptchaCache : CacheBase<ICaptchaService>, IScoped, ICaptchaCache
     }
 
     /// <inheritdoc />
-    public Task<bool> VerifyCaptcha(VerifyCaptchaReq req)
+    public Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
     {
-        Cache.TryGetValue(req.Id, out var val);
-        return Service.VerifyCaptcha(req with { SawOffsetX = (int?)val });
+        _ = Cache.TryGetValue(req.Id, out var val);
+        return Service.VerifyCaptchaAsync(req with { SawOffsetX = (int?)val });
     }
 
     /// <inheritdoc />
-    public async Task VerifyCaptchaAndRemove(VerifyCaptchaReq req)
+    async Task ICaptchaCache.VerifyCaptchaAndRemoveAsync(VerifyCaptchaReq req)
     {
-        var ret = await VerifyCaptcha(req);
+        var ret = await VerifyCaptchaAsync(req);
         if (ret) {
             // 人机验证通过，删除人机验证缓存
             RemoveEntry(req.Id);
