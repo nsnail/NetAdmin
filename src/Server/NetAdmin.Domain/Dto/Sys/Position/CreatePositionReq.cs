@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Position;
@@ -6,26 +6,9 @@ namespace NetAdmin.Domain.Dto.Sys.Position;
 /// <summary>
 ///     请求：创建岗位
 /// </summary>
-public record CreatePositionReq : TbSysPosition
+public record CreatePositionReq : Sys_Position
 {
-    /// <inheritdoc cref="TbSysPosition.BitSet" />
-    public override long BitSet {
-        get {
-            var ret = 0L;
-            if (Enabled) {
-                ret |= (long)BitSets.Enabled;
-            }
-
-            return ret;
-        }
-    }
-
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled { get; init; } = true;
-
-    /// <inheritdoc cref="TbSysPosition.Name" />
+    /// <inheritdoc cref="Sys_Position.Name" />
     [Required]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Name { get; init; }
@@ -34,7 +17,7 @@ public record CreatePositionReq : TbSysPosition
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Summary { get; init; }
 }

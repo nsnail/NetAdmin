@@ -10,6 +10,6 @@ public static class LogHelper
     /// </summary>
     public static ILogger<T> Get<T>()
     {
-        return App.GetRequiredService<ILogger<T>>();
+        return App.GetService<ILogger<T>>();
     }
 }

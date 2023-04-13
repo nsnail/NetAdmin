@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     手机号验证器
 /// </summary>
-public class MobileAttribute : RegexAttribute
+public sealed class MobileAttribute : RegexAttribute
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="MobileAttribute" /> class.

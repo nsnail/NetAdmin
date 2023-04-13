@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Tpl;
 
 namespace NetAdmin.Domain.Dto.Tpl.Example;
@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Tpl.Example;
 /// <summary>
 ///     请求：查询示例
 /// </summary>
-public record QueryExampleReq : TbTplExample
+public sealed record QueryExampleReq : Tpl_Example
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

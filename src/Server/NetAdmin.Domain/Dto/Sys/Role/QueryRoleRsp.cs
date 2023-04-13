@@ -1,39 +1,25 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;
 
 /// <summary>
 ///     响应：查询角色
 /// </summary>
-public record QueryRoleRsp : TbSysRole, IRegister
+public sealed record QueryRoleRsp : Sys_Role, IRegister
 {
-    /// <summary>
-    ///     是否显示仪表板
-    /// </summary>
-    public bool DisplayDashboard => BitSet.HasFlag(RoleBits.DisplayDashboard);
-
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
-
-    /// <summary>
-    ///     是否忽略权限控制
-    /// </summary>
-    public bool IgnorePermissionControl => BitSet.HasFlag(RoleBits.IgnorePermissionControl);
-
     /// <summary>
     ///     角色-接口映射
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyCollection<string> ApiIds { get; init; }
 
-    /// <inheritdoc cref="IFieldAdd.CreatedTime" />
+    /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
-    /// <inheritdoc cref="TbSysRole.DataScope" />
+    /// <inheritdoc cref="Sys_Role.DataScope" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DataScopes DataScope { get; init; }
 
@@ -43,9 +29,17 @@ public record QueryRoleRsp : TbSysRole, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<long> DeptIds { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_Role.DisplayDashboard" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool DisplayDashboard { get; init; }
+
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
+
+    /// <inheritdoc cref="Sys_Role.IgnorePermissionControl" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool IgnorePermissionControl { get; init; }
 
     /// <summary>
     ///     角色-菜单映射
@@ -53,7 +47,7 @@ public record QueryRoleRsp : TbSysRole, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyCollection<long> MenuIds { get; init; }
 
-    /// <inheritdoc cref="TbSysRole.Name" />
+    /// <inheritdoc cref="Sys_Role.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
@@ -61,18 +55,18 @@ public record QueryRoleRsp : TbSysRole, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
-    /// <inheritdoc cref="TbSysRole.Summary" />
+    /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
-    /// <inheritdoc cref="IFieldUpdate.Version" />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IRegister.Register" />
     public void Register(TypeAdapterConfig config)
     {
-        _ = config.ForType<TbSysRole, QueryRoleRsp>()
+        _ = config.ForType<Sys_Role, QueryRoleRsp>()
                   .IgnoreIf((src, _) => src.Depts == null, dest => dest.DeptIds)
                   .IgnoreIf((src, _) => src.Menus == null, dest => dest.MenuIds)
                   .IgnoreIf((src, _) => src.Apis  == null, dest => dest.ApiIds)

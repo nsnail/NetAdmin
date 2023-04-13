@@ -4,7 +4,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 ///     电话验证器（手机或固话）
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-public class PhoneAttribute : ValidationAttribute
+public sealed class PhoneAttribute : ValidationAttribute
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="PhoneAttribute" /> class.

@@ -1,5 +1,5 @@
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Attributes.DataValidation;
 
@@ -7,12 +7,12 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 ///     数据范围为特定部门的验证器
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-public class SpecificDeptAttribute : ValidationAttribute
+public sealed class SpecificDeptAttribute : ValidationAttribute
 {
     /// <inheritdoc />
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        if (validationContext.ObjectInstance is not CreateRoleReq { DataScope: TbSysRole.DataScopes.SpecificDept }) {
+        if (validationContext.ObjectInstance is not CreateRoleReq { DataScope: DataScopes.SpecificDept }) {
             return ValidationResult.Success;
         }
         #pragma warning disable IDE0046

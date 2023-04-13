@@ -1,0 +1,16 @@
+{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Default",
+        "Title": "计划任务服务",
+        "Description": "Line开放平台 - 计划任务服务",
+      },
+      {
+        "Group": "Health",
+        "Visible": false
+      }
+    ]
+  }
+}

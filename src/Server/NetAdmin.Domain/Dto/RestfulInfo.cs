@@ -9,7 +9,7 @@ public record RestfulInfo<T> : DataAbstraction
     ///     代码
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public Enums.RspCodes Code { get; init; }
+    public ErrorCodes Code { get; init; }
 
     /// <summary>
     ///     数据
@@ -19,5 +19,5 @@ public record RestfulInfo<T> : DataAbstraction
     /// <summary>
     ///     消息
     /// </summary>
-    public object Msg { get; init; }
+    public virtual object Msg { get; init; }
 }

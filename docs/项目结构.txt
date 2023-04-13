@@ -1,0 +1,24 @@
+目录结构
+├── assets                                           // 资源目录：存放配置文件、图片、resx等文件
+├── docs                                             // 文档目录：与项目有关的各种文档资料
+└── src                                              // 源码目录：前后端程序源代码文件和工程文件
+    ├── Client                                       //     前端源码
+    │   └── NetAdmin.CstClient               //         客户管理后台
+    └── Server                                       //     后端源码
+        ├── NetAdmin.Host                    //         主机承载层：HTTP-REQ-ACK、I/O参数校验、鉴权、缓存、数据转换封装等
+        ├── NetAdmin.Application             //         业务逻辑层：模块（IModules）功能定义、IServices（核心业务逻辑）实现、数据仓储
+        ├── NetAdmin.Domain                  //         数据实体层：ORM实体映射、DTO实体、事件实体以及相关的格式约束和适配器
+        ├── NetAdmin.Infrastructure          //         基础设施层：公共外部组件包、配置、常量、枚举定义、多语言支持，公共Utils
+        └── NetAdmin.Tests                   //         单元测试层：测试代码
+
+
+
+项目依赖关系：
+
+NetAdmin.Host
+        ↓
+NetAdmin.Application
+        ↓
+NetAdmin.Domain
+        ↓
+NetAdmin.Infrastructure

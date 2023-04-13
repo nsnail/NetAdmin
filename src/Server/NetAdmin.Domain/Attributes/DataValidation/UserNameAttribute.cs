@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     用户名验证器
 /// </summary>
-public class UserNameAttribute : RegexAttribute
+public sealed class UserNameAttribute : RegexAttribute
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserNameAttribute" /> class.

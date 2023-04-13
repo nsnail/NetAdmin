@@ -19,6 +19,6 @@ public record SqlCommandBeforeEvent : SqlCommandEvent
     /// <inheritdoc />
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {1}", Id, Sql);
+        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: Executing...", Id);
     }
 }

@@ -15,6 +15,7 @@ public static class CaptchaImageHelper
     /// <summary>
     ///     创建一个缺口滑块验证码图片
     /// </summary>
+    /// <param name="resAsm">包含资源的程序集</param>
     /// <param name="bgPath">背景图路径</param>
     /// <param name="tempPath">滑块模板小图路径</param>
     /// <param name="bgIndexScope">背景图随机序号范围（1-x）</param>
@@ -23,21 +24,25 @@ public static class CaptchaImageHelper
     /// <returns> 背景图（base64），滑块图（base64），缺口坐标 </returns>
     #pragma warning disable SA1414
     public static async Task<(string BackgroundImage, string SliderImage, Point OffsetSaw)> CreateSawSliderImageAsync(
-            string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope, Size sliderSize)
+            Assembly resAsm, string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope
+          , Size     sliderSize)
         #pragma warning restore SA1414
     {
-        // 底图
-        using var backgroundImage
-            = await Image.LoadAsync<Rgba32>($"{bgPath}/{new[] { bgIndexScope.Item1, bgIndexScope.Item2 }.Rand()}.jpg");
-
         // 深色模板图
         var templateIndex = new[] { tempIndexScope.Item1, tempIndexScope.Item2 }.Rand();
 
-        using var darkTemplateImage = await Image.LoadAsync<Rgba32>($"{tempPath}/{templateIndex}/dark.png");
+        await using var bgStream = resAsm.GetManifestResourceStream(
+            $"{bgPath}.{new[] { bgIndexScope.Item1, bgIndexScope.Item2 }.Rand()}.jpg");
+        await using var darkStream = resAsm.GetManifestResourceStream($"{tempPath}._{templateIndex}.dark.png");
+        await using var tranStream = resAsm.GetManifestResourceStream($"{tempPath}._{templateIndex}.transparent.png");
+
+        // 底图
+        using var backgroundImage = await Image.LoadAsync<Rgba32>(bgStream);
+
+        using var darkTemplateImage = await Image.LoadAsync<Rgba32>(darkStream);
 
         // 透明模板图
-        using var transparentTemplateImage
-            = await Image.LoadAsync<Rgba32>($"{tempPath}/{templateIndex}/transparent.png");
+        using var transparentTemplateImage = await Image.LoadAsync<Rgba32>(tranStream);
 
         // 调整模板图大小
         darkTemplateImage.Mutate(x => x.Resize(sliderSize));

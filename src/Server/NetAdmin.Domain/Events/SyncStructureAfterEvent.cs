@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Events;
 /// <summary>
 ///     同步数据库结构之后事件
 /// </summary>
-public record SyncStructureAfterEvent : SyncStructureBeforeEvent
+public sealed record SyncStructureAfterEvent : SyncStructureBeforeEvent
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="SyncStructureAfterEvent" /> class.

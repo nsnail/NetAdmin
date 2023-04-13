@@ -1,5 +1,6 @@
 using IGeekFan.AspNetCore.Knife4jUI;
-using NetAdmin.Host.Middlewares;
+using Microsoft.AspNetCore.HttpOverrides;
+using Prometheus;
 
 namespace NetAdmin.Host.Extensions;
 
@@ -11,6 +12,18 @@ namespace NetAdmin.Host.Extensions;
 // ReSharper disable once InconsistentNaming
 public static class IApplicationBuilderExtensions
 {
+    /// <summary>
+    ///     执行匹配的端点
+    /// </summary>
+    public static IApplicationBuilder UseEndpoints(this IApplicationBuilder me)
+    {
+        _ = me.UseEndpoints(endpoints => {
+            _ = endpoints.MapControllers();
+            _ = endpoints.MapMetrics();
+        });
+        return me;
+    }
+
     /// <summary>
     ///     使用 api skin （knife4j-vue）
     /// </summary>
@@ -27,19 +40,15 @@ public static class IApplicationBuilderExtensions
     }
 
     /// <summary>
-    ///     使用 删除json空节点
+    ///     获取客户端真实IP
     /// </summary>
-    public static IApplicationBuilder UseRemoveNullNode(this IApplicationBuilder me)
+    public static IApplicationBuilder UseRealIP(this IApplicationBuilder me)
     {
-        _ = me.UseMiddleware<RemoveNullNodeMiddleware>();
+        _ = me.UseForwardedHeaders(new ForwardedHeadersOptions //
+                                   {
+                                       ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                                                          ForwardedHeaders.XForwardedProto
+                                   });
         return me;
-    }
-
-    /// <summary>
-    ///     使用 请求审计中间件
-    /// </summary>
-    public static IApplicationBuilder UseRequestAudit(this IApplicationBuilder me)
-    {
-        return me.UseMiddleware<RequestAuditMiddleware>();
     }
 }

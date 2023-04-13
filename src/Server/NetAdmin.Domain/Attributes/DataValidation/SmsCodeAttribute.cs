@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     短信码验证器
 /// </summary>
-public class SmsCodeAttribute : RegexAttribute
+public sealed class SmsCodeAttribute : RegexAttribute
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="SmsCodeAttribute" /> class.

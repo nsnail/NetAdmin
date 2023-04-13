@@ -1,4 +1,5 @@
 using NetAdmin.Host.Attributes;
+using NetAdmin.Host.Extensions;
 
 namespace NetAdmin.Host.Filters;
 
@@ -6,18 +7,16 @@ namespace NetAdmin.Host.Filters;
 ///     事务拦截器
 /// </summary>
 [SuppressSniffer]
-public class TransactionInterceptor : IAsyncActionFilter
+public sealed class TransactionInterceptor : IAsyncActionFilter
 {
-    private readonly ILogger<TransactionInterceptor> _logger;
-    private readonly UnitOfWorkManager               _uowManager;
+    private readonly UnitOfWorkManager _uowManager;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TransactionInterceptor" /> class.
     ///     事务拦截器
     /// </summary>
-    public TransactionInterceptor(ILogger<TransactionInterceptor> logger, UnitOfWorkManager uowManager)
+    public TransactionInterceptor(UnitOfWorkManager uowManager)
     {
-        _logger     = logger;
         _uowManager = uowManager;
     }
 
@@ -31,22 +30,12 @@ public class TransactionInterceptor : IAsyncActionFilter
             return;
         }
 
-        using var unitOfWork = _uowManager.Begin();
-        var       hashCode   = unitOfWork.GetHashCode();
-        try {
-            _logger.Info($"{Ln.Transaction_starting}: {hashCode}");
+        // 事务操作
+        await _uowManager.AtomicOperateAsync(async () => {
             var result = await next();
             if (result.Exception is not null) {
                 throw result.Exception;
             }
-
-            unitOfWork.Commit();
-            _logger.Info($"{Ln.Transaction_commited}: {hashCode}");
-        }
-        catch (Exception) {
-            unitOfWork.Rollback();
-            _logger.Error($"{Ln.Transaction_rollbacked}: {hashCode}");
-            throw;
-        }
+        });
     }
 }

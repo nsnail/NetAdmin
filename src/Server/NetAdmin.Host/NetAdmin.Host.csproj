@@ -1,13 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)/CodeQuality.props" />
     <ItemGroup>
-        <EmbeddedResource Include="$(SolutionDir)/assets/captcha/**" LinkBase="Assets/Captcha" />
+        <ProjectReference Include="../NetAdmin.Cache/NetAdmin.Cache.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="../NetAdmin.Application/NetAdmin.Application.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="Spectre.Console.NS" Version="0.45.1-preview.0.48" />
         <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.13-ns3" />
+        <PackageReference Include="Spectre.Console.NS" Version="0.45.1-preview.0.59" />
+        <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
     </ItemGroup>
 </Project>

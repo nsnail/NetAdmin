@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(SolutionDir)/CodeQuality.props" />
+    <ItemGroup>
+        <ProjectReference Include="../NetAdmin.SysComponent.Application/NetAdmin.SysComponent.Application.csproj" />
+    </ItemGroup>
+</Project>

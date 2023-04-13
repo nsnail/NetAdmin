@@ -1,0 +1,303 @@
+[
+  {
+    "Icon": "el-icon-house",
+    "Id": 373837717815301,
+    "Name": "home",
+    "Path": "/home",
+    "Sort": 100,
+    "Title": "首页",
+    "Type": 1
+  },
+  {
+    "Icon": "el-icon-setting",
+    "Id": 373837917724677,
+    "Name": "sys",
+    "Path": "/sys",
+    "Sort": 99,
+    "Title": "系统管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/user",
+    "Icon": "el-icon-user",
+    "Id": 373837957840901,
+    "Name": "sys-user",
+    "ParentId": 373837917724677,
+    "Path": "/sys/user",
+    "Sort": 100,
+    "Title": "用户管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/role",
+    "Icon": "sc-icon-role",
+    "Id": 373838018527237,
+    "Name": "sys-role",
+    "ParentId": 373837917724677,
+    "Path": "/sys/role",
+    "Sort": 99,
+    "Title": "角色管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/dept",
+    "Icon": "sc-icon-dept",
+    "Id": 373838045605893,
+    "Name": "sys-dept",
+    "ParentId": 373837917724677,
+    "Path": "/sys/dept",
+    "Sort": 98,
+    "Title": "部门管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/menu",
+    "Icon": "el-icon-fold",
+    "Id": 373838070898693,
+    "Name": "sys-menu",
+    "ParentId": 373837917724677,
+    "Path": "/sys/menu",
+    "Sort": 96,
+    "Title": "菜单管理",
+    "Type": 1
+  },
+  {
+    "Icon": "sc-icon-code",
+    "Id": 373838105399301,
+    "Name": "dev",
+    "Path": "/dev",
+    "Sort": 97,
+    "Title": "开发管理",
+    "Type": 1
+  },
+  {
+    "Component": "dev/code",
+    "Icon": "sc-icon-code2",
+    "Id": 373838147022853,
+    "Name": "dev-code",
+    "ParentId": 373838105399301,
+    "Path": "/dev/code",
+    "Sort": 100,
+    "Title": "代码生成",
+    "Type": 1
+  },
+  {
+    "Component": "sys/log",
+    "Icon": "el-icon-tickets",
+    "Id": 374792687640581,
+    "Name": "sys-log",
+    "ParentId": 373837917724677,
+    "Path": "/sys/log",
+    "Sort": 93,
+    "Title": "日志管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/cache",
+    "Icon": "sc-icon-memory",
+    "Id": 374911555702789,
+    "Name": "sys-cache",
+    "ParentId": 373837917724677,
+    "Path": "/sys/cache",
+    "Sort": 94,
+    "Title": "缓存管理",
+    "Type": 1
+  },
+  {
+    "Icon": "el-icon-eleme-filled",
+    "Id": 374957177843717,
+    "Name": "dev-element",
+    "ParentId": 373838105399301,
+    "Path": "https://element.eleme.cn/#/zh-CN/component/layout",
+    "Sort": 99,
+    "Title": "Element",
+    "Type": 3
+  },
+  {
+    "Component": "home/dashboard",
+    "Icon": "sc-icon-dashboard",
+    "Id": 374965453721605,
+    "Name": "home-dashboard",
+    "ParentId": 373837717815301,
+    "Path": "/home/dashboard",
+    "Sort": 100,
+    "Title": "控制台",
+    "Type": 1
+  },
+  {
+    "Component": "home/profile",
+    "Icon": "el-icon-user",
+    "Id": 374967228141573,
+    "Name": "home-profile",
+    "ParentId": 373837717815301,
+    "Path": "/home/profile",
+    "Sort": 99,
+    "Tag": "NEW",
+    "Title": "账号信息",
+    "Type": 1
+  },
+  {
+    "Icon": "sc-icon-api",
+    "Id": 375239645380613,
+    "Name": "dev-api",
+    "ParentId": 373838105399301,
+    "Path": "http://test.line-api-sdk.shequnpay.com",
+    "Sort": 98,
+    "Title": "接口文档",
+    "Type": 3
+  },
+  {
+    "Component": "sys/dic",
+    "Icon": "sc-icon-dic",
+    "Id": 375315654221829,
+    "Name": "sys-dic",
+    "ParentId": 373837917724677,
+    "Path": "/sys/dic",
+    "Sort": 95,
+    "Title": "字典管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/position",
+    "Icon": "sc-icon-position",
+    "Id": 375858629672965,
+    "Name": "sys-position",
+    "ParentId": 373837917724677,
+    "Path": "/sys/position",
+    "Sort": 97,
+    "Title": "岗位管理",
+    "Type": 1
+  },
+  {
+    "Icon": "sc-icon-tpl",
+    "Id": 375907846438917,
+    "Name": "tpl",
+    "Path": "/tpl",
+    "Sort": 100,
+    "Title": "模板管理",
+    "Type": 1
+  },
+  {
+    "Component": "tpl/example",
+    "Icon": "sc-icon-demo",
+    "Id": 375907877326853,
+    "Name": "tpl-example",
+    "ParentId": 375907846438917,
+    "Path": "/tpl/example",
+    "Sort": 100,
+    "Title": "示例管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/config",
+    "Icon": "el-icon-set-up",
+    "Id": 380415005847557,
+    "Name": "sys-config",
+    "ParentId": 373837917724677,
+    "Path": "/sys/config",
+    "Sort": 92,
+    "Title": "系统设置",
+    "Type": 1
+  },
+  {
+    "Icon": "sc-icon-meter",
+    "Id": 395392515297296,
+    "Name": "oper",
+    "Path": "/oper",
+    "Sort": 97,
+    "Title": "运维管理",
+    "Type": 1
+  },
+  {
+    "Icon": "sc-icon-grafana",
+    "Id": 395392539463695,
+    "Name": "dev-monitor",
+    "ParentId": 395392515297296,
+    "Path": "http://118.178.181.24:3030",
+    "Sort": 100,
+    "Title": "数据监控",
+    "Type": 3
+  },
+  {
+    "Icon": "sc-icon-kibana",
+    "Id": 395392539463699,
+    "Name": "oper-log",
+    "ParentId": 395392515297296,
+    "Path": "http://121.199.37.75:5601",
+    "Sort": 99,
+    "Title": "集中日志",
+    "Type": 3
+  },
+  {
+    "Icon": "sc-icon-kafka",
+    "Id": 395392539463702,
+    "Name": "oper-mq",
+    "ParentId": 395392515297296,
+    "Path": "http://118.178.181.24:9090",
+    "Sort": 98,
+    "Title": "消息队列",
+    "Type": 3
+  },
+  {
+    "Icon": "sc-icon-resource",
+    "Id": 396003802853393,
+    "Name": "res",
+    "Path": "/res",
+    "Sort": 96,
+    "Title": "资源管理",
+    "Type": 1
+  },
+  {
+    "Component": "res/robot",
+    "Icon": "sc-icon-robot",
+    "Id": 396003802853397,
+    "Name": "res-robot",
+    "ParentId": 396003802853393,
+    "Path": "/res/robot",
+    "Sort": 100,
+    "Title": "机器人管理",
+    "Type": 1
+  },
+  {
+    "Component": "res/device",
+    "Icon": "sc-icon-device",
+    "Id": 396003802853398,
+    "Name": "res-device",
+    "ParentId": 396003802853393,
+    "Path": "/res/device",
+    "Sort": 99,
+    "Title": "设备管理",
+    "Type": 1
+  },
+  {
+    "Icon": "sc-icon-business",
+    "Id": 396424238944261,
+    "Name": "cst",
+    "Path": "/cst",
+    "Sort": 98,
+    "Title": "业务管理",
+    "Type": 1
+  },
+  {
+    "Component": "cst/app",
+    "Icon": "sc-icon-app",
+    "Id": 396425090686981,
+    "Name": "cst-app",
+    "ParentId": 396424238944261,
+    "Path": "/cst/app",
+    "Sort": 100,
+    "Title": "应用管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/api",
+    "Icon": "sc-icon-api",
+    "Id": 397880678895621,
+    "Name": "sys-api",
+    "ParentId": 373837917724677,
+    "Path": "/sys/api",
+    "Sort": 96,
+    "Title": "接口管理",
+    "Type": 1
+  }
+]

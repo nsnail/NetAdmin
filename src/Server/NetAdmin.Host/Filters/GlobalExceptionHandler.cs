@@ -5,7 +5,7 @@ namespace NetAdmin.Host.Filters;
 /// <summary>
 ///     全局捕异常
 /// </summary>
-public class GlobalExceptionHandler : IGlobalExceptionHandler, ISingleton
+public sealed class GlobalExceptionHandler : IGlobalExceptionHandler, ISingleton
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;
 

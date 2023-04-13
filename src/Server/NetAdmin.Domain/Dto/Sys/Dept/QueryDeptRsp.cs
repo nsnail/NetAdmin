@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Dept;
@@ -6,31 +6,26 @@ namespace NetAdmin.Domain.Dto.Sys.Dept;
 /// <summary>
 ///     响应：查询部门
 /// </summary>
-public record QueryDeptRsp : TbSysDept
+public record QueryDeptRsp : Sys_Dept
 {
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
-
     /// <summary>
     ///     子节点
     /// </summary>
     public new virtual IEnumerable<QueryDeptRsp> Children { get; init; }
 
-    /// <inheritdoc cref="IFieldAdd.CreatedTime" />
+    /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
-    /// <inheritdoc cref="TbSysDept.Name" />
+    /// <inheritdoc cref="Sys_Dept.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
-    /// <inheritdoc cref="TbSysDept.ParentId" />
+    /// <inheritdoc cref="Sys_Dept.ParentId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; }
 
@@ -38,11 +33,11 @@ public record QueryDeptRsp : TbSysDept
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
-    /// <inheritdoc cref="TbSysDept.Summary" />
+    /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
-    /// <inheritdoc cref="IFieldUpdate.Version" />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

@@ -15,5 +15,5 @@ public interface IService
     /// <summary>
     ///     上下文用户
     /// </summary>
-    ContextUser User { get; set; }
+    ContextUserToken UserToken { get; set; }
 }

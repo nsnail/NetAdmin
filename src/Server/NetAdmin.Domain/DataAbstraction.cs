@@ -8,13 +8,13 @@ public abstract record DataAbstraction
     /// <inheritdoc />
     public override string ToString()
     {
-        return this.Json();
+        return this.ToJson();
     }
 
     /// <summary>
     ///     截断所有字符串属性 以符合[MaxLength(x)]特性
     /// </summary>
-    public virtual void TruncateStrings()
+    public void TruncateStrings()
     {
         foreach (var property in GetType()
                                  .GetProperties(BindingFlags.Public | BindingFlags.Instance)

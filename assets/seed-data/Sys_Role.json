@@ -1,0 +1,31 @@
+[
+  {
+    "DataScope": 1,
+    "Enabled": true,
+    "Id": 370943613149253,
+    "IgnorePermissionControl": true,
+    "Name": "超级管理员",
+    "Sort": 100
+  },
+  {
+    "DataScope": 1,
+    "Enabled": true,
+    "Id": 371729860788229,
+    "Name": "管理员",
+    "Sort": 100
+  },
+  {
+    "DataScope": 1,
+    "Enabled": true,
+    "Id": 371729946431493,
+    "Name": "普通用户",
+    "Sort": 100
+  },
+  {
+    "DataScope": 4,
+    "Enabled": true,
+    "Id": 395383113412617,
+    "Name": "普通商家",
+    "Sort": 100
+  }
+]

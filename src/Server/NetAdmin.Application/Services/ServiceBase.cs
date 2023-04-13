@@ -10,7 +10,7 @@ public abstract class ServiceBase<TLogger> : ServiceBase
     /// </summary>
     protected ServiceBase() //
     {
-        Logger = App.GetRequiredService<ILogger<TLogger>>();
+        Logger = App.GetService<ILogger<TLogger>>();
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public abstract class ServiceBase : IScoped, IService
     /// </summary>
     protected ServiceBase()
     {
-        User      = App.GetService<ContextUser>();
+        UserToken = App.GetService<ContextUserToken>();
         ServiceId = Guid.NewGuid();
     }
 
@@ -37,5 +37,5 @@ public abstract class ServiceBase : IScoped, IService
     public Guid ServiceId { get; set; }
 
     /// <inheritdoc />
-    public ContextUser User { get; set; }
+    public ContextUserToken UserToken { get; set; }
 }

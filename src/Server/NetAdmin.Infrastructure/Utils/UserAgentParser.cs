@@ -1,3 +1,5 @@
+// ReSharper disable StringLiteralTypo
+
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
@@ -315,10 +317,12 @@ public sealed class UserAgentParser
         #pragma warning disable S3267
         foreach (var item in _platforms) {
             #pragma warning restore S3267
-            if (Regex.IsMatch(_agent, $"{Regex.Escape(item.Key)}", RegexOptions.IgnoreCase)) {
-                Platform = item.Value;
-                return true;
+            if (!Regex.IsMatch(_agent, $"{Regex.Escape(item.Key)}", RegexOptions.IgnoreCase)) {
+                continue;
             }
+
+            Platform = item.Value;
+            return true;
         }
 
         Platform = "Unknown Platform";

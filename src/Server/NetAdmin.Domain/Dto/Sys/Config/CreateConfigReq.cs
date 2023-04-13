@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Config;
@@ -5,38 +6,25 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 /// <summary>
 ///     请求：创建配置
 /// </summary>
-public record CreateConfigReq : TbSysConfig
+public record CreateConfigReq : Sys_Config
 {
-    /// <inheritdoc />
-    public override long BitSet {
-        get {
-            var ret = 0L;
-            if (Enabled) {
-                ret |= (long)BitSets.Enabled;
-            }
+    /// <inheritdoc cref="IFieldEnabled.Enabled" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool Enabled { get; init; }
 
-            return ret;
-        }
-    }
-
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled { get; init; } = true;
-
-    /// <inheritdoc cref="TbSysConfig.UserRegisterConfirm" />
+    /// <inheritdoc cref="Sys_Config.UserRegisterConfirm" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override bool UserRegisterConfirm { get; set; }
 
-    /// <inheritdoc cref="TbSysConfig.UserRegisterDeptId" />
+    /// <inheritdoc cref="Sys_Config.UserRegisterDeptId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long UserRegisterDeptId { get; init; }
 
-    /// <inheritdoc cref="TbSysConfig.UserRegisterPosId" />
+    /// <inheritdoc cref="Sys_Config.UserRegisterPosId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long UserRegisterPosId { get; set; }
+    public override long UserRegisterPosId { get; init; }
 
-    /// <inheritdoc cref="TbSysConfig.UserRegisterRoleId" />
+    /// <inheritdoc cref="Sys_Config.UserRegisterRoleId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long UserRegisterRoleId { get; set; }
+    public override long UserRegisterRoleId { get; init; }
 }

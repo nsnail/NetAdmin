@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Dev;
 /// <summary>
 ///     IconExportJsInfo
 /// </summary>
-public record IconExportJsInfo : DataAbstraction
+public sealed record IconExportJsInfo : DataAbstraction
 {
     /// <summary>
     ///     ExportDefault
@@ -13,7 +13,7 @@ public record IconExportJsInfo : DataAbstraction
     /// <summary>
     ///     ExportDefaultRecord
     /// </summary>
-    public record ExportDefaultRecord
+    public sealed record ExportDefaultRecord
     {
         /// <summary>
         ///     Icons
@@ -24,7 +24,7 @@ public record IconExportJsInfo : DataAbstraction
     /// <summary>
     ///     IconsItem
     /// </summary>
-    public record IconsItem
+    public sealed record IconsItem
     {
         /// <summary>
         ///     Icons

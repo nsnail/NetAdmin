@@ -1,7 +1,0 @@
-{
-    "Database": {
-        "DbType": "Sqlite",
-        "ConnStr": "Data Source=|DataDirectory|NetAdmin.db; Pooling=true;Min Pool Size=1",
-        "SeedDataRelativePath": "SeedData"
-    }
-}

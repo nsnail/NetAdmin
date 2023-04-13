@@ -6,7 +6,7 @@ namespace NetAdmin.Infrastructure.Utils;
 /// <summary>
 ///     FreeSqlBuilder
 /// </summary>
-public class FreeSqlBuilder
+public sealed class FreeSqlBuilder
 {
     private readonly DatabaseOptions _databaseOptions;
 
@@ -21,15 +21,21 @@ public class FreeSqlBuilder
     /// <summary>
     ///     构建freeSql对象
     /// </summary>
-    public IFreeSql Build()
+    public IFreeSql Build(FreeSqlInitOptions initOptions)
     {
         var freeSql = new FreeSql.FreeSqlBuilder()
                       .UseConnectionString(_databaseOptions.DbType, _databaseOptions.ConnStr)
                       .UseAutoSyncStructure(false)
                       .Build();
 
-        _ = InitDbAsync(freeSql); // 初始化数据库 ，异步
+        _ = InitDbAsync(freeSql, initOptions); // 初始化数据库 ，异步
         return freeSql;
+    }
+
+    private static void CompareStructure(IFreeSql freeSql, Type[] entityTypes)
+    {
+        File.WriteAllText( //
+            $"{nameof(CompareStructure)}.sql", freeSql.CodeFirst.GetComparisonDDLStatements(entityTypes));
     }
 
     /// <summary>
@@ -64,12 +70,25 @@ public class FreeSqlBuilder
     /// <summary>
     ///     初始化数据库
     /// </summary>
-    private Task InitDbAsync(IFreeSql freeSql)
+    private Task InitDbAsync(IFreeSql freeSql, FreeSqlInitOptions initOptions)
     {
         return Task.Run(() => {
+            if (initOptions == FreeSqlInitOptions.None) {
+                return;
+            }
+
             var entityTypes = GetEntityTypes();
-            SyncStructure(freeSql, entityTypes);
-            InsertSeedData(freeSql, entityTypes);
+            if (initOptions.HasFlag(FreeSqlInitOptions.SyncStructure)) {
+                SyncStructure(freeSql, entityTypes);
+            }
+
+            if (initOptions.HasFlag(FreeSqlInitOptions.InsertSeedData)) {
+                InsertSeedData(freeSql, entityTypes);
+            }
+
+            if (initOptions.HasFlag(FreeSqlInitOptions.CompareStructure)) {
+                CompareStructure(freeSql, entityTypes);
+            }
         });
     }
 

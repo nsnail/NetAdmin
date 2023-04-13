@@ -1,3 +1,4 @@
+using Furion.Logging;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Events;
 using NetAdmin.Host.Filters;
@@ -51,6 +52,21 @@ public static class ServiceCollectionExtensions
                             "(<s:.+?>)", RegexOptions.Compiled)
                       , $"[underline {nameof(ConsoleColor.Gray)}]$1[/] "
                     }
+                  , {
+                        new Regex( //
+                            "(ResponseBody)", RegexOptions.Compiled)
+                      , $"[underline {nameof(ConsoleColor.Cyan)}]$1[/] "
+                    }
+                  , {
+                        new Regex( //
+                            "(RequestBody)", RegexOptions.Compiled)
+                      , $"[underline {nameof(ConsoleColor.Magenta)}]$1[/] "
+                    }
+                  , {
+                        new Regex( //
+                            @"(\[\[LO\]\]\.)(\[\[.+?\]\]) ", RegexOptions.Compiled)
+                      , $"$1[{nameof(ConsoleColor.Magenta)}]$2[/] "
+                    }
                 };
 
     /// <summary>
@@ -83,20 +99,51 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
     {
-        return me.AddConsoleFormatter(options => {
-            options.WriteHandler = (message, _, _, _, _) => {
-                var msg = _consoleColors.Aggregate( //
-                    message.Message.EscapeMarkup()
-                  , (current, regex) => regex.Key.Replace(current, regex.Value));
+        static (string Date, string LogName, string LogFormat) ParseMessage(LogMessage message, bool showColor)
+        {
+            var date    = message.LogDateTime.ToString(Chars.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture);
+            var logName = message.LogName.PadRight(64, ' ')[^64..];
+            var format = showColor
+                ? $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{64}}} #{{3,4}}]][/] {{4}}"
+                : $"[{{0}} {{1}} {{2,-{64}}} #{{3,4}}] {{4}}";
 
-                AnsiConsole.MarkupLine( //
-                    CultureInfo.InvariantCulture
-                  , $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{64}}} #{{3,4}}]][/] {{4}}"
-                  , message.LogDateTime.ToString(
-                        Chars.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture)
-                  , ((Enums.LogLevels)message.LogLevel).Desc()
-                  , message.LogName.PadRight(64, ' ')[^64..], message.ThreadId, msg);
-            };
+            return (date, logName, format);
+        }
+
+        return me.AddConsoleFormatter(options => {
+            var logLevels = Enum.GetValues(typeof(LogLevels))
+                                .Cast<LogLevels>()
+                                .ToDictionary(x => x, x => x.GetDisplay());
+
+            if (App.WebHostEnvironment.IsDevelopment()) {
+                static void MarkupLine(string                                           msg, LogMessage message
+                                     , IReadOnlyDictionary<LogLevels, DisplayAttribute> logLevels)
+                {
+                    msg = _consoleColors.Aggregate( //
+                        msg, (current, regex) => regex.Key.Replace(current, regex.Value));
+                    msg = msg.ReplaceLineEndings(string.Empty);
+                    var colorName = logLevels[(LogLevels)message.LogLevel].Name!;
+                    var (date, logName, logFormat) = ParseMessage(message, true);
+                    AnsiConsole.MarkupLine( //
+                        CultureInfo.InvariantCulture, logFormat, date, colorName, logName, message.ThreadId, msg);
+                }
+
+                options.WriteHandler = (message, _, _, _, _) => {
+                    MarkupLine(message.Message.EscapeMarkup(), message, logLevels);
+                    if (message.Exception is not null) {
+                        MarkupLine(message.Exception.ToString().EscapeMarkup(), message, logLevels);
+                    }
+                };
+            }
+            else {
+                options.WriteHandler = (message, _, _, _, _) => {
+                    var msg = message.Message.ReplaceLineEndings(string.Empty);
+                    var (date, logName, logFormat) = ParseMessage(message, false);
+                    Console.WriteLine( //
+                        logFormat, date, logLevels[(LogLevels)message.LogLevel].ShortName, logName, message.ThreadId
+                      , msg);
+                };
+            }
         });
     }
 
@@ -105,7 +152,8 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddContextUser(this IServiceCollection me)
     {
-        _ = me.AddScoped(typeof(ContextUser), _ => ContextUser.Create());
+        _ = me.AddScoped(typeof(ContextUserToken), _ => ContextUserToken.Create());
+        _ = me.AddScoped(typeof(ContextUserInfo),  _ => ContextUserInfo.Create());
         return me;
     }
 
@@ -121,46 +169,40 @@ public static class ServiceCollectionExtensions
     /// <summary>
     ///     注册freeSql orm工具
     /// </summary>
-    public static IServiceCollection AddFreeSql(this IServiceCollection me)
+    public static IServiceCollection AddFreeSql( //
+        this IServiceCollection me, FreeSqlInitOptions initOptions = FreeSqlInitOptions.None
+      , Action<IFreeSql>        freeSqlConfig = null)
     {
-        var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build();
+        // 非调试模式下禁止同步数据库
+        #if !DEBUG
+        initOptions = FreeSqlInitOptions.None;
+        #endif
+        var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build(initOptions);
         _ = me.AddSingleton(freeSql);
 
-        var sqlAuditor = App.GetRequiredService<SqlAuditor>();
+        var sqlAuditor = App.GetService<SqlAuditor>();
 
         freeSql.Aop.AuditValue += sqlAuditor.DataAuditHandler; // Insert/Update自动值处理
 
         // AOP事件发布（异步）
         freeSql.Aop.CommandBefore += (_, e) =>
-            App.GetRequiredService<IEventPublisher>().PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
+            App.GetService<IEventPublisher>().PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
         freeSql.Aop.CommandAfter += (_, e) =>
-            App.GetRequiredService<IEventPublisher>().PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
+            App.GetService<IEventPublisher>().PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
 
         freeSql.Aop.SyncStructureBefore += (_, e) =>
-            App.GetRequiredService<IEventPublisher>()
-               .PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
+            App.GetService<IEventPublisher>().PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
 
         freeSql.Aop.SyncStructureAfter += (_, e) =>
-            App.GetRequiredService<IEventPublisher>()
-               .PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
+            App.GetService<IEventPublisher>().PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
 
         // 全局过滤器设置
-        // freeSql.GlobalFilter.ApplyOnly<IFieldBitSet>( // 启用/禁用
-        //     Strings.FLG_FILTER_BITSET, a => a.BitSet.HasFlag(BitSets.Enabled));
-        // freeSql.GlobalFilter.ApplyOnly
+        freeSqlConfig?.Invoke(freeSql);
+
         _ = me.AddScoped<UnitOfWorkManager>();                    // 注入工作单元管理器
         _ = me.AddFreeRepository(null, App.Assemblies.ToArray()); // 批量注入 Repository
         _ = me.AddMvcFilter<TransactionInterceptor>();            // 注入事务拦截器
 
-        return me;
-    }
-
-    /// <summary>
-    ///     jwt授权处理器
-    /// </summary>
-    public static IServiceCollection AddJwt(this IServiceCollection me)
-    {
-        _ = me.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
         return me;
     }
 
@@ -174,12 +216,42 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    ///     OpenTelemetry数据监控
+    /// </summary>
+    public static IServiceCollection AddOpenTelemetryNet(this IServiceCollection me)
+    {
+        // _ = me.AddOpenTelemetry()
+        //       .WithMetrics(builder => builder.AddAspNetCoreInstrumentation()
+        //                                      .AddHttpClientInstrumentation()
+        //                                      .AddRuntimeInstrumentation()
+        //                                      .AddProcessInstrumentation()
+        //                                      .AddPrometheusExporter());
+        return me;
+    }
+
+    /// <summary>
+    ///     注册Redis缓存
+    /// </summary>
+    public static IServiceCollection AddRedisCache(this IServiceCollection me)
+    {
+        var redisOptions = App.GetOptions<RedisOptions>()
+                              .Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATACACHE);
+        _ = me.AddStackExchangeRedisCache(options => {
+            // 连接字符串
+            options.Configuration = redisOptions.ConnStr;
+        });
+        return me;
+    }
+
+    /// <summary>
     ///     注册雪花id生成器
     /// </summary>
     public static IServiceCollection AddSnowflake(this IServiceCollection me)
     {
         // 雪花漂移算法
-        var idGeneratorOptions = new IdGeneratorOptions(1) { WorkerIdBitLength = 6 };
+        var workerId = Convert.ToUInt16( //
+            Environment.GetEnvironmentVariable(Chars.FLG_SNOWFLAKE_WORK_ID), CultureInfo.InvariantCulture);
+        var idGeneratorOptions = new IdGeneratorOptions(workerId) { WorkerIdBitLength = 6 };
         YitIdHelper.SetIdGenerator(idGeneratorOptions);
         return me;
     }

@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Tpl;
 
 namespace NetAdmin.Domain.Dto.Tpl.Example;
@@ -5,18 +6,13 @@ namespace NetAdmin.Domain.Dto.Tpl.Example;
 /// <summary>
 ///     响应：查询示例
 /// </summary>
-public record QueryExampleRsp : TbTplExample
+public sealed record QueryExampleRsp : Tpl_Example
 {
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
-
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

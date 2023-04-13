@@ -10,6 +10,9 @@ indent_style = space
 insert_final_newline = false
 trim_trailing_whitespace = true
 
+[{*.json,*.yml}]
+indent_size = 2
+
 [*.cs]
 dotnet_analyzer_diagnostic.severity = warning
 dotnet_diagnostic.CA1707.severity = none
@@ -25,6 +28,7 @@ dotnet_diagnostic.RCS1142.severity = none
 dotnet_diagnostic.RCS1181.severity = none
 dotnet_diagnostic.RCS1186.severity = none
 dotnet_diagnostic.S101.severity = none
+dotnet_diagnostic.S1199.severity = none
 dotnet_diagnostic.S125.severity = none
 dotnet_diagnostic.S3925.severity = none
 dotnet_diagnostic.S4663.severity = none

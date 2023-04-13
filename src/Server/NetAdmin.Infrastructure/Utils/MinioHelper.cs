@@ -5,7 +5,7 @@ namespace NetAdmin.Infrastructure.Utils;
 /// <summary>
 ///     MinioHelper
 /// </summary>
-public class MinioHelper : IScoped
+public sealed class MinioHelper : IScoped
 {
     private readonly UploadOptions _uploadOptions;
 

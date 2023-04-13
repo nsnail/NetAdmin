@@ -13,23 +13,23 @@ namespace NetAdmin.Host.Filters;
 ///     实现：
 ///     1、本系统代码覆盖范围内占用4个HttpStatusCode：200（表示业务成功）、401（身份未确认）、403（权限不足）、900（其他所有业务异常）
 ///     2、当HttpStatusCode为900时，通过子码（JsonBody里面的Code区分具体异常），同时将子码写入RspHeader中，方便日志系统快速筛选归类。
-///     3、子码定义，见枚举 <see cref="Enums.RspCodes" />
+///     3、子码定义，见枚举 <see cref="ErrorCodes" />
 /// </remarks>
-[SuppressSniffer]
-[UnifyModel(typeof(RestfulInfo<>))]
-public class ApiResultHandler : IUnifyResultProvider
+public abstract class ApiResultHandler<T>
+    where T : RestfulInfo<object>, new()
 {
     /// <summary>
     ///     发生异常
     /// </summary>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        var errorCode = metadata.OriginErrorCode is Enums.RspCodes code ? code : Enums.RspCodes.Unexpected;
-        var result    = RestfulResult(errorCode, metadata.Data, metadata.Errors);
+        var lineException = context.Exception switch { LineException ex => ex, _ => null };
+        var errorCode = lineException?.Code ?? ErrorCodes.Unhandled;
+        var result = RestfulResult(errorCode, metadata.Data, lineException?.Message ?? errorCode.ResDesc<ErrorCodes>());
 
-        SetRspCodeToHeader(context.HttpContext, errorCode);
+        SetErrorCodeToHeader(context.HttpContext, errorCode);
 
-        return new JsonResult(result) { StatusCode = Numbers.HTTP_STATUS_FAIL };
+        return new JsonResult(result) { StatusCode = Numbers.HTTP_STATUS_BIZ_FAIL };
     }
 
     /// <summary>
@@ -47,10 +47,9 @@ public class ApiResultHandler : IUnifyResultProvider
     /// <summary>
     ///     请求成功
     /// </summary>
-    public IActionResult OnSucceeded(ActionExecutedContext context, object data)
+    public IActionResult OnSucceeded(ActionExecutedContext _, object data)
     {
-        SetRspCodeToHeader(context.HttpContext, Enums.RspCodes.Succeed);
-        return new JsonResult(RestfulResult(Enums.RspCodes.Succeed, data));
+        return new JsonResult(RestfulResult(0, data));
     }
 
     /// <summary>
@@ -58,23 +57,25 @@ public class ApiResultHandler : IUnifyResultProvider
     /// </summary>
     public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
     {
-        SetRspCodeToHeader(context.HttpContext, Enums.RspCodes.InvalidInput);
-        return new JsonResult(RestfulResult(Enums.RspCodes.InvalidInput, metadata.Data, metadata.ValidationResult)) {
-                   StatusCode = Numbers.HTTP_STATUS_FAIL
+        SetErrorCodeToHeader(context.HttpContext, ErrorCodes.InvalidInput);
+        return new JsonResult(RestfulResult(ErrorCodes.InvalidInput, metadata.Data, metadata.ValidationResult)) {
+                   StatusCode = Numbers.HTTP_STATUS_BIZ_FAIL
                };
     }
 
     /// <summary>
     ///     返回 RESTful 风格结果集
     /// </summary>
-    private static RestfulInfo<dynamic> RestfulResult(Enums.RspCodes rspCode, object data = default
-                                                    , object         message = default)
+    private static T RestfulResult(ErrorCodes errorCode, object data = default, object message = default)
     {
-        return new RestfulInfo<dynamic> { Code = rspCode, Data = data, Msg = message };
+        return new T { Code = errorCode, Data = data, Msg = message };
     }
 
-    private static void SetRspCodeToHeader(HttpContext context, Enums.RspCodes rspCode)
+    /// <summary>
+    ///     写入错误码到HttpHeader
+    /// </summary>
+    private static void SetErrorCodeToHeader(HttpContext context, ErrorCodes errorCode)
     {
-        context.Response.Headers[nameof(Enums.RspCodes)] = Enum.GetName(rspCode);
+        context.Response.Headers[nameof(ErrorCodes)] = Enum.GetName(errorCode);
     }
 }

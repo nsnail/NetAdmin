@@ -5,36 +5,19 @@ namespace NetAdmin.Domain.Dto.Sys.Dic.Content;
 /// <summary>
 ///     请求：创建字典内容
 /// </summary>
-public record CreateDicContentReq : TbSysDicContent
+public record CreateDicContentReq : Sys_DicContent
 {
-    /// <inheritdoc cref="TbSysDicCatalog.BitSet" />
-    public override long BitSet {
-        get {
-            var ret = 0L;
-            if (Enabled) {
-                ret |= (long)BitSets.Enabled;
-            }
-
-            return ret;
-        }
-    }
-
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_DicContent.CatalogId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override long CatalogId { get; init; }
 
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled { get; init; } = true;
-
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_DicContent.Key" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override string Key { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_DicContent.Value" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override string Value { get; init; }

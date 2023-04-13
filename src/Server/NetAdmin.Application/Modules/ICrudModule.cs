@@ -38,6 +38,16 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in
     Task<int> DeleteAsync(TDelReq req);
 
     /// <summary>
+    ///     判断实体是否存在
+    /// </summary>
+    Task<bool> ExistAsync(QueryReq<TQueryReq> req);
+
+    /// <summary>
+    ///     获取单个实体
+    /// </summary>
+    Task<TQueryRsp> GetAsync(TQueryReq req);
+
+    /// <summary>
     ///     分页查询实体
     /// </summary>
     Task<PagedQueryRsp<TQueryRsp>> PagedQueryAsync(PagedQueryReq<TQueryReq> req);

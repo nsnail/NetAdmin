@@ -6,7 +6,7 @@ namespace NetAdmin.Host.Middlewares;
 /// <summary>
 ///     删除 response json body 中value 为null的节点
 /// </summary>
-public class RemoveNullNodeMiddleware
+public sealed class RemoveNullNodeMiddleware
 {
     private readonly RequestDelegate _next;
 

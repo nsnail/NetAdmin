@@ -5,4 +5,4 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：短信登录
 /// </summary>
-public record SmsLoginReq : VerifySmsCodeReq { }
+public sealed record SmsLoginReq : VerifySmsCodeReq;

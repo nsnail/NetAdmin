@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Position;
@@ -6,18 +6,17 @@ namespace NetAdmin.Domain.Dto.Sys.Position;
 /// <summary>
 ///     响应：查询岗位
 /// </summary>
-public record QueryPositionRsp : TbSysPosition
+public sealed record QueryPositionRsp : Sys_Position
 {
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
+    /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override DateTime CreatedTime { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
-    /// <inheritdoc cref="TbSysPosition.Name" />
+    /// <inheritdoc cref="Sys_Position.Name" />
     [Required]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
@@ -26,11 +25,11 @@ public record QueryPositionRsp : TbSysPosition
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

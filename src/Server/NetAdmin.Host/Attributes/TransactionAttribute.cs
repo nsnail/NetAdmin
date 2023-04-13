@@ -4,7 +4,7 @@ namespace NetAdmin.Host.Attributes;
 ///     标记一个Action启用事务
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
-public class TransactionAttribute : Attribute
+public sealed class TransactionAttribute : Attribute
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="TransactionAttribute" /> class.

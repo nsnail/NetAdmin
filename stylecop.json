@@ -1,10 +1,10 @@
 {
-    "$schema":
-        "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
-    "settings": {
-        "indentation": {
-            "useTabs": false,
-            "indentationSize": 4
-        }
+  "$schema":
+    "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "indentation": {
+      "useTabs": false,
+      "indentationSize": 4
     }
+  }
 }

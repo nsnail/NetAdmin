@@ -1,9 +1,0 @@
-{
-    "solution": "NetAdmin.sln",
-    "solutionFolder": null,
-    "mappings": {
-        "FreeSql": "../../../../ForkedGitReps/FreeSql/FreeSql/FreeSql.csproj",
-        "FreeSql.DbContext": "../../../../ForkedGitReps/FreeSql/FreeSql.DbContext/FreeSql.DbContext.csproj"
-    },
-    "removeProjects": true
-}

@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Dev;
 /// <summary>
 ///     请求：生成后端代码
 /// </summary>
-public record GenerateCsCodeReq : DataAbstraction
+public sealed record GenerateCsCodeReq : DataAbstraction
 {
     /// <summary>
     ///     模块名称
@@ -16,12 +16,7 @@ public record GenerateCsCodeReq : DataAbstraction
     public string ModuleRemark { get; init; }
 
     /// <summary>
-    ///     项目路径
-    /// </summary>
-    public string ProjectPath { get; init; }
-
-    /// <summary>
     ///     模块类型
     /// </summary>
-    public Enums.ModuleTypes Type { get; init; }
+    public ModuleTypes Type { get; init; }
 }

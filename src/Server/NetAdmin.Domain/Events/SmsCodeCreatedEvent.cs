@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.Events;
 /// <summary>
 ///     短信创建事件
 /// </summary>
-public record SmsCodeCreatedEvent : DataAbstraction, IEventSourceGeneric<QuerySmsRsp>
+public sealed record SmsCodeCreatedEvent : DataAbstraction, IEventSourceGeneric<QuerySmsRsp>
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="SmsCodeCreatedEvent" /> class.

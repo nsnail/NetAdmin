@@ -1,0 +1,34 @@
+[
+  {
+    "DeptId": 372119396216837,
+    "Enabled": true,
+    "Id": 370942943322181,
+    "Password": "A8E87D23-49BC-25A1-1C7C-59186BEF5D15",
+    "Token": "A9AFD92E-A33D-4152-9A6C-A9C141D24887",
+    "UserName": "root"
+  },
+  {
+    "DeptId": 372119396216837,
+    "Enabled": true,
+    "Id": 371922660679685,
+    "Password": "A8E87D23-49BC-25A1-1C7C-59186BEF5D15",
+    "Token": "0F1B4026-2372-430C-B633-F6617E0B7BAC",
+    "UserName": "admin"
+  },
+  {
+    "DeptId": 372119396216837,
+    "Enabled": true,
+    "Id": 371922681249797,
+    "Password": "A8E87D23-49BC-25A1-1C7C-59186BEF5D15",
+    "Token": "13E32371-D422-4F72-B83E-C9C1FEE90AED",
+    "UserName": "user"
+  },
+  {
+    "DeptId": 372119396216837,
+    "Enabled": true,
+    "Id": 396804301484037,
+    "Password": "A8E87D23-49BC-25A1-1C7C-59186BEF5D15",
+    "Token": "08DC35C3-65C5-40BD-98F4-D37C107AA264",
+    "UserName": "customer"
+  }
+]

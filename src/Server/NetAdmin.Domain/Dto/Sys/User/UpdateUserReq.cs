@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：更新用户
 /// </summary>
-public record UpdateUserReq : CreateUserReq
+public sealed record UpdateUserReq : CreateUserReq
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -22,9 +22,9 @@ public record UpdateUserReq : CreateUserReq
     ///     用户档案
     /// </summary>
     [Required]
-    public new virtual UpdateUserProfileReq Profile { get; init; }
+    public new UpdateUserProfileReq Profile { get; init; }
 
-    /// <inheritdoc cref="IFieldUpdate.Version" />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

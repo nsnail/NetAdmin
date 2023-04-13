@@ -7,35 +7,29 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：注册用户
 /// </summary>
-public record RegisterReq : TbSysUser
+public sealed record RegisterReq : Sys_User
 {
-    /// <summary>
-    ///     已激活
-    /// </summary>
-    [JsonIgnore]
-    public virtual bool Activated { get; init; }
-
     /// <summary>
     ///     密码
     /// </summary>
     [Required]
     [Password]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public virtual string PasswordText { get; init; }
+    public string PasswordText { get; init; }
 
     /// <summary>
     ///     岗位id列表
     /// </summary>
     [JsonIgnore]
-    public virtual IReadOnlyCollection<long> PositionIds { get; init; }
+    public IReadOnlyCollection<long> PositionIds { get; init; }
 
     /// <summary>
     ///     角色id列表
     /// </summary>
     [JsonIgnore]
-    public virtual IReadOnlyCollection<long> RoleIds { get; init; }
+    public IReadOnlyCollection<long> RoleIds { get; init; }
 
-    /// <inheritdoc cref="TbSysUser.UserName" />
+    /// <inheritdoc cref="Sys_User.UserName" />
     [Required]
     [UserName]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

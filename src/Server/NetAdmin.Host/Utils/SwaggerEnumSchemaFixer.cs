@@ -8,7 +8,7 @@ namespace NetAdmin.Host.Utils;
 ///     修正 规范化文档 Enum 提示
 /// </summary>
 [SuppressSniffer]
-public class SwaggerEnumSchemaFixer : ISchemaFilter
+public sealed class SwaggerEnumSchemaFixer : ISchemaFilter
 {
     /// <summary>
     ///     实现过滤器方法
@@ -29,9 +29,10 @@ public class SwaggerEnumSchemaFixer : ISchemaFilter
         foreach (var e in Enum.GetValues(context.Type).Cast<Enum>()) {
             var value = Convert.ToInt64(e, CultureInfo.InvariantCulture);
             schema.Enum.Add(new OpenApiLong(value));
-            _ = sb.Append(wrap);
-            _ = sb.Append( //
-                CultureInfo.InvariantCulture, $"{Enum.GetName(context.Type, e)}({e.Desc()}) = {value}");
+            _ = sb.Append(wrap)
+                  .Append( //
+                      CultureInfo.InvariantCulture
+                    , $"{Enum.GetName(context.Type, e).ToLowerCamelCase()} = {value} ({e.ResDesc<Ln>()})");
         }
 
         schema.Description = sb.ToString();

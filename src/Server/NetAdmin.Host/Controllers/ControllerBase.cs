@@ -19,5 +19,5 @@ public abstract class ControllerBase<TService> : IDynamicApiController
     /// <summary>
     ///     关联的服务
     /// </summary>
-    public TService Service { get; }
+    protected TService Service { get; }
 }

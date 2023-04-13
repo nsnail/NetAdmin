@@ -8,33 +8,29 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{4DAF9366-855F-46BB-AE4C-660C92FA0697}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0CAC-4828-A807-34A693F73859}"
-    ProjectSection(SolutionItems) = preProject
+	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.tgitconfig = .tgitconfig
 		build.cake = build.cake
-		CodeCleanupOnSave.csx = CodeCleanupOnSave.csx
 		CodeQuality.props = CodeQuality.props
 		CopyPackageXmlCommentFiles.targets = CopyPackageXmlCommentFiles.targets
 		Directory.Build.props = Directory.Build.props
-		docker-compose-minio.yml = docker-compose-minio.yml
 		dot-clean.cmd = dot-clean.cmd
 		dotnet-tools.json = dotnet-tools.json
-		Experimental.linq = Experimental.linq
 		GenerateResx.tt = GenerateResx.tt
 		git-clean.cmd = git-clean.cmd
+		git-commit.cmd = git-commit.cmd
+		git-merge.cmd = git-merge.cmd
 		git-pr.cmd = git-pr.cmd
 		git-recreate.cmd = git-recreate.cmd
 		global.json = global.json
-		IdGenerator.linq = IdGenerator.linq
 		ImageOptimize.csx = ImageOptimize.csx
 		install-as-dotnet-tpl.cmd = install-as-dotnet-tpl.cmd
-		LICENSE = LICENSE
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
 		NuGet.Config = NuGet.Config
 		package.json = package.json
-		PasswordGenerator.linq = PasswordGenerator.linq
 		PreBuild.targets = PreBuild.targets
 		README.md = README.md
 		resharper-clean-full.cmd = resharper-clean-full.cmd
@@ -42,60 +38,124 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		ResharperCodeClean.csx = ResharperCodeClean.csx
 		stylecop.json = stylecop.json
 		StyleCopAnalyzers.ruleset = StyleCopAnalyzers.ruleset
-		switch-nuget.cmd = switch-nuget.cmd
-		switch-project.cmd = switch-project.cmd
-		switcher.freesql.json = switcher.freesql.json
-		switcher.furion.json = switcher.furion.json
-		switcher.nsext.json = switcher.nsext.json
 		SyncMetaFiles.csx = SyncMetaFiles.csx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\Server\NetAdmin.Host\NetAdmin.Host.csproj", "{F672F054-A416-4FC2-957B-ADD73C0346CF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\Server\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Domain", "src\Server\NetAdmin.Domain\NetAdmin.Domain.csproj", "{8BCAF882-BA21-4C46-9EBE-0BD5807551EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.BizServer.Application", "src\Server\NetAdmin.BizServer.Application\NetAdmin.BizServer.Application.csproj", "{E38B2EB4-D7A5-4777-9236-3B348919DF23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\Server\NetAdmin.Application\NetAdmin.Application.csproj", "{7D1EF02D-EDC1-4EC3-A094-887359748D1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.BizServer.Host", "src\Server\NetAdmin.BizServer.Host\NetAdmin.BizServer.Host.csproj", "{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\Server\NetAdmin.Tests\NetAdmin.Tests.csproj", "{45F5B28F-F304-4369-9016-C27BC6DED297}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.HostedSrevers", "03.HostedSrevers", "{12AE5B4B-CB1A-498E-83B8-04E201E31D86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Domain", "src\Server\NetAdmin.Domain\NetAdmin.Domain.csproj", "{58509C57-09FA-4E3C-BC07-78E786A2A326}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\Server\NetAdmin.Application\NetAdmin.Application.csproj", "{70C54E1B-2083-4196-AB68-34CAF0075D82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\Server\NetAdmin.Host\NetAdmin.Host.csproj", "{91839A15-D08F-4848-A301-F793412BC688}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{16C757B5-FB99-4202-B110-01C7D0527A18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Cache", "src\Server\NetAdmin.Cache\NetAdmin.Cache.csproj", "{91452C22-4B57-4F16-9AF6-42C7BF830504}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.BizServer.Cache", "src\Server\NetAdmin.BizServer.Cache\NetAdmin.BizServer.Cache.csproj", "{7CB632D3-3635-4F8D-AFE7-F496D37D422B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Host", "src\Server\NetAdmin.SysComponent.Host\NetAdmin.SysComponent.Host.csproj", "{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Cache", "src\Server\NetAdmin.SysComponent.Cache\NetAdmin.SysComponent.Cache.csproj", "{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Application", "src\Server\NetAdmin.SysComponent.Application\NetAdmin.SysComponent.Application.csproj", "{34650E82-D257-46DA-BD6B-DE307113347B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Components", "02.Components", "{3F23258D-8299-4992-9F51-2EE9B52CF9D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "21.System", "21.System", "{E146D707-4D44-47B3-A8F9-D51EC5E1D047}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.BackgroundServices", "04.BackgroundServices", "{CBFBF29B-27E8-4DB1-ADD6-4B750897ACD3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Frameworks", "01.Frameworks", "{D9C3EF66-2757-473D-A26B-54FD08DA203F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.ScheduledService", "src\Server\NetAdmin.ScheduledService\NetAdmin.ScheduledService.csproj", "{96668960-310F-4682-B3F9-1E8F1EED8C90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05.Tools", "05.Tools", "{2FEC5C10-0F49-4F6A-B3D8-90572DD162E9}"
 EndProject
 Global
-    GlobalSection(SolutionConfigurationPlatforms) = preSolution
-        Debug|Any CPU = Debug|Any CPU
-        Release|Any CPU = Release|Any CPU
-    EndGlobalSection
-    GlobalSection(SolutionProperties) = preSolution
-        HideSolutionNode = FALSE
-    EndGlobalSection
-    GlobalSection(ProjectConfigurationPlatforms) = postSolution
-        {F672F054-A416-4FC2-957B-ADD73C0346CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {F672F054-A416-4FC2-957B-ADD73C0346CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {F672F054-A416-4FC2-957B-ADD73C0346CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {F672F054-A416-4FC2-957B-ADD73C0346CF}.Release|Any CPU.Build.0 = Release|Any CPU
-        {1E62C322-EE42-4699-A6F1-791C53EFA62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {1E62C322-EE42-4699-A6F1-791C53EFA62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {1E62C322-EE42-4699-A6F1-791C53EFA62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {1E62C322-EE42-4699-A6F1-791C53EFA62D}.Release|Any CPU.Build.0 = Release|Any CPU
-        {8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {8BCAF882-BA21-4C46-9EBE-0BD5807551EB}.Release|Any CPU.Build.0 = Release|Any CPU
-        {7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {7D1EF02D-EDC1-4EC3-A094-887359748D1C}.Release|Any CPU.Build.0 = Release|Any CPU
-        {45F5B28F-F304-4369-9016-C27BC6DED297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {45F5B28F-F304-4369-9016-C27BC6DED297}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {45F5B28F-F304-4369-9016-C27BC6DED297}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {45F5B28F-F304-4369-9016-C27BC6DED297}.Release|Any CPU.Build.0 = Release|Any CPU
-    EndGlobalSection
-    GlobalSection(NestedProjects) = preSolution
-        {4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}
-        {F672F054-A416-4FC2-957B-ADD73C0346CF} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
-        {1E62C322-EE42-4699-A6F1-791C53EFA62D} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
-        {8BCAF882-BA21-4C46-9EBE-0BD5807551EB} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
-        {7D1EF02D-EDC1-4EC3-A094-887359748D1C} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
-        {45F5B28F-F304-4369-9016-C27BC6DED297} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
-    EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E38B2EB4-D7A5-4777-9236-3B348919DF23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E38B2EB4-D7A5-4777-9236-3B348919DF23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E38B2EB4-D7A5-4777-9236-3B348919DF23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E38B2EB4-D7A5-4777-9236-3B348919DF23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58509C57-09FA-4E3C-BC07-78E786A2A326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58509C57-09FA-4E3C-BC07-78E786A2A326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58509C57-09FA-4E3C-BC07-78E786A2A326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58509C57-09FA-4E3C-BC07-78E786A2A326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70C54E1B-2083-4196-AB68-34CAF0075D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C54E1B-2083-4196-AB68-34CAF0075D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C54E1B-2083-4196-AB68-34CAF0075D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C54E1B-2083-4196-AB68-34CAF0075D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91839A15-D08F-4848-A301-F793412BC688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91839A15-D08F-4848-A301-F793412BC688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91839A15-D08F-4848-A301-F793412BC688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91839A15-D08F-4848-A301-F793412BC688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91452C22-4B57-4F16-9AF6-42C7BF830504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91452C22-4B57-4F16-9AF6-42C7BF830504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91452C22-4B57-4F16-9AF6-42C7BF830504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91452C22-4B57-4F16-9AF6-42C7BF830504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CB632D3-3635-4F8D-AFE7-F496D37D422B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CB632D3-3635-4F8D-AFE7-F496D37D422B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CB632D3-3635-4F8D-AFE7-F496D37D422B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CB632D3-3635-4F8D-AFE7-F496D37D422B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34650E82-D257-46DA-BD6B-DE307113347B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34650E82-D257-46DA-BD6B-DE307113347B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34650E82-D257-46DA-BD6B-DE307113347B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34650E82-D257-46DA-BD6B-DE307113347B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96668960-310F-4682-B3F9-1E8F1EED8C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96668960-310F-4682-B3F9-1E8F1EED8C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96668960-310F-4682-B3F9-1E8F1EED8C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96668960-310F-4682-B3F9-1E8F1EED8C90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}
+		{12AE5B4B-CB1A-498E-83B8-04E201E31D86} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{3F23258D-8299-4992-9F51-2EE9B52CF9D2} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{E146D707-4D44-47B3-A8F9-D51EC5E1D047} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
+		{34650E82-D257-46DA-BD6B-DE307113347B} = {E146D707-4D44-47B3-A8F9-D51EC5E1D047}
+		{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C} = {E146D707-4D44-47B3-A8F9-D51EC5E1D047}
+		{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C} = {E146D707-4D44-47B3-A8F9-D51EC5E1D047}
+		{CBFBF29B-27E8-4DB1-ADD6-4B750897ACD3} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{D9C3EF66-2757-473D-A26B-54FD08DA203F} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{70C54E1B-2083-4196-AB68-34CAF0075D82} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
+		{91452C22-4B57-4F16-9AF6-42C7BF830504} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
+		{58509C57-09FA-4E3C-BC07-78E786A2A326} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
+		{91839A15-D08F-4848-A301-F793412BC688} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
+		{1E62C322-EE42-4699-A6F1-791C53EFA62D} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
+		{96668960-310F-4682-B3F9-1E8F1EED8C90} = {CBFBF29B-27E8-4DB1-ADD6-4B750897ACD3}
+		{2FEC5C10-0F49-4F6A-B3D8-90572DD162E9} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
+		{E38B2EB4-D7A5-4777-9236-3B348919DF23} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
+		{7CB632D3-3635-4F8D-AFE7-F496D37D422B} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
+		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
+	EndGlobalSection
 EndGlobal

@@ -5,7 +5,7 @@ namespace NetAdmin.Host.Subscribers;
 /// <summary>
 ///     Sql性能分析
 /// </summary>
-public class SqlProfiler : IEventSubscriber
+public sealed class SqlProfiler : IEventSubscriber
 {
     private readonly ILogger<SqlProfiler> _logger;
 
@@ -24,7 +24,7 @@ public class SqlProfiler : IEventSubscriber
     public Task CommandAfterAsync(EventHandlerExecutingContext context)
     {
         var source = context.Source as SqlCommandAfterEvent;
-        _logger.Debug(source);
+        _logger.Info(source);
         return Task.CompletedTask;
     }
 
@@ -46,7 +46,7 @@ public class SqlProfiler : IEventSubscriber
     public Task SyncStructureAfterAsync(EventHandlerExecutingContext context)
     {
         var source = context.Source as SyncStructureAfterEvent;
-        _logger.Debug(source);
+        _logger.Info(source);
         return Task.CompletedTask;
     }
 
@@ -57,7 +57,7 @@ public class SqlProfiler : IEventSubscriber
     public Task SyncStructureBeforeAsync(EventHandlerExecutingContext context)
     {
         var source = context.Source as SyncStructureBeforeEvent;
-        _logger.Debug(source);
+        _logger.Info(source);
         return Task.CompletedTask;
     }
 }

@@ -8,7 +8,7 @@ public record SqlCommandEvent : DataAbstraction, IEventSource
     /// <summary>
     ///     标识符缩写
     /// </summary>
-    public string Id => Identifier.ToString()[..8].ToUpper(CultureInfo.InvariantCulture);
+    public string Id => Identifier.ToString()[..8].ToUpperInvariant();
 
     /// <inheritdoc />
     public CancellationToken CancellationToken { get; init; }

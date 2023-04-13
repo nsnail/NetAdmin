@@ -1,0 +1,57 @@
+{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Sys",
+        "Title": "系统组件",
+        "Description": "Line开放平台 - 系统组件",
+      },
+      {
+        "Group": "Cst",
+        "Title": "管理服务",
+        "Description": "Line开放平台 - 管理服务",
+      },
+      {
+        "Group": "Res",
+        "Title": "资源组件",
+        "Description": "Line开放平台 - 资源组件",
+      },
+      {
+        "Group": "Tsk",
+        "Title": "任务组件",
+        "Description": "Line开放平台 - 任务组件",
+      },
+      {
+        "Group": "Tpl",
+        "Title": "示例服务",
+        "Description": "Line开放平台 - 示例服务",
+        "Visible": false
+      },
+      {
+        "Group": "Health",
+        "Visible": false
+      }
+    ],
+    "SecurityDefinitions": [
+      {
+        "Id": "Bearer",
+        "Type": "ApiKey",
+        "Name": "Authorization",
+        "Description": "JWT Authorization header using the Bearer scheme.",
+        "BearerFormat": "JWT",
+        "Scheme": "bearer",
+        "In": "Header",
+        "Requirement": {
+          "Scheme": {
+            "Reference": {
+              "Id": "Bearer",
+              "Type": "SecurityScheme"
+            },
+            "Accesses": []
+          }
+        }
+      }
+    ]
+  }
+}

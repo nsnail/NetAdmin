@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
@@ -7,21 +7,21 @@ namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 /// <summary>
 ///     响应：查询用户档案
 /// </summary>
-public record QueryUserProfileRsp : TbSysUserProfile
+public sealed record QueryUserProfileRsp : Sys_UserProfile
 {
-    /// <inheritdoc cref="TbSysUserProfile.BornDate" />
+    /// <inheritdoc cref="Sys_UserProfile.BornDate" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override DateTime? BornDate { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.CertificateNumber" />
+    /// <inheritdoc cref="Sys_UserProfile.CertificateNumber" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CertificateNumber { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.CertificateType" />
+    /// <inheritdoc cref="Sys_UserProfile.CertificateType" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override Enums.CertificateTypes? CertificateType { get; init; }
+    public override CertificateTypes? CertificateType { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.CompanyAddress" />
+    /// <inheritdoc cref="Sys_UserProfile.CompanyAddress" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CompanyAddress { get; init; }
 
@@ -30,19 +30,19 @@ public record QueryUserProfileRsp : TbSysUserProfile
     /// </summary>
     public new QueryDicContentRsp CompanyArea { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.CompanyName" />
+    /// <inheritdoc cref="Sys_UserProfile.CompanyName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CompanyName { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.CompanyTelephone" />
+    /// <inheritdoc cref="Sys_UserProfile.CompanyTelephone" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CompanyTelephone { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.Education" />
+    /// <inheritdoc cref="Sys_UserProfile.Education" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override Enums.Educations? Education { get; init; }
+    public override Educations? Education { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.EmergencyContactAddress" />
+    /// <inheritdoc cref="Sys_UserProfile.EmergencyContactAddress" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactAddress { get; init; }
 
@@ -51,23 +51,23 @@ public record QueryUserProfileRsp : TbSysUserProfile
     /// </summary>
     public new QueryDicContentRsp EmergencyContactArea { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.EmergencyContactMobile" />
+    /// <inheritdoc cref="Sys_UserProfile.EmergencyContactMobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactMobile { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.EmergencyContactName" />
+    /// <inheritdoc cref="Sys_UserProfile.EmergencyContactName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactName { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.GraduateSchool" />
+    /// <inheritdoc cref="Sys_UserProfile.GraduateSchool" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string GraduateSchool { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.Height" />
+    /// <inheritdoc cref="Sys_UserProfile.Height" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override int? Height { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.HomeAddress" />
+    /// <inheritdoc cref="Sys_UserProfile.HomeAddress" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string HomeAddress { get; init; }
 
@@ -76,7 +76,7 @@ public record QueryUserProfileRsp : TbSysUserProfile
     /// </summary>
     public new QueryDicContentRsp HomeArea { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.HomeTelephone" />
+    /// <inheritdoc cref="Sys_UserProfile.HomeTelephone" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string HomeTelephone { get; init; }
 
@@ -84,40 +84,40 @@ public record QueryUserProfileRsp : TbSysUserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.MarriageStatus" />
+    /// <inheritdoc cref="Sys_UserProfile.MarriageStatus" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override Enums.MarriageStatues? MarriageStatus { get; init; }
+    public override MarriageStatues? MarriageStatus { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.Nation" />
+    /// <inheritdoc cref="Sys_UserProfile.Nation" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override Enums.Nations? Nation { get; init; }
+    public override Nations? Nation { get; init; }
 
     /// <summary>
     ///     籍贯
     /// </summary>
     public new QueryDicContentRsp NationArea { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.PoliticalStatus" />
+    /// <inheritdoc cref="Sys_UserProfile.PoliticalStatus" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override Enums.PoliticalStatues? PoliticalStatus { get; init; }
+    public override PoliticalStatues? PoliticalStatus { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.Profession" />
+    /// <inheritdoc cref="Sys_UserProfile.Profession" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Profession { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.RealName" />
+    /// <inheritdoc cref="Sys_UserProfile.RealName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string RealName { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.Sex" />
+    /// <inheritdoc cref="Sys_UserProfile.Sex" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override Enums.Sexes? Sex { get; init; }
+    public override Sexes? Sex { get; init; }
 
-    /// <inheritdoc cref="TbSysUserProfile.Summary" />
+    /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
-    /// <inheritdoc cref="IFieldUpdate.Version" />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

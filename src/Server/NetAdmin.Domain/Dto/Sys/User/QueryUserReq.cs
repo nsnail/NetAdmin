@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：查询用户
 /// </summary>
-public record QueryUserReq : TbSysUser
+public sealed record QueryUserReq : Sys_User
 {
     /// <summary>
     ///     部门id

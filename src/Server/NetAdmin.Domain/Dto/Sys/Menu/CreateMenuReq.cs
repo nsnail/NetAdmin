@@ -1,54 +1,35 @@
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Menu;
 
 /// <summary>
 ///     请求：创建菜单
 /// </summary>
-public record CreateMenuReq : TbSysMenu
+public record CreateMenuReq : Sys_Menu
 {
-    /// <inheritdoc cref="TbSysMenu.Active" />
+    /// <inheritdoc cref="Sys_Menu.Active" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Active { get; init; }
 
-    /// <inheritdoc cref="TbSysMenu.BitSet" />
-    public override long BitSet {
-        get {
-            var ret = 0L;
-            if (Enabled) {
-                ret |= (long)BitSets.Enabled;
-            }
-
-            if (Meta.HiddenBreadCrumb) {
-                ret |= (long)MenuBits.HiddenBreadCrumb;
-            }
-
-            if (Meta.Hidden) {
-                ret |= (long)MenuBits.Hidden;
-            }
-
-            if (Meta.FullPage) {
-                ret |= (long)MenuBits.FullPageRouting;
-            }
-
-            return ret;
-        }
-    }
-
-    /// <inheritdoc cref="TbSysMenu.Color" />
+    /// <inheritdoc cref="Sys_Menu.Color" />
     public override string Color => Meta.Color;
 
-    /// <inheritdoc cref="TbSysMenu.Component" />
+    /// <inheritdoc cref="Sys_Menu.Component" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Component { get; init; }
 
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled { get; init; } = true;
+    /// <inheritdoc cref="Sys_Menu.FullPageRouting" />
+    public override bool FullPageRouting => Meta.FullPage;
 
-    /// <inheritdoc cref="TbSysMenu.Icon" />
+    /// <inheritdoc cref="Sys_Menu.Hidden" />
+    public override bool Hidden => Meta.Hidden;
+
+    /// <inheritdoc cref="Sys_Menu.HiddenBreadCrumb" />
+    public override bool HiddenBreadCrumb => Meta.HiddenBreadCrumb;
+
+    /// <inheritdoc cref="Sys_Menu.Icon" />
     public override string Icon => Meta.Icon;
 
     /// <summary>
@@ -56,20 +37,20 @@ public record CreateMenuReq : TbSysMenu
     /// </summary>
     public MetaInfo Meta { get; init; }
 
-    /// <inheritdoc cref="TbSysMenu.Name" />
+    /// <inheritdoc cref="Sys_Menu.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override string Name { get; init; }
 
-    /// <inheritdoc cref="TbSysMenu.ParentId" />
+    /// <inheritdoc cref="Sys_Menu.ParentId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; } = 0;
 
-    /// <inheritdoc cref="TbSysMenu.Path" />
+    /// <inheritdoc cref="Sys_Menu.Path" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Path { get; init; }
 
-    /// <inheritdoc cref="TbSysMenu.Redirect" />
+    /// <inheritdoc cref="Sys_Menu.Redirect" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Redirect { get; init; }
 
@@ -77,14 +58,14 @@ public record CreateMenuReq : TbSysMenu
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
-    /// <inheritdoc cref="TbSysMenu.Tag" />
+    /// <inheritdoc cref="Sys_Menu.Tag" />
     public override string Tag => Meta.Tag;
 
-    /// <inheritdoc cref="TbSysMenu.Title" />
+    /// <inheritdoc cref="Sys_Menu.Title" />
     [Required]
     public override string Title => Meta.Title;
 
-    /// <inheritdoc cref="TbSysMenu.Type" />
+    /// <inheritdoc cref="Sys_Menu.Type" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override MenuTypes Type => Meta.Type;
 }

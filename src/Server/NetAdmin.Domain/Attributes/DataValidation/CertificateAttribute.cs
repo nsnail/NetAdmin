@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     证件号码
 /// </summary>
-public class CertificateAttribute : RegexAttribute
+public sealed class CertificateAttribute : RegexAttribute
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="CertificateAttribute" /> class.

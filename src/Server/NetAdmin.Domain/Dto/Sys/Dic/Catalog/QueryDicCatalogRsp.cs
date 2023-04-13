@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Dic.Catalog;
@@ -5,35 +6,30 @@ namespace NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 /// <summary>
 ///     响应：查询字典目录
 /// </summary>
-public record QueryDicCatalogRsp : TbSysDicCatalog
+public sealed record QueryDicCatalogRsp : Sys_DicCatalog
 {
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled => BitSet.HasFlag(BitSets.Enabled);
-
     /// <summary>
     ///     子节点
     /// </summary>
     public new IEnumerable<QueryDicCatalogRsp> Children { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_DicCatalog.Code" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Code { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_DicCatalog.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Name { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_DicCatalog.ParentId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long ParentId { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

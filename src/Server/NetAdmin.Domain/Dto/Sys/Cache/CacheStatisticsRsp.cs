@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Cache;
 /// <summary>
 ///     响应：缓存统计
 /// </summary>
-public record CacheStatisticsRsp : DataAbstraction
+public sealed record CacheStatisticsRsp : DataAbstraction
 {
     /// <summary>
     ///     获取内存缓存中当前实例的数目

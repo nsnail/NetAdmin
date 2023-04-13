@@ -1,40 +1,21 @@
 using NetAdmin.Domain.Attributes.DataValidation;
-using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;
 
 /// <summary>
 ///     请求：创建角色
 /// </summary>
-public record CreateRoleReq : TbSysRole, IRegister
+public record CreateRoleReq : Sys_Role, IRegister
 {
     /// <summary>
     ///     角色-接口映射
     /// </summary>
     public IReadOnlyCollection<string> ApiIds { get; init; }
 
-    /// <inheritdoc cref="TbSysRole.BitSet" />
-    public override long BitSet {
-        get {
-            var ret = 0L;
-            if (Enabled) {
-                ret |= (long)BitSets.Enabled;
-            }
-
-            if (IgnorePermissionControl) {
-                ret |= (long)RoleBits.IgnorePermissionControl;
-            }
-
-            if (DisplayDashboard) {
-                ret |= (long)RoleBits.DisplayDashboard;
-            }
-
-            return ret;
-        }
-    }
-
-    /// <inheritdoc cref="TbSysRole.DataScope" />
+    /// <inheritdoc cref="Sys_Role.DataScope" />
     [EnumDataType(typeof(DataScopes))]
     public override DataScopes DataScope { get; init; } = DataScopes.All;
 
@@ -44,27 +25,20 @@ public record CreateRoleReq : TbSysRole, IRegister
     [SpecificDept]
     public IReadOnlyCollection<long> DeptIds { get; init; }
 
-    /// <summary>
-    ///     是否显示仪表板
-    /// </summary>
-    public bool DisplayDashboard { get; init; }
+    /// <inheritdoc cref="Sys_Role.DisplayDashboard" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool DisplayDashboard { get; init; }
 
-    /// <summary>
-    ///     是否启用
-    /// </summary>
-    public bool Enabled { get; init; } = true;
-
-    /// <summary>
-    ///     是否忽略权限控制
-    /// </summary>
-    public bool IgnorePermissionControl { get; init; }
+    /// <inheritdoc cref="Sys_Role.IgnorePermissionControl" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool IgnorePermissionControl { get; init; }
 
     /// <summary>
     ///     角色-菜单映射
     /// </summary>
     public IReadOnlyCollection<long> MenuIds { get; init; }
 
-    /// <inheritdoc cref="TbSysRole.Name" />
+    /// <inheritdoc cref="Sys_Role.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required]
     public override string Name { get; init; }
@@ -73,29 +47,29 @@ public record CreateRoleReq : TbSysRole, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
-    /// <inheritdoc cref="TbSysRole.Summary" />
+    /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Summary { get; init; }
 
-    /// <inheritdoc />
-    public virtual void Register(TypeAdapterConfig config)
+    /// <inheritdoc cref="IRegister.Register" />
+    public void Register(TypeAdapterConfig config)
     {
-        _ = config.ForType<CreateRoleReq, TbSysRole>()
+        _ = config.ForType<CreateRoleReq, Sys_Role>()
                   .Map( //
                       dest => dest.Depts
                     , src => src.DeptIds.NullOrEmpty()
-                          ? Array.Empty<TbSysDept>()
-                          : src.DeptIds.Select(x => new TbSysDept { Id = x }))
+                          ? Array.Empty<Sys_Dept>()
+                          : src.DeptIds.Select(x => new Sys_Dept { Id = x }))
                   .Map( //
                       dest => dest.Menus
                     , src => src.MenuIds.NullOrEmpty()
-                          ? Array.Empty<TbSysMenu>()
-                          : src.MenuIds.Select(x => new TbSysMenu { Id = x }))
+                          ? Array.Empty<Sys_Menu>()
+                          : src.MenuIds.Select(x => new Sys_Menu { Id = x }))
                   .Map( //
                       dest => dest.Apis
                     , src => src.ApiIds.NullOrEmpty()
-                          ? Array.Empty<TbSysApi>()
-                          : src.ApiIds.Select(x => new TbSysApi { Id = x }))
+                          ? Array.Empty<Sys_Api>()
+                          : src.ApiIds.Select(x => new Sys_Api { Id = x }))
 
             //
             ;

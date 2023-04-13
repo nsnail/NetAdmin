@@ -1,7 +1,6 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var framework = Argument("framework", "net7.0-windows");
-var runtime = Argument("runtime","win-x64");
+var outputDirectory = Argument("output-directory", "./dist/Server/publish");
 
 ////////////////////////////////////////////////////////////////
 // Tasks
@@ -16,13 +15,90 @@ Task("Build")
     .IsDependentOn("Clean")
     .Does(context =>
 {
-    DotNetPublish("./src/dot.csproj", new DotNetPublishSettings {
+    DotNetBuild("./NetAdmin.sln", new DotNetBuildSettings {
+        Configuration = configuration
+    });
+});
+
+Task("Publish-BizServer")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj", new DotNetPublishSettings {
+        NoBuild = true,
         Configuration = configuration,
-        EnableCompressionInSingleFile = true,
-        Framework = framework,
-        SelfContained = true,
-        Runtime = runtime,
-        PublishSingleFile = true
+        OutputDirectory = new DirectoryPath(outputDirectory)
+    });
+});
+
+Task("Publish-SdkServer")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.SdkServer.Host/NetAdmin.SdkServer.Host.csproj", new DotNetPublishSettings {
+        NoBuild = true,
+        Configuration = configuration,
+        OutputDirectory = new DirectoryPath(outputDirectory)
+    });
+});
+
+Task("Publish-ManServer")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.ManServer.Host/NetAdmin.ManServer.Host.csproj", new DotNetPublishSettings {
+        NoBuild = true,
+        Configuration = configuration,
+        OutputDirectory = new DirectoryPath(outputDirectory)
+    });
+});
+
+Task("Publish-SdkService")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.SdkService/NetAdmin.SdkService.csproj", new DotNetPublishSettings {
+        NoBuild = true,
+        Configuration = configuration,
+        OutputDirectory = new DirectoryPath(outputDirectory)
+    });
+});
+
+Task("Publish-ManService")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.ManService/NetAdmin.ManService.csproj", new DotNetPublishSettings {
+        NoBuild = true,
+        Configuration = configuration,
+        OutputDirectory = new DirectoryPath(outputDirectory)
+    });
+});
+
+Task("Publish-CallbackService")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.CallbackService/NetAdmin.CallbackService.csproj", new DotNetPublishSettings {
+        NoBuild = true,
+        Configuration = configuration,
+        OutputDirectory = new DirectoryPath(outputDirectory)
+    });
+});
+
+
+Task("Publish-ScheduledService")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.ScheduledService/NetAdmin.ScheduledService.csproj", new DotNetPublishSettings {
+        NoBuild = true,
+        Configuration = configuration,
+        OutputDirectory = new DirectoryPath(outputDirectory)
+    });
+});
+
+
+Task("Publish-PushService")
+    .Does(context =>
+{
+    DotNetPublish("./src/Server/NetAdmin.PushService/NetAdmin.PushService.csproj", new DotNetPublishSettings {
+        NoBuild = true,
+        Configuration = configuration,
+        OutputDirectory = new DirectoryPath(outputDirectory)
     });
 });
 

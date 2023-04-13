@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Captcha;
 /// <summary>
 ///     请求：完成人机验证
 /// </summary>
-public record VerifyCaptchaReq : DataAbstraction
+public sealed record VerifyCaptchaReq : DataAbstraction
 {
     /// <summary>
     ///     唯一编码
@@ -15,7 +15,7 @@ public record VerifyCaptchaReq : DataAbstraction
     ///     缺口x坐标
     /// </summary>
     [JsonIgnore]
-    public virtual int? SawOffsetX { get; init; }
+    public int? SawOffsetX { get; init; }
 
     /// <summary>
     ///     验证数据

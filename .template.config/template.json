@@ -5,7 +5,7 @@
     ], //必须，这个对应模板的Tags
     "name": "NetAdmin", //必须，这个对应模板的Templates
     "identity": "NetAdmin", //可选，模板的唯一名称
-    "shortName": "na", //必须，这个对应模板的Short Name
+    "shortName": "lop", //必须，这个对应模板的Short Name
     "tags": {
         "language": "C#",
         "type": "project"

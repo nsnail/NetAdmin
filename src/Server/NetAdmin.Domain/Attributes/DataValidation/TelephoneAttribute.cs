@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     固定电话验证器
 /// </summary>
-public class TelephoneAttribute : RegexAttribute
+public sealed class TelephoneAttribute : RegexAttribute
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="TelephoneAttribute" /> class.

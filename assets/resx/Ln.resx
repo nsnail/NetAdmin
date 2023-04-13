@@ -23,519 +23,708 @@
         </value>
     </resheader>
     <data name="File cannot be empty" xml:space="preserve">
-        <value>文件不能为空</value>
-    </data>
+    <value>文件不能为空</value>
+  </data>
     <data name="Maximum number of file bytes allowed" xml:space="preserve">
-        <value>允许的最大文件字节数：{0}</value>
-    </data>
+    <value>允许的最大文件字节数：{0}</value>
+  </data>
     <data name="The allowed file formats are" xml:space="preserve">
-        <value>允许的文件格式为：{0}</value>
-    </data>
+    <value>允许的文件格式为：{0}</value>
+  </data>
     <data name="Invalid input" xml:space="preserve">
-        <value>无效输入</value>
-    </data>
-    <data name="Unexpected" xml:space="preserve">
-        <value>意外错误</value>
-    </data>
+    <value>无效输入</value>
+  </data>
+    <data name="ResultUnexpected" xml:space="preserve">
+    <value>结果非预期</value>
+  </data>
     <data name="Man machine verification" xml:space="preserve">
-        <value>人机验证</value>
-    </data>
+    <value>人机验证</value>
+  </data>
     <data name="Not logged in" xml:space="preserve">
-        <value>未登录</value>
-    </data>
+    <value>未登录</value>
+  </data>
     <data name="Invalid operation" xml:space="preserve">
-        <value>无效操作</value>
-    </data>
+    <value>无效操作</value>
+  </data>
     <data name="Mobile number has been registered" xml:space="preserve">
-        <value>手机号已被注册</value>
-    </data>
+    <value>手机号已被注册</value>
+  </data>
     <data name="Mobile phone number that can be used normally" xml:space="preserve">
-        <value>能正常使用的手机号码</value>
-    </data>
+    <value>能正常使用的手机号码</value>
+  </data>
     <data name="Insufficient permissions" xml:space="preserve">
-        <value>权限不足</value>
-    </data>
+    <value>权限不足</value>
+  </data>
     <data name="Number letter combination of more than 8 digits" xml:space="preserve">
-        <value>8位以上数字字母组合</value>
-    </data>
+    <value>8位以上数字字母组合</value>
+  </data>
     <data name="Digits 4 in verification code sms" xml:space="preserve">
-        <value>验证码短信中的4位数字</value>
-    </data>
+    <value>验证码短信中的4位数字</value>
+  </data>
     <data name="The sms verification code is incorrect" xml:space="preserve">
-        <value>短信验证码不正确</value>
-    </data>
+    <value>短信验证码不正确</value>
+  </data>
     <data name="User name or password error" xml:space="preserve">
-        <value>用户名或密码错误</value>
-    </data>
+    <value>用户名或密码错误</value>
+  </data>
     <data name="User disabled" xml:space="preserve">
-        <value>用户已禁用</value>
-    </data>
+    <value>用户已禁用</value>
+  </data>
     <data name="More than 4 digits alphanumeric underline" xml:space="preserve">
-        <value>4位以上（字母数字下划线）</value>
-    </data>
+    <value>4位以上（字母数字下划线）</value>
+  </data>
     <data name="Menu" xml:space="preserve">
-        <value>菜单</value>
-    </data>
+    <value>菜单</value>
+  </data>
     <data name="Link" xml:space="preserve">
-        <value>链接</value>
-    </data>
+    <value>链接</value>
+  </data>
     <data name="Iframe" xml:space="preserve">
-        <value>框架</value>
-    </data>
+    <value>框架</value>
+  </data>
     <data name="Enabled" xml:space="preserve">
-        <value>启用</value>
-    </data>
+    <value>启用</value>
+  </data>
     <data name="There are users under this department which cannot be deleted" xml:space="preserve">
-        <value>该部门下存在用户，不允许删除</value>
-    </data>
+    <value>该部门下存在用户，不允许删除</value>
+  </data>
     <data name="There are sub departments under this department which cannot be deleted" xml:space="preserve">
-        <value>该部门下存在子部门，不允许删除</value>
-    </data>
+    <value>该部门下存在子部门，不允许删除</value>
+  </data>
     <data name="Parent department does not exist" xml:space="preserve">
-        <value>父部门不存在</value>
-    </data>
+    <value>父部门不存在</value>
+  </data>
     <data name="The parent node does not exist" xml:space="preserve">
-        <value>父节点不存在</value>
-    </data>
+    <value>父节点不存在</value>
+  </data>
     <data name="Users exist under this role and deletion is not allowed" xml:space="preserve">
-        <value>该角色下存在用户，不允许删除</value>
-    </data>
+    <value>该角色下存在用户，不允许删除</value>
+  </data>
     <data name="The character id does not exist" xml:space="preserve">
-        <value>角色id不存在</value>
-    </data>
+    <value>角色id不存在</value>
+  </data>
     <data name="Contains endpoint paths that do not exist" xml:space="preserve">
-        <value>包含了不存在的端点路径</value>
-    </data>
+    <value>包含了不存在的端点路径</value>
+  </data>
     <data name="The character does not exist" xml:space="preserve">
-        <value>角色不存在</value>
-    </data>
+    <value>角色不存在</value>
+  </data>
     <data name="The department does not exist" xml:space="preserve">
-        <value>部门不存在</value>
-    </data>
+    <value>部门不存在</value>
+  </data>
     <data name="The database structure has been synchronized" xml:space="preserve">
-        <value>数据库结构同步完成</value>
-    </data>
+    <value>数据库结构同步完成</value>
+  </data>
     <data name="The seed data is fully initialized" xml:space="preserve">
-        <value>种子数据初始化完毕</value>
-    </data>
+    <value>种子数据初始化完毕</value>
+  </data>
     <data name="Hidden" xml:space="preserve">
-        <value>隐藏</value>
-    </data>
+    <value>隐藏</value>
+  </data>
     <data name="Hidden bread crumb" xml:space="preserve">
-        <value>隐藏面包屑</value>
-    </data>
+    <value>隐藏面包屑</value>
+  </data>
     <data name="Full page routing" xml:space="preserve">
-        <value>整页路由</value>
-    </data>
+    <value>整页路由</value>
+  </data>
     <data name="Button" xml:space="preserve">
-        <value>按钮</value>
-    </data>
+    <value>按钮</value>
+  </data>
     <data name="Contains a menu that does not exist" xml:space="preserve">
-        <value>包含了不存在的菜单</value>
-    </data>
+    <value>包含了不存在的菜单</value>
+  </data>
     <data name="Personal data" xml:space="preserve">
-        <value>本人数据</value>
-    </data>
+    <value>本人数据</value>
+  </data>
     <data name="Department data" xml:space="preserve">
-        <value>本部门数据</value>
-    </data>
+    <value>本部门数据</value>
+  </data>
     <data name="This department and subordinate departments" xml:space="preserve">
-        <value>本部门和下级部门</value>
-    </data>
+    <value>本部门和下级部门</value>
+  </data>
     <data name="Designated department" xml:space="preserve">
-        <value>指定部门</value>
-    </data>
+    <value>指定部门</value>
+  </data>
     <data name="All" xml:space="preserve">
-        <value>全部</value>
-    </data>
+    <value>全部</value>
+  </data>
     <data name="No department specified" xml:space="preserve">
-        <value>未指定部门</value>
-    </data>
+    <value>未指定部门</value>
+  </data>
     <data name="Include departments that do not exist" xml:space="preserve">
-        <value>包含了不存在的部门</value>
-    </data>
+    <value>包含了不存在的部门</value>
+  </data>
     <data name="Undefined" xml:space="preserve">
-        <value>未定义</value>
-    </data>
+    <value>未定义</value>
+  </data>
     <data name="Ignoring permissions control" xml:space="preserve">
-        <value>忽略权限控制</value>
-    </data>
+    <value>忽略权限控制</value>
+  </data>
     <data name="Database structure synchronization starts" xml:space="preserve">
-        <value>数据库同步开始</value>
-    </data>
+    <value>数据库同步开始</value>
+  </data>
     <data name="Initialization completed" xml:space="preserve">
-        <value>初始化完毕</value>
-    </data>
+    <value>初始化完毕</value>
+  </data>
     <data name="Configuration options" xml:space="preserve">
-        <value>配置选项</value>
-    </data>
+    <value>配置选项</value>
+  </data>
     <data name="Loaded" xml:space="preserve">
-        <value>加载完毕</value>
-    </data>
+    <value>加载完毕</value>
+  </data>
     <data name="Transaction" xml:space="preserve">
-        <value>事务</value>
-    </data>
+    <value>事务</value>
+  </data>
     <data name="Start" xml:space="preserve">
-        <value>开始</value>
-    </data>
+    <value>开始</value>
+  </data>
     <data name="Completed" xml:space="preserve">
-        <value>完成</value>
-    </data>
+    <value>完成</value>
+  </data>
     <data name="Rollback" xml:space="preserve">
-        <value>回滚</value>
-    </data>
+    <value>回滚</value>
+  </data>
     <data name="Transaction rollbacked" xml:space="preserve">
-        <value>事务已回滚</value>
-    </data>
+    <value>事务已回滚</value>
+  </data>
     <data name="Transaction starting" xml:space="preserve">
-        <value>开始事务</value>
-    </data>
+    <value>开始事务</value>
+  </data>
     <data name="Transaction commited" xml:space="preserve">
-        <value>事务已提交</value>
-    </data>
+    <value>事务已提交</value>
+  </data>
     <data name="Console log format template" xml:space="preserve">
-        <value>控制台日志格式模板</value>
-    </data>
+    <value>控制台日志格式模板</value>
+  </data>
     <data name="UnitOfWorkManager" xml:space="preserve">
-        <value>工作单元管理器</value>
-    </data>
+    <value>工作单元管理器</value>
+  </data>
     <data name="Database server clock offset" xml:space="preserve">
-        <value>数据库服务器时钟偏移</value>
-    </data>
+    <value>数据库服务器时钟偏移</value>
+  </data>
     <data name="Action" xml:space="preserve">
-        <value>方法</value>
-    </data>
+    <value>方法</value>
+  </data>
     <data name="Controller" xml:space="preserve">
-        <value>控制器</value>
-    </data>
+    <value>控制器</value>
+  </data>
     <data name="Error in reading the user token" xml:space="preserve">
-        <value>读取用户Token出错</value>
-    </data>
+    <value>读取用户Token出错</value>
+  </data>
     <data name="Dictionary directory does not exist" xml:space="preserve">
-        <value>字典目录不存在</value>
-    </data>
+    <value>字典目录不存在</value>
+  </data>
     <data name="Business module" xml:space="preserve">
-        <value>业务模块</value>
-    </data>
+    <value>业务模块</value>
+  </data>
     <data name="System module" xml:space="preserve">
-        <value>系统模块</value>
-    </data>
+    <value>系统模块</value>
+  </data>
     <data name="Sort in reverse order" xml:space="preserve">
-        <value>倒序排序</value>
-    </data>
+    <value>倒序排序</value>
+  </data>
     <data name="Sort in order" xml:space="preserve">
-        <value>顺序排序</value>
-    </data>
+    <value>顺序排序</value>
+  </data>
     <data name="Created time" xml:space="preserve">
-        <value>创建时间</value>
-    </data>
+    <value>创建时间</value>
+  </data>
     <data name="Creator id" xml:space="preserve">
-        <value>创建者Id</value>
-    </data>
+    <value>创建者Id</value>
+  </data>
     <data name="Creator username" xml:space="preserve">
-        <value>创建者</value>
-    </data>
+    <value>创建者</value>
+  </data>
     <data name="Unique id" xml:space="preserve">
-        <value>主键Id</value>
-    </data>
+    <value>主键Id</value>
+  </data>
     <data name="Delete or not" xml:space="preserve">
-        <value>是否删除</value>
-    </data>
+    <value>是否删除</value>
+  </data>
     <data name="Modification time" xml:space="preserve">
-        <value>修改时间</value>
-    </data>
+    <value>修改时间</value>
+  </data>
     <data name="Modifier Id" xml:space="preserve">
-        <value>修改者Id</value>
-    </data>
+    <value>修改者Id</value>
+  </data>
     <data name="Modified by" xml:space="preserve">
-        <value>修改者</value>
-    </data>
+    <value>修改者</value>
+  </data>
     <data name="Version" xml:space="preserve">
-        <value>版本</value>
-    </data>
+    <value>版本</value>
+  </data>
     <data name="Succeed" xml:space="preserve">
-        <value>成功</value>
-    </data>
+    <value>成功</value>
+  </data>
     <data name="Identity missing" xml:space="preserve">
-        <value>身份未确认</value>
-    </data>
+    <value>身份未确认</value>
+  </data>
     <data name="Position does not exist" xml:space="preserve">
-        <value>岗位不存在</value>
-    </data>
+    <value>岗位不存在</value>
+  </data>
     <data name="Email address that can be used normally" xml:space="preserve">
-        <value>能正常使用的邮箱地址</value>
-    </data>
+    <value>能正常使用的邮箱地址</value>
+  </data>
     <data name="Male" xml:space="preserve">
-        <value>男</value>
-    </data>
+    <value>男</value>
+  </data>
     <data name="Female" xml:space="preserve">
-        <value>女</value>
-    </data>
+    <value>女</value>
+  </data>
     <data name="Secrecy" xml:space="preserve">
-        <value>保密</value>
-    </data>
+    <value>保密</value>
+  </data>
     <data name="Hong Kong Macao and Taiwan Pass" xml:space="preserve">
-        <value>港澳台通行证</value>
-    </data>
+    <value>港澳台通行证</value>
+  </data>
     <data name="Identity card" xml:space="preserve">
-        <value>身份证</value>
-    </data>
+    <value>身份证</value>
+  </data>
     <data name="Birth certificate" xml:space="preserve">
-        <value>出生证</value>
-    </data>
+    <value>出生证</value>
+  </data>
     <data name="Passport" xml:space="preserve">
-        <value>护照</value>
-    </data>
+    <value>护照</value>
+  </data>
     <data name="Alien residence permit" xml:space="preserve">
-        <value>外国人居留证</value>
-    </data>
+    <value>外国人居留证</value>
+  </data>
     <data name="Pupil" xml:space="preserve">
-        <value>小学</value>
-    </data>
+    <value>小学</value>
+  </data>
     <data name="Junior school student" xml:space="preserve">
-        <value>初中</value>
-    </data>
+    <value>初中</value>
+  </data>
     <data name="High school" xml:space="preserve">
-        <value>高中</value>
-    </data>
+    <value>高中</value>
+  </data>
     <data name="Technical secondary school students" xml:space="preserve">
-        <value>中专</value>
-    </data>
+    <value>中专</value>
+  </data>
     <data name="Junior college students" xml:space="preserve">
-        <value>大专</value>
-    </data>
+    <value>大专</value>
+  </data>
     <data name="Undergraduate" xml:space="preserve">
-        <value>本科</value>
-    </data>
+    <value>本科</value>
+  </data>
     <data name="Postgraduate" xml:space="preserve">
-        <value>硕士</value>
-    </data>
+    <value>硕士</value>
+  </data>
     <data name="Doctoral students" xml:space="preserve">
-        <value>博士</value>
-    </data>
+    <value>博士</value>
+  </data>
     <data name="Post doctoral" xml:space="preserve">
-        <value>博士后</value>
-    </data>
+    <value>博士后</value>
+  </data>
     <data name="Member of the Communist Party of China" xml:space="preserve">
-        <value>中共党员</value>
-    </data>
+    <value>中共党员</value>
+  </data>
     <data name="Communist youth league member" xml:space="preserve">
-        <value>共青团员</value>
-    </data>
+    <value>共青团员</value>
+  </data>
     <data name="The masses" xml:space="preserve">
-        <value>群众</value>
-    </data>
+    <value>群众</value>
+  </data>
     <data name="Nation_han" xml:space="preserve">
-        <value>汉族</value>
-    </data>
+    <value>汉族</value>
+  </data>
     <data name="Nation_zhuang" xml:space="preserve">
-        <value>壮族</value>
-    </data>
+    <value>壮族</value>
+  </data>
     <data name="Nation_manchu" xml:space="preserve">
-        <value>满族</value>
-    </data>
+    <value>满族</value>
+  </data>
     <data name="Nation_hui" xml:space="preserve">
-        <value>回族</value>
-    </data>
+    <value>回族</value>
+  </data>
     <data name="Nation_miao" xml:space="preserve">
-        <value>苗族</value>
-    </data>
+    <value>苗族</value>
+  </data>
     <data name="Nation_uyghur" xml:space="preserve">
-        <value>维吾尔族</value>
-    </data>
+    <value>维吾尔族</value>
+  </data>
     <data name="Nation_tujia" xml:space="preserve">
-        <value>土家族</value>
-    </data>
+    <value>土家族</value>
+  </data>
     <data name="Nation_yi" xml:space="preserve">
-        <value>彝族</value>
-    </data>
+    <value>彝族</value>
+  </data>
     <data name="Nation_mongolian" xml:space="preserve">
-        <value>蒙古族</value>
-    </data>
+    <value>蒙古族</value>
+  </data>
     <data name="Nation_tibetan" xml:space="preserve">
-        <value>藏族</value>
-    </data>
+    <value>藏族</value>
+  </data>
     <data name="Nation_buyei" xml:space="preserve">
-        <value>布依族</value>
-    </data>
+    <value>布依族</value>
+  </data>
     <data name="Nation_dong" xml:space="preserve">
-        <value>侗族</value>
-    </data>
+    <value>侗族</value>
+  </data>
     <data name="Nation_yao" xml:space="preserve">
-        <value>瑶族</value>
-    </data>
+    <value>瑶族</value>
+  </data>
     <data name="Nation_korean" xml:space="preserve">
-        <value>朝鲜族</value>
-    </data>
+    <value>朝鲜族</value>
+  </data>
     <data name="Nation_bai" xml:space="preserve">
-        <value>白族</value>
-    </data>
+    <value>白族</value>
+  </data>
     <data name="Nation_hani" xml:space="preserve">
-        <value>哈尼族</value>
-    </data>
+    <value>哈尼族</value>
+  </data>
     <data name="Nation_kazakh" xml:space="preserve">
-        <value>哈萨克族</value>
-    </data>
+    <value>哈萨克族</value>
+  </data>
     <data name="Nation_li" xml:space="preserve">
-        <value>黎族</value>
-    </data>
+    <value>黎族</value>
+  </data>
     <data name="Nation_dai" xml:space="preserve">
-        <value>傣族</value>
-    </data>
+    <value>傣族</value>
+  </data>
     <data name="Nation_she" xml:space="preserve">
-        <value>畲族</value>
-    </data>
+    <value>畲族</value>
+  </data>
     <data name="Nation_lisu" xml:space="preserve">
-        <value>傈僳族</value>
-    </data>
+    <value>傈僳族</value>
+  </data>
     <data name="Nation_gelao" xml:space="preserve">
-        <value>仡佬族</value>
-    </data>
+    <value>仡佬族</value>
+  </data>
     <data name="Nation_dongxiang" xml:space="preserve">
-        <value>东乡族</value>
-    </data>
+    <value>东乡族</value>
+  </data>
     <data name="Nation_gaoshan" xml:space="preserve">
-        <value>高山族</value>
-    </data>
+    <value>高山族</value>
+  </data>
     <data name="Nation_lahu" xml:space="preserve">
-        <value>拉祜族族</value>
-    </data>
+    <value>拉祜族族</value>
+  </data>
     <data name="Nation_shui" xml:space="preserve">
-        <value>水族</value>
-    </data>
+    <value>水族</value>
+  </data>
     <data name="Nation_va" xml:space="preserve">
-        <value>佤族</value>
-    </data>
+    <value>佤族</value>
+  </data>
     <data name="Nation_nakhi" xml:space="preserve">
-        <value>纳西族</value>
-    </data>
+    <value>纳西族</value>
+  </data>
     <data name="Nation_qiang" xml:space="preserve">
-        <value>羌族</value>
-    </data>
+    <value>羌族</value>
+  </data>
     <data name="Nation_monguor" xml:space="preserve">
-        <value>土族</value>
-    </data>
+    <value>土族</value>
+  </data>
     <data name="Nation_mulao" xml:space="preserve">
-        <value>仫佬族</value>
-    </data>
+    <value>仫佬族</value>
+  </data>
     <data name="Nation_xibe" xml:space="preserve">
-        <value>锡伯族</value>
-    </data>
+    <value>锡伯族</value>
+  </data>
     <data name="Nation_kyrgyz" xml:space="preserve">
-        <value>柯尔克孜族</value>
-    </data>
+    <value>柯尔克孜族</value>
+  </data>
     <data name="Nation_daur" xml:space="preserve">
-        <value>达斡尔族</value>
-    </data>
+    <value>达斡尔族</value>
+  </data>
     <data name="Nation_jingpo" xml:space="preserve">
-        <value>景颇族</value>
-    </data>
+    <value>景颇族</value>
+  </data>
     <data name="Nation_maonan" xml:space="preserve">
-        <value>毛南族</value>
-    </data>
+    <value>毛南族</value>
+  </data>
     <data name="Nation_salar" xml:space="preserve">
-        <value>撒拉族</value>
-    </data>
+    <value>撒拉族</value>
+  </data>
     <data name="Nation_blang" xml:space="preserve">
-        <value>布朗族</value>
-    </data>
+    <value>布朗族</value>
+  </data>
     <data name="Nation_tajik" xml:space="preserve">
-        <value>塔吉克族</value>
-    </data>
+    <value>塔吉克族</value>
+  </data>
     <data name="Nation_achang" xml:space="preserve">
-        <value>阿昌族</value>
-    </data>
+    <value>阿昌族</value>
+  </data>
     <data name="Nation_pumi" xml:space="preserve">
-        <value>普米族</value>
-    </data>
+    <value>普米族</value>
+  </data>
     <data name="Nation_evenk" xml:space="preserve">
-        <value>鄂温克族</value>
-    </data>
+    <value>鄂温克族</value>
+  </data>
     <data name="Nation_nu" xml:space="preserve">
-        <value>怒族</value>
-    </data>
+    <value>怒族</value>
+  </data>
     <data name="Nation_kinh" xml:space="preserve">
-        <value>京族</value>
-    </data>
+    <value>京族</value>
+  </data>
     <data name="Nation_jino" xml:space="preserve">
-        <value>基诺族</value>
-    </data>
+    <value>基诺族</value>
+  </data>
     <data name="Nation_deang" xml:space="preserve">
-        <value>德昂族</value>
-    </data>
+    <value>德昂族</value>
+  </data>
     <data name="Nation_bonan" xml:space="preserve">
-        <value>保安族</value>
-    </data>
+    <value>保安族</value>
+  </data>
     <data name="Nation_russian" xml:space="preserve">
-        <value>俄罗斯族</value>
-    </data>
+    <value>俄罗斯族</value>
+  </data>
     <data name="Nation_yughur" xml:space="preserve">
-        <value>裕固族</value>
-    </data>
+    <value>裕固族</value>
+  </data>
     <data name="Nation_uzbek" xml:space="preserve">
-        <value>乌孜别克族</value>
-    </data>
+    <value>乌孜别克族</value>
+  </data>
     <data name="Nation_monpa" xml:space="preserve">
-        <value>门巴族</value>
-    </data>
+    <value>门巴族</value>
+  </data>
     <data name="Nation_oroqen" xml:space="preserve">
-        <value>鄂伦春族</value>
-    </data>
+    <value>鄂伦春族</value>
+  </data>
     <data name="Nation_derung" xml:space="preserve">
-        <value>独龙族</value>
-    </data>
+    <value>独龙族</value>
+  </data>
     <data name="Nation_tatar" xml:space="preserve">
-        <value>塔塔尔族</value>
-    </data>
+    <value>塔塔尔族</value>
+  </data>
     <data name="Nation_nanai" xml:space="preserve">
-        <value>赫哲族</value>
-    </data>
+    <value>赫哲族</value>
+  </data>
     <data name="Nation_lhoba" xml:space="preserve">
-        <value>珞巴族</value>
-    </data>
+    <value>珞巴族</value>
+  </data>
     <data name="Unmarried" xml:space="preserve">
-        <value>未婚</value>
-    </data>
+    <value>未婚</value>
+  </data>
     <data name="Married" xml:space="preserve">
-        <value>已婚</value>
-    </data>
+    <value>已婚</value>
+  </data>
     <data name="Divorced" xml:space="preserve">
-        <value>离异</value>
-    </data>
+    <value>离异</value>
+  </data>
     <data name="Berefted" xml:space="preserve">
-        <value>丧偶</value>
-    </data>
+    <value>丧偶</value>
+  </data>
     <data name="Mobile phone number or landline number" xml:space="preserve">
-        <value>能正常使用的手机号码或座机号码</value>
-    </data>
+    <value>能正常使用的手机号码或座机号码</value>
+  </data>
     <data name="Area code telephone number extension number" xml:space="preserve">
-        <value>区号-电话号码-分机号</value>
-    </data>
+    <value>区号-电话号码-分机号</value>
+  </data>
     <data name="Please enter a valid certificate number" xml:space="preserve">
-        <value>请输入有效证件号码</value>
-    </data>
+    <value>请输入有效证件号码</value>
+  </data>
     <data name="Display Dashboard" xml:space="preserve">
-        <value>显示仪表板</value>
-    </data>
+    <value>显示仪表板</value>
+  </data>
     <data name="Incorrect SMS verification code" xml:space="preserve">
-        <value>短信验证码不正确</value>
-    </data>
+    <value>短信验证码不正确</value>
+  </data>
     <data name="Activated" xml:space="preserve">
-        <value>已激活</value>
-    </data>
+    <value>已激活</value>
+  </data>
     <data name="Please contact the administrator to activate the account" xml:space="preserve">
-        <value>请联系管理员激活账号</value>
-    </data>
+    <value>请联系管理员激活账号</value>
+  </data>
     <data name="Man machine verification failed" xml:space="preserve">
-        <value>人机验证未通过</value>
-    </data>
+    <value>人机验证未通过</value>
+  </data>
     <data name="Only once in 1 minute" xml:space="preserve">
-        <value>1分钟内只能发送1次</value>
-    </data>
+    <value>1分钟内只能发送1次</value>
+  </data>
     <data name="User name cannot be mobile phone number" xml:space="preserve">
-        <value>用户名不能是手机号</value>
-    </data>
+    <value>用户名不能是手机号</value>
+  </data>
     <data name="User does not exist" xml:space="preserve">
-        <value>用户不存在</value>
+    <value>用户不存在</value>
+  </data>
+    <data name="The xml comment file does not exist" xml:space="preserve">
+    <value>xml注释文件不存在</value>
+  </data>
+    <data name="Incorrect signature" xml:space="preserve">
+    <value>签名不正确</value>
+  </data>
+    <data name="Signature is missing" xml:space="preserve">
+    <value>签名缺失</value>
+  </data>
+    <data name="Timestamp Error" xml:space="preserve">
+    <value>时间戳缺失或误差过大</value>
+  </data>
+    <data name="AppId parameter not specified" xml:space="preserve">
+    <value>未指定AppId参数</value>
+  </data>
+    <data name="Invalid AppId" xml:space="preserve">
+    <value>无效的AppId</value>
+  </data>
+    <data name="Manage module" xml:space="preserve">
+    <value>管理后台模块</value>
+  </data>
+    <data name="Login" xml:space="preserve">
+    <value>登录</value>
+  </data>
+    <data name="AddFriend" xml:space="preserve">
+    <value>加好友</value>
+  </data>
+    <data name="GetFriendList" xml:space="preserve">
+    <value>获取好友列表</value>
+  </data>
+    <data name="CreateGroup" xml:space="preserve">
+    <value>创建群聊</value>
+  </data>
+    <data name="GetGroupInfo" xml:space="preserve">
+    <value>获取群信息</value>
+  </data>
+    <data name="InviteFriendsToGroup" xml:space="preserve">
+    <value>邀请好友入群</value>
+  </data>
+    <data name="QuitGroup" xml:space="preserve">
+    <value>退群</value>
+  </data>
+    <data name="SendMessage" xml:space="preserve">
+    <value>发消息</value>
+  </data>
+    <data name="GetGroupList" xml:space="preserve">
+    <value>获取群列表</value>
+  </data>
+    <data name="Logout" xml:space="preserve">
+    <value>退出登录</value>
+  </data>
+    <data name="SyncContacts" xml:space="preserve">
+    <value>同步通讯录</value>
+  </data>
+    <data name="TookBody" xml:space="preserve">
+    <value>带内容</value>
+  </data>
+    <data name="ReverseBody" xml:space="preserve">
+    <value>反向获取内容</value>
+  </data>
+    <data name="NoBody" xml:space="preserve">
+    <value>不带内容</value>
+  </data>
+    <data name="Header loss" xml:space="preserve">
+    <value>信息头丢失</value>
+  </data>
+    <data name="None" xml:space="preserve">
+    <value>无</value>
+  </data>
+    <data name="Business success" xml:space="preserve">
+    <value>业务成功</value>
+  </data>
+    <data name="Task status changed to" xml:space="preserve">
+    <value>任务状态更改为</value>
+  </data>
+    <data name="Phone number does not exist" xml:space="preserve">
+    <value>电话号不存在</value>
+  </data>
+    <data name="Request" xml:space="preserve">
+    <value>请求</value>
+  </data>
+    <data name="Task created" xml:space="preserve">
+    <value>任务已创建</value>
+  </data>
+    <data name="Callback log" xml:space="preserve">
+    <value>回调日志</value>
+  </data>
+    <data name="Cannot be empty" xml:space="preserve">
+    <value>不能为空</value>
+  </data>
+    <data name="GetGroupInviteLink" xml:space="preserve">
+    <value>获取群链接</value>
+  </data>
+    <data name="UpdateGroupName" xml:space="preserve">
+    <value>修改群名称</value>
+  </data>
+    <data name="Robots do not exist" xml:space="preserve">
+    <value>机器人不存在</value>
+  </data>
+    <data name="Robots do not online" xml:space="preserve">
+    <value>机器人不在线</value>
+  </data>
+    <data name="Update quantity" xml:space="preserve">
+    <value>更新数量</value>
+  </data>
+    <data name="Robot heart" xml:space="preserve">
+    <value>机器人心跳</value>
+  </data>
+    <data name="AcceptGroupInviteLink" xml:space="preserve">
+    <value>通过群链接入群</value>
+  </data>
+    <data name="Task status change is illegal" xml:space="preserve">
+    <value>任务状态变更非法</value>
+  </data>
+    <data name="UnhandledError" xml:space="preserve">
+    <value>意外错误</value>
+  </data>
+    <data name="Find contact by phone" xml:space="preserve">
+    <value>根据手机号搜索好友</value>
+  </data>
+    <data name="Task module" xml:space="preserve">
+    <value>任务模块</value>
+  </data>
+    <data name="Resource module" xml:space="preserve">
+    <value>资源模块</value>
+  </data>
+    <data name="Robot offline" xml:space="preserve">
+    <value>机器人离线</value>
+  </data>
+    <data name="Get voom" xml:space="preserve">
+    <value>获取朋友圈</value>
+  </data>
+    <data name="Post voom" xml:space="preserve">
+    <value>朋友圈发帖</value>
+  </data>
+    <data name="AppId does not exist" xml:space="preserve">
+    <value>AppId不存在</value>
+  </data>
+    <data name="App secret error" xml:space="preserve">
+    <value>App密钥错误</value>
+  </data>
+    <data name="AppId is disabled" xml:space="preserve">
+    <value>AppId被禁用</value>
+  </data>
+    <data name="Waiting" xml:space="preserve">
+        <value>等待启动</value>
+    </data>
+    <data name="Starting" xml:space="preserve">
+        <value>启动中</value>
+    </data>
+    <data name="Started" xml:space="preserve">
+        <value>已启动</value>
+    </data>
+    <data name="StartFailed" xml:space="preserve">
+        <value>启动失败</value>
+    </data>
+    <data name="Finishing" xml:space="preserve">
+        <value>完成中</value>
+    </data>
+    <data name="Finished" xml:space="preserve">
+        <value>已完成</value>
+    </data>
+    <data name="FinishFailed" xml:space="preserve">
+        <value>完成失败</value>
+    </data>
+    <data name="Callbacking" xml:space="preserve">
+        <value>回调中</value>
+    </data>
+    <data name="Callbacked" xml:space="preserve">
+        <value>回调完成</value>
+    </data>
+    <data name="CallbackFailed" xml:space="preserve">
+        <value>回调失败</value>
+    </data>
+    <data name="Unknown" xml:space="preserve">
+        <value>未知</value>
+    </data>
+    <data name="Failed" xml:space="preserve">
+        <value>失败</value>
+    </data>
+    <data name="Online" xml:space="preserve">
+        <value>在线</value>
+    </data>
+    <data name="Offline" xml:space="preserve">
+        <value>离线</value>
+    </data>
+    <data name="Limited" xml:space="preserve">
+        <value>封禁</value>
     </data>
 </root>

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+  "AppSettings": {
+    "InjectSpecificationDocument": true,
+    "InjectMiniProfiler": true
+  },
+  "Redis": {
+    "Instances": [
+      // 数据缓存
+      {
+        "Name": "DataCache",
+        "ConnStr": "vm-ubt-1:6379",
+        "Database": 0
+      }
+    ]
+  },
+  "JWTSettings": {
+    "ExpiredTime": 20000
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+    },
+  },
+}

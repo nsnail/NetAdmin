@@ -1,0 +1,12 @@
+[
+  {
+    "CallbackUrl": "http://vm-ubt-1",
+    "Enabled": true,
+    "Id": 397853742313477,
+    "OwnerDeptId": 372119396216837,
+    "OwnerId": 370942943322181,
+    "PushUrl": "http://vm-ubt-1",
+    "Secret": "ADCBF792-31E7-46D9-9213-383F38AFC410",
+    "Summary": "vm-ubt-1"
+  }
+]

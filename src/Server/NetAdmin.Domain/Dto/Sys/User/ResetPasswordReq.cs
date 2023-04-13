@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：重置密码
 /// </summary>
-public record ResetPasswordReq : DataAbstraction
+public sealed record ResetPasswordReq : DataAbstraction
 {
     /// <summary>
     ///     密码

@@ -3,7 +3,7 @@ namespace NetAdmin.Host.Utils;
 /// <summary>
 ///     处理集合类型的Json解析器
 /// </summary>
-public class CollectionJsonTypeInfoResolver : DefaultJsonTypeInfoResolver
+public sealed class CollectionJsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="CollectionJsonTypeInfoResolver" /> class.

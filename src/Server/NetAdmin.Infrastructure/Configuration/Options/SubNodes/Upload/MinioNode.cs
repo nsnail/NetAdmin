@@ -3,7 +3,7 @@ namespace NetAdmin.Infrastructure.Configuration.Options.SubNodes.Upload;
 /// <summary>
 ///     Minio 节点
 /// </summary>
-public record MinioNode
+public sealed record MinioNode
 {
     /// <summary>
     ///     访问令牌

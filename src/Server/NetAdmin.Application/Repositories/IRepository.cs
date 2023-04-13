@@ -12,7 +12,7 @@ public interface IRepository<TEntity> : IBaseRepository<TEntity>
     /// <summary>
     ///     当前上下文关联的用户
     /// </summary>
-    ContextUser User { get; }
+    ContextUserToken UserToken { get; }
 
     /// <summary>
     ///     递归删除

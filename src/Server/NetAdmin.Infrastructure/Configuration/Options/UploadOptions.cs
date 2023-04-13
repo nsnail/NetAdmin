@@ -3,7 +3,7 @@ namespace NetAdmin.Infrastructure.Configuration.Options;
 /// <summary>
 ///     上传配置
 /// </summary>
-public record UploadOptions : OptionAbstraction
+public sealed record UploadOptions : OptionAbstraction
 {
     /// <summary>
     ///     允许的文件类型

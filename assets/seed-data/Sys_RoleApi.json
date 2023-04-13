@@ -1,0 +1,132 @@
+[
+  {
+    "ApiId": "api/sys/menu/user.menus",
+    "Id": 396423792504837,
+    "RoleId": 371729860788229
+  },
+  {
+    "ApiId": "api/sys/user/user.info",
+    "Id": 396423792508933,
+    "RoleId": 371729860788229
+  },
+  {
+    "ApiId": "api/sys/menu",
+    "Id": 396423792508934,
+    "RoleId": 371729860788229
+  },
+  {
+    "ApiId": "api/sys/user",
+    "Id": 396423792508935,
+    "RoleId": 371729860788229
+  },
+  {
+    "ApiId": "api/sys/menu/user.menus",
+    "Id": 396423792508936,
+    "RoleId": 371729946431493
+  },
+  {
+    "ApiId": "api/sys/user/user.info",
+    "Id": 396423792508937,
+    "RoleId": 371729946431493
+  },
+  {
+    "ApiId": "api/sys/menu",
+    "Id": 396423792508938,
+    "RoleId": 371729946431493
+  },
+  {
+    "ApiId": "api/sys/user",
+    "Id": 396423792508939,
+    "RoleId": 371729946431493
+  },
+  {
+    "ApiId": "api/sys/menu/user.menus",
+    "Id": 396423792508940,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/sys/user/user.info",
+    "Id": 396423792508941,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/sys/menu",
+    "Id": 396423792513029,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/sys/user",
+    "Id": 396423792513030,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396804677648389,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app/bulk.delete",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396804677652485,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app/delete",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396804677652488,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app/paged.query",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396804677652489,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app/paged.query.current.user",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396804677652490,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app/query",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396804677652491,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app/update",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396804677652492,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/cst/app/register.new.app",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 396815282679813,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/res/robot/paged.query",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 397867089551365,
+    "RoleId": 395383113412617
+  },
+  {
+    "ApiId": "api/res/robot",
+    "CreatedUserId": 370942943322181,
+    "CreatedUserName": "root",
+    "Id": 397867089559557,
+    "RoleId": 395383113412617
+  }
+]

@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Dependency;
 /// <summary>
 ///     批量请求
 /// </summary>
-public record BulkReq<T> : DataAbstraction
+public sealed record BulkReq<T> : DataAbstraction
     where T : DataAbstraction, new()
 {
     /// <summary>

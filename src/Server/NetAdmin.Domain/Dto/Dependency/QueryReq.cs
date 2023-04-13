@@ -23,9 +23,14 @@ public record QueryReq<T> : DataAbstraction
     public T Filter { get; init; }
 
     /// <summary>
+    ///     查询关键字
+    /// </summary>
+    public string Keywords { get; set; }
+
+    /// <summary>
     ///     排序方式
     /// </summary>
-    public Enums.Orders? Order { get; init; }
+    public Orders? Order { get; init; }
 
     /// <summary>
     ///     排序字段

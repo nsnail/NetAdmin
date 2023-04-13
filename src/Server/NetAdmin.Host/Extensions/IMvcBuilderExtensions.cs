@@ -14,11 +14,29 @@ public static class IMvcBuilderExtensions
     /// <summary>
     ///     api结果处理器
     /// </summary>
-    public static IMvcBuilder AddApiResultHander(this IMvcBuilder me)
+    public static IMvcBuilder AddDefaultApiResultHandler(this IMvcBuilder me)
     {
-        return me.AddInjectWithUnifyResult<ApiResultHandler>(injectOptions => {
-            // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
-            injectOptions.ConfigureSwaggerGen(genOptions => genOptions.SchemaFilter<SwaggerEnumSchemaFixer>());
+        return me.AddInjectWithUnifyResult<DefaultApiResultHandler>(injectOptions => {
+            injectOptions.ConfigureSwaggerGen(
+                genOptions => {
+                    // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
+                    genOptions
+                        .SchemaFilter<
+                            SwaggerEnumSchemaFixer>();
+
+                    // 将程序集版本号与OpenApi版本号同步
+                    foreach (var doc in genOptions
+                                        .SwaggerGeneratorOptions
+                                        .SwaggerDocs) {
+                        doc.Value.Version
+                            = FileVersionInfo
+                              .GetVersionInfo(
+                                  Assembly
+                                      .GetEntryAssembly()!
+                                      .Location)
+                              .ProductVersion;
+                    }
+                });
         });
     }
 
@@ -42,7 +60,7 @@ public static class IMvcBuilderExtensions
     ///     5、值为"" 转 null
     ///     6、值为[] 转 null
     /// </remarks>
-    public static IMvcBuilder AddJsonSerializer(this IMvcBuilder me)
+    public static IMvcBuilder AddJsonSerializer(this IMvcBuilder me, bool enumToString = false)
     {
         return me.AddJsonOptions(options => {
             ////////////////////////////// json -> object
@@ -64,12 +82,6 @@ public static class IMvcBuilderExtensions
 
             ///////////////////////////// object -> json
 
-            #if DEBUG
-
-            // 开启缩进
-            options.JsonSerializerOptions.WriteIndented = true;
-            #endif
-
             // 转小驼峰
             options.JsonSerializerOptions.DictionaryKeyPolicy  = JsonNamingPolicy.CamelCase;
             options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -89,10 +101,15 @@ public static class IMvcBuilderExtensions
             options.JsonSerializerOptions.TypeInfoResolver = new CollectionJsonTypeInfoResolver();
 
             // 日期格式 2023-01-18 20:02:12
-            options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Chars.TPL_DATE_YYYY_MM_DD_HH_MM_SS);
+            _ = options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Chars.TPL_DATE_YYYY_MM_DD_HH_MM_SS);
 
             // object->json 枚举显名 而非数字 ，json->object 可以枚举名 也可以数值
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            if (enumToString) {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            }
+
+            // 快捷访问方式
+            Global.JsonSerializerOptions = options.JsonSerializerOptions;
         });
     }
 }
