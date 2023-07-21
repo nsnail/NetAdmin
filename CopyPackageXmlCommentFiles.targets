@@ -2,8 +2,8 @@
     <Target Name="AfterTargetsBuild" AfterTargets="Build">
         <ItemGroup>
             <PackageReferenceFiles
-                    Condition="%(PackageReference.CopyToOutputDirectory) != ''"
-                    Include="$(NugetPackageRoot)\%(PackageReference.Identity)\%(PackageReference.Version)\%(PackageReference.CopyToOutputDirectory)"/>
+                Condition="%(PackageReference.CopyToOutputDirectory) != ''"
+                Include="$(NugetPackageRoot)\%(PackageReference.Identity)\%(PackageReference.Version)\%(PackageReference.CopyToOutputDirectory)"/>
         </ItemGroup>
         <Copy SourceFiles="@(PackageReferenceFiles)" DestinationFolder="$(OutDir)"/>
     </Target>

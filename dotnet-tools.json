@@ -9,7 +9,7 @@
       ]
     },
     "cake.tool": {
-      "version": "3.0.0",
+      "version": "3.1.0",
       "commands": [
         "dotnet-cake"
       ]
@@ -21,7 +21,7 @@
       ]
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2022.3.2",
+      "version": "2023.1.4",
       "commands": [
         "jb"
       ]
