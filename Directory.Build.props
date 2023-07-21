@@ -15,12 +15,12 @@
         <Title>$(AssemblyName)</Title>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="MinVer" Version="4.3.0">
+        <PackageReference Include="MinVer" Version="5.0.0-alpha.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs" />
+        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs"/>
     </ItemGroup>
 </Project>

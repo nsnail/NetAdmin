@@ -62,26 +62,6 @@
     "Type": 1
   },
   {
-    "Icon": "sc-icon-code",
-    "Id": 373838105399301,
-    "Name": "dev",
-    "Path": "/dev",
-    "Sort": 97,
-    "Title": "开发管理",
-    "Type": 1
-  },
-  {
-    "Component": "dev/code",
-    "Icon": "sc-icon-code2",
-    "Id": 373838147022853,
-    "Name": "dev-code",
-    "ParentId": 373838105399301,
-    "Path": "/dev/code",
-    "Sort": 100,
-    "Title": "代码生成",
-    "Type": 1
-  },
-  {
     "Component": "sys/log",
     "Icon": "el-icon-tickets",
     "Id": 374792687640581,
@@ -102,16 +82,6 @@
     "Sort": 94,
     "Title": "缓存管理",
     "Type": 1
-  },
-  {
-    "Icon": "el-icon-eleme-filled",
-    "Id": 374957177843717,
-    "Name": "dev-element",
-    "ParentId": 373838105399301,
-    "Path": "https://element.eleme.cn/#/zh-CN/component/layout",
-    "Sort": 99,
-    "Title": "Element",
-    "Type": 3
   },
   {
     "Component": "home/dashboard",
@@ -137,16 +107,6 @@
     "Type": 1
   },
   {
-    "Icon": "sc-icon-api",
-    "Id": 375239645380613,
-    "Name": "dev-api",
-    "ParentId": 373838105399301,
-    "Path": "http://test.line-api-sdk.shequnpay.com",
-    "Sort": 98,
-    "Title": "接口文档",
-    "Type": 3
-  },
-  {
     "Component": "sys/dic",
     "Icon": "sc-icon-dic",
     "Id": 375315654221829,
@@ -169,26 +129,6 @@
     "Type": 1
   },
   {
-    "Icon": "sc-icon-tpl",
-    "Id": 375907846438917,
-    "Name": "tpl",
-    "Path": "/tpl",
-    "Sort": 100,
-    "Title": "模板管理",
-    "Type": 1
-  },
-  {
-    "Component": "tpl/example",
-    "Icon": "sc-icon-demo",
-    "Id": 375907877326853,
-    "Name": "tpl-example",
-    "ParentId": 375907846438917,
-    "Path": "/tpl/example",
-    "Sort": 100,
-    "Title": "示例管理",
-    "Type": 1
-  },
-  {
     "Component": "sys/config",
     "Icon": "el-icon-set-up",
     "Id": 380415005847557,
@@ -197,96 +137,6 @@
     "Path": "/sys/config",
     "Sort": 92,
     "Title": "系统设置",
-    "Type": 1
-  },
-  {
-    "Icon": "sc-icon-meter",
-    "Id": 395392515297296,
-    "Name": "oper",
-    "Path": "/oper",
-    "Sort": 97,
-    "Title": "运维管理",
-    "Type": 1
-  },
-  {
-    "Icon": "sc-icon-grafana",
-    "Id": 395392539463695,
-    "Name": "dev-monitor",
-    "ParentId": 395392515297296,
-    "Path": "http://118.178.181.24:3030",
-    "Sort": 100,
-    "Title": "数据监控",
-    "Type": 3
-  },
-  {
-    "Icon": "sc-icon-kibana",
-    "Id": 395392539463699,
-    "Name": "oper-log",
-    "ParentId": 395392515297296,
-    "Path": "http://121.199.37.75:5601",
-    "Sort": 99,
-    "Title": "集中日志",
-    "Type": 3
-  },
-  {
-    "Icon": "sc-icon-kafka",
-    "Id": 395392539463702,
-    "Name": "oper-mq",
-    "ParentId": 395392515297296,
-    "Path": "http://118.178.181.24:9090",
-    "Sort": 98,
-    "Title": "消息队列",
-    "Type": 3
-  },
-  {
-    "Icon": "sc-icon-resource",
-    "Id": 396003802853393,
-    "Name": "res",
-    "Path": "/res",
-    "Sort": 96,
-    "Title": "资源管理",
-    "Type": 1
-  },
-  {
-    "Component": "res/robot",
-    "Icon": "sc-icon-robot",
-    "Id": 396003802853397,
-    "Name": "res-robot",
-    "ParentId": 396003802853393,
-    "Path": "/res/robot",
-    "Sort": 100,
-    "Title": "机器人管理",
-    "Type": 1
-  },
-  {
-    "Component": "res/device",
-    "Icon": "sc-icon-device",
-    "Id": 396003802853398,
-    "Name": "res-device",
-    "ParentId": 396003802853393,
-    "Path": "/res/device",
-    "Sort": 99,
-    "Title": "设备管理",
-    "Type": 1
-  },
-  {
-    "Icon": "sc-icon-business",
-    "Id": 396424238944261,
-    "Name": "cst",
-    "Path": "/cst",
-    "Sort": 98,
-    "Title": "业务管理",
-    "Type": 1
-  },
-  {
-    "Component": "cst/app",
-    "Icon": "sc-icon-app",
-    "Id": 396425090686981,
-    "Name": "cst-app",
-    "ParentId": 396424238944261,
-    "Path": "/cst/app",
-    "Sort": 100,
-    "Title": "应用管理",
     "Type": 1
   },
   {
@@ -299,5 +149,67 @@
     "Sort": 96,
     "Title": "接口管理",
     "Type": 1
-  }
+  },
+  {
+    "Icon": "sc-icon-business",
+    "Id": 420881941635077,
+    "Name": "biz",
+    "Path": "/biz",
+    "Sort": 99,
+    "Title": "业务管理",
+    "Type": 1
+  },
+  {
+    "Component": "biz/product-category",
+    "Icon": "sc-icon-product-category",
+    "Id": 420881941635087,
+    "Name": "biz-product-category",
+    "ParentId": 420881941635077,
+    "Path": "/biz/product-category",
+    "Sort": 100,
+    "Title": "商品分类",
+    "Type": 1
+  },
+  {
+    "Component": "biz/member",
+    "Icon": "el-icon-user",
+    "Id": 422658027704337,
+    "Name": "biz-member",
+    "ParentId": 420881941635077,
+    "Path": "/biz/member",
+    "Sort": 100,
+    "Title": "会员管理",
+    "Type": 1
+  },
+  {
+    "Component": "biz/product",
+    "Icon": "sc-icon-product",
+    "Id": 421506245349391,
+    "Name": "biz-product",
+    "ParentId": 420881941635077,
+    "Path": "/biz/product",
+    "Sort": 100,
+    "Title": "商品管理",
+    "Type": 1
+  },
+  {
+    "Icon": "sc-icon-code",
+    "Id": 373838105399301,
+    "Name": "dev",
+    "Path": "/dev",
+    "Sort": 97,
+    "Title": "开发管理",
+    "Type": 1
+  },
+  {
+    "Component": "dev/code",
+    "Icon": "sc-icon-code2",
+    "Id": 373838147022853,
+    "Name": "dev-code",
+    "ParentId": 373838105399301,
+    "Path": "/dev/code",
+    "Sort": 100,
+    "Title": "代码生成",
+    "Type": 1
+  },
 ]

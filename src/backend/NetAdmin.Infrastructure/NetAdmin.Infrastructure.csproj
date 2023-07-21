@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(SolutionDir)/CodeQuality.props"/>
+    <Import Project="$(SolutionDir)/CopyPackageXmlCommentFiles.targets"/>
+    <Import Project="$(SolutionDir)/PreBuild.targets"/>
+    <ItemGroup>
+        <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.698-preview20230629-ns1"/>
+        <PackageReference Include="FreeSql.NS" Version="3.2.698-preview20230629-ns1">
+            <CopyToOutputDirectory>lib/netstandard2.1/*.xml</CopyToOutputDirectory>
+        </PackageReference>
+        <PackageReference Include="FreeSql.Provider.SqlServer.NS" Version="3.2.698-preview20230629-ns1"/>
+        <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.698-preview20230629-ns1"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.38"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.38"/>
+        <PackageReference Include="Furion.Pure.NS" Version="4.8.8.34-ns1"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-preview.6.23329.11"/>
+        <PackageReference Include="Minio" Version="5.0.0"/>
+        <PackageReference Include="NSExt" Version="1.0.15-alpha.0.1"/>
+        <PackageReference Include="RedLock.net" Version="2.3.2"/>
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1"/>
+        <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta15"/>
+        <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="*.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

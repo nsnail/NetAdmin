@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(SolutionDir)/CodeQuality.props" />
-    <ItemGroup>
-        <Content Include="$(SolutionDir)/assets/seed-data/**" LinkBase="SeedData" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="../NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj" />
-    </ItemGroup>
-</Project>

@@ -1,7 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(SolutionDir)/CodeQuality.props" />
-    <ItemGroup>
-        <ProjectReference Include="../NetAdmin.SysComponent.Cache/NetAdmin.SysComponent.Cache.csproj" />
-        <ProjectReference Include="../NetAdmin.BizServer.Application/NetAdmin.BizServer.Application.csproj" />
-    </ItemGroup>
-</Project>
