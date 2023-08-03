@@ -104,6 +104,11 @@ public record Sys_User : VersionEntity, IFieldEnabled, IRegister
 
         _ = config.ForType<UpdateUserReq, Sys_User>()
                   .Map( //
-                      d => d.Password, s => s.PasswordText.NullOrEmpty() ? Guid.Empty : s.PasswordText.Pwd().Guid());
+                      d => d.Password, s => s.PasswordText.NullOrEmpty() ? Guid.Empty : s.PasswordText.Pwd().Guid())
+                  .Map( //
+                      d => d.Roles
+                    , s => s.RoleIds.NullOrEmpty()
+                          ? Array.Empty<Sys_Role>()
+                          : s.RoleIds.Select(x => new Sys_Role { Id = x }));
     }
 }
