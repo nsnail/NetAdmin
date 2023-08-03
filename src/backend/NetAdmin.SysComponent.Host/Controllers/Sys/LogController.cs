@@ -4,6 +4,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -11,13 +12,13 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     请求日志服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class LogController : ControllerBase<IRequestLogService>, IRequestLogModule
+public sealed class LogController : ControllerBase<IRequestLogCache, IRequestLogService>, IRequestLogModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="LogController" /> class.
     /// </summary>
-    public LogController(IRequestLogService service) //
-        : base(service) { }
+    public LogController(IRequestLogCache cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     批量删除请求日志
@@ -26,7 +27,7 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     [Transaction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteAsync(req);
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -36,7 +37,7 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     [Transaction]
     public Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
-        return Service.CreateAsync(req);
+        return Cache.CreateAsync(req);
     }
 
     /// <summary>
@@ -46,7 +47,7 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     [Transaction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return Service.DeleteAsync(req);
+        return Cache.DeleteAsync(req);
     }
 
     /// <summary>
@@ -55,7 +56,7 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
     {
-        return Service.ExistAsync(req);
+        return Cache.ExistAsync(req);
     }
 
     /// <summary>
@@ -64,7 +65,7 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     [NonAction]
     public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
-        return Service.GetAsync(req);
+        return Cache.GetAsync(req);
     }
 
     /// <summary>
@@ -72,7 +73,7 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     /// </summary>
     public Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
     {
-        return Service.PagedQueryAsync(req);
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
@@ -80,7 +81,7 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     /// </summary>
     public Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
-        return Service.QueryAsync(req);
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -90,6 +91,6 @@ public sealed class LogController : ControllerBase<IRequestLogService>, IRequest
     [Transaction]
     public Task<NopReq> UpdateAsync(NopReq req)
     {
-        return Service.UpdateAsync(req);
+        return Cache.UpdateAsync(req);
     }
 }

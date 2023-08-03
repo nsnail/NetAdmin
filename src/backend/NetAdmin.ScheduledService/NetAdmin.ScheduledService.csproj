@@ -5,7 +5,7 @@
         <ProjectReference Include="..\NetAdmin.BizServer.Application\NetAdmin.BizServer.Application.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.13-ns3"/>
+        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.14-ns1" />
         <PackageReference Include="MsieJavaScriptEngine" Version="3.2.2"/>
     </ItemGroup>
     <ItemGroup>

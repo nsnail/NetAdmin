@@ -18,12 +18,6 @@ public record RegisterUserReq : Sys_User
     public virtual string PasswordText { get; init; }
 
     /// <summary>
-    ///     岗位编号列表
-    /// </summary>
-    [JsonIgnore]
-    public IReadOnlyCollection<long> PositionIds { get; init; }
-
-    /// <summary>
     ///     角色编号列表
     /// </summary>
     [JsonIgnore]

@@ -5,6 +5,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -12,13 +13,13 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     字典服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class DicController : ControllerBase<IDicService>, IDicModule
+public sealed class DicController : ControllerBase<IDicCache, IDicService>, IDicModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="DicController" /> class.
     /// </summary>
-    public DicController(IDicService service) //
-        : base(service) { }
+    public DicController(IDicCache cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     批量删除字典目录
@@ -26,7 +27,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteCatalogAsync(req);
+        return Cache.BulkDeleteCatalogAsync(req);
     }
 
     /// <summary>
@@ -35,7 +36,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteContentAsync(req);
+        return Cache.BulkDeleteContentAsync(req);
     }
 
     /// <summary>
@@ -44,7 +45,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
     {
-        return Service.CreateCatalogAsync(req);
+        return Cache.CreateCatalogAsync(req);
     }
 
     /// <summary>
@@ -53,7 +54,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req)
     {
-        return Service.CreateContentAsync(req);
+        return Cache.CreateContentAsync(req);
     }
 
     /// <summary>
@@ -62,7 +63,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<int> DeleteCatalogAsync(DelReq req)
     {
-        return Service.DeleteCatalogAsync(req);
+        return Cache.DeleteCatalogAsync(req);
     }
 
     /// <summary>
@@ -71,7 +72,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<int> DeleteContentAsync(DelReq req)
     {
-        return Service.DeleteContentAsync(req);
+        return Cache.DeleteContentAsync(req);
     }
 
     /// <summary>
@@ -79,7 +80,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     /// </summary>
     public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
-        return Service.PagedQueryCatalogAsync(req);
+        return Cache.PagedQueryCatalogAsync(req);
     }
 
     /// <summary>
@@ -87,7 +88,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     /// </summary>
     public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req)
     {
-        return Service.PagedQueryContentAsync(req);
+        return Cache.PagedQueryContentAsync(req);
     }
 
     /// <summary>
@@ -95,7 +96,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     /// </summary>
     public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req)
     {
-        return Service.QueryCatalogAsync(req);
+        return Cache.QueryCatalogAsync(req);
     }
 
     /// <summary>
@@ -103,7 +104,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     /// </summary>
     public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
     {
-        return Service.QueryContentAsync(req);
+        return Cache.QueryContentAsync(req);
     }
 
     /// <summary>
@@ -112,7 +113,7 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req)
     {
-        return Service.UpdateCatalogAsync(req);
+        return Cache.UpdateCatalogAsync(req);
     }
 
     /// <summary>
@@ -121,6 +122,6 @@ public sealed class DicController : ControllerBase<IDicService>, IDicModule
     [Transaction]
     public Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req)
     {
-        return Service.UpdateContentAsync(req);
+        return Cache.UpdateContentAsync(req);
     }
 }

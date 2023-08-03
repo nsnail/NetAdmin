@@ -4,6 +4,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -11,13 +12,13 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     接口服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ApiController : ControllerBase<IApiService>, IApiModule
+public sealed class ApiController : ControllerBase<IApiCache, IApiService>, IApiModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="ApiController" /> class.
     /// </summary>
-    public ApiController(IApiService service) //
-        : base(service) { }
+    public ApiController(IApiCache cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     批量删除接口
@@ -26,7 +27,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [Transaction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteAsync(req);
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -36,7 +37,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [Transaction]
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
-        return Service.CreateAsync(req);
+        return Cache.CreateAsync(req);
     }
 
     /// <summary>
@@ -46,7 +47,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [Transaction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return Service.DeleteAsync(req);
+        return Cache.DeleteAsync(req);
     }
 
     /// <summary>
@@ -55,7 +56,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
     {
-        return Service.ExistAsync(req);
+        return Cache.ExistAsync(req);
     }
 
     /// <summary>
@@ -64,7 +65,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [NonAction]
     public Task<QueryApiRsp> GetAsync(QueryApiReq req)
     {
-        return Service.GetAsync(req);
+        return Cache.GetAsync(req);
     }
 
     /// <summary>
@@ -73,7 +74,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [NonAction]
     public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
-        return Service.PagedQueryAsync(req);
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
@@ -81,7 +82,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     /// </summary>
     public Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
-        return Service.QueryAsync(req);
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -90,7 +91,7 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [Transaction]
     public Task SyncAsync()
     {
-        return Service.SyncAsync();
+        return Cache.SyncAsync();
     }
 
     /// <summary>
@@ -99,6 +100,6 @@ public sealed class ApiController : ControllerBase<IApiService>, IApiModule
     [NonAction]
     public Task<NopReq> UpdateAsync(NopReq req)
     {
-        return Service.UpdateAsync(req);
+        return Cache.UpdateAsync(req);
     }
 }

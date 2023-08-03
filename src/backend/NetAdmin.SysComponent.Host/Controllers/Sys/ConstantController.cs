@@ -2,6 +2,7 @@ using NetAdmin.Domain.Dto;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -10,15 +11,15 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 /// </summary>
 [AllowAnonymous]
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ConstantController : ControllerBase<IConstantService>, IConstantModule
+public sealed class ConstantController : ControllerBase<IConstantCache, IConstantService>, IConstantModule
 {
     private readonly JsonOptions _jsonOptions;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ConstantController" /> class.
     /// </summary>
-    public ConstantController(IConstantService service, IOptions<JsonOptions> jsonOptions) //
-        : base(service)
+    public ConstantController(IConstantCache cache, IOptions<JsonOptions> jsonOptions) //
+        : base(cache)
     {
         _jsonOptions = jsonOptions.Value;
     }
@@ -39,7 +40,7 @@ public sealed class ConstantController : ControllerBase<IConstantService>, ICons
     [NonAction]
     public IDictionary<string, string> GetCharsDic()
     {
-        return Service.GetCharsDic();
+        return Cache.GetCharsDic();
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ public sealed class ConstantController : ControllerBase<IConstantService>, ICons
     /// </summary>
     public IDictionary<string, Dictionary<string, string[]>> GetEnums()
     {
-        return Service.GetEnums();
+        return Cache.GetEnums();
     }
 
     /// <summary>
@@ -55,7 +56,7 @@ public sealed class ConstantController : ControllerBase<IConstantService>, ICons
     /// </summary>
     public IDictionary<string, string> GetLocalizedStrings()
     {
-        return Service.GetLocalizedStrings();
+        return Cache.GetLocalizedStrings();
     }
 
     /// <summary>
@@ -74,7 +75,7 @@ public sealed class ConstantController : ControllerBase<IConstantService>, ICons
     [NonAction]
     public IDictionary<string, long> GetNumbersDic()
     {
-        return Service.GetNumbersDic();
+        return Cache.GetNumbersDic();
     }
 
     private IActionResult OriginNamingResult<T>(T data)

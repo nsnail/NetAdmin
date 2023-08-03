@@ -4,6 +4,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -11,13 +12,13 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     菜单服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
+public sealed class MenuController : ControllerBase<IMenuCache, IMenuService>, IMenuModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="MenuController" /> class.
     /// </summary>
-    public MenuController(IMenuService service) //
-        : base(service) { }
+    public MenuController(IMenuCache cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     批量删除菜单
@@ -25,7 +26,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     [Transaction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteAsync(req);
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -34,7 +35,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     [Transaction]
     public Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
-        return Service.CreateAsync(req);
+        return Cache.CreateAsync(req);
     }
 
     /// <summary>
@@ -43,7 +44,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     [Transaction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return Service.DeleteAsync(req);
+        return Cache.DeleteAsync(req);
     }
 
     /// <summary>
@@ -52,7 +53,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
-        return Service.ExistAsync(req);
+        return Cache.ExistAsync(req);
     }
 
     /// <summary>
@@ -61,7 +62,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     [NonAction]
     public Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
-        return Service.GetAsync(req);
+        return Cache.GetAsync(req);
     }
 
     /// <summary>
@@ -70,7 +71,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     [NonAction]
     public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
     {
-        return Service.PagedQueryAsync(req);
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
@@ -78,7 +79,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// </summary>
     public Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
-        return Service.QueryAsync(req);
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -87,7 +88,7 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     [Transaction]
     public Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
     {
-        return Service.UpdateAsync(req);
+        return Cache.UpdateAsync(req);
     }
 
     /// <summary>
@@ -95,6 +96,6 @@ public sealed class MenuController : ControllerBase<IMenuService>, IMenuModule
     /// </summary>
     public Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {
-        return Service.UserMenusAsync();
+        return Cache.UserMenusAsync();
     }
 }

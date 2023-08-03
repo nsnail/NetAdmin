@@ -4,7 +4,7 @@ using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Sms;
 using NetAdmin.Domain.Enums.Sys;
-using NetAdmin.Domain.Events;
+using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using DataType = FreeSql.DataType;
 

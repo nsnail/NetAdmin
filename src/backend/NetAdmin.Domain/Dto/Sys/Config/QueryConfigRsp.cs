@@ -1,7 +1,6 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dept;
-using NetAdmin.Domain.Dto.Sys.Position;
 using NetAdmin.Domain.Dto.Sys.Role;
 
 namespace NetAdmin.Domain.Dto.Sys.Config;
@@ -30,14 +29,6 @@ public sealed record QueryConfigRsp : Sys_Config
     /// <inheritdoc cref="Sys_Config.UserRegisterDeptId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long UserRegisterDeptId { get; init; }
-
-    /// <inheritdoc cref="Sys_Config.UserRegisterPos" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new QueryPositionRsp UserRegisterPos { get; init; }
-
-    /// <inheritdoc cref="Sys_Config.UserRegisterPosId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long UserRegisterPosId { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterRole" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

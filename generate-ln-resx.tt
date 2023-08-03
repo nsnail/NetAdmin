@@ -1,5 +1,7 @@
 <#@ template language="C#" #>
 <#@ output encoding="utf-8" extension="resx" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
 <?xml version="1.0" encoding="utf-8"?>
 <root>
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"

@@ -20,11 +20,6 @@ public sealed record QueryUserReq : Sys_User
     public override long Id { get; init; }
 
     /// <summary>
-    ///     岗位编号
-    /// </summary>
-    public long PositionId { get; init; }
-
-    /// <summary>
     ///     角色编号
     /// </summary>
     public long RoleId { get; init; }

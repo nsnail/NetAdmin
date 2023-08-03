@@ -118,17 +118,6 @@
     "Type": 1
   },
   {
-    "Component": "sys/position",
-    "Icon": "sc-icon-position",
-    "Id": 375858629672965,
-    "Name": "sys-position",
-    "ParentId": 373837917724677,
-    "Path": "/sys/position",
-    "Sort": 97,
-    "Title": "岗位管理",
-    "Type": 1
-  },
-  {
     "Component": "sys/config",
     "Icon": "el-icon-set-up",
     "Id": 380415005847557,

@@ -112,7 +112,6 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
     {
         return Rpo.Select.Include(a => a.UserRegisterDept)
                   .Include(a => a.UserRegisterRole)
-                  .Include(a => a.UserRegisterPos)
                   .WhereDynamicFilter(req.DynamicFilter)
                   .WhereIf( //
                       req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value)

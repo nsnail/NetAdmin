@@ -1,6 +1,6 @@
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
-using NetAdmin.Domain.Events;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.Host.Utils;
 

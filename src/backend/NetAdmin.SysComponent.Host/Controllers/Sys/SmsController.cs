@@ -4,7 +4,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using NetAdmin.SysComponent.Cache.Sys;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -12,15 +12,15 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     短信服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
+public sealed class SmsController : ControllerBase<ISmsCache, ISmsService>, ISmsModule
 {
     private readonly ICaptchaCache _captchaCache;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="SmsController" /> class.
     /// </summary>
-    public SmsController(ISmsService service, ICaptchaCache captchaCache) //
-        : base(service)
+    public SmsController(ISmsCache cache, ICaptchaCache captchaCache) //
+        : base(cache)
     {
         _captchaCache = captchaCache;
     }
@@ -32,7 +32,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     [Transaction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteAsync(req);
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     [Transaction]
     public Task<QuerySmsRsp> CreateAsync(CreateSmsReq req)
     {
-        return Service.CreateAsync(req);
+        return Cache.CreateAsync(req);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     [Transaction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return Service.DeleteAsync(req);
+        return Cache.DeleteAsync(req);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QuerySmsReq> req)
     {
-        return Service.ExistAsync(req);
+        return Cache.ExistAsync(req);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     [NonAction]
     public Task<QuerySmsRsp> GetAsync(QuerySmsReq req)
     {
-        return Service.GetAsync(req);
+        return Cache.GetAsync(req);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     public Task<PagedQueryRsp<QuerySmsRsp>> PagedQueryAsync(PagedQueryReq<QuerySmsReq> req)
     {
-        return Service.PagedQueryAsync(req);
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     /// </summary>
     public Task<IEnumerable<QuerySmsRsp>> QueryAsync(QueryReq<QuerySmsReq> req)
     {
-        return Service.QueryAsync(req);
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     public async Task<SendSmsCodeRsp> SendSmsCodeAsync(SendSmsCodeReq req)
     {
         await _captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq);
-        return await Service.SendSmsCodeAsync(req);
+        return await Cache.SendSmsCodeAsync(req);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     [Transaction]
     public Task<QuerySmsRsp> UpdateAsync(UpdateSmsReq req)
     {
-        return Service.UpdateAsync(req);
+        return Cache.UpdateAsync(req);
     }
 
     /// <summary>
@@ -117,6 +117,6 @@ public sealed class SmsController : ControllerBase<ISmsService>, ISmsModule
     [AllowAnonymous]
     public Task<bool> VerifySmsCodeAsync(VerifySmsCodeReq req)
     {
-        return Service.VerifySmsCodeAsync(req);
+        return Cache.VerifySmsCodeAsync(req);
     }
 }

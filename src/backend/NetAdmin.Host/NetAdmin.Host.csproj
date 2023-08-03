@@ -4,8 +4,8 @@
         <ProjectReference Include="../NetAdmin.Cache/NetAdmin.Cache.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.13-ns3"/>
-        <PackageReference Include="Spectre.Console.NS" Version="0.45.1-preview.0.84"/>
+        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.14-ns1" />
+        <PackageReference Include="Spectre.Console.NS" Version="0.45.1-preview.0.88" />
         <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1"/>
     </ItemGroup>
 </Project>

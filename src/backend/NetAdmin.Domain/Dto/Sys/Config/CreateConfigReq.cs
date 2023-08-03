@@ -20,10 +20,6 @@ public record CreateConfigReq : Sys_Config
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long UserRegisterDeptId { get; init; }
 
-    /// <inheritdoc cref="Sys_Config.UserRegisterPosId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long UserRegisterPosId { get; init; }
-
     /// <inheritdoc cref="Sys_Config.UserRegisterRoleId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long UserRegisterRoleId { get; init; }

@@ -39,14 +39,6 @@ public abstract record CreateUpdateUserReq : Sys_User
     public virtual string PasswordText { get; init; }
 
     /// <summary>
-    ///     岗位编号列表
-    /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.岗位编号列表))]
-    [MinLength(1)]
-    [MaxLength(Numbers.BULK_REQ_LIMIT)]
-    public IReadOnlyCollection<long> PositionIds { get; init; }
-
-    /// <summary>
     ///     角色编号列表
     /// </summary>
     [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号列表))]

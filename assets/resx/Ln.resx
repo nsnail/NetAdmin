@@ -22,7 +22,7 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-    <data name="_1分钟内只能发送1次" xml:space="preserve"><value>1分钟内只能发送1次</value></data>
+       <data name="_1分钟内只能发送1次" xml:space="preserve"><value>1分钟内只能发送1次</value></data>
     <data name="_4位以上" xml:space="preserve"><value>4位以上</value></data>
     <data name="_6位数字" xml:space="preserve"><value>6位数字</value></data>
     <data name="_8位以上数字字母组合" xml:space="preserve"><value>8位以上数字字母组合</value></data>
@@ -108,10 +108,6 @@
     <data name="完成" xml:space="preserve"><value>完成</value></data>
     <data name="密码" xml:space="preserve"><value>密码</value></data>
     <data name="小学" xml:space="preserve"><value>小学</value></data>
-    <data name="岗位" xml:space="preserve"><value>岗位</value></data>
-    <data name="岗位不存在" xml:space="preserve"><value>岗位不存在</value></data>
-    <data name="岗位名称" xml:space="preserve"><value>岗位名称</value></data>
-    <data name="岗位编号列表" xml:space="preserve"><value>岗位编号列表</value></data>
     <data name="已付款" xml:space="preserve"><value>已付款</value></data>
     <data name="已发货" xml:space="preserve"><value>已发货</value></data>
     <data name="已婚" xml:space="preserve"><value>已婚</value></data>

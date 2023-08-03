@@ -4,6 +4,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Tpl;
 using NetAdmin.SysComponent.Application.Services.Tpl.Dependency;
+using NetAdmin.SysComponent.Cache.Tpl.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Tpl;
 
@@ -11,13 +12,13 @@ namespace NetAdmin.SysComponent.Host.Controllers.Tpl;
 ///     示例服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Tpl), Module = nameof(Tpl))]
-public sealed class ExampleController : ControllerBase<IExampleService>, IExampleModule
+public sealed class ExampleController : ControllerBase<IExampleCache, IExampleService>, IExampleModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="ExampleController" /> class.
     /// </summary>
-    public ExampleController(IExampleService service) //
-        : base(service) { }
+    public ExampleController(IExampleCache cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     批量删除示例
@@ -25,7 +26,7 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     [Transaction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteAsync(req);
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -34,7 +35,7 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     [Transaction]
     public Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
-        return Service.CreateAsync(req);
+        return Cache.CreateAsync(req);
     }
 
     /// <summary>
@@ -43,7 +44,7 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     [Transaction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return Service.DeleteAsync(req);
+        return Cache.DeleteAsync(req);
     }
 
     /// <summary>
@@ -52,7 +53,7 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
     {
-        return Service.ExistAsync(req);
+        return Cache.ExistAsync(req);
     }
 
     /// <summary>
@@ -61,7 +62,7 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     [NonAction]
     public Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
     {
-        return Service.GetAsync(req);
+        return Cache.GetAsync(req);
     }
 
     /// <summary>
@@ -69,7 +70,7 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     /// </summary>
     public Task<PagedQueryRsp<QueryExampleRsp>> PagedQueryAsync(PagedQueryReq<QueryExampleReq> req)
     {
-        return Service.PagedQueryAsync(req);
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
@@ -77,7 +78,7 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     /// </summary>
     public Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
     {
-        return Service.QueryAsync(req);
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -86,6 +87,6 @@ public sealed class ExampleController : ControllerBase<IExampleService>, IExampl
     [Transaction]
     public Task<QueryExampleRsp> UpdateAsync(UpdateExampleReq req)
     {
-        return Service.UpdateAsync(req);
+        return Cache.UpdateAsync(req);
     }
 }

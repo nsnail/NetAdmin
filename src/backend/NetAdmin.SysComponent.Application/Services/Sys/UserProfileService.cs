@@ -62,9 +62,10 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
     ///     获取单个用户档案
     /// </summary>
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
+    public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryUserProfileRsp>();
     }
 
     /// <summary>

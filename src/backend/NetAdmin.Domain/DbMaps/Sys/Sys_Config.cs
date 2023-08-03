@@ -38,20 +38,6 @@ public record Sys_Config : VersionEntity, IFieldEnabled
     public virtual long UserRegisterDeptId { get; init; }
 
     /// <summary>
-    ///     用户注册默认岗位
-    /// </summary>
-    [JsonIgnore]
-    [Navigate(nameof(UserRegisterPosId))]
-    public Sys_Position UserRegisterPos { get; init; }
-
-    /// <summary>
-    ///     用户注册默认岗位编号
-    /// </summary>
-    [JsonIgnore]
-    [Column]
-    public virtual long UserRegisterPosId { get; init; }
-
-    /// <summary>
     ///     用户注册默认角色
     /// </summary>
     [JsonIgnore]

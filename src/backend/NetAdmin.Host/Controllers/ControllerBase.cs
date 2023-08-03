@@ -1,23 +1,25 @@
 using NetAdmin.Application.Services;
+using NetAdmin.Cache;
 
 namespace NetAdmin.Host.Controllers;
 
 /// <summary>
 ///     控制器基类
 /// </summary>
-public abstract class ControllerBase<TService> : IDynamicApiController
+public abstract class ControllerBase<TCache, TService> : IDynamicApiController
+    where TCache : ICache<IDistributedCache, TService> //
     where TService : IService
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="ControllerBase{TService}" /> class.
+    ///     Initializes a new instance of the <see cref="ControllerBase{TCache, TService}" /> class.
     /// </summary>
-    protected ControllerBase(TService service)
+    protected ControllerBase(TCache cache)
     {
-        Service = service;
+        Cache = cache;
     }
 
     /// <summary>
-    ///     关联的服务
+    ///     关联的缓存
     /// </summary>
-    protected TService Service { get; }
+    protected TCache Cache { get; }
 }

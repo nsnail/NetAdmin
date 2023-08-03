@@ -2,6 +2,7 @@ using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -9,20 +10,20 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     缓存服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class CacheController : ControllerBase<ICacheService>, ICacheModule
+public sealed class CacheController : ControllerBase<ICacheCache, ICacheService>, ICacheModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="CacheController" /> class.
     /// </summary>
-    public CacheController(ICacheService service) //
-        : base(service) { }
+    public CacheController(ICacheCache cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     缓存统计
     /// </summary>
     public CacheStatisticsRsp CacheStatistics()
     {
-        return Service.CacheStatistics();
+        return Cache.CacheStatistics();
     }
 
     /// <summary>
@@ -30,6 +31,6 @@ public sealed class CacheController : ControllerBase<ICacheService>, ICacheModul
     /// </summary>
     public void Clear()
     {
-        Service.Clear();
+        Cache.Clear();
     }
 }

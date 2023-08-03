@@ -63,13 +63,6 @@ public record Sys_User : VersionEntity, IFieldEnabled, IRegister
     public Guid Password { get; set; }
 
     /// <summary>
-    ///     所属岗位
-    /// </summary>
-    [JsonIgnore]
-    [Navigate(ManyToMany = typeof(Sys_UserPosition))]
-    public ICollection<Sys_Position> Positions { get; init; }
-
-    /// <summary>
     ///     用户档案
     /// </summary>
     [JsonIgnore]
@@ -107,12 +100,7 @@ public record Sys_User : VersionEntity, IFieldEnabled, IRegister
                       d => d.Roles
                     , s => s.RoleIds.NullOrEmpty()
                           ? Array.Empty<Sys_Role>()
-                          : s.RoleIds.Select(x => new Sys_Role { Id = x }))
-                  .Map( //
-                      d => d.Positions
-                    , s => s.PositionIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Position>()
-                          : s.PositionIds.Select(x => new Sys_Position { Id = x }));
+                          : s.RoleIds.Select(x => new Sys_Role { Id = x }));
 
         _ = config.ForType<UpdateUserReq, Sys_User>()
                   .Map( //

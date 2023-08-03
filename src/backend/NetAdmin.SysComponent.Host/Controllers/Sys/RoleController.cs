@@ -4,6 +4,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -11,13 +12,13 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     角色服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
+public sealed class RoleController : ControllerBase<IRoleCache, IRoleService>, IRoleModule
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="RoleController" /> class.
     /// </summary>
-    public RoleController(IRoleService service) //
-        : base(service) { }
+    public RoleController(IRoleCache cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     批量删除角色
@@ -25,7 +26,7 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     [Transaction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteAsync(req);
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -34,7 +35,7 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     [Transaction]
     public Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
     {
-        return Service.CreateAsync(req);
+        return Cache.CreateAsync(req);
     }
 
     /// <summary>
@@ -43,7 +44,7 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     [Transaction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return Service.DeleteAsync(req);
+        return Cache.DeleteAsync(req);
     }
 
     /// <summary>
@@ -52,7 +53,7 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
-        return Service.ExistAsync(req);
+        return Cache.ExistAsync(req);
     }
 
     /// <summary>
@@ -61,7 +62,7 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     [NonAction]
     public Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
-        return Service.GetAsync(req);
+        return Cache.GetAsync(req);
     }
 
     /// <summary>
@@ -69,7 +70,7 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     /// </summary>
     public Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
     {
-        return Service.PagedQueryAsync(req);
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
@@ -77,7 +78,7 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     /// </summary>
     public Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
-        return Service.QueryAsync(req);
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -86,6 +87,6 @@ public sealed class RoleController : ControllerBase<IRoleService>, IRoleModule
     [Transaction]
     public Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
     {
-        return Service.UpdateAsync(req);
+        return Cache.UpdateAsync(req);
     }
 }

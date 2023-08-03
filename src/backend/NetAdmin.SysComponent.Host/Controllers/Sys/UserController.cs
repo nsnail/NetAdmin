@@ -5,6 +5,7 @@ using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -12,17 +13,17 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     用户服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class UserController : ControllerBase<IUserService>, IUserModule
+public sealed class UserController : ControllerBase<IUserCache, IUserService>, IUserModule
 {
-    private readonly IConfigService _configService;
+    private readonly IConfigCache _configCache;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserController" /> class.
     /// </summary>
-    public UserController(IUserService service, IConfigService configService) //
-        : base(service)
+    public UserController(IUserCache cache, IConfigCache configCache) //
+        : base(cache)
     {
-        _configService = configService;
+        _configCache = configCache;
     }
 
     /// <summary>
@@ -32,7 +33,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [Transaction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return Service.BulkDeleteAsync(req);
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <summary>
@@ -41,7 +42,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [AllowAnonymous]
     public Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req)
     {
-        return Service.CheckMobileAvailableAsync(req);
+        return Cache.CheckMobileAvailableAsync(req);
     }
 
     /// <summary>
@@ -50,7 +51,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [AllowAnonymous]
     public Task<bool> CheckUserNameAvailableAsync(CheckUserNameAvailableReq req)
     {
-        return Service.CheckUserNameAvailableAsync(req);
+        return Cache.CheckUserNameAvailableAsync(req);
     }
 
     /// <summary>
@@ -59,7 +60,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [Transaction]
     public Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
-        return Service.CreateAsync(req);
+        return Cache.CreateAsync(req);
     }
 
     /// <summary>
@@ -68,7 +69,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [Transaction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return Service.DeleteAsync(req);
+        return Cache.DeleteAsync(req);
     }
 
     /// <summary>
@@ -77,7 +78,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryUserReq> req)
     {
-        return Service.ExistAsync(req);
+        return Cache.ExistAsync(req);
     }
 
     /// <summary>
@@ -86,7 +87,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [NonAction]
     public Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
-        return Service.GetAsync(req);
+        return Cache.GetAsync(req);
     }
 
     /// <summary>
@@ -95,7 +96,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [AllowAnonymous]
     public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
-        var ret = await Service.LoginByPwdAsync(req);
+        var ret = await Cache.LoginByPwdAsync(req);
         ret.SetToRspHeader();
         return ret;
     }
@@ -107,7 +108,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [Transaction]
     public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
     {
-        var ret = await Service.LoginBySmsAsync(req);
+        var ret = await Cache.LoginBySmsAsync(req);
         ret.SetToRspHeader();
         return ret;
     }
@@ -117,7 +118,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     public Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
-        return Service.PagedQueryAsync(req);
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
@@ -125,7 +126,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     public Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
-        return Service.QueryAsync(req);
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -133,7 +134,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
     {
-        return Service.QueryProfileAsync(req);
+        return Cache.QueryProfileAsync(req);
     }
 
     /// <summary>
@@ -141,18 +142,17 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     [Transaction]
     [AllowAnonymous]
-    public async Task<QueryUserRsp> RegisterAsync(RegisterUserReq userReq)
+    public async Task<QueryUserRsp> RegisterAsync(RegisterUserReq req)
     {
-        var config = await _configService.GetLatestConfigAsync();
+        var config = await _configCache.GetLatestConfigAsync();
 
-        return await Service.RegisterAsync(userReq with {
-                                                            DeptId = config.UserRegisterDeptId
-                                                          , PositionIds = new[] { config.UserRegisterPosId }
-                                                          , RoleIds = new[] { config.UserRegisterRoleId }
-                                                          , Profile = new CreateUserProfileReq()
-                                                          , Enabled = !config.UserRegisterConfirm
-                                                          , Mobile = userReq.VerifySmsCodeReq.DestMobile
-                                                        });
+        return await Cache.RegisterAsync(req with {
+                                                      DeptId = config.UserRegisterDeptId
+                                                    , RoleIds = new[] { config.UserRegisterRoleId }
+                                                    , Profile = new CreateUserProfileReq()
+                                                    , Enabled = !config.UserRegisterConfirm
+                                                    , Mobile = req.VerifySmsCodeReq.DestMobile
+                                                  });
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [AllowAnonymous]
     public Task ResetPasswordAsync(ResetPasswordReq req)
     {
-        return Service.ResetPasswordAsync(req);
+        return Cache.ResetPasswordAsync(req);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     [Transaction]
     public Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
     {
-        return Service.UpdateAsync(req);
+        return Cache.UpdateAsync(req);
     }
 
     /// <summary>
@@ -178,6 +178,6 @@ public sealed class UserController : ControllerBase<IUserService>, IUserModule
     /// </summary>
     public Task<QueryUserRsp> UserInfoAsync()
     {
-        return Service.UserInfoAsync();
+        return Cache.UserInfoAsync();
     }
 }

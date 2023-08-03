@@ -297,7 +297,7 @@
       // 数据缓存
       {
         "Name": "DataCache",
-        "ConnStr": "172.16.0.154:6379",
+        "ConnStr": "localhost:6379",
         "Database": 0
       }
     ]

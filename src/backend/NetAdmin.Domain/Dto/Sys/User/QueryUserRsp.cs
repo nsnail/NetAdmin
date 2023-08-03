@@ -1,7 +1,6 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dept;
-using NetAdmin.Domain.Dto.Sys.Position;
 using NetAdmin.Domain.Dto.Sys.Role;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
@@ -39,11 +38,6 @@ public record QueryUserRsp : Sys_User
     /// <inheritdoc cref="Sys_User.Mobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Mobile { get; init; }
-
-    /// <summary>
-    ///     岗位列表
-    /// </summary>
-    public new IEnumerable<QueryPositionRsp> Positions { get; init; }
 
     /// <summary>
     ///     角色列表

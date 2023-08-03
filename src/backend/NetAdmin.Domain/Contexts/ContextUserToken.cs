@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Dto.Sys.User;
+
 namespace NetAdmin.Domain.Contexts;
 
 /// <summary>
@@ -27,5 +29,13 @@ public sealed record ContextUserToken : DataAbstraction
     {
         var claim = App.User?.FindFirst(nameof(ContextUserToken));
         return claim?.Value.ToObject<ContextUserToken>();
+    }
+
+    /// <summary>
+    ///     从 QueryUserRsp 创建上下文用户
+    /// </summary>
+    public static ContextUserToken Create(QueryUserRsp user)
+    {
+        return new ContextUserToken { Id = user.Id, Token = user.Token, UserName = user.UserName };
     }
 }

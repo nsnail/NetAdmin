@@ -1,5 +1,5 @@
 using NetAdmin.Domain.Contexts;
-using NetAdmin.SysComponent.Cache.Sys;
+using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.BizServer.Host.Filters;
 

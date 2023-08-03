@@ -8,6 +8,7 @@ using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Sms;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -15,9 +16,10 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 /// <inheritdoc cref="IUserService" />
 public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUserService
 {
+    private readonly IEventPublisher _eventPublisher;
+
     private readonly Expression<Func<Sys_User, Sys_User>> _selectUserFields = a => new Sys_User {
         Id          = a.Id
-      , Positions   = a.Positions
       , Avatar      = a.Avatar
       , Email       = a.Email
       , Mobile      = a.Mobile
@@ -36,11 +38,13 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserService" /> class.
     /// </summary>
-    public UserService(Repository<Sys_User> rpo, IUserProfileService userProfileService, ISmsService smsService) //
+    public UserService(Repository<Sys_User> rpo, IUserProfileService userProfileService, ISmsService smsService
+                     , IEventPublisher      eventPublisher) //
         : base(rpo)
     {
         _userProfileService = userProfileService;
         _smsService         = smsService;
+        _eventPublisher     = eventPublisher;
     }
 
     /// <summary>
@@ -85,7 +89,6 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
-        await Rpo.SaveManyAsync(entity, nameof(entity.Positions));
 
         // 档案表
         _ = await _userProfileService.CreateAsync(req.Profile with { Id = dbUser.Id });
@@ -104,8 +107,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         effect += await Rpo.DeleteAsync(req.Id);
 
         // 删除分表
-        effect += await Rpo.Orm.Delete<Sys_UserPosition>(new { UserId = req.Id }).ExecuteAffrowsAsync();
-        effect += await Rpo.Orm.Delete<Sys_UserRole>(new { UserId     = req.Id }).ExecuteAffrowsAsync();
+        effect += await Rpo.Orm.Delete<Sys_UserRole>(new { UserId = req.Id }).ExecuteAffrowsAsync();
 
         // 删除档案表
         effect += await _userProfileService.DeleteAsync(req);
@@ -210,13 +212,13 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     ///     注册用户
     /// </summary>
     /// <exception cref="NetAdminInvalidOperationException">短信验证码不正确</exception>
-    public async Task<QueryUserRsp> RegisterAsync(RegisterUserReq userReq)
+    public async Task<QueryUserRsp> RegisterAsync(RegisterUserReq req)
     {
-        if (!await _smsService.VerifySmsCodeAsync(userReq.VerifySmsCodeReq)) {
+        if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
             throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
         }
 
-        var createReq = userReq.Adapt<CreateUserReq>() with { Profile = new CreateUserProfileReq() };
+        var createReq = req.Adapt<CreateUserReq>() with { Profile = new CreateUserProfileReq() };
         return await CreateAsync(createReq);
     }
 
@@ -262,10 +264,12 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
-        await Rpo.SaveManyAsync(entity, nameof(entity.Positions));
 
-        var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } });
-        return ret.First();
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } })).First();
+
+        // 发布短信创建事件
+        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        return ret;
     }
 
     /// <summary>
@@ -319,15 +323,6 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
             throw new NetAdminInvalidOperationException(Ln.角色不存在);
         }
 
-        // 检查岗位是否存在
-        var positions = await Rpo.Orm.Select<Sys_Position>()
-                                 .ForUpdate()
-                                 .Where(a => req.PositionIds.Contains(a.Id))
-                                 .ToListAsync(a => a.Id);
-        if (positions.Count != req.PositionIds.Count) {
-            throw new NetAdminInvalidOperationException(Ln.岗位不存在);
-        }
-
         // 检查部门是否存在
         var dept = await Rpo.Orm.Select<Sys_Dept>().ForUpdate().Where(a => req.DeptId == a.Id).ToListAsync(a => a.Id);
 
@@ -355,16 +350,13 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         }
 
         var ret = Rpo.Select.Include(a => a.Dept)
-                     .IncludeMany(a => a.Roles.Select(b => new Sys_Role { Id         = b.Id, Name = b.Name }))
-                     .IncludeMany(a => a.Positions.Select(b => new Sys_Position { Id = b.Id, Name = b.Name }))
+                     .IncludeMany(a => a.Roles.Select(b => new Sys_Role { Id = b.Id, Name = b.Name }))
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
                      .WhereIf( //
                          req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
                      .WhereIf( //
                          req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
-                     .WhereIf( //
-                         req.Filter?.PositionId > 0, a => a.Positions.Any(b => b.Id == req.Filter.PositionId))
                      .WhereIf( //
                          req.Keywords?.Length > 0
                        , a => a.UserName.Contains(req.Keywords) || a.Id == req.Keywords.Int64Try(0) ||

@@ -1,4 +1,5 @@
 using NetAdmin.Application.Services;
+using NetAdmin.Cache;
 
 namespace NetAdmin.Host.Controllers;
 
@@ -6,13 +7,13 @@ namespace NetAdmin.Host.Controllers;
 ///     健康控制器
 /// </summary>
 [ApiDescriptionSettings("Health")]
-public sealed class HealthController : ControllerBase<IService>
+public sealed class HealthController : ControllerBase<ICache<IDistributedCache, IService>, IService>
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="HealthController" /> class.
     /// </summary>
-    public HealthController(IService service) //
-        : base(service) { }
+    public HealthController(ICache<IDistributedCache, IService> cache) //
+        : base(cache) { }
 
     /// <summary>
     ///     健康检查
