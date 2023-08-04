@@ -29,6 +29,10 @@ public record CreateRoleReq : Sys_Role
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override bool DisplayDashboard { get; init; }
 
+    /// <inheritdoc cref="IFieldEnabled.Enabled" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool Enabled { get; init; }
+
     /// <inheritdoc cref="Sys_Role.IgnorePermissionControl" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override bool IgnorePermissionControl { get; init; }

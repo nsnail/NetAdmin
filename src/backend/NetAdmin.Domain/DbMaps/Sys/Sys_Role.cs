@@ -10,7 +10,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// </summary>
 [Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_Role))]
 [Index("idx_{tablename}_01", nameof(Name), true)]
-public record Sys_Role : VersionEntity, IFieldSort, IFieldSummary, IRegister
+public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary, IRegister
 {
     /// <summary>
     ///     角色-接口映射
@@ -39,6 +39,13 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldSummary, IRegister
     [JsonIgnore]
     [Column]
     public virtual bool DisplayDashboard { get; init; }
+
+    /// <summary>
+    ///     是否启用
+    /// </summary>
+    [JsonIgnore]
+    [Column]
+    public virtual bool Enabled { get; init; }
 
     /// <summary>
     ///     是否忽略权限控制

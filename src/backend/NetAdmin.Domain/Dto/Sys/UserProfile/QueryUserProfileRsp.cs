@@ -113,10 +113,6 @@ public sealed record QueryUserProfileRsp : Sys_UserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override Sexes? Sex { get; init; }
 
-    /// <inheritdoc cref="IFieldSummary.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
-
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }

@@ -11,7 +11,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 [Index($"idx_{{tablename}}_{nameof(UserName)}", nameof(UserName), true)]
 [Index($"idx_{{tablename}}_{nameof(Mobile)}",   nameof(Mobile),   true)]
 [Index($"idx_{{tablename}}_{nameof(Email)}",    nameof(Email),    true)]
-public record Sys_User : VersionEntity, IFieldEnabled, IRegister
+public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
 {
     /// <summary>
     ///     头像链接
@@ -74,6 +74,13 @@ public record Sys_User : VersionEntity, IFieldEnabled, IRegister
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_UserRole))]
     public ICollection<Sys_Role> Roles { get; init; }
+
+    /// <summary>
+    ///     描述
+    /// </summary>
+    [JsonIgnore]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    public virtual string Summary { get; init; }
 
     /// <summary>
     ///     授权验证Token，全局唯一，可以随时重置（强制下线）

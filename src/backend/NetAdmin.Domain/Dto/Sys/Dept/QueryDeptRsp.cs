@@ -17,6 +17,10 @@ public record QueryDeptRsp : Sys_Dept
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
+    /// <inheritdoc cref="IFieldEnabled.Enabled" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool Enabled { get; init; }
+
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }

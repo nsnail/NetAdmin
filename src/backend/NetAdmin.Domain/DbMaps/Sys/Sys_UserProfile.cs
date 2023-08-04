@@ -1,5 +1,4 @@
 using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
@@ -8,7 +7,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     用户档案表
 /// </summary>
 [Table(Name = "Sys_UserProfile")]
-public record Sys_UserProfile : VersionEntity, IFieldSummary, IRegister
+public record Sys_UserProfile : VersionEntity, IRegister
 {
     /// <summary>
     ///     出生日期
@@ -178,13 +177,6 @@ public record Sys_UserProfile : VersionEntity, IFieldSummary, IRegister
     [JsonIgnore]
     [Column]
     public virtual Sexes? Sex { get; init; }
-
-    /// <summary>
-    ///     描述
-    /// </summary>
-    [JsonIgnore]
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    public virtual string Summary { get; init; }
 
     /// <summary>
     ///     用户基本信息

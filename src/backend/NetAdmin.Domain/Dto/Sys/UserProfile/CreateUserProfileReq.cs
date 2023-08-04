@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Attributes.DataValidation;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
@@ -120,8 +119,4 @@ public record CreateUserProfileReq : Sys_UserProfile
     [EnumDataType(typeof(Sexes))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Sexes? Sex { get; init; }
-
-    /// <inheritdoc cref="IFieldSummary.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override string Summary { get; init; }
 }

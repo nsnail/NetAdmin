@@ -44,6 +44,10 @@ public record QueryUserRsp : Sys_User
     /// </summary>
     public new IEnumerable<QueryRoleRsp> Roles { get; init; }
 
+    /// <inheritdoc cref="Sys_User.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string Summary { get; init; }
+
     /// <inheritdoc cref="Sys_User.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string UserName { get; init; }

@@ -25,6 +25,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
       , Mobile      = a.Mobile
       , Enabled     = a.Enabled
       , UserName    = a.UserName
+      , Summary     = a.Summary
       , Version     = a.Version
       , CreatedTime = a.CreatedTime
       , Dept        = new Sys_Dept { Id = a.Dept.Id, Name = a.Dept.Name }
@@ -289,7 +290,8 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
                               .Include(a => a.Dept)
                               .IncludeMany( //
                                   a => a.Roles
-                                , then => then.IncludeMany(a => a.Menus)
+                                , then => then.Where(a => a.Enabled)
+                                              .IncludeMany(a => a.Menus)
                                               .IncludeMany(a => a.Depts)
                                               .IncludeMany(a => a.Apis))
                               .ToOneAsync();
@@ -360,7 +362,8 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
                      .WhereIf( //
                          req.Keywords?.Length > 0
                        , a => a.UserName.Contains(req.Keywords) || a.Id == req.Keywords.Int64Try(0) ||
-                              a.Mobile                                  == req.Keywords)
+                              a.Mobile.Contains(req.Keywords)   || a.Email.Contains(req.Keywords)   ||
+                              a.Summary.Contains(req.Keywords))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {

@@ -24,7 +24,7 @@ public sealed class JwtHandler : AppAuthorizeHandler
 
         // 数据库不存在context user，或用户已被禁用，拒绝访问
         var userInfo = await App.GetService<IUserCache>().UserInfoAsync();
-        if (userInfo == null) {
+        if (userInfo?.Roles == null) {
             return false;
         }
 

@@ -96,11 +96,7 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
     /// </summary>
     public async Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
-        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                           .WhereDynamic(req.Filter)
-                           .OrderByDescending(a => a.Sort)
-                           .ToTreeListAsync();
-        return ret.Adapt<IEnumerable<QueryDeptRsp>>();
+        return (await QueryInternal(req).ToTreeListAsync()).Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
     /// <summary>
@@ -109,11 +105,35 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
     {
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
-            throw new NetAdminUnexpectedException();
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+            ? throw new NetAdminUnexpectedException()
+            : (await QueryInternal(new QueryReq<QueryDeptReq> { Filter = new QueryDeptReq { Id = req.Id } }, true)
+                .ToTreeListAsync())[0]
+            .Adapt<QueryDeptRsp>();
+    }
+
+    private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req, bool asTreeCte = false)
+    {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .WhereIf( //
+                         req.Keywords?.Length > 0
+                       , a => a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords) ||
+                              a.Id == req.Keywords.Int64Try(0));
+        if (asTreeCte) {
+            ret = ret.AsTreeCte();
         }
 
-        var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
-        return ret.Adapt<QueryDeptRsp>();
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+
+        if (!req.Prop?.Equals(nameof(req.Filter.Sort), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Sort);
+        }
+
+        if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.CreatedTime);
+        }
+
+        return ret;
     }
 }

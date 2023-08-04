@@ -104,7 +104,7 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
         await Rpo.SaveManyAsync(entity, nameof(entity.Menus));
         await Rpo.SaveManyAsync(entity, nameof(entity.Apis));
 
-        return entity.Adapt<QueryRoleRsp>();
+        return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } })).First();
     }
 
     private ISelect<Sys_Role> QueryInternal(QueryReq<QueryRoleReq> req)
@@ -114,6 +114,10 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
                      .IncludeMany(a => a.Apis.Select(b => new Sys_Api { Id          = b.Id }))
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
+                     .WhereIf( //
+                         req.Keywords?.Length > 0
+                       , a => a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords) ||
+                              a.Id == req.Keywords.Int64Try(0))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.Sort), StringComparison.OrdinalIgnoreCase) ?? true) {

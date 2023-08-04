@@ -46,6 +46,10 @@ public abstract record CreateUpdateUserReq : Sys_User
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
+    /// <inheritdoc cref="Sys_User.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override string Summary { get; init; }
+
     /// <inheritdoc cref="Sys_User.UserName" />
     [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名))]
     [UserName]

@@ -7,7 +7,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     部门表
 /// </summary>
 [Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_Dept))]
-public record Sys_Dept : VersionEntity, IFieldSummary, IFieldSort
+public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
 {
     /// <summary>
     ///     子节点
@@ -15,6 +15,13 @@ public record Sys_Dept : VersionEntity, IFieldSummary, IFieldSort
     [JsonIgnore]
     [Navigate(nameof(ParentId))]
     public IEnumerable<Sys_Dept> Children { get; init; }
+
+    /// <summary>
+    ///     是否启用
+    /// </summary>
+    [JsonIgnore]
+    [Column]
+    public virtual bool Enabled { get; init; }
 
     /// <summary>
     ///     部门名称
