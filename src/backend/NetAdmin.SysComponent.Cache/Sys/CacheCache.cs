@@ -17,9 +17,10 @@ public sealed class CacheCache : DistributedCache<ICacheService>, IScoped, ICach
         : base(cache, service) { }
 
     /// <inheritdoc />
-    public CacheStatisticsRsp CacheStatistics()
+    public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
-        return Service.CacheStatistics();
+        return GetOrCreateAsync( //
+            GetCacheKey(string.Empty), Service.CacheStatisticsAsync, TimeSpan.FromMinutes(1));
     }
 
     /// <inheritdoc />

@@ -1,28 +1,29 @@
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using StackExchange.Redis;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ICacheService" />
 public sealed class CacheService : ServiceBase<ICacheService>, ICacheService
 {
-    private readonly IMemoryCache _memoryCache;
+    private readonly IConnectionMultiplexer _connectionMultiplexer;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CacheService" /> class.
     /// </summary>
-    public CacheService(IMemoryCache memoryCache)
+    public CacheService(IConnectionMultiplexer connectionMultiplexer)
     {
-        _memoryCache = memoryCache;
+        _connectionMultiplexer = connectionMultiplexer;
     }
 
     /// <summary>
     ///     缓存统计
     /// </summary>
-    public CacheStatisticsRsp CacheStatistics()
+    public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
-        return _memoryCache.GetCurrentStatistics()?.Adapt<CacheStatisticsRsp>();
+        return Task.FromResult(new CacheStatisticsRsp((string)_connectionMultiplexer.GetDatabase().Execute("INFO")));
     }
 
     /// <summary>
@@ -30,7 +31,9 @@ public sealed class CacheService : ServiceBase<ICacheService>, ICacheService
     /// </summary>
     public void Clear()
     {
-        (_memoryCache as MemoryCache)?.Clear();
+        Console.WriteLine(GetAllKeys(_connectionMultiplexer.GetDatabase()));
+
+        // (_connectionMultiplexer as MemoryCache)?.Clear();
     }
 
     /// <summary>
@@ -40,7 +43,7 @@ public sealed class CacheService : ServiceBase<ICacheService>, ICacheService
     {
         var coherentState = typeof(MemoryCache).GetRuntimeFields()
                                                .First(x => x.Name == "_coherentState")
-                                               .GetValue(_memoryCache);
+                                               .GetValue(_connectionMultiplexer);
 
         var entriesCollection = coherentState?.GetType()
                                              .GetProperty( //
@@ -55,5 +58,18 @@ public sealed class CacheService : ServiceBase<ICacheService>, ICacheService
         }
 
         return new List<GetAllEntriesRsp>();
+    }
+
+    private static IEnumerable<string> GetAllKeys(IDatabase db)
+    {
+        long nextCursor = 0;
+        do {
+            var redisResults = (RedisResult[])db.Execute("SCAN", nextCursor.ToInvString(), "COUNT", 1000);
+            nextCursor = ((string)redisResults![0]).Int64();
+
+            foreach (var key in ((string[])redisResults[1])!) {
+                yield return key;
+            }
+        } while (nextCursor != 0);
     }
 }

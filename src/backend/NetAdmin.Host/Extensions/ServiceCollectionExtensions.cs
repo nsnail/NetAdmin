@@ -4,6 +4,7 @@ using NetAdmin.Domain.Events;
 using NetAdmin.Host.Filters;
 using NetAdmin.Host.Utils;
 using Spectre.Console;
+using StackExchange.Redis;
 using Yitter.IdGenerator;
 using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
 
@@ -236,10 +237,15 @@ public static class ServiceCollectionExtensions
     {
         var redisOptions = App.GetOptions<RedisOptions>()
                               .Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE);
+
+        // IDistributedCache 分布式缓存通用接口
         _ = me.AddStackExchangeRedisCache(options => {
             // 连接字符串
             options.Configuration = redisOptions.ConnStr;
         });
+
+        // Redis原生接口
+        me.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.ConnStr));
         return me;
     }
 

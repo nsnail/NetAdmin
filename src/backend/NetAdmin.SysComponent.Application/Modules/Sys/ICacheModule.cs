@@ -10,7 +10,7 @@ public interface ICacheModule
     /// <summary>
     ///     缓存统计
     /// </summary>
-    CacheStatisticsRsp CacheStatistics();
+    Task<CacheStatisticsRsp> CacheStatisticsAsync();
 
     /// <summary>
     ///     清空缓存

@@ -21,9 +21,9 @@ public sealed class CacheController : ControllerBase<ICacheCache, ICacheService>
     /// <summary>
     ///     缓存统计
     /// </summary>
-    public CacheStatisticsRsp CacheStatistics()
+    public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
-        return Cache.CacheStatistics();
+        return Cache.CacheStatisticsAsync();
     }
 
     /// <summary>
