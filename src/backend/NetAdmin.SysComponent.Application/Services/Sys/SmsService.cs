@@ -73,9 +73,10 @@ public sealed class SmsService : RepositoryService<Sys_Sms, ISmsService>, ISmsSe
     ///     获取单个短信
     /// </summary>
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QuerySmsRsp> GetAsync(QuerySmsReq req)
+    public async Task<QuerySmsRsp> GetAsync(QuerySmsReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QuerySmsReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QuerySmsRsp>();
     }
 
     /// <summary>

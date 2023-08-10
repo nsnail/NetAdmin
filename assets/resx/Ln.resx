@@ -258,4 +258,5 @@
     <data name="高中" xml:space="preserve"><value>高中</value></data>
     <data name="高山族" xml:space="preserve"><value>高山族</value></data>
     <data name="黎族" xml:space="preserve"><value>黎族</value></data>
+    <data name="数据库索引号" xml:space="preserve"><value>数据库索引号</value></data>
 </root>

@@ -1,4 +1,5 @@
 using NetAdmin.Application.Services;
+using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using StackExchange.Redis;
@@ -23,53 +24,26 @@ public sealed class CacheService : ServiceBase<ICacheService>, ICacheService
     /// </summary>
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
-        return Task.FromResult(new CacheStatisticsRsp((string)_connectionMultiplexer.GetDatabase().Execute("INFO")));
+        var database = _connectionMultiplexer.GetDatabase();
+        return Task.FromResult(
+            new CacheStatisticsRsp((string)database.Execute("info")) { DbSize = (long)database.Execute("dbSize") });
     }
 
-    /// <summary>
-    ///     清空缓存
-    /// </summary>
-    public void Clear()
+    /// <inheritdoc />
+    public PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
     {
-        Console.WriteLine(GetAllKeys(_connectionMultiplexer.GetDatabase()));
+        var database = _connectionMultiplexer.GetDatabase((int?)req.Filter?.DbIndex ?? 0);
+        var redisResults
+            = (RedisResult[])database.Execute("scan", (req.Page - 1) * req.PageSize, "count", req.PageSize);
 
-        // (_connectionMultiplexer as MemoryCache)?.Clear();
-    }
+        var list = ((string[])redisResults![1])!.Where(x => database.KeyType(x) == RedisType.Hash)
+                                                .Select(x => database.HashGetAll(x)
+                                                                     .Append(new HashEntry("key", x))
+                                                                     .ToArray()
+                                                                     .ToStringDictionary())
+                                                .ToList()
+                                                .ConvertAll(x => x.Adapt<GetAllEntriesRsp>());
 
-    /// <summary>
-    ///     获取所有缓存项
-    /// </summary>
-    public IEnumerable<GetAllEntriesRsp> GetAllEntries()
-    {
-        var coherentState = typeof(MemoryCache).GetRuntimeFields()
-                                               .First(x => x.Name == "_coherentState")
-                                               .GetValue(_connectionMultiplexer);
-
-        var entriesCollection = coherentState?.GetType()
-                                             .GetProperty( //
-                                                 #pragma warning disable S3011
-                                                 "EntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance)
-                                             #pragma warning restore S3011
-                                             ?.GetValue(coherentState);
-        var entries = entriesCollection?.GetType().GetProperty("Value")?.GetValue(entriesCollection);
-
-        foreach (var entry in entries?.GetType().GetRuntimeProperties()!) {
-            Logger.Debug(entry);
-        }
-
-        return new List<GetAllEntriesRsp>();
-    }
-
-    private static IEnumerable<string> GetAllKeys(IDatabase db)
-    {
-        long nextCursor = 0;
-        do {
-            var redisResults = (RedisResult[])db.Execute("SCAN", nextCursor.ToInvString(), "COUNT", 1000);
-            nextCursor = ((string)redisResults![0]).Int64();
-
-            foreach (var key in ((string[])redisResults[1])!) {
-                yield return key;
-            }
-        } while (nextCursor != 0);
+        return new PagedQueryRsp<GetAllEntriesRsp>(req.Page, req.PageSize, 10000, list);
     }
 }

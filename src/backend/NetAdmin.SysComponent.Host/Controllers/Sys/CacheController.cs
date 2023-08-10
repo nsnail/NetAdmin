@@ -1,3 +1,4 @@
+using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
@@ -27,10 +28,10 @@ public sealed class CacheController : ControllerBase<ICacheCache, ICacheService>
     }
 
     /// <summary>
-    ///     清空缓存
+    ///     获取所有缓存项
     /// </summary>
-    public void Clear()
+    public PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
     {
-        Cache.Clear();
+        return Cache.GetAllEntries(req);
     }
 }

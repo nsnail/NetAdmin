@@ -1,3 +1,4 @@
+using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
@@ -13,7 +14,7 @@ public interface ICacheModule
     Task<CacheStatisticsRsp> CacheStatisticsAsync();
 
     /// <summary>
-    ///     清空缓存
+    ///     获取所有缓存项
     /// </summary>
-    void Clear();
+    PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req);
 }

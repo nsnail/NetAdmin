@@ -60,9 +60,10 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
     ///     获取单个配置
     /// </summary>
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
+    public async Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryConfigRsp>();
     }
 
     /// <summary>

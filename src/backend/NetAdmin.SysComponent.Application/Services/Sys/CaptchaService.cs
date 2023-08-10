@@ -51,7 +51,7 @@ public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaServi
 
         bool ret;
         try {
-            var aesKey = req.Id.Aes(_captchaOptions.SecretKey)[..32];
+            var aesKey = req.Id.Aes(CaptchaOptions.SecretKey)[..32];
             ret = Math.Abs(req.SawOffsetX.Value - req.VerifyData.AesDe(aesKey).Float()) < 5f;
         }
         catch {

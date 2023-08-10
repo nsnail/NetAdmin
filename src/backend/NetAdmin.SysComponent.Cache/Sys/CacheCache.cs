@@ -1,4 +1,5 @@
 using NetAdmin.Cache;
+using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using NetAdmin.SysComponent.Cache.Sys.Dependency;
@@ -24,8 +25,8 @@ public sealed class CacheCache : DistributedCache<ICacheService>, IScoped, ICach
     }
 
     /// <inheritdoc />
-    public void Clear()
+    public PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
     {
-        Service.Clear();
+        return Service.GetAllEntries(req);
     }
 }

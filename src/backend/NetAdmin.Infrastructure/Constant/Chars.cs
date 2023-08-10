@@ -60,6 +60,9 @@ public static class Chars
     public const string FLG_UA_PC
         = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36";
 
+    public const string FLG_VISIBLE_ASCIIS
+        = """!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~""";
+
     public const string FLG_X_ACCESS_TOKEN = "X-ACCESS-TOKEN";
 
     public const string RGX_CERTIFICATE = """^[a-zA-Z0-9-_]+$""";

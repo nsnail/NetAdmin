@@ -20,11 +20,11 @@ cacheStatistics :{
 },
 
 /**
- * 清空缓存
+ * 获取所有缓存项
  */
-clear :{
-    url: `${config.API_URL}/api/sys/cache/clear`,
-        name: `清空缓存`,
+getAllEntries :{
+    url: `${config.API_URL}/api/sys/cache/get.all.entries`,
+        name: `获取所有缓存项`,
         post:async function(data={}, config={}) {
         return await http.post(this.url,data, config)
     }
