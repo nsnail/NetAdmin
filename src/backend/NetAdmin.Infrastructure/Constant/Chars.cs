@@ -80,6 +80,7 @@ public static class Chars
     public const string RGX_PAY_PASSWORD = """^\d{6}$""";
     public const string RGX_SMS_CODE     = """^\d{4}$""";
     public const string RGX_TELEPHONE    = """^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$""";
+    public const string RGX_URL          = """^(https?|ftp):\/\/[^\s/$.?#].[^\s]*\.[^\s]{2,}$""";
     public const string RGX_USERNAME     = """^[a-zA-Z0-9_]{4,16}$""";
 
     public const string TPL_DATE_HH_MM_SS_FFFFFF       = "HH:mm:ss.ffffff";

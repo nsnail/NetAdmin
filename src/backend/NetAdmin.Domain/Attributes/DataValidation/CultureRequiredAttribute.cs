@@ -3,6 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     非空验证器
 /// </summary>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class CultureRequiredAttribute : RequiredAttribute
 {
     /// <summary>Applies formatting to an error message, based on the data field where the error occurred.</summary>

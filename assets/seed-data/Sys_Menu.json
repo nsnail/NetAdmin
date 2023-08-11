@@ -1,11 +1,22 @@
 [
   {
+    "Component": "home",
     "Icon": "el-icon-house",
     "Id": 373837717815301,
     "Name": "home",
     "Path": "/home",
     "Sort": 100,
-    "Title": "首页",
+    "Title": "控制面板",
+    "Type": 1
+  },
+  {
+    "Component": "profile",
+    "Id": 374967228141573,
+    "Name": "profile",
+    "Path": "/profile",
+    "Sort": 100,
+    "Title": "账号信息",
+    "Hidden": true,
     "Type": 1
   },
   {
@@ -81,29 +92,6 @@
     "Path": "/sys/cache",
     "Sort": 94,
     "Title": "缓存管理",
-    "Type": 1
-  },
-  {
-    "Component": "home/dashboard",
-    "Icon": "sc-icon-dashboard",
-    "Id": 374965453721605,
-    "Name": "home-dashboard",
-    "ParentId": 373837717815301,
-    "Path": "/home/dashboard",
-    "Sort": 100,
-    "Title": "控制台",
-    "Type": 1
-  },
-  {
-    "Component": "home/profile",
-    "Icon": "el-icon-user",
-    "Id": 374967228141573,
-    "Name": "home-profile",
-    "ParentId": 373837717815301,
-    "Path": "/home/profile",
-    "Sort": 99,
-    "Tag": "NEW",
-    "Title": "账号信息",
     "Type": 1
   },
   {

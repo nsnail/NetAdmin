@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     电话验证器（手机或固话）
 /// </summary>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class CulturePhoneAttribute : ValidationAttribute
 {
     /// <summary>

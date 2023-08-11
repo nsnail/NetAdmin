@@ -10,7 +10,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public abstract record CreateUpdateUserReq : Sys_User
 {
     /// <inheritdoc cref="Sys_User.Avatar" />
-    [Url]
+    [CultureUrl]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Avatar { get; init; }
 

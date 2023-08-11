@@ -244,6 +244,67 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         _ = await Rpo.UpdateDiy.SetSource(dbUser).ExecuteAffrowsAsync();
     }
 
+    /// <inheritdoc />
+    public async Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req)
+    {
+        if (await Rpo.UpdateDiy
+                     .SetSource(req with {
+                                             Id = UserToken.Id
+                                           , Version = Rpo.Where(a => a.Id == UserToken.Id).ToOne(a => a.Version)
+                                         })
+                     .UpdateColumns(a => a.Avatar)
+                     .ExecuteAffrowsAsync() <= 0) {
+            throw new NetAdminUnexpectedException();
+        }
+
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }))
+            .First();
+
+        // 发布用户更新事件
+        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        return ret;
+    }
+
+    /// <inheritdoc />
+    public async Task<QueryUserRsp> SetMobileAsync(SetMobileReq req)
+    {
+        var user = await Rpo.Where(a => a.Id == UserToken.Id).ToOneAsync(a => new { a.Version, a.Mobile });
+
+        if (!user.Mobile.NullOrEmpty()) {
+            // 已有手机号，需验证旧手机
+            if (!await _smsService.VerifySmsCodeAsync(req.OriginVerifySmsCodeReq)) {
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机} {Ln.短信验证码不正确}");
+            }
+
+            if (user.Mobile != req.OriginVerifySmsCodeReq.DestMobile) {
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机} {Ln.不正确}");
+            }
+        }
+
+        // 验证新手机号
+        if (!await _smsService.VerifySmsCodeAsync(req.NewVerifySmsCodeReq)) {
+            throw new NetAdminInvalidOperationException($"{Ln.新手机} {Ln.短信验证码不正确}");
+        }
+
+        if (await Rpo.UpdateDiy
+                     .SetSource(new Sys_User {
+                                                 Version = user.Version
+                                               , Id      = UserToken.Id
+                                               , Mobile  = req.NewVerifySmsCodeReq.DestMobile
+                                             })
+                     .UpdateColumns(a => a.Mobile)
+                     .ExecuteAffrowsAsync() <= 0) {
+            throw new NetAdminUnexpectedException();
+        }
+
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }))
+            .First();
+
+        // 发布用户更新事件
+        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        return ret;
+    }
+
     /// <summary>
     ///     更新用户
     /// </summary>
@@ -268,7 +329,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } })).First();
 
-        // 发布短信创建事件
+        // 发布用户更新事件
         await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
         return ret;
     }

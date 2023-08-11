@@ -3,6 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     邀请码验证器
 /// </summary>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class InviteCodeAttribute : RegexAttribute
 {
     /// <summary>

@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     正则表达式验证器
 /// </summary>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 #pragma warning disable DesignedForInheritance
 public class RegexAttribute : RegularExpressionAttribute
     #pragma warning restore DesignedForInheritance

@@ -3,6 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     手机号验证器
 /// </summary>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class MobileAttribute : RegexAttribute
 {
     /// <summary>

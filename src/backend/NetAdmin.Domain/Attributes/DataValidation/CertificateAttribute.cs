@@ -3,6 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     证件号码
 /// </summary>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class CertificateAttribute : RegexAttribute
 {
     /// <summary>
@@ -11,7 +12,7 @@ public sealed class CertificateAttribute : RegexAttribute
     public CertificateAttribute() //
         : base(Chars.RGX_CERTIFICATE)
     {
-        ErrorMessageResourceName = nameof(Ln.有效证件号码);
+        ErrorMessageResourceName = nameof(Ln.无效证件号码);
         ErrorMessageResourceType = typeof(Ln);
     }
 }

@@ -165,6 +165,23 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     }
 
     /// <summary>
+    ///     更新用户头像
+    /// </summary>
+    [Transaction]
+    public Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req)
+    {
+        return Cache.SetAvatarAsync(req);
+    }
+
+    /// <summary>
+    ///     设置手机号
+    /// </summary>
+    public Task<QueryUserRsp> SetMobileAsync(SetMobileReq req)
+    {
+        return Cache.SetMobileAsync(req);
+    }
+
+    /// <summary>
     ///     更新用户
     /// </summary>
     [Transaction]

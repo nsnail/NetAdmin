@@ -150,6 +150,18 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     }
 
     /// <inheritdoc />
+    public Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req)
+    {
+        return Service.SetAvatarAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryUserRsp> SetMobileAsync(SetMobileReq req)
+    {
+        return Service.SetMobileAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
     {
         return Service.UpdateAsync(req);

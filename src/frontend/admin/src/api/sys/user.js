@@ -141,6 +141,17 @@ update :{
 },
 
 /**
+ * 更新用户头像
+ */
+updateAvatar :{
+    url: `${config.API_URL}/api/sys/user/update.avatar`,
+        name: `更新用户头像`,
+        post:async function(data={}, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
  * 当前用户信息
  */
 userInfo :{

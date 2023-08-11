@@ -3,6 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     用户名验证器
 /// </summary>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class UserNameAttribute : RegexAttribute
 {
     /// <summary>
@@ -11,20 +12,18 @@ public sealed class UserNameAttribute : RegexAttribute
     public UserNameAttribute() //
         : base(Chars.RGX_USERNAME)
     {
-        ErrorMessageResourceName = nameof(Ln._4位以上);
         ErrorMessageResourceType = typeof(Ln);
     }
 
     /// <inheritdoc />
     public override bool IsValid(object value)
     {
-        var ret = base.IsValid(value);
-        if (!ret) {
+        if (!base.IsValid(value)) {
+            ErrorMessageResourceName = nameof(Ln.用户名长度4位以上);
             return false;
         }
 
-        ret = new MobileAttribute().IsValid(value);
-        if (!ret) {
+        if (!new MobileAttribute().IsValid(value)) {
             return true;
         }
 

@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     数据范围为特定部门的验证器
 /// </summary>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class SpecificDeptAttribute : ValidationAttribute
 {
     /// <inheritdoc />

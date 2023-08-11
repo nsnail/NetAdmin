@@ -102,7 +102,6 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
         _ = config.ForType<CreateUserReq, Sys_User>()
                   .Map(d => d.Password, s => s.PasswordText.Pwd().Guid())
                   .Map(d => d.Token,    _ => Guid.NewGuid())
-                  .Map(d => d.Enabled,  _ => true)
                   .Map( //
                       d => d.Roles
                     , s => s.RoleIds.NullOrEmpty()

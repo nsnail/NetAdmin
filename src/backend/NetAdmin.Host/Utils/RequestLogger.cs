@@ -9,9 +9,10 @@ namespace NetAdmin.Host.Utils;
 /// </summary>
 public sealed class RequestLogger : ISingleton
 {
-    private readonly IEventPublisher        _eventPublisher;
-    private readonly ILogger<RequestLogger> _logger;
-    private readonly int                    _tokenPrefixLength;
+    private static readonly string[]               _textContentTypes = { "text", "json", "xml", "urlencoded" };
+    private readonly        IEventPublisher        _eventPublisher;
+    private readonly        ILogger<RequestLogger> _logger;
+    private readonly        int                    _tokenPrefixLength;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="RequestLogger" /> class.
@@ -37,11 +38,16 @@ public sealed class RequestLogger : ISingleton
         var associatedUser = GetAssociatedUser(context);
 
         var auditData = new CreateRequestLogReq {
-                                                    Duration = duration
-                                                  , Method = context.Request.Method
-                                                  , ReferUrl = context.Request.GetRefererUrlAddress()
+                                                    Duration           = duration
+                                                  , Method             = context.Request.Method
+                                                  , ReferUrl           = context.Request.GetRefererUrlAddress()
                                                   , RequestContentType = context.Request.ContentType
-                                                  , RequestBody = await context.ReadBodyContentAsync()
+                                                  , RequestBody
+                                                        = _textContentTypes.Any(
+                                                            x => context.Request.ContentType?.Contains(
+                                                                x, StringComparison.OrdinalIgnoreCase) ?? false)
+                                                            ? await context.ReadBodyContentAsync()
+                                                            : string.Empty
                                                   , RequestUrl = context.Request.GetRequestUrlAddress()
                                                   , ResponseBody = responseBody
                                                   , ServerIp = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()

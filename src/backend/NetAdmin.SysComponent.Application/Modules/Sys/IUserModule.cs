@@ -50,6 +50,16 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     Task ResetPasswordAsync(ResetPasswordReq req);
 
     /// <summary>
+    ///     设置用户头像
+    /// </summary>
+    Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req);
+
+    /// <summary>
+    ///     设置手机号
+    /// </summary>
+    Task<QueryUserRsp> SetMobileAsync(SetMobileReq req);
+
+    /// <summary>
     ///     当前用户信息
     /// </summary>
     Task<QueryUserRsp> UserInfoAsync();

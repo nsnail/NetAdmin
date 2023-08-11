@@ -29,6 +29,7 @@
     <data name="XML注释文件" xml:space="preserve"><value>XML注释文件</value></data>
     <data name="XML注释文件不存在" xml:space="preserve"><value>XML注释文件不存在</value></data>
     <data name="不存在" xml:space="preserve"><value>不存在</value></data>
+    <data name="不正确" xml:space="preserve"><value>不正确</value></data>
     <data name="不能为空" xml:space="preserve"><value>不能为空</value></data>
     <data name="业务模块" xml:space="preserve"><value>业务模块</value></data>
     <data name="东乡族" xml:space="preserve"><value>东乡族</value></data>
@@ -144,6 +145,7 @@
     <data name="数据库" xml:space="preserve"><value>数据库</value></data>
     <data name="数据库同步开始" xml:space="preserve"><value>数据库同步开始</value></data>
     <data name="数据库服务器时钟偏移" xml:space="preserve"><value>数据库服务器时钟偏移</value></data>
+    <data name="数据库索引号" xml:space="preserve"><value>数据库索引号</value></data>
     <data name="数据库结构同步完成" xml:space="preserve"><value>数据库结构同步完成</value></data>
     <data name="数据版本" xml:space="preserve"><value>数据版本</value></data>
     <data name="数量" xml:space="preserve"><value>数量</value></data>
@@ -151,13 +153,16 @@
     <data name="文件不能为空" xml:space="preserve"><value>文件不能为空</value></data>
     <data name="文件大小" xml:space="preserve"><value>文件大小</value></data>
     <data name="文件格式" xml:space="preserve"><value>文件格式</value></data>
+    <data name="新手机" xml:space="preserve"><value>新手机</value></data>
+    <data name="无效Url" xml:space="preserve"><value>无效Url</value></data>
     <data name="无效操作" xml:space="preserve"><value>无效操作</value></data>
+    <data name="无效证件号码" xml:space="preserve"><value>无效证件号码</value></data>
     <data name="无效输入" xml:space="preserve"><value>无效输入</value></data>
+    <data name="旧手机" xml:space="preserve"><value>旧手机</value></data>
     <data name="时钟偏移" xml:space="preserve"><value>时钟偏移</value></data>
     <data name="时间戳缺失或误差过大" xml:space="preserve"><value>时间戳缺失或误差过大</value></data>
     <data name="普米族" xml:space="preserve"><value>普米族</value></data>
     <data name="景颇族" xml:space="preserve"><value>景颇族</value></data>
-    <data name="有效证件号码" xml:space="preserve"><value>有效证件号码</value></data>
     <data name="服务器" xml:space="preserve"><value>服务器</value></data>
     <data name="朝鲜族" xml:space="preserve"><value>朝鲜族</value></data>
     <data name="未付款" xml:space="preserve"><value>未付款</value></data>
@@ -187,6 +192,8 @@
     <data name="用户名" xml:space="preserve"><value>用户名</value></data>
     <data name="用户名不能是手机号" xml:space="preserve"><value>用户名不能是手机号</value></data>
     <data name="用户名或密码错误" xml:space="preserve"><value>用户名或密码错误</value></data>
+    <data name="用户名长度4位以上" xml:space="preserve"><value>用户名长度4位以上</value></data>
+    <data name="用户头像" xml:space="preserve"><value>用户头像</value></data>
     <data name="用户档案" xml:space="preserve"><value>用户档案</value></data>
     <data name="电子邮箱" xml:space="preserve"><value>电子邮箱</value></data>
     <data name="男" xml:space="preserve"><value>男</value></data>
@@ -258,5 +265,4 @@
     <data name="高中" xml:space="preserve"><value>高中</value></data>
     <data name="高山族" xml:space="preserve"><value>高山族</value></data>
     <data name="黎族" xml:space="preserve"><value>黎族</value></data>
-    <data name="数据库索引号" xml:space="preserve"><value>数据库索引号</value></data>
 </root>

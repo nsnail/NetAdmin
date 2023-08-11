@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 /// <summary>
 ///     支付宝验证器（手机或邮箱）
 /// </summary>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class AlipayAttribute : ValidationAttribute
 {
     /// <summary>
