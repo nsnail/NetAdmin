@@ -159,7 +159,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     ///     重设密码
     /// </summary>
     [AllowAnonymous]
-    public Task ResetPasswordAsync(ResetPasswordReq req)
+    public Task<uint> ResetPasswordAsync(ResetPasswordReq req)
     {
         return Cache.ResetPasswordAsync(req);
     }

@@ -228,20 +228,17 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// </summary>
     /// <exception cref="NetAdminInvalidOperationException">短信验证码不正确</exception>
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
-    public async Task ResetPasswordAsync(ResetPasswordReq req)
+    public async Task<uint> ResetPasswordAsync(ResetPasswordReq req)
     {
-        if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
-            throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
-        }
-
-        var dbUser = await Rpo.GetAsync(a => a.Mobile == req.VerifySmsCodeReq.DestMobile);
-        if (dbUser == null) {
-            throw new NetAdminInvalidOperationException($"{Ln.用户} {Ln.不存在}");
-        }
-
-        dbUser.Password = req.PasswordText.Pwd().Guid();
-
-        _ = await Rpo.UpdateDiy.SetSource(dbUser).ExecuteAffrowsAsync();
+        return !await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)
+            ? throw new NetAdminInvalidOperationException(Ln.短信验证码不正确)
+            : (uint)await Rpo.UpdateDiy
+                             .SetSource((await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestMobile)
+                                                  .ToOneAsync(a => new { a.Version, a.Id })).Adapt<Sys_User>() with {
+                                            Password = req.PasswordText.Pwd().Guid()
+                                        })
+                             .UpdateColumns(a => a.Password)
+                             .ExecuteAffrowsAsync();
     }
 
     /// <inheritdoc />

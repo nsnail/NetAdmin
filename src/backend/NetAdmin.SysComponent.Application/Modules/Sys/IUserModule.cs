@@ -47,7 +47,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     重设密码
     /// </summary>
-    Task ResetPasswordAsync(ResetPasswordReq req);
+    Task<uint> ResetPasswordAsync(ResetPasswordReq req);
 
     /// <summary>
     ///     设置用户头像

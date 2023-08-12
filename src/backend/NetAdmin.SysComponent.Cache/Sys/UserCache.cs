@@ -144,7 +144,7 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     }
 
     /// <inheritdoc />
-    public Task ResetPasswordAsync(ResetPasswordReq req)
+    public Task<uint> ResetPasswordAsync(ResetPasswordReq req)
     {
         return Service.ResetPasswordAsync(req);
     }
