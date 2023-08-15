@@ -17,6 +17,5 @@ public sealed record SetMobileReq : DataAbstraction
     /// <summary>
     ///     原手机短信验证请求
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求))]
     public VerifySmsCodeReq OriginVerifySmsCodeReq { get; init; }
 }

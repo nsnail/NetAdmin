@@ -89,7 +89,7 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     }
 
     /// <inheritdoc />
-    public Task<QueryUserRsp> RegisterAsync(RegisterUserReq req)
+    public Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
         return Service.RegisterAsync(req);
     }
@@ -150,13 +150,13 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     }
 
     /// <inheritdoc />
-    public Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req)
+    public Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req)
     {
         return Service.SetAvatarAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryUserRsp> SetMobileAsync(SetMobileReq req)
+    public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         return Service.SetMobileAsync(req);
     }
@@ -168,7 +168,7 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     }
 
     /// <inheritdoc />
-    public Task<QueryUserRsp> UserInfoAsync()
+    public Task<UserInfoRsp> UserInfoAsync()
     {
         return GetOrCreateAsync( //
             GetCacheKey(Service.UserToken.Id.ToString(CultureInfo.InvariantCulture)), Service.UserInfoAsync

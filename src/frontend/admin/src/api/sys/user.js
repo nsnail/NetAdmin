@@ -130,22 +130,33 @@ resetPassword :{
 },
 
 /**
- * 更新用户
+ * 更新用户头像
  */
-update :{
-    url: `${config.API_URL}/api/sys/user/update`,
-        name: `更新用户`,
+setAvatar :{
+    url: `${config.API_URL}/api/sys/user/set.avatar`,
+        name: `更新用户头像`,
         post:async function(data={}, config={}) {
         return await http.post(this.url,data, config)
     }
 },
 
 /**
- * 更新用户头像
+ * 设置手机号
  */
-updateAvatar :{
-    url: `${config.API_URL}/api/sys/user/update.avatar`,
-        name: `更新用户头像`,
+setMobile :{
+    url: `${config.API_URL}/api/sys/user/set.mobile`,
+        name: `设置手机号`,
+        post:async function(data={}, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
+ * 更新用户
+ */
+update :{
+    url: `${config.API_URL}/api/sys/user/update`,
+        name: `更新用户`,
         post:async function(data={}, config={}) {
         return await http.post(this.url,data, config)
     }
