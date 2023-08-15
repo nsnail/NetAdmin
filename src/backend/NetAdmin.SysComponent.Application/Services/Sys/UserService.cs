@@ -213,14 +213,14 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     ///     注册用户
     /// </summary>
     /// <exception cref="NetAdminInvalidOperationException">短信验证码不正确</exception>
-    public async Task<QueryUserRsp> RegisterAsync(RegisterUserReq req)
+    public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
         if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
             throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
         }
 
         var createReq = req.Adapt<CreateUserReq>() with { Profile = new CreateUserProfileReq() };
-        return await CreateAsync(createReq);
+        return (await CreateAsync(createReq)).Adapt<UserInfoRsp>();
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     }
 
     /// <inheritdoc />
-    public async Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req)
+    public async Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req)
     {
         if (await Rpo.UpdateDiy
                      .SetSource(req with {
@@ -255,7 +255,8 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         }
 
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }))
-            .First();
+                  .First()
+                  .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
         await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
@@ -263,7 +264,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     }
 
     /// <inheritdoc />
-    public async Task<QueryUserRsp> SetMobileAsync(SetMobileReq req)
+    public async Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         var user = await Rpo.Where(a => a.Id == UserToken.Id).ToOneAsync(a => new { a.Version, a.Mobile });
 
@@ -295,7 +296,8 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         }
 
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }))
-            .First();
+                  .First()
+                  .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
         await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
@@ -327,7 +329,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } })).First();
 
         // 发布用户更新事件
-        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret.Adapt<UserInfoRsp>()));
         return ret;
     }
 
@@ -342,7 +344,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    public async Task<QueryUserRsp> UserInfoAsync()
+    public async Task<UserInfoRsp> UserInfoAsync()
     {
         var dbUser = await Rpo.Where(a => a.Token == UserToken.Token && a.Enabled)
                               .Include(a => a.Dept)
@@ -353,7 +355,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
                                               .IncludeMany(a => a.Depts)
                                               .IncludeMany(a => a.Apis))
                               .ToOneAsync();
-        return dbUser.Adapt<QueryUserRsp>();
+        return dbUser.Adapt<UserInfoRsp>();
     }
 
     private static LoginRsp LoginInternal(IFieldEnabled dbUser)

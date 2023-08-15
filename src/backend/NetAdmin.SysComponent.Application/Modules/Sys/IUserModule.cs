@@ -42,7 +42,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     注册用户
     /// </summary>
-    Task<QueryUserRsp> RegisterAsync(RegisterUserReq req);
+    Task<UserInfoRsp> RegisterAsync(RegisterUserReq req);
 
     /// <summary>
     ///     重设密码
@@ -52,15 +52,15 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     设置用户头像
     /// </summary>
-    Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req);
+    Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req);
 
     /// <summary>
     ///     设置手机号
     /// </summary>
-    Task<QueryUserRsp> SetMobileAsync(SetMobileReq req);
+    Task<UserInfoRsp> SetMobileAsync(SetMobileReq req);
 
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    Task<QueryUserRsp> UserInfoAsync();
+    Task<UserInfoRsp> UserInfoAsync();
 }

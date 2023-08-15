@@ -142,7 +142,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     /// </summary>
     [Transaction]
     [AllowAnonymous]
-    public async Task<QueryUserRsp> RegisterAsync(RegisterUserReq req)
+    public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
         var config = await _configCache.GetLatestConfigAsync();
 
@@ -168,7 +168,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     ///     更新用户头像
     /// </summary>
     [Transaction]
-    public Task<QueryUserRsp> SetAvatarAsync(SetAvatarReq req)
+    public Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req)
     {
         return Cache.SetAvatarAsync(req);
     }
@@ -176,7 +176,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     /// <summary>
     ///     设置手机号
     /// </summary>
-    public Task<QueryUserRsp> SetMobileAsync(SetMobileReq req)
+    public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         return Cache.SetMobileAsync(req);
     }
@@ -193,7 +193,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    public Task<QueryUserRsp> UserInfoAsync()
+    public Task<UserInfoRsp> UserInfoAsync()
     {
         return Cache.UserInfoAsync();
     }

@@ -21,7 +21,7 @@ public record QueryUserRsp : Sys_User
     /// <summary>
     ///     部门
     /// </summary>
-    public new QueryDeptRsp Dept { get; init; }
+    public new virtual QueryDeptRsp Dept { get; init; }
 
     /// <inheritdoc cref="Sys_User.Email" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -42,7 +42,7 @@ public record QueryUserRsp : Sys_User
     /// <summary>
     ///     角色列表
     /// </summary>
-    public new IEnumerable<QueryRoleRsp> Roles { get; init; }
+    public new virtual IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc cref="Sys_User.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -5,12 +5,12 @@ namespace NetAdmin.Domain.Events.Sys;
 /// <summary>
 ///     用户被更新事件
 /// </summary>
-public sealed record UserUpdatedEvent : DataAbstraction, IEventSourceGeneric<QueryUserRsp>
+public sealed record UserUpdatedEvent : DataAbstraction, IEventSourceGeneric<UserInfoRsp>
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserUpdatedEvent" /> class.
     /// </summary>
-    public UserUpdatedEvent(QueryUserRsp data)
+    public UserUpdatedEvent(UserInfoRsp data)
     {
         Data = data;
     }
@@ -31,7 +31,7 @@ public sealed record UserUpdatedEvent : DataAbstraction, IEventSourceGeneric<Que
     /// <summary>
     ///     事件承载（携带）数据
     /// </summary>
-    public QueryUserRsp Data { get; }
+    public UserInfoRsp Data { get; }
 
     /// <summary>
     ///     事件 Id
