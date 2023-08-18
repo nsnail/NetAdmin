@@ -141,11 +141,33 @@ setAvatar :{
 },
 
 /**
+ * 设置邮箱
+ */
+setEmail :{
+    url: `${config.API_URL}/api/sys/user/set.email`,
+        name: `设置邮箱`,
+        post:async function(data={}, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
  * 设置手机号
  */
 setMobile :{
     url: `${config.API_URL}/api/sys/user/set.mobile`,
         name: `设置手机号`,
+        post:async function(data={}, config={}) {
+        return await http.post(this.url,data, config)
+    }
+},
+
+/**
+ * 设置密码
+ */
+setPassword :{
+    url: `${config.API_URL}/api/sys/user/set.password`,
+        name: `设置密码`,
         post:async function(data={}, config={}) {
         return await http.post(this.url,data, config)
     }

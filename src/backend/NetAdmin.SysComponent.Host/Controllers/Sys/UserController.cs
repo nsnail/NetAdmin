@@ -94,6 +94,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     ///     密码登录
     /// </summary>
     [AllowAnonymous]
+    [Transaction]
     public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
         var ret = await Cache.LoginByPwdAsync(req);
@@ -159,6 +160,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     ///     重设密码
     /// </summary>
     [AllowAnonymous]
+    [Transaction]
     public Task<uint> ResetPasswordAsync(ResetPasswordReq req)
     {
         return Cache.ResetPasswordAsync(req);
@@ -174,11 +176,30 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     }
 
     /// <summary>
+    ///     设置邮箱
+    /// </summary>
+    [Transaction]
+    public Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
+    {
+        return Cache.SetEmailAsync(req);
+    }
+
+    /// <summary>
     ///     设置手机号
     /// </summary>
+    [Transaction]
     public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         return Cache.SetMobileAsync(req);
+    }
+
+    /// <summary>
+    ///     设置密码
+    /// </summary>
+    [Transaction]
+    public Task<uint> SetPasswordAsync(SetPasswordReq req)
+    {
+        return Cache.SetPasswordAsync(req);
     }
 
     /// <summary>

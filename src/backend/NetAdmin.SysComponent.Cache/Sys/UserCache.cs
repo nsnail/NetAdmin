@@ -10,11 +10,16 @@ namespace NetAdmin.SysComponent.Cache.Sys;
 /// <inheritdoc cref="IUserCache" />
 public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCache
 {
+    private readonly IEmailCache _emailCache;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserCache" /> class.
     /// </summary>
-    public UserCache(IDistributedCache cache, IUserService service) //
-        : base(cache, service) { }
+    public UserCache(IDistributedCache cache, IUserService service, IEmailCache emailCache) //
+        : base(cache, service)
+    {
+        _emailCache = emailCache;
+    }
 
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -156,9 +161,23 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     }
 
     /// <inheritdoc />
+    public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
+    {
+        return !await _emailCache.VerifyEmailCodeAsync(req)
+            ? throw new NetAdminInvalidOperationException(Ln.邮箱验证码不正确)
+            : await Service.SetEmailAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         return Service.SetMobileAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<uint> SetPasswordAsync(SetPasswordReq req)
+    {
+        return Service.SetPasswordAsync(req);
     }
 
     /// <inheritdoc />

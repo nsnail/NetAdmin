@@ -264,6 +264,33 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     }
 
     /// <inheritdoc />
+    public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
+    {
+        if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
+            throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
+        }
+
+        if (await Rpo.UpdateDiy
+                     .SetSource(new Sys_User {
+                                                 Email   = req.EmailAddress
+                                               , Id      = UserToken.Id
+                                               , Version = Rpo.Where(a => a.Id == UserToken.Id).ToOne(a => a.Version)
+                                             })
+                     .UpdateColumns(a => a.Email)
+                     .ExecuteAffrowsAsync() <= 0) {
+            throw new NetAdminUnexpectedException();
+        }
+
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }))
+                  .First()
+                  .Adapt<UserInfoRsp>();
+
+        // 发布用户更新事件
+        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        return ret;
+    }
+
+    /// <inheritdoc />
     public async Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         var user = await Rpo.Where(a => a.Id == UserToken.Id).ToOneAsync(a => new { a.Version, a.Mobile });
@@ -302,6 +329,26 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         // 发布用户更新事件
         await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
         return ret;
+    }
+
+    /// <inheritdoc />
+    public async Task<uint> SetPasswordAsync(SetPasswordReq req)
+    {
+        var version = await Rpo.Where(a => a.Id == UserToken.Id && a.Password == req.OldPassword.Pwd().Guid())
+                               .ToOneAsync(a => new long?(a.Version));
+        if (version == null) {
+            throw new NetAdminInvalidInputException($"{Ln.旧密码} {Ln.不正确}");
+        }
+
+        var ret = await Rpo.UpdateDiy
+                           .SetSource(new Sys_User {
+                                                       Id       = UserToken.Id
+                                                     , Password = req.NewPassword.Pwd().Guid()
+                                                     , Version  = version.Value
+                                                   })
+                           .UpdateColumns(a => a.Password)
+                           .ExecuteAffrowsAsync();
+        return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
     }
 
     /// <summary>

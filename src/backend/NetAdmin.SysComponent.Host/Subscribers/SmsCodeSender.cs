@@ -24,7 +24,7 @@ public sealed class SmsCodeSender : IEventSubscriber
     ///     发送短信
     /// </summary>
     [EventSubscribe(nameof(SmsCodeCreatedEvent))]
-    public async Task SyncApiAsync(EventHandlerExecutingContext context)
+    public async Task SendSmsAsync(EventHandlerExecutingContext context)
     {
         if (context.Source is not SmsCodeCreatedEvent smsCodeCreatedEvent) {
             return;

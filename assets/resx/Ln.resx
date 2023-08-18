@@ -153,11 +153,13 @@
     <data name="文件不能为空" xml:space="preserve"><value>文件不能为空</value></data>
     <data name="文件大小" xml:space="preserve"><value>文件大小</value></data>
     <data name="文件格式" xml:space="preserve"><value>文件格式</value></data>
+    <data name="新密码" xml:space="preserve"><value>新密码</value></data>
     <data name="新手机" xml:space="preserve"><value>新手机</value></data>
     <data name="无效Url" xml:space="preserve"><value>无效Url</value></data>
     <data name="无效操作" xml:space="preserve"><value>无效操作</value></data>
     <data name="无效证件号码" xml:space="preserve"><value>无效证件号码</value></data>
     <data name="无效输入" xml:space="preserve"><value>无效输入</value></data>
+    <data name="旧密码" xml:space="preserve"><value>旧密码</value></data>
     <data name="旧手机" xml:space="preserve"><value>旧手机</value></data>
     <data name="时钟偏移" xml:space="preserve"><value>时钟偏移</value></data>
     <data name="时间戳缺失或误差过大" xml:space="preserve"><value>时间戳缺失或误差过大</value></data>
@@ -247,6 +249,7 @@
     <data name="达斡尔族" xml:space="preserve"><value>达斡尔族</value></data>
     <data name="退款中" xml:space="preserve"><value>退款中</value></data>
     <data name="邀请码不正确" xml:space="preserve"><value>邀请码不正确</value></data>
+    <data name="邮箱验证码不正确" xml:space="preserve"><value>邮箱验证码不正确</value></data>
     <data name="部门" xml:space="preserve"><value>部门</value></data>
     <data name="部门不存在" xml:space="preserve"><value>部门不存在</value></data>
     <data name="部门名称" xml:space="preserve"><value>部门名称</value></data>
