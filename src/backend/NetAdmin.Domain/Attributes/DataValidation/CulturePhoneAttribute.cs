@@ -11,7 +11,7 @@ public sealed class CulturePhoneAttribute : ValidationAttribute
     /// </summary>
     public CulturePhoneAttribute()
     {
-        ErrorMessageResourceName = nameof(Ln.可用的手机号或座机号);
+        ErrorMessageResourceName = nameof(Ln.手机号码或座机号码);
         ErrorMessageResourceType = typeof(Ln);
     }
 

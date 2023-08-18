@@ -26,7 +26,7 @@ public sealed class XmlCommentReader : ISingleton
                 _xmlDocuments.Add(xmlDoc);
             }
             catch (FileNotFoundException) {
-                LogHelper.Get<XmlCommentReader>().Warn(Ln.XML注释文件不存在);
+                LogHelper.Get<XmlCommentReader>().Warn(Ln.Xml注释文件不存在);
             }
         }
     }

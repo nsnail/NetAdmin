@@ -37,7 +37,7 @@ public sealed class CaptchaCache : DistributedCache<ICaptchaService>, IScoped, I
             await RemoveAsync(GetCacheKey(req.Id, nameof(CaptchaCache)));
         }
         else {
-            throw new NetAdminInvalidOperationException(Ln.人机校验未通过);
+            throw new NetAdminInvalidOperationException(Ln.人机验证未通过);
         }
     }
 

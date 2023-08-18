@@ -11,7 +11,7 @@ public sealed class AlipayAttribute : ValidationAttribute
     /// </summary>
     public AlipayAttribute()
     {
-        ErrorMessageResourceName = nameof(Ln.可用的支付宝账号);
+        ErrorMessageResourceName = nameof(Ln.支付宝账号);
         ErrorMessageResourceType = typeof(Ln);
     }
 

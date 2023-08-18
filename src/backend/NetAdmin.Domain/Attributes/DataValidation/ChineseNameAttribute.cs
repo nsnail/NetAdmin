@@ -12,7 +12,7 @@ public sealed class ChineseNameAttribute : RegexAttribute
     public ChineseNameAttribute() //
         : base(Chars.RGX_CHINESE_NAME)
     {
-        ErrorMessageResourceName = nameof(Ln.正确的中文姓名);
+        ErrorMessageResourceName = nameof(Ln.中文姓名);
         ErrorMessageResourceType = typeof(Ln);
     }
 }

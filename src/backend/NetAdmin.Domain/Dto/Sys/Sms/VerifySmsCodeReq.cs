@@ -15,7 +15,7 @@ public record VerifySmsCodeReq : Sys_Sms
 
     /// <inheritdoc cref="Sys_Sms.DestMobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.手机号))]
+    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.手机号码))]
     [Mobile]
     public override string DestMobile { get; init; }
 }

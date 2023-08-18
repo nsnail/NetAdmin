@@ -15,7 +15,7 @@ public sealed class CultureUrlAttribute : RegexAttribute
     public CultureUrlAttribute() //
         : base(Chars.RGX_URL)
     {
-        ErrorMessageResourceName = nameof(Ln.无效Url);
+        ErrorMessageResourceName = nameof(Ln.无效网络地址);
         ErrorMessageResourceType = typeof(Ln);
     }
 }

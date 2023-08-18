@@ -87,7 +87,7 @@ public sealed class RequestLogger : ISingleton
             userToken = claim?.Value.ToObject<ContextUserToken>();
         }
         catch (Exception ex) {
-            _logger.Warn($"{Ln.读取用户Token出错}: {ex}");
+            _logger.Warn($"{Ln.读取用户令牌出错}: {ex}");
         }
 
         return userToken == null ? null : (userToken.Id, userToken.UserName);

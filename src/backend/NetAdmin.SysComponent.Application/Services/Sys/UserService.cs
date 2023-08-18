@@ -298,17 +298,17 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         if (!user.Mobile.NullOrEmpty()) {
             // 已有手机号，需验证旧手机
             if (!await _smsService.VerifySmsCodeAsync(req.OriginVerifySmsCodeReq)) {
-                throw new NetAdminInvalidOperationException($"{Ln.旧手机} {Ln.短信验证码不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.短信验证码不正确}");
             }
 
             if (user.Mobile != req.OriginVerifySmsCodeReq.DestMobile) {
-                throw new NetAdminInvalidOperationException($"{Ln.旧手机} {Ln.不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.不正确}");
             }
         }
 
         // 验证新手机号
         if (!await _smsService.VerifySmsCodeAsync(req.NewVerifySmsCodeReq)) {
-            throw new NetAdminInvalidOperationException($"{Ln.新手机} {Ln.短信验证码不正确}");
+            throw new NetAdminInvalidOperationException($"{Ln.新手机号码} {Ln.短信验证码不正确}");
         }
 
         if (await Rpo.UpdateDiy

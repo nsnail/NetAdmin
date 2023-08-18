@@ -12,7 +12,7 @@ public sealed class TelephoneAttribute : RegexAttribute
     public TelephoneAttribute() //
         : base(Chars.RGX_TELEPHONE)
     {
-        ErrorMessageResourceName = nameof(Ln.分机号);
+        ErrorMessageResourceName = nameof(Ln.区号电话号码分机号);
         ErrorMessageResourceType = typeof(Ln);
     }
 }

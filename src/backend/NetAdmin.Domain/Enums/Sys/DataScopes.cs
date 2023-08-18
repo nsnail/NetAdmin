@@ -7,23 +7,23 @@ namespace NetAdmin.Domain.Enums.Sys;
 public enum DataScopes
 {
     /// <summary>
-    ///     全部
+    ///     全部数据
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.全部))]
+    [ResourceDescription<Ln>(nameof(Ln.全部数据))]
     All = 1
 
    ,
 
     /// <summary>
-    ///     本部门和下级部门
+    ///     本部门和下级部门数据
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.本部门和下级部门))]
+    [ResourceDescription<Ln>(nameof(Ln.本部门和下级部门数据))]
     DeptWithChild = 2
 
    ,
 
     /// <summary>
-    ///     本部门
+    ///     本部门数据
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.本部门数据))]
     Dept = 3
@@ -39,8 +39,8 @@ public enum DataScopes
    ,
 
     /// <summary>
-    ///     指定部门
+    ///     指定部门数据
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.指定部门))]
+    [ResourceDescription<Ln>(nameof(Ln.指定部门数据))]
     SpecificDept = 5
 }
