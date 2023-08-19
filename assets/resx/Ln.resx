@@ -111,6 +111,7 @@
     <data name="无效网络地址" xml:space="preserve"><value>无效网络地址</value></data>
     <data name="无效证件号码" xml:space="preserve"><value>无效证件号码</value></data>
     <data name="无效输入" xml:space="preserve"><value>无效输入</value></data>
+    <data name="日志长度超过限制" xml:space="preserve"><value>日志长度超过限制</value></data>
     <data name="旧密码" xml:space="preserve"><value>旧密码</value></data>
     <data name="旧手机号码" xml:space="preserve"><value>旧手机号码</value></data>
     <data name="时间戳缺失或误差过大" xml:space="preserve"><value>时间戳缺失或误差过大</value></data>

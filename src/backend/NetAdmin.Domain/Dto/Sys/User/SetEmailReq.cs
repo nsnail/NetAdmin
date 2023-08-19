@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Dto.Sys.Email;
 using NetAdmin.Domain.Dto.Sys.Sms;
 
@@ -12,6 +11,5 @@ public sealed record SetEmailReq : VerifyEmailCodeReq
     /// <summary>
     ///     短信验证请求
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求))]
     public VerifySmsCodeReq VerifySmsCodeReq { get; init; }
 }

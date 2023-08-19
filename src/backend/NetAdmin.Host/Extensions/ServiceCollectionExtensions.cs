@@ -16,6 +16,8 @@ namespace NetAdmin.Host.Extensions;
 [SuppressSniffer]
 public static class ServiceCollectionExtensions
 {
+    private const int _CONSOLE_LINE_LEN_LIMIT = 4096;
+
     private static readonly Dictionary<Regex, string> _consoleColors //
         = new() {
                     {
@@ -119,6 +121,11 @@ public static class ServiceCollectionExtensions
                 static void MarkupLine(string                                           msg, LogMessage message
                                      , IReadOnlyDictionary<LogLevels, DisplayAttribute> logLevels)
                 {
+                    // 日志过长
+                    if (msg.Length > _CONSOLE_LINE_LEN_LIMIT) {
+                        msg = $"{Ln.日志长度超过限制} {_CONSOLE_LINE_LEN_LIMIT}";
+                    }
+
                     msg = _consoleColors.Aggregate( //
                         msg, (current, regex) => regex.Key.Replace(current, regex.Value));
                     msg = msg.ReplaceLineEndings(string.Empty);

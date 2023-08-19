@@ -266,16 +266,21 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <inheritdoc />
     public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
-        if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
-            throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
+        var user = Rpo.Where(a => a.Id == UserToken.Id).ToOne(a => new { a.Mobile, a.Version, a.Email });
+
+        // 如果已绑定手机号、需要手机安全验证
+        if (!user.Mobile.NullOrEmpty()) {
+            if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
+                throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
+            }
+
+            if (user.Mobile != req.VerifySmsCodeReq.DestMobile) {
+                throw new NetAdminInvalidOperationException($"{Ln.手机号码} {Ln.不正确}");
+            }
         }
 
         if (await Rpo.UpdateDiy
-                     .SetSource(new Sys_User {
-                                                 Email   = req.EmailAddress
-                                               , Id      = UserToken.Id
-                                               , Version = Rpo.Where(a => a.Id == UserToken.Id).ToOne(a => a.Version)
-                                             })
+                     .SetSource(new Sys_User { Email = req.EmailAddress, Id = UserToken.Id, Version = user.Version })
                      .UpdateColumns(a => a.Email)
                      .ExecuteAffrowsAsync() <= 0) {
             throw new NetAdminUnexpectedException();

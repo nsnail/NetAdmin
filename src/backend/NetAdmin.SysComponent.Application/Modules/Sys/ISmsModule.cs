@@ -21,5 +21,8 @@ public interface ISmsModule : ICrudModule<CreateSmsReq, QuerySmsRsp // 创建类
     /// <summary>
     ///     完成短信验证
     /// </summary>
+    /// <remarks>
+    ///     对于验证失败的，不主动删除缓存，通过防火墙来应对暴力破解
+    /// </remarks>
     Task<bool> VerifySmsCodeAsync(VerifySmsCodeReq req);
 }

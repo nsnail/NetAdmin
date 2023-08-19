@@ -50,7 +50,6 @@ public sealed class SqlAuditor : ISingleton
                 SetUpdater(e, user);
                 break;
             case AuditValueType.InsertOrUpdate:
-                Console.WriteLine(123);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(e));
