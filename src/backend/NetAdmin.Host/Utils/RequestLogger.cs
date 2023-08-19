@@ -42,12 +42,12 @@ public sealed class RequestLogger : ISingleton
                                                   , Method             = context.Request.Method
                                                   , ReferUrl           = context.Request.GetRefererUrlAddress()
                                                   , RequestContentType = context.Request.ContentType
-                                                  , RequestBody
-                                                        = _textContentTypes.Any(
-                                                            x => context.Request.ContentType?.Contains(
-                                                                x, StringComparison.OrdinalIgnoreCase) ?? false)
-                                                            ? await context.ReadBodyContentAsync()
-                                                            : string.Empty
+                                                  , RequestBody = Array.Exists( //
+                                                        _textContentTypes
+                                                      , x => context.Request.ContentType?.Contains(
+                                                            x, StringComparison.OrdinalIgnoreCase) ?? false)
+                                                        ? await context.ReadBodyContentAsync()
+                                                        : string.Empty
                                                   , RequestUrl = context.Request.GetRequestUrlAddress()
                                                   , ResponseBody = responseBody
                                                   , ServerIp = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()

@@ -245,7 +245,7 @@ public static class ServiceCollectionExtensions
         });
 
         // Redis原生接口
-        me.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.ConnStr));
+        _ = me.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.ConnStr));
         return me;
     }
 

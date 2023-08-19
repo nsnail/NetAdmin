@@ -10,6 +10,9 @@ public sealed class EmailService : ServiceBase<IEmailService>, IEmailService
 {
     private readonly IEventPublisher _eventPublisher;
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="EmailService" /> class.
+    /// </summary>
     public EmailService(IEventPublisher eventPublisher)
     {
         _eventPublisher = eventPublisher;
@@ -29,7 +32,7 @@ public sealed class EmailService : ServiceBase<IEmailService>, IEmailService
     }
 
     /// <inheritdoc />
-    public async Task<bool> VerifyEmailCodeAsync(VerifyEmailCodeReq req)
+    public Task<bool> VerifyEmailCodeAsync(VerifyEmailCodeReq req)
     {
         throw new NotImplementedException();
     }

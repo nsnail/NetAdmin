@@ -12,15 +12,10 @@ public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaServi
     private static readonly Assembly _entryAsm     = Assembly.GetEntryAssembly();
     private static readonly string   _entryAsmName = _entryAsm.FullName![.._entryAsm.FullName.IndexOf(',')];
 
-    private readonly CaptchaOptions _captchaOptions;
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="CaptchaService" /> class.
     /// </summary>
-    public CaptchaService(IOptions<CaptchaOptions> captchaOptions)
-    {
-        _captchaOptions = captchaOptions.Value;
-    }
+    public CaptchaService() { }
 
     /// <summary>
     ///     获取人机校验图

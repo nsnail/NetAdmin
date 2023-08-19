@@ -10,5 +10,8 @@ namespace NetAdmin.SysComponent.Cache.Sys.Dependency;
 /// </summary>
 public interface IEmailCache : ICache<IDistributedCache, IEmailService>, IEmailModule
 {
+    /// <summary>
+    ///     存储邮件验证码
+    /// </summary>
     Task StoreEmailCodeInfoAsync(EmailCodeStoreInfo info);
 }
