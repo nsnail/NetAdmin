@@ -13,38 +13,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.tgitconfig = .tgitconfig
-		build.cake = build.cake
+		Build.cake = Build.cake
+		CodeCleanup.csx = CodeCleanup.csx
+		CodeCleanup.ps1 = CodeCleanup.ps1
+		CodeCleanupFull.ps1 = CodeCleanupFull.ps1
 		CodeQuality.props = CodeQuality.props
 		CopyPackageXmlCommentFiles.targets = CopyPackageXmlCommentFiles.targets
 		Directory.Build.props = Directory.Build.props
-		dot-clean.cmd = dot-clean.cmd
+		DotClean.cmd = DotClean.cmd
 		dotnet-tools.json = dotnet-tools.json
-		generate-ln-cs.tt = generate-ln-cs.tt
-		generate-ln-resx.tt = generate-ln-resx.tt
-		generate-ln.cmd = generate-ln.cmd
-		git-clean.ps1 = git-clean.ps1
-		git-pr.ps1 = git-pr.ps1
-		git-recreate.ps1 = git-recreate.ps1
+		generate.ln.cmd = generate.ln.cmd
+		generate.ln.cs.tt = generate.ln.cs.tt
+		generate.ln.resx.tt = generate.ln.resx.tt
+		GitPR.ps1 = GitPR.ps1
+		GitRecreate.ps1 = GitRecreate.ps1
 		global.json = global.json
 		IdGenerator.linq = IdGenerator.linq
 		ImageOptimize.csx = ImageOptimize.csx
-		install-as-dotnet-tpl.ps1 = install-as-dotnet-tpl.ps1
+		InstallAsTpl.ps1 = InstallAsTpl.ps1
 		LICENSE = LICENSE
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
 		NuGet.Config = NuGet.Config
 		package.json = package.json
 		PreBuild.targets = PreBuild.targets
 		README.md = README.md
-		resharper-clean-full.ps1 = resharper-clean-full.ps1
-		resharper-clean.ps1 = resharper-clean.ps1
-		ResharperCodeClean.csx = ResharperCodeClean.csx
-		stylecop.json = stylecop.json
+		StyleCop.json = StyleCop.json
 		StyleCopAnalyzers.ruleset = StyleCopAnalyzers.ruleset
-		switch-nuget.ps1 = switch-nuget.ps1
-		switch-project.ps1 = switch-project.ps1
-		switcher.freesql.json = switcher.freesql.json
-		switcher.furion.json = switcher.furion.json
-		switcher.nsext.json = switcher.nsext.json
+		Switcher.Freesql.json = Switcher.Freesql.json
+		Switcher.Furion.json = Switcher.Furion.json
+		Switcher.NSExt.json = Switcher.NSExt.json
+		Switcher.ps1 = Switcher.ps1
 		SyncMetaFiles.csx = SyncMetaFiles.csx
 	EndProjectSection
 EndProject
@@ -85,6 +83,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.Tests", "06.Tests", "{89260294-80FC-49F1-8D73-AECD39AFF2B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.BizServer.Tests", "src\backend\NetAdmin.BizServer.Tests\NetAdmin.BizServer.Tests.csproj", "{C7F27698-DA05-4ACD-B0D7-4791B3972002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql", "..\..\..\..\ForkedGitReps\FreeSql\FreeSql\FreeSql.csproj", "{716E3013-1BA0-4443-8C62-838E5C74EC07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.DbContext", "..\..\..\..\ForkedGitReps\FreeSql\FreeSql.DbContext\FreeSql.DbContext.csproj", "{4BBD0E4D-9317-4582-A36F-ED3F36DF6C8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSExt", "..\..\..\..\ForkedGitReps\ns-ext\src\NSExt\NSExt.csproj", "{79C4D2E5-9063-49D5-811F-7A0AB5E5AFE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +151,18 @@ Global
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{716E3013-1BA0-4443-8C62-838E5C74EC07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{716E3013-1BA0-4443-8C62-838E5C74EC07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{716E3013-1BA0-4443-8C62-838E5C74EC07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716E3013-1BA0-4443-8C62-838E5C74EC07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BBD0E4D-9317-4582-A36F-ED3F36DF6C8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BBD0E4D-9317-4582-A36F-ED3F36DF6C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BBD0E4D-9317-4582-A36F-ED3F36DF6C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BBD0E4D-9317-4582-A36F-ED3F36DF6C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79C4D2E5-9063-49D5-811F-7A0AB5E5AFE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79C4D2E5-9063-49D5-811F-7A0AB5E5AFE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79C4D2E5-9063-49D5-811F-7A0AB5E5AFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79C4D2E5-9063-49D5-811F-7A0AB5E5AFE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}

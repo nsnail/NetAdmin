@@ -1,4 +1,4 @@
 [hook "startcommit"]
-    cmdline = dot-clean.cmd
+    cmdline = DotClean.cmd
     wait = true
     show = true

@@ -2,7 +2,7 @@
   "solution": "NetAdmin.sln",
   "solutionFolder": null,
   "mappings": {
-    "Furion.Pure.NS": "../../../../ForkedGitReps/Furion/framework/Furion.Pure/Furion.Pure.csproj"
+    "NSExt": "../../../../ForkedGitReps/ns-ext/src/NSExt/NSExt.csproj"
   },
   "removeProjects": true
 }
