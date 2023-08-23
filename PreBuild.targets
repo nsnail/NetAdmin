@@ -1,13 +1,13 @@
 <Project>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-        <Exec Command="dotnet tool restore" StdOutEncoding="utf-8" />
+        <Exec Command="dotnet tool restore" StdOutEncoding="utf-8"/>
         <Exec Condition="!Exists('$(SolutionDir)/assets/resx/Ln.resx')" WorkingDirectory="$(SolutionDir)"
-              Command="dotnet t4 generate-ln-resx.tt -o $(SolutionDir)/assets/resx/Ln.resx"
-              StdOutEncoding="utf-8" />
+              Command="dotnet t4 GenerateLnResx.tt -o $(SolutionDir)/assets/resx/Ln.resx"
+              StdOutEncoding="utf-8"/>
         <Exec Condition="!Exists('$(SolutionDir)/dist/Server/$(ProjectName)/Ln.cs')"
               WorkingDirectory="$(SolutionDir)"
-              Command="dotnet t4 generate-ln-cs.tt -o $(SolutionDir)/dist/Server/$(ProjectName)/Ln.cs"
-              StdOutEncoding="utf-8" />
+              Command="dotnet t4 GenerateLnCs.tt -o $(SolutionDir)/dist/Server/$(ProjectName)/Ln.cs"
+              StdOutEncoding="utf-8"/>
     </Target>
     <ItemGroup>
         <None Include="$(SolutionDir)/assets/resx/Ln.txt">

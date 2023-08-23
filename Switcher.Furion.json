@@ -1,15 +1,15 @@
 {
   "solution": "NetAdmin.sln",
   "mappings": {
-    "NSExt": "./refs/ns-ext/src/NSExt/NSExt.csproj"
+    "Furion.Pure.NS": "./refs/Furion/framework/Furion.Pure/Furion.Pure.csproj"
   },
   "restore": [
     {
       "name": "NetAdmin.Infrastructure",
       "packages": [
         {
-          "packageName": "NSExt",
-          "version": "1.0.15-alpha.0.4"
+          "packageName": "Furion.Pure.NS",
+          "version": "4.8.8.38-ns1"
         }
       ]
     }

@@ -14,6 +14,7 @@
     <PackageReference Include="Furion.Pure.NS" Version="4.8.8.38-ns1" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-preview.7.23375.9" />
     <PackageReference Include="Minio" Version="5.0.0" />
+    <PackageReference Include="NSExt" Version="1.0.15-alpha.0.4" />
     <PackageReference Include="RedLock.net" Version="2.3.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.5" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0" />
@@ -23,8 +24,5 @@
     <None Update="*.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\ForkedGitReps\ns-ext\src\NSExt\NSExt.csproj" />
   </ItemGroup>
 </Project>
