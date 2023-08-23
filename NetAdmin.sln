@@ -17,32 +17,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		CodeQuality.props = CodeQuality.props
 		CopyPackageXmlCommentFiles.targets = CopyPackageXmlCommentFiles.targets
 		Directory.Build.props = Directory.Build.props
-		docker-compose-minio.yml = docker-compose-minio.yml
 		dot-clean.cmd = dot-clean.cmd
 		dotnet-tools.json = dotnet-tools.json
 		generate-ln-cs.tt = generate-ln-cs.tt
 		generate-ln-resx.tt = generate-ln-resx.tt
 		generate-ln.cmd = generate-ln.cmd
-		git-clean.cmd = git-clean.cmd
-		git-commit.cmd = git-commit.cmd
-		git-merge.cmd = git-merge.cmd
-		git-pr.cmd = git-pr.cmd
-		git-recreate.cmd = git-recreate.cmd
+		git-clean.ps1 = git-clean.ps1
+		git-pr.ps1 = git-pr.ps1
+		git-recreate.ps1 = git-recreate.ps1
 		global.json = global.json
+		IdGenerator.linq = IdGenerator.linq
 		ImageOptimize.csx = ImageOptimize.csx
-		install-as-dotnet-tpl.cmd = install-as-dotnet-tpl.cmd
+		install-as-dotnet-tpl.ps1 = install-as-dotnet-tpl.ps1
 		LICENSE = LICENSE
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
 		NuGet.Config = NuGet.Config
 		package.json = package.json
 		PreBuild.targets = PreBuild.targets
 		README.md = README.md
-		resharper-clean-full.cmd = resharper-clean-full.cmd
+		resharper-clean-full.ps1 = resharper-clean-full.ps1
 		resharper-clean.ps1 = resharper-clean.ps1
 		ResharperCodeClean.csx = ResharperCodeClean.csx
 		stylecop.json = stylecop.json
 		StyleCopAnalyzers.ruleset = StyleCopAnalyzers.ruleset
-		switcher.json = switcher.json
+		switch-nuget.ps1 = switch-nuget.ps1
+		switch-project.ps1 = switch-project.ps1
+		switcher.freesql.json = switcher.freesql.json
+		switcher.furion.json = switcher.furion.json
+		switcher.nsext.json = switcher.nsext.json
 		SyncMetaFiles.csx = SyncMetaFiles.csx
 	EndProjectSection
 EndProject
@@ -59,8 +61,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\backend\NetAdmin.Application\NetAdmin.Application.csproj", "{70C54E1B-2083-4196-AB68-34CAF0075D82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\backend\NetAdmin.Host\NetAdmin.Host.csproj", "{91839A15-D08F-4848-A301-F793412BC688}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{16C757B5-FB99-4202-B110-01C7D0527A18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Cache", "src\backend\NetAdmin.Cache\NetAdmin.Cache.csproj", "{91452C22-4B57-4F16-9AF6-42C7BF830504}"
 EndProject
@@ -81,8 +81,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Frameworks", "01.Frameworks", "{D9C3EF66-2757-473D-A26B-54FD08DA203F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.ScheduledService", "src\backend\NetAdmin.ScheduledService\NetAdmin.ScheduledService.csproj", "{96668960-310F-4682-B3F9-1E8F1EED8C90}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05.Tools", "05.Tools", "{2FEC5C10-0F49-4F6A-B3D8-90572DD162E9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.Tests", "06.Tests", "{89260294-80FC-49F1-8D73-AECD39AFF2B7}"
 EndProject
@@ -166,7 +164,6 @@ Global
 		{91839A15-D08F-4848-A301-F793412BC688} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
 		{1E62C322-EE42-4699-A6F1-791C53EFA62D} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
 		{96668960-310F-4682-B3F9-1E8F1EED8C90} = {CBFBF29B-27E8-4DB1-ADD6-4B750897ACD3}
-		{2FEC5C10-0F49-4F6A-B3D8-90572DD162E9} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 		{E38B2EB4-D7A5-4777-9236-3B348919DF23} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
 		{7CB632D3-3635-4F8D-AFE7-F496D37D422B} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
 		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}

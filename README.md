@@ -2,14 +2,12 @@
 
 ## Git Commits 语义
 
-Must be one of the following:
-
-- `test` — Adding missing tests
-- `feat` — A new feature
-- `fix` — A bug fix
-- `chore` — Build process or auxiliary tool changes
-- `docs` — Documentation only changes
-- `refactor` — A code change that neither fixes a bug or adds a feature
-- `style` — Markup, white-space, formatting, missing semi-colons...
-- `ci` — CI related changes
-- `perf` — A code change that improves performance
+- `FEA` 新增特性
+- `REF` 项目重构
+- `FIX` 缺陷修复
+- `PER` 性能优化
+- `RVT` 还原变更
+- `FMT` 格式整理
+- `DOC` 文档变更
+- `TST` 单元测试
+- `BLD` 工程构建

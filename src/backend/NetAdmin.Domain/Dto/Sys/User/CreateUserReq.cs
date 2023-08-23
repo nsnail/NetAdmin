@@ -21,7 +21,7 @@ public record CreateUserReq : CreateUpdateUserReq, IRegister
     public new void Register(TypeAdapterConfig config)
     {
         _ = config.ForType<RegisterUserReq, CreateUserReq>() //
-                  .Map(d => d.Mobile, s => s.VerifySmsCodeReq.DestMobile)
+                  .Map(d => d.Mobile, s => s.VerifySmsCodeReq.DestDevice)
 
             //
             ;

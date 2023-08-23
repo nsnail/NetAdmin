@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Sms;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
@@ -23,17 +23,18 @@ public sealed class SmsCodeSender : IEventSubscriber
     /// <summary>
     ///     发送短信
     /// </summary>
-    [EventSubscribe(nameof(SmsCodeCreatedEvent))]
+    [EventSubscribe(nameof(VerifyCodeCreatedEvent))]
     public async Task SendSmsAsync(EventHandlerExecutingContext context)
     {
-        if (context.Source is not SmsCodeCreatedEvent smsCodeCreatedEvent) {
+        if (context.Source is not VerifyCodeCreatedEvent verifyCodeCreatedEvent ||
+            verifyCodeCreatedEvent.Data.DeviceType != VerifyCodeDeviceTypes.Mobile) {
             return;
         }
 
         // 发送...
-        var smsService = App.GetService<ISmsService>();
-        _ = await smsService.UpdateAsync(
-            smsCodeCreatedEvent.Data.Adapt<UpdateSmsReq>() with { Status = SmsStatues.Sent });
-        _logger.Info($"{nameof(ISmsService)}.{nameof(ISmsService.UpdateAsync)} {Ln.已完成}");
+        var verifyCodeService = App.GetService<IVerifyCodeService>();
+        _ = await verifyCodeService.UpdateAsync(
+            verifyCodeCreatedEvent.Data.Adapt<UpdateVerifyCodeReq>() with { Status = VerifyCodeStatues.Sent });
+        _logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已完成}");
     }
 }

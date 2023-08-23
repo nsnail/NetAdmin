@@ -5,6 +5,6 @@
     "allowPrerelease": true
   },
   "tools": {
-    "dotnet": "7.0.100"
+    "dotnet": "7.0.0"
   }
 }

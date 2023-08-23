@@ -13,6 +13,9 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
     private static readonly string _clientProjectPath = Path.Combine( //
         Environment.CurrentDirectory, "../../frontend/admin");
 
+    private static readonly string[] _projectDirs
+        = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"));
+
     private readonly IApiService _apiService;
 
     /// <summary>
@@ -28,99 +31,78 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
     /// </summary>
     public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
-        var projectDirs = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"));
-
         // 模块类型（Sys、Biz、等）
         var moduleType = Enum.GetName(req.Type)!;
 
         // 模板层目录
-        var tplAppDir = projectDirs.First(x => x.EndsWith($"{nameof(SysComponent)}.{nameof(Application)}", true
-                                                        , CultureInfo.InvariantCulture));
-        var tplHostDir
-            = projectDirs.First(x => x.EndsWith($"{nameof(SysComponent)}.{nameof(Host)}", true
-                                              , CultureInfo.InvariantCulture));
+        var tplHostDir  = GetDir("SysComponent.Host");
+        var tplCacheDir = GetDir("SysComponent.Cache");
+        var tplAppDir   = GetDir("SysComponent.Application");
+
+        // 主机层目录
+        var hostControllerDir = Path.Combine(GetDir($"{moduleType}.Host"), "Controllers", moduleType[..3]);
+
+        // 缓存层目录
+        var cacheDir           = Path.Combine(GetDir($"{moduleType}.Cache"), moduleType[..3]);
+        var cacheDependencyDir = Path.Combine(cacheDir,                      "Dependency");
 
         // 业务逻辑层目录
-        var appDir = projectDirs.First(x => x.EndsWith($"{moduleType}.{nameof(Application)}", true
-                                                     , CultureInfo.InvariantCulture));
+        var appDir                   = GetDir($"{moduleType}.Application");
+        var appModulesDir            = Path.Combine(appDir,         "Modules",  moduleType[..3]);
+        var appServicesDir           = Path.Combine(appDir,         "Services", moduleType[..3]);
+        var appServicesDependencyDir = Path.Combine(appServicesDir, "Dependency");
 
         // 数据契约层目录
-        var dataDir = projectDirs.First(x => x.EndsWith($"{nameof(NetAdmin)}.{nameof(Domain)}", true
-                                                      , CultureInfo.InvariantCulture));
+        var dataDir   = GetDir("NetAdmin.Domain");
+        var dtoDir    = Path.Combine(dataDir, "Dto",    moduleType[..3], req.ModuleName);
+        var entityDir = Path.Combine(dataDir, "DbMaps", moduleType[..3]);
 
-        // Api接口层目录
-        var hostDir = projectDirs.First(x => x.EndsWith($"{moduleType}.Host", true, CultureInfo.InvariantCulture));
+        // 创建缺少的目录
+        CreateDir(hostControllerDir, cacheDir,                 cacheDependencyDir, appDir, appModulesDir, appServicesDir
+,                                    appServicesDependencyDir, dataDir,            dtoDir, entityDir);
 
-        // 业务逻辑层 - 模块目录
-        var modulesDir = Path.Combine(appDir, nameof(Modules), moduleType[..3]);
-        if (!Directory.Exists(modulesDir)) {
-            _ = Directory.CreateDirectory(modulesDir);
-        }
+        // Controller
+        await WriteCodeFileAsync(req, Path.Combine(tplHostDir,        "Controllers", "Tpl", "ExampleController.cs")
+                          ,           Path.Combine(hostControllerDir, $"{req.ModuleName}Controller.cs"));
 
-        // 业务逻辑层 - 服务目录
-        var servicesDir           = Path.Combine(appDir,      nameof(Services), moduleType[..3]);
-        var servicesDependencyDir = Path.Combine(servicesDir, nameof(Dependency));
-        if (!Directory.Exists(servicesDependencyDir)) {
-            _ = Directory.CreateDirectory(servicesDependencyDir);
-        }
+        // CreateReq
+        await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "CreateExampleReq.cs")
+                          ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
 
-        // 数据契约层 - DTO目录
-        var dtoDir = Path.Combine(dataDir, nameof(Domain.Dto), moduleType[..3], req.ModuleName);
-        if (!Directory.Exists(dtoDir)) {
-            _ = Directory.CreateDirectory(dtoDir);
-        }
+        // UpdateReq
+        await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "UpdateExampleReq.cs")
+                          ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
 
-        // 数据契约层 - Entity目录
-        var entityDir = Path.Combine(dataDir, nameof(Domain.DbMaps), moduleType[..3]);
-        if (!Directory.Exists(entityDir)) {
-            _ = Directory.CreateDirectory(entityDir);
-        }
+        // QueryReq
+        await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "QueryExampleReq.cs")
+                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
 
-        // Api接口层 - Controller目录
-        var controllerDir = Path.Combine(hostDir, "Controllers", moduleType[..3]);
-        if (!Directory.Exists(controllerDir)) {
-            _ = Directory.CreateDirectory(controllerDir);
-        }
+        // QueryRsp
+        await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "QueryExampleRsp.cs")
+                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
 
-        // iModule
-        await WriteCodeFileAsync(req, Path.Combine(tplAppDir,  nameof(Modules), nameof(Tpl), "IExampleModule.cs")
-                          ,           Path.Combine(modulesDir, $"I{req.ModuleName}Module.cs"));
+        // ICache
+        await WriteCodeFileAsync(req, Path.Combine(tplCacheDir,        "Tpl", "Dependency", "IExampleCache.cs")
+                          ,           Path.Combine(cacheDependencyDir, $"I{req.ModuleName}Cache.cs"));
 
-        // iService
-        await WriteCodeFileAsync(
-            req, Path.Combine(tplAppDir, nameof(Services), nameof(Tpl), nameof(Dependency), "IExampleService.cs")
-     ,           Path.Combine(servicesDependencyDir, $"I{req.ModuleName}Service.cs"));
+        // Cache
+        await WriteCodeFileAsync(req, Path.Combine(tplCacheDir, "Tpl", "ExampleCache.cs")
+                          ,           Path.Combine(cacheDir,    $"{req.ModuleName}Cache.cs"));
 
-        // service
-        await WriteCodeFileAsync(req, Path.Combine(tplAppDir,   nameof(Services), nameof(Tpl), "ExampleService.cs")
-                          ,           Path.Combine(servicesDir, $"{req.ModuleName}Service.cs"));
+        // IModule
+        await WriteCodeFileAsync(req, Path.Combine(tplAppDir,     "Modules", "Tpl", "IExampleModule.cs")
+                          ,           Path.Combine(appModulesDir, $"I{req.ModuleName}Module.cs"));
 
-        // controller
-        await WriteCodeFileAsync(req, Path.Combine(tplHostDir,    "Controllers", nameof(Tpl), "ExampleController.cs")
-                          ,           Path.Combine(controllerDir, $"{req.ModuleName}Controller.cs"));
+        // IService
+        await WriteCodeFileAsync(req, Path.Combine(tplAppDir, "Services", "Tpl", "Dependency", "IExampleService.cs")
+                          ,           Path.Combine(appServicesDependencyDir, $"I{req.ModuleName}Service.cs"));
 
-        // createReq
-        await WriteCodeFileAsync(
-            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "CreateExampleReq.cs")
-     ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"));
+        // Service
+        await WriteCodeFileAsync(req, Path.Combine(tplAppDir,      "Services", "Tpl", "ExampleService.cs")
+                          ,           Path.Combine(appServicesDir, $"{req.ModuleName}Service.cs"));
 
-        // updateReq
-        await WriteCodeFileAsync(
-            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "UpdateExampleReq.cs")
-     ,           Path.Combine(dtoDir,  $"Update{req.ModuleName}Req.cs"));
-
-        // queryReq
-        await WriteCodeFileAsync(
-            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleReq.cs")
-     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"));
-
-        // queryRsp
-        await WriteCodeFileAsync(
-            req, Path.Combine(dataDir, nameof(Domain.Dto), nameof(Tpl), "Example", "QueryExampleRsp.cs")
-     ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"));
-
-        // entity
-        await WriteCodeFileAsync(req, Path.Combine(dataDir,   nameof(Domain.DbMaps), nameof(Tpl), "Tpl_Example.cs")
+        // Entity
+        await WriteCodeFileAsync(req, Path.Combine(dataDir,   "DbMaps", "Tpl", "Tpl_Example.cs")
                           ,           Path.Combine(entityDir, $"{moduleType[..3]}_{req.ModuleName}.cs"));
     }
 
@@ -206,13 +188,27 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         }
     }
 
+    private static void CreateDir(params string[] dirs)
+    {
+        foreach (var dir in dirs) {
+            if (!Directory.Exists(dir)) {
+                _ = Directory.CreateDirectory(dir);
+            }
+        }
+    }
+
+    private static string GetDir(string key)
+    {
+        return _projectDirs.First(x => x.EndsWith(key, true, CultureInfo.InvariantCulture));
+    }
+
     private static async Task WriteCodeFileAsync(GenerateCsCodeReq req, string tplFile, string writeFile)
     {
         var tplContent = await File.ReadAllTextAsync(tplFile);
-        tplContent = tplContent.Replace(nameof(Tpl), Enum.GetName(req.Type)![..3])
+        tplContent = tplContent.Replace("Tpl", Enum.GetName(req.Type)![..3])
                                .Replace("示例",                    req.ModuleRemark)
                                .Replace("Example",               req.ModuleName)
-                               .Replace("NetAdmin.SysComponent", nameof(SysComponent));
+                               .Replace("NetAdmin.SysComponent", "SysComponent");
 
         await File.WriteAllTextAsync(writeFile, tplContent);
     }

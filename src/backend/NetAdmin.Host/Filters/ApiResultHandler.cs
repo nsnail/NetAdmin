@@ -58,9 +58,27 @@ public abstract class ApiResultHandler<T>
     public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
     {
         SetErrorCodeToHeader(context.HttpContext, ErrorCodes.InvalidInput);
-        return new JsonResult(RestfulResult(ErrorCodes.InvalidInput, metadata.Data, metadata.ValidationResult)) {
+
+        return new JsonResult(RestfulResult(ErrorCodes.InvalidInput, metadata.Data
+                 ,                                                   GetValidationResult(metadata.ValidationResult))) {
                    StatusCode = Numbers.HTTP_STATUS_BIZ_FAIL
                };
+    }
+
+    private static object GetValidationResult(object validationResult)
+    {
+        var startWithDollar = false;
+        try {
+            return validationResult is Dictionary<string, string[]> dic
+                ? dic.ToDictionary( //
+                    x => (startWithDollar = x.Key.StartsWith("$", StringComparison.InvariantCulture))
+                        ? x.Key[1..].TrimStart('.').NullOrEmpty(null) ?? throw new NetAdminInvalidInputException()
+                        : x.Key, x => startWithDollar ? new[] { Ln.参数格式不正确 } : x.Value)
+                : validationResult;
+        }
+        catch (NetAdminInvalidInputException) {
+            return Ln.参数格式不正确;
+        }
     }
 
     /// <summary>

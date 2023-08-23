@@ -1,5 +1,7 @@
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Domain.Events.Sys;
-using NetAdmin.SysComponent.Cache.Sys.Dependency;
+using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 
@@ -21,15 +23,18 @@ public sealed class EmailCodeSender : IEventSubscriber
     /// <summary>
     ///     发送邮件
     /// </summary>
-    [EventSubscribe(nameof(EmailCodeCreatedEvent))]
+    [EventSubscribe(nameof(VerifyCodeCreatedEvent))]
     public async Task SendEmailAsync(EventHandlerExecutingContext context)
     {
-        if (context.Source is not EmailCodeCreatedEvent emailCodeCreatedEvent) {
+        if (context.Source is not VerifyCodeCreatedEvent verifyCodeCreatedEvent ||
+            verifyCodeCreatedEvent.Data.DeviceType != VerifyCodeDeviceTypes.Email) {
             return;
         }
 
-        await App.GetService<IEmailCache>().StoreEmailCodeInfoAsync(emailCodeCreatedEvent.Data);
-
-        _logger.Info(emailCodeCreatedEvent);
+        // 发送...
+        var verifyCodeService = App.GetService<IVerifyCodeService>();
+        _ = await verifyCodeService.UpdateAsync(
+            verifyCodeCreatedEvent.Data.Adapt<UpdateVerifyCodeReq>() with { Status = VerifyCodeStatues.Sent });
+        _logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已完成}");
     }
 }

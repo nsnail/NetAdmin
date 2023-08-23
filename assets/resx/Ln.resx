@@ -22,10 +22,10 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-       <data name="Xml注释文件不存在" xml:space="preserve"><value>Xml注释文件不存在</value></data>
-    <data name="_1分钟内只能发送1次" xml:space="preserve"><value>_1分钟内只能发送1次</value></data>
-    <data name="_6位数字" xml:space="preserve"><value>_6位数字</value></data>
-    <data name="_8位以上数字字母组合" xml:space="preserve"><value>_8位以上数字字母组合</value></data>
+       <data name="_1分钟内只能发送1次" xml:space="preserve"><value>1分钟内只能发送1次</value></data>
+    <data name="_6位数字" xml:space="preserve"><value>6位数字</value></data>
+    <data name="_8位以上数字字母组合" xml:space="preserve"><value>8位以上数字字母组合</value></data>
+    <data name="Xml注释文件不存在" xml:space="preserve"><value>Xml注释文件不存在</value></data>
     <data name="不正确" xml:space="preserve"><value>不正确</value></data>
     <data name="不能为空" xml:space="preserve"><value>不能为空</value></data>
     <data name="业务模块" xml:space="preserve"><value>业务模块</value></data>
@@ -60,6 +60,8 @@
     <data name="区号电话号码分机号" xml:space="preserve"><value>区号电话号码分机号</value></data>
     <data name="博士" xml:space="preserve"><value>博士</value></data>
     <data name="博士后" xml:space="preserve"><value>博士后</value></data>
+    <data name="参数格式不正确" xml:space="preserve"><value>参数格式不正确</value></data>
+    <data name="发送失败" xml:space="preserve"><value>发送失败</value></data>
     <data name="哈尼族" xml:space="preserve"><value>哈尼族</value></data>
     <data name="哈萨克族" xml:space="preserve"><value>哈萨克族</value></data>
     <data name="唯一编码" xml:space="preserve"><value>唯一编码</value></data>
@@ -81,8 +83,10 @@
     <data name="字典编码" xml:space="preserve"><value>字典编码</value></data>
     <data name="密码" xml:space="preserve"><value>密码</value></data>
     <data name="小学" xml:space="preserve"><value>小学</value></data>
+    <data name="已发送" xml:space="preserve"><value>已发送</value></data>
     <data name="已婚" xml:space="preserve"><value>已婚</value></data>
     <data name="已完成" xml:space="preserve"><value>已完成</value></data>
+    <data name="已校验" xml:space="preserve"><value>已校验</value></data>
     <data name="布依族" xml:space="preserve"><value>布依族</value></data>
     <data name="布朗族" xml:space="preserve"><value>布朗族</value></data>
     <data name="开始事务" xml:space="preserve"><value>开始事务</value></data>
@@ -92,6 +96,7 @@
     <data name="怒族" xml:space="preserve"><value>怒族</value></data>
     <data name="意外错误" xml:space="preserve"><value>意外错误</value></data>
     <data name="成功" xml:space="preserve"><value>成功</value></data>
+    <data name="手机" xml:space="preserve"><value>手机</value></data>
     <data name="手机号码" xml:space="preserve"><value>手机号码</value></data>
     <data name="手机号码或座机号码" xml:space="preserve"><value>手机号码或座机号码</value></data>
     <data name="护照" xml:space="preserve"><value>护照</value></data>
@@ -129,6 +134,7 @@
     <data name="毛南族" xml:space="preserve"><value>毛南族</value></data>
     <data name="水族" xml:space="preserve"><value>水族</value></data>
     <data name="汉族" xml:space="preserve"><value>汉族</value></data>
+    <data name="注册" xml:space="preserve"><value>注册</value></data>
     <data name="港澳台通行证" xml:space="preserve"><value>港澳台通行证</value></data>
     <data name="满族" xml:space="preserve"><value>满族</value></data>
     <data name="父节点不存在" xml:space="preserve"><value>父节点不存在</value></data>
@@ -145,16 +151,18 @@
     <data name="电子邮箱" xml:space="preserve"><value>电子邮箱</value></data>
     <data name="男" xml:space="preserve"><value>男</value></data>
     <data name="畲族" xml:space="preserve"><value>畲族</value></data>
+    <data name="登录" xml:space="preserve"><value>登录</value></data>
     <data name="白族" xml:space="preserve"><value>白族</value></data>
     <data name="目标手机" xml:space="preserve"><value>目标手机</value></data>
-    <data name="短信类型" xml:space="preserve"><value>短信类型</value></data>
-    <data name="短信验证码不正确" xml:space="preserve"><value>短信验证码不正确</value></data>
+    <data name="目标设备" xml:space="preserve"><value>目标设备</value></data>
     <data name="短信验证请求" xml:space="preserve"><value>短信验证请求</value></data>
     <data name="硕士" xml:space="preserve"><value>硕士</value></data>
     <data name="离异" xml:space="preserve"><value>离异</value></data>
+    <data name="等待发送" xml:space="preserve"><value>等待发送</value></data>
     <data name="签名缺失" xml:space="preserve"><value>签名缺失</value></data>
     <data name="系统模块" xml:space="preserve"><value>系统模块</value></data>
     <data name="纳西族" xml:space="preserve"><value>纳西族</value></data>
+    <data name="绑定手机号" xml:space="preserve"><value>绑定手机号</value></data>
     <data name="结果非预期" xml:space="preserve"><value>结果非预期</value></data>
     <data name="维吾尔族" xml:space="preserve"><value>维吾尔族</value></data>
     <data name="羌族" xml:space="preserve"><value>羌族</value></data>
@@ -171,6 +179,8 @@
     <data name="角色名称" xml:space="preserve"><value>角色名称</value></data>
     <data name="角色编号" xml:space="preserve"><value>角色编号</value></data>
     <data name="角色编号列表" xml:space="preserve"><value>角色编号列表</value></data>
+    <data name="解绑手机号" xml:space="preserve"><value>解绑手机号</value></data>
+    <data name="设备类型" xml:space="preserve"><value>设备类型</value></data>
     <data name="该角色下存在用户" xml:space="preserve"><value>该角色下存在用户</value></data>
     <data name="该部门下存在子部门" xml:space="preserve"><value>该部门下存在子部门</value></data>
     <data name="该部门下存在用户" xml:space="preserve"><value>该部门下存在用户</value></data>
@@ -188,6 +198,7 @@
     <data name="部门名称" xml:space="preserve"><value>部门名称</value></data>
     <data name="鄂伦春族" xml:space="preserve"><value>鄂伦春族</value></data>
     <data name="鄂温克族" xml:space="preserve"><value>鄂温克族</value></data>
+    <data name="重设密码" xml:space="preserve"><value>重设密码</value></data>
     <data name="链接" xml:space="preserve"><value>链接</value></data>
     <data name="锡伯族" xml:space="preserve"><value>锡伯族</value></data>
     <data name="键值" xml:space="preserve"><value>键值</value></data>
@@ -197,6 +208,8 @@
     <data name="顺序排序" xml:space="preserve"><value>顺序排序</value></data>
     <data name="验证数据" xml:space="preserve"><value>验证数据</value></data>
     <data name="验证码" xml:space="preserve"><value>验证码</value></data>
+    <data name="验证码不正确" xml:space="preserve"><value>验证码不正确</value></data>
+    <data name="验证码类型" xml:space="preserve"><value>验证码类型</value></data>
     <data name="高中" xml:space="preserve"><value>高中</value></data>
     <data name="高山族" xml:space="preserve"><value>高山族</value></data>
     <data name="黎族" xml:space="preserve"><value>黎族</value></data>

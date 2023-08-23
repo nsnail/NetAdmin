@@ -1,5 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Email;
-using NetAdmin.Domain.Dto.Sys.Sms;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
 

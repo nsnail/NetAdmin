@@ -10,15 +10,15 @@ namespace NetAdmin.SysComponent.Cache.Sys;
 /// <inheritdoc cref="IUserCache" />
 public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCache
 {
-    private readonly IEmailCache _emailCache;
+    private readonly IVerifyCodeCache _verifyCodeCache;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserCache" /> class.
     /// </summary>
-    public UserCache(IDistributedCache cache, IUserService service, IEmailCache emailCache) //
+    public UserCache(IDistributedCache cache, IUserService service, IVerifyCodeCache verifyCodeCache) //
         : base(cache, service)
     {
-        _emailCache = emailCache;
+        _verifyCodeCache = verifyCodeCache;
     }
 
     /// <inheritdoc />
@@ -163,7 +163,7 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     /// <inheritdoc />
     public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
-        return !await _emailCache.VerifyEmailCodeAsync(req)
+        return !await _verifyCodeCache.VerifyAsync(req)
             ? throw new NetAdminInvalidOperationException(Ln.邮箱验证码不正确)
             : await Service.SetEmailAsync(req);
     }

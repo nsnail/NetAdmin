@@ -152,7 +152,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
                                                     , RoleIds = new[] { config.UserRegisterRoleId }
                                                     , Profile = new CreateUserProfileReq()
                                                     , Enabled = !config.UserRegisterConfirm
-                                                    , Mobile = req.VerifySmsCodeReq.DestMobile
+                                                    , Mobile = req.VerifySmsCodeReq.DestDevice
                                                   });
     }
 

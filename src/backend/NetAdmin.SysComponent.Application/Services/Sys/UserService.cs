@@ -5,9 +5,9 @@ using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.Sms;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
@@ -32,19 +32,19 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
       , Roles       = a.Roles
     };
 
-    private readonly ISmsService _smsService;
-
     private readonly IUserProfileService _userProfileService;
+
+    private readonly IVerifyCodeService _verifyCodeService;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserService" /> class.
     /// </summary>
-    public UserService(Repository<Sys_User> rpo, IUserProfileService userProfileService, ISmsService smsService
-                     , IEventPublisher      eventPublisher) //
+    public UserService(Repository<Sys_User> rpo,               IUserProfileService userProfileService
+                     , IVerifyCodeService   verifyCodeService, IEventPublisher     eventPublisher) //
         : base(rpo)
     {
         _userProfileService = userProfileService;
-        _smsService         = smsService;
+        _verifyCodeService  = verifyCodeService;
         _eventPublisher     = eventPublisher;
     }
 
@@ -169,15 +169,15 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <summary>
     ///     短信登录
     /// </summary>
-    /// <exception cref="NetAdminInvalidOperationException">短信验证码不正确</exception>
+    /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
     {
-        if (!await _smsService.VerifySmsCodeAsync(req.Adapt<VerifySmsCodeReq>())) {
-            throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
+        if (!await _verifyCodeService.VerifyAsync(req.Adapt<VerifySmsCodeReq>())) {
+            throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
-        var dbUser = await Rpo.GetAsync(a => a.Mobile == req.DestMobile);
+        var dbUser = await Rpo.GetAsync(a => a.Mobile == req.DestDevice);
         return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户不存在) : LoginInternal(dbUser);
     }
 
@@ -212,11 +212,11 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <summary>
     ///     注册用户
     /// </summary>
-    /// <exception cref="NetAdminInvalidOperationException">短信验证码不正确</exception>
+    /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
-        if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
-            throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
+        if (!await _verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)) {
+            throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
         var createReq = req.Adapt<CreateUserReq>() with { Profile = new CreateUserProfileReq() };
@@ -226,14 +226,14 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <summary>
     ///     重设密码
     /// </summary>
-    /// <exception cref="NetAdminInvalidOperationException">短信验证码不正确</exception>
+    /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<uint> ResetPasswordAsync(ResetPasswordReq req)
     {
-        return !await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)
-            ? throw new NetAdminInvalidOperationException(Ln.短信验证码不正确)
+        return !await _verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)
+            ? throw new NetAdminInvalidOperationException(Ln.验证码不正确)
             : (uint)await Rpo.UpdateDiy
-                             .SetSource((await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestMobile)
+                             .SetSource((await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestDevice)
                                                   .ToOneAsync(a => new { a.Version, a.Id })).Adapt<Sys_User>() with {
                                             Password = req.PasswordText.Pwd().Guid()
                                         })
@@ -270,17 +270,17 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
         // 如果已绑定手机号、需要手机安全验证
         if (!user.Mobile.NullOrEmpty()) {
-            if (!await _smsService.VerifySmsCodeAsync(req.VerifySmsCodeReq)) {
-                throw new NetAdminInvalidOperationException(Ln.短信验证码不正确);
+            if (!await _verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)) {
+                throw new NetAdminInvalidOperationException(Ln.验证码不正确);
             }
 
-            if (user.Mobile != req.VerifySmsCodeReq.DestMobile) {
+            if (user.Mobile != req.VerifySmsCodeReq.DestDevice) {
                 throw new NetAdminInvalidOperationException($"{Ln.手机号码} {Ln.不正确}");
             }
         }
 
         if (await Rpo.UpdateDiy
-                     .SetSource(new Sys_User { Email = req.EmailAddress, Id = UserToken.Id, Version = user.Version })
+                     .SetSource(new Sys_User { Email = req.DestDevice, Id = UserToken.Id, Version = user.Version })
                      .UpdateColumns(a => a.Email)
                      .ExecuteAffrowsAsync() <= 0) {
             throw new NetAdminUnexpectedException();
@@ -302,25 +302,25 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
         if (!user.Mobile.NullOrEmpty()) {
             // 已有手机号，需验证旧手机
-            if (!await _smsService.VerifySmsCodeAsync(req.OriginVerifySmsCodeReq)) {
-                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.短信验证码不正确}");
+            if (!await _verifyCodeService.VerifyAsync(req.OriginVerifySmsCodeReq)) {
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.验证码不正确}");
             }
 
-            if (user.Mobile != req.OriginVerifySmsCodeReq.DestMobile) {
+            if (user.Mobile != req.OriginVerifySmsCodeReq.DestDevice) {
                 throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.不正确}");
             }
         }
 
         // 验证新手机号
-        if (!await _smsService.VerifySmsCodeAsync(req.NewVerifySmsCodeReq)) {
-            throw new NetAdminInvalidOperationException($"{Ln.新手机号码} {Ln.短信验证码不正确}");
+        if (!await _verifyCodeService.VerifyAsync(req.NewVerifySmsCodeReq)) {
+            throw new NetAdminInvalidOperationException($"{Ln.新手机号码} {Ln.验证码不正确}");
         }
 
         if (await Rpo.UpdateDiy
                      .SetSource(new Sys_User {
                                                  Version = user.Version
                                                , Id      = UserToken.Id
-                                               , Mobile  = req.NewVerifySmsCodeReq.DestMobile
+                                               , Mobile  = req.NewVerifySmsCodeReq.DestDevice
                                              })
                      .UpdateColumns(a => a.Mobile)
                      .ExecuteAffrowsAsync() <= 0) {
