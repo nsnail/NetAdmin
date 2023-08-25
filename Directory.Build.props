@@ -1,0 +1,26 @@
+<Project>
+    <PropertyGroup>
+        <!--        $(XXX) 定义有顺序 排序请注意-->
+        <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
+        <BaseIntermediateOutputPath>$(SolutionDir)/dist/Server/$(MSBuildProjectName)/obj</BaseIntermediateOutputPath>
+        <BaseOutputPath>$(SolutionDir)/dist/Server/$(MSBuildProjectName)/bin</BaseOutputPath>
+        <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <MinVerDefaultPreReleaseIdentifiers>beta</MinVerDefaultPreReleaseIdentifiers>
+        <Product>NetAdmin</Product>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>http://git.shequnpay.com/lingyun/NetAdmin.git</RepositoryUrl>
+        <TargetFramework>net7.0</TargetFramework>
+        <Title>$(AssemblyName)</Title>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MinVer" Version="5.0.0-alpha.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs" />
+    </ItemGroup>
+</Project>

@@ -1,0 +1,75 @@
+<template>
+    <sc-table-select
+        ref="area"
+        v-model="area"
+        :apiObj="$API.sys_dic.pagedQueryContent"
+        :params="form"
+        :props="{ label: 'key', value: 'value' }"
+        :table-width="600"
+        clearable>
+        <template #header>
+            <el-form :model="form">
+                <el-form-item>
+                    <el-input v-model="form.keywords" clearable placeholder="请输入地区或代码" @input="onInput"></el-input>
+                </el-form-item>
+            </el-form>
+        </template>
+        <el-table-column label="地区" prop="key" width="400"></el-table-column>
+        <el-table-column label="代码" prop="value"></el-table-column>
+    </sc-table-select>
+</template>
+<style scoped></style>
+<script>
+export default {
+    props: {
+        modelValue: { type: Object },
+    },
+    data() {
+        return {
+            area: {},
+            form: {
+                dynamicFilter: {
+                    filters: [],
+                    logic: 'or',
+                },
+            },
+        }
+    },
+    watch: {
+        area(n) {
+            this.$emit('update:modelValue', n)
+        },
+
+        modelValue: {
+            immediate: true,
+            deep: true,
+            handler(n) {
+                this.area = n ?? {}
+            },
+        },
+    },
+    mounted() {},
+    created() {},
+    components: {},
+    computed: {},
+    methods: {
+        onInput() {
+            this.form.dynamicFilter.filters = []
+            if (this.form.keywords) {
+                this.form.dynamicFilter.filters.push({
+                    field: 'key',
+                    operator: 'contains',
+                    value: this.form.keywords,
+                })
+                this.form.dynamicFilter.filters.push({
+                    field: 'value',
+                    operator: 'contains',
+                    value: this.form.keywords,
+                })
+            }
+
+            this.$refs.area.reload()
+        },
+    },
+}
+</script>

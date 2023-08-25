@@ -1,0 +1,79 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+ij_xml_attribute_wrap = off
+ij_xml_text_wrap = off
+indent_size = 4
+indent_style = space
+insert_final_newline = false
+trim_trailing_whitespace = true
+
+[{*.json,*.yml}]
+indent_size = 2
+
+[*.cs]
+dotnet_analyzer_diagnostic.severity = warning
+dotnet_diagnostic.CA1200.severity = none
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.CA1716.severity = none
+dotnet_diagnostic.IDE0005.severity = none
+dotnet_diagnostic.IDE0008.severity = none
+dotnet_diagnostic.IDE0010.severity = none
+dotnet_diagnostic.IDE0055.severity = none
+dotnet_diagnostic.IDE0160.severity = none
+dotnet_diagnostic.IDE0270.severity = none
+dotnet_diagnostic.RCS1141.severity = none
+dotnet_diagnostic.RCS1142.severity = none
+dotnet_diagnostic.RCS1181.severity = none
+dotnet_diagnostic.RCS1186.severity = none
+dotnet_diagnostic.S101.severity = none
+dotnet_diagnostic.S1121.severity = none
+dotnet_diagnostic.S1199.severity = none
+dotnet_diagnostic.S125.severity = none
+dotnet_diagnostic.S2094.severity = none
+dotnet_diagnostic.S3925.severity = none
+dotnet_diagnostic.S4663.severity = none
+dotnet_diagnostic.SYSLIB1045.severity = none
+
+
+# ReSharper properties
+resharper_align_linq_query = true
+resharper_align_multiline_argument = true
+resharper_align_multiline_array_and_object_initializer = true
+resharper_align_multiline_binary_patterns = true
+resharper_align_multiline_calls_chain = true
+resharper_align_multiline_extends_list = true
+resharper_align_multiline_parameter = true
+resharper_align_multiline_property_pattern = true
+resharper_align_multiline_switch_expression = true
+resharper_align_multiple_declaration = true
+resharper_align_multline_type_parameter_constrains = true
+resharper_align_multline_type_parameter_list = true
+resharper_align_tuple_components = true
+resharper_allow_comment_after_lbrace = true
+resharper_blank_lines_before_single_line_comment = 1
+resharper_csharp_empty_block_style = together_same_line
+resharper_csharp_outdent_commas = true
+resharper_csharp_place_type_constraints_on_same_line = false
+resharper_csharp_stick_comment = false
+resharper_csharp_wrap_before_comma = true
+resharper_indent_nested_for_stmt = true
+resharper_indent_nested_foreach_stmt = true
+resharper_indent_nested_while_stmt = true
+resharper_indent_preprocessor_if = usual_indent
+resharper_indent_preprocessor_other = usual_indent
+resharper_int_align = true
+resharper_keep_existing_arrangement = false
+resharper_place_linq_into_on_new_line = false
+resharper_place_simple_embedded_statement_on_same_line = false
+resharper_place_simple_switch_expression_on_single_line = true
+resharper_wrap_before_eq = true
+resharper_wrap_chained_method_calls = chop_if_long
+resharper_wrap_switch_expression = chop_if_long
+
+
+# Microsoft .NET properties
+csharp_indent_braces = false
+csharp_new_line_before_open_brace = local_functions, methods, types

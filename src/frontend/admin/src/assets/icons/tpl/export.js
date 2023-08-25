@@ -1,0 +1,1 @@
+//~export {default as $iconName$} from './$iconName$.vue'

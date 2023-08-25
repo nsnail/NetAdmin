@@ -1,0 +1,47 @@
+{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Sys",
+        "Title": "系统组件",
+        "Description": "NetAdmin - 系统组件",
+      },
+      {
+        "Group": "Biz",
+        "Title": "业务服务",
+        "Description": "NetAdmin - 业务服务",
+      },
+      {
+        "Group": "Tpl",
+        "Title": "示例服务",
+        "Description": "NetAdmin - 示例服务",
+        "Visible": false
+      },
+      {
+        "Group": "Health",
+        "Visible": false
+      }
+    ],
+    "SecurityDefinitions": [
+      {
+        "Id": "Bearer",
+        "Type": "ApiKey",
+        "Name": "Authorization",
+        "Description": "JWT Authorization header using the Bearer scheme.",
+        "BearerFormat": "JWT",
+        "Scheme": "bearer",
+        "In": "Header",
+        "Requirement": {
+          "Scheme": {
+            "Reference": {
+              "Id": "Bearer",
+              "Type": "SecurityScheme"
+            },
+            "Accesses": []
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+<template>
+    <el-main>
+        <el-card header="v-auth 高精度权限控制" shadow="never">
+            <el-button v-auth="'user.add'" type="primary">v-auth="'user.add'"</el-button>
+            <el-button v-auths="['user.no', 'user.add']" type="primary">v-auths="['user.no','user.add']"</el-button>
+            <el-button v-auths-all="['list.add', 'user.add']" type="primary">v-auths-all="['list.add','user.add']"</el-button>
+
+            <el-alert
+                style="margin-top: 20px"
+                title="v-auth指令 是$AUTH的语法糖, 原先需要使用v-if来判断是否有权限, 判断单项权限，如果满足就判断有权限"></el-alert>
+            <el-alert style="margin-top: 20px" title="v-auths指令 传入数组,有一项满足就判断有权限"></el-alert>
+            <el-alert
+                style="margin-top: 20px"
+                title="v-auths-all指令 传入数组,必须全满足才有权限，比如user.no没有这个权限，加到这里的话就表示不全部满足"></el-alert>
+        </el-card>
+        <el-card header="v-role 角色权限控制" shadow="never" style="margin-top: 15px">
+            <el-button v-role="'admin'" type="primary">v-role="'admin'"</el-button>
+            <el-button v-role="['SA', 'admin']" type="primary">v-role="['SA','admin']"</el-button>
+            <el-alert style="margin-top: 20px" title="v-role指令 是$ROLE的语法糖, 原理是判断是否含有用户所在的角色别名"></el-alert>
+        </el-card>
+        <el-card header="v-time 时间转换" shadow="never" style="margin-top: 15px">
+            <p>
+                <el-tag v-time="1630117968295" format="yyyy-MM-dd hh:mm:ss"></el-tag>
+            </p>
+            <p style="margin-top: 15px">
+                <el-tag v-time.tip="time1"></el-tag>
+            </p>
+            <p style="margin-top: 15px">
+                <el-tag v-time.tip="time2"></el-tag>
+            </p>
+            <p style="margin-top: 15px">
+                <el-tag v-time.tip="time3"></el-tag>
+            </p>
+            <el-alert style="margin-top: 20px" title="指令方式日期时间转换,如设置'tip'修饰符将会转换成相对时间,并且每60秒自动更新"></el-alert>
+        </el-card>
+        <el-card header="v-copy 一键复制" shadow="never" style="margin-top: 15px">
+            <el-input v-model="copyText" :rows="2" placeholder="请输入内容" type="textarea"></el-input>
+            <el-button v-copy="copyText" style="margin-top: 15px" type="primary">复制</el-button>
+            <el-alert style="margin-top: 20px" title="点击复制按钮会将文本框绑定的值复制到剪切板, 试着粘贴到其他地方看看效果"></el-alert>
+        </el-card>
+    </el-main>
+</template>
+
+<script>
+export default {
+    name: 'directive',
+    data() {
+        return {
+            time1: new Date(),
+            time2: new Date().setMinutes(new Date().getMinutes() - 1),
+            time3: new Date().setMinutes(new Date().getMinutes() - 120),
+            copyText: '测试复制内容',
+        }
+    },
+    created() {},
+}
+</script>
+
+<style></style>
