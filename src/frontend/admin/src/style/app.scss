@@ -107,7 +107,7 @@ textarea {
 /* 头部 */
 .adminui-header {
     height: 58px;
-    background: #222b45;
+    background: #424C50;
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -180,7 +180,7 @@ textarea {
 .aminui-side-split {
     width: 65px;
     flex-shrink: 0;
-    background: #222b45;
+    background: #424C50;
     display: flex;
     flex-flow: column;
 }
@@ -489,6 +489,11 @@ textarea {
 .w15 {
     width: 15rem;
 }
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
 
 .w100p {
     width: 100%;

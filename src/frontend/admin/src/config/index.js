@@ -49,7 +49,7 @@ const DEFAULT_CONFIG = {
     LANG: 'zh-cn',
 
     //主题颜色
-    COLOR: '#2AAE67',
+    COLOR: '#21A675',
 
     //是否加密localStorage, 为空不加密，可填写AES(模式ECB,移位Pkcs7)加密
     LS_ENCRYPTION: '',
