@@ -9,7 +9,7 @@ $types = @{
     '8' = @('TST', '单元测试')
     '9' = @('BLD', '工程构建')
 }
-git add .
+git add ../
 $prefix = ''
 while ($null -eq $types[$prefix])
 {

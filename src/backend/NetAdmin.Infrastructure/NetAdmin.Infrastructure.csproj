@@ -4,9 +4,7 @@
   <Import Project="$(SolutionDir)/PreBuild.targets" />
   <ItemGroup>
     <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.700-preview20230726-ns1" />
-    <PackageReference Include="FreeSql.NS" Version="3.2.700-preview20230726-ns1">
-      <CopyToOutputDirectory>lib/netstandard2.1/*.xml</CopyToOutputDirectory>
-    </PackageReference>
+    <PackageReference Include="FreeSql.NS" Version="3.2.700-preview20230726-ns1" />
     <PackageReference Include="FreeSql.Provider.SqlServer.NS" Version="3.2.700-preview20230726-ns1" />
     <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.700-preview20230726-ns1" />
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.40" />
