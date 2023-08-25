@@ -12,6 +12,26 @@
 - `TST` 单元测试
 - `BLD` 工程构建
 
+
+## 构建指南
+1. 检查dotnet-sdk版本>=7.0.0
+```
+dotnet --list-sdks
+```
+2. 克隆代码仓库
+```
+git clone https://github.com/nsnail/NetAdmin.git
+cd ./NetAdmin
+```
+3. 编译运行后端WebApi
+```
+dotnet run --project ./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj --urls http://[::]:65020
+```
+4. 检查WebApi程序
+```
+浏览器打开 http://localhost:65020 ，将看到Swagger（Knife4jUI）界面
+```
+
 ## 项目文件目录树描述
 ```
 +---.template.config     dotnet 项目模板配置目录
