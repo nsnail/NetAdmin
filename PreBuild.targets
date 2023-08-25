@@ -1,8 +1,8 @@
 <Project>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="dotnet tool restore" StdOutEncoding="utf-8"/>
-        <Exec Condition="!Exists('$(SolutionDir)/assets/resx/Ln.resx')" WorkingDirectory="$(SolutionDir)/tools"
-              Command="dotnet t4 $(SolutionDir)/tools/GenerateLnResx.tt -o $(SolutionDir)/assets/resx/Ln.resx"
+        <Exec Condition="!Exists('$(SolutionDir)/assets/res/Ln.resx')" WorkingDirectory="$(SolutionDir)/tools"
+              Command="dotnet t4 $(SolutionDir)/tools/GenerateLnResx.tt -o $(SolutionDir)/assets/res/Ln.resx"
               StdOutEncoding="utf-8"/>
         <Exec Condition="!Exists('$(SolutionDir)/dist/Server/$(ProjectName)/Ln.cs')"
               WorkingDirectory="$(SolutionDir)/tools"
@@ -10,10 +10,10 @@
               StdOutEncoding="utf-8"/>
     </Target>
     <ItemGroup>
-        <None Include="$(SolutionDir)/assets/resx/Ln.txt">
+        <None Include="$(SolutionDir)/assets/res/Ln.txt">
             <Link>Languages/Ln.txt</Link>
         </None>
-        <EmbeddedResource Include="$(SolutionDir)/assets/resx/Ln.resx">
+        <EmbeddedResource Include="$(SolutionDir)/assets/res/Ln.resx">
             <Link>Languages/Ln.resx</Link>
             <Generator>PublicResXFileCodeGenerator</Generator>
         </EmbeddedResource>
