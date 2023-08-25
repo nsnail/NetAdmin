@@ -11,7 +11,7 @@
     <el-main>
         <el-alert
             style="margin-bottom: 20px"
-            title="通过VUE开放的errorHandler可以很方便的捕捉到处理异常, SCUI收集后可上报日志收集系统, 相关代码:@/utils/errorHandler.js"
+            title="通过VUE开放的errorHandler可以很方便的捕捉到处理异常, NetAdmin收集后可上报日志收集系统, 相关代码:@/utils/errorHandler.js"
             type="success"></el-alert>
         <el-row :gutter="15">
             <el-col :lg="8">

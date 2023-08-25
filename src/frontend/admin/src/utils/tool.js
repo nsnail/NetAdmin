@@ -265,7 +265,7 @@ tool.crypto = {
     AES: {
         encrypt(data, secretKey, config = {}) {
             if (secretKey.length % 8 !== 0) {
-                console.warn('[SCUI error]: 秘钥长度需为8的倍数，否则解密将会失败。')
+                console.warn('[NetAdmin error]: 秘钥长度需为8的倍数，否则解密将会失败。')
             }
             const result = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(secretKey), {
                 iv: CryptoJS.enc.Utf8.parse(config.iv || ''),

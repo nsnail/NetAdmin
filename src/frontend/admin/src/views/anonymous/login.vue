@@ -131,7 +131,7 @@ export default {
         },
         wechatLogin() {
             this.showWechatLogin = true
-            this.WechatLoginCode = 'SCUI-823677237287236-' + new Date().getTime()
+            this.WechatLoginCode = 'NetAdmin-823677237287236-' + new Date().getTime()
             this.isWechatLoginResult = false
             setTimeout(() => {
                 this.isWechatLoginResult = true

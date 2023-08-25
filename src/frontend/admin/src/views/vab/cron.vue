@@ -2,7 +2,7 @@
     <el-main>
         <el-alert
             style="margin-bottom: 20px"
-            title="SCUI独创, 区别于市面上的规则生成器, 对不是很理解Cron的操作员也可以选择设置的快捷录入"
+            title="NetAdmin独创, 区别于市面上的规则生成器, 对不是很理解Cron的操作员也可以选择设置的快捷录入"
             type="success"></el-alert>
         <el-row :gutter="15">
             <el-col :lg="12">

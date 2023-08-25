@@ -91,14 +91,14 @@
                                     </el-button>
                                     <el-popconfirm v-if="!scope.row.isSet" title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
                                         <template #reference>
-                                            <el-button text type="primary" size="small">删除</el-button>
+                                            <el-button size="small" text type="primary">删除</el-button>
                                         </template>
                                     </el-popconfirm>
                                 </el-button-group>
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-button type="primary" icon="el-icon-plus" style="margin-top: 20px" @click="table_add"></el-button>
+                    <el-button icon="el-icon-plus" style="margin-top: 20px" type="primary" @click="table_add"></el-button>
                 </el-tab-pane>
             </el-tabs>
         </el-card>
@@ -111,11 +111,11 @@ export default {
     data() {
         return {
             sys: {
-                name: 'SCUI',
+                name: 'NetAdmin',
                 logoUrl: '',
                 login: true,
                 passwordRules: '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$',
-                copyright: '@SCUI',
+                copyright: '@NetAdmin',
             },
             msg: {
                 open: true,

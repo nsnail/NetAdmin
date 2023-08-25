@@ -4,69 +4,30 @@
             <el-card shadow="never">
                 <el-tabs tab-position="top">
                     <el-tab-pane label="列配置">
-                        <sc-form-table
-                            v-model="column"
-                            :addTemplate="addTemplate"
-                            placeholder="请添加列数据"
-                        >
-                            <el-table-column
-                                label="显示名称"
-                                prop="label"
-                                width="180"
-                            >
+                        <sc-form-table v-model="column" :addTemplate="addTemplate" placeholder="请添加列数据">
+                            <el-table-column label="显示名称" prop="label" width="180">
                                 <template #default="scope">
-                                    <el-input
-                                        v-model="scope.row.label"
-                                        placeholder="请输入内容"
-                                    ></el-input>
+                                    <el-input v-model="scope.row.label" placeholder="请输入内容"></el-input>
                                 </template>
                             </el-table-column>
-                            <el-table-column
-                                label="字段名"
-                                prop="prop"
-                                width="180"
-                            >
+                            <el-table-column label="字段名" prop="prop" width="180">
                                 <template #default="scope">
-                                    <el-input
-                                        v-model="scope.row.prop"
-                                        placeholder="请输入内容"
-                                    ></el-input>
+                                    <el-input v-model="scope.row.prop" placeholder="请输入内容"></el-input>
                                 </template>
                             </el-table-column>
-                            <el-table-column
-                                label="宽度"
-                                prop="width"
-                                width="180"
-                            >
+                            <el-table-column label="宽度" prop="width" width="180">
                                 <template #default="scope">
-                                    <el-input
-                                        v-model="scope.row.width"
-                                        placeholder="请输入内容"
-                                    ></el-input>
+                                    <el-input v-model="scope.row.width" placeholder="请输入内容"></el-input>
                                 </template>
                             </el-table-column>
-                            <el-table-column
-                                align="center"
-                                label="加入编辑"
-                                prop="isEdit"
-                                width="80"
-                            >
+                            <el-table-column align="center" label="加入编辑" prop="isEdit" width="80">
                                 <template #default="scope">
-                                    <el-checkbox
-                                        v-model="scope.row.isEdit"
-                                    ></el-checkbox>
+                                    <el-checkbox v-model="scope.row.isEdit"></el-checkbox>
                                 </template>
                             </el-table-column>
-                            <el-table-column
-                                align="center"
-                                label="加入搜索"
-                                prop="isSearch"
-                                width="80"
-                            >
+                            <el-table-column align="center" label="加入搜索" prop="isSearch" width="80">
                                 <template #default="scope">
-                                    <el-checkbox
-                                        v-model="scope.row.isSearch"
-                                    ></el-checkbox>
+                                    <el-checkbox v-model="scope.row.isSearch"></el-checkbox>
                                 </template>
                             </el-table-column>
                         </sc-form-table>
@@ -76,20 +37,12 @@
                             <el-col :lg="8" :xl="12">
                                 <el-form :model="base" label-width="80px">
                                     <el-form-item label="name">
-                                        <el-input
-                                            v-model="base.name"
-                                        ></el-input>
-                                        <div class="el-form-item-msg">
-                                            系统唯一且与路由别名一致，否则导致缓存失效。
-                                        </div>
+                                        <el-input v-model="base.name"></el-input>
+                                        <div class="el-form-item-msg">系统唯一且与路由别名一致，否则导致缓存失效。</div>
                                     </el-form-item>
                                     <el-form-item label="rowKey">
-                                        <el-input
-                                            v-model="base.rowKey"
-                                        ></el-input>
-                                        <div class="el-form-item-msg">
-                                            表格唯一标识，编辑保存和删除将传递rowKey
-                                        </div>
+                                        <el-input v-model="base.rowKey"></el-input>
+                                        <div class="el-form-item-msg">表格唯一标识，编辑保存和删除将传递rowKey</div>
                                     </el-form-item>
                                 </el-form>
                             </el-col>
@@ -99,8 +52,7 @@
                         <el-alert
                             style="margin: 0 0 20px 0"
                             title="$API 映射文件: @/api/index.js 统一接口管理器, 所以需提前配置好API对象."
-                            type="warning"
-                        ></el-alert>
+                            type="warning"></el-alert>
                         <el-row>
                             <el-col :lg="8" :xl="12">
                                 <el-form :model="api" label-width="80px">
@@ -139,69 +91,41 @@
         </el-main>
         <el-footer>
             <el-dropdown style="margin-right: 15px">
-                <el-button
-                    :loading="downloadcodeLoading"
-                    icon="el-icon-download"
-                    type="primary"
-                    >下载VUE文件
-                </el-button>
+                <el-button :loading="downloadcodeLoading" icon="el-icon-download" type="primary">下载VUE文件 </el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="downloadListCode"
-                            >下载 index.vue
-                        </el-dropdown-item>
-                        <el-dropdown-item @click="downloadSaveCode"
-                            >下载 save.vue
-                        </el-dropdown-item>
+                        <el-dropdown-item @click="downloadListCode">下载 index.vue </el-dropdown-item>
+                        <el-dropdown-item @click="downloadSaveCode">下载 save.vue </el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
             <el-dropdown>
-                <el-button
-                    :loading="showcodeLoading"
-                    icon="el-icon-top-right"
-                    plain
-                    type="primary"
-                    >预览代码
-                </el-button>
+                <el-button :loading="showcodeLoading" icon="el-icon-top-right" plain type="primary">预览代码 </el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="showListCode"
-                            >预览 index.vue
-                        </el-dropdown-item>
-                        <el-dropdown-item @click="showSaveCode"
-                            >预览 save.vue
-                        </el-dropdown-item>
+                        <el-dropdown-item @click="showListCode">预览 index.vue </el-dropdown-item>
+                        <el-dropdown-item @click="showSaveCode">预览 save.vue </el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
         </el-footer>
     </el-container>
 
-    <el-dialog
-        v-model="codeVisible"
-        append-to-body
-        destroy-on-close
-        title="代码预览"
-        width="60%"
-    >
+    <el-dialog v-model="codeVisible" append-to-body destroy-on-close title="代码预览" width="60%">
         <el-alert
             show-icon
             style="margin-bottom: 20px"
             title="需将VUE文件放置views文件夹,路由匹配组件的路径下,如文件名为index.vue可不需要写文件名"
-            type="success"
-        ></el-alert>
+            type="success"></el-alert>
         <pre class="code" contenteditable>{{ code }}</pre>
         <template #footer>
-            <el-button type="primary" @click="codeVisible = false"
-                >确 定
-            </el-button>
+            <el-button type="primary" @click="codeVisible = false">确 定 </el-button>
         </template>
     </el-dialog>
 </template>
 
 <script>
-import template from "@/utils/template.js";
+import template from '@/utils/template.js'
 
 export default {
     data() {
@@ -209,36 +133,36 @@ export default {
             codeVisible: false,
             showcodeLoading: false,
             downloadcodeLoading: false,
-            code: "",
+            code: '',
             base: {
-                name: "",
-                rowKey: "id",
+                name: '',
+                rowKey: 'id',
             },
             api: {
-                list: "",
-                add: "",
-                save: "",
-                show: "",
-                del: "",
+                list: '',
+                add: '',
+                save: '',
+                show: '',
+                del: '',
             },
             column: [],
             addTemplate: {
-                label: "",
-                prop: "",
-                width: "100",
+                label: '',
+                prop: '',
+                width: '100',
                 isSearch: false,
                 isEdit: false,
             },
-        };
+        }
     },
     mounted() {},
     methods: {
         //列表预览
         async showListCode() {
-            this.showcodeLoading = true;
-            await this.getListTpl();
-            this.showcodeLoading = false;
-            this.codeVisible = true;
+            this.showcodeLoading = true
+            await this.getListTpl()
+            this.showcodeLoading = false
+            this.codeVisible = true
         },
         //获取列表模板文件
         async getListTpl() {
@@ -247,16 +171,16 @@ export default {
                 base: this.base,
                 column: this.column,
                 api: this.api,
-            };
-            const tpl = await this.$HTTP.get("code/list/index.vue");
-            this.code = template(tpl, data);
+            }
+            const tpl = await this.$HTTP.get('code/list/index.vue')
+            this.code = template(tpl, data)
         },
         //详细预览
         async showSaveCode() {
-            this.showcodeLoading = true;
-            await this.getSaveTpl();
-            this.showcodeLoading = false;
-            this.codeVisible = true;
+            this.showcodeLoading = true
+            await this.getSaveTpl()
+            this.showcodeLoading = false
+            this.codeVisible = true
         },
         //获取详细模板文件
         async getSaveTpl() {
@@ -265,35 +189,32 @@ export default {
                 base: this.base,
                 column: this.column.filter((item) => item.isEdit === true),
                 api: this.api,
-            };
-            const tpl = await this.$HTTP.get("code/list/save.vue");
-            this.code = template(tpl, data);
+            }
+            const tpl = await this.$HTTP.get('code/list/save.vue')
+            this.code = template(tpl, data)
         },
         async downloadListCode() {
-            this.downloadcodeLoading = true;
-            await this.getListTpl();
-            this.downloadcodeLoading = false;
-            this.createFile(this.code, "index.vue");
+            this.downloadcodeLoading = true
+            await this.getListTpl()
+            this.downloadcodeLoading = false
+            this.createFile(this.code, 'index.vue')
         },
         async downloadSaveCode() {
-            this.downloadcodeLoading = true;
-            await this.getSaveTpl();
-            this.downloadcodeLoading = false;
-            this.createFile(this.code, "save.vue");
+            this.downloadcodeLoading = true
+            await this.getSaveTpl()
+            this.downloadcodeLoading = false
+            this.createFile(this.code, 'save.vue')
         },
         //创建文件并下载
         createFile(row, name) {
-            const element = document.createElement("a");
-            element.setAttribute(
-                "href",
-                "data:text/plain;charset=utf-8," + encodeURIComponent(row)
-            );
-            element.setAttribute("download", name);
-            element.style.display = "none";
-            element.click();
+            const element = document.createElement('a')
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(row))
+            element.setAttribute('download', name)
+            element.style.display = 'none'
+            element.click()
         },
     },
-};
+}
 </script>
 
 <style scoped>
@@ -304,7 +225,7 @@ export default {
     color: #999;
     padding: 20px;
     font-size: 14px;
-    font-family: "consolas", serif;
+    font-family: 'consolas', serif;
     line-height: 1.5;
 }
 </style>

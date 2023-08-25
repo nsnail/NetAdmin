@@ -66,8 +66,8 @@
                     <el-table-column align="right" fixed="right" label="操作" width="160">
                         <template #default="scope">
                             <el-button-group>
-                                <el-button size="small" text type="primary" @click="table_show(scope.row, scope.$index)">查看 </el-button>
-                                <el-button size="small" text type="primary" @click="table_edit(scope.row, scope.$index)">编辑 </el-button>
+                                <el-button size="small" text type="primary" @click="table_show(scope.row, scope.$index)">查看</el-button>
+                                <el-button size="small" text type="primary" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
                                 <el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
                                     <template #reference>
                                         <el-button size="small" text type="primary">删除</el-button>

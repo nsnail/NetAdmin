@@ -1,3 +1,1 @@
-<template>
-    $svgCode$
-</template>
+<template>$svgCode$</template>

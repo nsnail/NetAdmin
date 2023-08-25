@@ -34,7 +34,7 @@
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
                         <el-form-item label="谁可以发起此审批">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色 </el-button>
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(role, index) in form.nodeRoleList" :key="role.id" closable type="info" @close="delRole(index)"
                                     >{{ role.name }}

@@ -1,4 +1,4 @@
-import tool from '@/utils/tool'
+import tool from "@/utils/tool";
 
 /**
  * 是否含有不限分类，有则表示全部允许通过
