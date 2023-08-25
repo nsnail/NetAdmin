@@ -49,7 +49,7 @@
                         </el-form-item>
 
                         <el-form-item v-if="form.setType === 1" label="选择成员">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员 </el-button>
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(user, index) in form.nodeUserList" :key="user.id" closable @close="delUser(index)"
                                     >{{ user.name }}
@@ -64,7 +64,7 @@
                         </el-form-item>
 
                         <el-form-item v-if="form.setType === 3" label="选择角色">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色 </el-button>
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(role, index) in form.nodeRoleList" :key="role.id" closable type="info" @close="delRole(index)"
                                     >{{ role.name }}

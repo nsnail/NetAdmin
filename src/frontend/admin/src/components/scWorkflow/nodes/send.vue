@@ -38,7 +38,7 @@
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
                         <el-form-item label="选择要抄送的人员">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员 </el-button>
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(user, index) in form.nodeUserList" :key="user.id" closable @close="delUser(index)"
                                     >{{ user.name }}

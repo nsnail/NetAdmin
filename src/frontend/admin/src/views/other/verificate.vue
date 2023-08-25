@@ -21,7 +21,7 @@
                     <el-input v-model="form.custom" placeholder="请填写数字1"></el-input>
                 </el-form-item>
                 <el-form-item label="异步验证" prop="async">
-                    <el-input v-model="form.async" placeholder="请输入SCUI最新版本号,form开启status-icon后 可以查看右侧状态"></el-input>
+                    <el-input v-model="form.async" placeholder="请输入NetAdmin最新版本号,form开启status-icon后 可以查看右侧状态"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submit">验证所有字段</el-button>
@@ -77,7 +77,7 @@ export default {
                         validator: (rule, value, callback) => {
                             this.$API.demo.ver.get({ value: value }).then((res) => {
                                 if (res.data !== value) {
-                                    return callback(new Error('请输入SCUI最新版本号：' + res.data))
+                                    return callback(new Error('请输入NetAdmin最新版本号：' + res.data))
                                 }
                                 callback()
                             })

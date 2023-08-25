@@ -40,7 +40,7 @@ export default {
     data() {
         return {
             json: `{
-	"name": "SCUI",
+	"name": "NetAdmin",
 	"menu": [
 		{
 			"title": "VUE 3",

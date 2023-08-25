@@ -18,12 +18,12 @@
                 </el-card>
                 <el-card header="dependencies" shadow="never">
                     <el-descriptions :column="3" border>
-                        <el-descriptions-item v-for="(value, key) in data.dependencies" :key="key" :label="key">{{ value }} </el-descriptions-item>
+                        <el-descriptions-item v-for="(value, key) in data.dependencies" :key="key" :label="key">{{ value }}</el-descriptions-item>
                     </el-descriptions>
                 </el-card>
                 <el-card header="devDependencies" shadow="never">
                     <el-descriptions :column="3" border>
-                        <el-descriptions-item v-for="(value, key) in data.devDependencies" :key="key" :label="key">{{ value }} </el-descriptions-item>
+                        <el-descriptions-item v-for="(value, key) in data.devDependencies" :key="key" :label="key">{{ value }}</el-descriptions-item>
                     </el-descriptions>
                 </el-card>
             </el-col>

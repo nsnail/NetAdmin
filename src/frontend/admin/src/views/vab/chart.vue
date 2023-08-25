@@ -2,7 +2,7 @@
     <el-main>
         <el-alert
             style="margin-bottom: 20px"
-            title="感谢百度Echarts组件, SCUI经过封装后在VUE里使用更方便而且暴露Echarts所有方法,具体请查看本文件"
+            title="感谢百度Echarts组件, NetAdmin经过封装后在VUE里使用更方便而且暴露Echarts所有方法,具体请查看本文件"
             type="success"></el-alert>
         <el-row :gutter="15">
             <el-col :lg="8">
@@ -163,7 +163,7 @@ export default {
                 },
                 series: [
                     {
-                        name: 'SCUI',
+                        name: 'NetAdmin',
                         type: 'radar',
                         areaStyle: {},
                         data: [
