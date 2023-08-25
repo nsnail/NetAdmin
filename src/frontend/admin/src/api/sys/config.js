@@ -2,7 +2,6 @@
  *  配置服务
  *  @module @/api/sys/config
  */
-
 import config from '@/config'
 import http from '@/utils/request'
 

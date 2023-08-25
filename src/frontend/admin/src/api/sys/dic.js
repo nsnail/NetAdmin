@@ -2,7 +2,6 @@
  *  字典服务
  *  @module @/api/sys/dic
  */
-
 import config from '@/config'
 import http from '@/utils/request'
 

@@ -2,7 +2,6 @@
  *  验证码服务
  *  @module @/api/sys/verify.code
  */
-
 import config from '@/config'
 import http from '@/utils/request'
 

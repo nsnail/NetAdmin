@@ -2,7 +2,8 @@
  *  $controllerDesc$
  *  @module @/$controllerPath$
  */
-
-export default {
-    //~$inner$
-}
+//~import config from '@/config'
+//~import http from '@/utils/request'
+//~export default {
+//~$inner$
+//~}

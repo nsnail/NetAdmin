@@ -2,7 +2,6 @@
  *  部门服务
  *  @module @/api/sys/dept
  */
-
 import config from '@/config'
 import http from '@/utils/request'
 

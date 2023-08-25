@@ -91,20 +91,20 @@
         </el-main>
         <el-footer>
             <el-dropdown style="margin-right: 15px">
-                <el-button :loading="downloadcodeLoading" icon="el-icon-download" type="primary">下载VUE文件 </el-button>
+                <el-button :loading="downloadcodeLoading" icon="el-icon-download" type="primary">下载VUE文件</el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="downloadListCode">下载 index.vue </el-dropdown-item>
-                        <el-dropdown-item @click="downloadSaveCode">下载 save.vue </el-dropdown-item>
+                        <el-dropdown-item @click="downloadListCode">下载 index.vue</el-dropdown-item>
+                        <el-dropdown-item @click="downloadSaveCode">下载 save.vue</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
             <el-dropdown>
-                <el-button :loading="showcodeLoading" icon="el-icon-top-right" plain type="primary">预览代码 </el-button>
+                <el-button :loading="showcodeLoading" icon="el-icon-top-right" plain type="primary">预览代码</el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="showListCode">预览 index.vue </el-dropdown-item>
-                        <el-dropdown-item @click="showSaveCode">预览 save.vue </el-dropdown-item>
+                        <el-dropdown-item @click="showListCode">预览 index.vue</el-dropdown-item>
+                        <el-dropdown-item @click="showSaveCode">预览 save.vue</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -119,7 +119,7 @@
             type="success"></el-alert>
         <pre class="code" contenteditable>{{ code }}</pre>
         <template #footer>
-            <el-button type="primary" @click="codeVisible = false">确 定 </el-button>
+            <el-button type="primary" @click="codeVisible = false">确 定</el-button>
         </template>
     </el-dialog>
 </template>

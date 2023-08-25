@@ -5,8 +5,8 @@
  * @LastEditTime: 2023-03-19 11:17:54
  */
 
-import CryptoJS from 'crypto-js'
-import sysConfig from '@/config'
+import CryptoJS from "crypto-js";
+import sysConfig from "@/config";
 
 const tool = {}
 

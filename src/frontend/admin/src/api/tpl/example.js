@@ -2,7 +2,6 @@
  *  示例服务
  *  @module @/api/tpl/example
  */
-
 import config from '@/config'
 import http from '@/utils/request'
 

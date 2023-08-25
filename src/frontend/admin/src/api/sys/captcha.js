@@ -2,7 +2,6 @@
  *  人机验证服务
  *  @module @/api/sys/captcha
  */
-
 import config from '@/config'
 import http from '@/utils/request'
 
