@@ -26,8 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{2D81D62C
              Directory.GetFiles(@"../tools", "*").Where(x => !x.EndsWith(".sln") && !x.EndsWith(".user"))
                       .Select(x=>$"\t\t{Path.GetFileName(x)} = tools/{Path.GetFileName(x)}")
                       )}}
-{{'\t'}}EndProjectSection
-EndProject
+{{'\t'}}EndProject
 """
 );
 Console.WriteLine(content);
