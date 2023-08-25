@@ -1,26 +1,17 @@
 <!--
- * @Description: 分类筛选器
+ * @Descripttion: 分类筛选器
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2022年5月26日15:59:52
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:09:49
 -->
 
 <template>
     <div class="sc-select-filter">
-        <div v-if="data.length <= 0" class="sc-select-filter__no-data">
-            暂无数据
-        </div>
-        <div
-            v-for="item in data"
-            :key="item.key"
-            class="sc-select-filter__item"
-        >
-            <div
-                :style="{ width: labelWidth + 'px' }"
-                class="sc-select-filter__item-title"
-            >
+        <div v-if="data.length <= 0" class="sc-select-filter__no-data">暂无数据</div>
+        <div v-for="item in data" :key="item.key" class="sc-select-filter__item">
+            <div :style="{ width: labelWidth + 'px' }" class="sc-select-filter__item-title">
                 <label>{{ item.title }}：</label>
             </div>
             <div class="sc-select-filter__item-options">
@@ -28,13 +19,8 @@
                     <li
                         v-for="option in item.options"
                         :key="option.value"
-                        :class="{
-                            active:
-                                selected[item.key] &&
-                                selected[item.key].includes(option.value),
-                        }"
-                        @click="select(option, item)"
-                    >
+                        :class="{ active: selected[item.key] && selected[item.key].includes(option.value) }"
+                        @click="select(option, item)">
                         <el-icon v-if="option.icon">
                             <component :is="option.icon" />
                         </el-icon>
@@ -53,7 +39,7 @@ export default {
         selectedValues: {
             type: Object,
             default: () => {
-                return {};
+                return {}
             },
         },
         labelWidth: { type: Number, default: 80 },
@@ -62,37 +48,31 @@ export default {
     data() {
         return {
             selected: {},
-        };
+        }
     },
     watch: {
         data(val) {
             val.forEach((item) => {
                 this.selected[item.key] =
-                    this.selectedValues[item.key] ||
-                    (Array.isArray(item.options) && item.options.length)
-                        ? [item.options[0].value]
-                        : [];
-            });
+                    this.selectedValues[item.key] || (Array.isArray(item.options) && item.options.length) ? [item.options[0].value] : []
+            })
         },
     },
     computed: {
         selectedString() {
-            const outputData = JSON.parse(JSON.stringify(this.selected));
-            for (let key in outputData) {
-                outputData[key] = outputData[key].join(",");
+            var outputData = JSON.parse(JSON.stringify(this.selected))
+            for (var key in outputData) {
+                outputData[key] = outputData[key].join(',')
             }
-            return outputData;
+            return outputData
         },
     },
     mounted() {
         //默认赋值
         this.data.forEach((item) => {
             this.selected[item.key] =
-                this.selectedValues[item.key] ||
-                (Array.isArray(item.options) && item.options.length)
-                    ? [item.options[0].value]
-                    : [];
-        });
+                this.selectedValues[item.key] || (Array.isArray(item.options) && item.options.length) ? [item.options[0].value] : []
+        })
     },
     methods: {
         select(option, item) {
@@ -101,58 +81,50 @@ export default {
                 //如果多选选择的第一个
                 if (option.value === item.options[0].value) {
                     //就赋值第一个的值
-                    this.selected[item.key] = [option.value];
+                    this.selected[item.key] = [option.value]
                 } else {
                     //如果选择的值已有
                     if (this.selected[item.key].includes(option.value)) {
                         //删除选择的值
                         this.selected[item.key].splice(
-                            this.selected[item.key].findIndex(
-                                (s) => s === option.value
-                            ),
-                            1
-                        );
+                            this.selected[item.key].findIndex((s) => s === option.value),
+                            1,
+                        )
                         //当全删光时，把第一个选中
                         if (this.selected[item.key].length === 0) {
-                            this.selected[item.key] = [item.options[0].value];
+                            this.selected[item.key] = [item.options[0].value]
                         }
                     } else {
                         //未有值的时候，追加选中值
-                        this.selected[item.key].push(option.value);
+                        this.selected[item.key].push(option.value)
                         //当含有第一个的值的时候，把第一个删除
-                        if (
-                            this.selected[item.key].includes(
-                                item.options[0].value
-                            )
-                        ) {
+                        if (this.selected[item.key].includes(item.options[0].value)) {
                             this.selected[item.key].splice(
-                                this.selected[item.key].findIndex(
-                                    (s) => s === item.options[0].value
-                                ),
-                                1
-                            );
+                                this.selected[item.key].findIndex((s) => s === item.options[0].value),
+                                1,
+                            )
                         }
                     }
                 }
             } else {
                 //单选时，如果点击了已有值就赋值
                 if (!this.selected[item.key].includes(option.value)) {
-                    this.selected[item.key] = [option.value];
+                    this.selected[item.key] = [option.value]
                 } else {
-                    return false;
+                    return false
                 }
             }
-            this.change();
+            this.change()
         },
         change() {
             if (this.outputValueTypeToArray) {
-                this.$emit("onChange", this.selected);
+                this.$emit('onChange', this.selected)
             } else {
-                this.$emit("onChange", this.selectedString);
+                this.$emit('onChange', this.selectedString)
             }
         },
     },
-};
+}
 </script>
 
 <style scoped>

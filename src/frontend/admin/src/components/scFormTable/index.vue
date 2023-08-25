@@ -1,10 +1,10 @@
 <!--
- * @Description: 表单表格
+ * @Descripttion: 表单表格
  * @version: 1.3
  * @Author: sakuya
  * @Date: 2023年2月9日12:32:26
- * @LastEditors: sakuya
- * @LastEditTime: 2023年2月17日10:41:47
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:08:27
 -->
 
 <template>
@@ -12,22 +12,10 @@
         <el-table ref="table" :data="data" border stripe>
             <el-table-column fixed="left" type="index" width="50">
                 <template #header>
-                    <el-button
-                        v-if="!hideAdd"
-                        circle
-                        icon="el-icon-plus"
-                        size="small"
-                        type="primary"
-                        @click="rowAdd"
-                    ></el-button>
+                    <el-button v-if="!hideAdd" circle icon="el-icon-plus" size="small" type="primary" @click="rowAdd"></el-button>
                 </template>
                 <template #default="scope">
-                    <div
-                        :class="[
-                            'sc-form-table-handle',
-                            { 'sc-form-table-handle-delete': !hideDelete },
-                        ]"
-                    >
+                    <div :class="['sc-form-table-handle', { 'sc-form-table-handle-delete': !hideDelete }]">
                         <span>{{ scope.$index + 1 }}</span>
                         <el-button
                             v-if="!hideDelete"
@@ -36,8 +24,7 @@
                             plain
                             size="small"
                             type="danger"
-                            @click="rowDel(scope.row, scope.$index)"
-                        ></el-button>
+                            @click="rowDel(scope.row, scope.$index)"></el-button>
                     </div>
                 </template>
             </el-table-column>
@@ -57,7 +44,7 @@
 </template>
 
 <script>
-import Sortable from "sortablejs";
+import Sortable from 'sortablejs'
 
 export default {
     props: {
@@ -66,7 +53,7 @@ export default {
             type: Object,
             default: () => {},
         },
-        placeholder: { type: String, default: "暂无数据" },
+        placeholder: { type: String, default: '暂无数据' },
         dragSort: { type: Boolean, default: false },
         hideAdd: { type: Boolean, default: false },
         hideDelete: { type: Boolean, default: false },
@@ -74,77 +61,66 @@ export default {
     data() {
         return {
             data: [],
-        };
+        }
     },
     mounted() {
-        this.data = this.modelValue;
+        this.data = this.modelValue
         if (this.dragSort) {
-            this.rowDrop();
+            this.rowDrop()
         }
     },
     watch: {
         modelValue() {
-            this.data = this.modelValue;
+            this.data = this.modelValue
         },
         data: {
             handler() {
-                this.$emit("update:modelValue", this.data);
+                this.$emit('update:modelValue', this.data)
             },
             deep: true,
         },
     },
     methods: {
         rowDrop() {
-            const _this = this;
-            const tbody = this.$refs.table.$el.querySelector(
-                ".el-table__body-wrapper tbody"
-            );
+            const _this = this
+            const tbody = this.$refs.table.$el.querySelector('.el-table__body-wrapper tbody')
             Sortable.create(tbody, {
-                handle: ".move",
+                handle: '.move',
                 animation: 300,
-                ghostClass: "ghost",
+                ghostClass: 'ghost',
                 onEnd({ newIndex, oldIndex }) {
-                    _this.data.splice(
-                        newIndex,
-                        0,
-                        _this.data.splice(oldIndex, 1)[0]
-                    );
-                    const newArray = _this.data.slice(0);
-                    const tmpHeight = _this.$refs.scFormTable.offsetHeight;
-                    _this.$refs.scFormTable.style.setProperty(
-                        "height",
-                        tmpHeight + "px"
-                    );
-                    _this.data = [];
+                    _this.data.splice(newIndex, 0, _this.data.splice(oldIndex, 1)[0])
+                    const newArray = _this.data.slice(0)
+                    const tmpHeight = _this.$refs.scFormTable.offsetHeight
+                    _this.$refs.scFormTable.style.setProperty('height', tmpHeight + 'px')
+                    _this.data = []
                     _this.$nextTick(() => {
-                        _this.data = newArray;
+                        _this.data = newArray
                         _this.$nextTick(() => {
-                            _this.$refs.scFormTable.style.removeProperty(
-                                "height"
-                            );
-                        });
-                    });
+                            _this.$refs.scFormTable.style.removeProperty('height')
+                        })
+                    })
                 },
-            });
+            })
         },
         rowAdd() {
-            const temp = JSON.parse(JSON.stringify(this.addTemplate));
-            this.data.push(temp);
+            const temp = JSON.parse(JSON.stringify(this.addTemplate))
+            this.data.push(temp)
         },
         rowDel(row, index) {
-            this.data.splice(index, 1);
+            this.data.splice(index, 1)
         },
         //插入行
         pushRow(row) {
-            const temp = row || JSON.parse(JSON.stringify(this.addTemplate));
-            this.data.push(temp);
+            const temp = row || JSON.parse(JSON.stringify(this.addTemplate))
+            this.data.push(temp)
         },
         //根据index删除
         deleteRow(index) {
-            this.data.splice(index, 1);
+            this.data.splice(index, 1)
         },
     },
-};
+}
 </script>
 
 <style scoped>

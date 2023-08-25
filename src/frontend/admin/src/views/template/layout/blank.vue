@@ -1,5 +1,5 @@
 <template>
-    <el-empty :image-size="200" :description="title"></el-empty>
+    <el-empty :description="title" :image-size="200"></el-empty>
 </template>
 
 <script>
@@ -7,11 +7,10 @@ export default {
     name: 'blank',
     data() {
         return {
-            title: "BLANK PAGE :)"
+            title: 'BLANK PAGE :)',
         }
-    }
+    },
 }
 </script>
 
-<style>
-</style>
+<style></style>

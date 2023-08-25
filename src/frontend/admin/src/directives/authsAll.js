@@ -1,5 +1,5 @@
-import {permissionAll, judementSameArr} from '@/utils/permission'
-import tool from '@/utils/tool';
+import { judementSameArr, permissionAll } from '@/utils/permission'
+import tool from '@/utils/tool'
 
 /**
  * 用户权限指令
@@ -12,8 +12,8 @@ export default {
         if (permissionAll()) {
             return
         }
-        let permissions = tool.data.get("PERMISSIONS");
-        const flag = judementSameArr(binding.value, permissions);
-        if (!flag) el.parentNode.removeChild(el);
-    }
+        let permissions = tool.data.get('PERMISSIONS')
+        const flag = judementSameArr(binding.value, permissions)
+        if (!flag) el.parentNode.removeChild(el)
+    },
 }

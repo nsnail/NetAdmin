@@ -3,18 +3,18 @@
 </template>
 
 <script>
-import * as echarts from "echarts";
-import T from "./echarts-theme-T.js";
+import * as echarts from 'echarts'
+import T from './echarts-theme-T.js'
 
-echarts.registerTheme("T", T);
-const unwarp = (obj) => obj && (obj.__v_raw || obj.valueOf() || obj);
+echarts.registerTheme('T', T)
+const unwarp = (obj) => obj && (obj.__v_raw || obj.valueOf() || obj)
 
 export default {
     ...echarts,
-    name: "scEcharts",
+    name: 'scEcharts',
     props: {
-        height: { type: String, default: "100%" },
-        width: { type: String, default: "100%" },
+        height: { type: String, default: '100%' },
+        width: { type: String, default: '100%' },
         nodata: { type: Boolean, default: false },
         option: {
             type: Object,
@@ -23,46 +23,46 @@ export default {
     },
     data() {
         return {
-            isActivate: false,
+            isActivat: false,
             myChart: null,
-        };
+        }
     },
     watch: {
         option: {
             deep: true,
             handler(v) {
-                unwarp(this.myChart).setOption(v);
+                unwarp(this.myChart).setOption(v)
             },
         },
     },
     computed: {
         myOptions: function () {
-            return this.option || {};
+            return this.option || {}
         },
     },
     activated() {
-        if (!this.isActivate) {
+        if (!this.isActivat) {
             this.$nextTick(() => {
-                this.myChart.resize();
-            });
+                this.myChart.resize()
+            })
         }
     },
     deactivated() {
-        this.isActivate = false;
+        this.isActivat = false
     },
     mounted() {
-        this.isActivate = true;
+        this.isActivat = true
         this.$nextTick(() => {
-            this.draw();
-        });
+            this.draw()
+        })
     },
     methods: {
         draw() {
-            const myChart = echarts.init(this.$refs.scEcharts, "T");
-            myChart.setOption(this.myOptions);
-            this.myChart = myChart;
-            window.addEventListener("resize", () => myChart.resize());
+            var myChart = echarts.init(this.$refs.scEcharts, 'T')
+            myChart.setOption(this.myOptions)
+            this.myChart = myChart
+            window.addEventListener('resize', () => myChart.resize())
         },
     },
-};
+}
 </script>

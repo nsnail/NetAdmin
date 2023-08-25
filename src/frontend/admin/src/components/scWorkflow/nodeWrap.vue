@@ -7,24 +7,18 @@
 
     <branch v-if="nodeConfig.type === 4" v-model="nodeConfig">
         <template v-slot="slot">
-            <node-wrap
-                v-if="slot.node"
-                v-model="slot.node.childNode"
-            ></node-wrap>
+            <node-wrap v-if="slot.node" v-model="slot.node.childNode"></node-wrap>
         </template>
     </branch>
 
-    <node-wrap
-        v-if="nodeConfig.childNode"
-        v-model="nodeConfig.childNode"
-    ></node-wrap>
+    <node-wrap v-if="nodeConfig.childNode" v-model="nodeConfig.childNode"></node-wrap>
 </template>
 
 <script>
-import approver from "./nodes/approver";
-import promoter from "./nodes/promoter";
-import branch from "./nodes/branch";
-import send from "./nodes/send";
+import approver from './nodes/approver'
+import promoter from './nodes/promoter'
+import branch from './nodes/branch'
+import send from './nodes/send'
 
 export default {
     props: {
@@ -42,21 +36,21 @@ export default {
     data() {
         return {
             nodeConfig: {},
-        };
+        }
     },
     watch: {
         modelValue(val) {
-            this.nodeConfig = val;
+            this.nodeConfig = val
         },
         nodeConfig(val) {
-            this.$emit("update:modelValue", val);
+            this.$emit('update:modelValue', val)
         },
     },
     mounted() {
-        this.nodeConfig = this.modelValue;
+        this.nodeConfig = this.modelValue
     },
     methods: {},
-};
+}
 </script>
 
 <style></style>

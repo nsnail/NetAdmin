@@ -1,1 +1,0 @@
-cnpm install

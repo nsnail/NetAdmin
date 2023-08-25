@@ -1,5 +1,9 @@
 <template>
-    <el-form ref="form" label-position="left" label-width="120px" style="padding:0 20px;">
+    <el-form ref="form" label-position="left" label-width="120px" style="padding: 0 20px">
+        <el-alert
+            :closable="false"
+            title="以下配置可实时预览，开发者可在 config/index.js 中配置默认值，非常不建议在生产环境下开放布局设置"
+            type="error"></el-alert>
         <el-divider></el-divider>
         <el-form-item :label="$t('user.nightmode')">
             <el-switch v-model="dark"></el-switch>
@@ -16,7 +20,7 @@
         </el-form-item>
         <el-divider></el-divider>
         <el-form-item label="框架布局">
-            <el-select v-model="layout" placeholder="请选择">
+            <el-select v-model="layout">
                 <el-option label="默认" value="default"></el-option>
                 <el-option label="通栏" value="header"></el-option>
                 <el-option label="经典" value="menu"></el-option>
@@ -44,53 +48,49 @@ export default {
             layoutTags: this.$store.state.global.layoutTags,
             lang: this.$TOOL.data.get('APP_LANG') || this.$CONFIG.LANG,
             dark: this.$TOOL.data.get('APP_DARK') || false,
-            colorList: ['#06c755', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
-            colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#06c755'
+            colorList: ['#409EFF', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
+            colorPrimary: this.$TOOL.data.get('APP_COLOR') || this.$CONFIG.COLOR || '#409EFF',
         }
     },
     watch: {
         layout(val) {
-            this.$store.commit("SET_layout", val)
-            this.$TOOL.data.set('LAYOUT', val)
+            this.$store.commit('SET_layout', val)
         },
-        menuIsCollapse(val) {
-            this.$store.commit("TOGGLE_menuIsCollapse")
-            this.$TOOL.data.set('MENU_IS_COLLAPSE', val)
+        menuIsCollapse() {
+            this.$store.commit('TOGGLE_menuIsCollapse')
         },
-        layoutTags(val) {
-            this.$store.commit("TOGGLE_layoutTags")
-            this.$TOOL.data.set('LAYOUT_TAGS', val)
+        layoutTags() {
+            this.$store.commit('TOGGLE_layoutTags')
         },
         dark(val) {
             if (val) {
-                document.documentElement.classList.add("dark")
-                this.$TOOL.data.set("APP_DARK", val)
+                document.documentElement.classList.add('dark')
+                this.$TOOL.data.set('APP_DARK', val)
             } else {
-                document.documentElement.classList.remove("dark")
-                this.$TOOL.data.remove("APP_DARK")
+                document.documentElement.classList.remove('dark')
+                this.$TOOL.data.remove('APP_DARK')
             }
         },
         lang(val) {
             this.$i18n.locale = val
-            this.$TOOL.data.set("APP_LANG", val);
+            this.$TOOL.data.set('APP_LANG', val)
         },
         colorPrimary(val) {
             if (!val) {
-                val = '#06c755'
-                this.colorPrimary = '#06c755'
+                val = '#409EFF'
+                this.colorPrimary = '#409EFF'
             }
-            document.documentElement.style.setProperty('--el-color-primary', val);
+            document.documentElement.style.setProperty('--el-color-primary', val)
             for (let i = 1; i <= 9; i++) {
-                document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(val, i / 10));
+                document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, colorTool.lighten(val, i / 10))
             }
             for (let i = 1; i <= 9; i++) {
-                document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, colorTool.darken(val, i / 10));
+                document.documentElement.style.setProperty(`--el-color-primary-dark-${i}`, colorTool.darken(val, i / 10))
             }
-            this.$TOOL.data.set("APP_COLOR", val);
-        }
-    }
+            this.$TOOL.data.set('APP_COLOR', val)
+        },
+    },
 }
 </script>
 
-<style>
-</style>
+<style></style>

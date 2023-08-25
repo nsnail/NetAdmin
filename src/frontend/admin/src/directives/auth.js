@@ -1,5 +1,5 @@
-import {permissionAll} from '@/utils/permission'
-import tool from '@/utils/tool';
+import { permissionAll } from '@/utils/permission'
+import tool from '@/utils/tool'
 
 /**
  * 用户权限指令
@@ -12,7 +12,7 @@ export default {
         if (permissionAll()) {
             return
         }
-        let permissions = tool.data.get("PERMISSIONS");
-        if (!permissions.some((v) => v === binding.value)) el.parentNode.removeChild(el);
-    }
+        let permissions = tool.data.get('PERMISSIONS')
+        if (!permissions.some((v) => v === binding.value)) el.parentNode.removeChild(el)
+    },
 }

@@ -1,24 +1,17 @@
 <!--
- * @Description: 过滤器V2
- * @version: 2.7
+ * @Descripttion: 过滤器V2
+ * @version: 2.6
  * @Author: sakuya
  * @Date: 2021年7月30日14:48:41
- * @LastEditors: sakuya
- * @LastEditTime: 2023年3月10日13:01:26
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-19 11:45:18
 -->
 
 <template>
     <div class="sc-filterBar">
         <slot :filterLength="filterObjLength" :openFilter="openFilter">
-            <el-badge
-                :hidden="filterObjLength <= 0"
-                :value="filterObjLength"
-                type="danger"
-            >
-                <el-button
-                    icon="el-icon-filter"
-                    @click="openFilter"
-                ></el-button>
+            <el-badge :hidden="filterObjLength <= 0" :value="filterObjLength" type="danger">
+                <el-button icon="el-icon-filter" @click="openFilter"></el-button>
             </el-badge>
         </slot>
 
@@ -33,32 +26,18 @@
                             <el-scrollbar>
                                 <div class="sc-filter-main">
                                     <h2>设置过滤条件</h2>
-                                    <div
-                                        v-if="filter.length <= 0"
-                                        class="nodata"
-                                    >
-                                        没有默认过滤条件，请点击增加过滤项
-                                    </div>
+                                    <div v-if="filter.length <= 0" class="nodata">没有默认过滤条件，请点击增加过滤项</div>
                                     <table v-else>
                                         <colgroup>
                                             <col width="50" />
                                             <col width="140" />
-                                            <col
-                                                v-if="showOperator"
-                                                width="120"
-                                            />
+                                            <col v-if="showOperator" width="120" />
                                             <col />
                                             <col width="40" />
                                         </colgroup>
-                                        <tr
-                                            v-for="(item, index) in filter"
-                                            :key="index"
-                                        >
+                                        <tr v-for="(item, index) in filter" :key="index">
                                             <td>
-                                                <el-tag
-                                                    :disable-transitions="true"
-                                                    >{{ index + 1 }}
-                                                </el-tag>
+                                                <el-tag :disable-transitions="true">{{ index + 1 }}</el-tag>
                                             </td>
                                             <td>
                                                 <py-select
@@ -67,23 +46,16 @@
                                                     :options="fields"
                                                     filterable
                                                     placeholder="过滤字段"
-                                                    @change="fieldChange(item)"
-                                                >
+                                                    @change="fieldChange(item)">
                                                 </py-select>
                                             </td>
                                             <td v-if="showOperator">
-                                                <el-select
-                                                    v-model="item.operator"
-                                                    placeholder="运算符"
-                                                >
+                                                <el-select v-model="item.operator" placeholder="运算符">
                                                     <el-option
-                                                        v-for="ope in item.field
-                                                            .operators ||
-                                                        operator"
+                                                        v-for="ope in item.field.operators || operator"
                                                         :key="ope.value"
                                                         :label="ope.label"
-                                                        :value="ope.value"
-                                                    ></el-option>
+                                                        :value="ope.value"></el-option>
                                                 </el-select>
                                             </td>
                                             <td>
@@ -91,195 +63,102 @@
                                                     v-if="!item.field.type"
                                                     v-model="item.value"
                                                     disabled
-                                                    placeholder="请选择过滤字段"
-                                                ></el-input>
+                                                    placeholder="请选择过滤字段"></el-input>
                                                 <!-- 输入框 -->
                                                 <el-input
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'text'
-                                                    "
+                                                    v-if="item.field.type === 'text'"
                                                     v-model="item.value"
-                                                    :placeholder="
-                                                        item.field
-                                                            .placeholder ||
-                                                        '请输入'
-                                                    "
-                                                ></el-input>
+                                                    :placeholder="item.field.placeholder || '请输入'"></el-input>
                                                 <!-- 下拉框 -->
                                                 <el-select
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'select'
-                                                    "
+                                                    v-if="item.field.type === 'select'"
                                                     v-model="item.value"
-                                                    :loading="
-                                                        item.selectLoading
-                                                    "
-                                                    :multiple="
-                                                        item.field.extend
-                                                            .multiple
-                                                    "
-                                                    :placeholder="
-                                                        item.field
-                                                            .placeholder ||
-                                                        '请选择'
-                                                    "
-                                                    :remote="
-                                                        item.field.extend.remote
-                                                    "
+                                                    :loading="item.selectLoading"
+                                                    :multiple="item.field.extend.multiple"
+                                                    :placeholder="item.field.placeholder || '请选择'"
+                                                    :remote="item.field.extend.remote"
                                                     :remote-method="
                                                         (query) => {
-                                                            remoteMethod(
-                                                                query,
-                                                                item
-                                                            );
+                                                            remoteMethod(query, item)
                                                         }
                                                     "
                                                     filterable
-                                                    @visible-change="
-                                                        visibleChange(
-                                                            $event,
-                                                            item
-                                                        )
-                                                    "
-                                                >
+                                                    @visible-change="visibleChange($event, item)">
                                                     <el-option
-                                                        v-for="field in item
-                                                            .field.extend.data"
+                                                        v-for="field in item.field.extend.data"
                                                         :key="field.value"
                                                         :label="field.label"
-                                                        :value="field.value"
-                                                    ></el-option>
+                                                        :value="field.value"></el-option>
                                                 </el-select>
                                                 <!-- 日期 -->
                                                 <el-date-picker
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'date'
-                                                    "
+                                                    v-if="item.field.type === 'date'"
                                                     v-model="item.value"
-                                                    :placeholder="
-                                                        item.field
-                                                            .placeholder ||
-                                                        '请选择日期'
-                                                    "
+                                                    :placeholder="item.field.placeholder || '请选择日期'"
                                                     style="width: 100%"
                                                     type="date"
-                                                    value-format="YYYY-MM-DD"
-                                                ></el-date-picker>
+                                                    value-format="YYYY-MM-DD"></el-date-picker>
                                                 <!-- 日期范围 -->
                                                 <el-date-picker
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'daterange'
-                                                    "
+                                                    v-if="item.field.type === 'daterange'"
                                                     v-model="item.value"
                                                     end-placeholder="结束日期"
                                                     start-placeholder="开始日期"
                                                     style="width: 100%"
                                                     type="daterange"
-                                                    value-format="YYYY-MM-DD"
-                                                ></el-date-picker>
+                                                    value-format="YYYY-MM-DD"></el-date-picker>
                                                 <!-- 日期时间 -->
                                                 <el-date-picker
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'datetime'
-                                                    "
+                                                    v-if="item.field.type === 'datetime'"
                                                     v-model="item.value"
-                                                    :placeholder="
-                                                        item.field
-                                                            .placeholder ||
-                                                        '请选择日期'
-                                                    "
+                                                    :placeholder="item.field.placeholder || '请选择日期'"
                                                     style="width: 100%"
                                                     type="datetime"
-                                                    value-format="YYYY-MM-DD HH:mm:ss"
-                                                ></el-date-picker>
+                                                    value-format="YYYY-MM-DD HH:mm:ss"></el-date-picker>
                                                 <!-- 日期时间范围 -->
                                                 <el-date-picker
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'datetimerange'
-                                                    "
+                                                    v-if="item.field.type === 'datetimerange'"
                                                     v-model="item.value"
                                                     end-placeholder="结束日期"
                                                     start-placeholder="开始日期"
                                                     style="width: 100%"
                                                     type="datetimerange"
-                                                    value-format="YYYY-MM-DD HH:mm:ss"
-                                                ></el-date-picker>
+                                                    value-format="YYYY-MM-DD HH:mm:ss"></el-date-picker>
                                                 <!-- 自定义日期 -->
                                                 <el-date-picker
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'customDate'
-                                                    "
+                                                    v-if="item.field.type === 'customDate'"
                                                     v-model="item.value"
-                                                    :placeholder="
-                                                        item.field
-                                                            .placeholder ||
-                                                        '请选择'
-                                                    "
-                                                    :type="
-                                                        item.field.extend
-                                                            .dateType || 'date'
-                                                    "
-                                                    :value-format="
-                                                        item.field.extend
-                                                            .valueFormat
-                                                    "
+                                                    :placeholder="item.field.placeholder || '请选择'"
+                                                    :type="item.field.extend.dateType || 'date'"
+                                                    :value-format="item.field.extend.valueFormat"
                                                     end-placeholder="结束日期"
                                                     start-placeholder="开始日期"
-                                                    style="width: 100%"
-                                                ></el-date-picker>
+                                                    style="width: 100%"></el-date-picker>
                                                 <!-- 开关 -->
                                                 <el-switch
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'switch'
-                                                    "
+                                                    v-if="item.field.type === 'switch'"
                                                     v-model="item.value"
                                                     active-value="1"
-                                                    inactive-value="0"
-                                                ></el-switch>
+                                                    inactive-value="0"></el-switch>
                                                 <!-- 标签 -->
                                                 <el-select
-                                                    v-if="
-                                                        item.field.type ===
-                                                        'tags'
-                                                    "
+                                                    v-if="item.field.type === 'tags'"
                                                     v-model="item.value"
-                                                    :placeholder="
-                                                        item.field
-                                                            .placeholder ||
-                                                        '请输入'
-                                                    "
+                                                    :placeholder="item.field.placeholder || '请输入'"
                                                     allow-create
                                                     default-first-option
                                                     filterable
                                                     multiple
-                                                    no-data-text="输入关键词后按回车确认"
-                                                ></el-select>
+                                                    no-data-text="输入关键词后按回车确认"></el-select>
                                             </td>
                                             <td>
-                                                <el-icon
-                                                    class="del"
-                                                    @click="delFilter(index)"
-                                                >
+                                                <el-icon class="del" @click="delFilter(index)">
                                                     <el-icon-delete />
                                                 </el-icon>
                                             </td>
                                         </tr>
                                     </table>
-                                    <el-button
-                                        icon="el-icon-plus"
-                                        text
-                                        type="primary"
-                                        @click="addFilter"
-                                        >增加过滤项
-                                    </el-button>
+                                    <el-button icon="el-icon-plus" text type="primary" @click="addFilter">增加过滤项</el-button>
                                 </div>
                             </el-scrollbar>
                         </el-tab-pane>
@@ -288,30 +167,14 @@
                                 <div class="tabs-label">常用</div>
                             </template>
                             <el-scrollbar>
-                                <my
-                                    ref="my"
-                                    :data="myFilter"
-                                    :filterName="filterName"
-                                    @selectMyfilter="selectMyfilter"
-                                ></my>
+                                <my ref="my" :data="myFilter" :filterName="filterName" @selectMyfilter="selectMyfilter"></my>
                             </el-scrollbar>
                         </el-tab-pane>
                     </el-tabs>
                 </el-main>
                 <el-footer>
-                    <el-button
-                        :disabled="filter.length <= 0"
-                        type="primary"
-                        @click="ok"
-                        >立即过滤
-                    </el-button>
-                    <el-button
-                        :disabled="filter.length <= 0"
-                        plain
-                        type="primary"
-                        @click="saveMy"
-                        >另存为常用
-                    </el-button>
+                    <el-button :disabled="filter.length <= 0" type="primary" @click="ok">立即过滤</el-button>
+                    <el-button :disabled="filter.length <= 0" plain type="primary" @click="saveMy">另存为常用</el-button>
                     <el-button @click="clear">清空过滤</el-button>
                 </el-footer>
             </el-container>
@@ -320,25 +183,25 @@
 </template>
 
 <script>
-import config from "@/config/filterBar";
-import pySelect from "./pySelect";
-import my from "./my";
+import config from '@/config/filterBar'
+import pySelect from './pySelect'
+import my from './my'
 
 export default {
-    name: "filterBar",
+    name: 'filterBar',
     components: {
         pySelect,
         my,
     },
     props: {
-        filterName: { type: String, default: "" },
+        filterName: { type: String, default: '' },
         showOperator: { type: Boolean, default: true },
         options: {
             type: Object,
             default: () => {},
         },
     },
-    emits: ["filterChange"],
+    emits: ['filterChange'],
     data() {
         return {
             drawer: false,
@@ -348,32 +211,15 @@ export default {
             myFilter: [],
             filterObjLength: 0,
             saveLoading: false,
-        };
+        }
     },
     computed: {
         filterObj() {
-            const obj = {};
+            const obj = {}
             this.filter.forEach((item) => {
-                if (this.showOperator) {
-                    let valueFormat = config.valueFormat.replace(
-                        /{key}/g,
-                        item.field.value
-                    );
-                    valueFormat = valueFormat.replace(/{value}/g, item.value);
-                    valueFormat = valueFormat.replace(
-                        /{separator}/g,
-                        config.separator
-                    );
-                    valueFormat = valueFormat.replace(
-                        /{operator}/g,
-                        item.operator
-                    );
-                    obj[valueFormat.split(":")[0]] = valueFormat.split(":")[1];
-                } else {
-                    obj[item.field.value] = item.value;
-                }
-            });
-            return obj;
+                obj[item.field.value] = this.showOperator ? `${item.value}${config.separator}${item.operator}` : `${item.value}`
+            })
+            return obj
         },
     },
     mounted() {
@@ -382,162 +228,148 @@ export default {
             if (item.selected) {
                 this.filter.push({
                     field: item,
-                    operator: item.operator || "include",
-                    value: "",
-                });
+                    operator: item.operator || 'include',
+                    value: '',
+                })
             }
-        });
+        })
     },
     methods: {
         //打开过滤器
         openFilter() {
-            this.drawer = true;
+            this.drawer = true
         },
         //增加过滤项
         addFilter() {
             //下一组新增过滤
-            const filterArr = this.fields.filter(
-                (field) =>
-                    !this.filter.some(
-                        (item) =>
-                            field.value === item.field.value &&
-                            !item.field.repeat
-                    )
-            );
+            var filterArr = this.fields.filter((field) => !this.filter.some((item) => field.value === item.field.value && !item.field.repeat))
             if (this.fields.length <= 0 || filterArr.length <= 0) {
-                this.$message.warning("无过滤项");
-                return false;
+                this.$message.warning('无过滤项')
+                return false
             }
-            const filterNum = filterArr[0];
+            const filterNum = filterArr[0]
             this.filter.push({
                 field: filterNum,
-                operator: filterNum.operator || "include",
-                value: "",
-            });
+                operator: filterNum.operator || 'include',
+                value: '',
+            })
         },
         //删除过滤项
         delFilter(index) {
-            this.filter.splice(index, 1);
+            this.filter.splice(index, 1)
         },
         //过滤项字段变更事件
         fieldChange(tr) {
-            let oldType = tr.field.type;
-            tr.field.type = "";
+            let oldType = tr.field.type
+            tr.field.type = ''
             this.$nextTick(() => {
-                tr.field.type = oldType;
-            });
-            tr.operator = tr.field.operator || "include";
-            tr.value = "";
+                tr.field.type = oldType
+            })
+            tr.operator = tr.field.operator || 'include'
+            tr.value = ''
         },
         //下拉框显示事件处理异步
         async visibleChange(isopen, item) {
-            if (
-                isopen &&
-                item.field.extend.request &&
-                !item.field.extend.remote
-            ) {
-                item.selectLoading = true;
-                let data;
+            if (isopen && item.field.extend.request && !item.field.extend.remote) {
+                item.selectLoading = true
                 try {
-                    data = await item.field.extend.request();
+                    var data = await item.field.extend.request()
                 } catch (error) {
-                    console.log(error);
+                    console.log(error)
                 }
-                item.field.extend.data = data;
-                item.selectLoading = false;
+                item.field.extend.data = data
+                item.selectLoading = false
             }
         },
         //下拉框显示事件处理异步搜索
         async remoteMethod(query, item) {
             if (!item.field.extend.request) {
-                return false;
+                return false
             }
-            if (query !== "") {
-                item.selectLoading = true;
-                let data;
+            if (query !== '') {
+                item.selectLoading = true
                 try {
-                    data = await item.field.extend.request(query);
+                    var data = await item.field.extend.request(query)
                 } catch (error) {
-                    console.log(error);
+                    console.log(error)
                 }
-                item.field.extend.data = data;
-                item.selectLoading = false;
+                item.field.extend.data = data
+                item.selectLoading = false
             } else {
-                item.field.extend.data = [];
+                item.field.extend.data = []
             }
         },
         //选择常用过滤
         selectMyfilter(item) {
             //常用过滤回显当前过滤项
-            this.filter = [];
+            this.filter = []
             this.fields.forEach((field) => {
-                const filterValue = item.filterObj[field.value];
+                var filterValue = item.filterObj[field.value]
                 if (filterValue) {
-                    const operator = filterValue.split("|")[1];
-                    let value = filterValue.split("|")[0];
-                    if (field.type === "select" && field.extend.multiple) {
-                        value = value.split(",");
-                    } else if (field.type === "daterange") {
-                        value = value.split(",");
+                    var operator = filterValue.split('|')[1]
+                    var value = filterValue.split('|')[0]
+                    if (field.type === 'select' && field.extend.multiple) {
+                        value = value.split(',')
+                    } else if (field.type === 'daterange') {
+                        value = value.split(',')
                     }
                     this.filter.push({
                         field: field,
                         operator: operator,
                         value: value,
-                    });
+                    })
                 }
-            });
-            this.filterObjLength = Object.keys(item.filterObj).length;
-            this.$emit("filterChange", item.filterObj);
-            this.drawer = false;
+            })
+            this.filterObjLength = Object.keys(item.filterObj).length
+            this.$emit('filterChange', item.filterObj)
+            this.drawer = false
         },
         //立即过滤
         ok() {
-            this.filterObjLength = this.filter.length;
-            this.$emit("filterChange", this.filterObj);
-            this.drawer = false;
+            this.filterObjLength = this.filter.length
+            this.$emit('filterChange', this.filterObj)
+            this.drawer = false
         },
         //保存常用
         saveMy() {
-            this.$prompt("常用过滤名称", "另存为常用", {
-                inputPlaceholder: "请输入识别度较高的常用过滤名称",
+            this.$prompt('常用过滤名称', '另存为常用', {
+                inputPlaceholder: '请输入识别度较高的常用过滤名称',
                 inputPattern: /\S/,
-                inputErrorMessage: "名称不能为空",
+                inputErrorMessage: '名称不能为空',
             })
                 .then(async ({ value }) => {
-                    this.saveLoading = true;
+                    this.saveLoading = true
                     const saveObj = {
                         title: value,
                         filterObj: this.filterObj,
-                    };
-                    let save;
+                    }
                     try {
-                        save = await config.saveMy(this.filterName, saveObj);
+                        var save = await config.saveMy(this.filterName, saveObj)
                     } catch (error) {
-                        this.saveLoading = false;
-                        console.log(error);
-                        return false;
+                        this.saveLoading = false
+                        console.log(error)
+                        return false
                     }
                     if (!save) {
-                        return false;
+                        return false
                     }
 
-                    this.myFilter.push(saveObj);
-                    this.$message.success(`${this.filterName} 保存常用成功`);
-                    this.saveLoading = false;
+                    this.myFilter.push(saveObj)
+                    this.$message.success(`${this.filterName} 保存常用成功`)
+                    this.saveLoading = false
                 })
                 .catch(() => {
                     //
-                });
+                })
         },
         //清空过滤
         clear() {
-            this.filter = [];
-            this.filterObjLength = 0;
-            this.$emit("filterChange", this.filterObj);
+            this.filter = []
+            this.filterObjLength = 0
+            this.$emit('filterChange', this.filterObj)
         },
     },
-};
+}
 </script>
 
 <style scoped>
@@ -570,9 +402,6 @@ export default {
 .sc-filter-main table {
     width: 100%;
     margin: 15px 0;
-}
-
-.sc-filter-main table tr {
 }
 
 .sc-filter-main table td {

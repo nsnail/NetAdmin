@@ -3,11 +3,7 @@
         <el-aside v-loading="menuloading" width="300px">
             <el-container>
                 <el-header>
-                    <el-input
-                        v-model="menuFilterText"
-                        clearable
-                        placeholder="输入关键字进行过滤"
-                    ></el-input>
+                    <el-input v-model="menuFilterText" clearable placeholder="输入关键字进行过滤"></el-input>
                 </el-header>
                 <el-main class="nopadding">
                     <el-tree
@@ -23,38 +19,22 @@
                         node-key="id"
                         show-checkbox
                         @node-click="menuClick"
-                        @node-drop="nodeDrop"
-                    >
+                        @node-drop="nodeDrop">
                         <template #default="{ node, data }">
                             <span class="custom-tree-node">
                                 <span class="label">
                                     {{ node.label }}
                                 </span>
                                 <span class="do">
-                                    <el-button
-                                        icon="el-icon-plus"
-                                        size="small"
-                                        @click.stop="add(node, data)"
-                                    ></el-button>
+                                    <el-button icon="el-icon-plus" size="small" @click.stop="add(node, data)"></el-button>
                                 </span>
                             </span>
                         </template>
                     </el-tree>
                 </el-main>
                 <el-footer style="height: 51px">
-                    <el-button
-                        icon="el-icon-plus"
-                        size="small"
-                        type="primary"
-                        @click="add()"
-                    ></el-button>
-                    <el-button
-                        icon="el-icon-delete"
-                        plain
-                        size="small"
-                        type="danger"
-                        @click="delMenu"
-                    ></el-button>
+                    <el-button icon="el-icon-plus" size="small" type="primary" @click="add()"></el-button>
+                    <el-button icon="el-icon-delete" plain size="small" type="danger" @click="delMenu"></el-button>
                 </el-footer>
             </el-container>
         </el-aside>
@@ -65,11 +45,13 @@
         </el-container>
     </el-container>
 </template>
+
 <script>
-let newMenuIndex = 1;
-import save from "./save";
+let newMenuIndex = 1
+import save from './save'
 
 export default {
+    name: 'settingMenu',
     components: {
         save,
     },
@@ -79,109 +61,108 @@ export default {
             menuList: [],
             menuProps: {
                 label: (data) => {
-                    return data.meta.title;
+                    return data.meta.title
                 },
             },
-            menuFilterText: "",
-        };
+            menuFilterText: '',
+        }
     },
     watch: {
         menuFilterText(val) {
-            this.$refs.menu.filter(val);
+            this.$refs.menu.filter(val)
         },
     },
     mounted() {
-        this.getMenu();
+        this.getMenu()
     },
     methods: {
         //加载树数据
         async getMenu() {
-            this.menuloading = true;
-            const res = await this.$API.system.menu.list.get();
-            this.menuloading = false;
-            this.menuList = res.data;
+            this.menuloading = true
+            var res = await this.$API.system.menu.list.get()
+            this.menuloading = false
+            this.menuList = res.data
         },
         //树点击
         menuClick(data, node) {
-            const pid = node.level === 1 ? undefined : node.parent.data.id;
-            this.$refs.save.setData(data, pid);
-            this.$refs.main.$el.scrollTop = 0;
+            var pid = node.level === 1 ? undefined : node.parent.data.id
+            this.$refs.save.setData(data, pid)
+            this.$refs.main.$el.scrollTop = 0
         },
         //树过滤
         menuFilterNode(value, data) {
-            if (!value) return true;
-            const targetText = data.meta.title;
-            return targetText.indexOf(value) !== -1;
+            if (!value) return true
+            var targetText = data.meta.title
+            return targetText.indexOf(value) !== -1
         },
         //树拖拽
         nodeDrop(draggingNode, dropNode, dropType) {
-            this.$refs.save.setData({});
-            this.$message(
-                `拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`
-            );
+            this.$refs.save.setData({})
+            this.$message(`拖拽对象：${draggingNode.data.meta.title}, 释放对象：${dropNode.data.meta.title}, 释放对象的位置：${dropType}`)
         },
         //增加
         async add(node, data) {
-            const newMenuName = "未命名" + newMenuIndex++;
-            const newMenuData = {
-                parentId: data ? data.id : "",
+            var newMenuName = '未命名' + newMenuIndex++
+            var newMenuData = {
+                parentId: data ? data.id : '',
                 name: newMenuName,
-                path: "",
-                component: "",
+                path: '',
+                component: '',
                 meta: {
                     title: newMenuName,
-                    type: "menu",
+                    type: 'menu',
                 },
-            };
-            this.menuloading = true;
-            const res = await this.$API.demo.post.post(newMenuData);
-            this.menuloading = false;
-            newMenuData.id = res.data;
-            this.$refs.menu.append(newMenuData, node);
-            this.$refs.menu.setCurrentKey(newMenuData.id);
-            const pid = node ? node.data.id : "";
-            this.$refs.save.setData(newMenuData, pid);
+            }
+            this.menuloading = true
+            var res = await this.$API.demo.post.post(newMenuData)
+            this.menuloading = false
+            newMenuData.id = res.data
+
+            this.$refs.menu.append(newMenuData, node)
+            this.$refs.menu.setCurrentKey(newMenuData.id)
+            var pid = node ? node.data.id : ''
+            this.$refs.save.setData(newMenuData, pid)
         },
         //删除菜单
         async delMenu() {
-            const CheckedNodes = this.$refs.menu.getCheckedNodes();
+            var CheckedNodes = this.$refs.menu.getCheckedNodes()
             if (CheckedNodes.length === 0) {
-                this.$message.warning("请选择需要删除的项");
-                return false;
+                this.$message.warning('请选择需要删除的项')
+                return false
             }
-            const confirm = await this.$confirm(
-                "确认删除已选择的菜单吗？",
-                "提示",
-                {
-                    type: "warning",
-                    confirmButtonText: "删除",
-                    confirmButtonClass: "el-button--danger",
-                }
-            ).catch(() => {});
-            if (confirm !== "confirm") {
-                return false;
+
+            var confirm = await this.$confirm('确认删除已选择的菜单吗？', '提示', {
+                type: 'warning',
+                confirmButtonText: '删除',
+                confirmButtonClass: 'el-button--danger',
+            }).catch(() => {})
+            if (confirm !== 'confirm') {
+                return false
             }
-            this.menuloading = true;
-            const reqData = {
+
+            this.menuloading = true
+            var reqData = {
                 ids: CheckedNodes.map((item) => item.id),
-            };
-            const res = await this.$API.demo.post.post(reqData);
-            this.menuloading = false;
-            if (res.code === "succeed") {
+            }
+            var res = await this.$API.demo.post.post(reqData)
+            this.menuloading = false
+
+            if (res.code === 200) {
                 CheckedNodes.forEach((item) => {
-                    const node = this.$refs.menu.getNode(item);
+                    var node = this.$refs.menu.getNode(item)
                     if (node.isCurrent) {
-                        this.$refs.save.setData({});
+                        this.$refs.save.setData({})
                     }
-                    this.$refs.menu.remove(item);
-                });
+                    this.$refs.menu.remove(item)
+                })
             } else {
-                this.$message.warning(res.message);
+                this.$message.warning(res.message)
             }
         },
     },
-};
+}
 </script>
+
 <style scoped>
 .menu:deep(.el-tree-node__label) {
     display: flex;

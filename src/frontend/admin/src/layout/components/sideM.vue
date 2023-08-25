@@ -1,42 +1,26 @@
 <template>
-    <div
-        ref=""
-        v-drag
-        class="mobile-nav-button"
-        draggable="false"
-        @click="showMobileNav($event)"
-    >
+    <div v-drag class="mobile-nav-button" draggable="false" @click="showMobileNav($event)">
         <el-icon>
             <el-icon-menu />
         </el-icon>
     </div>
-    <el-drawer
-        ref="mobileNavBox"
-        v-model="nav"
-        :size="240"
-        :with-header="false"
-        destroy-on-close
-        direction="ltr"
-        title="移动端菜单"
-    >
+
+    <el-drawer ref="mobileNavBox" v-model="nav" :size="240" :with-header="false" destroy-on-close direction="ltr" title="移动端菜单">
         <el-container class="mobile-nav">
             <el-header>
                 <div class="logo-bar">
-                    <img class="logo" src="img/logo.png" /><span>{{
-                        $CONFIG.APP_NAME
-                    }}</span>
+                    <img class="logo" src="@/assets/img/logo.png" /><span>{{ $CONFIG.APP_NAME }}</span>
                 </div>
             </el-header>
             <el-main>
                 <el-scrollbar>
                     <el-menu
                         :default-active="$route.meta.active || $route.fullPath"
-                        active-text-color="#06c755"
+                        active-text-color="#409EFF"
                         background-color="#212d3d"
                         router
                         text-color="#fff"
-                        @select="select"
-                    >
+                        @select="select">
                         <NavMenu :navMenus="menu"></NavMenu>
                     </el-menu>
                 </el-scrollbar>
@@ -44,8 +28,9 @@
         </el-container>
     </el-drawer>
 </template>
+
 <script>
-import NavMenu from "./NavMenu.vue";
+import NavMenu from './NavMenu.vue'
 
 export default {
     components: {
@@ -55,91 +40,95 @@ export default {
         return {
             nav: false,
             menu: [],
-        };
+        }
     },
     computed: {},
     created() {
-        const menu = this.$router.sc_getMenu();
-        this.menu = this.filterUrl(menu);
+        var menu = this.$router.sc_getMenu()
+        this.menu = this.filterUrl(menu)
     },
+
     watch: {},
     methods: {
         showMobileNav(e) {
-            const isdrag = e.currentTarget.getAttribute("drag-flag");
-            if (isdrag === "true") {
-                return false;
+            var isdrag = e.currentTarget.getAttribute('drag-flag')
+            if (isdrag === 'true') {
+                return false
             } else {
-                this.nav = true;
+                this.nav = true
             }
         },
         select() {
-            this.$refs.mobileNavBox.handleClose();
+            this.$refs.mobileNavBox.handleClose()
         },
         //转换外部链接的路由
         filterUrl(map) {
-            const newMap = [];
+            var newMap = []
             map &&
                 map.forEach((item) => {
-                    item.meta = item.meta ? item.meta : {};
+                    item.meta = item.meta ? item.meta : {}
                     //处理隐藏
-                    if (item.meta.hidden || item.meta.type === "button") {
-                        return false;
+                    if (item.meta.hidden || item.meta.type === 'button') {
+                        return false
                     }
                     //处理http
-                    if (item.meta.type === "iframe") {
-                        item.path = `/i/${item.name}`;
+                    if (item.meta.type === 'iframe') {
+                        item.path = `/i/${item.name}`
                     }
                     //递归循环
                     if (item.children && item.children.length > 0) {
-                        item.children = this.filterUrl(item.children);
+                        item.children = this.filterUrl(item.children)
                     }
-                    newMap.push(item);
-                });
-            return newMap;
+                    newMap.push(item)
+                })
+            return newMap
         },
     },
     directives: {
         drag(el) {
-            let oDiv = el; //当前元素
-            let firstTime = "",
-                lastTime = "";
+            let oDiv = el //当前元素
+            let firstTime = '',
+                lastTime = ''
             //禁止选择网页上的文字
             // document.onselectstart = function() {
-            //     return false;
+            // 	return false;
             // };
             oDiv.onmousedown = function (e) {
                 //鼠标按下，计算当前元素距离可视区的距离
-                let disX = e.clientX - oDiv.offsetLeft;
-                let disY = e.clientY - oDiv.offsetTop;
+                let disX = e.clientX - oDiv.offsetLeft
+                let disY = e.clientY - oDiv.offsetTop
                 document.onmousemove = function (e) {
-                    oDiv.setAttribute("drag-flag", true);
-                    firstTime = new Date().getTime();
+                    oDiv.setAttribute('drag-flag', true)
+                    firstTime = new Date().getTime()
                     //通过事件委托，计算移动的距离
-                    let l = e.clientX - disX;
-                    let t = e.clientY - disY;
+                    let l = e.clientX - disX
+                    let t = e.clientY - disY
+
                     //移动当前元素
+
                     if (t > 0 && t < document.body.clientHeight - 50) {
-                        oDiv.style.top = t + "px";
+                        oDiv.style.top = t + 'px'
                     }
                     if (l > 0 && l < document.body.clientWidth - 50) {
-                        oDiv.style.left = l + "px";
+                        oDiv.style.left = l + 'px'
                     }
-                };
+                }
                 document.onmouseup = function () {
-                    lastTime = new Date().getTime();
+                    lastTime = new Date().getTime()
                     if (lastTime - firstTime > 200) {
-                        oDiv.setAttribute("drag-flag", false);
+                        oDiv.setAttribute('drag-flag', false)
                     }
-                    document.onmousemove = null;
-                    document.onmouseup = null;
-                };
+                    document.onmousemove = null
+                    document.onmouseup = null
+                }
                 //return false不加的话可能导致黏连，就是拖到一个地方时div粘在鼠标上不下来，相当于onmouseup失效
-                return false;
-            };
+                return false
+            }
         },
     },
-};
+}
 </script>
+
 <style scoped>
 .mobile-nav-button {
     position: fixed;
@@ -148,7 +137,7 @@ export default {
     z-index: 10;
     width: 50px;
     height: 50px;
-    background: #06c755;
+    background: #409eff;
     box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 1);
     border-radius: 50%;
     display: flex;

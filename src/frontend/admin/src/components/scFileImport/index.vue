@@ -1,5 +1,5 @@
 <!--
- * @Description: 文件导入
+ * @Descripttion: 文件导入
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2022年5月24日11:30:03
@@ -11,21 +11,8 @@
     <slot :open="open">
         <el-button plain type="primary" @click="open">导入</el-button>
     </slot>
-    <el-dialog
-        v-model="dialog"
-        :close-on-click-modal="false"
-        :width="550"
-        append-to-body
-        destroy-on-close
-        title="导入"
-    >
-        <el-progress
-            v-if="loading"
-            :percentage="percentage"
-            :stroke-width="20"
-            :text-inside="true"
-            style="margin-bottom: 15px"
-        />
+    <el-dialog v-model="dialog" :close-on-click-modal="false" :width="550" append-to-body destroy-on-close title="导入">
+        <el-progress v-if="loading" :percentage="percentage" :stroke-width="20" :text-inside="true" style="margin-bottom: 15px" />
         <div v-loading="loading">
             <el-upload
                 ref="uploader"
@@ -39,43 +26,24 @@
                 :on-progress="progress"
                 :on-success="success"
                 :show-file-list="false"
-                drag
-            >
+                drag>
                 <slot name="uploader">
                     <el-icon class="el-icon--upload">
                         <el-icon-upload-filled />
                     </el-icon>
-                    <div class="el-upload__text">
-                        将文件拖到此处或 <em>点击选择文件上传</em>
-                    </div>
+                    <div class="el-upload__text">将文件拖到此处或 <em>点击选择文件上传</em></div>
                 </slot>
                 <template #tip>
                     <div class="el-upload__tip">
                         <template v-if="tip">{{ tip }}</template>
-                        <template v-else
-                            >请上传小于或等于 {{ maxSize }}M 的
-                            {{ accept }} 格式文件</template
-                        >
+                        <template v-else>请上传小于或等于 {{ maxSize }}M 的 {{ accept }} 格式文件</template>
                         <p v-if="templateUrl" style="margin-top: 7px">
-                            <el-link
-                                :href="templateUrl"
-                                :underline="false"
-                                target="_blank"
-                                type="primary"
-                            >
-                                下载导入模板
-                            </el-link>
+                            <el-link :href="templateUrl" :underline="false" target="_blank" type="primary">下载导入模板</el-link>
                         </p>
                     </div>
                 </template>
             </el-upload>
-            <el-form
-                v-if="$slots.form"
-                inline
-                label-position="left"
-                label-width="100px"
-                style="margin-top: 18px"
-            >
+            <el-form v-if="$slots.form" inline label-position="left" label-width="100px" style="margin-top: 18px">
                 <slot :formData="formData" name="form"></slot>
             </el-form>
         </div>
@@ -84,7 +52,7 @@
 
 <script>
 export default {
-    emits: ["success"],
+    emits: ['success'],
     props: {
         apiObj: {
             type: Object,
@@ -94,10 +62,10 @@ export default {
             type: Object,
             default: () => {},
         },
-        accept: { type: String, default: ".xls, .xlsx" },
+        accept: { type: String, default: '.xls, .xlsx' },
         maxSize: { type: Number, default: 10 },
-        tip: { type: String, default: "" },
-        templateUrl: { type: String, default: "" },
+        tip: { type: String, default: '' },
+        templateUrl: { type: String, default: '' },
     },
     data() {
         return {
@@ -105,71 +73,66 @@ export default {
             loading: false,
             percentage: 0,
             formData: {},
-        };
+        }
     },
     mounted() {},
     methods: {
         open() {
-            this.dialog = true;
-            this.formData = {};
+            this.dialog = true
+            this.formData = {}
         },
         close() {
-            this.dialog = false;
+            this.dialog = false
         },
         before(file) {
-            const maxSize = file.size / 1024 / 1024 < this.maxSize;
+            const maxSize = file.size / 1024 / 1024 < this.maxSize
             if (!maxSize) {
-                this.$message.warning(
-                    `上传文件大小不能超过 ${this.maxSize}MB!`
-                );
-                return false;
+                this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`)
+                return false
             }
-            this.loading = true;
+            this.loading = true
         },
         progress(e) {
-            this.percentage = e.percent;
+            this.percentage = e.percent
         },
         success(res, file) {
-            this.$refs.uploader.handleRemove(file);
-            this.$refs.uploader.clearFiles();
-            this.loading = false;
-            this.percentage = 0;
-            this.$emit("success", res, this.close);
+            this.$refs.uploader.handleRemove(file)
+            this.$refs.uploader.clearFiles()
+            this.loading = false
+            this.percentage = 0
+            this.$emit('success', res, this.close)
         },
         error(err) {
-            this.loading = false;
-            this.percentage = 0;
+            this.loading = false
+            this.percentage = 0
             this.$notify.error({
-                title: "上传文件未成功",
+                title: '上传文件未成功',
                 message: err,
-            });
+            })
         },
         request(param) {
-            Object.assign(param.data, this.formData);
-            const data = new FormData();
-            data.append(param.filename, param.file);
+            Object.assign(param.data, this.formData)
+            const data = new FormData()
+            data.append(param.filename, param.file)
             for (const key in param.data) {
-                data.append(key, param.data[key]);
+                data.append(key, param.data[key])
             }
             this.apiObj
                 .post(data, {
                     onUploadProgress: (e) => {
-                        const complete = parseInt(
-                            ((e.loaded / e.total) * 100) | 0,
-                            10
-                        );
-                        param.onProgress({ percent: complete });
+                        const complete = parseInt(((e.loaded / e.total) * 100) | 0, 10)
+                        param.onProgress({ percent: complete })
                     },
                 })
                 .then((res) => {
-                    param.onSuccess(res);
+                    param.onSuccess(res)
                 })
                 .catch((err) => {
-                    param.onError(err);
-                });
+                    param.onError(err)
+                })
         },
     },
-};
+}
 </script>
 
 <style></style>

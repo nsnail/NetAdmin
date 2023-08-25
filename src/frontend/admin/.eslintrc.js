@@ -1,22 +1,47 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true
+    root: true,
+    extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/eslint-config-prettier'],
+    rules: {
+        'vue/multi-word-component-names': [
+            'off',
+            {
+                ignores: [],
+            },
+        ],
+        'vue/attributes-order': [
+            'error',
+            {
+                order: [
+                    'DEFINITION',
+                    'LIST_RENDERING',
+                    'CONDITIONALS',
+                    'RENDER_MODIFIERS',
+                    'GLOBAL',
+                    ['UNIQUE', 'SLOT'],
+                    'TWO_WAY_BINDING',
+                    'OTHER_DIRECTIVES',
+                    'OTHER_ATTR',
+                    'EVENTS',
+                    'CONTENT',
+                ],
+                alphabetical: false,
+            },
+        ],
+        'vue/no-unused-vars': ['warn'],
+        'no-return-await': ['warn'],
+        'no-multiple-empty-lines': ['warn'],
+        'no-inner-declarations': ['off'],
+        eqeqeq: 'error',
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:vue/vue3-essential"
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+    env: {
+        browser: true,
+        es2021: true,
+        node: true,
+        'vue/setup-compiler-macros': true,
     },
-    "plugins": [
-        "vue"
-    ],
-    "rules": {
-        'vue/multi-word-component-names': 0,
-        'no-unused-vars': 1,
-        'no-empty': 0
-    }
+    globals: {
+        defineOptions: 'writable',
+        defineProps: 'readonly',
+        NodeJS: true,
+    },
 }

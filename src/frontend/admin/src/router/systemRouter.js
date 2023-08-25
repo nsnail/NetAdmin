@@ -1,35 +1,35 @@
-import config from "@/config"
+import config from '@/config'
 
 //系统路由
 const routes = [
     {
-        name: "layout",
-        path: "/",
+        name: 'layout',
+        path: '/',
         component: () => import(/* webpackChunkName: "layout" */ '@/layout'),
-        redirect: config.DASHBOARD_URL || '/dashboard',
-        children: []
+        redirect: config.DASHBOARD_URL || '/home',
+        children: [],
     },
     {
-        path: "/login",
-        component: () => import(/* webpackChunkName: "login" */ '@/views/login'),
+        path: '/anonymous/login',
+        component: () => import(/* webpackChunkName: "login" */ '@/views/anonymous/login'),
         meta: {
-            title: "登录"
-        }
+            title: '登录',
+        },
     },
     {
-        path: "/user_register",
-        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/login/userRegister'),
+        path: '/anonymous/register',
+        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/anonymous/register.vue'),
         meta: {
-            title: "注册"
-        }
+            title: '注册',
+        },
     },
     {
-        path: "/reset_password",
-        component: () => import(/* webpackChunkName: "resetPassword" */ '@/views/login/resetPassword'),
+        path: '/anonymous/reset-password',
+        component: () => import(/* webpackChunkName: "resetPassword" */ '@/views/anonymous/resetPassword'),
         meta: {
-            title: "重置密码"
-        }
-    }
+            title: '重置密码',
+        },
+    },
 ]
 
-export default routes;
+export default routes

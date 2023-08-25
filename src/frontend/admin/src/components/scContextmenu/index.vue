@@ -1,5 +1,5 @@
 <!--
- * @Description: scContextmenu组件
+ * @Descripttion: scContextmenu组件
  * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年7月23日09:25:57
@@ -10,13 +10,7 @@
 
 <template>
     <transition name="el-zoom-in-top">
-        <div
-            v-if="visible"
-            ref="contextmenu"
-            :style="{ left: left + 'px', top: top + 'px' }"
-            class="sc-contextmenu"
-            @contextmenu.prevent="fun"
-        >
+        <div v-if="visible" ref="contextmenu" :style="{ left: left + 'px', top: top + 'px' }" class="sc-contextmenu" @contextmenu.prevent="fun">
             <ul class="sc-contextmenu__menu">
                 <slot></slot>
             </ul>
@@ -29,67 +23,66 @@ export default {
     provide() {
         return {
             menuClick: this.menuClick,
-        };
+        }
     },
     data() {
         return {
             visible: false,
             top: 0,
             left: 0,
-        };
+        }
     },
     watch: {
         visible(value) {
             if (value) {
-                document.body.addEventListener("click", this.cm, true);
+                document.body.addEventListener('click', this.cm, true)
             } else {
-                document.body.removeEventListener("click", this.cm, true);
+                document.body.removeEventListener('click', this.cm, true)
             }
         },
     },
     mounted() {},
     methods: {
         cm(e) {
-            let sp = this.$refs.contextmenu;
+            let sp = this.$refs.contextmenu
             if (sp && !sp.contains(e.target)) {
-                this.closeMenu();
+                this.closeMenu()
             }
         },
         menuClick(command) {
-            this.closeMenu();
-            this.$emit("command", command);
+            this.closeMenu()
+            this.$emit('command', command)
         },
         openMenu(e) {
-            e.preventDefault();
-            this.visible = true;
-            this.left = e.clientX + 1;
-            this.top = e.clientY + 1;
+            e.preventDefault()
+            this.visible = true
+            this.left = e.clientX + 1
+            this.top = e.clientY + 1
 
             this.$nextTick(() => {
-                const ex = e.clientX + 1;
-                const ey = e.clientY + 1;
-                const innerWidth = window.innerWidth;
-                const innerHeight = window.innerHeight;
-                const menuHeight = this.$refs.contextmenu.offsetHeight;
-                const menuWidth = this.$refs.contextmenu.offsetWidth;
+                var ex = e.clientX + 1
+                var ey = e.clientY + 1
+                var innerWidth = window.innerWidth
+                var innerHeight = window.innerHeight
+                var menuHeight = this.$refs.contextmenu.offsetHeight
+                var menuWidth = this.$refs.contextmenu.offsetWidth
                 //位置修正公示
                 //left = (当前点击X + 菜单宽度 > 可视区域宽度 ? 可视区域宽度 - 菜单宽度 : 当前点击X)
                 //top = (当前点击Y + 菜单高度 > 可视区域高度 ? 当前点击Y - 菜单高度 : 当前点击Y)
-                this.left =
-                    ex + menuWidth > innerWidth ? innerWidth - menuWidth : ex;
-                this.top = ey + menuHeight > innerHeight ? ey - menuHeight : ey;
-            });
-            this.$emit("visibleChange", true);
+                this.left = ex + menuWidth > innerWidth ? innerWidth - menuWidth : ex
+                this.top = ey + menuHeight > innerHeight ? ey - menuHeight : ey
+            })
+            this.$emit('visibleChange', true)
         },
         closeMenu() {
-            this.visible = false;
-            this.$emit("visibleChange", false);
+            this.visible = false
+            this.$emit('visibleChange', false)
         },
         fun() {
-            return false;
+            return false
         },
     },
-};
+}
 </script>
 
 <style>
@@ -114,7 +107,7 @@ export default {
     margin: 5px 0;
     border: none;
     height: 1px;
-    font-size: 0;
+    font-size: 0px;
     background-color: #ebeef5;
 }
 
@@ -156,7 +149,7 @@ export default {
 
 .sc-contextmenu__menu li ul {
     position: absolute;
-    top: 0;
+    top: 0px;
     left: 100%;
     display: none;
     margin: -11px 0;

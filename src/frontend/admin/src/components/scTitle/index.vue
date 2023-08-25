@@ -7,12 +7,12 @@
 <script>
 export default {
     props: {
-        title: {type: String, required: true, default: ""},
+        title: { type: String, required: true, default: '' },
     },
     data() {
         return {}
     },
-    computed: {}
+    computed: {},
 }
 </script>
 

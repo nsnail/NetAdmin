@@ -1,10 +1,10 @@
 <!--
- * @Description: 图像裁剪组件
+ * @Descripttion: 图像裁剪组件
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2021年7月24日17:05:43
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:04:21
  * @other: 代码完全开源，欢迎参考，也欢迎PR
 -->
 
@@ -21,65 +21,65 @@
 </template>
 
 <script>
-import Cropper from "cropperjs";
-import "cropperjs/dist/cropper.css";
+import Cropper from 'cropperjs'
+import 'cropperjs/dist/cropper.css'
 
 export default {
     props: {
-        src: { type: String, default: "" },
+        src: { type: String, default: '' },
         compress: { type: Number, default: 1 },
         aspectRatio: { type: Number, default: NaN },
     },
     data() {
         return {
             crop: null,
-        };
+        }
     },
     watch: {
         aspectRatio(val) {
-            this.crop.setAspectRatio(val);
+            this.crop.setAspectRatio(val)
         },
     },
     mounted() {
-        this.init();
+        this.init()
     },
     methods: {
         init() {
             this.crop = new Cropper(this.$refs.img, {
                 viewMode: 2,
-                dragMode: "move",
+                dragMode: 'move',
                 responsive: false,
                 aspectRatio: this.aspectRatio,
                 preview: this.$refs.preview,
-            });
+            })
         },
         setAspectRatio(aspectRatio) {
-            this.crop.setAspectRatio(aspectRatio);
+            this.crop.setAspectRatio(aspectRatio)
         },
-        getCropData(cb, type = "image/jpeg") {
-            cb(this.crop.getCroppedCanvas().toDataURL(type, this.compress));
+        getCropData(cb, type = 'image/jpeg') {
+            cb(this.crop.getCroppedCanvas().toDataURL(type, this.compress))
         },
-        getCropBlob(cb, type = "image/jpeg") {
+        getCropBlob(cb, type = 'image/jpeg') {
             this.crop.getCroppedCanvas().toBlob(
                 (blob) => {
-                    cb(blob);
+                    cb(blob)
                 },
                 type,
-                this.compress
-            );
+                this.compress,
+            )
         },
-        getCropFile(cb, fileName = "fileName.jpg", type = "image/jpeg") {
+        getCropFile(cb, fileName = 'fileName.jpg', type = 'image/jpeg') {
             this.crop.getCroppedCanvas().toBlob(
                 (blob) => {
-                    let file = new File([blob], fileName, { type: type });
-                    cb(file);
+                    let file = new File([blob], fileName, { type: type })
+                    cb(file)
                 },
                 type,
-                this.compress
-            );
+                this.compress,
+            )
         },
     },
-};
+}
 </script>
 
 <style scoped>

@@ -14,23 +14,42 @@
 
 
 ## 构建指南
-1. 检查dotnet-sdk版本>=7.0.0
-```
-dotnet --list-sdks
-```
-2. 克隆代码仓库
-```
-git clone https://github.com/nsnail/NetAdmin.git
-cd ./NetAdmin
-```
-3. 编译运行后端WebApi
-```
-dotnet run --project ./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj --urls http://[::]:65020
-```
-4. 检查WebApi程序
-```
-浏览器打开 http://localhost:65020 ，将看到Swagger（Knife4jUI）界面
-```
+1. 后端
+   1. 检查dotnet-sdk版本>=7.0.0
+   ```
+   dotnet --list-sdks
+   ```
+   2. 克隆代码仓库
+   ```
+   git clone https://github.com/nsnail/NetAdmin.git
+   cd ./NetAdmin
+   ```
+   3. 确保本机redis处于运行状态
+   ```
+   redis-cli
+   ```
+   4. 运行后端WebApi
+   ```
+   dotnet run --project ./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj --urls http://[::]:65020
+   ```
+   5. 检查WebApi程序
+   ```
+   浏览器打开 http://localhost:65020 ，将看到Swagger（Knife4jUI）界面
+   ```
+2. 前端
+    1. 检查nodejs版本>=20
+    ```
+    node -v
+    ```
+    2. 安装npm依赖包
+    ```
+    cd ./src/frontend/admin
+    npm install
+    ```
+    3. 运行前端项目
+    ```
+    npm run dev
+    ```
 
 ## 项目文件目录树描述
 ```

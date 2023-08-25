@@ -1,33 +1,18 @@
 <!--
- * @Description: 图标选择器组件
+ * @Descripttion: 图标选择器组件
  * @version: 2.0
  * @Author: sakuya
  * @Date: 2021年7月27日10:02:46
- * @LastEditors: sakuya
- * @LastEditTime: 2022年6月6日13:48:49
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:08:59
 -->
 
 <template>
     <div class="sc-icon-select">
-        <div
-            :class="{ hasValue: value }"
-            class="sc-icon-select__wrapper"
-            @click="open"
-        >
-            <el-input
-                v-model="value"
-                :disabled="disabled"
-                :prefix-icon="value || 'el-icon-plus'"
-                readonly
-            ></el-input>
+        <div :class="{ hasValue: value }" class="sc-icon-select__wrapper" @click="open">
+            <el-input v-model="value" :disabled="disabled" :prefix-icon="value || 'el-icon-plus'" readonly></el-input>
         </div>
-        <el-dialog
-            v-model="dialogVisible"
-            :width="760"
-            append-to-body
-            destroy-on-close
-            title="图标选择器"
-        >
+        <el-dialog v-model="dialogVisible" :width="760" append-to-body destroy-on-close title="图标选择器">
             <div class="sc-icon-select__dialog" style="margin: -20px 0 -10px 0">
                 <el-form :rules="{}">
                     <el-form-item prop="searchText">
@@ -37,26 +22,19 @@
                             clearable
                             placeholder="搜索"
                             prefix-icon="el-icon-search"
-                            size="large"
-                        />
+                            size="large" />
                     </el-form-item>
                 </el-form>
                 <el-tabs>
                     <el-tab-pane v-for="item in data" :key="item.name" lazy>
                         <template #label>
                             {{ item.name }}
-                            <el-tag size="small" type="info"
-                                >{{ item.icons.length }}
-                            </el-tag>
+                            <el-tag size="small" type="info">{{ item.icons.length }}</el-tag>
                         </template>
                         <div class="sc-icon-select__list">
                             <el-scrollbar>
                                 <ul @click="selectIcon">
-                                    <el-empty
-                                        v-if="item.icons.length === 0"
-                                        :image-size="100"
-                                        description="未查询到相关图标"
-                                    />
+                                    <el-empty v-if="item.icons.length === 0" :image-size="100" description="未查询到相关图标" />
                                     <li v-for="icon in item.icons" :key="icon">
                                         <span :data-icon="icon"></span>
                                         <el-icon>
@@ -70,9 +48,6 @@
                 </el-tabs>
             </div>
             <template #footer>
-                <el-link href="https://www.iconfont.cn/" target="_blank"
-                    >Iconfont
-                </el-link>
                 <el-button text @click="clear">清除</el-button>
                 <el-button @click="dialogVisible = false">取消</el-button>
             </template>
@@ -81,67 +56,67 @@
 </template>
 
 <script>
-import config from "@/config/iconSelect";
+import config from '@/config/iconSelect'
 
 export default {
     props: {
-        modelValue: { type: String, default: "" },
+        modelValue: { type: String, default: '' },
         disabled: { type: Boolean, default: false },
     },
     data() {
         return {
-            value: "",
+            value: '',
             dialogVisible: false,
             data: [],
-            searchText: "",
-        };
+            searchText: '',
+        }
     },
     watch: {
         modelValue(val) {
-            this.value = val;
+            this.value = val
         },
         value(val) {
-            this.$emit("update:modelValue", val);
+            this.$emit('update:modelValue', val)
         },
         searchText(val) {
-            this.search(val);
+            this.search(val)
         },
     },
     mounted() {
-        this.value = this.modelValue;
-        this.data.push(...config.icons);
+        this.value = this.modelValue
+        this.data.push(...config.icons)
     },
     methods: {
         open() {
             if (this.disabled) {
-                return false;
+                return false
             }
-            this.dialogVisible = true;
+            this.dialogVisible = true
         },
         selectIcon(e) {
-            if (e.target.tagName !== "SPAN") {
-                return false;
+            if (e.target.tagName !== 'SPAN') {
+                return false
             }
-            this.value = e.target.dataset.icon;
-            this.dialogVisible = false;
+            this.value = e.target.dataset.icon
+            this.dialogVisible = false
         },
         clear() {
-            this.value = "";
-            this.dialogVisible = false;
+            this.value = ''
+            this.dialogVisible = false
         },
         search(text) {
             if (text) {
-                const filterData = JSON.parse(JSON.stringify(config.icons));
+                const filterData = JSON.parse(JSON.stringify(config.icons))
                 filterData.forEach((t) => {
-                    t.icons = t.icons.filter((n) => n.includes(text));
-                });
-                this.data = filterData;
+                    t.icons = t.icons.filter((n) => n.includes(text))
+                })
+                this.data = filterData
             } else {
-                this.data = JSON.parse(JSON.stringify(config.icons));
+                this.data = JSON.parse(JSON.stringify(config.icons))
             }
         },
     },
-};
+}
 </script>
 
 <style scoped>
@@ -175,9 +150,6 @@ export default {
 .sc-icon-select__list {
     height: 270px;
     overflow: auto;
-}
-
-.sc-icon-select__list ul {
 }
 
 .sc-icon-select__list li {

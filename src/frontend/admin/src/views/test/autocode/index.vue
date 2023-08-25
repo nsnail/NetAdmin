@@ -2,13 +2,12 @@
     <router-view></router-view>
     <el-main>
         <el-row :gutter="15">
-            <el-col :xl="6" :lg="6" :md="8" :sm="12" :xs="24" v-for="item in list" :key="item.title">
-                <el-card shadow="hover" :body-style="{ padding: '0px' }" @click="click(item.url)">
+            <el-col v-for="item in list" :key="item.title" :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
+                <el-card :body-style="{ padding: '0px' }" shadow="hover" @click="click(item.url)">
                     <div class="code-item">
-                        <div class="img" :style="{background: item.color}">
-                            <el-icon
-                                :style="`background-image: -webkit-linear-gradient(top left, #fff, ${item.color} 100px)`">
-                                <component :is="item.icon"/>
+                        <div :style="{ background: item.color }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, ${item.color} 100px)`">
+                                <component :is="item.icon" />
                             </el-icon>
                         </div>
                         <div class="title">
@@ -32,31 +31,31 @@ export default {
         return {
             list: [
                 {
-                    title: "CRUD v2",
-                    des: "配置型生成经典的增删改查列表",
-                    icon: "el-icon-finished",
-                    color: "#ccc",
-                    ver: "开发中",
-                    url: "/test/autocode/list_n"
+                    title: 'CRUD v2',
+                    des: '配置型生成经典的增删改查列表',
+                    icon: 'el-icon-finished',
+                    color: '#ccc',
+                    ver: '开发中',
+                    url: '/test/autocode/list_n',
                 },
                 {
-                    title: "FormDesigner",
-                    des: "表单设计器",
-                    icon: "el-icon-list",
-                    color: "#ccc",
-                    ver: "开发中",
-                    url: "/test/autocode/form"
-                }
-            ]
+                    title: 'FormDesigner',
+                    des: '表单设计器',
+                    icon: 'el-icon-list',
+                    color: '#ccc',
+                    ver: '开发中',
+                    url: '/test/autocode/form',
+                },
+            ],
         }
     },
     methods: {
         click(url) {
             this.$router.push({
-                path: url
-            });
-        }
-    }
+                path: url,
+            })
+        },
+    },
 }
 </script>
 

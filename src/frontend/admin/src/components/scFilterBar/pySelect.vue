@@ -1,30 +1,25 @@
 <!--
- * @Description: 二次封装el-select 支持拼音
+ * @Descripttion: 二次封装el-select 支持拼音
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2021年7月31日22:26:56
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:07:19
 -->
 
 <template>
-    <el-select
-        :filter-method="filterMethod"
-        v-bind="$attrs"
-        @visible-change="visibleChange"
-    >
+    <el-select :filter-method="filterMethod" v-bind="$attrs" @visible-change="visibleChange">
         <el-option
             v-for="field in optionsList"
             :key="field.value"
             :disabled="isDisabled(field.value)"
             :label="field.label"
-            :value="field"
-        ></el-option>
+            :value="field"></el-option>
     </el-select>
 </template>
 
 <script>
-import pinyin from "./pinyin";
+import pinyin from 'pinyin-match'
 
 export default {
     props: {
@@ -35,33 +30,33 @@ export default {
         return {
             optionsList: [],
             optionsList_: [],
-        };
+        }
     },
     mounted() {
-        this.optionsList = this.options;
-        this.optionsList_ = [...this.options];
+        this.optionsList = this.options
+        this.optionsList_ = [...this.options]
     },
     methods: {
         filterMethod(keyword) {
             if (keyword) {
-                this.optionsList = this.optionsList_;
-                this.optionsList = this.optionsList.filter((item) =>
-                    pinyin.match(item.label, keyword)
-                );
+                this.optionsList = this.optionsList_
+                this.optionsList = this.optionsList.filter((item) => pinyin.match(item.label, keyword))
             } else {
-                this.optionsList = this.optionsList_;
+                this.optionsList = this.optionsList_
             }
         },
         visibleChange(isopen) {
             if (isopen) {
-                this.optionsList = this.optionsList_;
+                this.optionsList = this.optionsList_
             }
         },
         isDisabled(key) {
-            return !!this.filter.find(
-                (item) => item.field.value === key && !item.field.repeat
-            );
+            if (this.filter.find((item) => item.field.value === key && !item.field.repeat)) {
+                return true
+            } else {
+                return false
+            }
         },
     },
-};
+}
 </script>

@@ -12,15 +12,14 @@
 export default {
     data() {
         return {
-            visible: true
+            visible: true,
         }
     },
     mounted() {
-
+        console.log('加载./dialog1组件完成')
     },
-    methods: {}
+    methods: {},
 }
 </script>
 
-<style>
-</style>
+<style></style>

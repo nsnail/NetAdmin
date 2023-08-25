@@ -5,27 +5,27 @@
 // 示例如下
 
 // const routes = [
-//     {
-//         name: "demo",
-//         path: "/demo",
-//         meta: {
-//             icon: "el-icon-eleme-filled",
-//             title: "演示",
-//             role: ["SA"]
-//         },
-//         children: [{
-//             name: "demopage",
-//             path: "/demopage",
-//             component: "test/autocode/index",
-//             meta: {
-//                 icon: "el-icon-menu",
-//                 title: "演示页面",
-//                 role: ["SA"]
-//             }
-//         }]
-//     }
+// 	{
+// 		name: "demo",
+// 		path: "/demo",
+// 		meta: {
+// 			icon: "el-icon-eleme-filled",
+// 			title: "演示",
+// 			role: ["SA"]
+// 		},
+// 		children: [{
+// 			name: "demopage",
+// 			path: "/demopage",
+// 			component: "test/autocode/index",
+// 			meta: {
+// 				icon: "el-icon-menu",
+// 				title: "演示页面",
+// 				role: ["SA"]
+// 			}
+// 		}]
+// 	}
 // ]
 
 const routes = []
 
-export default routes;
+export default routes

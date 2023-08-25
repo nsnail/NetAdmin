@@ -1,5 +1,5 @@
 <template>
-    <div v-if="usercolumn.length>0" class="setting-column" v-loading="isSave">
+    <div v-if="usercolumn.length > 0" v-loading="isSave" class="setting-column">
         <div class="setting-column__title">
             <span class="move_b"></span>
             <span class="show_b">显示</span>
@@ -8,17 +8,16 @@
             <span class="sortable_b">排序</span>
             <span class="fixed_b">固定</span>
         </div>
-        <div class="setting-column__list" ref="list">
+        <div ref="list" class="setting-column__list">
             <ul>
                 <li v-for="item in usercolumn" :key="item.prop">
                     <span class="move_b">
-                           <el-tag class="move" style="cursor: move;"><el-icon-d-caret
-                               style="width: 1em; height: 1em;"/></el-tag>
+                        <el-tag class="move" style="cursor: move"><el-icon-d-caret style="width: 1em; height: 1em" /></el-tag>
                     </span>
                     <span class="show_b">
                         <el-switch v-model="item.hide" :active-value="false" :inactive-value="true"></el-switch>
                     </span>
-                    <span class="name_b" :title="item.prop">{{ item.label }}</span>
+                    <span :title="item.prop" class="name_b">{{ item.label }}</span>
                     <span class="width_b">
                         <el-input v-model="item.width" placeholder="auto" size="small"></el-input>
                     </span>
@@ -32,11 +31,11 @@
             </ul>
         </div>
         <div class="setting-column__bottom">
-            <el-button @click="backDefaul" :disabled="isSave">重置</el-button>
-            <el-button @click="save" type="primary">保存</el-button>
+            <el-button :disabled="isSave" @click="backDefaul">重置</el-button>
+            <el-button type="primary" @click="save">保存</el-button>
         </div>
     </div>
-    <el-empty v-else description="暂无可配置的列" :image-size="80"></el-empty>
+    <el-empty v-else :image-size="80" description="暂无可配置的列"></el-empty>
 </template>
 
 <script>
@@ -45,18 +44,18 @@ import Sortable from 'sortablejs'
 export default {
     components: {
         // eslint-disable-next-line vue/no-unused-components
-        Sortable
+        Sortable,
     },
     props: {
         column: {
-            type: Object, default: () => {
-            }
-        }
+            type: Object,
+            default: () => {},
+        },
     },
     data() {
         return {
             isSave: false,
-            usercolumn: JSON.parse(JSON.stringify(this.column || []))
+            usercolumn: JSON.parse(JSON.stringify(this.column || [])),
         }
     },
     watch: {
@@ -64,8 +63,8 @@ export default {
             handler() {
                 this.$emit('userChange', this.usercolumn)
             },
-            deep: true
-        }
+            deep: true,
+        },
     },
     mounted() {
         this.usercolumn.length > 0 && this.rowDrop()
@@ -75,14 +74,14 @@ export default {
             const _this = this
             const tbody = this.$refs.list.querySelector('ul')
             Sortable.create(tbody, {
-                handle: ".move",
+                handle: '.move',
                 animation: 300,
-                ghostClass: "ghost",
-                onEnd({newIndex, oldIndex}) {
+                ghostClass: 'ghost',
+                onEnd({ newIndex, oldIndex }) {
                     const tableData = _this.usercolumn
                     const currRow = tableData.splice(oldIndex, 1)[0]
                     tableData.splice(newIndex, 0, currRow)
-                }
+                },
             })
         },
         backDefaul() {
@@ -90,17 +89,14 @@ export default {
         },
         save() {
             this.$emit('save', this.usercolumn)
-        }
-    }
+        },
+    },
 }
 </script>
 
 <style scoped>
-.setting-column {
-}
-
 .setting-column__title {
-    border-bottom: 1px solid #EBEEF5;
+    border-bottom: 1px solid #ebeef5;
     padding-bottom: 15px;
 }
 
@@ -189,7 +185,7 @@ export default {
 }
 
 .setting-column__bottom {
-    border-top: 1px solid #EBEEF5;
+    border-top: 1px solid #ebeef5;
     padding-top: 15px;
     text-align: right;
 }

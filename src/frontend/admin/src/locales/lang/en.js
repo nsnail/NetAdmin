@@ -25,7 +25,7 @@ export default {
         createAccount: 'Create a new account',
         wechatLoginTitle: 'QR code sign in',
         wechatLoginMsg: 'Please use wechat to scan and log in | Auto scan after 3 seconds of simulation',
-        wechatLoginResult: 'Scanned | Please click authorize login in the device'
+        wechatLoginResult: 'Scanned | Please click authorize login in the device',
     },
     user: {
         dynamic: 'Dynamic',
@@ -35,5 +35,5 @@ export default {
         nightmode_msg: 'Suitable for low light environment,The current night mode is beta',
         language: 'language',
         language_msg: 'Translation in progress,Temporarily translated the text of this view',
-    }
+    },
 }

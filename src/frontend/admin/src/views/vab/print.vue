@@ -6,11 +6,8 @@
                     <el-alert
                         style="margin-bottom: 20px"
                         title="打印当前页面已存在的元素,如包含.no-print样式就忽略,分页打印就需要{page-break-after: always}控制"
-                        type="success"
-                    ></el-alert>
-                    <el-button type="primary" @click="print"
-                        >普通打印</el-button
-                    >
+                        type="success"></el-alert>
+                    <el-button type="primary" @click="print">普通打印</el-button>
                     <div style="height: 20px"></div>
                     <div ref="printMain" class="printMain">
                         <div class="item">
@@ -25,14 +22,8 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="动态打印">
-                    <el-alert
-                        style="margin-bottom: 20px"
-                        title="打印创建的DOM结构,适用于远程获取模板后打印"
-                        type="success"
-                    ></el-alert>
-                    <el-button type="primary" @click="print2"
-                        >动态打印</el-button
-                    >
+                    <el-alert style="margin-bottom: 20px" title="打印创建的DOM结构,适用于远程获取模板后打印" type="success"></el-alert>
+                    <el-button type="primary" @click="print2">动态打印</el-button>
                 </el-tab-pane>
             </el-tabs>
         </el-card>
@@ -40,25 +31,25 @@
 </template>
 
 <script>
-import print from "@/utils/print";
+import print from '@/utils/print'
 
 export default {
-    name: "print",
+    name: 'print',
     data() {
-        return {};
+        return {}
     },
     methods: {
         print() {
             //直接传入REF或者querySelector
-            print(this.$refs.printMain);
+            print(this.$refs.printMain)
         },
         print2() {
             //创建虚拟DOM结构后再传入
-            const dom = "<h2>TITLE</h2><p>后创建的DOM结构</p>";
-            print(dom);
+            var dom = '<h2>TITLE</h2><p>后创建的DOM结构</p>'
+            print(dom)
         },
     },
-};
+}
 </script>
 
 <style scoped>

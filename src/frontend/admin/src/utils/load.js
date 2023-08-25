@@ -7,14 +7,14 @@
  */
 export function loadJS(src, keyName, callbackName) {
     return new Promise((resolve, reject) => {
-        let has = document.head.querySelector("script[loadKey=" + keyName + "]")
+        let has = document.head.querySelector('script[loadKey=' + keyName + ']')
         if (has) {
             return resolve(window[keyName])
         }
-        let script = document.createElement("script")
-        script.type = "text/javascript"
+        let script = document.createElement('script')
+        script.type = 'text/javascript'
         script.src = src
-        script.setAttribute("loadKey", keyName)
+        script.setAttribute('loadKey', keyName)
         document.head.appendChild(script)
         script.onload = () => {
             if (callbackName) {
@@ -41,14 +41,14 @@ export function loadJS(src, keyName, callbackName) {
  */
 export function loadCSS(src, keyName) {
     return new Promise((resolve, reject) => {
-        let has = document.head.querySelector("link[loadKey=" + keyName + "]")
+        let has = document.head.querySelector('link[loadKey=' + keyName + ']')
         if (has) {
             return resolve()
         }
         let link = document.createElement('link')
-        link.rel = "stylesheet"
+        link.rel = 'stylesheet'
         link.href = src
-        link.setAttribute("loadKey", keyName)
+        link.setAttribute('loadKey', keyName)
         document.head.appendChild(link)
         link.onload = () => {
             return resolve()

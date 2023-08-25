@@ -1,11 +1,12 @@
 <!--
- * @Description: 页面头部样式组件
+ * @Descripttion: 页面头部样式组件
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2021年7月20日08:49:07
  * @LastEditors:
  * @LastEditTime:
 -->
+
 <template>
     <div class="sc-page-header">
         <div v-if="icon" class="sc-page-header__icon">
@@ -26,15 +27,17 @@
         </div>
     </div>
 </template>
+
 <script>
 export default {
     props: {
-        title: { type: String, required: true, default: "" },
-        description: { type: String, default: "" },
-        icon: { type: String, default: "" },
+        title: { type: String, required: true, default: '' },
+        description: { type: String, default: '' },
+        icon: { type: String, default: '' },
     },
-};
+}
 </script>
+
 <style scoped>
 .sc-page-header {
     background: #fff;
@@ -51,7 +54,7 @@ export default {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background: #06c755;
+    background: #409eff;
     border-radius: 40%;
     display: flex;
     align-items: center;
@@ -80,12 +83,12 @@ export default {
     margin-top: 15px;
 }
 
-[data-theme="dark"] .sc-page-header {
+[data-theme='dark'] .sc-page-header {
     background: #2b2b2b;
     border-color: var(--el-border-color-base);
 }
 
-[data-theme="dark"] .sc-page-header__title h2 {
+[data-theme='dark'] .sc-page-header__title h2 {
     color: #d0d0d0;
 }
 </style>

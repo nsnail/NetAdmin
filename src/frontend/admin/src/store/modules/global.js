@@ -1,16 +1,15 @@
-import config from "@/config";
-import tool from "@/utils/tool";
+import config from '@/config'
 
 export default {
     state: {
         //移动端布局
         ismobile: false,
         //布局
-        layout: tool.data.get('LAYOUT') || config.LAYOUT,
+        layout: config.LAYOUT,
         //菜单是否折叠 toggle
-        menuIsCollapse: tool.data.get('MENU_IS_COLLAPSE') || config.MENU_IS_COLLAPSE,
+        menuIsCollapse: config.MENU_IS_COLLAPSE,
         //多标签栏
-        layoutTags: tool.data.get('LAYOUT_TAGS') || config.LAYOUT_TAGS,
+        layoutTags: config.LAYOUT_TAGS,
         //主题
         theme: config.THEME,
     },
@@ -29,6 +28,6 @@ export default {
         },
         TOGGLE_layoutTags(state) {
             state.layoutTags = !state.layoutTags
-        }
-    }
+        },
+    },
 }

@@ -1,5 +1,5 @@
 <!--
- * @Description: 统计数值组件
+ * @Descripttion: 统计数值组件
  * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年6月23日13:11:32
@@ -23,18 +23,11 @@
             </el-tooltip>
         </div>
         <div class="sc-statistic-content">
-            <span v-if="prefix" class="sc-statistic-content-prefix">{{
-                prefix
-            }}</span>
+            <span v-if="prefix" class="sc-statistic-content-prefix">{{ prefix }}</span>
             <span class="sc-statistic-content-value">{{ cmtValue }}</span>
-            <span v-if="suffix" class="sc-statistic-content-suffix">{{
-                suffix
-            }}</span>
+            <span v-if="suffix" class="sc-statistic-content-suffix">{{ suffix }}</span>
         </div>
-        <div
-            v-if="description || $slots.default"
-            class="sc-statistic-description"
-        >
+        <div v-if="description || $slots.default" class="sc-statistic-description">
             <slot>
                 {{ description }}
             </slot>
@@ -45,25 +38,23 @@
 <script>
 export default {
     props: {
-        title: { type: String, required: true, default: "" },
-        value: { type: String, required: true, default: "" },
-        prefix: { type: String, default: "" },
-        suffix: { type: String, default: "" },
-        description: { type: String, default: "" },
-        tips: { type: String, default: "" },
+        title: { type: String, required: true, default: '' },
+        value: { type: String, required: true, default: '' },
+        prefix: { type: String, default: '' },
+        suffix: { type: String, default: '' },
+        description: { type: String, default: '' },
+        tips: { type: String, default: '' },
         groupSeparator: { type: Boolean, default: false },
     },
     data() {
-        return {};
+        return {}
     },
     computed: {
         cmtValue() {
-            return this.groupSeparator
-                ? this.$TOOL.groupSeparator(this.value)
-                : this.value;
+            return this.groupSeparator ? this.$TOOL.groupSeparator(this.value) : this.value
         },
     },
-};
+}
 </script>
 
 <style scoped>

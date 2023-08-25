@@ -1,18 +1,6 @@
 <template>
-    <el-dialog
-        v-model="visible"
-        :title="titleMap[mode]"
-        :width="500"
-        destroy-on-close
-        @closed="$emit('closed')"
-    >
-        <el-form
-            ref="dialogForm"
-            :model="form"
-            :rules="rules"
-            label-position="left"
-            label-width="100px"
-        >
+    <el-dialog v-model="visible" :title="titleMap[mode]" :width="500" destroy-on-close @closed="$emit('closed')">
+        <el-form ref="dialogForm" :model="form" :rules="rules" label-position="left" label-width="100px">
             <el-form-item label="应用标识" prop="appId">
                 <el-input v-model="form.appId" clearable></el-input>
             </el-form-item>
@@ -31,101 +19,80 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="授权至" prop="exp">
-                <el-date-picker
-                    v-model="form.exp"
-                    placeholder="选择日期时间"
-                    type="datetime"
-                    value-format="YYYY-MM-DD HH:mm:ss"
-                ></el-date-picker>
+                <el-date-picker v-model="form.exp" placeholder="选择日期时间" type="datetime" value-format="YYYY-MM-DD HH:mm:ss"></el-date-picker>
             </el-form-item>
         </el-form>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button :loading="isSaving" type="primary" @click="submit()"
-                >保 存
-            </el-button>
+            <el-button :loading="isSaveing" type="primary" @click="submit()">保 存</el-button>
         </template>
     </el-dialog>
 </template>
 
 <script>
 export default {
-    emits: ["success", "closed"],
+    emits: ['success', 'closed'],
     data() {
         return {
-            mode: "add",
+            mode: 'add',
             titleMap: {
-                add: "新增APP",
-                edit: "编辑APP",
+                add: '新增APP',
+                edit: '编辑APP',
             },
             form: {
-                id: "",
-                appId: "",
-                appName: "",
-                secret: "",
+                id: '',
+                appId: '',
+                appName: '',
+                secret: '',
                 type: [],
-                exp: "",
+                exp: '',
             },
             rules: {
-                appId: [{ required: true, message: "请输入应用标识" }],
-                appName: [{ required: true, message: "请输入应用名称" }],
-                secret: [{ required: true, message: "请输入秘钥" }],
-                type: [
-                    {
-                        required: true,
-                        message: "请选择类型范围",
-                        trigger: "change",
-                    },
-                ],
-                exp: [
-                    {
-                        required: true,
-                        message: "请选择授权到期日期",
-                        trigger: "change",
-                    },
-                ],
+                appId: [{ required: true, message: '请输入应用标识' }],
+                appName: [{ required: true, message: '请输入应用名称' }],
+                secret: [{ required: true, message: '请输入秘钥' }],
+                type: [{ required: true, message: '请选择类型范围', trigger: 'change' }],
+                exp: [{ required: true, message: '请选择授权到期日期', trigger: 'change' }],
             },
             visible: false,
-            isSaving: false,
-        };
+            isSaveing: false,
+        }
     },
     methods: {
         //显示
-        open(mode = "add") {
-            this.mode = mode;
-            this.visible = true;
-            return this;
+        open(mode = 'add') {
+            this.mode = mode
+            this.visible = true
+            return this
         },
         //表单提交方法
         submit() {
             this.$refs.dialogForm.validate(async (valid) => {
                 if (valid) {
-                    this.isSaving = true;
-                    const res = await this.$API.demo.post.post(this.form);
-                    this.isSaving = false;
-                    if (res.code === "succeed") {
-                        this.$emit("success", this.form, this.mode);
-                        this.visible = false;
-                        this.$message.success("操作成功");
+                    this.isSaveing = true
+                    var res = await this.$API.demo.post.post(this.form)
+                    this.isSaveing = false
+                    if (res.code === 200) {
+                        this.$emit('success', this.form, this.mode)
+                        this.visible = false
+                        this.$message.success('操作成功')
                     } else {
-                        await this.$alert(res.message, "提示", {
-                            type: "error",
-                        });
+                        this.$alert(res.message, '提示', { type: 'error' })
                     }
                 }
-            });
+            })
         },
         //表单注入数据
         setData(data) {
-            this.form.id = data.id;
-            this.form.appId = data.appId;
-            this.form.appName = data.appName;
-            this.form.secret = data.secret;
-            this.form.type = data.type;
-            this.form.exp = data.exp;
+            this.form.id = data.id
+            this.form.appId = data.appId
+            this.form.appName = data.appName
+            this.form.secret = data.secret
+            this.form.type = data.type
+            this.form.exp = data.exp
         },
     },
-};
+}
 </script>
 
 <style></style>

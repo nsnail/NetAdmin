@@ -1,17 +1,20 @@
 <template>
     <el-main class="sc-page">
-        <el-page-header content="定宽页面"/>
-        <el-alert class="page-msg"
-                  description="<el-main>添加定宽样式 .sc-page  即可定宽, 固定1200px宽度, 适用于一些无法自适应的页面, 类似报表等需要固定宽度的页面. 其实定宽页面更受C端用户接受和习惯"
-                  type="warning" show-icon :closable="false"/>
-        <el-card shadow="never" header="所有主机">
+        <el-page-header content="定宽页面" />
+        <el-alert
+            :closable="false"
+            class="page-msg"
+            description="<el-main>添加定宽样式 .sc-page  即可定宽, 固定1200px宽度, 适用于一些无法自适应的页面, 类似报表等需要固定宽度的页面. 其实定宽页面更受C端用户接受和习惯"
+            show-icon
+            type="warning" />
+        <el-card header="所有主机" shadow="never">
             <div class="page-buttons">
-                <el-button type="primary" style="width: 180px;">创建云主机</el-button>
-                <el-button type="primary" text>管理秘钥</el-button>
-                <el-button type="primary" text>黑名单</el-button>
+                <el-button style="width: 180px" type="primary">创建云主机</el-button>
+                <el-button text type="primary">管理秘钥</el-button>
+                <el-button text type="primary">黑名单</el-button>
             </div>
-            <scTable ref="table" :data="data" height="auto" paginationLayout="total, prev, pager, next" hideDo>
-                <el-table-column label="主机名称" prop="name" min-width="240"></el-table-column>
+            <scTable ref="table" :data="data" height="auto" hideDo paginationLayout="total, prev, pager, next">
+                <el-table-column label="主机名称" min-width="240" prop="name"></el-table-column>
                 <el-table-column label="外网ip" prop="ip" width="200"></el-table-column>
                 <el-table-column label="系统盘" prop="c" width="150"></el-table-column>
                 <el-table-column label="数据盘" prop="d" width="150"></el-table-column>
@@ -43,22 +46,22 @@ export default {
         return {
             data: [
                 {
-                    name: "WIN-server-202256324",
-                    ip: "211.187.11.18",
-                    c: "80G",
-                    d: "2048G",
-                    out: "1"
+                    name: 'WIN-server-202256324',
+                    ip: '211.187.11.18',
+                    c: '80G',
+                    d: '2048G',
+                    out: '1',
                 },
                 {
-                    name: "WIN-server-20210312081254",
-                    ip: "211.187.41.56",
-                    c: "80G",
-                    d: "2048G",
-                    out: "1"
-                }
-            ]
+                    name: 'WIN-server-20210312081254',
+                    ip: '211.187.41.56',
+                    c: '80G',
+                    d: '2048G',
+                    out: '1',
+                },
+            ],
         }
-    }
+    },
 }
 </script>
 

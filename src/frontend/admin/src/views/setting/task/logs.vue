@@ -1,26 +1,20 @@
 <!--
- * @Description: 系统计划任务配置
+ * @Descripttion: 系统计划任务配置
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2021年7月7日09:28:32
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-19 11:51:05
 -->
 
 <template>
     <el-container>
         <el-main style="padding: 0 20px">
             <scTable ref="table" :data="data" stripe>
-                <el-table-column
-                    label="执行时间"
-                    prop="time"
-                    width="200"
-                ></el-table-column>
+                <el-table-column label="执行时间" prop="time" width="200"></el-table-column>
                 <el-table-column label="执行结果" prop="state" width="100">
                     <template #default="scope">
-                        <span
-                            v-if="scope.row.state === 200"
-                            style="color: #67c23a"
+                        <span v-if="scope.row.state === 200" style="color: #67c23a"
                             ><el-icon><el-icon-success-filled /></el-icon
                         ></span>
                         <span v-else style="color: #f56c6c"
@@ -28,45 +22,20 @@
                         ></span>
                     </template>
                 </el-table-column>
-                <el-table-column
-                    fixed="right"
-                    label="执行日志"
-                    prop="logs"
-                    width="100"
-                >
+                <el-table-column fixed="right" label="执行日志" prop="logs" width="100">
                     <template #default="scope">
-                        <el-button
-                            size="small"
-                            type="text"
-                            @click="show(scope.row)"
-                            >日志
-                        </el-button>
+                        <el-button size="small" type="text" @click="show(scope.row)">日志</el-button>
                     </template>
                 </el-table-column>
             </scTable>
         </el-main>
     </el-container>
 
-    <el-drawer
-        v-model="logsVisible"
-        :size="500"
-        destroy-on-close
-        direction="rtl"
-        title="日志"
-    >
+    <el-drawer v-model="logsVisible" :size="500" destroy-on-close direction="rtl" title="日志">
         <el-main style="padding: 0 20px 20px 20px">
-            <pre
-                style="
-                    font-size: 12px;
-                    color: #999;
-                    padding: 20px;
-                    background: #333;
-                    font-family: consolas, serif;
-                    line-height: 1.5;
-                    overflow: auto;
-                "
-                >{{ demoLog }}</pre
-            >
+            <pre style="font-size: 12px; color: #999; padding: 20px; background: #333; font-family: consolas; line-height: 1.5; overflow: auto">{{
+                demoLog
+            }}</pre>
         </el-main>
     </el-drawer>
 </template>
@@ -93,50 +62,50 @@ export default {
 [Load Log Finish]`,
             data: [
                 {
-                    time: "2021-07-07 00:00:00",
-                    state: "500",
-                    logs: "",
+                    time: '2021-07-07 00:00:00',
+                    state: '500',
+                    logs: '',
                 },
                 {
-                    time: "2021-07-06 00:00:00",
-                    state: "200",
-                    logs: "",
+                    time: '2021-07-06 00:00:00',
+                    state: '200',
+                    logs: '',
                 },
                 {
-                    time: "2021-07-05 00:00:00",
-                    state: "200",
-                    logs: "",
+                    time: '2021-07-05 00:00:00',
+                    state: '200',
+                    logs: '',
                 },
                 {
-                    time: "2021-07-04 00:00:00",
-                    state: "200",
-                    logs: "",
+                    time: '2021-07-04 00:00:00',
+                    state: '200',
+                    logs: '',
                 },
                 {
-                    time: "2021-07-03 00:00:00",
-                    state: "200",
-                    logs: "",
+                    time: '2021-07-03 00:00:00',
+                    state: '200',
+                    logs: '',
                 },
                 {
-                    time: "2021-07-02 00:00:00",
-                    state: "200",
-                    logs: "",
+                    time: '2021-07-02 00:00:00',
+                    state: '200',
+                    logs: '',
                 },
                 {
-                    time: "2021-07-01 00:00:00",
-                    state: "200",
-                    logs: "",
+                    time: '2021-07-01 00:00:00',
+                    state: '200',
+                    logs: '',
                 },
             ],
-        };
+        }
     },
     mounted() {},
     methods: {
         show() {
-            this.logsVisible = true;
+            this.logsVisible = true
         },
     },
-};
+}
 </script>
 
 <style></style>

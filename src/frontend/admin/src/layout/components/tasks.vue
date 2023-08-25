@@ -5,23 +5,11 @@
                 <template #description>
                     <h2>没有正在执行的任务</h2>
                 </template>
-                <p
-                    style="
-                        font-size: 14px;
-                        color: #999;
-                        line-height: 1.5;
-                        margin: 0 40px;
-                    "
-                >
+                <p style="font-size: 14px; color: #999; line-height: 1.5; margin: 0 40px">
                     在处理耗时过久的任务时为了不阻碍正在处理的工作，可在任务中心进行异步执行。
                 </p>
             </el-empty>
-            <el-card
-                v-for="task in tasks"
-                :key="task.id"
-                class="user-bar-tasks-item"
-                shadow="hover"
-            >
+            <el-card v-for="task in tasks" :key="task.id" class="user-bar-tasks-item" shadow="hover">
                 <div class="user-bar-tasks-item-body">
                     <div class="taskIcon">
                         <el-icon v-if="task.type === 'export'" :size="20">
@@ -34,15 +22,11 @@
                     <div class="taskMain">
                         <div class="title">
                             <h2>{{ task.taskName }}</h2>
-                            <p>
-                                <span v-time.tip="task.createDate"></span> 创建
-                            </p>
+                            <p><span v-time.tip="task.createDate"></span> 创建</p>
                         </div>
                         <div class="bottom">
                             <div class="state">
-                                <el-tag v-if="task.state === '0'" type="info"
-                                    >执行中
-                                </el-tag>
+                                <el-tag v-if="task.state === '0'" type="info">执行中</el-tag>
                                 <el-tag v-if="task.state === '1'">完成</el-tag>
                             </div>
                             <div class="handler">
@@ -51,8 +35,7 @@
                                     circle
                                     icon="el-icon-download"
                                     type="primary"
-                                    @click="download(task)"
-                                ></el-button>
+                                    @click="download(task)"></el-button>
                             </div>
                         </div>
                     </div>
@@ -60,11 +43,7 @@
             </el-card>
         </el-main>
         <el-footer style="padding: 10px; text-align: right">
-            <el-button
-                circle
-                icon="el-icon-refresh"
-                @click="refresh"
-            ></el-button>
+            <el-button circle icon="el-icon-refresh" @click="refresh"></el-button>
         </el-footer>
     </el-container>
 </template>
@@ -75,32 +54,32 @@ export default {
         return {
             loading: false,
             tasks: [],
-        };
+        }
     },
     mounted() {
-        this.getData();
+        this.getData()
     },
     methods: {
         async getData() {
-            this.loading = true;
-            const res = await this.$API.system.tasks.list.get();
-            this.tasks = res.data;
-            this.loading = false;
+            this.loading = true
+            var res = await this.$API.system.tasks.list.get()
+            this.tasks = res.data
+            this.loading = false
         },
         refresh() {
-            this.getData();
+            this.getData()
         },
         download(row) {
-            let a = document.createElement("a");
-            a.style = "display: none";
-            a.target = "_blank";
-            a.href = row.result;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            let a = document.createElement('a')
+            a.style = 'display: none'
+            a.target = '_blank'
+            a.href = row.result
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
         },
     },
-};
+}
 </script>
 
 <style scoped>

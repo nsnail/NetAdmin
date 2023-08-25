@@ -8,8 +8,7 @@
             placeholder="搜索"
             prefix-icon="el-icon-search"
             size="large"
-            @input="inputChange"
-        />
+            @input="inputChange" />
         <div v-if="history.length > 0" class="sc-search-history">
             <el-tag
                 v-for="(item, index) in history"
@@ -23,16 +22,10 @@
             </el-tag>
         </div>
         <div class="sc-search-result">
-            <div v-if="result.length <= 0" class="sc-search-no-result">
-                暂无搜索结果
-            </div>
+            <div v-if="result.length <= 0" class="sc-search-no-result">暂无搜索结果</div>
             <ul v-else>
                 <el-scrollbar max-height="366px">
-                    <li
-                        v-for="item in result"
-                        :key="item.path"
-                        @click="to(item)"
-                    >
+                    <li v-for="item in result" :key="item.path" @click="to(item)">
                         <el-icon>
                             <component :is="item.icon || 'el-icon-menu'" />
                         </el-icon>
@@ -48,131 +41,112 @@
 export default {
     data() {
         return {
-            input: "",
+            input: '',
             menu: [],
             result: [],
             history: [],
-        };
+        }
     },
     mounted() {
-        this.history = this.$TOOL.data.get("SEARCH_HISTORY") || [];
-        const menuTree = this.$TOOL.data.get("MENU");
-        this.filterMenu(menuTree);
-        this.$refs.input.focus();
+        var searchHistory = this.$TOOL.data.get('SEARCH_HISTORY') || []
+        this.history = searchHistory
+        var menuTree = this.$TOOL.data.get('MENU')
+        this.filterMenu(menuTree)
+        this.$refs.input.focus()
     },
     methods: {
         inputChange(value) {
             if (value) {
-                this.result = this.menuFilter(value);
+                this.result = this.menuFilter(value)
             } else {
-                this.result = [];
+                this.result = []
             }
         },
         filterMenu(map) {
             map.forEach((item) => {
-                if (item.meta.hidden || item.meta.type === "button") {
-                    return false;
+                if (item.meta.hidden || item.meta.type === 'button') {
+                    return false
                 }
-                if (item.meta.type === "iframe") {
-                    item.path = `/i/${item.name}`;
+                if (item.meta.type === 'iframe') {
+                    item.path = `/i/${item.name}`
                 }
-                if (
-                    item.children &&
-                    item.children.length > 0 &&
-                    !item.component
-                ) {
-                    this.filterMenu(item.children);
+                if (item.children && item.children.length > 0 && !item.component) {
+                    this.filterMenu(item.children)
                 } else {
-                    this.menu.push(item);
+                    this.menu.push(item)
                 }
-            });
+            })
         },
         menuFilter(queryString) {
-            const res = [];
+            var res = []
             //过滤菜单树
-            const filterMenu = this.menu.filter((item) => {
-                if (
-                    item.meta.title
-                        .toLowerCase()
-                        .indexOf(queryString.toLowerCase()) >= 0
-                ) {
-                    return true;
+            var filterMenu = this.menu.filter((item) => {
+                if (item.meta.title.toLowerCase().indexOf(queryString.toLowerCase()) >= 0) {
+                    return true
                 }
-                if (
-                    item.name
-                        .toLowerCase()
-                        .indexOf(queryString.toLowerCase()) >= 0
-                ) {
-                    return true;
+                if (item.name.toLowerCase().indexOf(queryString.toLowerCase()) >= 0) {
+                    return true
                 }
-            });
+            })
             //匹配系统路由
-            const router = this.$router.getRoutes();
-            const filterRouter = filterMenu.map((m) => {
-                if (m.meta.type === "link") {
-                    return router.find((r) => r.path === "/" + m.path);
+            var router = this.$router.getRoutes()
+            var filterRouter = filterMenu.map((m) => {
+                if (m.meta.type === 'link') {
+                    return router.find((r) => r.path === '/' + m.path)
                 } else {
-                    return router.find((r) => r.path === m.path);
+                    return router.find((r) => r.path === m.path)
                 }
-            });
+            })
             //重组对象
             filterRouter.forEach((item) => {
                 res.push({
                     name: item.name,
                     type: item.meta.type,
-                    path:
-                        item.meta.type === "link"
-                            ? item.path.slice(1)
-                            : item.path,
+                    path: item.meta.type === 'link' ? item.path.slice(1) : item.path,
                     icon: item.meta.icon,
                     title: item.meta.title,
-                    breadcrumb: item.meta.breadcrumb
-                        .map((v) => v.meta.title)
-                        .join(" - "),
-                });
-            });
-            return res;
+                    breadcrumb: item.meta.breadcrumb.map((v) => v.meta.title).join(' - '),
+                })
+            })
+            return res
         },
         to(item) {
             if (!this.history.includes(this.input)) {
-                this.history.push(this.input);
-                this.$TOOL.data.set("SEARCH_HISTORY", this.history);
+                this.history.push(this.input)
+                this.$TOOL.data.set('SEARCH_HISTORY', this.history)
             }
-            if (item.type === "link") {
+            if (item.type === 'link') {
                 setTimeout(() => {
-                    let a = document.createElement("a");
-                    a.style = "display: none";
-                    a.target = "_blank";
-                    a.href = item.path;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                }, 10);
+                    let a = document.createElement('a')
+                    a.style = 'display: none'
+                    a.target = '_blank'
+                    a.href = item.path
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                }, 10)
             } else {
-                this.$router.push({ path: item.path });
+                this.$router.push({ path: item.path })
             }
-            this.$emit("success", true);
+            this.$emit('success', true)
         },
         historyClick(text) {
-            this.input = text;
-            this.inputChange(text);
+            this.input = text
+            this.inputChange(text)
         },
         historyClose(index) {
-            this.history.splice(index, 1);
+            this.history.splice(index, 1)
             if (this.history.length <= 0) {
-                this.$TOOL.data.remove("SEARCH_HISTORY");
+                this.$TOOL.data.remove('SEARCH_HISTORY')
             } else {
-                this.$TOOL.data.set("SEARCH_HISTORY", this.history);
+                this.$TOOL.data.set('SEARCH_HISTORY', this.history)
             }
         },
     },
-};
+}
 </script>
 
 <style scoped>
-.sc-search {
-}
-
 .sc-search-no-result {
     text-align: center;
     margin: 40px 0;

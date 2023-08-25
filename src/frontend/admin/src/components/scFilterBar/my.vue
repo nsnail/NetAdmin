@@ -1,10 +1,10 @@
 <!--
- * @Description: 过滤器V2 常用组件
+ * @Descripttion: 过滤器V2 常用组件
  * @version: 2.0
  * @Author: sakuya
  * @Date: 2021年7月31日16:49:56
- * @LastEditors:
- * @LastEditTime:
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:07:12
 -->
 
 <template>
@@ -16,23 +16,14 @@
             <el-empty v-if="myFilter.length <= 0" :image-size="100">
                 <template #description>
                     <h2>没有常用的过滤</h2>
-                    <p style="margin-top: 10px; max-width: 300px">
-                        常用过滤可以将多个过滤条件保存为一个集合，方便下次进行相同条件的过滤
-                    </p>
+                    <p style="margin-top: 10px; max-width: 300px">常用过滤可以将多个过滤条件保存为一个集合，方便下次进行相同条件的过滤</p>
                 </template>
             </el-empty>
             <ul v-else class="sc-filter-my-list">
                 <h2>我的常用过滤</h2>
-                <li
-                    v-for="(item, index) in myFilter"
-                    :key="index"
-                    @click="selectMyfilter(item)"
-                >
+                <li v-for="(item, index) in myFilter" :key="index" @click="selectMyfilter(item)">
                     <label>{{ item.title }}</label>
-                    <el-popconfirm
-                        title="确认删除此常用过滤吗？"
-                        @confirm="closeMyfilter(item, index)"
-                    >
+                    <el-popconfirm title="确认删除此常用过滤吗？" @confirm="closeMyfilter(item, index)">
                         <template #reference>
                             <el-icon class="del" @click.stop="() => {}">
                                 <el-icon-delete />
@@ -46,11 +37,11 @@
 </template>
 
 <script>
-import config from "@/config/filterBar";
+import config from '@/config/filterBar'
 
 export default {
     props: {
-        filterName: { type: String, default: "" },
+        filterName: { type: String, default: '' },
         data: {
             type: Object,
             default: () => {},
@@ -60,57 +51,53 @@ export default {
         return {
             loading: false,
             myFilter: [],
-        };
+        }
     },
     watch: {
         data: {
             handler() {
-                this.myFilter = this.data;
+                this.myFilter = this.data
             },
             deep: true,
         },
     },
     mounted() {
-        this.myFilter = this.data;
-        this.getMyfilter();
+        this.myFilter = this.data
+        this.getMyfilter()
     },
     methods: {
         //选择常用过滤
         selectMyfilter(item) {
-            this.$emit("selectMyfilter", item);
+            this.$emit('selectMyfilter', item)
         },
         //删除常用过滤
         async closeMyfilter(item, index) {
-            let del;
             try {
-                del = await config.delMy(this.filterName);
+                var del = await config.delMy(this.filterName)
             } catch (error) {
-                return false;
+                return false
             }
             if (!del) {
-                return false;
+                return false
             }
-            this.myFilter.splice(index, 1);
-            this.$message.success("删除常用成功");
+            this.myFilter.splice(index, 1)
+            this.$message.success('删除常用成功')
         },
         //远程获取我的常用
         async getMyfilter() {
-            this.loading = true;
+            this.loading = true
             try {
-                this.myFilter = await config.getMy(this.filterName);
+                this.myFilter = await config.getMy(this.filterName)
             } catch (error) {
-                return false;
+                return false
             }
-            this.loading = false;
+            this.loading = false
         },
     },
-};
+}
 </script>
 
 <style scoped>
-.sc-filter-my {
-}
-
 .sc-filter-my-loading {
     padding: 15px;
 }
@@ -129,15 +116,16 @@ export default {
 }
 
 .sc-filter-my-list li {
+    padding: 12px 20px;
     cursor: pointer;
     position: relative;
     color: #3c4a54;
-    padding: 12px 80px 12px 20px;
+    padding-right: 80px;
 }
 
 .sc-filter-my-list li:hover {
     background: #ecf5ff;
-    color: #06c755;
+    color: #409eff;
 }
 
 .sc-filter-my-list li label {
@@ -169,20 +157,20 @@ export default {
     color: #fff;
 }
 
-[data-theme="dark"] .sc-filter-my .el-empty h2 {
+[data-theme='dark'] .sc-filter-my .el-empty h2 {
     color: #fff;
 }
 
-[data-theme="dark"] .sc-filter-my-list {
+[data-theme='dark'] .sc-filter-my-list {
     background: none;
     border-color: var(--el-border-color-base);
 }
 
-[data-theme="dark"] .sc-filter-my-list li {
+[data-theme='dark'] .sc-filter-my-list li {
     color: #d0d0d0;
 }
 
-[data-theme="dark"] .sc-filter-my-list li:hover {
+[data-theme='dark'] .sc-filter-my-list li:hover {
     background: var(--el-color-white);
 }
 </style>

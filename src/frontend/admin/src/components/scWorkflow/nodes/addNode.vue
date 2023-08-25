@@ -1,19 +1,9 @@
 <template>
     <div class="add-node-btn-box">
         <div class="add-node-btn">
-            <el-popover
-                :hide-after="0"
-                :show-after="0"
-                :width="270"
-                placement="right-start"
-                trigger="click"
-            >
+            <el-popover :hide-after="0" :show-after="0" :width="270" placement="right-start" trigger="click">
                 <template #reference>
-                    <el-button
-                        circle
-                        icon="el-icon-plus"
-                        type="primary"
-                    ></el-button>
+                    <el-button circle icon="el-icon-plus" type="primary"></el-button>
                 </template>
                 <div class="add-node-popover-body">
                     <ul>
@@ -41,6 +31,7 @@
         </div>
     </div>
 </template>
+
 <script>
 export default {
     props: {
@@ -50,15 +41,15 @@ export default {
         },
     },
     data() {
-        return {};
+        return {}
     },
     mounted() {},
     methods: {
         addType(type) {
-            let node = {};
+            var node = {}
             if (type === 1) {
                 node = {
-                    nodeName: "审核人",
+                    nodeName: '审核人',
                     type: 1, //节点类型
                     setType: 1, //审核人类型
                     nodeUserList: [], //审核人成员
@@ -72,29 +63,29 @@ export default {
                     examineMode: 1, //多人审批时审批方式
                     directorMode: 0, //连续主管审批方式
                     childNode: this.modelValue,
-                };
+                }
             } else if (type === 2) {
                 node = {
-                    nodeName: "抄送人",
+                    nodeName: '抄送人',
                     type: 2,
                     userSelectFlag: true,
                     nodeUserList: [],
                     childNode: this.modelValue,
-                };
+                }
             } else if (type === 4) {
                 node = {
-                    nodeName: "条件路由",
+                    nodeName: '条件路由',
                     type: 4,
                     conditionNodes: [
                         {
-                            nodeName: "条件1",
+                            nodeName: '条件1',
                             type: 3,
                             priorityLevel: 1,
                             conditionMode: 1,
                             conditionList: [],
                         },
                         {
-                            nodeName: "条件2",
+                            nodeName: '条件2',
                             type: 3,
                             priorityLevel: 2,
                             conditionMode: 1,
@@ -102,11 +93,12 @@ export default {
                         },
                     ],
                     childNode: this.modelValue,
-                };
+                }
             }
-            this.$emit("update:modelValue", node);
+            this.$emit('update:modelValue', node)
         },
     },
-};
+}
 </script>
+
 <style></style>

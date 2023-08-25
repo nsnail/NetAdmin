@@ -6,5 +6,5 @@
 
 export default {
     //是否显示第三方授权登录
-    MY_SHOW_LOGIN_OAUTH: true
+    MY_SHOW_LOGIN_OAUTH: true,
 }

@@ -1,10 +1,10 @@
 <!--
- * @Description: xgplayer二次封装
+ * @Descripttion: xgplayer二次封装
  * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年11月29日12:10:06
- * @LastEditors: sakuya
- * @LastEditTime: 2022年5月30日21:02:50
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:14:13
 -->
 
 <template>
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import Player from "xgplayer";
-import HlsPlayer from "xgplayer-hls";
+import Player from 'xgplayer'
+import HlsPlayer from 'xgplayer-hls'
 
 export default {
     props: {
-        src: { type: String, required: true, default: "" },
+        src: { type: String, required: true, default: '' },
         autoplay: { type: Boolean, default: false },
         controls: { type: Boolean, default: true },
         loop: { type: Boolean, default: false },
@@ -30,22 +30,22 @@ export default {
     data() {
         return {
             player: null,
-        };
+        }
     },
     watch: {
         src(val) {
             if (this.player.hasStart) {
-                this.player.src = val;
+                this.player.src = val
             } else {
-                this.player.start(val);
+                this.player.start(val)
             }
         },
     },
     mounted() {
         if (this.isLive) {
-            this.initHls();
+            this.initHls()
         } else {
-            this.init();
+            this.init()
         }
     },
     methods: {
@@ -57,9 +57,9 @@ export default {
                 loop: this.loop,
                 controls: this.controls,
                 fluid: true,
-                lang: "zh-cn",
+                lang: 'zh-cn',
                 ...this.options,
-            });
+            })
         },
         initHls() {
             this.player = new HlsPlayer({
@@ -70,13 +70,13 @@ export default {
                 controls: this.controls,
                 fluid: true,
                 isLive: true,
-                ignores: ["time", "progress"],
-                lang: "zh-cn",
+                ignores: ['time', 'progress'],
+                lang: 'zh-cn',
                 ...this.options,
-            });
+            })
         },
     },
-};
+}
 </script>
 
 <style scoped>
@@ -84,7 +84,10 @@ export default {
     color: #fff;
     font-size: 20px;
     font-weight: bold;
-    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, -1px 1px 0 #000,
+    text-shadow:
+        1px 1px 0 #000,
+        -1px -1px 0 #000,
+        -1px 1px 0 #000,
         1px -1px 0 #000;
 }
 

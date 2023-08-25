@@ -12,13 +12,7 @@
             </div>
         </div>
         <add-node v-model="nodeConfig.childNode"></add-node>
-        <el-drawer
-            v-model="drawer"
-            :size="500"
-            append-to-body
-            destroy-on-close
-            title="发起人"
-        >
+        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close title="发起人">
             <template #header>
                 <div class="node-wrap-drawer__title">
                     <label v-if="!isEditTitle" @click="editTitle"
@@ -33,38 +27,21 @@
                         v-model="form.nodeName"
                         clearable
                         @blur="saveTitle"
-                        @keyup.enter="saveTitle"
-                    ></el-input>
+                        @keyup.enter="saveTitle"></el-input>
                 </div>
             </template>
             <el-container>
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
                         <el-form-item label="谁可以发起此审批">
-                            <el-button
-                                icon="el-icon-plus"
-                                round
-                                type="primary"
-                                @click="selectHandle(2, form.nodeRoleList)"
-                                >选择角色
-                            </el-button>
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色 </el-button>
                             <div class="tags-list">
-                                <el-tag
-                                    v-for="(role, index) in form.nodeRoleList"
-                                    :key="role.id"
-                                    closable
-                                    type="info"
-                                    @close="delRole(index)"
+                                <el-tag v-for="(role, index) in form.nodeRoleList" :key="role.id" closable type="info" @close="delRole(index)"
                                     >{{ role.name }}
                                 </el-tag>
                             </div>
                         </el-form-item>
-                        <el-alert
-                            v-if="form.nodeRoleList.length === 0"
-                            :closable="false"
-                            title="不指定则默认所有人都可发起此审批"
-                            type="info"
-                        />
+                        <el-alert v-if="form.nodeRoleList.length === 0" :closable="false" title="不指定则默认所有人都可发起此审批" type="info" />
                     </el-form>
                 </el-main>
                 <el-footer>
@@ -77,10 +54,10 @@
 </template>
 
 <script>
-import addNode from "./addNode";
+import addNode from './addNode'
 
 export default {
-    inject: ["select"],
+    inject: ['select'],
     props: {
         modelValue: {
             type: Object,
@@ -96,53 +73,51 @@ export default {
             drawer: false,
             isEditTitle: false,
             form: {},
-        };
+        }
     },
     watch: {
         modelValue() {
-            this.nodeConfig = this.modelValue;
+            this.nodeConfig = this.modelValue
         },
     },
     mounted() {
-        this.nodeConfig = this.modelValue;
+        this.nodeConfig = this.modelValue
     },
     methods: {
         show() {
-            this.form = {};
-            this.form = JSON.parse(JSON.stringify(this.nodeConfig));
-            this.isEditTitle = false;
-            this.drawer = true;
+            this.form = {}
+            this.form = JSON.parse(JSON.stringify(this.nodeConfig))
+            this.isEditTitle = false
+            this.drawer = true
         },
         editTitle() {
-            this.isEditTitle = true;
+            this.isEditTitle = true
             this.$nextTick(() => {
-                this.$refs.nodeTitle.focus();
-            });
+                this.$refs.nodeTitle.focus()
+            })
         },
         saveTitle() {
-            this.isEditTitle = false;
+            this.isEditTitle = false
         },
         selectHandle(type, data) {
-            this.select(type, data);
+            this.select(type, data)
         },
         delRole(index) {
-            this.form.nodeRoleList.splice(index, 1);
+            this.form.nodeRoleList.splice(index, 1)
         },
         save() {
-            this.$emit("update:modelValue", this.form);
-            this.drawer = false;
+            this.$emit('update:modelValue', this.form)
+            this.drawer = false
         },
         toText(nodeConfig) {
             if (nodeConfig.nodeRoleList && nodeConfig.nodeRoleList.length > 0) {
-                return nodeConfig.nodeRoleList
-                    .map((item) => item.name)
-                    .join("、");
+                return nodeConfig.nodeRoleList.map((item) => item.name).join('、')
             } else {
-                return "所有人";
+                return '所有人'
             }
         },
     },
-};
+}
 </script>
 
 <style></style>

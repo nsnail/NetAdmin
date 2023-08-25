@@ -1,9 +1,11 @@
 /* 全局 */
-#app, body, html {
+#app,
+body,
+html {
     width: 100%;
     height: 100%;
     background-color: #f6f8f9;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 a {
@@ -11,7 +13,8 @@ a {
     text-decoration: none;
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
     color: #000;
     text-decoration: none;
 }
@@ -24,7 +27,10 @@ a:-webkit-any-link {
     text-decoration: none;
 }
 
-a, button, input, textarea {
+a,
+button,
+input,
+textarea {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-sizing: border-box;
     outline: none !important;
@@ -83,9 +89,9 @@ a, button, input, textarea {
     height: 40px;
     border-radius: 3px 0 0 3px;
     bottom: 100px;
-    right: 0;
+    right: 0px;
     z-index: 100;
-    background: #06c755;
+    background: #409eff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -229,7 +235,7 @@ a, button, input, textarea {
 }
 
 .aminui-side-split li.active {
-    background: #06c755;
+    background: #409eff;
 }
 
 .adminui-side-split-scroll::-webkit-scrollbar-thumb {
@@ -255,7 +261,7 @@ a, button, input, textarea {
     flex-shrink: 0;
     width: 210px;
     background: #fff;
-    box-shadow: 2px 0 8px 0 rgba(29, 35, 41, .05);
+    box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
     border-right: 1px solid #e6e6e6;
     transition: width 0.3s;
 }
@@ -330,7 +336,7 @@ a, button, input, textarea {
     height: 50px;
     border-bottom: 1px solid #ebeef5;
     background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
     display: flex;
     justify-content: space-between;
 }
@@ -348,11 +354,9 @@ a, button, input, textarea {
 .right-panel-search {
     display: flex;
     align-items: center;
+    gap: .5rem;
 }
 
-.right-panel-search > * + * {
-    margin-left: 10px;
-}
 
 .adminui-tags {
     height: 35px;
@@ -368,7 +372,6 @@ a, button, input, textarea {
 .adminui-tags li {
     cursor: pointer;
     display: inline-block;
-    float: left;
     height: 34px;
     line-height: 34px;
     position: relative;
@@ -376,11 +379,11 @@ a, button, input, textarea {
 }
 
 .adminui-tags li::after {
-    content: " ";
+    content: ' ';
     width: 1px;
     height: 100%;
     position: absolute;
-    right: 0;
+    right: 0px;
     background-image: linear-gradient(#fff, #e6e6e6);
 }
 
@@ -406,7 +409,7 @@ a, button, input, textarea {
 }
 
 .adminui-tags li i:hover {
-    background: rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.2);
     color: #fff;
 }
 
@@ -415,7 +418,7 @@ a, button, input, textarea {
 }
 
 .adminui-tags li.active {
-    background: #06c755;
+    background: #409eff;
 }
 
 .adminui-tags li.active a {
@@ -438,7 +441,11 @@ a, button, input, textarea {
         display: block;
     }
 
-    .aminui-side-split, .aminui-side, .adminui-header, .adminui-topbar, .adminui-tags {
+    .aminui-side-split,
+    .aminui-side,
+    .adminui-header,
+    .adminui-topbar,
+    .adminui-tags {
         display: none;
     }
 }
@@ -472,4 +479,37 @@ a, button, input, textarea {
 .sc-page {
     width: 1230px;
     margin: 0 auto;
+}
+
+
+.no-zIndex .el-table__cell {
+    z-index: unset;
+}
+
+.w15 {
+    width: 15rem;
+}
+
+.w100p {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.gap05 {
+    gap: .5rem;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
 }

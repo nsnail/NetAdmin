@@ -10,82 +10,34 @@
             </el-tabs>
         </el-header>
         <el-header style="height: auto">
-            <sc-select-filter
-                :data="filterData"
-                :label-width="80"
-                @on-change="filterChange"
-            ></sc-select-filter>
+            <sc-select-filter :data="filterData" :label-width="80" @on-change="filterChange"></sc-select-filter>
         </el-header>
         <el-header>
             <div class="left-panel">
                 <el-button icon="el-icon-plus" type="primary"></el-button>
-                <el-button
-                    icon="el-icon-delete"
-                    plain
-                    type="danger"
-                ></el-button>
+                <el-button icon="el-icon-delete" plain type="danger"></el-button>
             </div>
             <div class="right-panel">
                 <div class="right-panel-search">
-                    <el-input
-                        v-model="search.keyword"
-                        clearable
-                        placeholder="关键词"
-                    ></el-input>
-                    <el-button
-                        icon="el-icon-search"
-                        type="primary"
-                        @click="upSearch"
-                    ></el-button>
+                    <el-input v-model="search.keyword" clearable placeholder="关键词"></el-input>
+                    <el-button icon="el-icon-search" type="primary" @click="upsearch"></el-button>
                 </div>
             </div>
         </el-header>
         <el-main class="nopadding">
             <scTable ref="table" :apiObj="list.apiObj" row-key="id" stripe>
                 <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column
-                    label="姓名"
-                    prop="name"
-                    width="150"
-                ></el-table-column>
-                <el-table-column
-                    label="性别"
-                    prop="sex"
-                    width="150"
-                ></el-table-column>
-                <el-table-column
-                    label="邮箱"
-                    prop="email"
-                    width="250"
-                ></el-table-column>
-                <el-table-column
-                    label="评分"
-                    prop="num"
-                    width="150"
-                ></el-table-column>
-                <el-table-column
-                    label="注册时间"
-                    prop="datetime"
-                    sortable
-                    width="150"
-                ></el-table-column>
-                <el-table-column
-                    align="right"
-                    fixed="right"
-                    label="操作"
-                    width="160"
-                >
+                <el-table-column label="姓名" prop="name" width="150"></el-table-column>
+                <el-table-column label="性别" prop="sex" width="150"></el-table-column>
+                <el-table-column label="邮箱" prop="email" width="250"></el-table-column>
+                <el-table-column label="评分" prop="num" width="150"></el-table-column>
+                <el-table-column label="注册时间" prop="datetime" sortable width="150"></el-table-column>
+                <el-table-column align="right" fixed="right" label="操作" width="160">
                     <template #default>
                         <el-button-group>
-                            <el-button size="small" text type="primary"
-                                >查看
-                            </el-button>
-                            <el-button size="small" text type="primary"
-                                >编辑
-                            </el-button>
-                            <el-button size="small" text type="primary"
-                                >删除
-                            </el-button>
+                            <el-button size="small" text type="primary">查看</el-button>
+                            <el-button size="small" text type="primary">编辑</el-button>
+                            <el-button size="small" text type="primary">删除</el-button>
                         </el-button-group>
                     </template>
                 </el-table-column>
@@ -95,91 +47,91 @@
 </template>
 
 <script>
-import scSelectFilter from "@/components/scSelectFilter";
+import scSelectFilter from '@/components/scSelectFilter'
 
 export default {
-    name: "listTab",
+    name: 'listTab',
     components: {
         scSelectFilter,
     },
     data() {
         return {
-            groupId: "0",
+            groupId: '0',
             filterData: [
                 {
-                    title: "所属行业",
-                    key: "type",
+                    title: '所属行业',
+                    key: 'type',
                     multiple: true,
                     options: [
                         {
-                            label: "全部",
-                            value: "",
+                            label: '全部',
+                            value: '',
                         },
                         {
-                            label: "汽车",
-                            value: "1",
+                            label: '汽车',
+                            value: '1',
                         },
                         {
-                            label: "大健康",
-                            value: "2",
+                            label: '大健康',
+                            value: '2',
                         },
                         {
-                            label: "节能环保",
-                            value: "3",
+                            label: '节能环保',
+                            value: '3',
                         },
                         {
-                            label: "智能信息",
-                            value: "4",
+                            label: '智能信息',
+                            value: '4',
                         },
                         {
-                            label: "文化旅游",
-                            value: "5",
+                            label: '文化旅游',
+                            value: '5',
                         },
                         {
-                            label: "新材料",
-                            value: "6",
+                            label: '新材料',
+                            value: '6',
                         },
                         {
-                            label: "高端装备",
-                            value: "7",
+                            label: '高端装备',
+                            value: '7',
                         },
                         {
-                            label: "其他行业",
-                            value: "99",
+                            label: '其他行业',
+                            value: '99',
                         },
                     ],
                 },
                 {
-                    title: "所属区域",
-                    key: "area",
+                    title: '所属区域',
+                    key: 'area',
                     options: [
                         {
-                            label: "全部",
-                            value: "",
+                            label: '全部',
+                            value: '',
                         },
                         {
-                            label: "华东",
-                            value: "HD",
+                            label: '华东',
+                            value: 'HD',
                         },
                         {
-                            label: "华北",
-                            value: "HB",
+                            label: '华北',
+                            value: 'HB',
                         },
                         {
-                            label: "华南",
-                            value: "HN",
+                            label: '华南',
+                            value: 'HN',
                         },
                         {
-                            label: "华中",
-                            value: "HZ",
+                            label: '华中',
+                            value: 'HZ',
                         },
                         {
-                            label: "华西南",
-                            value: "HXN",
+                            label: '华西南',
+                            value: 'HXN',
                         },
                         {
-                            label: "东北",
-                            value: "DB",
+                            label: '东北',
+                            value: 'DB',
                         },
                     ],
                 },
@@ -188,27 +140,27 @@ export default {
                 apiObj: this.$API.demo.list,
             },
             search: {
-                keyword: "",
+                keyword: '',
             },
-        };
+        }
     },
     methods: {
         //搜索
-        upSearch() {
-            this.$refs.table.upData(this.search);
+        upsearch() {
+            this.$refs.table.upData(this.search)
         },
         //标签切换
         tabChange(name) {
-            const params = {
+            var params = {
                 groupId: name,
-            };
-            this.$refs.table.reload(params);
+            }
+            this.$refs.table.reload(params)
         },
         filterChange(data) {
-            this.$refs.table.upData(data);
+            this.$refs.table.upData(data)
         },
     },
-};
+}
 </script>
 
 <style></style>

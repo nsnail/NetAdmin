@@ -1,13 +1,13 @@
-import {rolePermission} from '@/utils/permission'
+import { rolePermission } from '@/utils/permission'
 
 export default {
     mounted(el, binding) {
-        const {value} = binding
+        const { value } = binding
         if (Array.isArray(value)) {
-            let ishas = false;
-            value.forEach(item => {
+            let ishas = false
+            value.forEach((item) => {
                 if (rolePermission(item)) {
-                    ishas = true;
+                    ishas = true
                 }
             })
             if (!ishas) {
@@ -15,8 +15,8 @@ export default {
             }
         } else {
             if (!rolePermission(value)) {
-                el.parentNode.removeChild(el);
+                el.parentNode.removeChild(el)
             }
         }
-    }
-};
+    },
+}

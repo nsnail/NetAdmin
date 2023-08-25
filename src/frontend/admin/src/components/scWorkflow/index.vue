@@ -1,10 +1,10 @@
 <!--
- * @Description: 仿钉钉流程设计器
+ * @Descripttion: 仿钉钉流程设计器
  * @version: 1.3
  * @Author: sakuya
  * @Date: 2021年9月14日08:38:35
- * @LastEditors: sakuya
- * @LastEditTime: 2022年5月14日19:43:46
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:16:31
 -->
 
 <template>
@@ -16,23 +16,19 @@
                 <div class="end-node-text">流程结束</div>
             </div>
         </div>
-        <use-select
-            v-if="selectVisible"
-            ref="useselect"
-            @closed="selectVisible = false"
-        ></use-select>
+        <use-select v-if="selectVisible" ref="useselect" @closed="selectVisible = false"></use-select>
     </div>
 </template>
 
 <script>
-import nodeWrap from "./nodeWrap";
-import useSelect from "./select";
+import nodeWrap from './nodeWrap'
+import useSelect from './select'
 
 export default {
     provide() {
         return {
             select: this.selectHandle,
-        };
+        }
     },
     props: {
         modelValue: {
@@ -48,26 +44,26 @@ export default {
         return {
             nodeConfig: this.modelValue,
             selectVisible: false,
-        };
+        }
     },
     watch: {
         modelValue(val) {
-            this.nodeConfig = val;
+            this.nodeConfig = val
         },
         nodeConfig(val) {
-            this.$emit("update:modelValue", val);
+            this.$emit('update:modelValue', val)
         },
     },
     mounted() {},
     methods: {
         selectHandle(type, data) {
-            this.selectVisible = true;
+            this.selectVisible = true
             this.$nextTick(() => {
-                this.$refs.useselect.open(type, data);
-            });
+                this.$refs.useselect.open(type, data)
+            })
         },
     },
-};
+}
 </script>
 
 <style lang="scss">
@@ -79,7 +75,7 @@ export default {
     display: inline-block;
     position: relative;
     width: 100%;
-    padding: 54.5px 0;
+    padding: 54.5px 0px;
     align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
@@ -93,7 +89,7 @@ export default {
         flex-flow: column wrap;
         justify-content: flex-start;
         align-items: center;
-        padding: 0 50px;
+        padding: 0px 50px;
         position: relative;
         z-index: 1;
     }
@@ -112,12 +108,12 @@ export default {
     }
 
     .node-wrap-box::before {
-        content: "";
+        content: '';
         position: absolute;
         top: -12px;
         left: 50%;
         transform: translateX(-50%);
-        width: 0;
+        width: 0px;
         border-style: solid;
         border-width: 8px 6px 4px;
         border-color: rgb(202, 202, 202) transparent transparent;
@@ -175,12 +171,12 @@ export default {
     }
 
     .add-node-btn-box:before {
-        content: "";
+        content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
         z-index: -1;
         margin: auto;
         width: 2px;
@@ -191,19 +187,16 @@ export default {
     .add-node-btn {
         user-select: none;
         width: 240px;
-        padding: 20px 0 32px;
+        padding: 20px 0px 32px;
         display: flex;
         justify-content: center;
         flex-shrink: 0;
         flex-grow: 1;
     }
 
-    .add-node-btn span {
-    }
-
     .add-branch {
         justify-content: center;
-        padding: 0 10px;
+        padding: 0px 10px;
         position: absolute;
         top: -16px;
         left: 50%;
@@ -248,12 +241,12 @@ export default {
     }
 
     .branch-box .col-box::before {
-        content: "";
+        content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
         z-index: 0;
         margin: auto;
         width: 2px;
@@ -280,12 +273,12 @@ export default {
     }
 
     .condition-node-box::before {
-        content: "";
+        content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
         margin: auto;
         width: 2px;
         height: 100%;
@@ -304,12 +297,12 @@ export default {
     }
 
     .auto-judge::before {
-        content: "";
+        content: '';
         position: absolute;
         top: -12px;
         left: 50%;
         transform: translateX(-50%);
-        width: 0;
+        width: 0px;
         border-style: solid;
         border-width: 8px 6px 4px;
         border-color: rgb(202, 202, 202) transparent transparent;
@@ -454,7 +447,7 @@ export default {
 
     .auto-judge:after {
         pointer-events: none;
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         bottom: 0;
@@ -472,7 +465,7 @@ export default {
 
     .node-wrap-box:after {
         pointer-events: none;
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         bottom: 0;
@@ -492,9 +485,6 @@ export default {
 .tags-list {
     margin-top: 15px;
     width: 100%;
-}
-
-.add-node-popover-body {
 }
 
 .add-node-popover-body li {

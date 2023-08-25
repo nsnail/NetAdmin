@@ -1,28 +1,13 @@
 <template>
     <div :class="{ 'sc-upload-round': round }" :style="style" class="sc-upload">
-        <div
-            v-if="file && file.status !== 'success'"
-            class="sc-upload__uploading"
-        >
+        <div v-if="file && file.status !== 'success'" class="sc-upload__uploading">
             <div class="sc-upload__progress">
-                <el-progress
-                    :percentage="file.percentage"
-                    :stroke-width="16"
-                    :text-inside="true"
-                />
+                <el-progress :percentage="file.percentage" :stroke-width="16" :text-inside="true" />
             </div>
             <el-image :src="file.tempFile" class="image" fit="cover"></el-image>
         </div>
         <div v-if="file && file.status === 'success'" class="sc-upload__img">
-            <el-image
-                :preview-src-list="[file.url]"
-                :src="file.url"
-                :z-index="9999"
-                append-to-body
-                class="image"
-                fit="cover"
-                hide-on-click-modal
-            >
+            <el-image :preview-src-list="[file.url]" :src="file.url" :z-index="9999" append-to-body class="image" fit="cover" hide-on-click-modal>
                 <template #placeholder>
                     <div class="sc-upload__img-slot">Loading...</div>
                 </template>
@@ -50,8 +35,7 @@
             :on-exceed="handleExceed"
             :on-success="success"
             :show-file-list="showFileList"
-            class="uploader"
-        >
+            class="uploader">
             <slot>
                 <div class="el-upload--picture-card">
                     <div class="file-empty">
@@ -63,27 +47,11 @@
                 </div>
             </slot>
         </el-upload>
-        <span style="display: none !important"
-            ><el-input v-model="value"></el-input
-        ></span>
-        <el-dialog
-            v-model="cropperDialogVisible"
-            :width="580"
-            destroy-on-close
-            draggable
-            title="剪裁"
-            @closed="cropperClosed"
-        >
-            <sc-cropper
-                ref="cropper"
-                :aspectRatio="aspectRatio"
-                :compress="compress"
-                :src="cropperFile.tempCropperFile"
-            ></sc-cropper>
+        <span style="display: none !important"><el-input v-model="value"></el-input></span>
+        <el-dialog v-model="cropperDialogVisible" :width="580" destroy-on-close draggable title="剪裁" @closed="cropperClosed">
+            <sc-cropper ref="cropper" :aspectRatio="aspectRatio" :compress="compress" :src="cropperFile.tempCropperFile"></sc-cropper>
             <template #footer>
-                <el-button @click="cropperDialogVisible = false"
-                    >取 消
-                </el-button>
+                <el-button @click="cropperDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="cropperSave">确 定</el-button>
             </template>
         </el-dialog>
@@ -91,20 +59,20 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from "vue";
-import { genFileId } from "element-plus";
-import config from "@/config/upload";
+import { defineAsyncComponent } from 'vue'
+import { genFileId } from 'element-plus'
+import config from '@/config/upload'
 
-const scCropper = defineAsyncComponent(() => import("@/components/scCropper"));
+const scCropper = defineAsyncComponent(() => import('@/components/scCropper'))
 
 export default {
     props: {
-        modelValue: { type: String, default: "" },
+        modelValue: { type: String, default: '' },
         height: { type: Number, default: 148 },
         width: { type: Number, default: 148 },
-        title: { type: String, default: "" },
-        icon: { type: String, default: "el-icon-plus" },
-        action: { type: String, default: "" },
+        title: { type: String, default: '' },
+        icon: { type: String, default: 'el-icon-plus' },
+        action: { type: String, default: '' },
         apiObj: {
             type: Object,
             default: () => {},
@@ -114,7 +82,7 @@ export default {
             type: Object,
             default: () => {},
         },
-        accept: { type: String, default: "image/gif, image/jpeg, image/png" },
+        accept: { type: String, default: 'image/gif, image/jpeg, image/png' },
         maxSize: { type: Number, default: config.maxSizeFile },
         limit: { type: Number, default: 1 },
         autoUpload: { type: Boolean, default: true },
@@ -124,7 +92,7 @@ export default {
         onSuccess: {
             type: Function,
             default: () => {
-                return true;
+                return true
             },
         },
 
@@ -137,185 +105,171 @@ export default {
     },
     data() {
         return {
-            value: "",
+            value: '',
             file: null,
             style: {
-                width: this.width + "px",
-                height: this.height + "px",
+                width: this.width + 'px',
+                height: this.height + 'px',
             },
             cropperDialogVisible: false,
             cropperFile: null,
-        };
+        }
     },
     watch: {
         modelValue(val) {
-            this.value = val;
-            this.newFile(val);
+            this.value = val
+            this.newFile(val)
         },
         value(val) {
-            this.$emit("update:modelValue", val);
+            this.$emit('update:modelValue', val)
         },
     },
     mounted() {
-        this.value = this.modelValue;
-        this.newFile(this.modelValue);
+        this.value = this.modelValue
+        this.newFile(this.modelValue)
     },
     methods: {
         newFile(url) {
             if (url) {
                 this.file = {
-                    status: "success",
+                    status: 'success',
                     url: url,
-                };
+                }
             } else {
-                this.file = null;
+                this.file = null
             }
         },
         cropperSave() {
             this.$refs.cropper.getCropFile(
                 (file) => {
-                    file.uid = this.cropperFile.uid;
-                    this.cropperFile.raw = file;
+                    file.uid = this.cropperFile.uid
+                    this.cropperFile.raw = file
 
-                    this.file = this.cropperFile;
-                    this.file.tempFile = URL.createObjectURL(this.file.raw);
-                    this.$refs.uploader.submit();
+                    this.file = this.cropperFile
+                    this.file.tempFile = URL.createObjectURL(this.file.raw)
+                    this.$refs.uploader.submit()
                 },
                 this.cropperFile.name,
-                this.cropperFile.type
-            );
-            this.cropperDialogVisible = false;
+                this.cropperFile.type,
+            )
+            this.cropperDialogVisible = false
         },
         cropperClosed() {
-            URL.revokeObjectURL(this.cropperFile.tempCropperFile);
-            delete this.cropperFile.tempCropperFile;
+            URL.revokeObjectURL(this.cropperFile.tempCropperFile)
+            delete this.cropperFile.tempCropperFile
         },
         handleRemove() {
-            this.clearFiles();
+            this.clearFiles()
         },
         clearFiles() {
-            URL.revokeObjectURL(this.file.tempFile);
-            this.value = "";
-            this.file = null;
+            URL.revokeObjectURL(this.file.tempFile)
+            this.value = ''
+            this.file = null
             this.$nextTick(() => {
-                this.$refs.uploader.clearFiles();
-            });
+                this.$refs.uploader.clearFiles()
+            })
         },
         change(file, files) {
             if (files.length > 1) {
-                files.splice(0, 1);
+                files.splice(0, 1)
             }
-            if (this.cropper && file.status === "ready") {
-                const acceptIncludes = [
-                    "image/gif",
-                    "image/jpeg",
-                    "image/png",
-                ].includes(file.raw.type);
+            if (this.cropper && file.status === 'ready') {
+                const acceptIncludes = ['image/gif', 'image/jpeg', 'image/png'].includes(file.raw.type)
                 if (!acceptIncludes) {
                     this.$notify.warning({
-                        title: "上传文件警告",
-                        message: "选择的文件非图像类文件",
-                    });
-                    return false;
+                        title: '上传文件警告',
+                        message: '选择的文件非图像类文件',
+                    })
+                    return false
                 }
-                this.cropperFile = file;
-                this.cropperFile.tempCropperFile = URL.createObjectURL(
-                    file.raw
-                );
-                this.cropperDialogVisible = true;
-                return false;
+                this.cropperFile = file
+                this.cropperFile.tempCropperFile = URL.createObjectURL(file.raw)
+                this.cropperDialogVisible = true
+                return false
             }
-            this.file = file;
-            if (file.status === "ready") {
-                file.tempFile = URL.createObjectURL(file.raw);
+            this.file = file
+            if (file.status === 'ready') {
+                file.tempFile = URL.createObjectURL(file.raw)
             }
         },
         before(file) {
-            const acceptIncludes = this.accept
-                .replace(/\s/g, "")
-                .split(",")
-                .includes(file.type);
+            const acceptIncludes = this.accept.replace(/\s/g, '').split(',').includes(file.type)
             if (!acceptIncludes) {
                 this.$notify.warning({
-                    title: "上传文件警告",
-                    message: "选择的文件非图像类文件",
-                });
-                this.clearFiles();
-                return false;
+                    title: '上传文件警告',
+                    message: '选择的文件非图像类文件',
+                })
+                this.clearFiles()
+                return false
             }
-            const maxSize = file.size / 1024 / 1024 < this.maxSize;
+            const maxSize = file.size / 1024 / 1024 < this.maxSize
             if (!maxSize) {
-                this.$message.warning(
-                    `上传文件大小不能超过 ${this.maxSize}MB!`
-                );
-                this.clearFiles();
-                return false;
+                this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`)
+                this.clearFiles()
+                return false
             }
         },
         handleExceed(files) {
-            const file = files[0];
-            file.uid = genFileId();
-            this.$refs.uploader.handleStart(file);
+            const file = files[0]
+            file.uid = genFileId()
+            this.$refs.uploader.handleStart(file)
         },
         success(res, file) {
             //释放内存删除blob
-            URL.revokeObjectURL(file.tempFile);
-            delete file.tempFile;
-            const os = this.onSuccess(res, file);
+            URL.revokeObjectURL(file.tempFile)
+            delete file.tempFile
+            var os = this.onSuccess(res, file)
             if (os !== undefined && os === false) {
                 this.$nextTick(() => {
-                    this.file = null;
-                    this.value = "";
-                });
-                return false;
+                    this.file = null
+                    this.value = ''
+                })
+                return false
             }
-            const response = config.parseData(res);
-            file.url = response.src;
-            this.value = file.url;
+            var response = config.parseData(res)
+            file.url = response.src
+            this.value = file.url
         },
         error(err) {
             this.$nextTick(() => {
-                this.clearFiles();
-            });
+                this.clearFiles()
+            })
             this.$notify.error({
-                title: "上传文件未成功",
+                title: '上传文件未成功',
                 message: err,
-            });
+            })
         },
         request(param) {
-            let apiObj = config.apiObj;
+            var apiObj = config.apiObj
             if (this.apiObj) {
-                apiObj = this.apiObj;
+                apiObj = this.apiObj
             }
-            const data = new FormData();
-            data.append(param.filename, param.file);
+            const data = new FormData()
+            data.append(param.filename, param.file)
             for (const key in param.data) {
-                data.append(key, param.data[key]);
+                data.append(key, param.data[key])
             }
             apiObj
                 .post(data, {
                     onUploadProgress: (e) => {
-                        const complete = parseInt(
-                            ((e.loaded / e.total) * 100) | 0,
-                            10
-                        );
-                        param.onProgress({ percent: complete });
+                        const complete = parseInt(((e.loaded / e.total) * 100) | 0, 10)
+                        param.onProgress({ percent: complete })
                     },
                 })
                 .then((res) => {
-                    const response = config.parseData(res);
+                    var response = config.parseData(res)
                     if (response.code === config.successCode) {
-                        param.onSuccess(res);
+                        param.onSuccess(res)
                     } else {
-                        param.onError(response.msg || "未知错误");
+                        param.onError(response.msg || '未知错误')
                     }
                 })
                 .catch((err) => {
-                    param.onError(err);
-                });
+                    param.onError(err)
+                })
         },
     },
-};
+}
 </script>
 
 <style scoped>

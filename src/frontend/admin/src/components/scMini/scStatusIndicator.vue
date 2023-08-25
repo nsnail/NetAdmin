@@ -1,5 +1,5 @@
 <!--
- * @Description: 状态指示器
+ * @Descripttion: 状态指示器
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2021年11月11日09:30:12
@@ -8,19 +8,16 @@
 -->
 
 <template>
-    <span
-        :class="[{ 'sc-status-processing': pulse }, 'sc-state-bg--' + type]"
-        class="sc-state"
-    ></span>
+    <span :class="[{ 'sc-status-processing': pulse }, 'sc-state-bg--' + type]" class="sc-state"></span>
 </template>
 
 <script>
 export default {
     props: {
-        type: { type: String, default: "primary" },
+        type: { type: String, default: 'primary' },
         pulse: { type: Boolean, default: false },
     },
-};
+}
 </script>
 
 <style scoped>
@@ -39,13 +36,13 @@ export default {
 
 .sc-status-processing:after {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0px;
+    left: 0px;
     width: 100%;
     height: 100%;
     border-radius: 50%;
     background: inherit;
-    content: "";
+    content: '';
     animation: warn 1.2s ease-in-out infinite;
 }
 

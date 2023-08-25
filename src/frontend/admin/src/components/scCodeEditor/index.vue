@@ -1,39 +1,45 @@
 <!--
- * @Description: 代码编辑器
+ * @Descripttion: 代码编辑器
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2022年5月20日21:46:29
  * @LastEditors:
  * @LastEditTime:
 -->
+
 <template>
     <div :style="{ height: _height }" class="sc-code-editor">
         <textarea ref="textarea" v-model="contentValue"></textarea>
     </div>
 </template>
+
 <script>
-import { markRaw } from "vue";
+import { markRaw } from 'vue'
+
 //框架
-import CodeMirror from "codemirror";
-import "codemirror/lib/codemirror.css";
+import CodeMirror from 'codemirror'
+import 'codemirror/lib/codemirror.css'
+
 //主题
-import "codemirror/theme/idea.css";
-import "codemirror/theme/darcula.css";
+import 'codemirror/theme/idea.css'
+import 'codemirror/theme/darcula.css'
+
 //功能
-import "codemirror/addon/selection/active-line";
+import 'codemirror/addon/selection/active-line'
+
 //语言
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/sql/sql";
+import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/sql/sql'
 
 export default {
     props: {
         modelValue: {
             type: String,
-            default: "",
+            default: '',
         },
         mode: {
             type: String,
-            default: "javascript",
+            default: 'javascript',
         },
         height: {
             type: [String, Number],
@@ -45,7 +51,7 @@ export default {
         },
         theme: {
             type: String,
-            default: "idea",
+            default: 'idea',
         },
         readOnly: {
             type: Boolean,
@@ -68,47 +74,45 @@ export default {
                 readOnly: this.readOnly, //只读
                 ...this.options,
             },
-        };
+        }
     },
     computed: {
         _height() {
-            return Number(this.height)
-                ? Number(this.height) + "px"
-                : this.height;
+            return Number(this.height) ? Number(this.height) + 'px' : this.height
         },
     },
     watch: {
         modelValue(val) {
-            this.contentValue = val;
+            this.contentValue = val
             if (val !== this.coder.getValue()) {
-                this.coder.setValue(val);
+                this.coder.setValue(val)
             }
         },
     },
     mounted() {
-        this.init();
+        this.init()
         //获取挂载的所有modes
         //console.log(CodeMirror.modes)
     },
     methods: {
         init() {
-            this.coder = markRaw(
-                CodeMirror.fromTextArea(this.$refs.textarea, this.opt)
-            );
-            this.coder.on("change", (coder) => {
-                this.contentValue = coder.getValue();
-                this.$emit("update:modelValue", this.contentValue);
-            });
+            this.coder = markRaw(CodeMirror.fromTextArea(this.$refs.textarea, this.opt))
+            this.coder.on('change', (coder) => {
+                this.contentValue = coder.getValue()
+                this.$emit('update:modelValue', this.contentValue)
+            })
         },
         formatStrInJson(strValue) {
-            return JSON.stringify(JSON.parse(strValue), null, 4);
+            return JSON.stringify(JSON.parse(strValue), null, 4)
         },
     },
-};
+}
 </script>
+
 <style scoped>
 .sc-code-editor {
     font-size: 14px;
+    border: 1px solid #ddd;
     line-height: 150%;
 }
 

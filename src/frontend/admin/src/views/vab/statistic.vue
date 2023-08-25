@@ -1,5 +1,5 @@
 <!--
- * @Description: 统计数值组件演示
+ * @Descripttion: 统计数值组件演示
  * @version: 1.0
  * @Author: sakuya
  * @Date: 2021年6月23日10:28:17
@@ -9,43 +9,23 @@
 
 <template>
     <el-main>
-        <el-alert
-            style="margin-bottom: 20px"
-            title="一个非常简单的组件, 目的就是省去重复写样式, 支持千分符/前后缀等."
-            type="success"
-        ></el-alert>
+        <el-alert style="margin-bottom: 20px" title="一个非常简单的组件, 目的就是省去重复写样式, 支持千分符/前后缀等." type="success"></el-alert>
         <el-row :gutter="15">
             <el-col :lg="8">
                 <el-card shadow="never">
-                    <sc-statistic
-                        description="Description"
-                        groupSeparator
-                        tips="Tips"
-                        title="Title"
-                        value="112893"
-                    ></sc-statistic>
+                    <sc-statistic description="Description" groupSeparator tips="Tips" title="Title" value="112893"></sc-statistic>
                 </el-card>
             </el-col>
             <el-col :lg="8">
                 <el-card shadow="never">
-                    <sc-statistic
-                        groupSeparator
-                        prefix="¥"
-                        title="今日净利润"
-                        value="112893.00"
-                    >
+                    <sc-statistic groupSeparator prefix="¥" title="今日净利润" value="112893.00">
                         <sc-trend v-model="trendValue1"></sc-trend>
                     </sc-statistic>
                 </el-card>
             </el-col>
             <el-col :lg="8">
                 <el-card shadow="never">
-                    <sc-statistic
-                        groupSeparator
-                        suffix="条"
-                        title="留言"
-                        value="112893"
-                    >
+                    <sc-statistic groupSeparator suffix="条" title="留言" value="112893">
                         <sc-trend v-model="trendValue2"></sc-trend>
                     </sc-statistic>
                 </el-card>
@@ -55,10 +35,10 @@
 </template>
 
 <script>
-import scStatistic from "@/components/scStatistic";
+import scStatistic from '@/components/scStatistic'
 
 export default {
-    name: "statistic",
+    name: 'statistic',
     components: {
         scStatistic,
     },
@@ -66,11 +46,11 @@ export default {
         return {
             trendValue1: 7.7,
             trendValue2: -18.9,
-        };
+        }
     },
     mounted() {},
     methods: {},
-};
+}
 </script>
 
 <style scoped>

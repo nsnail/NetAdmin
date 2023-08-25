@@ -6,14 +6,8 @@
  * @LastEditors: sakuya
  * @LastEditTime: 2023年3月2日10:43:35
 -->
-
 <template>
-    <div
-        ref="scTableMain"
-        v-loading="loading"
-        :style="{ height: _height }"
-        class="scTable"
-    >
+    <div ref="scTableMain" v-loading="loading" :style="{ height: _height }" class="scTable">
         <div :style="{ height: _table_height }" class="scTable-table">
             <el-table
                 :key="toggleIndex"
@@ -26,30 +20,24 @@
                 :row-key="rowKey"
                 :size="config.size"
                 :stripe="config.stripe"
-                :summary-method="
-                    remoteSummary ? remoteSummaryMethod : summaryMethod
-                "
+                :summary-method="remoteSummary ? remoteSummaryMethod : summaryMethod"
                 v-bind="$attrs"
                 @sort-change="sortChange"
                 @filter-change="filterChange"
-                @cell-click="cellClickMethod"
-            >
+                @cell-click="cellClickMethod">
                 <slot></slot>
                 <template v-for="(item, index) in userColumn" :key="index">
                     <el-table-column
                         v-if="!item.hide"
                         :column-key="item.prop"
-                        :filter-method="
-                            remoteFilter || !item.filters ? null : filterHandler
-                        "
+                        :filter-method="remoteFilter || !item.filters ? null : filterHandler"
                         :filters="item.filters"
                         :fixed="item.fixed"
                         :label="item.label"
                         :prop="item.prop"
                         :show-overflow-tooltip="item.showOverflowTooltip"
                         :sortable="item.sortable"
-                        :width="item.width"
-                    >
+                        :width="item.width">
                         <template #default="scope">
                             <slot :name="item.prop" v-bind="scope">
                                 {{ scope.row[item.prop] }}
@@ -59,10 +47,7 @@
                 </template>
                 <el-table-column min-width="1"></el-table-column>
                 <template #empty>
-                    <el-empty
-                        :description="emptyText"
-                        :image-size="100"
-                    ></el-empty>
+                    <el-empty :description="emptyText" :image-size="100"></el-empty>
                 </template>
             </el-table>
         </div>
@@ -78,17 +63,10 @@
                     :total="total"
                     background
                     @current-change="paginationChange"
-                    @update:page-size="pageSizeChange"
-                ></el-pagination>
+                    @update:page-size="pageSizeChange"></el-pagination>
             </div>
             <div v-if="!hideDo" class="scTable-do">
-                <el-button
-                    v-if="!hideRefresh"
-                    circle
-                    icon="el-icon-refresh"
-                    style="margin-left: 15px"
-                    @click="refresh"
-                ></el-button>
+                <el-button v-if="!hideRefresh" circle icon="el-icon-refresh" style="margin-left: 15px" @click="refresh"></el-button>
                 <el-popover
                     v-if="column"
                     :hide-after="0"
@@ -97,14 +75,9 @@
                     title="列设置"
                     trigger="click"
                     @show="customColumnShow = true"
-                    @after-leave="customColumnShow = false"
-                >
+                    @after-leave="customColumnShow = false">
                     <template #reference>
-                        <el-button
-                            circle
-                            icon="el-icon-set-up"
-                            style="margin-left: 15px"
-                        ></el-button>
+                        <el-button circle icon="el-icon-set-up" style="margin-left: 15px"></el-button>
                     </template>
                     <columnSetting
                         v-if="customColumnShow"
@@ -112,51 +85,23 @@
                         :column="userColumn"
                         @back="columnSettingBack"
                         @save="columnSettingSave"
-                        @userChange="columnSettingChange"
-                    ></columnSetting>
+                        @userChange="columnSettingChange"></columnSetting>
                 </el-popover>
-                <el-popover
-                    v-if="!hideSetting"
-                    :hide-after="0"
-                    :width="400"
-                    placement="top"
-                    title="表格设置"
-                    trigger="click"
-                >
+                <el-popover v-if="!hideSetting" :hide-after="0" :width="400" placement="top" title="表格设置" trigger="click">
                     <template #reference>
-                        <el-button
-                            circle
-                            icon="el-icon-setting"
-                            style="margin-left: 15px"
-                        ></el-button>
+                        <el-button circle icon="el-icon-setting" style="margin-left: 15px"></el-button>
                     </template>
                     <el-form label-position="left" label-width="80px">
                         <el-form-item label="表格尺寸">
-                            <el-radio-group
-                                v-model="config.size"
-                                size="small"
-                                @change="configSizeChange"
-                            >
-                                <el-radio-button label="large"
-                                    >大
-                                </el-radio-button>
-                                <el-radio-button label="default"
-                                    >正常
-                                </el-radio-button>
-                                <el-radio-button label="small"
-                                    >小
-                                </el-radio-button>
+                            <el-radio-group v-model="config.size" size="small" @change="configSizeChange">
+                                <el-radio-button label="large">大</el-radio-button>
+                                <el-radio-button label="default">正常</el-radio-button>
+                                <el-radio-button label="small">小</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label="样式">
-                            <el-checkbox
-                                v-model="config.border"
-                                label="纵向边框"
-                            ></el-checkbox>
-                            <el-checkbox
-                                v-model="config.stripe"
-                                label="斑马纹"
-                            ></el-checkbox>
+                            <el-checkbox v-model="config.border" label="纵向边框"></el-checkbox>
+                            <el-checkbox v-model="config.stripe" label="斑马纹"></el-checkbox>
                         </el-form-item>
                     </el-form>
                 </el-popover>
@@ -164,18 +109,20 @@
         </div>
     </div>
 </template>
-
 <script>
-import config from "@/config/table";
-import columnSetting from "./columnSetting";
+import config from '@/config/table'
+import columnSetting from './columnSetting'
 
 export default {
-    name: "scTable",
+    name: 'scTable',
     components: {
         columnSetting,
     },
     props: {
-        tableName: { type: String, default: "" },
+        tableName: { type: String, default: '' },
+        beforePost: {
+            type: Function,
+        },
         apiObj: {
             type: Object,
             default: () => {},
@@ -185,14 +132,14 @@ export default {
             type: Object,
             default: () => {},
         },
-        height: { type: [String, Number], default: "100%" },
-        size: { type: String, default: "default" },
+        height: { type: [String, Number], default: '100%' },
+        size: { type: String, default: 'default' },
         border: { type: Boolean, default: false },
         stripe: { type: Boolean, default: false },
         defaultExpandAll: { type: Boolean, default: false },
         pageSize: { type: Number, default: config.pageSize },
         pageSizes: { type: Array, default: config.pageSizes },
-        rowKey: { type: String, default: "" },
+        rowKey: { type: String, default: '' },
         summaryMethod: { type: Function, default: null },
         filterMethod: { type: Function, default: null },
         cellClickMethod: { type: Function, default: null },
@@ -216,34 +163,30 @@ export default {
     watch: {
         //监听从props里拿到值了
         data() {
-            this.tableData = this.data;
-            this.total = this.tableData.length;
+            this.tableData = this.data
+            this.total = this.tableData.length
         },
         apiObj() {
-            this.tableParams = this.params;
-            this.refresh();
+            this.tableParams = this.params
+            this.refresh()
         },
         column() {
-            this.userColumn = this.column;
+            this.userColumn = this.column
         },
     },
     computed: {
         _height() {
-            return Number(this.height)
-                ? Number(this.height) + "px"
-                : this.height;
+            return Number(this.height) ? Number(this.height) + 'px' : this.height
         },
         _table_height() {
-            return this.hidePagination && this.hideDo
-                ? "100%"
-                : "calc(100% - 50px)";
+            return this.hidePagination && this.hideDo ? '100%' : 'calc(100% - 50px)'
         },
     },
     data() {
         return {
             scPageSize: this.pageSize,
             isActivate: true,
-            emptyText: "暂无数据",
+            emptyText: '暂无数据',
             toggleIndex: 0,
             tableData: [],
             total: 0,
@@ -251,7 +194,7 @@ export default {
             prop: null,
             order: null,
             loading: false,
-            tableHeight: "100%",
+            tableHeight: '100%',
             tableParams: this.params,
             userColumn: [],
             customColumnShow: false,
@@ -262,289 +205,279 @@ export default {
                 stripe: this.stripe,
                 defaultExpandAll: this.defaultExpandAll,
             },
-        };
+        }
     },
     mounted() {
         //判断是否开启自定义列
         if (this.column) {
-            this.getCustomColumn();
+            this.getCustomColumn()
         } else {
-            this.userColumn = this.column;
+            this.userColumn = this.column
         }
         //判断是否静态数据
         if (this.apiObj) {
-            this.getData();
+            this.getData()
         } else if (this.data) {
-            this.tableData = this.data;
-            this.total = this.tableData.length;
+            this.tableData = this.data
+            this.total = this.tableData.length
         }
     },
     activated() {
         if (!this.isActivate) {
-            this.$refs.scTable.doLayout();
+            this.$refs.scTable.doLayout()
         }
     },
     deactivated() {
-        this.isActivate = false;
+        this.isActivate = false
     },
     methods: {
         //获取列
         async getCustomColumn() {
-            this.userColumn = await config.columnSettingGet(
-                this.tableName,
-                this.column
-            );
+            this.userColumn = await config.columnSettingGet(this.tableName, this.column)
         },
         //获取数据
         async getData() {
-            this.loading = true;
+            this.loading = true
             const reqData = {
                 [config.request.page]: this.currentPage,
                 [config.request.pageSize]: this.scPageSize,
                 [config.request.prop]: this.prop,
                 [config.request.order]: this.order,
-            };
+            }
             if (this.hidePagination) {
-                delete reqData[config.request.page];
-                delete reqData[config.request.pageSize];
+                delete reqData[config.request.page]
+                delete reqData[config.request.pageSize]
             }
-            Object.assign(reqData, this.tableParams);
-
-            let res;
-            let response;
+            Object.assign(reqData, this.tableParams)
+            let res
+            let response
             try {
-                res = await this.apiObj.post(reqData);
+                if (!this.beforePost || this.beforePost(reqData)) res = await this.apiObj.post(reqData)
             } catch (error) {
-                this._clearData();
-                this.loading = false;
-                this.emptyText = error.statusText;
-                return false;
+                this._clearData()
+                this.loading = false
+                this.emptyText = error.statusText
+                return false
             }
             try {
-                response = config.parseData(res);
+                response = config.parseData(res)
             } catch (error) {
-                this._clearData();
-                this.loading = false;
-                this.emptyText = "数据格式错误";
-                return false;
+                this._clearData()
+                this.loading = false
+                this.emptyText = '数据格式错误'
+                return false
             }
             if (response.code !== config.successCode) {
-                this._clearData();
-                this.loading = false;
-                this.emptyText = response.msg;
+                this._clearData()
+                this.loading = false
+                this.emptyText = response.msg
             } else {
-                this.emptyText = "暂无数据";
+                this.emptyText = '暂无数据'
                 if (this.hidePagination) {
-                    this.tableData = response.data || [];
+                    this.tableData = response.data || []
                 } else {
-                    this.tableData = response.rows || [];
+                    this.tableData = response.rows || []
                 }
-                this.total = response.total || 0;
-                this.summary = response.summary || {};
-                this.loading = false;
+                this.total = response.total || 0
+                this.summary = response.summary || {}
+                this.loading = false
             }
-            this.$refs.scTable.setScrollTop(0);
-            this.$emit("dataChange", res, this.tableData);
+            this.$refs.scTable.setScrollTop(0)
+            this.$emit('dataChange', res, this.tableData)
         },
         //清空数据
         _clearData() {
-            this.tableData = [];
+            this.tableData = []
         },
         //分页点击
         paginationChange() {
-            this.getData();
+            this.getData()
         },
         //条数变化
         pageSizeChange(size) {
-            this.scPageSize = size;
-            this.getData();
+            this.scPageSize = size
+            this.getData()
         },
         //刷新数据
         refresh() {
-            this.$refs.scTable.clearSelection();
-            this.getData();
+            this.$refs.scTable.clearSelection()
+            this.getData()
         },
         //更新数据 合并上一次params
         upData(params = null, page = 1) {
-            this.currentPage = page;
-            this.$refs.scTable.clearSelection();
-            Object.assign(this.tableParams, params || {});
-            this.getData();
+            this.currentPage = page
+            this.$refs.scTable.clearSelection()
+            Object.assign(this.tableParams, params || {})
+            this.getData()
         },
         //重载数据 替换params
         reload(params, page = 1) {
-            this.currentPage = page;
-            this.tableParams = params || {};
-            this.$refs.scTable.clearSelection();
-            this.$refs.scTable.clearSort();
-            this.$refs.scTable.clearFilter();
-            this.getData();
+            this.currentPage = page
+            this.tableParams = params || {}
+            this.$refs.scTable.clearSelection()
+            this.$refs.scTable.clearSort()
+            this.$refs.scTable.clearFilter()
+            this.getData()
         },
         //自定义变化事件
         columnSettingChange(userColumn) {
-            this.userColumn = userColumn;
-            this.toggleIndex += 1;
+            this.userColumn = userColumn
+            this.toggleIndex += 1
         },
         //自定义列保存
         async columnSettingSave(userColumn) {
-            this.$refs.columnSetting.isSave = true;
+            this.$refs.columnSetting.isSave = true
             try {
-                await config.columnSettingSave(this.tableName, userColumn);
+                await config.columnSettingSave(this.tableName, userColumn)
             } catch (error) {
-                this.$message.error("保存失败");
-                this.$refs.columnSetting.isSave = false;
+                this.$message.error('保存失败')
+                this.$refs.columnSetting.isSave = false
             }
-            this.$message.success("保存成功");
-            this.$refs.columnSetting.isSave = false;
+            this.$message.success('保存成功')
+            this.$refs.columnSetting.isSave = false
         },
         //自定义列重置
         async columnSettingBack() {
-            this.$refs.columnSetting.isSave = true;
+            this.$refs.columnSetting.isSave = true
             try {
-                this.userColumn = await config.columnSettingReset(
-                    this.tableName,
-                    this.column
-                );
-                this.$refs.columnSetting.usercolumn = JSON.parse(
-                    JSON.stringify(this.userColumn || [])
-                );
+                this.userColumn = await config.columnSettingReset(this.tableName, this.column)
+                this.$refs.columnSetting.usercolumn = JSON.parse(JSON.stringify(this.userColumn || []))
             } catch (error) {
-                this.$message.error("重置失败");
-                this.$refs.columnSetting.isSave = false;
+                this.$message.error('重置失败')
+                this.$refs.columnSetting.isSave = false
             }
-            this.$refs.columnSetting.isSave = false;
+            this.$refs.columnSetting.isSave = false
         },
         //排序事件
         sortChange(obj) {
             if (!this.remoteSort) {
-                return false;
+                return false
             }
             if (obj.column && obj.prop) {
-                this.prop = obj.column.sortBy ? obj.column.sortBy : obj.prop;
-                this.order = obj.order;
+                this.prop = obj.column.sortBy ? obj.column.sortBy : obj.prop
+                this.order = obj.order
             } else {
-                this.prop = null;
-                this.order = null;
+                this.prop = null
+                this.order = null
             }
-            this.getData();
+            this.getData()
         },
         //本地过滤
         filterHandler(value, row, column) {
-            const property = column.property;
-            return row[property] === value;
+            const property = column.property
+            return row[property] === value
         },
         //过滤事件
         filterChange(filters) {
             if (!this.remoteFilter) {
-                return false;
+                return false
             }
             if (this.filterMethod) {
-                return this.filterMethod(filters);
+                return this.filterMethod(filters)
             }
             Object.keys(filters).forEach((key) => {
-                filters[key] = filters[key].join(",");
-            });
-            this.upData(filters);
+                filters[key] = filters[key].join(',')
+            })
+            this.upData(filters)
         },
         //远程合计行处理
         remoteSummaryMethod(param) {
-            const { columns } = param;
-            const sums = [];
+            const { columns } = param
+            const sums = []
             columns.forEach((column, index) => {
                 if (index === 0) {
-                    sums[index] = "合计";
-                    return;
+                    sums[index] = '合计'
+                    return
                 }
-                const values = this.summary[column.property];
+                const values = this.summary[column.property]
                 if (values) {
-                    sums[index] = values;
+                    sums[index] = values
                 } else {
-                    sums[index] = "";
+                    sums[index] = ''
                 }
-            });
-            return sums;
+            })
+            return sums
         },
         configSizeChange() {
-            this.$refs.scTable.doLayout();
+            this.$refs.scTable.doLayout()
         },
         //插入行 unshiftRow
         unshiftRow(row) {
-            this.tableData.unshift(row);
+            this.tableData.unshift(row)
         },
         //插入行 pushRow
         pushRow(row) {
-            this.tableData.push(row);
+            this.tableData.push(row)
         },
         //根据key覆盖数据
         updateKey(row, rowKey = this.rowKey) {
             this.tableData
                 .filter((item) => item[rowKey] === row[rowKey])
                 .forEach((item) => {
-                    Object.assign(item, row);
-                });
+                    Object.assign(item, row)
+                })
         },
         //根据index覆盖数据
         updateIndex(row, index) {
-            Object.assign(this.tableData[index], row);
+            Object.assign(this.tableData[index], row)
         },
         //根据index删除
         removeIndex(index) {
-            this.tableData.splice(index, 1);
+            this.tableData.splice(index, 1)
         },
         //根据index批量删除
         removeIndexes(indexes = []) {
             indexes.forEach((index) => {
-                this.tableData.splice(index, 1);
-            });
+                this.tableData.splice(index, 1)
+            })
         },
         //根据key删除
         removeKey(key, rowKey = this.rowKey) {
             this.tableData.splice(
                 this.tableData.findIndex((item) => item[rowKey] === key),
-                1
-            );
+                1,
+            )
         },
         //根据keys批量删除
         removeKeys(keys = [], rowKey = this.rowKey) {
             keys.forEach((key) => {
                 this.tableData.splice(
                     this.tableData.findIndex((item) => item[rowKey] === key),
-                    1
-                );
-            });
+                    1,
+                )
+            })
         },
         //原生方法转发
         clearSelection() {
-            this.$refs.scTable.clearSelection();
+            this.$refs.scTable.clearSelection()
         },
         toggleRowSelection(row, selected) {
-            this.$refs.scTable.toggleRowSelection(row, selected);
+            this.$refs.scTable.toggleRowSelection(row, selected)
         },
         toggleAllSelection() {
-            this.$refs.scTable.toggleAllSelection();
+            this.$refs.scTable.toggleAllSelection()
         },
         toggleRowExpansion(row, expanded) {
-            this.$refs.scTable.toggleRowExpansion(row, expanded);
+            this.$refs.scTable.toggleRowExpansion(row, expanded)
         },
         setCurrentRow(row) {
-            this.$refs.scTable.setCurrentRow(row);
+            this.$refs.scTable.setCurrentRow(row)
         },
         clearSort() {
-            this.$refs.scTable.clearSort();
+            this.$refs.scTable.clearSort()
         },
         clearFilter(columnKey) {
-            this.$refs.scTable.clearFilter(columnKey);
+            this.$refs.scTable.clearFilter(columnKey)
         },
         doLayout() {
-            this.$refs.scTable.doLayout();
+            this.$refs.scTable.doLayout()
         },
         sort(prop, order) {
-            this.$refs.scTable.sort(prop, order);
+            this.$refs.scTable.sort(prop, order)
         },
     },
-};
+}
 </script>
-
 <style scoped>
 .scTable {
 }

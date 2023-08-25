@@ -1,10 +1,10 @@
 <!--
- * @Description: 异步选择器
+ * @Descripttion: 异步选择器
  * @version: 1.1
  * @Author: sakuya
  * @Date: 2021年8月3日15:53:37
- * @LastEditors: sakuya
- * @LastEditTime: 2023年2月23日15:17:24
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:09:37
 -->
 
 <template>
@@ -14,17 +14,8 @@
                 <el-icon-loading />
             </el-icon>
         </div>
-        <el-select
-            :loading="loading"
-            v-bind="$attrs"
-            @visible-change="visibleChange"
-        >
-            <el-option
-                v-for="item in options"
-                :key="item[props.value]"
-                :label="item[props.label]"
-                :value="objValueType ? item : item[props.value]"
-            >
+        <el-select :loading="loading" v-bind="$attrs" @visible-change="visibleChange">
+            <el-option v-for="item in options" :key="item[props.value]" :label="item[props.label]" :value="objValueType ? item : item[props.value]">
                 <slot :data="item" name="option"></slot>
             </el-option>
         </el-select>
@@ -32,7 +23,7 @@
 </template>
 
 <script>
-import config from "@/config/select";
+import selectConfig from '@/config/select'
 
 export default {
     props: {
@@ -40,63 +31,57 @@ export default {
             type: Object,
             default: () => {},
         },
-        dic: { type: String, default: "" },
+        dic: { type: String, default: '' },
         objValueType: { type: Boolean, default: false },
         params: { type: Object, default: () => ({}) },
+        config: { type: Object },
     },
     data() {
         return {
             dicParams: this.params,
             loading: false,
             options: [],
-            props: config.props,
+            props: Object.assign(selectConfig, this.config || {}).props,
             initLoading: false,
-        };
+        }
     },
     created() {
         //如果有默认值就去请求接口获取options
         if (this.hasValue()) {
-            this.initLoading = true;
-            this.getRemoteData();
+            this.initLoading = true
+            this.getRemoteData()
         }
     },
     methods: {
         //选项显示隐藏事件
         visibleChange(isOpen) {
-            if (
-                isOpen &&
-                this.options.length === 0 &&
-                (this.dic || this.apiObj)
-            ) {
-                this.getRemoteData();
+            if (isOpen && this.options.length === 0 && (this.dic || this.apiObj)) {
+                this.getRemoteData()
             }
         },
         //获取数据
         async getRemoteData() {
-            this.loading = true;
-            this.dicParams[config.request.name] = this.dic;
-            let res = {};
+            this.loading = true
+            this.dicParams[selectConfig.request.name] = this.dic
+            let res = {}
             if (this.apiObj) {
-                res = await this.apiObj.get(this.params);
+                res = await this.apiObj.post(this.params)
             } else if (this.dic) {
-                res = await config.dicApiObj.get(this.params);
+                res = await selectConfig.dicApiObj.get(this.params)
             }
-            const response = config.parseData(res);
-            this.options = response.data;
-            this.loading = false;
-            this.initLoading = false;
+            const response = selectConfig.parseData(res)
+            this.options = response.data
+            this.loading = false
+            this.initLoading = false
         },
         //判断是否有回显默认值
         hasValue() {
-            if (
-                Array.isArray(this.$attrs.modelValue) &&
-                this.$attrs.modelValue.length <= 0
-            ) {
-                return false;
-            } else return !!this.$attrs.modelValue;
+            if (Array.isArray(this.$attrs.modelValue) && this.$attrs.modelValue.length <= 0) {
+                return false
+            } else return !!this.$attrs.modelValue
         },
     },
-};
+}
 </script>
 
 <style scoped>

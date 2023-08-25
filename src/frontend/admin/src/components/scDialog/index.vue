@@ -1,32 +1,21 @@
 <!--
- * @Description: 弹窗扩展组件
+ * @Descripttion: 弹窗扩展组件
  * @version: 2.0
  * @Author: sakuya
  * @Date: 2021年8月27日08:51:52
- * @LastEditors: sakuya
- * @LastEditTime: 2022年5月14日15:13:41
+ * @LastEditors: Xujianchen
+ * @LastEditTime: 2023-03-18 13:04:33
 -->
 
 <template>
     <div ref="scDialog" class="sc-dialog">
-        <el-dialog
-            ref="dialog"
-            v-model="dialogVisible"
-            :fullscreen="isFullscreen"
-            :show-close="false"
-            v-bind="$attrs"
-        >
+        <el-dialog ref="dialog" v-model="dialogVisible" :fullscreen="isFullscreen" :show-close="false" v-bind="$attrs">
             <template #header>
                 <slot name="header">
                     <span class="el-dialog__title">{{ title }}</span>
                 </slot>
                 <div class="sc-dialog__headerbtn">
-                    <button
-                        v-if="showFullscreen"
-                        aria-label="fullscreen"
-                        type="button"
-                        @click="setFullscreen"
-                    >
+                    <button v-if="showFullscreen" aria-label="fullscreen" type="button" @click="setFullscreen">
                         <el-icon v-if="isFullscreen" class="el-dialog__close">
                             <el-icon-bottom-left />
                         </el-icon>
@@ -34,12 +23,7 @@
                             <el-icon-full-screen />
                         </el-icon>
                     </button>
-                    <button
-                        v-if="showClose"
-                        aria-label="close"
-                        type="button"
-                        @click="closeDialog"
-                    >
+                    <button v-if="showClose" aria-label="close" type="button" @click="closeDialog">
                         <el-icon class="el-dialog__close">
                             <el-icon-close />
                         </el-icon>
@@ -60,7 +44,7 @@
 export default {
     props: {
         modelValue: { type: Boolean, default: false },
-        title: { type: String, default: "" },
+        title: { type: String, default: '' },
         showClose: { type: Boolean, default: true },
         showFullscreen: { type: Boolean, default: true },
         loading: { type: Boolean, default: false },
@@ -69,30 +53,30 @@ export default {
         return {
             dialogVisible: false,
             isFullscreen: false,
-        };
+        }
     },
     watch: {
         modelValue() {
-            this.dialogVisible = this.modelValue;
+            this.dialogVisible = this.modelValue
             if (this.dialogVisible) {
-                this.isFullscreen = false;
+                this.isFullscreen = false
             }
         },
     },
     mounted() {
-        this.dialogVisible = this.modelValue;
+        this.dialogVisible = this.modelValue
     },
     methods: {
         //关闭
         closeDialog() {
-            this.dialogVisible = false;
+            this.dialogVisible = false
         },
         //最大化
         setFullscreen() {
-            this.isFullscreen = !this.isFullscreen;
+            this.isFullscreen = !this.isFullscreen
         },
     },
-};
+}
 </script>
 
 <style scoped>
@@ -120,11 +104,8 @@ export default {
 .sc-dialog:deep(.el-dialog).is-fullscreen {
     display: flex;
     flex-direction: column;
-    top: 0 !important;
-    left: 0 !important;
-}
-
-.sc-dialog:deep(.el-dialog).is-fullscreen .el-dialog__header {
+    top: 0px !important;
+    left: 0px !important;
 }
 
 .sc-dialog:deep(.el-dialog).is-fullscreen .el-dialog__body {

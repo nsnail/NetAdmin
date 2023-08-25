@@ -2,8 +2,8 @@
     <el-container>
         <el-header>
             <div class="left-panel">
-                <el-button type="primary" icon="el-icon-plus"></el-button>
-                <el-button type="danger" plain icon="el-icon-delete"></el-button>
+                <el-button icon="el-icon-plus" type="primary"></el-button>
+                <el-button icon="el-icon-delete" plain type="danger"></el-button>
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -27,12 +27,11 @@ export default {
     data() {
         return {
             list: {
-                apiObj: this.$API.demo.list
-            }
+                apiObj: this.$API.demo.list,
+            },
         }
-    }
+    },
 }
 </script>
 
-<style>
-</style>
+<style></style>

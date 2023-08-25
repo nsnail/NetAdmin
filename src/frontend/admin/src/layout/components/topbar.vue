@@ -1,18 +1,10 @@
 <template>
     <div class="adminui-topbar">
         <div class="left-panel">
-            <el-breadcrumb
-                class="hidden-sm-and-down"
-                separator-icon="el-icon-arrow-right"
-            >
+            <el-breadcrumb class="hidden-sm-and-down" separator-icon="el-icon-arrow-right">
                 <transition-group name="breadcrumb">
                     <template v-for="item in breadList" :key="item.title">
-                        <el-breadcrumb-item
-                            v-if="
-                                item.path !== '/' && !item.meta.hiddenBreadCrumb
-                            "
-                            :key="item.meta.title"
-                        >
+                        <el-breadcrumb-item v-if="item.path !== '/' && !item.meta.hiddenBreadcrumb" :key="item.meta.title">
                             <el-icon v-if="item.meta.icon" class="icon">
                                 <component :is="item.meta.icon" />
                             </el-icon>
@@ -34,22 +26,23 @@ export default {
     data() {
         return {
             breadList: [],
-        };
+        }
     },
     created() {
-        this.getBreadcrumb();
+        this.getBreadcrumb()
     },
     watch: {
         $route() {
-            this.getBreadcrumb();
+            this.getBreadcrumb()
         },
     },
     methods: {
         getBreadcrumb() {
-            this.breadList = this.$route.meta.breadcrumb;
+            let matched = this.$route.meta.breadcrumb
+            this.breadList = matched
         },
     },
-};
+}
 </script>
 
 <style scoped>
