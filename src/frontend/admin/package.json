@@ -12,7 +12,7 @@
     "@element-plus/icons-vue": "^2.1.0",
     "@tinymce/tinymce-vue": "^5.1.0",
     "axios": "^1.4.0",
-    "codemirror": "^6.0.1",
+    "codemirror": "^5.65.5",
     "core-js": "^3.32.0",
     "cropperjs": "^1.5.13",
     "crypto-js": "^4.1.1",
