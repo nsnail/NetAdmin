@@ -299,7 +299,7 @@ export default {
                     component: 'rate',
                 },
                 {
-                    label: 'SCUI扩展',
+                    label: 'NetAdmin扩展',
                     component: 'title',
                 },
                 {
@@ -368,7 +368,7 @@ export default {
                 user: '何敏',
                 id: '360000197302144442',
             },
-            text: '<p><span style="font-size: 28px;">Editor</span></p>\n<table style="border-collapse: collapse; width: 100%;" border="1">\n<tbody>\n<tr>\n<td style="width: 47.4544%; background-color: #ecf0f1;">Name</td>\n<td style="width: 47.4544%;">SCUI</td>\n</tr>\n<tr>\n<td style="width: 47.4544%; background-color: #ecf0f1;">Describe</td>\n<td style="width: 47.4544%;">Super color UI Admin</td>\n</tr>\n</tbody>\n</table>',
+            text: '<p><span style="font-size: 28px;">Editor</span></p>\n<table style="border-collapse: collapse; width: 100%;" border="1">\n<tbody>\n<tr>\n<td style="width: 47.4544%; background-color: #ecf0f1;">Name</td>\n<td style="width: 47.4544%;">NetAdmin</td>\n</tr>\n<tr>\n<td style="width: 47.4544%; background-color: #ecf0f1;">Describe</td>\n<td style="width: 47.4544%;">Super color UI Admin</td>\n</tr>\n</tbody>\n</table>',
         }
 
         setTimeout(() => {

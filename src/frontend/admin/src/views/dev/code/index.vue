@@ -5,10 +5,9 @@
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <div class="code-item">
-                        <div :style="{background: 'blue'}" class="img">
-                            <el-icon
-                                :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
-                                <component :is="`sc-icon-js`"/>
+                        <div :style="{ background: 'blue' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
+                                <component :is="`sc-icon-js`" />
                             </el-icon>
                         </div>
                         <div class="title">
@@ -23,10 +22,9 @@
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <div class="code-item">
-                        <div :style="{background: 'orange'}" class="img">
-                            <el-icon
-                                :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
-                                <component :is="`sc-icon-csharp`"/>
+                        <div :style="{ background: 'orange' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
+                                <component :is="`sc-icon-csharp`" />
                             </el-icon>
                         </div>
                         <div class="title">
@@ -50,10 +48,9 @@
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <div class="code-item">
-                        <div :style="{background: 'green'}" class="img">
-                            <el-icon
-                                :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
-                                <component :is="`el-icon-picture`"/>
+                        <div :style="{ background: 'green' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
+                                <component :is="`el-icon-picture`" />
                             </el-icon>
                         </div>
                         <div class="title">
@@ -88,7 +85,7 @@ export default {
         return {
             form: {
                 svgCode: '',
-                iconName: ''
+                iconName: '',
             },
             formCs: {
                 moduleName: '',
@@ -96,7 +93,7 @@ export default {
                 moduleRemark: '',
                 ///     模块类型
                 type: 'Sys',
-            }
+            },
         }
     },
     methods: {
@@ -104,27 +101,21 @@ export default {
             try {
                 await this.$API.sys_dev.generateIconCode.post(this.form)
                 this.$message.success('生成完毕')
-            } catch {
-
-            }
+            } catch {}
         },
         async generateJsCode() {
             try {
                 await this.$API.sys_dev.generateJsCode.post()
                 this.$message.success('生成完毕')
-            } catch {
-
-            }
+            } catch {}
         },
         async generateCsCode() {
             try {
                 await this.$API.sys_dev.generateCsCode.post(this.formCs)
                 this.$message.success('生成完毕')
-            } catch {
-
-            }
-        }
-    }
+            } catch {}
+        },
+    },
 }
 </script>
 

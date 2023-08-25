@@ -128,48 +128,6 @@
     "Type": 1
   },
   {
-    "Icon": "sc-icon-business",
-    "Id": 420881941635077,
-    "Name": "biz",
-    "Path": "/biz",
-    "Sort": 99,
-    "Title": "业务管理",
-    "Type": 1
-  },
-  {
-    "Component": "biz/product-category",
-    "Icon": "sc-icon-product-category",
-    "Id": 420881941635087,
-    "Name": "biz-product-category",
-    "ParentId": 420881941635077,
-    "Path": "/biz/product-category",
-    "Sort": 100,
-    "Title": "商品分类",
-    "Type": 1
-  },
-  {
-    "Component": "biz/member",
-    "Icon": "el-icon-user",
-    "Id": 422658027704337,
-    "Name": "biz-member",
-    "ParentId": 420881941635077,
-    "Path": "/biz/member",
-    "Sort": 100,
-    "Title": "会员管理",
-    "Type": 1
-  },
-  {
-    "Component": "biz/product",
-    "Icon": "sc-icon-product",
-    "Id": 421506245349391,
-    "Name": "biz-product",
-    "ParentId": 420881941635077,
-    "Path": "/biz/product",
-    "Sort": 100,
-    "Title": "商品管理",
-    "Type": 1
-  },
-  {
     "Icon": "sc-icon-code",
     "Id": 373838105399301,
     "Name": "dev",

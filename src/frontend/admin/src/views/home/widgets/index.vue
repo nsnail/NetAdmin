@@ -16,7 +16,7 @@
                     <el-row :gutter="15">
                         <el-col v-for="(item, index) in grid.layout" v-bind:key="index" :md="item" :xs="24">
                             <draggable
-                                v-model="grid.copmsList[index]"
+                                v-model="grid.compsList[index]"
                                 animation="200"
                                 class="draggable-box"
                                 dragClass="aaaaa"
@@ -154,11 +154,11 @@ export default {
                     description: allComps[key].description,
                 })
             }
-            var myCopmsList = this.grid.copmsList.reduce(function (a, b) {
+            var mycompsList = this.grid.compsList.reduce(function (a, b) {
                 return a.concat(b)
             })
             for (let comp of allCompsList) {
-                const _item = myCopmsList.find((item) => {
+                const _item = mycompsList.find((item) => {
                     return item === comp.key
                 })
                 if (_item) {
@@ -172,7 +172,7 @@ export default {
             return this.allCompsList.filter((item) => !item.disabled && myGrid.includes(item.key))
         },
         nowCompsList() {
-            return this.grid.copmsList.reduce(function (a, b) {
+            return this.grid.compsList.reduce(function (a, b) {
                 return a.concat(b)
             })
         },
@@ -191,22 +191,22 @@ export default {
         setLayout(layout) {
             this.grid.layout = layout
             if (layout.join(',') === '24') {
-                this.grid.copmsList[0] = [...this.grid.copmsList[0], ...this.grid.copmsList[1], ...this.grid.copmsList[2]]
-                this.grid.copmsList[1] = []
-                this.grid.copmsList[2] = []
+                this.grid.compsList[0] = [...this.grid.compsList[0], ...this.grid.compsList[1], ...this.grid.compsList[2]]
+                this.grid.compsList[1] = []
+                this.grid.compsList[2] = []
             }
         },
         //追加
         push(item) {
-            let target = this.grid.copmsList[0]
+            let target = this.grid.compsList[0]
             target.push(item.key)
         },
         //隐藏组件
         remove(item) {
-            var newCopmsList = this.grid.copmsList
-            newCopmsList.forEach((obj, index) => {
+            var newcompsList = this.grid.compsList
+            newcompsList.forEach((obj, index) => {
                 var newObj = obj.filter((o) => o !== item)
-                newCopmsList[index] = newObj
+                newcompsList[index] = newObj
             })
         },
         //保存

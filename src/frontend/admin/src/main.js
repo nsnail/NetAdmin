@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
-import scui from './scui'
+import global from './global'
 import i18n from './locales'
 import router from './router'
 import store from './store'
@@ -13,7 +13,7 @@ const app = createApp(App)
 app.use(ElementPlus)
 app.use(store)
 app.use(i18n)
-app.use(scui)
+app.use(global)
 
 preload.install(app).then(() => {
     app.use(router)

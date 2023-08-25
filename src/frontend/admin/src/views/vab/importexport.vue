@@ -84,7 +84,7 @@
                         </template>
                     </sc-file-export>
                     <el-descriptions :column="1" border size="small" style="margin-top: 15px">
-                        <el-descriptions-item :width="200" label="apiObj">Object 文件导出接口对象，通过apiObj.url请求文件 </el-descriptions-item>
+                        <el-descriptions-item :width="200" label="apiObj">Object 文件导出接口对象，通过apiObj.url请求文件</el-descriptions-item>
                         <el-descriptions-item label="data">Object 上传时附带的额外参数(可为数据表格的过滤项)</el-descriptions-item>
                         <el-descriptions-item label="showData">Boolean 是否显示附带的额外参数</el-descriptions-item>
                         <el-descriptions-item label="async">Boolean 是否异步导出文件</el-descriptions-item>

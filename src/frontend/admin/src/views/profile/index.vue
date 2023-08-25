@@ -13,13 +13,13 @@
                 </el-header>
                 <el-main class="nopadding">
                     <el-menu :default-active="page" class="menu">
-                        <el-menu-item-group v-for="group in menu" :key="group.groupName" :title="group.groupName">
+                        <el-menu-item-group v-for="group in menu" :key="$t(group.groupName)" :title="$t(group.groupName)">
                             <el-menu-item v-for="item in group.list" :key="item.component" :index="item.component" @click="openPage">
                                 <el-icon v-if="item.icon">
                                     <component :is="item.icon" />
                                 </el-icon>
                                 <template #title>
-                                    <span>{{ item.title }}</span>
+                                    <span>{{ $t(item.title) }}</span>
                                 </template>
                             </el-menu-item>
                         </el-menu-item-group>
@@ -65,7 +65,7 @@ export default {
                         },
                         {
                             icon: 'el-icon-operation',
-                            title: '个人设置',
+                            title: '系统设置',
                             component: 'settings',
                         },
                         {

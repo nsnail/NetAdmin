@@ -26,7 +26,7 @@
     </resheader>
    <#
     var regex = new System.Text.RegularExpressions.Regex(@"^\d", System.Text.RegularExpressions.RegexOptions.Compiled);
-    foreach (var line in System.IO.File.ReadLines("../assets/resx/ln.txt"))
+    foreach (var line in System.IO.File.ReadLines("../assets/res/ln.txt"))
     {
 #>
     <data name="<#= regex.IsMatch(line) ? "_" : "" #><#= line #>" xml:space="preserve"><value><#= line #></value></data>
