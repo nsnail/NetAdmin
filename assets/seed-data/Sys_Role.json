@@ -1,0 +1,18 @@
+[
+  {
+    "DataScope": 1,
+    "Enabled": true,
+    "Id": 370943613149253,
+    "IgnorePermissionControl": true,
+    "DisplayDashboard": true,
+    "Name": "超级管理员",
+    "Sort": 100
+  },
+  {
+    "DataScope": 1,
+    "Enabled": true,
+    "Id": 371729946431493,
+    "Name": "普通用户",
+    "Sort": 100
+  }
+]
