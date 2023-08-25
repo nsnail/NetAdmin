@@ -128,15 +128,6 @@
     "Type": 1
   },
   {
-    "Icon": "sc-icon-business",
-    "Id": 420881941635077,
-    "Name": "biz",
-    "Path": "/biz",
-    "Sort": 99,
-    "Title": "业务管理",
-    "Type": 1
-  },
-  {
     "Icon": "sc-icon-code",
     "Id": 373838105399301,
     "Name": "dev",
