@@ -20,6 +20,7 @@ $branch = $(git branch --show-current)
 & './DotClean.cmd'
 git add ../
 git commit --amend --no-edit
+git pull
 git push --set-upstream origin $branch
 Start-Process -FilePath "http://git.shequnpay.com/lingyun/NetAdmin/compare/dev...$branch"
 Pause
