@@ -1,18 +1,5 @@
 # NetAdmin
 
-## Git Commits 语义
-
-- `FEA` 新增特性
-- `REF` 项目重构
-- `FIX` 缺陷修复
-- `PER` 性能优化
-- `RVT` 还原变更
-- `FMT` 格式整理
-- `DOC` 文档变更
-- `TST` 单元测试
-- `BLD` 工程构建
-
-
 ## 构建指南
 1. 后端
    1. 检查dotnet-sdk版本>=7.0.0
@@ -44,9 +31,11 @@
    浏览器打开 http://localhost:65010 ，将看到Swagger（Knife4jUI）界面
    ```
 2. 前端
-    1. 检查nodejs版本>=20
+    1. 检查nodejs版本>=18
     ```
     node -v
+    
+    # 下载 nodejs https://nodejs.org/ro/download
     ```
     2. 安装npm依赖包
     ```
@@ -62,16 +51,16 @@
     浏览器打开 http://localhost:65020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
     ```
 
-## 项目文件目录树描述
+## 文件目录树
 ```
-+---.template.config     dotnet 项目模板配置目录
-+---assets               程序运行需要的资源文件目录
-+---dist                 项目编译与分发的二进制文件目录
-+---refs                 引用的第三方项目源文件目录
-+---src                  项目源文件目录
-|   +---backend          后端程序源文件目录
-|   \---frontend         前端程序源文件目录
-\---tools                构建相关的工具目录
++---.template.config     # dotnet 项目模板配置目录
++---assets               # 程序运行需要的资源文件目录
++---dist                 # 项目编译与分发的二进制文件目录
++---refs                 # 引用的第三方项目源文件目录
++---src                  # 项目源文件目录
+|   +---backend          # 后端程序源文件目录
+|   \---frontend         # 前端程序源文件目录
+\---tools                # 构建相关的工具目录
 ```
 
 ## 后端项目架构
@@ -91,3 +80,15 @@ XA["NetAdmin.XXX.Application\n（业务逻辑层实例）"]-->A
 XH-->XC
 XC-->XA
 ```
+
+## Git Commits 语义
+
+- `FEA` 新增特性
+- `REF` 项目重构
+- `FIX` 缺陷修复
+- `PER` 性能优化
+- `RVT` 还原变更
+- `FMT` 格式整理
+- `DOC` 文档变更
+- `TST` 单元测试
+- `BLD` 工程构建
