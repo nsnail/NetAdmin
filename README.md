@@ -18,15 +18,22 @@
    1. 检查dotnet-sdk版本>=7.0.0
    ```
    dotnet --list-sdks
+   
+   # 下载 dotnet https://dotnet.microsoft.com/zh-cn/download/dotnet
    ```
    2. 克隆代码仓库
    ```
    git clone https://github.com/nsnail/NetAdmin.git
    cd ./NetAdmin
+   
+   # 下载 git https://git-scm.com/downloads
    ```
    3. 确保本机redis处于运行状态
    ```
    redis-cli
+   
+   # 下载 redis for windows https://github.com/redis-windows/redis-windows/releases
+   # 下载 redis for linux/mac https://redis.io/download
    ```
    4. 运行后端WebApi
    ```
