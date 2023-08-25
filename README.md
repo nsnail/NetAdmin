@@ -30,11 +30,11 @@
    ```
    4. 运行后端WebApi
    ```
-   dotnet run --project ./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj --urls http://[::]:65020
+   dotnet run --project ./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj --urls http://[::]:65010
    ```
-   5. 检查WebApi程序
+   5. 体验WebApi程序
    ```
-   浏览器打开 http://localhost:65020 ，将看到Swagger（Knife4jUI）界面
+   浏览器打开 http://localhost:65010 ，将看到Swagger（Knife4jUI）界面
    ```
 2. 前端
     1. 检查nodejs版本>=20
@@ -49,6 +49,10 @@
     3. 运行前端项目
     ```
     npm run dev
+    ```
+    4. 体验前端程序
+    ```
+    浏览器打开 http://localhost:65020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
     ```
 
 ## 项目文件目录树描述
