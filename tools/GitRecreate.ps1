@@ -1,5 +1,5 @@
 $branch = $(git branch --show-current)
-git checkout dev
+git checkout main
 git pull
 git branch -D $branch
 git branch $branch
