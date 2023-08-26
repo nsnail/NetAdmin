@@ -1,5 +1,36 @@
 # NetAdmin
 
+## 引用的开源代码 / 特别鸣谢
+| 语言       | 集成领域         | 开源库                                                                                                                                                                                                                |
+| ---------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C#         | Web基础框架      | [ASP.NET Core](https://github.com/dotnet/aspnetcore)                                                                                                                                                                  |
+| C#         | 快速开发脚手架   | [Furion](https://gitee.com/dotnetchina/Furion)                                                                                                                                                                        |
+| C#         | 数据库关系映射   | [FreeSql](https://github.com/dotnetcore/FreeSql)                                                                                                                                                                      |
+| C#         | 代码质量检查     | [Roslynator.Analyzers](https://github.com/josefpihrt/roslynator) \| [SonarAnalyzer.CSharp](https://github.com/SonarSource/sonar-dotnet) \| [StyleCop.Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) |
+| C#         | 单元测试框架     | [xunit](https://github.com/xunit/xunit)  \| [coverlet.collector](https://github.com/coverlet-coverage/coverlet)                                                                                                       |
+| C#         | 分布式锁         | [RedLock.net](https://github.com/samcook/RedLock.net)                                                                                                                                                                 |
+| C#         | 控制台终端界面库 | [Spectre.Console](https://github.com/spectreconsole/spectre.console)                                                                                                                                                  |
+| C#         | 扩展函数库       | [NSExt](https://github.com/nsnail/ns-ext.git)                                                                                                                                                                         |
+| C#         | 图形处理库       | [SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp)                                                                                                                                                       |
+| C#         | 文件对象存储     | [Minio](https://github.com/minio/minio-dotnet)                                                                                                                                                                        |
+| C#         | 性能监控采集     | [prometheus-net.AspNetCore](https://github.com/prometheus-net/prometheus-net)                                                                                                                                         |
+| C#         | 雪花ID生成器     | [Yitter.IdGenerator](https://github.com/yitter/idgenerator)                                                                                                                                                           |
+| C#         | 自动化版本管理   | [MinVer](https://github.com/adamralph/minver)                                                                                                                                                                         |
+| C#         | JavaScript引擎   | [MsieJavaScriptEngine](https://github.com/Taritsyn/MsieJavaScriptEngine)                                                                                                                                              |
+| C#         | WebApi图形界面   | [IGeekFan.AspNetCore.Knife4jUI](https://github.com/luoyunchong/IGeekFan.AspNetCore.Knife4jUI)                                                                                                                         |
+| TypeScript | SPA基础框架      | [Vue](https://github.com/vuejs/core)                                                                                                                                                                                  |
+| TypeScript | 前端构建工具     | [Vite](https://github.com/vitejs/vite)                                                                                                                                                                                |
+| TypeScript | UI控件库         | [Element Plus](https://github.com/element-plus/element-plus)                                                                                                                                                          |
+| TypeScript | CSS解析器        | [Sass](https://github.com/sass/sass)                                                                                                                                                                                  |
+| TypeScript | 图表和数据可视化 | [ECharts](https://github.com/apache/echarts)                                                                                                                                                                          |
+| JavaScript | 后台管理界面     | [SCUI](https://gitee.com/lolicode/scui)                                                                                                                                                                               |
+| JavaScript | HTTP请求库       | [Axios](https://github.com/axios/axios)                                                                                                                                                                               |
+| JavaScript | JavaScript解析器 | [Terser](https://github.com/terser/terser)                                                                                                                                                                            |
+| JavaScript | 代码质量检查     | [ESLint](https://github.com/eslint/eslint)                                                                                                                                                                            |
+| JavaScript | 代码格式化工具   | [Prettier](https://github.com/prettier/prettier)                                                                                                                                                                      |
+| JavaScript | 标准加密库       | [crypto-js](https://github.com/brix/crypto-js)                                                                                                                                                                        |
+
+
 ## 构建指南
 1. 后端
    1. 检查dotnet-sdk版本>=7.0.0
