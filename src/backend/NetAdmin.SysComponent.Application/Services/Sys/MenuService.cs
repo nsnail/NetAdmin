@@ -3,7 +3,9 @@ using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Menu;
+using NetAdmin.Domain.Enums;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -105,7 +107,7 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
             ret = QueryAsync(req with {
                                           DynamicFilter = new DynamicFilterInfo {
                                                               Field    = nameof(QueryMenuReq.Id)
-                                                            , Operator = DynamicFilterOperator.Any
+                                                            , Operator = DynamicFilterOperators.Any
                                                             , Value    = ownedMenuIds
                                                           }
                                       });

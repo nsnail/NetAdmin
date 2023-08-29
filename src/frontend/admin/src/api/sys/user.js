@@ -4,7 +4,6 @@
  */
 import config from '@/config'
 import http from '@/utils/request'
-
 export default {
     /**
      * 检查手机号是否可用

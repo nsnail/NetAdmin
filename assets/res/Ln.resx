@@ -26,7 +26,12 @@
     <data name="_6位数字" xml:space="preserve"><value>6位数字</value></data>
     <data name="_8位以上数字字母组合" xml:space="preserve"><value>8位以上数字字母组合</value></data>
     <data name="Xml注释文件不存在" xml:space="preserve"><value>Xml注释文件不存在</value></data>
+    <data name="不为其中之一" xml:space="preserve"><value>不为其中之一</value></data>
+    <data name="不以什么开始" xml:space="preserve"><value>不以什么开始</value></data>
+    <data name="不以什么结束" xml:space="preserve"><value>不以什么结束</value></data>
+    <data name="不包含" xml:space="preserve"><value>不包含</value></data>
     <data name="不正确" xml:space="preserve"><value>不正确</value></data>
+    <data name="不等于" xml:space="preserve"><value>不等于</value></data>
     <data name="不能为空" xml:space="preserve"><value>不能为空</value></data>
     <data name="业务模块" xml:space="preserve"><value>业务模块</value></data>
     <data name="东乡族" xml:space="preserve"><value>东乡族</value></data>
@@ -34,6 +39,7 @@
     <data name="中专" xml:space="preserve"><value>中专</value></data>
     <data name="中共党员" xml:space="preserve"><value>中共党员</value></data>
     <data name="中文姓名" xml:space="preserve"><value>中文姓名</value></data>
+    <data name="为其中之一" xml:space="preserve"><value>为其中之一</value></data>
     <data name="乌孜别克族" xml:space="preserve"><value>乌孜别克族</value></data>
     <data name="事务已回滚" xml:space="preserve"><value>事务已回滚</value></data>
     <data name="事务已提交" xml:space="preserve"><value>事务已提交</value></data>
@@ -41,6 +47,8 @@
     <data name="人机校验请求" xml:space="preserve"><value>人机校验请求</value></data>
     <data name="人机验证未通过" xml:space="preserve"><value>人机验证未通过</value></data>
     <data name="仡佬族" xml:space="preserve"><value>仡佬族</value></data>
+    <data name="以什么开始" xml:space="preserve"><value>以什么开始</value></data>
+    <data name="以什么结束" xml:space="preserve"><value>以什么结束</value></data>
     <data name="仫佬族" xml:space="preserve"><value>仫佬族</value></data>
     <data name="佤族" xml:space="preserve"><value>佤族</value></data>
     <data name="侗族" xml:space="preserve"><value>侗族</value></data>
@@ -58,6 +66,7 @@
     <data name="出生证" xml:space="preserve"><value>出生证</value></data>
     <data name="初中" xml:space="preserve"><value>初中</value></data>
     <data name="初始化完毕" xml:space="preserve"><value>初始化完毕</value></data>
+    <data name="包含" xml:space="preserve"><value>包含</value></data>
     <data name="区号电话号码分机号" xml:space="preserve"><value>区号电话号码分机号</value></data>
     <data name="博士" xml:space="preserve"><value>博士</value></data>
     <data name="博士后" xml:space="preserve"><value>博士后</value></data>
@@ -78,6 +87,8 @@
     <data name="壮族" xml:space="preserve"><value>壮族</value></data>
     <data name="外国人居留证" xml:space="preserve"><value>外国人居留证</value></data>
     <data name="大专" xml:space="preserve"><value>大专</value></data>
+    <data name="大于" xml:space="preserve"><value>大于</value></data>
+    <data name="大于等于" xml:space="preserve"><value>大于等于</value></data>
     <data name="女" xml:space="preserve"><value>女</value></data>
     <data name="字典名称" xml:space="preserve"><value>字典名称</value></data>
     <data name="字典目录不存在" xml:space="preserve"><value>字典目录不存在</value></data>
@@ -85,6 +96,8 @@
     <data name="字典编码" xml:space="preserve"><value>字典编码</value></data>
     <data name="宕机" xml:space="preserve"><value>宕机</value></data>
     <data name="密码" xml:space="preserve"><value>密码</value></data>
+    <data name="小于" xml:space="preserve"><value>小于</value></data>
+    <data name="小于等于" xml:space="preserve"><value>小于等于</value></data>
     <data name="小学" xml:space="preserve"><value>小学</value></data>
     <data name="已发送" xml:space="preserve"><value>已发送</value></data>
     <data name="已婚" xml:space="preserve"><value>已婚</value></data>
@@ -92,6 +105,7 @@
     <data name="已校验" xml:space="preserve"><value>已校验</value></data>
     <data name="布依族" xml:space="preserve"><value>布依族</value></data>
     <data name="布朗族" xml:space="preserve"><value>布朗族</value></data>
+    <data name="并且" xml:space="preserve"><value>并且</value></data>
     <data name="开始事务" xml:space="preserve"><value>开始事务</value></data>
     <data name="彝族" xml:space="preserve"><value>彝族</value></data>
     <data name="德昂族" xml:space="preserve"><value>德昂族</value></data>
@@ -99,6 +113,7 @@
     <data name="怒族" xml:space="preserve"><value>怒族</value></data>
     <data name="意外错误" xml:space="preserve"><value>意外错误</value></data>
     <data name="成功" xml:space="preserve"><value>成功</value></data>
+    <data name="或者" xml:space="preserve"><value>或者</value></data>
     <data name="手机" xml:space="preserve"><value>手机</value></data>
     <data name="手机号码" xml:space="preserve"><value>手机号码</value></data>
     <data name="手机号码或座机号码" xml:space="preserve"><value>手机号码或座机号码</value></data>
@@ -122,6 +137,7 @@
     <data name="无效证件号码" xml:space="preserve"><value>无效证件号码</value></data>
     <data name="无效输入" xml:space="preserve"><value>无效输入</value></data>
     <data name="日志长度超过限制" xml:space="preserve"><value>日志长度超过限制</value></data>
+    <data name="日期范围" xml:space="preserve"><value>日期范围</value></data>
     <data name="旧密码" xml:space="preserve"><value>旧密码</value></data>
     <data name="旧手机号码" xml:space="preserve"><value>旧手机号码</value></data>
     <data name="时间戳缺失或误差过大" xml:space="preserve"><value>时间戳缺失或误差过大</value></data>
@@ -164,6 +180,7 @@
     <data name="短信验证请求" xml:space="preserve"><value>短信验证请求</value></data>
     <data name="硕士" xml:space="preserve"><value>硕士</value></data>
     <data name="离异" xml:space="preserve"><value>离异</value></data>
+    <data name="等于" xml:space="preserve"><value>等于</value></data>
     <data name="等待发送" xml:space="preserve"><value>等待发送</value></data>
     <data name="签名缺失" xml:space="preserve"><value>签名缺失</value></data>
     <data name="系统模块" xml:space="preserve"><value>系统模块</value></data>
@@ -173,7 +190,9 @@
     <data name="维吾尔族" xml:space="preserve"><value>维吾尔族</value></data>
     <data name="羌族" xml:space="preserve"><value>羌族</value></data>
     <data name="群众" xml:space="preserve"><value>群众</value></data>
+    <data name="自定义" xml:space="preserve"><value>自定义</value></data>
     <data name="苗族" xml:space="preserve"><value>苗族</value></data>
+    <data name="范围" xml:space="preserve"><value>范围</value></data>
     <data name="菜单" xml:space="preserve"><value>菜单</value></data>
     <data name="菜单名称" xml:space="preserve"><value>菜单名称</value></data>
     <data name="菜单标题" xml:space="preserve"><value>菜单标题</value></data>

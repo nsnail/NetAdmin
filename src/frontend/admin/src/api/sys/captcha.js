@@ -4,7 +4,6 @@
  */
 import config from '@/config'
 import http from '@/utils/request'
-
 export default {
     /**
      * 获取人机校验图

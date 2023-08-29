@@ -4,7 +4,6 @@
  */
 import config from '@/config'
 import http from '@/utils/request'
-
 export default {
     /**
      * 发送验证码

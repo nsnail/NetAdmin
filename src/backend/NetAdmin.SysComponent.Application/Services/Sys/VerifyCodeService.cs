@@ -3,10 +3,12 @@ using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.Domain.Enums;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using DataType = FreeSql.DataType;
+using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -159,7 +161,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
                                                                       = new DynamicFilterInfo {
                                                                             Field = nameof(
                                                                                 Sys_VerifyCode.DestDevice)
-                                                                          , Operator = DynamicFilterOperator.Eq
+                                                                          , Operator = DynamicFilterOperators.Eq
                                                                           , Value    = destDevice
                                                                         }
                                                               })
