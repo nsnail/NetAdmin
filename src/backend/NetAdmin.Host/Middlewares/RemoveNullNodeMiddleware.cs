@@ -19,7 +19,7 @@ public sealed class RemoveNullNodeMiddleware
     }
 
     /// <summary>
-    ///     InvokeAsync
+    ///     主函数
     /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {

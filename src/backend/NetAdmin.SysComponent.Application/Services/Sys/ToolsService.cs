@@ -6,17 +6,13 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 /// <inheritdoc cref="IToolsService" />
 public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
 {
-    /// <summary>
-    ///     服务器时间
-    /// </summary>
+    /// <inheritdoc />
     public DateTime GetServerUtcTime()
     {
         return DateTime.UtcNow;
     }
 
-    /// <summary>
-    ///     版本信息
-    /// </summary>
+    /// <inheritdoc />
     public string Version()
     {
         return Global.ProductVersion;

@@ -13,7 +13,6 @@ public sealed class TransactionInterceptor : IAsyncActionFilter
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TransactionInterceptor" /> class.
-    ///     事务拦截器
     /// </summary>
     public TransactionInterceptor(UnitOfWorkManager uowManager)
     {

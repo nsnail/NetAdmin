@@ -48,9 +48,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         _eventPublisher     = eventPublisher;
     }
 
-    /// <summary>
-    ///     批量删除用户
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -61,25 +59,19 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return sum;
     }
 
-    /// <summary>
-    ///     检查手机号是否可用
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req)
     {
         return !await Rpo.Select.Where(a => a.Mobile == req.Mobile && a.Id != req.Id).AnyAsync();
     }
 
-    /// <summary>
-    ///     检查用户名是否可用
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> CheckUserNameAvailableAsync(CheckUserNameAvailableReq req)
     {
         return !await Rpo.Select.Where(a => a.UserName == req.UserName && a.Id != req.Id).AnyAsync();
     }
 
-    /// <summary>
-    ///     创建用户
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
         await CreateUpdateCheckAsync(req);
@@ -97,9 +89,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return ret.First();
     }
 
-    /// <summary>
-    ///     删除用户
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> DeleteAsync(DelReq req)
     {
         var effect = 0;
@@ -116,26 +106,20 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return effect;
     }
 
-    /// <summary>
-    ///     判断用户是否存在
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> ExistAsync(QueryReq<QueryUserReq> req)
     {
         return await (await QueryInternalAsync(req)).AnyAsync();
     }
 
-    /// <summary>
-    ///     获取单个用户
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个用户（带更新锁）
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryUserRsp> GetForUpdateAsync(QueryUserReq req)
     {
         // ReSharper disable once MethodHasAsyncOverload
@@ -143,9 +127,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
             .Adapt<QueryUserRsp>();
     }
 
-    /// <summary>
-    ///     密码登录
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">用户名或密码错误</exception>
     public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
@@ -166,9 +148,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户名或密码错误) : LoginInternal(dbUser);
     }
 
-    /// <summary>
-    ///     短信登录
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
@@ -181,9 +161,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户不存在) : LoginInternal(dbUser);
     }
 
-    /// <summary>
-    ///     分页查询用户
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
         var list = await (await QueryInternalAsync(req)).Page(req.Page, req.PageSize)
@@ -192,26 +170,20 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
     }
 
-    /// <summary>
-    ///     查询用户
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
         var list = await (await QueryInternalAsync(req)).Take(req.Count).ToListAsync(_selectUserFields);
         return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
 
-    /// <summary>
-    ///     查询用户档案
-    /// </summary>
+    /// <inheritdoc />
     public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
     {
         return _userProfileService.QueryAsync(req);
     }
 
-    /// <summary>
-    ///     注册用户
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
@@ -223,9 +195,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return (await CreateAsync(createReq)).Adapt<UserInfoRsp>();
     }
 
-    /// <summary>
-    ///     重设密码
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<uint> ResetPasswordAsync(ResetPasswordReq req)
@@ -356,9 +326,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
     }
 
-    /// <summary>
-    ///     更新用户
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
     {
         await CreateUpdateCheckAsync(req);
@@ -385,17 +353,13 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         return ret;
     }
 
-    /// <summary>
-    ///     单体更新
-    /// </summary>
+    /// <inheritdoc />
     public Task UpdateSingleAsync(UpdateUserReq req)
     {
         return Rpo.UpdateAsync(req);
     }
 
-    /// <summary>
-    ///     当前用户信息
-    /// </summary>
+    /// <inheritdoc />
     public async Task<UserInfoRsp> UserInfoAsync()
     {
         var dbUser = await Rpo.Where(a => a.Token == UserToken.Token && a.Enabled)
@@ -408,6 +372,12 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
                                               .IncludeMany(a => a.Apis))
                               .ToOneAsync();
         return dbUser.Adapt<UserInfoRsp>();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_User> UpdateForSqliteAsync(Sys_User req)
+    {
+        throw new NotImplementedException();
     }
 
     private static LoginRsp LoginInternal(IFieldEnabled dbUser)

@@ -26,9 +26,7 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         _apiService = apiService;
     }
 
-    /// <summary>
-    ///     生成后端代码
-    /// </summary>
+    /// <inheritdoc />
     public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
         // 模块类型（Sys、Biz、等）
@@ -106,9 +104,7 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
                           ,           Path.Combine(entityDir, $"{moduleType[..3]}_{req.ModuleName}.cs"));
     }
 
-    /// <summary>
-    ///     生成图标代码
-    /// </summary>
+    /// <inheritdoc />
     public async Task GenerateIconCodeAsync(GenerateIconCodeReq req)
     {
         var tplSvg = await File.ReadAllTextAsync(
@@ -147,9 +143,7 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         await File.WriteAllTextAsync(iconSelectFile, newContent);
     }
 
-    /// <summary>
-    ///     生成接口代码
-    /// </summary>
+    /// <inheritdoc />
     public async Task GenerateJsCodeAsync()
     {
         // 模板文件

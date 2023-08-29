@@ -17,9 +17,7 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
     public ConfigService(Repository<Sys_Config> rpo) //
         : base(rpo) { }
 
-    /// <summary>
-    ///     批量删除配置
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -30,45 +28,33 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
         return sum;
     }
 
-    /// <summary>
-    ///     创建配置
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryConfigRsp>();
     }
 
-    /// <summary>
-    ///     删除配置
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断配置是否存在
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个配置
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public async Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req }).ToOneAsync();
         return ret.Adapt<QueryConfigRsp>();
     }
 
-    /// <summary>
-    ///     获取最新有效配置
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryConfigRsp> GetLatestConfigAsync()
     {
         var ret = await QueryAsync(
@@ -76,9 +62,7 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
         return ret.FirstOrDefault();
     }
 
-    /// <summary>
-    ///     分页查询配置
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
@@ -87,26 +71,30 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
                                                , list.Adapt<IEnumerable<QueryConfigRsp>>());
     }
 
-    /// <summary>
-    ///     查询配置
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryConfigRsp>>();
     }
 
-    /// <summary>
-    ///     更新配置
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req);
+            return await UpdateForSqliteAsync(req) as QueryConfigRsp;
         }
 
         var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
         return ret.FirstOrDefault()?.Adapt<QueryConfigRsp>();
+    }
+
+    /// <inheritdoc />
+    protected override async Task<Sys_Config> UpdateForSqliteAsync(Sys_Config req)
+    {
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+            ? null
+            : await GetAsync(new QueryConfigReq { Id = req.Id });
     }
 
     private ISelect<Sys_Config> QueryInternal(QueryReq<QueryConfigReq> req)
@@ -118,15 +106,5 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
                       req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value)
                   .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
                   .OrderByDescending(a => a.Id);
-    }
-
-    /// <summary>
-    ///     非sqlite数据库请删掉
-    /// </summary>
-    private async Task<QueryConfigRsp> UpdateForSqliteAsync(Sys_Config req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
-            ? null
-            : await GetAsync(new QueryConfigReq { Id = req.Id });
     }
 }

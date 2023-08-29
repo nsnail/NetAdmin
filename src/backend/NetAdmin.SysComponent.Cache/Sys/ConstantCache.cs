@@ -4,9 +4,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     常量缓存
-/// </summary>
+/// <inheritdoc cref="IConstantCache" />
 public sealed class ConstantCache : DistributedCache<IConstantService>, IScoped, IConstantCache
 {
     /// <summary>

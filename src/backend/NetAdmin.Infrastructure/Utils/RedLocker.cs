@@ -5,7 +5,7 @@ using StackExchange.Redis;
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
-///     Redis锁
+///     Redis 分布锁
 /// </summary>
 #pragma warning disable DesignedForInheritance
 public class RedLocker : IDisposable, ISingleton

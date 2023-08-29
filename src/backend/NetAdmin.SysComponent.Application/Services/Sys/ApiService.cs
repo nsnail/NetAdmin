@@ -24,72 +24,50 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
         _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
     }
 
-    /// <summary>
-    ///     批量删除接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     创建接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     删除接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     判断接口是否存在
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<QueryApiRsp> GetAsync(QueryApiReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     分页查询接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     查询接口
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
         return ret.Adapt<IEnumerable<QueryApiRsp>>();
     }
 
-    /// <summary>
-    ///     反射接口列表
-    /// </summary>
+    /// <inheritdoc />
     public IEnumerable<QueryApiRsp> ReflectionList(bool excludeAnonymous = true)
     {
         var regex = new Regex(@"\.(\w+)$", RegexOptions.Compiled);
@@ -120,9 +98,7 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
         return actionGroup.Select(SelectQueryApiRsp);
     }
 
-    /// <summary>
-    ///     同步接口
-    /// </summary>
+    /// <inheritdoc />
     public async Task SyncAsync()
     {
         _ = await Rpo.DeleteAsync(_ => true);
@@ -136,11 +112,14 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
         }
     }
 
-    /// <summary>
-    ///     更新接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<NopReq> UpdateAsync(NopReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_Api> UpdateForSqliteAsync(Sys_Api req)
     {
         throw new NotImplementedException();
     }

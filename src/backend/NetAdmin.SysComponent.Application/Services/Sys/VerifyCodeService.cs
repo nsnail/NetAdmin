@@ -24,9 +24,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
         _eventPublisher = eventPublisher;
     }
 
-    /// <summary>
-    ///     批量删除验证码
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -37,9 +35,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
         return sum;
     }
 
-    /// <summary>
-    ///     创建验证码
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
         var entity = await Rpo.InsertAsync(req);
@@ -52,34 +48,26 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
         return ret;
     }
 
-    /// <summary>
-    ///     删除验证码
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断验证码是否存在
-    /// </summary>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
-    /// <summary>
-    ///     获取单个验证码
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req }).ToOneAsync();
         return ret.Adapt<QueryVerifyCodeRsp>();
     }
 
-    /// <summary>
-    ///     分页查询验证码
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
@@ -88,9 +76,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
                                                    , list.Adapt<IEnumerable<QueryVerifyCodeRsp>>());
     }
 
-    /// <summary>
-    ///     查询验证码
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
@@ -122,13 +108,11 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
         return ret.Adapt<SendVerifyCodeRsp>();
     }
 
-    /// <summary>
-    ///     更新验证码
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req);
+            return await UpdateForSqliteAsync(req) as QueryVerifyCodeRsp;
         }
 
         var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
@@ -159,6 +143,14 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
         return true;
     }
 
+    /// <inheritdoc />
+    protected override async Task<Sys_VerifyCode> UpdateForSqliteAsync(Sys_VerifyCode req)
+    {
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+            ? null
+            : await GetAsync(new QueryVerifyCodeReq { Id = req.Id });
+    }
+
     private Task<Sys_VerifyCode> GetLastSentAsync(string destDevice)
     {
         return QueryInternal(new QueryReq<QueryVerifyCodeReq> {
@@ -180,15 +172,5 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
                   .WhereDynamic(req.Filter)
                   .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
                   .OrderByDescending(a => a.Id);
-    }
-
-    /// <summary>
-    ///     非sqlite数据库请删掉
-    /// </summary>
-    private async Task<QueryVerifyCodeRsp> UpdateForSqliteAsync(Sys_VerifyCode req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
-            ? null
-            : await GetAsync(new QueryVerifyCodeReq { Id = req.Id });
     }
 }

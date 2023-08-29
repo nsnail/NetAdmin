@@ -6,9 +6,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     接口缓存
-/// </summary>
+/// <inheritdoc cref="IApiCache" />
 public sealed class ApiCache : DistributedCache<IApiService>, IScoped, IApiCache
 {
     /// <summary>

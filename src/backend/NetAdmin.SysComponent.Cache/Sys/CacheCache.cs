@@ -6,9 +6,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     缓存缓存
-/// </summary>
+/// <inheritdoc cref="ICacheCache" />
 public sealed class CacheCache : DistributedCache<ICacheService>, IScoped, ICacheCache
 {
     /// <summary>

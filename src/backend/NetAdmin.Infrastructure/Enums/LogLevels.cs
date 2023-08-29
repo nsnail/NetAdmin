@@ -6,48 +6,54 @@ namespace NetAdmin.Infrastructure.Enums;
 public enum LogLevels
 {
     /// <summary>
-    ///     Trace
+    ///     跟踪
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.跟踪))]
     [Display(Name = "[gray]TCE[/]", ShortName = "TCE")]
     Trace = 0
 
    ,
 
     /// <summary>
-    ///     Debug
+    ///     调试
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.调试))]
     [Display(Name = "[gray]DBG[/]", ShortName = "DBG")]
     Debug = 1
 
    ,
 
     /// <summary>
-    ///     Information
+    ///     信息
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.信息))]
     [Display(Name = "[green]INF[/]", ShortName = "INF")]
     Information = 2
 
    ,
 
     /// <summary>
-    ///     Warning
+    ///     警告
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.警告))]
     [Display(Name = "[yellow]WRN[/]", ShortName = "WRN")]
     Warning = 3
 
    ,
 
     /// <summary>
-    ///     Error
+    ///     错误
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.错误))]
     [Display(Name = "[red]ERR[/]", ShortName = "ERR")]
     Error = 4
 
    ,
 
     /// <summary>
-    ///     Critical
+    ///     宕机
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.宕机))]
     [Display(Name = "[red]CTL[/]", ShortName = "CTL")]
     Critical = 5
 }

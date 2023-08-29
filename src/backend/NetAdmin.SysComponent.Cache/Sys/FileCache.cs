@@ -4,9 +4,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     文件缓存
-/// </summary>
+/// <inheritdoc cref="IFileCache" />
 public sealed class FileCache : DistributedCache<IFileService>, IScoped, IFileCache
 {
     /// <summary>

@@ -19,9 +19,7 @@ public sealed class CacheService : ServiceBase<ICacheService>, ICacheService
         _connectionMultiplexer = connectionMultiplexer;
     }
 
-    /// <summary>
-    ///     缓存统计
-    /// </summary>
+    /// <inheritdoc />
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
         var database = _connectionMultiplexer.GetDatabase();

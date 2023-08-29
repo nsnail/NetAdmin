@@ -5,9 +5,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     开发缓存
-/// </summary>
+/// <inheritdoc cref="IDevCache" />
 public sealed class DevCache : DistributedCache<IDevService>, IScoped, IDevCache
 {
     /// <summary>

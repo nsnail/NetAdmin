@@ -30,7 +30,7 @@ public sealed class RequestAuditMiddleware
     }
 
     /// <summary>
-    ///     InvokeAsync
+    ///     主函数
     /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {

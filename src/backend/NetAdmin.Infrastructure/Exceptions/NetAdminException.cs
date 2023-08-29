@@ -1,7 +1,7 @@
 namespace NetAdmin.Infrastructure.Exceptions;
 
 /// <summary>
-///     Line异常基类
+///     异常基类
 /// </summary>
 #pragma warning disable RCS1194
 public abstract class NetAdminException : Exception

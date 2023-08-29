@@ -6,9 +6,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     菜单缓存
-/// </summary>
+/// <inheritdoc cref="IMenuCache" />
 public sealed class MenuCache : DistributedCache<IMenuService>, IScoped, IMenuCache
 {
     /// <summary>

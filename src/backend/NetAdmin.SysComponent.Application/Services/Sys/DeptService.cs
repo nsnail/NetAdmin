@@ -16,9 +16,7 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
     public DeptService(Repository<Sys_Dept> rpo) //
         : base(rpo) { }
 
-    /// <summary>
-    ///     批量删除部门
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -29,9 +27,7 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
         return sum;
     }
 
-    /// <summary>
-    ///     创建部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Parent_department_does_not_exist</exception>
     public async Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
     {
@@ -44,9 +40,7 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
         return ret.Adapt<QueryDeptRsp>();
     }
 
-    /// <summary>
-    ///     删除部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">该部门下存在用户</exception>
     /// <exception cref="NetAdminInvalidOperationException">该部门下存在子部门</exception>
     public async Task<int> DeleteAsync(DelReq req)
@@ -64,44 +58,34 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
         return await Rpo.DeleteAsync(x => x.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断部门是否存在
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     分页查询部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<PagedQueryRsp<QueryDeptRsp>> PagedQueryAsync(PagedQueryReq<QueryDeptReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     查询部门
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
         return (await QueryInternal(req).ToTreeListAsync()).Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
-    /// <summary>
-    ///     更新部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
     {
@@ -110,6 +94,12 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
             : (await QueryInternal(new QueryReq<QueryDeptReq> { Filter = new QueryDeptReq { Id = req.Id } }, true)
                 .ToTreeListAsync())[0]
             .Adapt<QueryDeptRsp>();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_Dept> UpdateForSqliteAsync(Sys_Dept req)
+    {
+        throw new NotImplementedException();
     }
 
     private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req, bool asTreeCte = false)

@@ -2,9 +2,7 @@ using Furion.FriendlyException;
 
 namespace NetAdmin.Host.Filters;
 
-/// <summary>
-///     全局捕异常
-/// </summary>
+/// <inheritdoc cref="Furion.FriendlyException.IGlobalExceptionHandler" />
 public sealed class GlobalExceptionHandler : IGlobalExceptionHandler, ISingleton
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;
@@ -17,9 +15,7 @@ public sealed class GlobalExceptionHandler : IGlobalExceptionHandler, ISingleton
         _logger = logger;
     }
 
-    /// <summary>
-    ///     异常拦截
-    /// </summary>
+    /// <inheritdoc />
     public Task OnExceptionAsync(ExceptionContext context)
     {
         _logger.Error(context.Exception);
