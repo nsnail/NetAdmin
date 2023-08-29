@@ -23,9 +23,7 @@ public record RegisterUserReq : Sys_User
     [JsonIgnore]
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
-    /// <summary>
-    ///     用户名
-    /// </summary>
+    /// <inheritdoc cref="Sys_User.UserName" />
     [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名))]
     [UserName]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

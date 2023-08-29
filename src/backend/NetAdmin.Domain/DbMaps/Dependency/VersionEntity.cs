@@ -3,14 +3,10 @@ using NetAdmin.Domain.DbMaps.Dependency.Fields;
 
 namespace NetAdmin.Domain.DbMaps.Dependency;
 
-/// <summary>
-///     乐观锁可变实体
-/// </summary>
+/// <inheritdoc />
 public abstract record VersionEntity : VersionEntity<long>
 {
-    /// <summary>
-    ///     唯一编码
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [Snowflake]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public override long Id { get; init; }
@@ -21,22 +17,16 @@ public abstract record VersionEntity : VersionEntity<long>
 /// </summary>
 public abstract record VersionEntity<T> : LiteVersionEntity<T>, IFieldModifiedUser
 {
-    /// <summary>
-    ///     唯一编码
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public override T Id { get; init; }
 
-    /// <summary>
-    ///     修改者编号
-    /// </summary>
+    /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserId" />
     [JsonIgnore]
     [Column(CanInsert = false, Position = -1)]
     public long? ModifiedUserId { get; init; }
 
-    /// <summary>
-    ///     修改者用户名
-    /// </summary>
+    /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserName" />
     [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanInsert = false, Position = -1)]
     public string ModifiedUserName { get; init; }

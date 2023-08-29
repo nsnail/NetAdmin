@@ -17,13 +17,9 @@ public abstract class CacheBase<TCacheContainer, TService> : ICache<TCacheContai
         Service = service;
     }
 
-    /// <summary>
-    ///     缓存对象
-    /// </summary>
+    /// <inheritdoc />
     public TCacheContainer Cache { get; }
 
-    /// <summary>
-    ///     关联的服务
-    /// </summary>
+    /// <inheritdoc />
     public TService Service { get; }
 }

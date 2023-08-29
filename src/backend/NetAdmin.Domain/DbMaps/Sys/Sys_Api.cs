@@ -16,9 +16,7 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     [Navigate(nameof(ParentId))]
     public IEnumerable<Sys_Api> Children { get; init; }
 
-    /// <summary>
-    ///     唯一编码
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127, IsIdentity = false, IsPrimary = true, Position = 1)]
     public override string Id { get; init; }

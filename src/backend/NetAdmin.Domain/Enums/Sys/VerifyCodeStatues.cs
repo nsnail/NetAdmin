@@ -3,6 +3,7 @@ namespace NetAdmin.Domain.Enums.Sys;
 /// <summary>
 ///     验证码状态
 /// </summary>
+[Export]
 public enum VerifyCodeStatues
 {
     /// <summary>

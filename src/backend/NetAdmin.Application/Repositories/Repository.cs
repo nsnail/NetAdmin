@@ -24,12 +24,12 @@ public sealed class Repository<TEntity> : DefaultRepository<TEntity, long>, IRep
     /// <summary>
     ///     递归删除
     /// </summary>
-    /// <param name="exp">exp</param>
+    /// <param name="whereExp">条件表达式</param>
     /// <param name="disableGlobalFilterNames">禁用全局过滤器名</param>
     public async Task<bool> DeleteRecursiveAsync( //
-        Expression<Func<TEntity, bool>> exp, params string[] disableGlobalFilterNames)
+        Expression<Func<TEntity, bool>> whereExp, params string[] disableGlobalFilterNames)
     {
-        _ = await Select.Where(exp)
+        _ = await Select.Where(whereExp)
                         .DisableGlobalFilter(disableGlobalFilterNames)
                         .AsTreeCte()
                         .ToDelete()
@@ -50,17 +50,19 @@ public sealed class Repository<TEntity> : DefaultRepository<TEntity, long>, IRep
     /// <summary>
     ///     根据条件获取Dto
     /// </summary>
-    public Task<TDto> GetAsync<TDto>(Expression<Func<TEntity, bool>> exp)
+    /// <param name="whereExp">条件表达式</param>
+    public Task<TDto> GetAsync<TDto>(Expression<Func<TEntity, bool>> whereExp)
     {
-        return Select.Where(exp).ToOneAsync<TDto>();
+        return Select.Where(whereExp).ToOneAsync<TDto>();
     }
 
     /// <summary>
     ///     根据条件获取实体
     /// </summary>
-    public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> exp)
+    /// <param name="whereExp">条件表达式</param>
+    public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> whereExp)
     {
-        return Select.Where(exp).ToOneAsync();
+        return Select.Where(whereExp).ToOneAsync();
     }
 
     /// <summary>
@@ -69,7 +71,7 @@ public sealed class Repository<TEntity> : DefaultRepository<TEntity, long>, IRep
     /// <param name="dynamicFilterInfo">动态过滤器</param>
     /// <param name="page">页码</param>
     /// <param name="pageSize">页容量</param>
-    /// <returns>分页列表和总条数</returns>
+    /// <returns>（分页列表，总条数）</returns>
     public async Task<(IEnumerable<TEntity> List, long Total)> GetPagedListAsync(
         DynamicFilterInfo dynamicFilterInfo, int page, int pageSize)
     {

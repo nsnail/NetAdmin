@@ -1,7 +1,7 @@
 namespace NetAdmin.Domain.Attributes.DataValidation;
 
 /// <summary>
-///     证件号码
+///     证件号码验证器
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class CertificateAttribute : RegexAttribute

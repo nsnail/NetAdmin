@@ -3,14 +3,10 @@ using NetAdmin.Domain.DbMaps.Dependency.Fields;
 
 namespace NetAdmin.Domain.DbMaps.Dependency;
 
-/// <summary>
-///     轻型不可变实体
-/// </summary>
+/// <inheritdoc />
 public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 {
-    /// <summary>
-    ///     唯一编码
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [Snowflake]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public override long Id { get; init; }
@@ -19,19 +15,15 @@ public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 /// <summary>
 ///     轻型不可变实体
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">主键类型</typeparam>
 public abstract record LiteImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IFieldCreatedTime
 {
-    /// <summary>
-    ///     创建时间
-    /// </summary>
+    /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore]
     [Column(ServerTime = DateTimeKind.Utc, CanUpdate = false, Position = -1)]
     public virtual DateTime CreatedTime { get; init; }
 
-    /// <summary>
-    ///     唯一编码
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public virtual T Id { get; init; }
