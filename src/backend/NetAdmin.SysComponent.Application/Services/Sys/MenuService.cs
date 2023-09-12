@@ -3,7 +3,9 @@ using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Menu;
+using NetAdmin.Domain.Enums;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -21,9 +23,7 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
         _userService = userService;
     }
 
-    /// <summary>
-    ///     批量删除菜单
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -34,62 +34,48 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
         return sum;
     }
 
-    /// <summary>
-    ///     创建菜单
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryMenuRsp>();
     }
 
-    /// <summary>
-    ///     删除菜单
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断菜单是否存在
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个菜单
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     分页查询菜单
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     查询菜单
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         var ret = await QueryInternal(req).ToTreeListAsync();
         return ret.Adapt<IEnumerable<QueryMenuRsp>>();
     }
 
-    /// <summary>
-    ///     更新菜单
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
     {
@@ -101,9 +87,7 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
         return ret.Adapt<QueryMenuRsp>();
     }
 
-    /// <summary>
-    ///     当前用户菜单
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {
         var                             userInfo = await _userService.UserInfoAsync();
@@ -123,13 +107,19 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
             ret = QueryAsync(req with {
                                           DynamicFilter = new DynamicFilterInfo {
                                                               Field    = nameof(QueryMenuReq.Id)
-                                                            , Operator = DynamicFilterOperator.Any
+                                                            , Operator = DynamicFilterOperators.Any
                                                             , Value    = ownedMenuIds
                                                           }
                                       });
         }
 
         return await ret;
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_Menu> UpdateForSqliteAsync(Sys_Menu req)
+    {
+        throw new NotImplementedException();
     }
 
     private ISelect<Sys_Menu> QueryInternal(QueryReq<QueryMenuReq> req)

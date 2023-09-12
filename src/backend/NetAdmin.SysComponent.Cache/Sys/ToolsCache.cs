@@ -4,9 +4,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     工具缓存
-/// </summary>
+/// <inheritdoc cref="IToolsCache" />
 public sealed class ToolsCache : DistributedCache<IToolsService>, IScoped, IToolsCache
 {
     /// <summary>

@@ -6,9 +6,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     角色缓存
-/// </summary>
+/// <inheritdoc cref="IRoleCache" />
 public sealed class RoleCache : DistributedCache<IRoleService>, IScoped, IRoleCache
 {
     /// <summary>

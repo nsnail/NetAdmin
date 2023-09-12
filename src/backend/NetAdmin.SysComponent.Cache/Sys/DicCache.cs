@@ -7,9 +7,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     字典缓存
-/// </summary>
+/// <inheritdoc cref="IDicCache" />
 public sealed class DicCache : DistributedCache<IDicService>, IScoped, IDicCache
 {
     /// <summary>

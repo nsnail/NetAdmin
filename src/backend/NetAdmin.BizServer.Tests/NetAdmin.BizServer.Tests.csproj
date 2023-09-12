@@ -4,7 +4,7 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Host/NetAdmin.Host.csproj"/>
-        <ProjectReference Include="..\NetAdmin.BizServer.Host\NetAdmin.BizServer.Host.csproj"/>
+        <ProjectReference Include="../NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0-preview-23371-04"/>

@@ -17,9 +17,7 @@ public sealed record QueryMenuRsp : Sys_Menu, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Active { get; init; }
 
-    /// <summary>
-    ///     子节点
-    /// </summary>
+    /// <inheritdoc cref="Sys_Menu.Children" />
     public new IEnumerable<QueryMenuRsp> Children { get; init; }
 
     /// <inheritdoc cref="Sys_Menu.Component" />

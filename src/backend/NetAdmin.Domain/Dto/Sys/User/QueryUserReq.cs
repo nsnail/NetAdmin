@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
@@ -7,15 +8,11 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// </summary>
 public sealed record QueryUserReq : Sys_User
 {
-    /// <summary>
-    ///     部门编号
-    /// </summary>
+    /// <inheritdoc cref="Sys_User.DeptId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long DeptId { get; init; }
 
-    /// <summary>
-    ///     id
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 

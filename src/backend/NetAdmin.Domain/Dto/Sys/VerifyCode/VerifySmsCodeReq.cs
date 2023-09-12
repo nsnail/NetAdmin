@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Attributes.DataValidation;
+using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
@@ -8,11 +9,11 @@ namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 /// </summary>
 public record VerifySmsCodeReq : VerifyCodeReq
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_VerifyCode.DestDevice" />
     [Mobile]
     public override string DestDevice { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_VerifyCode.DeviceType" />
     [JsonIgnore]
     public override VerifyCodeDeviceTypes DeviceType { get; init; } = VerifyCodeDeviceTypes.Mobile;
 }

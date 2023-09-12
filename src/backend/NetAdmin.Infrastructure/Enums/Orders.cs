@@ -7,7 +7,7 @@ namespace NetAdmin.Infrastructure.Enums;
 public enum Orders
 {
     /// <summary>
-    ///     顺序
+    ///     顺序排序
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.顺序排序))]
     Ascending = 1
@@ -15,7 +15,7 @@ public enum Orders
    ,
 
     /// <summary>
-    ///     倒序
+    ///     倒序排序
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.倒序排序))]
     Descending = 2

@@ -6,9 +6,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     用户档案缓存
-/// </summary>
+/// <inheritdoc cref="IUserProfileCache" />
 public sealed class UserProfileCache : DistributedCache<IUserProfileService>, IScoped, IUserProfileCache
 {
     /// <summary>

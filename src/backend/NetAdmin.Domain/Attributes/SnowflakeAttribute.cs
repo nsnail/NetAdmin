@@ -8,5 +8,4 @@ namespace NetAdmin.Domain.Attributes;
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class SnowflakeAttribute : Attribute
 {
-    //
 }

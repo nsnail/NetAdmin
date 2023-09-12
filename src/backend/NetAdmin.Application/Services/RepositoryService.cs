@@ -31,4 +31,12 @@ public abstract class RepositoryService<TEntity, TLogger> : ServiceBase<TLogger>
         get => Rpo.DbContextOptions.EnableCascadeSave;
         set => Rpo.DbContextOptions.EnableCascadeSave = value;
     }
+
+    /// <summary>
+    ///     针对 Sqlite 数据的更新操作
+    /// </summary>
+    /// <returns>
+    ///     非 Sqlite 数据库请删除
+    /// </returns>
+    protected abstract Task<TEntity> UpdateForSqliteAsync(TEntity req);
 }

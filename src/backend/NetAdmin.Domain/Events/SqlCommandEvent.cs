@@ -10,22 +10,13 @@ public record SqlCommandEvent : DataAbstraction, IEventSource
     /// </summary>
     public string Id => Identifier.ToString()[..8].ToUpperInvariant();
 
-    /// <summary>
-    ///     取消任务 Token
-    /// </summary>
-    /// <remarks>
-    ///     用于取消本次消息处理
-    /// </remarks>
+    /// <inheritdoc />
     public CancellationToken CancellationToken { get; init; }
 
-    /// <summary>
-    ///     事件创建时间
-    /// </summary>
+    /// <inheritdoc />
     public DateTime CreatedTime { get; protected init; }
 
-    /// <summary>
-    ///     事件 Id
-    /// </summary>
+    /// <inheritdoc />
     public string EventId { get; protected init; }
 
     /// <summary>
@@ -33,9 +24,7 @@ public record SqlCommandEvent : DataAbstraction, IEventSource
     /// </summary>
     public Guid Identifier { get; protected init; }
 
-    /// <summary>
-    ///     事件承载（携带）数据
-    /// </summary>
+    /// <inheritdoc />
     public object Payload { get; init; }
 
     /// <summary>

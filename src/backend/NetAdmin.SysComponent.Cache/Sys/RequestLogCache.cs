@@ -6,9 +6,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     请求日志缓存
-/// </summary>
+/// <inheritdoc cref="IRequestLogCache" />
 public sealed class RequestLogCache : DistributedCache<IRequestLogService>, IScoped, IRequestLogCache
 {
     /// <summary>

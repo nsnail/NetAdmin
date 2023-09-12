@@ -16,9 +16,7 @@ public sealed class DicCatalogService : RepositoryService<Sys_DicCatalog, IDicCa
     public DicCatalogService(Repository<Sys_DicCatalog> rpo) //
         : base(rpo) { }
 
-    /// <summary>
-    ///     批量删除字典目录
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -29,9 +27,7 @@ public sealed class DicCatalogService : RepositoryService<Sys_DicCatalog, IDicCa
         return sum;
     }
 
-    /// <summary>
-    ///     创建字典目录
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
     public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
@@ -43,36 +39,28 @@ public sealed class DicCatalogService : RepositoryService<Sys_DicCatalog, IDicCa
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 
-    /// <summary>
-    ///     删除字典目录
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> DeleteAsync(DelReq req)
     {
         var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id);
         return ret.Count;
     }
 
-    /// <summary>
-    ///     判断字典目录是否存在
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDicCatalogReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个字典目录
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     分页查询字典目录
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
@@ -81,18 +69,14 @@ public sealed class DicCatalogService : RepositoryService<Sys_DicCatalog, IDicCa
                                                    , list.Adapt<IEnumerable<QueryDicCatalogRsp>>());
     }
 
-    /// <summary>
-    ///     查询字典目录
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req)
     {
         var ret = await QueryInternal(req).ToTreeListAsync();
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
     }
 
-    /// <summary>
-    ///     更新字典目录
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
@@ -107,6 +91,12 @@ public sealed class DicCatalogService : RepositoryService<Sys_DicCatalog, IDicCa
 
         var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
         return ret.Adapt<QueryDicCatalogRsp>();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_DicCatalog> UpdateForSqliteAsync(Sys_DicCatalog req)
+    {
+        throw new NotImplementedException();
     }
 
     private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)

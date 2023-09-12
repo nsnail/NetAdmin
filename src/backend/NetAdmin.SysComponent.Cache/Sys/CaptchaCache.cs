@@ -14,9 +14,7 @@ public sealed class CaptchaCache : DistributedCache<ICaptchaService>, IScoped, I
     public CaptchaCache(IDistributedCache cache, ICaptchaService service) //
         : base(cache, service) { }
 
-    /// <summary>
-    ///     获取人机校验图
-    /// </summary>
+    /// <inheritdoc />
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
         var captchaRsp = await Service.GetCaptchaImageAsync();
@@ -25,9 +23,7 @@ public sealed class CaptchaCache : DistributedCache<ICaptchaService>, IScoped, I
         return captchaRsp;
     }
 
-    /// <summary>
-    ///     完成人机校验 ，并删除缓存项
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">人机验证未通过</exception>
     public async Task VerifyCaptchaAndRemoveAsync(VerifyCaptchaReq req)
     {
@@ -41,9 +37,7 @@ public sealed class CaptchaCache : DistributedCache<ICaptchaService>, IScoped, I
         }
     }
 
-    /// <summary>
-    ///     完成人机校验
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
     {
         var val = await GetAsync<int?>(GetCacheKey(req.Id, nameof(CaptchaCache)));

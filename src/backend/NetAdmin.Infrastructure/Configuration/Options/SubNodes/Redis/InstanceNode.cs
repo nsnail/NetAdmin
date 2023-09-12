@@ -1,7 +1,7 @@
 namespace NetAdmin.Infrastructure.Configuration.Options.SubNodes.Redis;
 
 /// <summary>
-///     Redis实例
+///     Redis 实例节点
 /// </summary>
 public sealed record InstanceNode
 {

@@ -16,9 +16,7 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
     public RoleService(Repository<Sys_Role> rpo) //
         : base(rpo) { }
 
-    /// <summary>
-    ///     批量删除角色
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -29,9 +27,7 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
         return sum;
     }
 
-    /// <summary>
-    ///     创建角色
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
     {
         var entity = req.Adapt<Sys_Role>();
@@ -45,9 +41,7 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
         return entity.Adapt<QueryRoleRsp>();
     }
 
-    /// <summary>
-    ///     删除角色
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Users_exist_under_this_role_and_deletion_is_not_allowed</exception>
     public async Task<int> DeleteAsync(DelReq req)
     {
@@ -56,27 +50,21 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
             : await Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断角色是否存在
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个角色
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     分页查询角色
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
@@ -84,18 +72,14 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
         return new PagedQueryRsp<QueryRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryRoleRsp>>());
     }
 
-    /// <summary>
-    ///     查询角色
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
         var ret = await QueryInternal(req).ToListAsync();
         return ret.Adapt<IEnumerable<QueryRoleRsp>>();
     }
 
-    /// <summary>
-    ///     更新角色
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
     {
         var entity = req.Adapt<Sys_Role>();
@@ -105,6 +89,12 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
         await Rpo.SaveManyAsync(entity, nameof(entity.Apis));
 
         return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } })).First();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_Role> UpdateForSqliteAsync(Sys_Role req)
+    {
+        throw new NotImplementedException();
     }
 
     private ISelect<Sys_Role> QueryInternal(QueryReq<QueryRoleReq> req)

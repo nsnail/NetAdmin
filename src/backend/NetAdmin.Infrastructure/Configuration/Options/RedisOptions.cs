@@ -1,7 +1,7 @@
 namespace NetAdmin.Infrastructure.Configuration.Options;
 
 /// <summary>
-///     Redis配置
+///     Redis 配置
 /// </summary>
 public sealed record RedisOptions : OptionAbstraction
 {

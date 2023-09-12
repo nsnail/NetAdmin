@@ -6,9 +6,7 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 /// <inheritdoc cref="IConstantService" />
 public sealed class ConstantService : ServiceBase<IConstantService>, IConstantService
 {
-    /// <summary>
-    ///     获得常量字符串
-    /// </summary>
+    /// <inheritdoc />
     public IDictionary<string, string> GetCharsDic()
     {
         return typeof(Chars).GetFields(BindingFlags.Public | BindingFlags.Static)
@@ -17,9 +15,7 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
                                 x => x.Name, x => x.GetValue(null)?.ToString());
     }
 
-    /// <summary>
-    ///     获得公共枚举值
-    /// </summary>
+    /// <inheritdoc />
     public IDictionary<string, Dictionary<string, string[]>> GetEnums()
     {
         return App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) != null)
@@ -35,9 +31,7 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
                                                     }));
     }
 
-    /// <summary>
-    ///     获得本地化字符串
-    /// </summary>
+    /// <inheritdoc />
     public IDictionary<string, string> GetLocalizedStrings()
     {
         return typeof(Ln).GetProperties(BindingFlags.Public | BindingFlags.Static)
@@ -45,9 +39,7 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
                          .ToImmutableSortedDictionary(x => x.Name, x => x.GetValue(null)?.ToString());
     }
 
-    /// <summary>
-    ///     获得数字常量表
-    /// </summary>
+    /// <inheritdoc />
     public IDictionary<string, long> GetNumbersDic()
     {
         return typeof(Numbers).GetFields(BindingFlags.Public | BindingFlags.Static)

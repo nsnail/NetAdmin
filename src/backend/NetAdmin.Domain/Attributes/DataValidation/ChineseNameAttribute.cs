@@ -1,7 +1,7 @@
 namespace NetAdmin.Domain.Attributes.DataValidation;
 
 /// <summary>
-///     中文姓名
+///     中文姓名验证器
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class ChineseNameAttribute : RegexAttribute

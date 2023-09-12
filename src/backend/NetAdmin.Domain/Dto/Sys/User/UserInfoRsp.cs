@@ -9,10 +9,10 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// </summary>
 public record UserInfoRsp : QueryUserRsp, IRegister
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_User.Dept" />
     public override QueryDeptRsp Dept { get; init; }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Sys_User.Roles" />
     public override IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc />

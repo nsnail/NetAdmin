@@ -8,9 +8,7 @@ namespace NetAdmin.Domain.Dto.Sys.Api;
 /// </summary>
 public sealed record QueryApiRsp : Sys_Api
 {
-    /// <summary>
-    ///     子节点
-    /// </summary>
+    /// <inheritdoc cref="Sys_Api.Children" />
     public new IEnumerable<QueryApiRsp> Children { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />

@@ -18,9 +18,7 @@ public sealed class FileService : ServiceBase<IFileService>, IFileService
         _uploadOptions = uploadOptions.Value;
     }
 
-    /// <summary>
-    ///     文件上传
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">文件不能为空</exception>
     /// <exception cref="NetAdminInvalidOperationException">允许上传的文件格式</exception>
     /// <exception cref="NetAdminInvalidOperationException">允许的文件大小</exception>

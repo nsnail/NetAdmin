@@ -6,6 +6,7 @@ namespace NetAdmin.Application.Repositories;
 /// <summary>
 ///     基础仓储接口
 /// </summary>
+/// <typeparam name="TEntity">实体类型</typeparam>
 public interface IRepository<TEntity> : IBaseRepository<TEntity>
     where TEntity : EntityBase
 {
@@ -17,9 +18,9 @@ public interface IRepository<TEntity> : IBaseRepository<TEntity>
     /// <summary>
     ///     递归删除
     /// </summary>
-    /// <param name="exp">exp</param>
+    /// <param name="whereExp">exp</param>
     /// <param name="disableGlobalFilterNames">禁用全局过滤器名</param>
-    Task<bool> DeleteRecursiveAsync(Expression<Func<TEntity, bool>> exp, params string[] disableGlobalFilterNames);
+    Task<bool> DeleteRecursiveAsync(Expression<Func<TEntity, bool>> whereExp, params string[] disableGlobalFilterNames);
 
     /// <summary>
     ///     获得Dto
@@ -30,10 +31,10 @@ public interface IRepository<TEntity> : IBaseRepository<TEntity>
     /// <summary>
     ///     根据条件获取Dto
     /// </summary>
-    Task<TDto> GetAsync<TDto>(Expression<Func<TEntity, bool>> exp);
+    Task<TDto> GetAsync<TDto>(Expression<Func<TEntity, bool>> whereExp);
 
     /// <summary>
     ///     根据条件获取实体
     /// </summary>
-    Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> exp);
+    Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> whereExp);
 }

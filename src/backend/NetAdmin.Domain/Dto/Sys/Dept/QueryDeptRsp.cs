@@ -8,9 +8,7 @@ namespace NetAdmin.Domain.Dto.Sys.Dept;
 /// </summary>
 public record QueryDeptRsp : Sys_Dept
 {
-    /// <summary>
-    ///     子节点
-    /// </summary>
+    /// <inheritdoc cref="Sys_Dept.Children" />
     public new virtual IEnumerable<QueryDeptRsp> Children { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />

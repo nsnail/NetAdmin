@@ -1,0 +1,4 @@
+[hook "startcommit"]
+    cmdline = dot.clean.cmd
+    wait = true
+    show = true

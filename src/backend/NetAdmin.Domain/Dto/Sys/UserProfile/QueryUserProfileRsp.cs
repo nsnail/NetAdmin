@@ -25,9 +25,7 @@ public sealed record QueryUserProfileRsp : Sys_UserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CompanyAddress { get; init; }
 
-    /// <summary>
-    ///     工作地区
-    /// </summary>
+    /// <inheritdoc cref="Sys_UserProfile.CompanyArea" />
     public new QueryDicContentRsp CompanyArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CompanyName" />
@@ -46,9 +44,7 @@ public sealed record QueryUserProfileRsp : Sys_UserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactAddress { get; init; }
 
-    /// <summary>
-    ///     紧急联系地区
-    /// </summary>
+    /// <inheritdoc cref="Sys_UserProfile.EmergencyContactArea" />
     public new QueryDicContentRsp EmergencyContactArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.EmergencyContactMobile" />
@@ -71,9 +67,7 @@ public sealed record QueryUserProfileRsp : Sys_UserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string HomeAddress { get; init; }
 
-    /// <summary>
-    ///     住宅地区
-    /// </summary>
+    /// <inheritdoc cref="Sys_UserProfile.HomeArea" />
     public new QueryDicContentRsp HomeArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.HomeTelephone" />
@@ -92,9 +86,7 @@ public sealed record QueryUserProfileRsp : Sys_UserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override Nations? Nation { get; init; }
 
-    /// <summary>
-    ///     籍贯
-    /// </summary>
+    /// <inheritdoc cref="Sys_UserProfile.NationArea" />
     public new QueryDicContentRsp NationArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.PoliticalStatus" />

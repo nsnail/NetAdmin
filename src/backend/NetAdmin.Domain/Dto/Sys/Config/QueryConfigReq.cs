@@ -8,9 +8,7 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 /// </summary>
 public sealed record QueryConfigReq : Sys_Config
 {
-    /// <summary>
-    ///     是否启用
-    /// </summary>
+    /// <inheritdoc cref="IFieldEnabled.Enabled" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public new bool? Enabled { get; init; }
 
