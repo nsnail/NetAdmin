@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     用户档案表
 /// </summary>
-[Table(Name = "Sys_UserProfile")]
+[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_UserProfile))]
 public record Sys_UserProfile : VersionEntity, IRegister
 {
     /// <summary>

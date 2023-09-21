@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     请求日志表
 /// </summary>
-[Table(Name = "Sys_RequestLog")]
+[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_RequestLog))]
 public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
 {
     /// <summary>
