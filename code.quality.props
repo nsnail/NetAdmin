@@ -1,6 +1,8 @@
 <Project>
     <PropertyGroup>
         <CodeAnalysisRuleSet>$(SolutionDir)/stylecop.analyzers.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <MSBuildTreatWarningsAsErrors>true</MSBuildTreatWarningsAsErrors>
