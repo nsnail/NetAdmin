@@ -30,6 +30,7 @@ dotnet_diagnostic.RCS1181.severity = none
 dotnet_diagnostic.RCS1186.severity = none
 dotnet_diagnostic.S101.severity = none
 dotnet_diagnostic.S1121.severity = none
+dotnet_diagnostic.S1135.severity = none
 dotnet_diagnostic.S1199.severity = none
 dotnet_diagnostic.S125.severity = none
 dotnet_diagnostic.S2094.severity = none

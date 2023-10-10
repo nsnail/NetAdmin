@@ -4,9 +4,9 @@
         <Exec Condition="!Exists('$(SolutionDir)/assets/res/Ln.resx')" WorkingDirectory="$(SolutionDir)"
               Command="dotnet t4 $(SolutionDir)/gen.resx.tt -o $(SolutionDir)/assets/res/Ln.resx"
               StdOutEncoding="utf-8" />
-        <Exec Condition="!Exists('$(SolutionDir)/dist/Server/$(ProjectName)/Ln.cs')"
+        <Exec Condition="!Exists('$(SolutionDir)/dist/backend/$(ProjectName)/Ln.cs')"
               WorkingDirectory="$(SolutionDir)"
-              Command="dotnet t4 $(SolutionDir)/gen.cs.tt -o $(SolutionDir)/dist/Server/$(ProjectName)/Ln.cs"
+              Command="dotnet t4 $(SolutionDir)/gen.cs.tt -o $(SolutionDir)/dist/backend/$(ProjectName)/Ln.cs"
               StdOutEncoding="utf-8" />
     </Target>
     <ItemGroup>
@@ -17,7 +17,7 @@
             <Link>Languages/Ln.resx</Link>
             <Generator>PublicResXFileCodeGenerator</Generator>
         </EmbeddedResource>
-        <Compile Include="$(SolutionDir)/dist/Server/$(ProjectName)/Ln.Designer.cs">
+        <Compile Include="$(SolutionDir)/dist/backend/$(ProjectName)/Ln.Designer.cs">
             <Link>Languages/Ln.Designer.cs</Link>
         </Compile>
     </ItemGroup>
