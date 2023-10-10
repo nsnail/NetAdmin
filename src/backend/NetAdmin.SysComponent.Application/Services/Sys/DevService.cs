@@ -150,19 +150,6 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         var tplOuter = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "outer.js"));
         var tplInner = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "inner.js"));
 
-        IEnumerable<string> Select(QueryApiRsp item)
-        {
-            return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)
-                                                     .Replace( //
-                                                         "$actionName$"
-                                                       , Regex.Replace(x.Name, @"\.(\w)"
-                                                                     , y => y.Groups[1].Value.ToUpperInvariant()))
-                                                     .Replace("$actionPath$", x.Id)
-                                                     .Replace( //
-                                                         "$actionMethod$",       x.Method?.ToLowerInvariant())
-                                                     .Replace(_REPLACE_TO_EMPTY, string.Empty)); //
-        }
-
         foreach (var item in _apiService.ReflectionList(false)) {
             var dir = Path.Combine(_clientProjectPath, "src", "api", item.Namespace);
             if (!Directory.Exists(dir)) {
@@ -180,13 +167,26 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
 
             await File.WriteAllTextAsync(file, content);
         }
+
+        IEnumerable<string> Select(QueryApiRsp item)
+        {
+            return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)
+                                                     .Replace( //
+                                                         "$actionName$"
+                                                       , Regex.Replace(x.Name, @"\.(\w)"
+                                                                     , y => y.Groups[1].Value.ToUpperInvariant()))
+                                                     .Replace("$actionPath$", x.Id)
+                                                     .Replace( //
+                                                         "$actionMethod$",       x.Method?.ToLowerInvariant())
+                                                     .Replace(_REPLACE_TO_EMPTY, string.Empty)); //
+        }
     }
 
     private static void CreateDir(params string[] dirs)
     {
         foreach (var dir in dirs) {
             if (!Directory.Exists(dir)) {
-                _ = Directory.CreateDirectory(dir);
+                _ = Directory.CreateDirectory(dir!);
             }
         }
     }

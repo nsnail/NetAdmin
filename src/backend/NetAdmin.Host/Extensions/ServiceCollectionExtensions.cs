@@ -101,17 +101,6 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
     {
-        static (string Date, string LogName, string LogFormat) ParseMessage(LogMessage message, bool showColor)
-        {
-            var date    = message.LogDateTime.ToString(Chars.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture);
-            var logName = message.LogName.PadRight(64, ' ')[^64..];
-            var format = showColor
-                ? $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{64}}} #{{3,4}}]][/] {{4}}"
-                : $"[{{0}} {{1}} {{2,-{64}}} #{{3,4}}] {{4}}";
-
-            return (date, logName, format);
-        }
-
         return me.AddConsoleFormatter(options => {
             var logLevels = Enum.GetValues(typeof(LogLevels))
                                 .Cast<LogLevels>()
@@ -152,6 +141,17 @@ public static class ServiceCollectionExtensions
                 };
             }
         });
+
+        static (string Date, string LogName, string LogFormat) ParseMessage(LogMessage message, bool showColor)
+        {
+            var date    = message.LogDateTime.ToString(Chars.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture);
+            var logName = message.LogName.PadRight(64, ' ')[^64..];
+            var format = showColor
+                ? $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{64}}} #{{3,4}}]][/] {{4}}"
+                : $"[{{0}} {{1}} {{2,-{64}}} #{{3,4}}] {{4}}";
+
+            return (date, logName, format);
+        }
     }
 
     /// <summary>
