@@ -13,6 +13,18 @@ public class NetAdminUnexpectedException : NetAdminException
     /// <summary>
     ///     Initializes a new instance of the <see cref="NetAdminUnexpectedException" /> class.
     /// </summary>
-    public NetAdminUnexpectedException(string message = null, Exception innerException = null) //
-        : base(ErrorCodes.Unexpected, message, innerException) { }
+    public NetAdminUnexpectedException(string message) //
+        : this(ErrorCodes.Unexpected, message) { }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="NetAdminUnexpectedException" /> class.
+    /// </summary>
+    public NetAdminUnexpectedException() //
+        : this(string.Empty) { }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="NetAdminUnexpectedException" /> class.
+    /// </summary>
+    protected NetAdminUnexpectedException(ErrorCodes errorCode, string message) //
+        : base(errorCode, message) { }
 }

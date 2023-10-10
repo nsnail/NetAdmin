@@ -159,9 +159,8 @@ export default {
             }
             this.loading = false
         },
-        handleSuccess() {
-            this.$refs.save.setData({})
-            this.getTree()
+        async handleSuccess() {
+            this.$TOOL.refreshTab(this)
         },
     },
 }

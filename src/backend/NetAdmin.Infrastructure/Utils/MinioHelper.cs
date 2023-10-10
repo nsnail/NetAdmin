@@ -1,4 +1,5 @@
 using Minio;
+using Minio.DataModel.Args;
 
 namespace NetAdmin.Infrastructure.Utils;
 

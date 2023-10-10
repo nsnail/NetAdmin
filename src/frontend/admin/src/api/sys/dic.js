@@ -72,6 +72,28 @@ export default {
     },
 
     /**
+     * 获取单个字典目录
+     */
+    getCatalog: {
+        url: `${config.API_URL}/api/sys/dic/get.catalog`,
+        name: `获取单个字典目录`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 获取单个字典内容
+     */
+    getContent: {
+        url: `${config.API_URL}/api/sys/dic/get.content`,
+        name: `获取单个字典内容`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询字典目录
      */
     pagedQueryCatalog: {

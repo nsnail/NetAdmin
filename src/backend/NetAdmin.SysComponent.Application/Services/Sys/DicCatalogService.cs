@@ -50,14 +50,15 @@ public sealed class DicCatalogService : RepositoryService<Sys_DicCatalog, IDicCa
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDicCatalogReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
+    public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryDicCatalogRsp>();
     }
 
     /// <inheritdoc />
@@ -101,9 +102,13 @@ public sealed class DicCatalogService : RepositoryService<Sys_DicCatalog, IDicCa
 
     private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)
     {
-        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                  .WhereDynamic(req.Filter)
-                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                  .OrderByDescending(a => a.Id);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
+        }
+
+        return ret;
     }
 }

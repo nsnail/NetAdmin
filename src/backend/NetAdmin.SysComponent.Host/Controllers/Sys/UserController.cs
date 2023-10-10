@@ -84,7 +84,6 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     /// <summary>
     ///     获取单个用户
     /// </summary>
-    [NonAction]
     public Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
         return Cache.GetAsync(req);

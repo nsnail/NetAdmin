@@ -39,6 +39,17 @@ export default {
     },
 
     /**
+     * 获取单个配置
+     */
+    get: {
+        url: `${config.API_URL}/api/sys/config/get`,
+        name: `获取单个配置`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取最新有效配置
      */
     getLatestConfig: {

@@ -3,9 +3,7 @@ using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Menu;
-using NetAdmin.Domain.Enums;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -51,14 +49,15 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
+    public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryMenuRsp>();
     }
 
     /// <inheritdoc />
@@ -104,13 +103,12 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
                 ownedMenuIds = new[] { 0L };
             }
 
-            ret = QueryAsync(req with {
-                                          DynamicFilter = new DynamicFilterInfo {
-                                                              Field    = nameof(QueryMenuReq.Id)
-                                                            , Operator = DynamicFilterOperators.Any
-                                                            , Value    = ownedMenuIds
-                                                          }
-                                      });
+            var df = new DynamicFilterInfo {
+                                               Field    = nameof(QueryMenuReq.Id)
+                                             , Operator = DynamicFilterOperators.Any
+                                             , Value    = ownedMenuIds
+                                           };
+            ret = QueryAsync(req with { DynamicFilter = df });
         }
 
         return await ret;

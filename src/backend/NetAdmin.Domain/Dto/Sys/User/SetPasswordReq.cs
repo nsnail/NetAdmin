@@ -10,14 +10,14 @@ public sealed record SetPasswordReq : DataAbstraction
     /// <summary>
     ///     新密码
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.新密码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.新密码不能为空))]
     [Password]
     public string NewPassword { get; init; }
 
     /// <summary>
     ///     旧密码
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.旧密码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.旧密码不能为空))]
     [Password]
     public string OldPassword { get; init; }
 }

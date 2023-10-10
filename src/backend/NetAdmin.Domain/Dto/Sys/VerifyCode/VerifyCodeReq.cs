@@ -9,13 +9,13 @@ namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 public abstract record VerifyCodeReq : Sys_VerifyCode
 {
     /// <inheritdoc cref="Sys_VerifyCode.Code" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [VerifyCode]
     public override string Code { get; init; }
 
     /// <inheritdoc cref="Sys_VerifyCode.DestDevice" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.目标设备))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.目标设备不能为空))]
     public override string DestDevice { get; init; }
 }

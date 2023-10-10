@@ -60,7 +60,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     /// </summary>
     [JsonIgnore]
     [Column]
-    public Guid Password { get; set; }
+    public Guid Password { get; init; }
 
     /// <summary>
     ///     用户档案

@@ -40,6 +40,16 @@ public interface IDicModule
     Task<int> DeleteContentAsync(DelReq req);
 
     /// <summary>
+    ///     获取单个字典目录
+    /// </summary>
+    Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req);
+
+    /// <summary>
+    ///     获取单个字典内容
+    /// </summary>
+    Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req);
+
+    /// <summary>
     ///     分页查询字典目录
     /// </summary>
     Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req);

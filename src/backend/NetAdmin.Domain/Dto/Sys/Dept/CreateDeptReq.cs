@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
@@ -15,7 +14,7 @@ public record CreateDeptReq : Sys_Dept
 
     /// <inheritdoc cref="Sys_Dept.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.部门名称))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.部门名称不能为空))]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="Sys_Dept.ParentId" />

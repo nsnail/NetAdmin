@@ -62,14 +62,15 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
+    public async Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryDeptRsp>();
     }
 
     /// <inheritdoc />

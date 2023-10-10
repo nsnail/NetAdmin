@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;
@@ -10,11 +9,11 @@ public sealed record UpdateRoleReq : CreateRoleReq
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.唯一编码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.唯一编码不能为空))]
     public override long Id { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.数据版本))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.数据版本不能为空))]
     public override long Version { get; init; }
 }

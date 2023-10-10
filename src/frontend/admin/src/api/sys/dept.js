@@ -39,6 +39,17 @@ export default {
     },
 
     /**
+     * 获取单个部门
+     */
+    get: {
+        url: `${config.API_URL}/api/sys/dept/get`,
+        name: `获取单个部门`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 查询部门
      */
     query: {

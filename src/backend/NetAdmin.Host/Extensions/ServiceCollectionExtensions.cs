@@ -16,7 +16,7 @@ namespace NetAdmin.Host.Extensions;
 [SuppressSniffer]
 public static class ServiceCollectionExtensions
 {
-    private const int _CONSOLE_LINE_LEN_LIMIT = 4096;
+    private const int _CONSOLE_LINE_LEN_LIMIT = 8192;
 
     private static readonly Dictionary<Regex, string> _consoleColors //
         = new() {
@@ -117,7 +117,7 @@ public static class ServiceCollectionExtensions
                                 .Cast<LogLevels>()
                                 .ToDictionary(x => x, x => x.GetDisplay());
 
-            if (App.WebHostEnvironment.IsDevelopment()) {
+            if (!App.WebHostEnvironment.IsProduction()) {
                 static void MarkupLine(string                                           msg, LogMessage message
                                      , IReadOnlyDictionary<LogLevels, DisplayAttribute> logLevels)
                 {
@@ -262,7 +262,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddSnowflake(this IServiceCollection me)
     {
         // 雪花漂移算法
-        var idGeneratorOptions = new IdGeneratorOptions();
+        var workerId           = Environment.GetEnvironmentVariable(Chars.FLG_SNOWFLAKE_WORK_ID).Int32Try(0);
+        var idGeneratorOptions = new IdGeneratorOptions((ushort)workerId) { WorkerIdBitLength = 6 };
         YitIdHelper.SetIdGenerator(idGeneratorOptions);
         return me;
     }

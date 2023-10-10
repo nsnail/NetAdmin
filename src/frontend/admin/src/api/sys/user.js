@@ -50,6 +50,17 @@ export default {
     },
 
     /**
+     * 获取单个用户
+     */
+    get: {
+        url: `${config.API_URL}/api/sys/user/get`,
+        name: `获取单个用户`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 密码登录
      */
     loginByPwd: {

@@ -953,7 +953,7 @@ var QRCode
     ]
 
     function _isSupportCanvas() {
-        return typeof CanvasRenderingContext2D != 'undefined'
+        return typeof CanvasRenderingContext2D !== 'undefined'
     }
 
     // android 2.x doesn't support Data-URI spec
@@ -1106,7 +1106,7 @@ var QRCode
                           for (var i = arguments.length - 1; i >= 1; i--) {
                               arguments[i] = arguments[i] * factor
                           }
-                      } else if (typeof dw == 'undefined') {
+                      } else if (typeof dw === 'undefined') {
                           arguments[1] *= factor
                           arguments[2] *= factor
                           arguments[3] *= factor
@@ -1152,7 +1152,6 @@ var QRCode
                       el.onload = fOnSuccess
                       el.src =
                           'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==' // the Image contains 1px data.
-                      return
                   } else if (self._bSupportDataURI === true && self._fSuccess) {
                       self._fSuccess.call(self)
                   } else if (self._bSupportDataURI === false && self._fFail) {
@@ -1365,7 +1364,7 @@ var QRCode
             }
         }
 
-        if (typeof el == 'string') {
+        if (typeof el === 'string') {
             el = document.getElementById(el)
         }
 
@@ -1405,7 +1404,7 @@ var QRCode
      * @private
      */
     QRCode.prototype.makeImage = function () {
-        if (typeof this._oDrawing.makeImage == 'function' && (!this._android || this._android >= 3)) {
+        if (typeof this._oDrawing.makeImage === 'function' && (!this._android || this._android >= 3)) {
             this._oDrawing.makeImage()
         }
     }

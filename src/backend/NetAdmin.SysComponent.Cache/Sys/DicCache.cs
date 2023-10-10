@@ -53,6 +53,18 @@ public sealed class DicCache : DistributedCache<IDicService>, IScoped, IDicCache
     }
 
     /// <inheritdoc />
+    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
+    {
+        return Service.GetCatalogAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
+    {
+        return Service.GetContentAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
         return Service.PagedQueryCatalogAsync(req);

@@ -49,14 +49,15 @@ public sealed class DicContentService : RepositoryService<Sys_DicContent, IDicCo
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDicContentReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
+    public async Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryDicContentRsp>();
     }
 
     /// <inheritdoc />

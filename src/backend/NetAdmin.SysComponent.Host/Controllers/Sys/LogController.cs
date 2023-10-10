@@ -62,7 +62,6 @@ public sealed class LogController : ControllerBase<IRequestLogCache, IRequestLog
     /// <summary>
     ///     获取单个请求日志
     /// </summary>
-    [NonAction]
     public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
         return Cache.GetAsync(req);

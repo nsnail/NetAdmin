@@ -4,6 +4,7 @@ import sysConfig from '@/config'
 import tool from '@/utils/tool'
 import router from '@/router'
 import { h } from 'vue'
+import jsonBigInt from 'json-bigint'
 
 axios.defaults.baseURL = ''
 
@@ -56,6 +57,17 @@ axios.interceptors.request.use(
 
 //FIX 多个API同时401时疯狂弹窗BUG
 let MessageBox_401_show = false
+
+// 进行大数字处理
+axios.defaults.transformResponse = [
+    (data) => {
+        try {
+            return jsonBigInt.parse(data)
+        } catch {
+            return data
+        }
+    },
+]
 
 // HTTP response 拦截器
 axios.interceptors.response.use(

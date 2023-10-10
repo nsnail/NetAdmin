@@ -59,7 +59,6 @@ public sealed class ConfigController : ControllerBase<IConfigCache, IConfigServi
     /// <summary>
     ///     获取单个配置
     /// </summary>
-    [NonAction]
     public Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
         return Cache.GetAsync(req);

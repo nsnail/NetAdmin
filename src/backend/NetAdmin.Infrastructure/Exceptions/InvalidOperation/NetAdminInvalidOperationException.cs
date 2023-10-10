@@ -13,6 +13,12 @@ public class NetAdminInvalidOperationException : NetAdminException
     /// <summary>
     ///     Initializes a new instance of the <see cref="NetAdminInvalidOperationException" /> class.
     /// </summary>
-    public NetAdminInvalidOperationException(string message = null, Exception innerException = null) //
-        : base(ErrorCodes.InvalidOperation, message, innerException) { }
+    public NetAdminInvalidOperationException(string message, Exception innerException = null) //
+        : this(ErrorCodes.InvalidOperation, message, innerException) { }
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="NetAdminInvalidOperationException" /> class.
+    /// </summary>
+    protected NetAdminInvalidOperationException(ErrorCodes errorCode, string message, Exception innerException) //
+        : base(errorCode, message, innerException) { }
 }

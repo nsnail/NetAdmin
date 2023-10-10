@@ -6,6 +6,17 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
+     * 获取单个请求日志
+     */
+    get: {
+        url: `${config.API_URL}/api/sys/log/get`,
+        name: `获取单个请求日志`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询请求日志
      */
     pagedQuery: {

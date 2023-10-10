@@ -1,12 +1,12 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-import { ElNotification } from "element-plus";
-import config from "@/config";
-import NProgress from "nprogress";
-import "nprogress/nprogress.css";
-import tool from "@/utils/tool";
-import systemRouter from "./systemRouter";
-import userRoutes from "@/config/route";
-import { afterEach, beforeEach } from "./scrollBehavior";
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { ElNotification } from 'element-plus'
+import config from '@/config'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+import tool from '@/utils/tool'
+import systemRouter from './systemRouter'
+import userRoutes from '@/config/route'
+import { afterEach, beforeEach } from './scrollBehavior'
 
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../views/**/*.vue')
@@ -117,7 +117,7 @@ function filterAsyncRouter(routerMap) {
     routerMap.forEach((item) => {
         item.meta = item.meta ? item.meta : {}
         //处理外部链接特殊路由
-        if (item.meta.type === 'iframe') {
+        if (item.meta.type === 'iframe' && !item.meta.url) {
             item.meta.url = item.path
             item.path = `/i/${item.name}`
         }

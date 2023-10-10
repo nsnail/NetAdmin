@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
-
 namespace NetAdmin.Domain.Dto.Sys.Dev;
 
 /// <summary>
@@ -10,12 +8,12 @@ public sealed record GenerateIconCodeReq : DataAbstraction
     /// <summary>
     ///     图标名称
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.图标名称))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.图标名称不能为空))]
     public string IconName { get; init; }
 
     /// <summary>
     ///     图标代码
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.图标代码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.图标代码不能为空))]
     public string SvgCode { get; init; }
 }
