@@ -62,54 +62,60 @@ public static class IMvcBuilderExtensions
     /// </remarks>
     public static IMvcBuilder AddJsonSerializer(this IMvcBuilder me, bool enumToString = false)
     {
-        return me.AddJsonOptions(options => {
-            ////////////////////////////// json -> object
+        return me.AddJsonOptions(options => SetJsonOptions(enumToString, options));
+    }
 
-            // 允许带注释
-            options.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+    /// <summary>
+    ///     设置Json选项
+    /// </summary>
+    public static void SetJsonOptions(bool enumToString, JsonOptions options)
+    {
+        ////////////////////////////// json -> object
 
-            // 允许尾随逗号
-            options.JsonSerializerOptions.AllowTrailingCommas = true;
+        // 允许带注释
+        options.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
 
-            // 允许数字带双引号
-            options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+        // 允许尾随逗号
+        options.JsonSerializerOptions.AllowTrailingCommas = true;
 
-            // 大小写不敏感
-            options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        // 允许数字带双引号
+        options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
 
-            // 允许读取引号包围的数字
-            options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+        // 大小写不敏感
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
 
-            ///////////////////////////// object -> json
+        // 允许读取引号包围的数字
+        options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
 
-            // 转小驼峰
-            options.JsonSerializerOptions.DictionaryKeyPolicy  = JsonNamingPolicy.CamelCase;
-            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        ///////////////////////////// object -> json
 
-            // 不严格转义
-            options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+        // 转小驼峰
+        options.JsonSerializerOptions.DictionaryKeyPolicy  = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
-            // 写入时，忽略null、default
-            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        // 不严格转义
+        options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
 
-            ////////////////////////////// object <-> json
+        // 写入时，忽略null、default
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 
-            // "" 转 null 双向
-            options.JsonSerializerOptions.Converters.Add(new ToNullIfEmptyStringConverter());
+        ////////////////////////////// object <-> json
 
-            // [] 转 null 双向
-            options.JsonSerializerOptions.TypeInfoResolver = new CollectionJsonTypeInfoResolver();
+        // "" 转 null 双向
+        options.JsonSerializerOptions.Converters.Add(new ToNullIfEmptyStringConverter());
 
-            // 日期格式 2023-01-18 20:02:12
-            _ = options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Chars.TPL_DATE_YYYY_MM_DD_HH_MM_SS);
+        // [] 转 null 双向
+        options.JsonSerializerOptions.TypeInfoResolver = new CollectionJsonTypeInfoResolver();
 
-            // object->json 枚举显名 而非数字 ，json->object 可以枚举名 也可以数值
-            if (enumToString) {
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-            }
+        // 日期格式 2023-01-18 20:02:12
+        _ = options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Chars.TPL_DATE_YYYY_MM_DD_HH_MM_SS);
 
-            // 快捷访问方式
-            Global.JsonSerializerOptions = options.JsonSerializerOptions;
-        });
+        // object->json 枚举显名 而非数字 ，json->object 可以枚举名 也可以数值
+        if (enumToString) {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+        }
+
+        // 快捷访问方式
+        Global.JsonSerializerOptions = options.JsonSerializerOptions;
     }
 }

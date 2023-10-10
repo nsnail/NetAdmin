@@ -1,6 +1,13 @@
 <template>
-    <el-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
-        <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-position="right" label-width="100px">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
+        <el-form
+            ref="dialogForm"
+            v-loading="loading"
+            :disabled="mode === 'view'"
+            :model="form"
+            :rules="rules"
+            label-position="right"
+            label-width="100px">
             <el-tabs tab-position="top">
                 <el-tab-pane label="基本信息">
                     <el-form-item prop="avatar">
@@ -36,6 +43,7 @@
 
                     <el-form-item label="所属角色" prop="roleIds">
                         <sc-select
+                            v-if="!this.loading"
                             v-model="form.roleIds"
                             :apiObj="$API.sys_role.query"
                             :config="{ props: { label: 'name', value: 'id' } }"
@@ -205,8 +213,14 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" label="Json">
-                    <json-viewer :expand-depth="5" :expanded="true" :value="form" boxed copyable sort></json-viewer>
+                <el-tab-pane v-if="mode === 'view'" label="原始数据">
+                    <json-viewer
+                        :expand-depth="5"
+                        :expanded="true"
+                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :value="form"
+                        copyable
+                        sort></json-viewer>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -214,16 +228,12 @@
             <el-button @click="visible = false">取 消</el-button>
             <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
         </template>
-    </el-dialog>
+    </sc-dialog>
 </template>
 
 <script>
-import JsonViewer from 'vue-json-viewer'
-
 export default {
-    components: {
-        JsonViewer,
-    },
+    components: {},
     emits: ['success', 'closed'],
     data() {
         return {
@@ -286,21 +296,24 @@ export default {
     mounted() {},
     methods: {
         //显示
-        open(mode = 'add', data) {
+        async open(mode = 'add', data) {
+            this.visible = true
+            this.loading = true
             this.mode = mode
             if (mode === 'add') {
                 this.rules.passwordText[0].required = true
             }
             if (data) {
-                Object.assign(this.form, data, {
+                Object.assign(this.form, (await this.$API.sys_user.get.post({ id: data.id })).data, {
                     roleIds: data.roles.map((x) => x.id),
                     deptId: data.dept.id,
                 })
-                this.getProfile()
+                await this.getProfile()
             }
-            this.visible = true
+            this.loading = false
             return this
         },
+
         async getProfile() {
             const res = await this.$API.sys_user.queryProfile.post({
                 dynamicFilter: {

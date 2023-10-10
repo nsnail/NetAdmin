@@ -39,6 +39,17 @@ export default {
     },
 
     /**
+     * 获取单个菜单
+     */
+    get: {
+        url: `${config.API_URL}/api/sys/menu/get`,
+        name: `获取单个菜单`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 查询菜单
      */
     query: {

@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
@@ -11,7 +10,7 @@ public sealed record SetMobileReq : DataAbstraction
     /// <summary>
     ///     新手机短信验证请求
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求不能为空))]
     public VerifySmsCodeReq NewVerifySmsCodeReq { get; init; }
 
     /// <summary>

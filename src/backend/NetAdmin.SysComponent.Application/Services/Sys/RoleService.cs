@@ -54,14 +54,15 @@ public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRo
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
+    public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryRoleRsp>();
     }
 
     /// <inheritdoc />

@@ -15,7 +15,7 @@ public sealed record CheckUserNameAvailableReq : Sys_User
 
     /// <inheritdoc cref="Sys_User.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名不能为空))]
     [UserName]
     public override string UserName { get; init; }
 }

@@ -5,8 +5,8 @@
  * @LastEditTime: 2023-03-19 11:17:54
  */
 
-import CryptoJS from "crypto-js";
-import sysConfig from "@/config";
+import CryptoJS from 'crypto-js'
+import sysConfig from '@/config'
 
 const tool = {}
 
@@ -154,6 +154,21 @@ tool.objCopy = function (obj) {
     return JSON.parse(JSON.stringify(obj))
 }
 
+/* 获取嵌套属性 */
+tool.getNestedProperty = function (obj, path) {
+    const keys = path.split('.') // 将属性路径分割为键的数组
+    let current = obj
+
+    for (let key of keys) {
+        if (current && key in current) {
+            current = current[key]
+        } else {
+            return undefined // 如果任何一个键不存在，返回 undefined
+        }
+    }
+
+    return current
+}
 /* 日期格式化 */
 tool.dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     date = new Date(date)
@@ -175,6 +190,15 @@ tool.dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
         }
     }
     return fmt
+}
+
+// json字符串转对象
+tool.tryJson2Obj = (json) => {
+    try {
+        return JSON.parse(json)
+    } catch {
+        return json
+    }
 }
 
 /* 千分符 */
@@ -230,6 +254,17 @@ tool.refreshTab = function (_this) {
 
 /* 常用加解密 */
 tool.crypto = {
+    hashCode(str) {
+        let hash = 0
+        if (str.length === 0) return hash
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i)
+            hash = (hash << 5) - hash + char
+            hash = hash & hash // Convert to 32bit integer
+        }
+        return hash
+    },
+
     stringToInt32(inputString) {
         let int32Value = 0
         for (let i = 0; i < 4; i++) {

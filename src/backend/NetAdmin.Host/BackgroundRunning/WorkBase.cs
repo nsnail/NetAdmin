@@ -15,9 +15,9 @@ public abstract class WorkBase<TLogger>
     protected WorkBase()
     {
         ServiceProvider = App.GetService<IServiceScopeFactory>().CreateScope().ServiceProvider;
-        _redLocker      = ServiceProvider.GetService<RedLocker>();
         UowManager      = ServiceProvider.GetService<UnitOfWorkManager>();
         Logger          = ServiceProvider.GetService<ILogger<TLogger>>();
+        _redLocker      = ServiceProvider.GetService<RedLocker>();
     }
 
     /// <summary>

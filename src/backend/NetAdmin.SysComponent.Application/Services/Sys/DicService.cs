@@ -58,6 +58,18 @@ public sealed class DicService : ServiceBase<IDicService>, IDicService
     }
 
     /// <inheritdoc />
+    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
+    {
+        return _catalogService.GetAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
+    {
+        return _contentService.GetAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
         return _catalogService.PagedQueryAsync(req);

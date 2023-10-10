@@ -75,6 +75,32 @@
                     </div>
                 </el-card>
             </el-col>
+            <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
+                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                    <div class="code-item">
+                        <div :style="{ background: 'gray' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
+                                <component :is="`el-icon-picture`" />
+                            </el-icon>
+                        </div>
+                        <div class="title">
+                            <h2>生成表格代码</h2>
+                            <p>
+                                <el-input v-model="form.summaryInfo" placeholder="注释信息" type="textarea"></el-input>
+                            </p>
+                            <p>
+                                <el-input v-model="form.tableCode" placeholder="表格代码" type="textarea"></el-input>
+                            </p>
+                            <p>
+                                <el-input v-model="form.formCode" placeholder="表单代码" type="textarea"></el-input>
+                            </p>
+                            <p>
+                                <el-button @click="generateTableCode()">生成</el-button>
+                            </p>
+                        </div>
+                    </div>
+                </el-card>
+            </el-col>
         </el-row>
     </el-main>
 </template>
@@ -102,6 +128,19 @@ export default {
                 await this.$API.sys_dev.generateIconCode.post(this.form)
                 this.$message.success('生成完毕')
             } catch {}
+        },
+        async generateTableCode() {
+            for (const line of this.form.summaryInfo.split('\n')) {
+                if (!line) continue
+                let lineSplit = line.split(',')
+                this.form.tableCode += `<el-table-column prop="${lineSplit[0].slice(0, 1).toLowerCase()}${lineSplit[0].slice(1)}" label="${
+                    lineSplit[1]
+                }" />`
+
+                this.form.formCode += `<el-form-item  prop="${lineSplit[0].slice(0, 1).toLowerCase()}${lineSplit[0].slice(1)}" label="${
+                    lineSplit[1]
+                }"><el-input v-model="form.${lineSplit[0].slice(0, 1).toLowerCase()}${lineSplit[0].slice(1)}" clearable /></el-form-item>`
+            }
         },
         async generateJsCode() {
             try {

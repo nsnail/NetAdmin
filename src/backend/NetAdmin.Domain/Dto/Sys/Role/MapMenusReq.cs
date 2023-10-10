@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
-
 namespace NetAdmin.Domain.Dto.Sys.Role;
 
 /// <summary>
@@ -10,12 +8,12 @@ public sealed record MapMenusReq : DataAbstraction
     /// <summary>
     ///     菜单编号
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.菜单编号))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.菜单编号不能为空))]
     public IReadOnlyCollection<long> MenuIds { get; init; }
 
     /// <summary>
     ///     角色编号
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号不能为空))]
     public long RoleId { get; init; }
 }

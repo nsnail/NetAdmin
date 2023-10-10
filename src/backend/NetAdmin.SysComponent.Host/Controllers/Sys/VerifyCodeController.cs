@@ -29,49 +29,49 @@ public sealed class VerifyCodeController : ControllerBase<IVerifyCodeCache, IVer
     [NonAction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
-        throw new NotImplementedException();
+        return Cache.CreateAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        throw new NotImplementedException();
+        return Cache.DeleteAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.ExistAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
-        throw new NotImplementedException();
+        return Cache.GetAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public sealed class VerifyCodeController : ControllerBase<IVerifyCodeCache, IVer
     [NonAction]
     public Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
     {
-        throw new NotImplementedException();
+        return Cache.UpdateAsync(req);
     }
 
     /// <summary>

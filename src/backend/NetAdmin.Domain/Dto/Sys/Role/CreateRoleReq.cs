@@ -44,7 +44,7 @@ public record CreateRoleReq : Sys_Role
 
     /// <inheritdoc cref="Sys_Role.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色名称))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色名称不能为空))]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />

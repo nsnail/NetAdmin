@@ -108,6 +108,10 @@ export default {
     left: 0px !important;
 }
 
+.sc-dialog:deep(.el-dialog) .el-dialog__body {
+    padding-top: 10px;
+}
+
 .sc-dialog:deep(.el-dialog).is-fullscreen .el-dialog__body {
     flex: 1;
     overflow: auto;

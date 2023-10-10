@@ -2,10 +2,7 @@
     <Import Project="$(SolutionDir)/code.quality.props"/>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Host/NetAdmin.Host.csproj"/>
-        <ProjectReference Include="../NetAdmin.BizServer.Application/NetAdmin.BizServer.Application.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="MsieJavaScriptEngine" Version="3.2.2"/>
+        <ProjectReference Include="../NetAdmin.BizServer.Cache/NetAdmin.BizServer.Cache.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <None Update="*.json">

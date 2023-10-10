@@ -91,9 +91,13 @@ public sealed class ExampleService : RepositoryService<Tpl_Example, IExampleServ
 
     private ISelect<Tpl_Example> QueryInternal(QueryReq<QueryExampleReq> req)
     {
-        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                  .WhereDynamic(req.Filter)
-                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                  .OrderByDescending(a => a.Id);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
+        }
+
+        return ret;
     }
 }

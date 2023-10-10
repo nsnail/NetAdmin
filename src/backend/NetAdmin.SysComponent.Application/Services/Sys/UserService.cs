@@ -114,9 +114,10 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
     /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryUserRsp> GetAsync(QueryUserReq req)
+    public async Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
-        throw new NotImplementedException();
+        var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req })).ToOneAsync();
+        return ret.Adapt<QueryUserRsp>();
     }
 
     /// <inheritdoc />
@@ -417,10 +418,14 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
     private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req)
     {
-        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                  .WhereDynamic(req.Filter)
-                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                  .OrderByDescending(a => a.Id);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
+        }
+
+        return ret;
     }
 
     private async Task<ISelect<Sys_User>> QueryInternalAsync(QueryReq<QueryUserReq> req)

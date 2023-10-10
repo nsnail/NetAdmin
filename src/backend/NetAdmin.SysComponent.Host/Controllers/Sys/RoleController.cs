@@ -59,7 +59,6 @@ public sealed class RoleController : ControllerBase<IRoleCache, IRoleService>, I
     /// <summary>
     ///     获取单个角色
     /// </summary>
-    [NonAction]
     public Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
         return Cache.GetAsync(req);

@@ -3,12 +3,10 @@ using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
-using NetAdmin.Domain.Enums;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using DataType = FreeSql.DataType;
-using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -170,9 +168,13 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
 
     private ISelect<Sys_VerifyCode> QueryInternal(QueryReq<QueryVerifyCodeReq> req)
     {
-        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                  .WhereDynamic(req.Filter)
-                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                  .OrderByDescending(a => a.Id);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
+        }
+
+        return ret;
     }
 }

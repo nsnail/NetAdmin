@@ -12,6 +12,17 @@ public static class Global
         = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly()!.Location).ProductVersion;
 
     /// <summary>
+    ///     调试模式
+    /// </summary>
+    public static bool DebugMode =>
+        #if DEBUG
+        true
+    #else
+        false
+    #endif
+    ;
+
+    /// <summary>
     ///     系统内部密钥
     /// </summary>
     public static string SecretKey => "{6C4922D3-499A-46db-BFC4-0B51A9C4395F}";

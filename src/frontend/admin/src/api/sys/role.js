@@ -39,6 +39,17 @@ export default {
     },
 
     /**
+     * 获取单个角色
+     */
+    get: {
+        url: `${config.API_URL}/api/sys/role/get`,
+        name: `获取单个角色`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询角色
      */
     pagedQuery: {

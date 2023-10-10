@@ -59,7 +59,6 @@ public sealed class MenuController : ControllerBase<IMenuCache, IMenuService>, I
     /// <summary>
     ///     获取单个菜单
     /// </summary>
-    [NonAction]
     public Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
         return Cache.GetAsync(req);

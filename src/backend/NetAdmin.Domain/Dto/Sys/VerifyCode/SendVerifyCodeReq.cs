@@ -11,12 +11,12 @@ namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
 {
     /// <inheritdoc cref="Sys_VerifyCode.DestDevice" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.目标设备))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.目标设备不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string DestDevice { get; init; }
 
     /// <inheritdoc cref="Sys_VerifyCode.DeviceType" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.设备类型))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.设备类型不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(VerifyCodeDeviceTypes))]
     public override VerifyCodeDeviceTypes DeviceType { get; init; }
@@ -25,7 +25,7 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
     public override VerifyCodeStatues Status => VerifyCodeStatues.Waiting;
 
     /// <inheritdoc cref="Sys_VerifyCode.Type" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码类型))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码类型不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(VerifyCodeTypes))]
     public override VerifyCodeTypes Type { get; init; }
@@ -33,7 +33,7 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
     /// <summary>
     ///     人机校验请求
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.人机校验请求))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.人机校验请求不能为空))]
     public VerifyCaptchaReq VerifyCaptchaReq { get; init; }
 
     /// <inheritdoc />

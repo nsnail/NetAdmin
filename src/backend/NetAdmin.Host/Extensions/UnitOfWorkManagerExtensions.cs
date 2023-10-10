@@ -23,7 +23,7 @@ public static class UnitOfWorkManagerExtensions
         }
         catch {
             unitOfWork.Rollback();
-            logger?.Error($"{Ln.事务已回滚}: {hashCode}");
+            logger?.Warn($"{Ln.事务已回滚}: {hashCode}");
             throw;
         }
     }

@@ -45,14 +45,15 @@ public sealed class RequestLogService : RepositoryService<Sys_RequestLog, IReque
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
+    public async Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryRequestLogRsp>();
     }
 
     /// <inheritdoc />

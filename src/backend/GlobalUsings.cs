@@ -67,3 +67,7 @@ global using NetAdmin.Infrastructure.Languages;
 global using NetAdmin.Infrastructure.Utils;
 global using NSExt.Attributes;
 global using NSExt.Extensions;
+#if !INFRAS
+global using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
+global using DynamicFilterOperators = NetAdmin.Domain.Enums.DynamicFilterOperators;
+#endif

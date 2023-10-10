@@ -21,6 +21,7 @@ public static class Chars
     public const string FLG_DB_FIELD_TYPE_NVARCHAR     = "nvarchar";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_255 = "nvarchar(255)";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_MAX = "nvarchar(max)";
+    public const string FLG_DB_FIELD_TYPE_SMALL_INT    = "smallint";
     public const string FLG_DB_FIELD_TYPE_VARCHAR      = "varchar";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_1022 = "varchar(1022)";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_127  = "varchar(127)";
@@ -51,6 +52,7 @@ public static class Chars
     public const string FLG_HTTP_METHOD_TRACE          = "TRACE";
     public const string FLG_RANDOM_UNAME_PWD           = "VcXlp7WY";
     public const string FLG_REDIS_INSTANCE_DATA_CACHE  = "DataCache";
+    public const string FLG_SNOWFLAKE_WORK_ID          = "SNOWFLAKE_WORK_ID";
     public const string FLG_SYSTEM_PREFIX              = "sc_";
     public const string FLG_TABLE_NAME_PREFIX          = "";
 
@@ -75,13 +77,14 @@ public static class Chars
 
     public const string RGX_INVITE_CODE = """^\d{8}$""";
 
-    public const string RGX_MOBILE       = """^1(3\d|4[5-9]|5[0-35-9]|6[6]|7[2-8]|8\d|9[0-35-9])\d{8}$""";
-    public const string RGX_PASSWORD     = """^(?![0-9]+$)(?![a-zA-Z]+$).{8,16}$""";
-    public const string RGX_PAY_PASSWORD = """^\d{6}$""";
-    public const string RGX_TELEPHONE    = """^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$""";
-    public const string RGX_URL          = """^(https?|ftp):\/\/[^\s/$.?#].[^\s]*\.[^\s]{2,}$""";
-    public const string RGX_USERNAME     = """^[a-zA-Z0-9_]{4,16}$""";
-    public const string RGX_VERIFY_CODE  = """^\d{4}$""";
+    public const string RGX_MOBILE              = """^1(3\d|4[5-9]|5[0-35-9]|6[6]|7[2-8]|8\d|9[0-35-9])\d{8}$""";
+    public const string RGX_PASSWORD            = """^(?![0-9]+$)(?![a-zA-Z]+$).{8,16}$""";
+    public const string RGX_PAY_PASSWORD        = """^\d{6}$""";
+    public const string RGX_TELEPHONE           = """^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$""";
+    public const string RGX_UP_AND_LOWER_NUMBER = """^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$""";
+    public const string RGX_URL                 = """^(https?|ftp):\/\/[^\s/$.?#].[^\s]*\.[^\s]{2,}$""";
+    public const string RGX_USERNAME            = """^[a-zA-Z0-9_]{4,16}$""";
+    public const string RGX_VERIFY_CODE         = """^\d{4}$""";
 
     public const string TPL_DATE_HH_MM_SS_FFFFFF       = "HH:mm:ss.ffffff";
     public const string TPL_DATE_YYYY_MM_DD            = "yyyy-MM-dd";

@@ -59,7 +59,6 @@ public sealed class DeptController : ControllerBase<IDeptCache, IDeptService>, I
     /// <summary>
     ///     获取单个部门
     /// </summary>
-    [NonAction]
     public Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
         return Cache.GetAsync(req);

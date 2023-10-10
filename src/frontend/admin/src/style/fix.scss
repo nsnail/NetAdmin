@@ -21,6 +21,7 @@
     --el-color-primary-dark-8: #0c1f32;
     --el-color-primary-dark-9: #060f19;
     --el-font-size-base: 13px;
+    --el-disabled-bg-color: --el-bg-color;
 }
 
 .right-panel-search .el-input {
@@ -290,4 +291,24 @@ body .tox-tinymce-aux {
 
 .el-descriptions__body .el-descriptions__table {
     word-break: break-word;
+}
+
+
+.el-dialog.is-fullscreen {
+    display: flex;
+    flex-direction: column;
+    top: 0px !important;
+    left: 0px !important;
+
+    .el-dialog__body {
+        flex: 1
+    }
+}
+
+.jv-dark {
+    background: unset !important;
+}
+
+.input-width-full .el-input {
+    --el-input-width: 100%;
 }

@@ -44,7 +44,7 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
@@ -99,12 +99,16 @@ public sealed class ConfigService : RepositoryService<Sys_Config, IConfigService
 
     private ISelect<Sys_Config> QueryInternal(QueryReq<QueryConfigReq> req)
     {
-        return Rpo.Select.Include(a => a.UserRegisterDept)
-                  .Include(a => a.UserRegisterRole)
-                  .WhereDynamicFilter(req.DynamicFilter)
-                  .WhereIf( //
-                      req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value)
-                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                  .OrderByDescending(a => a.Id);
+        var ret = Rpo.Select.Include(a => a.UserRegisterDept)
+                     .Include(a => a.UserRegisterRole)
+                     .WhereDynamicFilter(req.DynamicFilter)
+                     .WhereIf( //
+                         req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value)
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
+        }
+
+        return ret;
     }
 }

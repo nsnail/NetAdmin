@@ -1,4 +1,4 @@
-$branch = $(git branch --show-current)
+$branch = $( git branch --show-current )
 git checkout main
 git pull
 git branch -D $branch

@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
-
 namespace NetAdmin.Domain.Dto.Dependency;
 
 /// <summary>
@@ -11,7 +9,7 @@ public sealed record BulkReq<T> : DataAbstraction
     /// <summary>
     ///     请求对象
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.请求对象))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.请求对象不能为空))]
     [MinLength(1)]
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
     public IEnumerable<T> Items { get; init; }

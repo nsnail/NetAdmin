@@ -47,7 +47,7 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
@@ -108,7 +108,8 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
                                                                              = x.d.Key == null
                                                                                  ? null
                                                                                  : x.d.Adapt<QueryDicContentRsp>()
-                                                                           , EmergencyContactArea = x.e.Key == null
+                                                                           , EmergencyContactArea
+                                                                             = x.e.Key == null
                                                                                  ? null
                                                                                  : x.e.Adapt<QueryDicContentRsp>()
                                                                          });

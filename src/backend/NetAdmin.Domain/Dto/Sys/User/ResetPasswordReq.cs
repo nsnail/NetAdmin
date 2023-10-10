@@ -11,13 +11,13 @@ public sealed record ResetPasswordReq : DataAbstraction
     /// <summary>
     ///     密码
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
     [Password]
     public string PasswordText { get; init; }
 
     /// <summary>
     ///     短信验证请求
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求不能为空))]
     public VerifySmsCodeReq VerifySmsCodeReq { get; init; }
 }

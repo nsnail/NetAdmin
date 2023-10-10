@@ -1,5 +1,4 @@
 using Furion.Schedule;
-using NetAdmin.Host.BackgroundRunning;
 
 namespace NetAdmin.ScheduledService.Jobs;
 

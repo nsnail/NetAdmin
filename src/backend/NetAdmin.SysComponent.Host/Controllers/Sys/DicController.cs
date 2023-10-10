@@ -76,6 +76,22 @@ public sealed class DicController : ControllerBase<IDicCache, IDicService>, IDic
     }
 
     /// <summary>
+    ///     获取单个字典目录
+    /// </summary>
+    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
+    {
+        return Cache.GetCatalogAsync(req);
+    }
+
+    /// <summary>
+    ///     获取单个字典内容
+    /// </summary>
+    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
+    {
+        return Cache.GetContentAsync(req);
+    }
+
+    /// <summary>
     ///     分页查询字典目录
     /// </summary>
     public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)

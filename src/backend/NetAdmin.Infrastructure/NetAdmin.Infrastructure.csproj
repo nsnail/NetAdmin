@@ -1,21 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <DefineConstants>INFRAS</DefineConstants>
+    </PropertyGroup>
     <Import Project="$(SolutionDir)/code.quality.props"/>
     <Import Project="$(SolutionDir)/copy.pkg.xml.comment.files.targets"/>
     <Import Project="$(SolutionDir)/prebuild.targets"/>
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.700-preview20230726-ns1"/>
-        <PackageReference Include="FreeSql.NS" Version="3.2.700-preview20230726-ns1"/>
+        <PackageReference Include="FreeSql.NS" Version="3.2.700-preview20230726-ns1">
+            <CopyToOutputDirectory>lib/netstandard2.1/*.xml</CopyToOutputDirectory>
+        </PackageReference>
         <PackageReference Include="FreeSql.Provider.SqlServer.NS" Version="3.2.700-preview20230726-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.700-preview20230726-ns1"/>
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.43"/>
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.43"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.45"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.8.8.41-ns1"/>
         <PackageReference Include="Furion.Pure.NS" Version="4.8.8.41-ns1"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-rc.1.23421.29"/>
-        <PackageReference Include="Minio" Version="5.0.0"/>
-        <PackageReference Include="NSExt" Version="1.0.15-alpha.0.5"/>
+        <PackageReference Include="NSExt" Version="1.1.0"/>
+        <PackageReference Include="Polly" Version="8.0.0"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>
         <PackageReference Include="SixLabors.ImageSharp" Version="2.1.5"/>
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0"/>
+        <PackageReference Include="Minio" Version="6.0.0"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
     </ItemGroup>
     <ItemGroup>
