@@ -66,13 +66,6 @@ public sealed class XmlCommentReader : ISingleton
 
     private XmlNode GetNodeByMethod(MethodInfo method)
     {
-        static string Replace(ParameterInfo parameterInfo)
-        {
-            return Regex.Replace(parameterInfo.ParameterType.ToString(), @"`\d+", string.Empty)
-                        .Replace("[", "{")
-                        .Replace("]", "}");
-        }
-
         var nodeName   = $"M:{method.DeclaringType}.{method.Name}";
         var parameters = method.GetParameters();
         if (parameters.Length != 0) {
@@ -83,6 +76,13 @@ public sealed class XmlCommentReader : ISingleton
                .Select(xmlDoc => xmlDoc.SelectSingleNode(
                            string.Format(NumberFormatInfo.InvariantInfo, _XPATH, nodeName)))
                .FirstOrDefault(ret => ret != null);
+
+        static string Replace(ParameterInfo parameterInfo)
+        {
+            return Regex.Replace(parameterInfo.ParameterType.ToString(), @"`\d+", string.Empty)
+                        .Replace("[", "{")
+                        .Replace("]", "}");
+        }
     }
 
     private XmlNode GetNodeByType(Type type)

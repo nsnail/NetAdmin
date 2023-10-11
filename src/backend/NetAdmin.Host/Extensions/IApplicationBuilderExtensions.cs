@@ -32,7 +32,7 @@ public static class IApplicationBuilderExtensions
         _ = me.UseKnife4UI(options => {
             options.RoutePrefix = string.Empty; // 配置 Knife4UI 路由地址
             foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups()) {
-                options.SwaggerEndpoint($"/{groupInfo.RouteTemplate}", groupInfo.Title);
+                options.SwaggerEndpoint(groupInfo.RouteTemplate, groupInfo.Title);
             }
         });
 

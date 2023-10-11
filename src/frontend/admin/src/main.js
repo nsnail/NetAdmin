@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
 import global from './global'
@@ -10,7 +11,7 @@ import App from './App.vue'
 import preload from '@/utils/preload'
 
 const app = createApp(App)
-app.use(ElementPlus)
+app.use(ElementPlus, { locale: zhCn })
 app.use(store)
 app.use(i18n)
 app.use(global)

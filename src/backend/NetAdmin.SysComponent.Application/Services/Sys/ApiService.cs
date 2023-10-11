@@ -72,6 +72,18 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
     {
         var regex = new Regex(@"\.(\w+)$", RegexOptions.Compiled);
 
+        var actionDescriptors //
+            = _actionDescriptorCollectionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>();
+
+        if (excludeAnonymous) {
+            actionDescriptors = actionDescriptors.Where(x => x.EndpointMetadata.All(y => y is AllowAnonymousAttribute));
+        }
+
+        var actionGroup //
+            = actionDescriptors.GroupBy(x => x.ControllerTypeInfo);
+
+        return actionGroup.Select(SelectQueryApiRsp);
+
         QueryApiRsp SelectQueryApiRsp(IGrouping<TypeInfo, ControllerActionDescriptor> group)
         {
             var first = group.First()!;
@@ -84,18 +96,6 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
                                      , Namespace = regex.Match(group.Key.Namespace!).Groups[1].Value.ToLowerInvariant()
                                    };
         }
-
-        var actionDescriptors //
-            = _actionDescriptorCollectionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>();
-
-        if (excludeAnonymous) {
-            actionDescriptors = actionDescriptors.Where(x => x.EndpointMetadata.All(y => y is AllowAnonymousAttribute));
-        }
-
-        var actionGroup //
-            = actionDescriptors.GroupBy(x => x.ControllerTypeInfo);
-
-        return actionGroup.Select(SelectQueryApiRsp);
     }
 
     /// <inheritdoc />

@@ -40,7 +40,7 @@ public abstract class WorkBase<TLogger>
     /// </summary>
     protected Task<IRedLock> GetLockerAsync(string lockId)
     {
-        return _redLocker.RedlockFactory.CreateLockAsync(lockId, TimeSpan.FromSeconds(Numbers.RED_LOCK_EXPIRY_TIME_SECS)
+        return _redLocker.RedLockFactory.CreateLockAsync(lockId, TimeSpan.FromSeconds(Numbers.RED_LOCK_EXPIRY_TIME_SECS)
                                                        , TimeSpan.FromSeconds(Numbers.RED_LOCK_WAIT_TIME_SECS)
                                                        , TimeSpan.FromSeconds(Numbers.RED_LOCK_RETRY_TIME_SECS));
     }
