@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		image.optimize.csx = image.optimize.csx
 		install.as.tpl.ps1 = install.as.tpl.ps1
 		LICENSE = LICENSE
+		minver.targets = minver.targets
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
 		nuget.config = nuget.config
 		package.json = package.json

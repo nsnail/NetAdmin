@@ -1,5 +1,6 @@
 <!-- 注意此文件名大小写不可变更 -->
 <Project>
+    <Import Project="$(SolutionDir)/minver.targets"/>
     <PropertyGroup>
         <!--        $(XXX) 定义有顺序 排序请注意-->
         <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
