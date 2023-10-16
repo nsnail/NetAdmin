@@ -8,14 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IRoleService" />
-public sealed class RoleService : RepositoryService<Sys_Role, IRoleService>, IRoleService
+public sealed class RoleService(Repository<Sys_Role> rpo) : RepositoryService<Sys_Role, IRoleService>(rpo), IRoleService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="RoleService" /> class.
-    /// </summary>
-    public RoleService(Repository<Sys_Role> rpo) //
-        : base(rpo) { }
-
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

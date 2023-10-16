@@ -8,14 +8,9 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IDicCache" />
-public sealed class DicCache : DistributedCache<IDicService>, IScoped, IDicCache
+public sealed class DicCache
+    (IDistributedCache cache, IDicService service) : DistributedCache<IDicService>(cache, service), IScoped, IDicCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicCache" /> class.
-    /// </summary>
-    public DicCache(IDistributedCache cache, IDicService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
     {

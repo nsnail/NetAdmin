@@ -12,14 +12,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     接口服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ApiController : ControllerBase<IApiCache, IApiService>, IApiModule
+public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, IApiService>(cache), IApiModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ApiController" /> class.
-    /// </summary>
-    public ApiController(IApiCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除接口
     /// </summary>

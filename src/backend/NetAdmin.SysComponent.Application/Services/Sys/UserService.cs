@@ -14,10 +14,11 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserService" />
-public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUserService
+public sealed class UserService(Repository<Sys_User> rpo, IUserProfileService userProfileService
+                              , IVerifyCodeService   verifyCodeService
+                              , IEventPublisher      eventPublisher) : RepositoryService<Sys_User, IUserService>(rpo)
+                                                                     , IUserService
 {
-    private readonly IEventPublisher _eventPublisher;
-
     private readonly Expression<Func<Sys_User, Sys_User>> _selectUserFields = a => new Sys_User {
         Id          = a.Id
       , Avatar      = a.Avatar
@@ -31,22 +32,6 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
       , Dept        = new Sys_Dept { Id = a.Dept.Id, Name = a.Dept.Name }
       , Roles       = a.Roles
     };
-
-    private readonly IUserProfileService _userProfileService;
-
-    private readonly IVerifyCodeService _verifyCodeService;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="UserService" /> class.
-    /// </summary>
-    public UserService(Repository<Sys_User> rpo,               IUserProfileService userProfileService
-                     , IVerifyCodeService   verifyCodeService, IEventPublisher     eventPublisher) //
-        : base(rpo)
-    {
-        _userProfileService = userProfileService;
-        _verifyCodeService  = verifyCodeService;
-        _eventPublisher     = eventPublisher;
-    }
 
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -84,7 +69,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
 
         // 档案表
-        _ = await _userProfileService.CreateAsync(req.Profile with { Id = dbUser.Id });
+        _ = await userProfileService.CreateAsync(req.Profile with { Id = dbUser.Id });
         var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } });
         return ret.First();
     }
@@ -101,7 +86,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         effect += await Rpo.Orm.Delete<Sys_UserRole>(new { UserId = req.Id }).ExecuteAffrowsAsync();
 
         // 删除档案表
-        effect += await _userProfileService.DeleteAsync(req);
+        effect += await userProfileService.DeleteAsync(req);
 
         return effect;
     }
@@ -154,7 +139,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
     {
-        if (!await _verifyCodeService.VerifyAsync(req.Adapt<VerifySmsCodeReq>())) {
+        if (!await verifyCodeService.VerifyAsync(req.Adapt<VerifySmsCodeReq>())) {
             throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
@@ -181,14 +166,14 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <inheritdoc />
     public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
     {
-        return _userProfileService.QueryAsync(req);
+        return userProfileService.QueryAsync(req);
     }
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
-        if (!await _verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)) {
+        if (!await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)) {
             throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
@@ -201,7 +186,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<uint> ResetPasswordAsync(ResetPasswordReq req)
     {
-        return !await _verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)
+        return !await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)
             ? throw new NetAdminInvalidOperationException(Ln.验证码不正确)
             : (uint)await Rpo.UpdateDiy
                              .SetSource((await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestDevice)
@@ -230,7 +215,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
                   .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
-        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        await eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
         return ret;
     }
 
@@ -241,7 +226,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
         // 如果已绑定手机号、需要手机安全验证
         if (!user.Mobile.NullOrEmpty()) {
-            if (!await _verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)) {
+            if (!await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq)) {
                 throw new NetAdminInvalidOperationException(Ln.验证码不正确);
             }
 
@@ -262,7 +247,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
                   .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
-        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        await eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
         return ret;
     }
 
@@ -273,7 +258,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
 
         if (!user.Mobile.NullOrEmpty()) {
             // 已有手机号，需验证旧手机
-            if (!await _verifyCodeService.VerifyAsync(req.OriginVerifySmsCodeReq)) {
+            if (!await verifyCodeService.VerifyAsync(req.OriginVerifySmsCodeReq)) {
                 throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.验证码不正确}");
             }
 
@@ -283,7 +268,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         }
 
         // 验证新手机号
-        if (!await _verifyCodeService.VerifyAsync(req.NewVerifySmsCodeReq)) {
+        if (!await verifyCodeService.VerifyAsync(req.NewVerifySmsCodeReq)) {
             throw new NetAdminInvalidOperationException($"{Ln.新手机号码} {Ln.验证码不正确}");
         }
 
@@ -303,7 +288,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
                   .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
-        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
+        await eventPublisher.PublishAsync(new UserUpdatedEvent(ret));
         return ret;
     }
 
@@ -312,19 +297,19 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
     {
         var version = await Rpo.Where(a => a.Id == UserToken.Id && a.Password == req.OldPassword.Pwd().Guid())
                                .ToOneAsync(a => new long?(a.Version));
-        if (version == null) {
-            throw new NetAdminInvalidInputException($"{Ln.旧密码} {Ln.不正确}");
+        if (version != null) {
+            var ret = await Rpo.UpdateDiy
+                               .SetSource(new Sys_User {
+                                                           Id       = UserToken.Id
+                                                         , Password = req.NewPassword.Pwd().Guid()
+                                                         , Version  = version.Value
+                                                       })
+                               .UpdateColumns(a => a.Password)
+                               .ExecuteAffrowsAsync();
+            return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
         }
 
-        var ret = await Rpo.UpdateDiy
-                           .SetSource(new Sys_User {
-                                                       Id       = UserToken.Id
-                                                     , Password = req.NewPassword.Pwd().Guid()
-                                                     , Version  = version.Value
-                                                   })
-                           .UpdateColumns(a => a.Password)
-                           .ExecuteAffrowsAsync();
-        return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
+        throw new NetAdminInvalidInputException($"{Ln.旧密码} {Ln.不正确}");
     }
 
     /// <inheritdoc />
@@ -342,7 +327,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         _ = await Rpo.UpdateDiy.SetSource(entity).IgnoreColumns(ignoreCols.ToArray()).ExecuteAffrowsAsync();
 
         // 档案表
-        _ = await _userProfileService.UpdateAsync(req.Profile);
+        _ = await userProfileService.UpdateAsync(req.Profile);
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
@@ -350,7 +335,7 @@ public sealed class UserService : RepositoryService<Sys_User, IUserService>, IUs
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } })).First();
 
         // 发布用户更新事件
-        await _eventPublisher.PublishAsync(new UserUpdatedEvent(ret.Adapt<UserInfoRsp>()));
+        await eventPublisher.PublishAsync(new UserUpdatedEvent(ret.Adapt<UserInfoRsp>()));
         return ret;
     }
 

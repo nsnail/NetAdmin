@@ -8,18 +8,8 @@ namespace NetAdmin.SysComponent.Host.Subscribers;
 /// <summary>
 ///     短信验证码发送器
 /// </summary>
-public sealed class SmsCodeSender : IEventSubscriber
+public sealed class SmsCodeSender(ILogger<SmsCodeSender> logger) : IEventSubscriber
 {
-    private readonly ILogger<SmsCodeSender> _logger;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="SmsCodeSender" /> class.
-    /// </summary>
-    public SmsCodeSender(ILogger<SmsCodeSender> logger)
-    {
-        _logger = logger;
-    }
-
     /// <summary>
     ///     发送短信
     /// </summary>
@@ -35,6 +25,6 @@ public sealed class SmsCodeSender : IEventSubscriber
         var verifyCodeService = App.GetService<IVerifyCodeService>();
         _ = await verifyCodeService.UpdateAsync(
             verifyCodeCreatedEvent.Data.Adapt<UpdateVerifyCodeReq>() with { Status = VerifyCodeStatues.Sent });
-        _logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已完成}");
+        logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已完成}");
     }
 }

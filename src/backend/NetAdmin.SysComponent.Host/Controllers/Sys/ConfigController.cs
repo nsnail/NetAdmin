@@ -12,14 +12,9 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     配置服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ConfigController : ControllerBase<IConfigCache, IConfigService>, IConfigModule
+public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfigCache, IConfigService>(cache)
+                                                         , IConfigModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ConfigController" /> class.
-    /// </summary>
-    public ConfigController(IConfigCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除配置
     /// </summary>

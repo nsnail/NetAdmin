@@ -7,14 +7,11 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IRequestLogCache" />
-public sealed class RequestLogCache : DistributedCache<IRequestLogService>, IScoped, IRequestLogCache
+public sealed class RequestLogCache
+    (IDistributedCache cache, IRequestLogService service) : DistributedCache<IRequestLogService>(cache, service)
+                                                          , IScoped
+                                                          , IRequestLogCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="RequestLogCache" /> class.
-    /// </summary>
-    public RequestLogCache(IDistributedCache cache, IRequestLogService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

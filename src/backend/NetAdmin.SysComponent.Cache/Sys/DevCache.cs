@@ -6,14 +6,9 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IDevCache" />
-public sealed class DevCache : DistributedCache<IDevService>, IScoped, IDevCache
+public sealed class DevCache
+    (IDistributedCache cache, IDevService service) : DistributedCache<IDevService>(cache, service), IScoped, IDevCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DevCache" /> class.
-    /// </summary>
-    public DevCache(IDistributedCache cache, IDevService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {

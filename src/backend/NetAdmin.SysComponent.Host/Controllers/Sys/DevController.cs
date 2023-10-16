@@ -10,14 +10,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     开发服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class DevController : ControllerBase<IDevCache, IDevService>, IDevModule
+public sealed class DevController(IDevCache cache) : ControllerBase<IDevCache, IDevService>(cache), IDevModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DevController" /> class.
-    /// </summary>
-    public DevController(IDevCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     生成后端代码
     /// </summary>

@@ -8,14 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDeptService" />
-public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDeptService
+public sealed class DeptService(Repository<Sys_Dept> rpo) : RepositoryService<Sys_Dept, IDeptService>(rpo), IDeptService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DeptService" /> class.
-    /// </summary>
-    public DeptService(Repository<Sys_Dept> rpo) //
-        : base(rpo) { }
-
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

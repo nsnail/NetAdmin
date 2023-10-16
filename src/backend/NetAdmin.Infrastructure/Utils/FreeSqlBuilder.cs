@@ -6,27 +6,16 @@ namespace NetAdmin.Infrastructure.Utils;
 /// <summary>
 ///     FreeSqlBuilder
 /// </summary>
-public sealed class FreeSqlBuilder
+public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
 {
-    private readonly DatabaseOptions _databaseOptions;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="FreeSqlBuilder" /> class.
-    /// </summary>
-    public FreeSqlBuilder(DatabaseOptions databaseOptions)
-    {
-        _databaseOptions = databaseOptions;
-    }
-
     /// <summary>
     ///     构建freeSql对象
     /// </summary>
     public IFreeSql Build(FreeSqlInitOptions initOptions)
     {
-        var freeSql = new FreeSql.FreeSqlBuilder()
-                      .UseConnectionString(_databaseOptions.DbType, _databaseOptions.ConnStr)
-                      .UseAutoSyncStructure(false)
-                      .Build();
+        var freeSql = new FreeSql.FreeSqlBuilder().UseConnectionString(databaseOptions.DbType, databaseOptions.ConnStr)
+                                                  .UseAutoSyncStructure(false)
+                                                  .Build();
 
         _ = InitDbAsync(freeSql, initOptions); // 初始化数据库 ，异步
         return freeSql;
@@ -98,7 +87,7 @@ public sealed class FreeSqlBuilder
     private void InsertSeedData(IFreeSql freeSql, IEnumerable<Type> entityTypes)
     {
         foreach (var entityType in entityTypes) {
-            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _databaseOptions.SeedDataRelativePath
+            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseOptions.SeedDataRelativePath
                                   , $"{entityType.Name}.json");
             if (!File.Exists(file)) {
                 continue;
@@ -136,7 +125,7 @@ public sealed class FreeSqlBuilder
     /// </summary>
     private void SyncStructure(IFreeSql freeSql, Type[] entityTypes)
     {
-        if (_databaseOptions.DbType == DataType.Oracle) {
+        if (databaseOptions.DbType == DataType.Oracle) {
             freeSql.CodeFirst.IsSyncStructureToUpper = true;
         }
 

@@ -15,26 +15,24 @@ indent_size = 2
 
 [*.cs]
 dotnet_analyzer_diagnostic.severity = warning
-dotnet_diagnostic.CA1200.severity = none
 dotnet_diagnostic.CA1707.severity = none
-dotnet_diagnostic.CA1716.severity = none
 dotnet_diagnostic.IDE0005.severity = none
 dotnet_diagnostic.IDE0008.severity = none
 dotnet_diagnostic.IDE0010.severity = none
+dotnet_diagnostic.IDE0028.severity = none
 dotnet_diagnostic.IDE0055.severity = none
 dotnet_diagnostic.IDE0160.severity = none
-dotnet_diagnostic.IDE0270.severity = none
+dotnet_diagnostic.IDE0300.severity = none
+dotnet_diagnostic.IDE0305.severity = none
 dotnet_diagnostic.RCS1141.severity = none
 dotnet_diagnostic.RCS1142.severity = none
 dotnet_diagnostic.RCS1181.severity = none
-dotnet_diagnostic.RCS1186.severity = none
 dotnet_diagnostic.S101.severity = none
 dotnet_diagnostic.S1121.severity = none
 dotnet_diagnostic.S1135.severity = none
-dotnet_diagnostic.S1199.severity = none
 dotnet_diagnostic.S125.severity = none
 dotnet_diagnostic.S2094.severity = none
-dotnet_diagnostic.S3925.severity = none
+dotnet_diagnostic.S3604.severity = none
 dotnet_diagnostic.S4663.severity = none
 dotnet_diagnostic.SYSLIB1045.severity = none
 

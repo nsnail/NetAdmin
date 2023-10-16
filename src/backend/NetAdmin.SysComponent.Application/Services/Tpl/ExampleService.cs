@@ -9,14 +9,9 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Tpl;
 
 /// <inheritdoc cref="IExampleService" />
-public sealed class ExampleService : RepositoryService<Tpl_Example, IExampleService>, IExampleService
+public sealed class ExampleService(Repository<Tpl_Example> rpo) : RepositoryService<Tpl_Example, IExampleService>(rpo)
+                                                                , IExampleService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ExampleService" /> class.
-    /// </summary>
-    public ExampleService(Repository<Tpl_Example> rpo) //
-        : base(rpo) { }
-
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

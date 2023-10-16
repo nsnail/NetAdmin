@@ -8,19 +8,9 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IMenuService" />
-public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMenuService
+public sealed class MenuService
+    (Repository<Sys_Menu> rpo, IUserService userService) : RepositoryService<Sys_Menu, IMenuService>(rpo), IMenuService
 {
-    private readonly IUserService _userService;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="MenuService" /> class.
-    /// </summary>
-    public MenuService(Repository<Sys_Menu> rpo, IUserService userService) //
-        : base(rpo)
-    {
-        _userService = userService;
-    }
-
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
@@ -89,7 +79,7 @@ public sealed class MenuService : RepositoryService<Sys_Menu, IMenuService>, IMe
     /// <inheritdoc />
     public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {
-        var                             userInfo = await _userService.UserInfoAsync();
+        var                             userInfo = await userService.UserInfoAsync();
         Task<IEnumerable<QueryMenuRsp>> ret;
         var                             req = new QueryReq<QueryMenuReq>();
 

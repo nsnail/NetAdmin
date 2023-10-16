@@ -7,14 +7,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IDeptCache" />
-public sealed class DeptCache : DistributedCache<IDeptService>, IScoped, IDeptCache
+public sealed class DeptCache
+    (IDistributedCache cache, IDeptService service) : DistributedCache<IDeptService>(cache, service), IScoped
+                                                    , IDeptCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DeptCache" /> class.
-    /// </summary>
-    public DeptCache(IDistributedCache cache, IDeptService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

@@ -8,22 +8,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IApiService" />
-public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiService
+public sealed class ApiService(Repository<Sys_Api>                 rpo, XmlCommentReader xmlCommentReader
+                             , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) :
+    RepositoryService<Sys_Api, IApiService>(rpo), IApiService
 {
-    private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
-    private readonly XmlCommentReader                    _xmlCommentReader;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ApiService" /> class.
-    /// </summary>
-    public ApiService(Repository<Sys_Api>                 rpo, XmlCommentReader xmlCommentReader
-                    , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
-        : base(rpo)
-    {
-        _xmlCommentReader                   = xmlCommentReader;
-        _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
-    }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
@@ -73,7 +61,7 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
         var regex = new Regex(@"\.(\w+)$", RegexOptions.Compiled);
 
         var actionDescriptors //
-            = _actionDescriptorCollectionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>();
+            = actionDescriptorCollectionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>();
 
         if (excludeAnonymous) {
             actionDescriptors = actionDescriptors.Where(x => x.EndpointMetadata.All(y => y is AllowAnonymousAttribute));
@@ -88,7 +76,7 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
         {
             var first = group.First()!;
             return new QueryApiRsp {
-                                       Summary = _xmlCommentReader.GetComments(group.Key)
+                                       Summary = xmlCommentReader.GetComments(group.Key)
                                      , Name    = first.ControllerName
                                      , Id = Regex.Replace( //
                                            first.AttributeRouteInfo!.Template!, $"/{first.ActionName}$", string.Empty)
@@ -128,7 +116,7 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
     {
         return actionDescriptors //
             .Select(x => new QueryApiRsp {
-                                             Summary = _xmlCommentReader.GetComments(x.MethodInfo)
+                                             Summary = xmlCommentReader.GetComments(x.MethodInfo)
                                            , Name    = x.ActionName
                                            , Id      = x.AttributeRouteInfo!.Template
                                            , Method = x.ActionConstraints?.OfType<HttpMethodActionConstraint>()

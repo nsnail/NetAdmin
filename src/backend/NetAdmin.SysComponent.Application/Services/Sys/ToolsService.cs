@@ -15,6 +15,6 @@ public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
     /// <inheritdoc />
     public string Version()
     {
-        return Global.ProductVersion;
+        return GlobalStatic.ProductVersion;
     }
 }

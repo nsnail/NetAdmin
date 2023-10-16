@@ -9,14 +9,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     工具服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ToolsController : ControllerBase<IToolsCache, IToolsService>, IToolsModule
+public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCache, IToolsService>(cache), IToolsModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ToolsController" /> class.
-    /// </summary>
-    public ToolsController(IToolsCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     服务器时间
     /// </summary>

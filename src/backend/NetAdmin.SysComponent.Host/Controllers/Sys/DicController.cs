@@ -13,14 +13,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     字典服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class DicController : ControllerBase<IDicCache, IDicService>, IDicModule
+public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, IDicService>(cache), IDicModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicController" /> class.
-    /// </summary>
-    public DicController(IDicCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除字典目录
     /// </summary>

@@ -12,14 +12,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     角色服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class RoleController : ControllerBase<IRoleCache, IRoleService>, IRoleModule
+public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache, IRoleService>(cache), IRoleModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="RoleController" /> class.
-    /// </summary>
-    public RoleController(IRoleCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除角色
     /// </summary>

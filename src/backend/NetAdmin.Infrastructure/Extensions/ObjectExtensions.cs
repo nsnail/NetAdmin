@@ -10,6 +10,6 @@ public static class ObjectExtensions
     /// </summary>
     public static string ToJson(this object me)
     {
-        return me.Json(Global.JsonSerializerOptions);
+        return me.Json(GlobalStatic.JsonSerializerOptions);
     }
 }

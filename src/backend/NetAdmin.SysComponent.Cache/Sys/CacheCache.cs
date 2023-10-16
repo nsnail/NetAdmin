@@ -7,14 +7,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="ICacheCache" />
-public sealed class CacheCache : DistributedCache<ICacheService>, IScoped, ICacheCache
+public sealed class CacheCache
+    (IDistributedCache cache, ICacheService service) : DistributedCache<ICacheService>(cache, service), IScoped
+                                                     , ICacheCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CacheCache" /> class.
-    /// </summary>
-    public CacheCache(IDistributedCache cache, ICacheService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {

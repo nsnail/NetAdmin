@@ -12,19 +12,10 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     验证码服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class VerifyCodeController : ControllerBase<IVerifyCodeCache, IVerifyCodeService>, IVerifyCodeModule
+public sealed class VerifyCodeController
+    (IVerifyCodeCache cache, ICaptchaCache captchaCache) : ControllerBase<IVerifyCodeCache, IVerifyCodeService>(cache)
+                                                         , IVerifyCodeModule
 {
-    private readonly ICaptchaCache _captchaCache;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="VerifyCodeController" /> class.
-    /// </summary>
-    public VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache captchaCache) //
-        : base(cache)
-    {
-        _captchaCache = captchaCache;
-    }
-
     /// <inheritdoc />
     [NonAction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -81,7 +72,7 @@ public sealed class VerifyCodeController : ControllerBase<IVerifyCodeCache, IVer
     [AllowAnonymous]
     public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
     {
-        await _captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq);
+        await captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq);
         return await Cache.SendVerifyCodeAsync(req);
     }
 

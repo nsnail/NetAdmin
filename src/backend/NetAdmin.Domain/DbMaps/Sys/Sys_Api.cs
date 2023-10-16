@@ -40,7 +40,9 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    #pragma warning disable CA1716
     public virtual string Namespace { get; init; }
+    #pragma warning restore CA1716
 
     /// <summary>
     ///     父编号

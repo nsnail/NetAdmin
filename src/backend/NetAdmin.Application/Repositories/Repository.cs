@@ -4,22 +4,15 @@ using NetAdmin.Domain.DbMaps.Dependency;
 namespace NetAdmin.Application.Repositories;
 
 /// <inheritdoc cref="IRepository{TEntity}" />
-public sealed class Repository<TEntity> : DefaultRepository<TEntity, long>, IRepository<TEntity>
+public sealed class Repository<TEntity>
+    (IFreeSql fSql, UnitOfWorkManager uowManger, ContextUserToken userToken) :
+        DefaultRepository<TEntity, long>(fSql, uowManger), IRepository<TEntity>
     where TEntity : EntityBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
-    /// </summary>
-    public Repository(IFreeSql fSql, UnitOfWorkManager uowManger, ContextUserToken userToken) //
-        : base(fSql, uowManger)
-    {
-        UserToken = userToken;
-    }
-
-    /// <summary>
     ///     当前上下文关联的用户
     /// </summary>
-    public ContextUserToken UserToken { get; }
+    public ContextUserToken UserToken => userToken;
 
     /// <summary>
     ///     递归删除

@@ -9,14 +9,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     文件服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class FileController : ControllerBase<IFileCache, IFileService>, IFileModule
+public sealed class FileController(IFileCache cache) : ControllerBase<IFileCache, IFileService>(cache), IFileModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="FileController" /> class.
-    /// </summary>
-    public FileController(IFileCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     文件上传
     /// </summary>
