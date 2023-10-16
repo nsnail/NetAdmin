@@ -11,18 +11,11 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IVerifyCodeService" />
-public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerifyCodeService>, IVerifyCodeService
+public sealed class VerifyCodeService
+    (Repository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) :
+        RepositoryService<Sys_VerifyCode, IVerifyCodeService>(rpo), IVerifyCodeService
 {
-    private readonly IEventPublisher _eventPublisher;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="VerifyCodeService" /> class.
-    /// </summary>
-    public VerifyCodeService(Repository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) //
-        : base(rpo)
-    {
-        _eventPublisher = eventPublisher;
-    }
+    private static readonly int[] _randRange = { 0, 10000 };
 
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -43,7 +36,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
         var ret = entity.Adapt<QueryVerifyCodeRsp>();
 
         // 发布验证码创建事件
-        await _eventPublisher.PublishAsync(new VerifyCodeCreatedEvent(ret));
+        await eventPublisher.PublishAsync(new VerifyCodeCreatedEvent(ret));
 
         return ret;
     }
@@ -91,6 +84,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
         QueryVerifyCodeRsp ret;
 
         #if !DEBUG
+
         // 有发送记录，且小于1分钟，不允许
         if (lastSent != null && (DateTime.UtcNow - lastSent.CreatedTime).TotalMinutes < 1) {
             throw new NetAdminInvalidOperationException(Ln._1分钟内只能发送1次);
@@ -101,7 +95,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
             ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = lastSent.Code });
         }
         else { // 生成新的code
-            var code = new[] { 0, 10000 }.Rand().ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
+            var code = _randRange.Rand().ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
             ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = code });
         }
 
@@ -127,7 +121,7 @@ public sealed class VerifyCodeService : RepositoryService<Sys_VerifyCode, IVerif
             return true;
         }
         #endif
-        if (req.Code == Global.SecretKey) {
+        if (req.Code == GlobalStatic.SecretKey) {
             return true;
         }
 

@@ -11,19 +11,10 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 /// </summary>
 [AllowAnonymous]
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ConstantController : ControllerBase<IConstantCache, IConstantService>, IConstantModule
+public sealed class ConstantController
+    (IConstantCache cache, IOptions<JsonOptions> jsonOptions) : ControllerBase<IConstantCache, IConstantService>(cache)
+                                                              , IConstantModule
 {
-    private readonly JsonOptions _jsonOptions;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ConstantController" /> class.
-    /// </summary>
-    public ConstantController(IConstantCache cache, IOptions<JsonOptions> jsonOptions) //
-        : base(cache)
-    {
-        _jsonOptions = jsonOptions.Value;
-    }
-
     /// <summary>
     ///     获得常量字符串
     /// </summary>
@@ -78,10 +69,10 @@ public sealed class ConstantController : ControllerBase<IConstantCache, IConstan
         return Cache.GetNumbersDic();
     }
 
-    private IActionResult OriginNamingResult<T>(T data)
+    private JsonResult OriginNamingResult<T>(T data)
     {
         return new JsonResult( //
-            new RestfulInfo<T> { Code                                                           = 0, Data = data }
-          , new JsonSerializerOptions(_jsonOptions.JsonSerializerOptions) { DictionaryKeyPolicy = null });
+            new RestfulInfo<T> { Code                                                                = 0, Data = data }
+          , new JsonSerializerOptions(jsonOptions.Value.JsonSerializerOptions) { DictionaryKeyPolicy = null });
     }
 }

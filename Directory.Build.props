@@ -1,9 +1,10 @@
 <!-- 注意此文件名大小写不可变更 -->
 <Project>
+    <PropertyGroup>
+        <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
+    </PropertyGroup>
     <Import Project="$(SolutionDir)/minver.targets"/>
     <PropertyGroup>
-        <!--        $(XXX) 定义有顺序 排序请注意-->
-        <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>nsnail</Authors>
         <BaseIntermediateOutputPath>$(SolutionDir)/dist/backend/$(MSBuildProjectName)/obj</BaseIntermediateOutputPath>
@@ -13,11 +14,12 @@
         <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>preview</LangVersion>
         <MinVerDefaultPreReleaseIdentifiers>beta</MinVerDefaultPreReleaseIdentifiers>
         <Product>NetAdmin</Product>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>http://git.shequnpay.com/lingyun/NetAdmin.git</RepositoryUrl>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Title>$(AssemblyName)</Title>
     </PropertyGroup>
     <ItemGroup>
@@ -27,6 +29,6 @@
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs" />
+        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs"/>
     </ItemGroup>
 </Project>

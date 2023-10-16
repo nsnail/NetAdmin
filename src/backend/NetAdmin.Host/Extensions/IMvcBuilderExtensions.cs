@@ -116,6 +116,6 @@ public static class IMvcBuilderExtensions
         }
 
         // 快捷访问方式
-        Global.JsonSerializerOptions = options.JsonSerializerOptions;
+        GlobalStatic.JsonSerializerOptions = options.JsonSerializerOptions;
     }
 }

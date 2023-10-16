@@ -28,7 +28,7 @@ public abstract class Startup : AppStartup
         }
 
         _ = gridWrap.AddRow(gridInfo);
-        AnsiConsole.Write(new Panel(gridWrap).Header(Global.ProductVersion).Expand());
+        AnsiConsole.Write(new Panel(gridWrap).Header(GlobalStatic.ProductVersion).Expand());
         AnsiConsole.WriteLine();
     }
 }

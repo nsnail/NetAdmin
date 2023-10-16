@@ -71,7 +71,7 @@ public abstract class ApiResultHandler<T>
         try {
             return validationResult is Dictionary<string, string[]> dic
                 ? dic.ToDictionary( //
-                    x => (startWithDollar = x.Key.StartsWith("$", StringComparison.InvariantCulture))
+                    x => (startWithDollar = x.Key.StartsWith('$'))
                         ? x.Key[1..].TrimStart('.').NullOrEmpty(null) ?? throw new NetAdminInvalidInputException()
                         : x.Key, x => startWithDollar ? new[] { Ln.参数格式不正确 } : x.Value)
                 : validationResult;

@@ -7,14 +7,9 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IApiCache" />
-public sealed class ApiCache : DistributedCache<IApiService>, IScoped, IApiCache
+public sealed class ApiCache
+    (IDistributedCache cache, IApiService service) : DistributedCache<IApiService>(cache, service), IScoped, IApiCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ApiCache" /> class.
-    /// </summary>
-    public ApiCache(IDistributedCache cache, IApiService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

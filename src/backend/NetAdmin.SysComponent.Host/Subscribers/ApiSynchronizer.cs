@@ -6,18 +6,8 @@ namespace NetAdmin.SysComponent.Host.Subscribers;
 /// <summary>
 ///     Api接口同步器
 /// </summary>
-public sealed class ApiSynchronizer : IEventSubscriber
+public sealed class ApiSynchronizer(ILogger<ApiSynchronizer> logger) : IEventSubscriber
 {
-    private readonly ILogger<ApiSynchronizer> _logger;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ApiSynchronizer" /> class.
-    /// </summary>
-    public ApiSynchronizer(ILogger<ApiSynchronizer> logger)
-    {
-        _logger = logger;
-    }
-
     /// <summary>
     ///     同步Api接口
     /// </summary>
@@ -26,6 +16,6 @@ public sealed class ApiSynchronizer : IEventSubscriber
     {
         var logService = App.GetService<IApiService>();
         await logService.SyncAsync();
-        _logger.Info($"{nameof(IApiService)}.{nameof(IApiService.SyncAsync)} {Ln.已完成}");
+        logger.Info($"{nameof(IApiService)}.{nameof(IApiService.SyncAsync)} {Ln.已完成}");
     }
 }

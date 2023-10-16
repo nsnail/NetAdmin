@@ -12,6 +12,8 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public static class CaptchaImageHelper
 {
+    private static readonly int[] _randRange = { 70, 100 };
+
     /// <summary>
     ///     创建一个缺口滑块验证码图片
     /// </summary>
@@ -75,7 +77,7 @@ public static class CaptchaImageHelper
         //  ReSharper disable once AccessToDisposedClosure
         sliderBlockImage.Mutate(x => x.DrawImage(blockImage, new Point(0, offsetRand.Y), 1));
 
-        var opacity = (float)(new[] { 70, 100 }.Rand() * 0.01);
+        var opacity = (float)(_randRange.Rand() * 0.01);
 
         // 底图叠加深色模板图
         //  ReSharper disable once AccessToDisposedClosure

@@ -11,14 +11,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     缓存服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class CacheController : ControllerBase<ICacheCache, ICacheService>, ICacheModule
+public sealed class CacheController(ICacheCache cache) : ControllerBase<ICacheCache, ICacheService>(cache), ICacheModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CacheController" /> class.
-    /// </summary>
-    public CacheController(ICacheCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     缓存统计
     /// </summary>

@@ -5,14 +5,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IToolsCache" />
-public sealed class ToolsCache : DistributedCache<IToolsService>, IScoped, IToolsCache
+public sealed class ToolsCache
+    (IDistributedCache cache, IToolsService service) : DistributedCache<IToolsService>(cache, service), IScoped
+                                                     , IToolsCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ToolsCache" /> class.
-    /// </summary>
-    public ToolsCache(IDistributedCache cache, IToolsService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public DateTime GetServerUtcTime()
     {

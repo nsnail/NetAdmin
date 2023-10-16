@@ -6,7 +6,7 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDevService" />
-public sealed class DevService : ServiceBase<DevService>, IDevService
+public sealed class DevService(IApiService apiService) : ServiceBase<DevService>, IDevService
 {
     private const string _REPLACE_TO_EMPTY = "//~";
 
@@ -16,15 +16,8 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
     private static readonly string[] _projectDirs
         = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"));
 
-    private readonly IApiService _apiService;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DevService" /> class.
-    /// </summary>
-    public DevService(IApiService apiService)
-    {
-        _apiService = apiService;
-    }
+    private static readonly Regex _regex  = new(@"\.(\w)");
+    private static readonly Regex _regex2 = new("([a-zA-Z]+):");
 
     /// <inheritdoc />
     public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
@@ -134,7 +127,7 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         var iconSelectFile    = Path.Combine(_clientProjectPath, "src", "config", "iconSelect.js");
         var iconSelectContent = await File.ReadAllTextAsync(iconSelectFile);
         iconSelectContent = iconSelectContent.Replace("export default", "exportDefault:").Replace("'", "\"");
-        iconSelectContent = Regex.Replace(iconSelectContent, "([a-zA-Z]+):", "\"$1\":");
+        iconSelectContent = _regex2.Replace(iconSelectContent, "\"$1\":");
         iconSelectContent = "{" + iconSelectContent + "}";
         var iconExportJsInfo = iconSelectContent.ToObject<IconExportJsInfo>();
         iconExportJsInfo.ExportDefault.Icons.Last().Icons.Add($"sc-icon-{req.IconName.ToLowerInvariant()}");
@@ -150,7 +143,7 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         var tplOuter = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "outer.js"));
         var tplInner = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "inner.js"));
 
-        foreach (var item in _apiService.ReflectionList(false)) {
+        foreach (var item in apiService.ReflectionList(false)) {
             var dir = Path.Combine(_clientProjectPath, "src", "api", item.Namespace);
             if (!Directory.Exists(dir)) {
                 _ = Directory.CreateDirectory(dir);
@@ -173,8 +166,8 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
             return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)
                                                      .Replace( //
                                                          "$actionName$"
-                                                       , Regex.Replace(x.Name, @"\.(\w)"
-                                                                     , y => y.Groups[1].Value.ToUpperInvariant()))
+                                                       , _regex.Replace(
+                                                             x.Name, y => y.Groups[1].Value.ToUpperInvariant()))
                                                      .Replace("$actionPath$", x.Id)
                                                      .Replace( //
                                                          "$actionMethod$",       x.Method?.ToLowerInvariant())

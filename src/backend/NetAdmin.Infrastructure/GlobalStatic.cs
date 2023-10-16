@@ -3,7 +3,7 @@ namespace NetAdmin.Infrastructure;
 /// <summary>
 ///     全局静态类
 /// </summary>
-public static class Global
+public static class GlobalStatic
 {
     /// <summary>
     ///     产品版本
@@ -17,7 +17,7 @@ public static class Global
     public static bool DebugMode =>
         #if DEBUG
         true
-    #else
+        #else
         false
     #endif
     ;

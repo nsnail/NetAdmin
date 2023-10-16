@@ -7,14 +7,11 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IUserProfileCache" />
-public sealed class UserProfileCache : DistributedCache<IUserProfileService>, IScoped, IUserProfileCache
+public sealed class UserProfileCache
+    (IDistributedCache cache, IUserProfileService service) : DistributedCache<IUserProfileService>(cache, service)
+                                                           , IScoped
+                                                           , IUserProfileCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="UserProfileCache" /> class.
-    /// </summary>
-    public UserProfileCache(IDistributedCache cache, IUserProfileService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

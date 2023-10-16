@@ -13,19 +13,9 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     用户服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class UserController : ControllerBase<IUserCache, IUserService>, IUserModule
+public sealed class UserController
+    (IUserCache cache, IConfigCache configCache) : ControllerBase<IUserCache, IUserService>(cache), IUserModule
 {
-    private readonly IConfigCache _configCache;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="UserController" /> class.
-    /// </summary>
-    public UserController(IUserCache cache, IConfigCache configCache) //
-        : base(cache)
-    {
-        _configCache = configCache;
-    }
-
     /// <summary>
     ///     批量删除用户
     /// </summary>
@@ -144,7 +134,7 @@ public sealed class UserController : ControllerBase<IUserCache, IUserService>, I
     [AllowAnonymous]
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
-        var config = await _configCache.GetLatestConfigAsync();
+        var config = await configCache.GetLatestConfigAsync();
 
         return await Cache.RegisterAsync(req with {
                                                       DeptId = config.UserRegisterDeptId

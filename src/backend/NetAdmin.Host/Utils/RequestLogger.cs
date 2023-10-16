@@ -7,26 +7,15 @@ namespace NetAdmin.Host.Utils;
 /// <summary>
 ///     请求日志记录器
 /// </summary>
-public sealed class RequestLogger : ISingleton
+public sealed class RequestLogger(ILogger<RequestLogger>                         logger
+                                , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
+                                , IEventPublisher                                eventPublisher) : ISingleton
 {
-    private static readonly string[]               _textContentTypes = { "text", "json", "xml", "urlencoded" };
-    private readonly        IEventPublisher        _eventPublisher;
-    private readonly        ILogger<RequestLogger> _logger;
-    private readonly        int                    _tokenPrefixLength;
+    private static readonly string[] _textContentTypes = { "text", "json", "xml", "urlencoded" };
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="RequestLogger" /> class.
-    /// </summary>
-    public RequestLogger( //
-        ILogger<RequestLogger>                         logger
-      , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
-      , IEventPublisher                                eventPublisher)
-    {
-        _logger         = logger;
-        _eventPublisher = eventPublisher;
-        _tokenPrefixLength = specificationDocumentSettingsOptions?.Value.SecurityDefinitions?[0]?.Scheme?.Length + 1 ??
-                             0; // eg. "Bearer "
-    }
+    private readonly int _tokenPrefixLength
+        = specificationDocumentSettingsOptions?.Value.SecurityDefinitions?[0]?.Scheme?.Length + 1 ??
+          0; // eg. "Bearer ";
 
     /// <summary>
     ///     生成审计数据
@@ -65,10 +54,10 @@ public sealed class RequestLogger : ISingleton
                                                 };
 
         // 打印日志
-        _logger.Info(auditData);
+        logger.Info(auditData);
 
         // 发布请求日志事件
-        await _eventPublisher.PublishAsync(new RequestLogEvent(auditData));
+        await eventPublisher.PublishAsync(new RequestLogEvent(auditData));
 
         return auditData;
     }
@@ -87,7 +76,7 @@ public sealed class RequestLogger : ISingleton
             userToken = claim?.Value.ToObject<ContextUserToken>();
         }
         catch (Exception ex) {
-            _logger.Warn($"{Ln.读取用户令牌出错}: {ex}");
+            logger.Warn($"{Ln.读取用户令牌出错}: {ex}");
         }
 
         return userToken == null ? null : (userToken.Id, userToken.UserName);

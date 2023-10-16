@@ -5,14 +5,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IConstantCache" />
-public sealed class ConstantCache : DistributedCache<IConstantService>, IScoped, IConstantCache
+public sealed class ConstantCache
+    (IDistributedCache cache, IConstantService service) : DistributedCache<IConstantService>(cache, service), IScoped
+                                                        , IConstantCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ConstantCache" /> class.
-    /// </summary>
-    public ConstantCache(IDistributedCache cache, IConstantService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public IDictionary<string, string> GetCharsDic()
     {

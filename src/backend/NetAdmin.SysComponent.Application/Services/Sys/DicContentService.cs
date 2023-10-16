@@ -8,14 +8,9 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicContentService" />
-public sealed class DicContentService : RepositoryService<Sys_DicContent, IDicContentService>, IDicContentService
+public sealed class DicContentService
+    (Repository<Sys_DicContent> rpo) : RepositoryService<Sys_DicContent, IDicContentService>(rpo), IDicContentService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicContentService" /> class.
-    /// </summary>
-    public DicContentService(Repository<Sys_DicContent> rpo) //
-        : base(rpo) { }
-
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

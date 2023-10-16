@@ -7,8 +7,9 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public sealed class XmlCommentReader : ISingleton
 {
-    private const    string            _XPATH        = "//doc/members/member[@name=\"{0}\"]";
-    private readonly List<XmlDocument> _xmlDocuments = new();
+    private const           string            _XPATH        = "//doc/members/member[@name=\"{0}\"]";
+    private static readonly Regex             _regex        = new(@"`\d+");
+    private readonly        List<XmlDocument> _xmlDocuments = new();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="XmlCommentReader" /> class.
@@ -72,24 +73,26 @@ public sealed class XmlCommentReader : ISingleton
             nodeName += $"({string.Join(',', parameters.Select(Replace))})";
         }
 
-        return _xmlDocuments
-               .Select(xmlDoc => xmlDoc.SelectSingleNode(
-                           string.Format(NumberFormatInfo.InvariantInfo, _XPATH, nodeName)))
-               .FirstOrDefault(ret => ret != null);
+        return _xmlDocuments.Select(xmlDoc => xmlDoc.SelectSingleNode(
+                                        #pragma warning disable CA1863
+                                        string.Format(NumberFormatInfo.InvariantInfo, _XPATH, nodeName)))
+                            #pragma warning restore CA1863
+                            .FirstOrDefault(ret => ret != null);
 
         static string Replace(ParameterInfo parameterInfo)
         {
-            return Regex.Replace(parameterInfo.ParameterType.ToString(), @"`\d+", string.Empty)
-                        .Replace("[", "{")
-                        .Replace("]", "}");
+            return _regex.Replace(parameterInfo.ParameterType.ToString(), string.Empty)
+                         .Replace("[", "{")
+                         .Replace("]", "}");
         }
     }
 
     private XmlNode GetNodeByType(Type type)
     {
-        return _xmlDocuments
-               .Select(xmlDoc => xmlDoc.SelectSingleNode(
-                           string.Format(NumberFormatInfo.InvariantInfo, _XPATH, $"T:{type.FullName}")))
-               .FirstOrDefault(ret => ret != null);
+        return _xmlDocuments.Select(xmlDoc => xmlDoc.SelectSingleNode(
+                                        #pragma warning disable CA1863
+                                        string.Format(NumberFormatInfo.InvariantInfo, _XPATH, $"T:{type.FullName}")))
+                            #pragma warning restore CA1863
+                            .FirstOrDefault(ret => ret != null);
     }
 }
