@@ -42,12 +42,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		README.md = README.md
 		rename.csx = rename.csx
 		stylecop.analyzers.ruleset = stylecop.analyzers.ruleset
-		stylecop.json = stylecop.json
+		StyleCop.json = StyleCop.json
 		switcher.freesql.json = switcher.freesql.json
 		switcher.furion.json = switcher.furion.json
 		switcher.nsext.json = switcher.nsext.json
 		switcher.ps1 = switcher.ps1
-		sync.metafiles.csx = sync.metafiles.csx
+		sync.sln.files.csx = sync.sln.files.csx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
@@ -88,6 +88,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.Tests", "06.Tests", "{89
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.BizServer.Tests", "src\backend\NetAdmin.BizServer.Tests\NetAdmin.BizServer.Tests.csproj", "{C7F27698-DA05-4ACD-B0D7-4791B3972002}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
+	ProjectSection(SolutionItems) = preProject
+		dotnet.yml = .github/workflows/dotnet.yml
+	EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,5 +177,6 @@ Global
 		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
 		{89260294-80FC-49F1-8D73-AECD39AFF2B7} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002} = {89260294-80FC-49F1-8D73-AECD39AFF2B7}
+		{3C6F049E-3EE8-4D66-9AFF-E8A369032487} = {1129FE25-466B-4F4F-85FC-3752664245E1}
 	EndGlobalSection
 EndGlobal
