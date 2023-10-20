@@ -15,7 +15,7 @@ while ($null -eq $types[$prefix])
 {
     $prefix = Read-Host "请选择提交类型`n" $( & { param($i) $i | ForEach-Object { "$_ : $( $types[$_][0] )（$( $types[$_][1] )）`n" } } $types.Keys | Sort-Object )
 }
-git commit -m "[$($types[$prefix][0])] $(($(Read-Host '是否跳过自动构建？（Y/n）') -eq 'n') ? '': '[SKIP CI] ')$(Read-Host '请输入提交消息')"
+git commit -m "[$($types[$prefix][0])] $(($(Read-Host '是否跳过自动构建？（y/N）') -eq 'y') ? '[SKIP CI] ': '')$(Read-Host '请输入提交消息')"
 $branch = $(git branch --show-current)
 & './dot.clean.cmd'
 git add ./
