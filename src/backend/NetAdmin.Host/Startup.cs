@@ -13,7 +13,7 @@ public abstract class Startup : AppStartup
     protected static void ShowBanner()
     {
         AnsiConsole.WriteLine();
-        var gridInfo = new Grid().AddColumn(new GridColumn().NoWrap().PadRight(10))
+        var gridInfo = new Grid().AddColumn(new GridColumn().NoWrap().Width(50).PadRight(10))
                                  .AddColumn(new GridColumn().NoWrap())
                                  .Expand();
         foreach (var kv in ApplicationHelper.GetEnvironmentInfo()) {
@@ -23,9 +23,7 @@ public abstract class Startup : AppStartup
         var gridWrap      = new Grid().AddColumn();
         var entryAssembly = Assembly.GetEntryAssembly();
         var assemblyName  = entryAssembly!.GetName();
-        foreach (var str in assemblyName.Name!.Split('.')) {
-            _ = gridWrap.AddRow(new FigletText(str).Color(Color.Green));
-        }
+        _ = gridWrap.AddRow(new FigletText(assemblyName.Name!).Color(Color.Green));
 
         _ = gridWrap.AddRow(gridInfo);
         AnsiConsole.Write(new Panel(gridWrap).Header(GlobalStatic.ProductVersion).Expand());

@@ -1,4 +1,4 @@
-#r "nuget: NSExt, 1.0.15-alpha.0.4"
+#r "nuget: NSExt, 1.1.0"
 using NSExt.Extensions;
 
 Console.WriteLine("请输入原始名称（NetAdmin）：");
