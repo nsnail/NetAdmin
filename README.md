@@ -2,7 +2,6 @@
 
 基于C#12、.NET8.0、Vue3/Vite、Element Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权限管理框架
 
----
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![Furion](https://img.shields.io/badge/Furion-4.x-blueviolet.svg?style=flat-square)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
