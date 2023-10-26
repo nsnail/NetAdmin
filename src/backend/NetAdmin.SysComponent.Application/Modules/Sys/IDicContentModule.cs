@@ -11,4 +11,4 @@ public interface IDicContentModule : ICrudModule<CreateDicContentReq, QueryDicCo
   , QueryDicContentReq, QueryDicContentRsp                                               // 查询类型
   , UpdateDicContentReq, QueryDicContentRsp                                              // 修改类型
   , DelReq                                                                               // 删除类型
-> { }
+>;

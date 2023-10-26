@@ -11,4 +11,4 @@ public interface IRoleModule : ICrudModule<CreateRoleReq, QueryRoleRsp // 创建
   , QueryRoleReq, QueryRoleRsp                                         // 查询类型
   , UpdateRoleReq, QueryRoleRsp                                        // 修改类型
   , DelReq                                                             // 删除类型
-> { }
+>;
