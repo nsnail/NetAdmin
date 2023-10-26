@@ -13,8 +13,8 @@
 
 <table>
     <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_172812.png"><img src="./docs/screenshot/2023-10-26_172812.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_172955.png"><img src="./docs/screenshot/2023-10-26_172955.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_172812.png"><img src="./docs/screenshot/2023-10-26_172812.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_172955.png"><img src="./docs/screenshot/2023-10-26_172955.png" /></a></td>
     </tr>
 </table>
 
@@ -22,8 +22,8 @@
 
 <table>
     <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_174707.png"><img src="./docs/screenshot/2023-10-26_174707.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_174949.png"><img src="./docs/screenshot/2023-10-26_174949.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_174707.png"><img src="./docs/screenshot/2023-10-26_174707.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_174949.png"><img src="./docs/screenshot/2023-10-26_174949.png" /></a></td>
     </tr>
 </table>
 
@@ -31,19 +31,19 @@
 
 <table>
     <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175308.png"><img src="./docs/screenshot/2023-10-26_175308.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175352.png"><img src="./docs/screenshot/2023-10-26_175352.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175447.png"><img src="./docs/screenshot/2023-10-26_175447.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175308.png"><img src="./docs/screenshot/2023-10-26_175308.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175352.png"><img src="./docs/screenshot/2023-10-26_175352.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175447.png"><img src="./docs/screenshot/2023-10-26_175447.png" /></a></td>
     </tr>
     <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175430.png"><img src="./docs/screenshot/2023-10-26_175430.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175407.png"><img src="./docs/screenshot/2023-10-26_175407.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175419.png"><img src="./docs/screenshot/2023-10-26_175419.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175430.png"><img src="./docs/screenshot/2023-10-26_175430.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175407.png"><img src="./docs/screenshot/2023-10-26_175407.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175419.png"><img src="./docs/screenshot/2023-10-26_175419.png" /></a></td>
     </tr>
     <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175441.png"><img src="./docs/screenshot/2023-10-26_175441.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175501.png"><img src="./docs/screenshot/2023-10-26_175501.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/thumb/2023-10-26_175922.png"><img src="./docs/screenshot/2023-10-26_175922.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175441.png"><img src="./docs/screenshot/2023-10-26_175441.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175501.png"><img src="./docs/screenshot/2023-10-26_175501.png" /></a></td>
+        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175922.png"><img src="./docs/screenshot/2023-10-26_175922.png" /></a></td>
     </tr>
 </table>
 
