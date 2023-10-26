@@ -3,10 +3,50 @@
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml)
 [![.NET](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 
+## 截图预览
+
+- 控制台
+
+<table>
+    <tr>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_172812.png"><img src="./docs/screenshot/thumb/2023-10-26_172812.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_172955.png"><img src="./docs/screenshot/thumb/2023-10-26_172955.png" /></a></td>
+    </tr>
+</table>
+
+- Swagger
+
+<table>
+    <tr>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_174707.png"><img src="./docs/screenshot/thumb/2023-10-26_174707.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_174949.png"><img src="./docs/screenshot/thumb/2023-10-26_174949.png" /></a></td>
+    </tr>
+</table>
+
+- 管理后台
+
+<table>
+    <tr>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175308.png"><img src="./docs/screenshot/thumb/2023-10-26_175308.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175352.png"><img src="./docs/screenshot/thumb/2023-10-26_175352.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175447.png"><img src="./docs/screenshot/thumb/2023-10-26_175447.png" /></a></td>
+    </tr>
+    <tr>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175430.png"><img src="./docs/screenshot/thumb/2023-10-26_175430.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175407.png"><img src="./docs/screenshot/thumb/2023-10-26_175407.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175419.png"><img src="./docs/screenshot/thumb/2023-10-26_175419.png" /></a></td>
+    </tr>
+    <tr>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175441.png"><img src="./docs/screenshot/thumb/2023-10-26_175441.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175501.png"><img src="./docs/screenshot/thumb/2023-10-26_175501.png" /></a></td>
+        <td width="200"><a href="./docs/screenshot/2023-10-26_175922.png"><img src="./docs/screenshot/thumb/2023-10-26_175922.png" /></a></td>
+    </tr>
+</table>
+
 ## 快速开始
 
 ```shell
-docker run nsnail2/netadmin
+docker run nsnail/netadmin
 ```
 
 ## 构建步骤
