@@ -12,7 +12,7 @@
         </PackageReference>
         <PackageReference Include="FreeSql.Provider.SqlServer.NS" Version="3.2.802-preview20231010-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.802-preview20231010-ns1"/>
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.48"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.49"/>
         <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.8.8.48-ns4"/>
         <PackageReference Include="Furion.Pure.NS" Version="4.8.8.48-ns4"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-rc.2.23480.2"/>

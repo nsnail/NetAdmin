@@ -1,16 +1,7 @@
-<div style="display: flex;margin-bottom:2rem">
-    <img style="height:4rem; " src="https://raw.githubusercontent.com/nsnail/NetAdmin/main/src/frontend/admin/src/assets/img/logo.png">
-  <span style="font-size:4rem;line-height:4rem;padding-left:1rem">
-    NetAdmin
-  </span>
-</div>
+# NetAdmin
 
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml)
 [![.NET](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
-
-
-
-
 
 ## 快速开始
 

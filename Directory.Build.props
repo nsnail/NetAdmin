@@ -23,7 +23,7 @@
         <Title>$(AssemblyName)</Title>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="MinVer" Version="5.0.0-alpha.1">
+        <PackageReference Include="MinVer" Version="5.0.0-beta.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
