@@ -4,11 +4,18 @@
 name: .NET
 on:
   push:
-    branches: [ "tk" ]
+    branches: [ "main" ]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Build docker images
-        run: docker build -t netadmin .
+        run: docker build -t nsnail/netadmin .
+      - name: Docker login
+        uses: docker/login-action@v3
+        with:
+          username: "nsnail"
+          password: "${{secrets.DOCKER_PASSWORD}}"
+      - name: Push docker images
+        run: docker push nsnail/netadmin
