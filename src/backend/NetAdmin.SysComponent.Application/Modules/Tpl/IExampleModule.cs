@@ -11,4 +11,4 @@ public interface IExampleModule : ICrudModule<CreateExampleReq, QueryExampleRsp 
   , QueryExampleReq, QueryExampleRsp                                            // 查询类型
   , UpdateExampleReq, QueryExampleRsp                                           // 修改类型
   , DelReq                                                                      // 删除类型
->;
+> { }

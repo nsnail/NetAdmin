@@ -11,4 +11,4 @@ public interface IUserProfileModule : ICrudModule<CreateUserProfileReq, QueryUse
   , QueryUserProfileReq, QueryUserProfileRsp                                                // 查询类型
   , UpdateUserProfileReq, QueryUserProfileRsp                                               // 修改类型
   , DelReq                                                                                  // 删除类型
->;
+> { }

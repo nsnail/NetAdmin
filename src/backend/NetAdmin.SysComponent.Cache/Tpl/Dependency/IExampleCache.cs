@@ -7,4 +7,4 @@ namespace NetAdmin.SysComponent.Cache.Tpl.Dependency;
 /// <summary>
 ///     示例缓存
 /// </summary>
-public interface IExampleCache : ICache<IDistributedCache, IExampleService>, IExampleModule;
+public interface IExampleCache : ICache<IDistributedCache, IExampleService>, IExampleModule { }
