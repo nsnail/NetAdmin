@@ -9,7 +9,7 @@
       // 数据缓存
       {
         "Name": "DataCache",
-        "ConnStr": "localhost:6379",
+        "ConnStr": "netadmin-redis:6379",
         "Database": 0
       }
     ]

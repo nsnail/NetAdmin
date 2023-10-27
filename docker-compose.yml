@@ -1,0 +1,18 @@
+version: "3"
+services:
+  netadmin-biz-host:
+    image: nsnail/netadmin
+    container_name: netadmin-biz-host
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - 65010:8080
+    networks:
+      - netadmin-net
+  netadmin-redis:
+    image: redis
+    container_name: netadmin-redis
+    networks:
+      - netadmin-net
+networks:
+  netadmin-net:
