@@ -4,11 +4,11 @@
 name: .NET
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "tk" ]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Build docker images
-        run: docker build -t NetAdmin .
+        run: docker build -t netadmin .
