@@ -2,56 +2,20 @@
 
 基于C#12、.NET8.0、Vue3/Vite、Element Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权限管理框架
 
-[![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![Furion](https://img.shields.io/badge/Furion-4.x-blueviolet.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![FreeSql](https://img.shields.io/badge/FreeSql-3.x-orange.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 
-## 截图预览
+## 快速预览
 
-- 控制台
-
-<table>
-    <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_172812.png"><img src="./docs/screenshot/2023-10-26_172812.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_172955.png"><img src="./docs/screenshot/2023-10-26_172955.png" /></a></td>
-    </tr>
-</table>
-
-- Swagger
-
-<table>
-    <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_174707.png"><img src="./docs/screenshot/2023-10-26_174707.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_174949.png"><img src="./docs/screenshot/2023-10-26_174949.png" /></a></td>
-    </tr>
-</table>
-
-- 管理后台
-
-<table>
-    <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175308.png"><img src="./docs/screenshot/2023-10-26_175308.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175352.png"><img src="./docs/screenshot/2023-10-26_175352.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175447.png"><img src="./docs/screenshot/2023-10-26_175447.png" /></a></td>
-    </tr>
-    <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175430.png"><img src="./docs/screenshot/2023-10-26_175430.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175407.png"><img src="./docs/screenshot/2023-10-26_175407.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175419.png"><img src="./docs/screenshot/2023-10-26_175419.png" /></a></td>
-    </tr>
-    <tr>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175441.png"><img src="./docs/screenshot/2023-10-26_175441.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175501.png"><img src="./docs/screenshot/2023-10-26_175501.png" /></a></td>
-        <td width="200"><a href="https://raw.githubusercontent.com/nsnail/NetAdmin/main/docs/screenshot/2023-10-26_175922.png"><img src="./docs/screenshot/2023-10-26_175922.png" /></a></td>
-    </tr>
-</table>
-
-## 快速开始
-
-```shell
-docker run nsnail/netadmin
-```
+- 在线体验（用户名：root 密码：1234qwer）
+  <br/>
+  http://na.yaopy.com
+- Docker 运行
+    ```shell
+    curl -fsSL https://raw.githubusercontent.com/nsnail/NetAdmin/main/docker-run.sh | bash
+    ```
 
 ## 构建步骤
 
