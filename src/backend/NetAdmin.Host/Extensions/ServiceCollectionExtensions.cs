@@ -181,10 +181,10 @@ public static class ServiceCollectionExtensions
         this IServiceCollection me, FreeSqlInitOptions initOptions = FreeSqlInitOptions.None
       , Action<IFreeSql>        freeSqlConfig = null)
     {
-        // 非调试模式下禁止同步数据库
-        #if !DEBUG
-        initOptions = FreeSqlInitOptions.None;
-        #endif
+        // // 非调试模式下禁止同步数据库
+        // #if !DEBUG
+        // initOptions = FreeSqlInitOptions.None;
+        // #endif
         var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build(initOptions);
         _ = me.AddSingleton(freeSql);
 

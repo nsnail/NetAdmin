@@ -15,7 +15,7 @@ const DEFAULT_CONFIG = {
     CORE_VER: '1.6.9',
 
     //接口地址
-    API_URL: 'http://localhost:65010',
+    API_URL: '',
 
     //请求超时
     TIMEOUT: 10000,

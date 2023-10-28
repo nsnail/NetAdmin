@@ -53,6 +53,7 @@ public static class Chars
     public const string FLG_RANDOM_UNAME_PWD           = "VcXlp7WY";
     public const string FLG_REDIS_INSTANCE_DATA_CACHE  = "DataCache";
     public const string FLG_SNOWFLAKE_WORK_ID          = "SNOWFLAKE_WORK_ID";
+    public const string FLG_STATIC_PATH                = "admin";
     public const string FLG_SYSTEM_PREFIX              = "sc_";
     public const string FLG_TABLE_NAME_PREFIX          = "";
 
