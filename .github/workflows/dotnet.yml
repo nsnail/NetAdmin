@@ -25,12 +25,15 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: ${{ runner.os }}-nuget
       - name: Publish backend
-        run: dotnet publish "./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj" -c Release
-      - name: Publish frontend
+        working-directory: ./src/backend/NetAdmin.BizServer.Host
+        run: dotnet publish NetAdmin.BizServer.Host.csproj -c Release
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - name: Publish frontend
+        working-directory: ./src/frontend/admin
         run: npm run build
       - name: Build docker images
         run: docker build -t nsnail/netadmin .
