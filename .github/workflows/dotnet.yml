@@ -15,6 +15,14 @@ jobs:
         node-version: [ 20.x ]
     steps:
       - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Publish frontend
+        working-directory: ./src/frontend/admin
+        run: npm run build
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -27,14 +35,6 @@ jobs:
       - name: Publish backend
         working-directory: ./src/backend/NetAdmin.BizServer.Host
         run: dotnet publish NetAdmin.BizServer.Host.csproj -c Release
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - name: Publish frontend
-        working-directory: ./src/frontend/admin
-        run: npm run build
       - name: Build docker images
         run: docker build -t nsnail/netadmin .
       - name: Docker login
