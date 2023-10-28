@@ -59,8 +59,12 @@ public static class IApplicationBuilderExtensions
     public static IApplicationBuilder UseVueAdmin(this IApplicationBuilder me)
     {
         if (Directory.Exists(Chars.FLG_STATIC_PATH)) {
-            _ = me.UseStaticFiles(
-                new StaticFileOptions { FileProvider = new PhysicalFileProvider(Chars.FLG_STATIC_PATH) });
+            _ = me.UseStaticFiles(new StaticFileOptions {
+                                                            FileProvider
+                                                                = new PhysicalFileProvider(
+                                                                    AppDomain.CurrentDomain.BaseDirectory +
+                                                                    Chars.FLG_STATIC_PATH)
+                                                        });
         }
 
         return me;

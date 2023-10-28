@@ -19,6 +19,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      # https://docs.github.com/zh/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('./src/frontend/admin/package.json') }}
+          restore-keys: ${{ runner.os }}-npm
       - name: Publish frontend
         working-directory: ./src/frontend/admin
         run:
@@ -27,6 +33,7 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
+      # https://docs.github.com/zh/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
       - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
