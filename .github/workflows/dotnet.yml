@@ -16,6 +16,13 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
+      - uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget
       - name: Publish
         run: dotnet publish "./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj" -c Release
       - name: Build docker images
