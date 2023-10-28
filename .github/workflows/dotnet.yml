@@ -22,8 +22,7 @@ jobs:
       - name: Publish frontend
         working-directory: ./src/frontend/admin
         run:
-          npm install
-          npm run build
+          npm install && npm run build
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
