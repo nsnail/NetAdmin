@@ -10,6 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20.x ]
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
@@ -19,12 +22,16 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
-          # Look to see if there is a cache hit for the corresponding requirements file
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget
-      - name: Publish
+          restore-keys: ${{ runner.os }}-nuget
+      - name: Publish backend
         run: dotnet publish "./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj" -c Release
+      - name: Publish frontend
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+        run: npm run build
       - name: Build docker images
         run: docker build -t nsnail/netadmin .
       - name: Docker login
