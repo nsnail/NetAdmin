@@ -1,6 +1,6 @@
 # NetAdmin
 
-基于C#12/.NET8、Vue3/Vite、Element Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权限管理框架
+A universal RBAC (Role-Based Access Control)  management system built on newest technologies like C#12/.NET8, Vue3/Vite, Element Plus, with exceptionally elegant coding standards.  基于C#12/.NET8、Vue3/Vite、Element Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权限管理框架。
 
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
