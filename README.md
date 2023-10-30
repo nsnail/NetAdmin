@@ -1,21 +1,19 @@
 # NetAdmin
 
-A universal RBAC (Role-Based Access Control)  management system built on newest technologies like C#12/.NET8, Vue3/Vite, Element Plus, with exceptionally elegant coding standards.  基于C#12/.NET8、Vue3/Vite、Element Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权限管理框架。
+A universal RBAC (Role-Based Access Control)  management system built on newest technologies like C#12/.NET8, Vue3/Vite,
+Element Plus, with exceptionally elegant coding standards. 基于C#12/.NET8、Vue3/Vite、Element
+Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权限管理框架。
 
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![Furion](https://img.shields.io/badge/Furion-4.x-blueviolet.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![FreeSql](https://img.shields.io/badge/FreeSql-3.x-orange.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 
-## 快速预览
+## 一键运行
 
-- 在线体验（用户名：root 密码：1234qwer）
-  <br/>
-  http://na.yaopy.com
-- Docker 运行
-    ```shell
-    curl -fsSL https://raw.githubusercontent.com/nsnail/NetAdmin/main/docker-run.sh | bash
-    ```
+```shell
+docker run -p 65010:65010 --rm nsnail/netadmin
+```
 
 ## 构建步骤
 
