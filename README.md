@@ -12,7 +12,7 @@ Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权
 ## 一键运行
 
 ```shell
-docker run -p 65010:65010 --rm nsnail/netadmin
+docker run -p 8080:8080 --rm nsnail/netadmin
 ```
 
 ## 构建步骤
