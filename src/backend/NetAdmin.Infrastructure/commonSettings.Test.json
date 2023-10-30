@@ -4,16 +4,6 @@
     "InjectSpecificationDocument": true,
     "InjectMiniProfiler": true
   },
-  "Redis": {
-    "Instances": [
-      // 数据缓存
-      {
-        "Name": "DataCache",
-        "ConnStr": "netadmin-redis:6379",
-        "Database": 0
-      }
-    ]
-  },
   "JWTSettings": {
     "ExpiredTime": 20000
   },
