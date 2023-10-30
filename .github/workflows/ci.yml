@@ -5,7 +5,7 @@ name: CI
 
 on:
   push:
-    branches: [ "nsnail-patch-1" ]
+    branches: [ "main" ]
 
 jobs:
   build:
