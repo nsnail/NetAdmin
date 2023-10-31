@@ -12,4 +12,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="../../../dist/frontend/admin/**/*" LinkBase="UI"/>
+    </ItemGroup>
 </Project>

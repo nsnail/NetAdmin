@@ -9,7 +9,7 @@ public static class GlobalStatic
     ///     产品版本
     /// </summary>
     public static readonly string ProductVersion
-        = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly()!.Location).ProductVersion;
+        = FileVersionInfo.GetVersionInfo(Environment.ProcessPath!).ProductVersion;
 
     /// <summary>
     ///     调试模式

@@ -1,6 +1,5 @@
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.FileProviders;
 using Prometheus;
 
 namespace NetAdmin.Host.Extensions;
@@ -50,25 +49,6 @@ public static class IApplicationBuilderExtensions
                                        ForwardedHeaders = ForwardedHeaders.XForwardedFor |
                                                           ForwardedHeaders.XForwardedProto
                                    });
-        return me;
-    }
-
-    /// <summary>
-    ///     托管管理后台
-    /// </summary>
-    public static IApplicationBuilder UseVueAdmin(this IApplicationBuilder me)
-    {
-        if (Directory.Exists(Chars.FLG_STATIC_PATH)) {
-            var fileProvider
-                = new PhysicalFileProvider(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Chars.FLG_STATIC_PATH));
-
-            _ = me.UseDefaultFiles(new DefaultFilesOptions {
-                                                               DefaultFileNames = new List<string> { "index.html" }
-                                                             , FileProvider     = fileProvider
-                                                           });
-            _ = me.UseStaticFiles(new StaticFileOptions { FileProvider = fileProvider });
-        }
-
         return me;
     }
 }

@@ -11,7 +11,7 @@ Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权
 
 ## 在线预览
 
-http://na.yaopy.com
+http://na.yaopy.com/anonymous/login
 
 ## 一键运行
 

@@ -29,12 +29,7 @@ public static class IMvcBuilderExtensions
                                         .SwaggerGeneratorOptions
                                         .SwaggerDocs) {
                         doc.Value.Version
-                            = FileVersionInfo
-                              .GetVersionInfo(
-                                  Assembly
-                                      .GetEntryAssembly()!
-                                      .Location)
-                              .ProductVersion;
+                            = GlobalStatic.ProductVersion;
                     }
                 });
         });
