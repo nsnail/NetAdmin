@@ -24,8 +24,8 @@ public sealed class CacheController(ICacheCache cache) : ControllerBase<ICacheCa
     /// <summary>
     ///     获取所有缓存项
     /// </summary>
-    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
-        return Cache.GetAllEntries(req);
+        return Cache.GetAllEntriesAsync(req);
     }
 }

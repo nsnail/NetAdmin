@@ -19,8 +19,8 @@ public sealed class CacheCache
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
-        return Service.GetAllEntries(req);
+        return Service.GetAllEntriesAsync(req);
     }
 }

@@ -4,6 +4,7 @@ using NetAdmin.BizServer.Host;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Dto.Sys.Cache;
+using NetAdmin.Domain.Dto.Sys.Config;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.Tests;
 using Xunit;
@@ -14,18 +15,14 @@ namespace NetAdmin.BizServer.Tests.SysComponent.Sys;
 /// <summary>
 ///     所有测试
 /// </summary>
-public class AllTests
-    (WebApplicationFactory<Startup> factory, ITestOutputHelper testOutputHelper) : WebApiTestBase<Startup>(
-            factory, testOutputHelper)
-      , IToolsModule, ICacheModule, IApiModule
+public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper testOutputHelper) :
+    WebApiTestBase<Startup>(factory, testOutputHelper), IToolsModule, ICacheModule, IApiModule, IConfigModule
 
 {
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        return default;
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -38,33 +35,39 @@ public class AllTests
     }
 
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
+    public Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
-        return default;
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
     public Task<int> DeleteAsync(DelReq req)
     {
-        return default;
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
+    public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
     {
-        return default;
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     [Theory]
     [InlineData(default)]
-    public async Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public async Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
         var rsp = await PostAsync("/api/sys/cache/get.all.entries"
                                 , JsonContent.Create(new PagedQueryReq<GetAllEntriesReq>()));
@@ -73,11 +76,21 @@ public class AllTests
     }
 
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
+    public Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
     public Task<QueryApiRsp> GetAsync(QueryApiReq req)
     {
-        return default;
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task<QueryConfigRsp> GetLatestConfigAsync()
+    {
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -90,19 +103,27 @@ public class AllTests
     }
 
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
-    public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
+    public Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
-        return default;
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
+    public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
     public Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
-        return default;
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -114,11 +135,15 @@ public class AllTests
     }
 
     /// <inheritdoc />
-    [Theory]
-    [InlineData(default)]
+    public Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
     public Task<NopReq> UpdateAsync(NopReq req)
     {
-        return default;
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
