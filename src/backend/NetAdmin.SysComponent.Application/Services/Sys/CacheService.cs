@@ -19,7 +19,7 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) :
     }
 
     /// <inheritdoc />
-    public PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
     {
         var database = connectionMultiplexer.GetDatabase((int?)req.Filter?.DbIndex ?? 0);
         var redisResults
@@ -33,6 +33,6 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) :
                                                 .ToList()
                                                 .ConvertAll(x => x.Adapt<GetAllEntriesRsp>());
 
-        return new PagedQueryRsp<GetAllEntriesRsp>(req.Page, req.PageSize, 10000, list);
+        return Task.FromResult(new PagedQueryRsp<GetAllEntriesRsp>(req.Page, req.PageSize, 10000, list));
     }
 }

@@ -15,17 +15,17 @@ public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCa
     ///     服务器时间
     /// </summary>
     [AllowAnonymous]
-    public DateTime GetServerUtcTime()
+    public Task<DateTime> GetServerUtcTimeAsync()
     {
-        return Cache.GetServerUtcTime();
+        return Cache.GetServerUtcTimeAsync();
     }
 
     /// <summary>
     ///     版本信息
     /// </summary>
     [AllowAnonymous]
-    public string Version()
+    public Task<string> VersionAsync()
     {
-        return Cache.Version();
+        return Cache.VersionAsync();
     }
 }

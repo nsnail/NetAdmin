@@ -19,7 +19,7 @@ public sealed class CacheCache
     }
 
     /// <inheritdoc />
-    public PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
     {
         return Service.GetAllEntries(req);
     }

@@ -96,6 +96,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		ci.yml = .github/workflows/ci.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin.Tests\NetAdmin.Tests.csproj", "{00604162-C444-478B-B773-3AB23C856CA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,10 @@ Global
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}
@@ -180,5 +186,6 @@ Global
 		{89260294-80FC-49F1-8D73-AECD39AFF2B7} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002} = {89260294-80FC-49F1-8D73-AECD39AFF2B7}
 		{3C6F049E-3EE8-4D66-9AFF-E8A369032487} = {1129FE25-466B-4F4F-85FC-3752664245E1}
+		{00604162-C444-478B-B773-3AB23C856CA7} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
 	EndGlobalSection
 EndGlobal

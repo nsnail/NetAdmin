@@ -10,14 +10,14 @@ public sealed class ToolsCache
                                                      , IToolsCache
 {
     /// <inheritdoc />
-    public DateTime GetServerUtcTime()
+    public Task<DateTime> GetServerUtcTimeAsync()
     {
-        return Service.GetServerUtcTime();
+        return Service.GetServerUtcTimeAsync();
     }
 
     /// <inheritdoc />
-    public string Version()
+    public Task<string> VersionAsync()
     {
-        return Service.Version();
+        return Service.VersionAsync();
     }
 }
