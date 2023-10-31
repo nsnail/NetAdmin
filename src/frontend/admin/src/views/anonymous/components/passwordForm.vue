@@ -30,8 +30,8 @@ export default {
         return {
             autoLogin: false,
             form: {
-                account: 'admin',
-                password: 'admin',
+                account: 'root',
+                password: '1234qwer',
             },
             rules: {
                 account: [{ required: true, message: this.$t('login.userError'), trigger: 'blur' }],

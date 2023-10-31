@@ -191,18 +191,19 @@ public static class ServiceCollectionExtensions
         var sqlAuditor = App.GetService<SqlAuditor>();
 
         freeSql.Aop.AuditValue += sqlAuditor.DataAuditHandler; // Insert/Update自动值处理
+        var eventPublisher = App.GetService<IEventPublisher>();
 
         // AOP事件发布（异步）
         freeSql.Aop.CommandBefore
-            += (_, e) => App.GetService<IEventPublisher>().PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
+            += (sender, e) => eventPublisher.PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
         freeSql.Aop.CommandAfter
-            += (_, e) => App.GetService<IEventPublisher>().PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
+            += (sender, e) => eventPublisher.PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
 
         freeSql.Aop.SyncStructureBefore += (_, e) =>
-            App.GetService<IEventPublisher>().PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
+            eventPublisher.PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
 
         freeSql.Aop.SyncStructureAfter += (_, e) =>
-            App.GetService<IEventPublisher>().PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
+            eventPublisher.PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
 
         // 全局过滤器设置
         freeSqlConfig?.Invoke(freeSql);

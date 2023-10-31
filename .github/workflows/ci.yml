@@ -33,7 +33,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
-      # https://docs.github.com/zh/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
       - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
