@@ -19,7 +19,7 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) :
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
         var database = connectionMultiplexer.GetDatabase((int?)req.Filter?.DbIndex ?? 0);
         var redisResults
