@@ -16,5 +16,5 @@ public interface ICacheModule
     /// <summary>
     ///     获取所有缓存项
     /// </summary>
-    PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req);
+    Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req);
 }

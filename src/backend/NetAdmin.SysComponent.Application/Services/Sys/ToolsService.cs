@@ -7,14 +7,14 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
 {
     /// <inheritdoc />
-    public DateTime GetServerUtcTime()
+    public Task<DateTime> GetServerUtcTimeAsync()
     {
-        return DateTime.UtcNow;
+        return Task.FromResult(DateTime.UtcNow);
     }
 
     /// <inheritdoc />
-    public string Version()
+    public Task<string> VersionAsync()
     {
-        return GlobalStatic.ProductVersion;
+        return Task.FromResult(GlobalStatic.ProductVersion);
     }
 }

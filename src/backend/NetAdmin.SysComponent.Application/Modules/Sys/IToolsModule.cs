@@ -8,10 +8,10 @@ public interface IToolsModule
     /// <summary>
     ///     服务器时间
     /// </summary>
-    DateTime GetServerUtcTime();
+    Task<DateTime> GetServerUtcTimeAsync();
 
     /// <summary>
     ///     版本信息
     /// </summary>
-    string Version();
+    Task<string> VersionAsync();
 }
