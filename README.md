@@ -9,6 +9,10 @@ Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权
 [![Furion](https://img.shields.io/badge/Furion-4.x-blueviolet.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![FreeSql](https://img.shields.io/badge/FreeSql-3.x-orange.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 
+## 在线预览
+
+http://na.yaopy.com
+
 ## 一键运行
 
 ```shell
