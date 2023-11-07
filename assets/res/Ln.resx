@@ -152,6 +152,8 @@
     <data name="本部门数据" xml:space="preserve"><value>本部门数据</value></data>
     <data name="柯尔克孜族" xml:space="preserve"><value>柯尔克孜族</value></data>
     <data name="框架" xml:space="preserve"><value>框架</value></data>
+    <data name="模块名称不能为空" xml:space="preserve"><value>模块名称不能为空</value></data>
+    <data name="模块说明不能为空" xml:space="preserve"><value>模块说明不能为空</value></data>
     <data name="比较数据库结构" xml:space="preserve"><value>比较数据库结构</value></data>
     <data name="毛南族" xml:space="preserve"><value>毛南族</value></data>
     <data name="水族" xml:space="preserve"><value>水族</value></data>
