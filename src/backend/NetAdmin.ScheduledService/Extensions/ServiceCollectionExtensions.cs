@@ -14,17 +14,8 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddSchedules(this IServiceCollection me)
     {
-        _ = me.AddSchedule(    //
+        return me.AddSchedule( //
             builder => builder //
-                .AddJob<ExampleJob>(false, Triggers.Minutely().SetRunOnStart(true))
-
-            // .AddJob<ExampleJob2>(false, Triggers.PeriodSeconds(10).SetRunOnStart(true))
-            // .AddJob<ExampleJob3>(false, Triggers.PeriodSeconds(10).SetRunOnStart(true))
-
-            //
-            #pragma warning disable SA1009, SA1111
-        );
-        #pragma warning restore SA1111, SA1009
-        return me;
+                .AddJob<ExampleJob>(false, Triggers.Minutely().SetRunOnStart(true)));
     }
 }

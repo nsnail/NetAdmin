@@ -14,10 +14,11 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserService" />
-public sealed class UserService(DefaultRepository<Sys_User> rpo, IUserProfileService userProfileService
-                              , IVerifyCodeService verifyCodeService
-                              , IEventPublisher eventPublisher) : RepositoryService<Sys_User, IUserService>(rpo)
-                                                                , IUserService
+public sealed class UserService(DefaultRepository<Sys_User> rpo                //
+                              , IUserProfileService         userProfileService //
+                              , IVerifyCodeService          verifyCodeService  //
+                              , IEventPublisher             eventPublisher)    //
+    : RepositoryService<Sys_User, IUserService>(rpo), IUserService
 {
     private readonly Expression<Func<Sys_User, Sys_User>> _selectUserFields = a => new Sys_User {
         Id          = a.Id

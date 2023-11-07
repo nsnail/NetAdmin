@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IRequestLogService" />
-public sealed class RequestLogService
-    (DefaultRepository<Sys_RequestLog> rpo) : RepositoryService<Sys_RequestLog, IRequestLogService>(rpo), IRequestLogService
+public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
+    : RepositoryService<Sys_RequestLog, IRequestLogService>(rpo), IRequestLogService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

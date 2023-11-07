@@ -9,8 +9,8 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IConfigService" />
-public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) : RepositoryService<Sys_Config, IConfigService>(rpo)
-                                                              , IConfigService
+public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
+    : RepositoryService<Sys_Config, IConfigService>(rpo), IConfigService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicCatalogService" />
-public sealed class DicCatalogService
-    (DefaultRepository<Sys_DicCatalog> rpo) : RepositoryService<Sys_DicCatalog, IDicCatalogService>(rpo), IDicCatalogService
+public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
+    : RepositoryService<Sys_DicCatalog, IDicCatalogService>(rpo), IDicCatalogService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -26,7 +26,7 @@ public sealed class DicCatalogService
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
     public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
-        if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
+        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
         }
 
@@ -77,7 +77,7 @@ public sealed class DicCatalogService
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
     {
-        if (req.ParentId != 0 && !await Rpo.Select.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
+        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
         }
 
@@ -85,7 +85,7 @@ public sealed class DicCatalogService
             throw new NetAdminUnexpectedException();
         }
 
-        var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync();
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 

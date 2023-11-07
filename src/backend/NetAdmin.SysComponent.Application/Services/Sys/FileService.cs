@@ -4,8 +4,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IFileService" />
-public sealed class FileService
-    (IOptions<UploadOptions> uploadOptions, MinioHelper minioHelper) : ServiceBase<IFileService>, IFileService
+public sealed class FileService(IOptions<UploadOptions> uploadOptions, MinioHelper minioHelper) //
+    : ServiceBase<IFileService>, IFileService
 {
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">文件不能为空</exception>

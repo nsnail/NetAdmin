@@ -7,9 +7,8 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="ICacheCache" />
-public sealed class CacheCache
-    (IDistributedCache cache, ICacheService service) : DistributedCache<ICacheService>(cache, service), IScoped
-                                                     , ICacheCache
+public sealed class CacheCache(IDistributedCache cache, ICacheService service) //
+    : DistributedCache<ICacheService>(cache, service), IScoped, ICacheCache
 {
     /// <inheritdoc />
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()

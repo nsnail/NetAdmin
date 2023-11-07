@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicContentService" />
-public sealed class DicContentService
-    (DefaultRepository<Sys_DicContent> rpo) : RepositoryService<Sys_DicContent, IDicContentService>(rpo), IDicContentService
+public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
+    : RepositoryService<Sys_DicContent, IDicContentService>(rpo), IDicContentService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -84,7 +84,7 @@ public sealed class DicContentService
             throw new NetAdminUnexpectedException();
         }
 
-        var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync();
         return ret.Adapt<QueryDicContentRsp>();
     }
 

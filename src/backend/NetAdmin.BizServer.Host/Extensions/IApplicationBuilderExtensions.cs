@@ -27,9 +27,7 @@ public static class IApplicationBuilderExtensions
                                .Where(x => x.StartsWith(_RES_PFX, StringComparison.OrdinalIgnoreCase))
                                .Select(x => x[_RES_PFX.Length..]);
 
-        _ = me.Use(UseVueAdminAsync);
-
-        return me;
+        return me.Use(UseVueAdminAsync);
     }
 
     private static Stream GetManifestResourceStream(string path)

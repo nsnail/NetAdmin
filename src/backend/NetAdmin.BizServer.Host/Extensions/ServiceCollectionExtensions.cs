@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
     {
-        _ = me.AddFreeSql( //
+        return me.AddFreeSql( //
             FreeSqlInitOptions.SyncStructure | FreeSqlInitOptions.InsertSeedData, freeSql => {
                 // 数据权限过滤器
                 _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
@@ -25,7 +25,6 @@ public static class ServiceCollectionExtensions
                   , () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.Self) ?? false
                   , a => a.OwnerId == ContextUserInfo.Create().Id);
             });
-        return me;
     }
 
     /// <summary>

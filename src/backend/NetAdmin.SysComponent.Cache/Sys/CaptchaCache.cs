@@ -6,9 +6,8 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="ICaptchaCache" />
-public sealed class CaptchaCache
-    (IDistributedCache cache, ICaptchaService service) : DistributedCache<ICaptchaService>(cache, service), IScoped
-                                                       , ICaptchaCache
+public sealed class CaptchaCache(IDistributedCache cache, ICaptchaService service) //
+    : DistributedCache<ICaptchaService>(cache, service), IScoped, ICaptchaCache
 {
     /// <inheritdoc />
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()

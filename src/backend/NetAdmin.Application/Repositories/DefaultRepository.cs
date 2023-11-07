@@ -6,9 +6,10 @@ namespace NetAdmin.Application.Repositories;
 /// <summary>
 ///     默认仓储
 /// </summary>
-public sealed class DefaultRepository<TEntity>
-    (IFreeSql fSql, UnitOfWorkManager uowManger, ContextUserToken userToken) : DefaultRepository<TEntity, long>(
-        fSql, uowManger)
+public sealed class DefaultRepository<TEntity>(IFreeSql          fSql       //
+                                             , UnitOfWorkManager uowManger  //
+                                             , ContextUserToken  userToken) //
+    : DefaultRepository<TEntity, long>(fSql, uowManger)
     where TEntity : EntityBase
 {
     /// <summary>

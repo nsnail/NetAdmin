@@ -11,9 +11,8 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IVerifyCodeService" />
-public sealed class VerifyCodeService
-    (DefaultRepository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) :
-        RepositoryService<Sys_VerifyCode, IVerifyCodeService>(rpo), IVerifyCodeService
+public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) //
+    : RepositoryService<Sys_VerifyCode, IVerifyCodeService>(rpo), IVerifyCodeService
 {
     private static readonly int[] _randRange = { 0, 10000 };
 
@@ -84,7 +83,6 @@ public sealed class VerifyCodeService
         QueryVerifyCodeRsp ret;
 
         #if !DEBUG
-
         // 有发送记录，且小于1分钟，不允许
         if (lastSent != null && (DateTime.UtcNow - lastSent.CreatedTime).TotalMinutes < 1) {
             throw new NetAdminInvalidOperationException(Ln._1分钟内只能发送1次);

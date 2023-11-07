@@ -7,8 +7,8 @@ using StackExchange.Redis;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ICacheService" />
-public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) : ServiceBase<ICacheService>
-  , ICacheService
+public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) //
+    : ServiceBase<ICacheService>, ICacheService
 {
     /// <inheritdoc />
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()

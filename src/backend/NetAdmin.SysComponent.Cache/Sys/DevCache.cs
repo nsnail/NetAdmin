@@ -6,8 +6,8 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IDevCache" />
-public sealed class DevCache
-    (IDistributedCache cache, IDevService service) : DistributedCache<IDevService>(cache, service), IScoped, IDevCache
+public sealed class DevCache(IDistributedCache cache, IDevService service) //
+    : DistributedCache<IDevService>(cache, service), IScoped, IDevCache
 {
     /// <inheritdoc />
     public Task GenerateCsCodeAsync(GenerateCsCodeReq req)
