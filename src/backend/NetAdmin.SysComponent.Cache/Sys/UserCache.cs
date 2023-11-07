@@ -8,9 +8,8 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IUserCache" />
-public sealed class UserCache
-    (IDistributedCache cache, IUserService service, IVerifyCodeCache verifyCodeCache) :
-        DistributedCache<IUserService>(cache, service), IScoped, IUserCache
+public sealed class UserCache(IDistributedCache cache, IUserService service, IVerifyCodeCache verifyCodeCache) //
+    : DistributedCache<IUserService>(cache, service), IScoped, IUserCache
 {
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

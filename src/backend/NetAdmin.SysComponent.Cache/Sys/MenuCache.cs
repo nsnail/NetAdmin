@@ -7,9 +7,8 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IMenuCache" />
-public sealed class MenuCache
-    (IDistributedCache cache, IMenuService service) : DistributedCache<IMenuService>(cache, service), IScoped
-                                                    , IMenuCache
+public sealed class MenuCache(IDistributedCache cache, IMenuService service) //
+    : DistributedCache<IMenuService>(cache, service), IScoped, IMenuCache
 {
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

@@ -133,10 +133,8 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddContextUser(this IServiceCollection me)
     {
-        _ = me.AddScoped(typeof(ContextUserToken), _ => ContextUserToken.Create());
-        _ = me.AddScoped(typeof(ContextUserInfo),  _ => ContextUserInfo.Create());
-
-        return me;
+        return me.AddScoped(typeof(ContextUserToken), _ => ContextUserToken.Create())
+                 .AddScoped(typeof(ContextUserInfo), _ => ContextUserInfo.Create());
     }
 
     /// <summary>
@@ -144,8 +142,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddEventBus(this IServiceCollection me)
     {
-        _ = me.AddEventBus(builder => builder.AddSubscribers(App.Assemblies.ToArray()));
-        return me;
+        return me.AddEventBus(builder => builder.AddSubscribers(App.Assemblies.ToArray()));
     }
 
     /// <summary>
@@ -182,11 +179,9 @@ public static class ServiceCollectionExtensions
         // 全局过滤器设置
         freeSqlConfig?.Invoke(freeSql);
 
-        _ = me.AddScoped<UnitOfWorkManager>();                    // 注入工作单元管理器
-        _ = me.AddFreeRepository(null, App.Assemblies.ToArray()); // 批量注入 Repository
-        _ = me.AddMvcFilter<TransactionInterceptor>();            // 注入事务拦截器
-
-        return me;
+        return me.AddScoped<UnitOfWorkManager>()                    // 注入工作单元管理器
+                 .AddFreeRepository(null, App.Assemblies.ToArray()) // 批量注入 Repository
+                 .AddMvcFilter<TransactionInterceptor>();           // 注入事务拦截器
     }
 
     /// <summary>
@@ -194,8 +189,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddMemCache(this IServiceCollection me)
     {
-        _ = me.AddMemoryCache(options => options.TrackStatistics = true);
-        return me;
+        return me.AddMemoryCache(options => options.TrackStatistics = true);
     }
 
     /// <summary>
@@ -227,8 +221,7 @@ public static class ServiceCollectionExtensions
         });
 
         // Redis原生接口
-        _ = me.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.ConnStr));
-        return me;
+        return me.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.ConnStr));
     }
 
     /// <summary>

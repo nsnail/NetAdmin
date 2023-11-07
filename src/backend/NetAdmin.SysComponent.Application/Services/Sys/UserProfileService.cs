@@ -10,9 +10,8 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserProfileService" />
-public sealed class UserProfileService
-    (Repository<Sys_UserProfile> rpo) : RepositoryService<Sys_UserProfile, IUserProfileService>(rpo)
-                                      , IUserProfileService
+public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) //
+    : RepositoryService<Sys_UserProfile, IUserProfileService>(rpo), IUserProfileService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

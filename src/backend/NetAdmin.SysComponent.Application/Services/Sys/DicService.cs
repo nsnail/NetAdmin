@@ -7,8 +7,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicService" />
-public sealed class DicService
-    (IDicCatalogService catalogService, IDicContentService contentService) : ServiceBase<IDicService>, IDicService
+public sealed class DicService(IDicCatalogService catalogService, IDicContentService contentService) //
+    : ServiceBase<IDicService>, IDicService
 {
     /// <inheritdoc />
     public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)

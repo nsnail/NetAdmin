@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IMenuService" />
-public sealed class MenuService
-    (Repository<Sys_Menu> rpo, IUserService userService) : RepositoryService<Sys_Menu, IMenuService>(rpo), IMenuService
+public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService userService) //
+    : RepositoryService<Sys_Menu, IMenuService>(rpo), IMenuService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -72,7 +72,7 @@ public sealed class MenuService
             throw new NetAdminUnexpectedException();
         }
 
-        var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync();
         return ret.Adapt<QueryMenuRsp>();
     }
 
