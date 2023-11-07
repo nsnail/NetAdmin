@@ -1,7 +1,9 @@
 using NetAdmin.Host.Extensions;
 using NetAdmin.Host.Middlewares;
 using NetAdmin.ScheduledService.Extensions;
+#if !DEBUG
 using Prometheus;
+#endif
 
 namespace NetAdmin.ScheduledService;
 
@@ -35,7 +37,9 @@ public sealed class Startup : Host.Startup
             .UseUnifyResultStatusCodes()               // 使用UnifyResultStatusCodes中间件，用于统一处理结果状态码
             .UseCorsAccessor()                         // 使用CorsAccessor中间件，启用跨域资源共享（CORS）支持
             .UseRouting()                              // 使用Routing中间件，配置路由映射
+            #if !DEBUG
             .UseHttpMetrics()                          // 使用HttpMetrics中间件，启用HTTP性能监控
+            #endif
             .UseMiddleware<RemoveNullNodeMiddleware>() // 使用RemoveNullNodeMiddleware中间件，删除JSON中的空节点
             .UseEndpoints();                           // 配置端点以处理请求
     }

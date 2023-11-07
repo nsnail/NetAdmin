@@ -4,8 +4,8 @@
         <ProjectReference Include="../NetAdmin.Cache/NetAdmin.Cache.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Version="0.0.15-ns2"/>
+        <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Condition="'$(Configuration)' == 'Debug'" Version="0.0.15-ns2"/>
         <PackageReference Include="Spectre.Console.NS" Version="0.45.1-preview.0.103"/>
-        <PackageReference Include="prometheus-net.AspNetCore" Version="8.1.0"/>
+        <PackageReference Include="prometheus-net.AspNetCore" Condition="'$(Configuration)' != 'Debug'" Version="8.1.0"/>
     </ItemGroup>
 </Project>

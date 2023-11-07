@@ -16,7 +16,7 @@ public abstract class Startup : AppStartup
         var gridInfo = new Grid().AddColumn(new GridColumn().NoWrap().Width(50).PadRight(10))
                                  .AddColumn(new GridColumn().NoWrap())
                                  .Expand();
-        foreach (var kv in ApplicationHelper.GetEnvironmentInfo()) {
+        foreach (var kv in ApplicationHelper.GetEnvironmentInfo().OrderBy(x => x.Key)) {
             _ = gridInfo.AddRow(kv.Key, kv.Value.ToString()!.EscapeMarkup());
         }
 
