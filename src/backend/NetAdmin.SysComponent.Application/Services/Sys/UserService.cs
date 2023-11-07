@@ -14,10 +14,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserService" />
-public sealed class UserService(Repository<Sys_User> rpo, IUserProfileService userProfileService
-                              , IVerifyCodeService   verifyCodeService
-                              , IEventPublisher      eventPublisher) : RepositoryService<Sys_User, IUserService>(rpo)
-                                                                     , IUserService
+public sealed class UserService(DefaultRepository<Sys_User> rpo, IUserProfileService userProfileService
+                              , IVerifyCodeService verifyCodeService
+                              , IEventPublisher eventPublisher) : RepositoryService<Sys_User, IUserService>(rpo)
+                                                                , IUserService
 {
     private readonly Expression<Func<Sys_User, Sys_User>> _selectUserFields = a => new Sys_User {
         Id          = a.Id
@@ -123,12 +123,12 @@ public sealed class UserService(Repository<Sys_User> rpo, IUserProfileService us
         #pragma warning disable IDE0045
         if (new MobileAttribute().IsValid(req.Account)) {
             #pragma warning restore IDE0045
-            dbUser = await Rpo.GetAsync(a => a.Mobile == req.Account && a.Password == pwd);
+            dbUser = await Rpo.Where(a => a.Mobile == req.Account && a.Password == pwd).ToOneAsync();
         }
         else {
             dbUser = new EmailAddressAttribute().IsValid(req.Account)
-                ? await Rpo.GetAsync(a => a.Email    == req.Account && a.Password == pwd)
-                : await Rpo.GetAsync(a => a.UserName == req.Account && a.Password == pwd);
+                ? await Rpo.Where(a => a.Email    == req.Account && a.Password == pwd).ToOneAsync()
+                : await Rpo.Where(a => a.UserName == req.Account && a.Password == pwd).ToOneAsync();
         }
 
         return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户名或密码错误) : LoginInternal(dbUser);
@@ -143,7 +143,7 @@ public sealed class UserService(Repository<Sys_User> rpo, IUserProfileService us
             throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
-        var dbUser = await Rpo.GetAsync(a => a.Mobile == req.DestDevice);
+        var dbUser = await Rpo.Where(a => a.Mobile == req.DestDevice).ToOneAsync();
         return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户不存在) : LoginInternal(dbUser);
     }
 

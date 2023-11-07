@@ -9,7 +9,7 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicContentService" />
 public sealed class DicContentService
-    (Repository<Sys_DicContent> rpo) : RepositoryService<Sys_DicContent, IDicContentService>(rpo), IDicContentService
+    (DefaultRepository<Sys_DicContent> rpo) : RepositoryService<Sys_DicContent, IDicContentService>(rpo), IDicContentService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

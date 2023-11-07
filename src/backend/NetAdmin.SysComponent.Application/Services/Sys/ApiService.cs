@@ -8,7 +8,7 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IApiService" />
-public sealed class ApiService(Repository<Sys_Api>                 rpo, XmlCommentReader xmlCommentReader
+public sealed class ApiService(DefaultRepository<Sys_Api>                 rpo, XmlCommentReader xmlCommentReader
                              , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) :
     RepositoryService<Sys_Api, IApiService>(rpo), IApiService
 {

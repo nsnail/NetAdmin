@@ -9,7 +9,7 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IConfigService" />
-public sealed class ConfigService(Repository<Sys_Config> rpo) : RepositoryService<Sys_Config, IConfigService>(rpo)
+public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) : RepositoryService<Sys_Config, IConfigService>(rpo)
                                                               , IConfigService
 {
     /// <inheritdoc />

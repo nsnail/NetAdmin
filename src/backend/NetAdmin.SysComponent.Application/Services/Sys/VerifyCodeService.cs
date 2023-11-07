@@ -12,7 +12,7 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IVerifyCodeService" />
 public sealed class VerifyCodeService
-    (Repository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) :
+    (DefaultRepository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) :
         RepositoryService<Sys_VerifyCode, IVerifyCodeService>(rpo), IVerifyCodeService
 {
     private static readonly int[] _randRange = { 0, 10000 };

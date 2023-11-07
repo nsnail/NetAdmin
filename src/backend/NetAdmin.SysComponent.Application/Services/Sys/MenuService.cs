@@ -9,7 +9,7 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IMenuService" />
 public sealed class MenuService
-    (Repository<Sys_Menu> rpo, IUserService userService) : RepositoryService<Sys_Menu, IMenuService>(rpo), IMenuService
+    (DefaultRepository<Sys_Menu> rpo, IUserService userService) : RepositoryService<Sys_Menu, IMenuService>(rpo), IMenuService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
