@@ -24,7 +24,7 @@ public sealed class XmlCommentReader : ISingleton
             var xmlDoc      = new XmlDocument();
             var xmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile);
             if (!File.Exists(xmlFilePath)) {
-                LogHelper.Get<XmlCommentReader>().Warn(Ln.Xml注释文件不存在);
+                LogHelper.Get<XmlCommentReader>().Warn($"{Ln.XML注释文件不存在}: {xmlFilePath}");
                 continue;
             }
 

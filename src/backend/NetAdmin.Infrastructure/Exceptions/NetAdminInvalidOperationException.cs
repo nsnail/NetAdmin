@@ -1,4 +1,4 @@
-namespace NetAdmin.Infrastructure.Exceptions.InvalidOperation;
+namespace NetAdmin.Infrastructure.Exceptions;
 
 /// <summary>
 ///     无效操作异常

@@ -1,4 +1,4 @@
-namespace NetAdmin.Infrastructure.Exceptions.Unexpected;
+namespace NetAdmin.Infrastructure.Exceptions;
 
 /// <summary>
 ///     加锁失败异常

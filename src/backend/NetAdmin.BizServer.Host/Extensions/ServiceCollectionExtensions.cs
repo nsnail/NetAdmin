@@ -13,7 +13,7 @@ namespace NetAdmin.BizServer.Host.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    ///     注册FreeSql
+    ///     添加 FreeSql
     /// </summary>
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
     {
@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     jwt授权处理器
+    ///     添加 jwt 授权处理器
     /// </summary>
     public static IServiceCollection AddJwt(this IServiceCollection me)
     {

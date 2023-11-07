@@ -10,7 +10,7 @@ namespace NetAdmin.ScheduledService.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    ///     注册定时任务
+    ///     添加定时任务
     /// </summary>
     public static IServiceCollection AddSchedules(this IServiceCollection me)
     {
