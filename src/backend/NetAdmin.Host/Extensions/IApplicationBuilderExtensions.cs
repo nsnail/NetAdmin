@@ -1,6 +1,9 @@
+#if DEBUG
 using IGeekFan.AspNetCore.Knife4jUI;
-using Microsoft.AspNetCore.HttpOverrides;
+#else
 using Prometheus;
+#endif
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace NetAdmin.Host.Extensions;
 
@@ -19,11 +22,13 @@ public static class IApplicationBuilderExtensions
     {
         _ = me.UseEndpoints(endpoints => {
             _ = endpoints.MapControllers();
+            #if !DEBUG
             _ = endpoints.MapMetrics();
+            #endif
         });
         return me;
     }
-
+    #if DEBUG
     /// <summary>
     ///     使用 api skin （knife4j-vue）
     /// </summary>
@@ -38,6 +43,7 @@ public static class IApplicationBuilderExtensions
 
         return me;
     }
+    #endif
 
     /// <summary>
     ///     获取客户端真实Ip

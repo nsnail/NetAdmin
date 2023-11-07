@@ -11,6 +11,7 @@ namespace NetAdmin.Infrastructure.Constant;
 public static class Numbers
 {
     public const int  BULK_REQ_LIMIT            = 100;             // 批量请求允许的最大数量
+    public const int  CONSOLE_LINE_LEN_LIMIT    = 8192;            // 控制台输出的最大长度
     public const long DEF_SORT_VAL              = 100;             // 排序默认值
     public const long DIC_CATALOG_ID_GEO_AREA   = 379794295185413; // 字典目录编号-行政区划字典
     public const int  HEART_TIMEOUT_SECS        = 600;             // 心跳超时时间

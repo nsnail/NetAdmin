@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using NetAdmin.BizServer.Host;
@@ -15,6 +16,7 @@ namespace NetAdmin.BizServer.Tests.SysComponent.Sys;
 /// <summary>
 ///     所有测试
 /// </summary>
+[SuppressMessage("Usage", "xUnit1028:Test method must have valid return type")]
 public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper testOutputHelper) :
     WebApiTestBase<Startup>(factory, testOutputHelper), IToolsModule, ICacheModule, IApiModule, IConfigModule
 

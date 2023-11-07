@@ -21,14 +21,15 @@ public sealed class XmlCommentReader : ISingleton
                                     nameof(SpecificationDocumentSettingsOptions).TrimEndOptions())
                                 .XmlComments;
         foreach (var commentFile in xmlComments.Where(x => x.Contains(nameof(NetAdmin)))) {
-            var xmlDoc = new XmlDocument();
-            try {
-                xmlDoc.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile));
-                _xmlDocuments.Add(xmlDoc);
-            }
-            catch (FileNotFoundException) {
+            var xmlDoc      = new XmlDocument();
+            var xmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile);
+            if (!File.Exists(xmlFilePath)) {
                 LogHelper.Get<XmlCommentReader>().Warn(Ln.Xml注释文件不存在);
+                continue;
             }
+
+            xmlDoc.Load(xmlFilePath);
+            _xmlDocuments.Add(xmlDoc);
         }
     }
 

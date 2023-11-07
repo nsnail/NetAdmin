@@ -1,7 +1,9 @@
 using NetAdmin.BizServer.Host.Extensions;
 using NetAdmin.Host.Extensions;
 using NetAdmin.Host.Middlewares;
+#if !DEBUG
 using Prometheus;
+#endif
 
 namespace NetAdmin.BizServer.Host;
 
@@ -39,7 +41,9 @@ public sealed class Startup : NetAdmin.Host.Startup
             .UseVueAdmin() // 托管管理后台，仅在非调试模式下
             #endif
             .UseRouting()                              // 使用Routing中间件，配置路由映射
+            #if !DEBUG
             .UseHttpMetrics()                          // 使用HttpMetrics中间件，启用HTTP性能监控
+            #endif
             .UseAuthentication()                       // 使用Authentication中间件，启用身份验证
             .UseAuthorization()                        // 使用Authorization中间件，启用授权
             .UseMiddleware<RemoveNullNodeMiddleware>() // 使用RemoveNullNodeMiddleware中间件，删除JSON中的空节点
