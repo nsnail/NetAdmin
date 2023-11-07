@@ -11,7 +11,7 @@ using NetAdmin.Tests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NetAdmin.BizServer.Tests.SysComponent.Sys;
+namespace NetAdmin.BizServer.Tests;
 
 /// <summary>
 ///     所有测试
