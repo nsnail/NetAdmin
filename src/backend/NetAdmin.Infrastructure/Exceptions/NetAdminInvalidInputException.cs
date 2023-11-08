@@ -1,4 +1,4 @@
-namespace NetAdmin.Infrastructure.Exceptions.InvalidInput;
+namespace NetAdmin.Infrastructure.Exceptions;
 
 /// <summary>
 ///     无效输入异常

@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-03-18 12:45:04
  * @Description:
  */
-import { markRaw } from "vue";
+import { markRaw } from 'vue'
 
 const resultComps = {}
 const files = import.meta.globEager('./*.vue')

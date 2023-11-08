@@ -22,16 +22,15 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-    // ReSharper disable DuplicateResource
-    <data name="_1分钟内只能发送1次" xml:space="preserve"><value>1分钟内只能发送1次</value></data>
+// ReSharper disable DuplicateResource
+       <data name="_1分钟内只能发送1次" xml:space="preserve"><value>1分钟内只能发送1次</value></data>
     <data name="_6位数字" xml:space="preserve"><value>6位数字</value></data>
     <data name="_8位以上数字字母组合" xml:space="preserve"><value>8位以上数字字母组合</value></data>
-    <data name="Xml注释文件不存在" xml:space="preserve"><value>Xml注释文件不存在</value></data>
+    <data name="XML注释文件不存在" xml:space="preserve"><value>XML注释文件不存在</value></data>
     <data name="不为其中之一" xml:space="preserve"><value>不为其中之一</value></data>
     <data name="不以什么开始" xml:space="preserve"><value>不以什么开始</value></data>
     <data name="不以什么结束" xml:space="preserve"><value>不以什么结束</value></data>
     <data name="不包含" xml:space="preserve"><value>不包含</value></data>
-    <data name="不正确" xml:space="preserve"><value>不正确</value></data>
     <data name="不等于" xml:space="preserve"><value>不等于</value></data>
     <data name="业务模块" xml:space="preserve"><value>业务模块</value></data>
     <data name="东乡族" xml:space="preserve"><value>东乡族</value></data>
@@ -65,7 +64,6 @@
     <data name="共青团员" xml:space="preserve"><value>共青团员</value></data>
     <data name="出生证" xml:space="preserve"><value>出生证</value></data>
     <data name="初中" xml:space="preserve"><value>初中</value></data>
-    <data name="初始化完毕" xml:space="preserve"><value>初始化完毕</value></data>
     <data name="包含" xml:space="preserve"><value>包含</value></data>
     <data name="区号电话号码分机号" xml:space="preserve"><value>区号电话号码分机号</value></data>
     <data name="博士" xml:space="preserve"><value>博士</value></data>
@@ -115,6 +113,7 @@
     <data name="或者" xml:space="preserve"><value>或者</value></data>
     <data name="手机" xml:space="preserve"><value>手机</value></data>
     <data name="手机号码" xml:space="preserve"><value>手机号码</value></data>
+    <data name="手机号码不正确" xml:space="preserve"><value>手机号码不正确</value></data>
     <data name="护照" xml:space="preserve"><value>护照</value></data>
     <data name="拉祜族族" xml:space="preserve"><value>拉祜族族</value></data>
     <data name="指定部门数据" xml:space="preserve"><value>指定部门数据</value></data>
@@ -129,16 +128,18 @@
     <data name="文件不能为空" xml:space="preserve"><value>文件不能为空</value></data>
     <data name="新密码不能为空" xml:space="preserve"><value>新密码不能为空</value></data>
     <data name="新手机号码" xml:space="preserve"><value>新手机号码</value></data>
-    <data name="无" xml:space="preserve"><value>无</value></data>
+    <data name="新手机号码验证码不正确" xml:space="preserve"><value>新手机号码验证码不正确</value></data>
     <data name="无效操作" xml:space="preserve"><value>无效操作</value></data>
     <data name="无效端口号" xml:space="preserve"><value>无效端口号</value></data>
     <data name="无效证件号码" xml:space="preserve"><value>无效证件号码</value></data>
     <data name="无效输入" xml:space="preserve"><value>无效输入</value></data>
     <data name="日志长度超过限制" xml:space="preserve"><value>日志长度超过限制</value></data>
     <data name="日期范围" xml:space="preserve"><value>日期范围</value></data>
-    <data name="旧密码" xml:space="preserve"><value>旧密码</value></data>
+    <data name="旧密码不正确" xml:space="preserve"><value>旧密码不正确</value></data>
     <data name="旧密码不能为空" xml:space="preserve"><value>旧密码不能为空</value></data>
     <data name="旧手机号码" xml:space="preserve"><value>旧手机号码</value></data>
+    <data name="旧手机号码不正确" xml:space="preserve"><value>旧手机号码不正确</value></data>
+    <data name="旧手机号码验证码不正确" xml:space="preserve"><value>旧手机号码验证码不正确</value></data>
     <data name="时间戳缺失或误差过大" xml:space="preserve"><value>时间戳缺失或误差过大</value></data>
     <data name="普米族" xml:space="preserve"><value>普米族</value></data>
     <data name="景颇族" xml:space="preserve"><value>景颇族</value></data>
@@ -151,6 +152,8 @@
     <data name="本部门数据" xml:space="preserve"><value>本部门数据</value></data>
     <data name="柯尔克孜族" xml:space="preserve"><value>柯尔克孜族</value></data>
     <data name="框架" xml:space="preserve"><value>框架</value></data>
+    <data name="模块名称不能为空" xml:space="preserve"><value>模块名称不能为空</value></data>
+    <data name="模块说明不能为空" xml:space="preserve"><value>模块说明不能为空</value></data>
     <data name="比较数据库结构" xml:space="preserve"><value>比较数据库结构</value></data>
     <data name="毛南族" xml:space="preserve"><value>毛南族</value></data>
     <data name="水族" xml:space="preserve"><value>水族</value></data>
@@ -224,6 +227,7 @@
     <data name="部门名称不能为空" xml:space="preserve"><value>部门名称不能为空</value></data>
     <data name="鄂伦春族" xml:space="preserve"><value>鄂伦春族</value></data>
     <data name="鄂温克族" xml:space="preserve"><value>鄂温克族</value></data>
+    <data name="配置文件初始化完毕" xml:space="preserve"><value>配置文件初始化完毕</value></data>
     <data name="重设密码" xml:space="preserve"><value>重设密码</value></data>
     <data name="链接" xml:space="preserve"><value>链接</value></data>
     <data name="错误" xml:space="preserve"><value>错误</value></data>

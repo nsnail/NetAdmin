@@ -1,188 +1,185 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta content="width=device-width,initial-scale=1.0" name="viewport" />
-    <link href="/favicon.ico" rel="icon" />
-    <title>NetAdmin</title>
-    <style>
-        #versionCheck {
-            display: none;
-            position: absolute;
-            z-index: 99;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-        }
-
-        .app-loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background: #fff;
-        }
-
-        .app-loading__logo {
-            margin-bottom: 30px;
-        }
-
-        .app-loading__logo img {
-            width: 90px;
-            vertical-align: bottom;
-        }
-
-        .app-loading__loader {
-            box-sizing: border-box;
-            width: 35px;
-            height: 35px;
-            border: 5px solid transparent;
-            border-top-color: #000;
-            border-radius: 50%;
-            animation: 0.5s loader linear infinite;
-            position: relative;
-        }
-
-        .app-loading__loader:before {
-            box-sizing: border-box;
-            content: '';
-            display: block;
-            width: inherit;
-            height: inherit;
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            border: 5px solid #ccc;
-            border-radius: 50%;
-            opacity: 0.5;
-        }
-
-        .app-loading__title {
-            font-size: 24px;
-            color: #333;
-            margin-top: 30px;
-        }
-
-        .dark .app-loading {
-            background: #222225;
-        }
-
-        .dark .app-loading__loader {
-            border-top-color: #fff;
-        }
-
-        .dark .app-loading__title {
-            color: #d0d0d0;
-        }
-
-        @keyframes loader {
-            0% {
-                transform: rotate(0deg);
+    <head>
+        <meta charset="utf-8" />
+        <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+        <meta content="width=device-width,initial-scale=1.0" name="viewport" />
+        <link href="/favicon.ico" rel="icon" />
+        <title>NetAdmin</title>
+        <style>
+            #versionCheck {
+                display: none;
+                position: absolute;
+                z-index: 99;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 40px;
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
             }
-            100% {
-                transform: rotate(360deg);
+
+            .app-loading {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                background: #fff;
             }
-        }
-    </style>
-</head>
-<body>
-<noscript>
-    <strong
-    >We're sorry but NetAdmin doesn't work properly without JavaScript enabled. Please enable it to continue.</strong
-    >
-</noscript>
-<div id="app" class="aminui">
-    <div class="app-loading">
-        <div class="app-loading__logo">
-            <img alt="" src="/src/assets/img/logo.png" />
+
+            .app-loading__logo {
+                margin-bottom: 30px;
+            }
+
+            .app-loading__logo img {
+                width: 90px;
+                vertical-align: bottom;
+            }
+
+            .app-loading__loader {
+                box-sizing: border-box;
+                width: 35px;
+                height: 35px;
+                border: 5px solid transparent;
+                border-top-color: #000;
+                border-radius: 50%;
+                animation: 0.5s loader linear infinite;
+                position: relative;
+            }
+
+            .app-loading__loader:before {
+                box-sizing: border-box;
+                content: '';
+                display: block;
+                width: inherit;
+                height: inherit;
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                border: 5px solid #ccc;
+                border-radius: 50%;
+                opacity: 0.5;
+            }
+
+            .app-loading__title {
+                font-size: 24px;
+                color: #333;
+                margin-top: 30px;
+            }
+
+            .dark .app-loading {
+                background: #222225;
+            }
+
+            .dark .app-loading__loader {
+                border-top-color: #fff;
+            }
+
+            .dark .app-loading__title {
+                color: #d0d0d0;
+            }
+
+            @keyframes loader {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <noscript>
+            <strong>We're sorry but NetAdmin doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+        </noscript>
+        <div id="app" class="aminui">
+            <div class="app-loading">
+                <div class="app-loading__logo">
+                    <img alt="" src="/src/assets/img/logo.png" />
+                </div>
+                <div class="app-loading__loader"></div>
+                <div class="app-loading__title">NetAdmin</div>
+            </div>
         </div>
-        <div class="app-loading__loader"></div>
-        <div class="app-loading__title">NetAdmin</div>
-    </div>
+        <!-- built files will be auto injected -->
+        <div id="versionCheck">
+            <h2 style="line-height: 1; margin: 0; font-size: 24px">当前使用的浏览器内核版本过低 :(</h2>
+            <p style="line-height: 1; font-size: 14px; margin: 20px 0 0; opacity: 0.8">
+                当前版本：<span id="versionCheck-type">--</span> <span id="versionCheck-version">--</span>
+            </p>
+            <p style="line-height: 1; font-size: 14px; margin: 10px 0 0; opacity: 0.8">
+                最低版本要求：Chrome 71+、Firefox 65+、Safari 12+、Edge 97+。
+            </p>
+            <p style="line-height: 1; font-size: 14px; margin: 10px 0 0; opacity: 0.8">
+                请升级浏览器版本，或更换现代浏览器，如果你使用的是双核浏览器,请切换到极速/高速模式。
+            </p>
+        </div>
 
-</div>
-<!-- built files will be auto injected -->
-<div id="versionCheck">
-    <h2 style="line-height: 1; margin: 0; font-size: 24px">当前使用的浏览器内核版本过低 :(</h2>
-    <p style="line-height: 1; font-size: 14px; margin: 20px 0 0;opacity: 0.8">
-        当前版本：<span id="versionCheck-type">--</span> <span id="versionCheck-version">--</span>
-    </p>
-    <p style="line-height: 1; font-size: 14px; margin: 10px 0 0;opacity: 0.8">
-        最低版本要求：Chrome 71+、Firefox 65+、Safari 12+、Edge 97+。
-    </p>
-    <p style="line-height: 1; font-size: 14px; margin: 10px 0 0;opacity: 0.8">
-        请升级浏览器版本，或更换现代浏览器，如果你使用的是双核浏览器,请切换到极速/高速模式。
-    </p>
-</div>
+        <script type="text/javascript">
+            // 黑夜模式
+            if (window.localStorage.getItem('APP_DARK')) {
+                document.documentElement.classList.add('dark')
+            }
 
-<script type="text/javascript">
-    // 黑夜模式
-    if (window.localStorage.getItem("APP_DARK")) {
-        document.documentElement.classList.add("dark");
-    }
+            function getBrowserInfo() {
+                const userAgent = window.navigator.userAgent
+                const browserInfo = {
+                    type: 'unknown',
+                    version: 'unknown',
+                    userAgent: userAgent,
+                }
+                if (document.documentMode) {
+                    browserInfo.type = 'IE'
+                    browserInfo.version = document.documentMode + ''
+                } else if (indexOf(userAgent, 'Firefox')) {
+                    browserInfo.type = 'Firefox'
+                    browserInfo.version = userAgent.match(/Firefox\/([\d.]+)/)[1]
+                } else if (indexOf(userAgent, 'Opera')) {
+                    browserInfo.type = 'Opera'
+                    browserInfo.version = userAgent.match(/Opera\/([\d.]+)/)[1]
+                } else if (indexOf(userAgent, 'Edg')) {
+                    browserInfo.type = 'Edg'
+                    browserInfo.version = userAgent.match(/Edg\/([\d.]+)/)[1]
+                } else if (indexOf(userAgent, 'Chrome')) {
+                    browserInfo.type = 'Chrome'
+                    browserInfo.version = userAgent.match(/Chrome\/([\d.]+)/)[1]
+                } else if (indexOf(userAgent, 'Safari')) {
+                    browserInfo.type = 'Safari'
+                    browserInfo.version = userAgent.match(/Safari\/([\d.]+)/)[1]
+                }
+                return browserInfo
+            }
 
-    function getBrowserInfo() {
-        const userAgent = window.navigator.userAgent;
-        const browserInfo = {
-            type: "unknown",
-            version: "unknown",
-            userAgent: userAgent
-        };
-        if (document.documentMode) {
-            browserInfo.type = "IE";
-            browserInfo.version = document.documentMode + "";
-        } else if (indexOf(userAgent, "Firefox")) {
-            browserInfo.type = "Firefox";
-            browserInfo.version = userAgent.match(/Firefox\/([\d.]+)/)[1];
-        } else if (indexOf(userAgent, "Opera")) {
-            browserInfo.type = "Opera";
-            browserInfo.version = userAgent.match(/Opera\/([\d.]+)/)[1];
-        } else if (indexOf(userAgent, "Edg")) {
-            browserInfo.type = "Edg";
-            browserInfo.version = userAgent.match(/Edg\/([\d.]+)/)[1];
-        } else if (indexOf(userAgent, "Chrome")) {
-            browserInfo.type = "Chrome";
-            browserInfo.version = userAgent.match(/Chrome\/([\d.]+)/)[1];
-        } else if (indexOf(userAgent, "Safari")) {
-            browserInfo.type = "Safari";
-            browserInfo.version = userAgent.match(/Safari\/([\d.]+)/)[1];
-        }
-        return browserInfo;
-    }
+            function indexOf(userAgent, browser) {
+                return userAgent.indexOf(browser) > -1
+            }
 
-    function indexOf(userAgent, browser) {
-        return userAgent.indexOf(browser) > -1;
-    }
+            function isSatisfyBrowser() {
+                const minVer = {
+                    Chrome: 71,
+                    Firefox: 65,
+                    Safari: 12,
+                    Edg: 97,
+                    IE: 999,
+                }
+                const browserInfo = getBrowserInfo()
+                const materVer = browserInfo.version.split('.')[0]
+                return materVer >= minVer[browserInfo.type]
+            }
 
-    function isSatisfyBrowser() {
-        const minVer = {
-            Chrome: 71,
-            Firefox: 65,
-            Safari: 12,
-            Edg: 97,
-            IE: 999
-        };
-        const browserInfo = getBrowserInfo();
-        const materVer = browserInfo.version.split(".")[0];
-        return materVer >= minVer[browserInfo.type];
-    }
-
-    if (!isSatisfyBrowser()) {
-        document.getElementById("versionCheck").style.display = "block";
-        document.getElementById("versionCheck-type").innerHTML = getBrowserInfo().type;
-        document.getElementById("versionCheck-version").innerHTML = getBrowserInfo().version;
-    }
-</script>
-<script src="/src/main.js" type="module"></script>
-</body>
+            if (!isSatisfyBrowser()) {
+                document.getElementById('versionCheck').style.display = 'block'
+                document.getElementById('versionCheck-type').innerHTML = getBrowserInfo().type
+                document.getElementById('versionCheck-version').innerHTML = getBrowserInfo().version
+            }
+        </script>
+        <script src="/src/main.js" type="module"></script>
+    </body>
 </html>

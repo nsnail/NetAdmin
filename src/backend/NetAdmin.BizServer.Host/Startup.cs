@@ -51,16 +51,16 @@ public sealed class Startup : NetAdmin.Host.Startup
     /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
-        _ = services.AddConsoleFormatter() // 控制台日志模板
-                    .AddAllOptions()       // 注册配置项
-                    .AddJwt()              // Jwt 授权处理器
-                    .AddSnowflake()        // 雪花编号生成器
-                    .AddEventBus()         // 事件总线
-                    .AddFreeSql()          // freeSql
-                    .AddRemoteRequest()    // 注册远程请求
-                    .AddCorsAccessor()     // 支持跨域访问
-                    .AddContextUser()      // 上下文用户
-                    .AddRedisCache()       // Redis缓存
+        _ = services.AddConsoleFormatter() // 添加控制台日志模板
+                    .AddAllOptions()       // 添加配置项
+                    .AddJwt()              // 添加 Jwt 授权处理器
+                    .AddSnowflake()        // 添加雪花编号生成器
+                    .AddEventBus()         // 添加事件总线
+                    .AddFreeSql()          // 添加 freeSql
+                    .AddRemoteRequest()    // 添加远程请求
+                    .AddCorsAccessor()     // 添加支持跨域访问
+                    .AddContextUser()      // 添加上下文用户
+                    .AddRedisCache()       // 添加 Redis 缓存
 
                     // IMvcBuilder
                     .AddControllers()             // 添加控制器

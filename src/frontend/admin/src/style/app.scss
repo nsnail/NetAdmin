@@ -107,7 +107,7 @@ textarea {
 /* 头部 */
 .adminui-header {
     height: 58px;
-    background: #424C50;
+    background: #424c50;
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -180,7 +180,7 @@ textarea {
 .aminui-side-split {
     width: 65px;
     flex-shrink: 0;
-    background: #424C50;
+    background: #424c50;
     display: flex;
     flex-flow: column;
 }
@@ -354,9 +354,8 @@ textarea {
 .right-panel-search {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
 }
-
 
 .adminui-tags {
     height: 35px;
@@ -481,7 +480,6 @@ textarea {
     margin: 0 auto;
 }
 
-
 .no-zIndex .el-table__cell {
     z-index: unset;
 }
@@ -493,7 +491,6 @@ textarea {
 .mt-4 {
     margin-top: 1rem;
 }
-
 
 .w100p {
     width: 100%;
@@ -508,7 +505,7 @@ textarea {
 }
 
 .gap05 {
-    gap: .5rem;
+    gap: 0.5rem;
 }
 
 .items-center {

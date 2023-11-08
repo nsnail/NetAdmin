@@ -1,4 +1,4 @@
-import config from "@/config";
+import config from '@/config'
 
 //系统路由
 const routes = [

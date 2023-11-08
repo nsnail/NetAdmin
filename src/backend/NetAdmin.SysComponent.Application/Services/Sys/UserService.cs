@@ -232,7 +232,7 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
             }
 
             if (user.Mobile != req.VerifySmsCodeReq.DestDevice) {
-                throw new NetAdminInvalidOperationException($"{Ln.手机号码} {Ln.不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.手机号码不正确}");
             }
         }
 
@@ -260,17 +260,17 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
         if (!user.Mobile.NullOrEmpty()) {
             // 已有手机号，需验证旧手机
             if (!await verifyCodeService.VerifyAsync(req.OriginVerifySmsCodeReq)) {
-                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.验证码不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码验证码不正确}");
             }
 
             if (user.Mobile != req.OriginVerifySmsCodeReq.DestDevice) {
-                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码} {Ln.不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码不正确}");
             }
         }
 
         // 验证新手机号
         if (!await verifyCodeService.VerifyAsync(req.NewVerifySmsCodeReq)) {
-            throw new NetAdminInvalidOperationException($"{Ln.新手机号码} {Ln.验证码不正确}");
+            throw new NetAdminInvalidOperationException($"{Ln.新手机号码验证码不正确}");
         }
 
         if (await Rpo.UpdateDiy
@@ -310,7 +310,7 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
             return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
         }
 
-        throw new NetAdminInvalidInputException($"{Ln.旧密码} {Ln.不正确}");
+        throw new NetAdminInvalidOperationException($"{Ln.旧密码不正确}");
     }
 
     /// <inheritdoc />

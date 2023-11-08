@@ -8,11 +8,13 @@ public sealed record GenerateCsCodeReq : DataAbstraction
     /// <summary>
     ///     模块名称
     /// </summary>
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.模块名称不能为空))]
     public string ModuleName { get; init; }
 
     /// <summary>
     ///     模块说明
     /// </summary>
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.模块说明不能为空))]
     public string ModuleRemark { get; init; }
 
     /// <summary>

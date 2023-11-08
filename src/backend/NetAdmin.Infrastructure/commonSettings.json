@@ -272,7 +272,7 @@
       "System.Logging.EventBusService": "Error"
     },
     "Monitor": {
-      "GlobalEnabled": true,
+      "GlobalEnabled": false,
       // 是否启用全局拦截，默认 `false`
       //      "IncludeOfMethods": [], // 是否指定拦截特定方法，当 GlobalEnabled: false 有效
       //      "ExcludeOfMethods": [], // 是否指定排除特定方法，当 GlobalEnabled: true 有效

@@ -9,7 +9,6 @@ public enum FreeSqlInitOptions
     /// <summary>
     ///     无
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.无))]
     None = 0
 
    ,

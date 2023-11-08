@@ -92,15 +92,15 @@ public static class ServiceCollectionExtensions
                 nameof(ConfigurableOptionsServiceCollectionExtensions.AddConfigurableOptions)
               , BindingFlags.Public | BindingFlags.Static, new[] { typeof(IServiceCollection) });
             _ = configureMethod!.MakeGenericMethod(type).Invoke(me, new object[] { me });
-            _ = sbLog.Append(CultureInfo.InvariantCulture, $", {type.Name}");
+            _ = sbLog.Append(CultureInfo.InvariantCulture, $" {type.Name}");
         }
 
-        LogHelper.Get<IServiceCollection>()?.Info($"{nameof(IConfigurableOptions)} {Ln.初始化完毕} {sbLog}");
+        LogHelper.Get<IServiceCollection>()?.Info($"{Ln.配置文件初始化完毕} {sbLog}");
         return me;
     }
 
     /// <summary>
-    ///     注册控制台日志模板
+    ///     添加控制台日志模板
     /// </summary>
     public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
     {
@@ -129,7 +129,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     注册上下文用户
+    ///     添加上下文用户
     /// </summary>
     public static IServiceCollection AddContextUser(this IServiceCollection me)
     {
@@ -138,7 +138,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     注册事件总线
+    ///     添加事件总线
     /// </summary>
     public static IServiceCollection AddEventBus(this IServiceCollection me)
     {
@@ -146,7 +146,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     注册freeSql orm工具
+    ///     添加 freeSql orm工具
     /// </summary>
     public static IServiceCollection AddFreeSql( //
         this IServiceCollection me, FreeSqlInitOptions initOptions = FreeSqlInitOptions.None
@@ -185,7 +185,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     注册内存缓存
+    ///     添加内存缓存
     /// </summary>
     public static IServiceCollection AddMemCache(this IServiceCollection me)
     {
@@ -207,7 +207,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     注册Redis缓存
+    ///     添加 Redis缓存
     /// </summary>
     public static IServiceCollection AddRedisCache(this IServiceCollection me)
     {
@@ -225,7 +225,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     注册雪花编号生成器
+    ///     添加雪花编号生成器
     /// </summary>
     public static IServiceCollection AddSnowflake(this IServiceCollection me)
     {
