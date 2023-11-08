@@ -43,7 +43,6 @@ import Sortable from 'sortablejs'
 
 export default {
     components: {
-        // eslint-disable-next-line vue/no-unused-components
         Sortable,
     },
     props: {

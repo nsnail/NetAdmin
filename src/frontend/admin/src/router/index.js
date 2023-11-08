@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import config from '@/config'
 import NProgress from 'nprogress'

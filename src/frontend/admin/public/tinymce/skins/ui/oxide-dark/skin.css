@@ -3,8 +3,7 @@
     box-sizing: content-box;
     color: #222f3e;
     cursor: auto;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: normal;
@@ -68,8 +67,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     overflow: hidden;
     position: relative;
     visibility: inherit !important;
@@ -94,8 +92,7 @@
 }
 
 .tox-tinymce-aux {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     z-index: 1300;
 }
 
@@ -296,8 +293,7 @@ button::-moz-focus-inner {
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: bold;
@@ -417,8 +413,7 @@ button::-moz-focus-inner {
     box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-size: 16px;
     font-weight: normal;
     line-height: 1.3;
@@ -758,19 +753,15 @@ button::-moz-focus-inner {
     fill: rgba(255, 255, 255, 0.5);
 }
 
-.tox
-.tox-collection--list
-.tox-collection__item:not(.tox-collection__item--enabled)
-.tox-collection__item-checkmark
-svg {
+.tox .tox-collection--list .tox-collection__item:not(.tox-collection__item--enabled) .tox-collection__item-checkmark svg {
     display: none;
 }
 
 .tox
-.tox-collection--list
-.tox-collection__item:not(.tox-collection__item--enabled)
-.tox-collection__item-accessory
-+ .tox-collection__item-checkmark {
+    .tox-collection--list
+    .tox-collection__item:not(.tox-collection__item--enabled)
+    .tox-collection__item-accessory
+    + .tox-collection__item-checkmark {
     display: none;
 }
 
@@ -778,7 +769,9 @@ svg {
     background-color: #2b3b4e;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    box-shadow: 0 0 2px 0 rgba(34, 47, 62, 0.2), 0 4px 8px 0 rgba(34, 47, 62, 0.15);
+    box-shadow:
+        0 0 2px 0 rgba(34, 47, 62, 0.2),
+        0 4px 8px 0 rgba(34, 47, 62, 0.15);
     display: flex;
     flex: 0 0 auto;
     flex-shrink: 0;
@@ -963,22 +956,7 @@ svg {
 }
 
 .tox .tox-hue-slider-spectrum {
-    background: linear-gradient(
-        to bottom,
-        #f00,
-        #ff0080,
-        #f0f,
-        #8000ff,
-        #00f,
-        #0080ff,
-        #0ff,
-        #00ff80,
-        #0f0,
-        #80ff00,
-        #ff0,
-        #ff8000,
-        #f00
-    );
+    background: linear-gradient(to bottom, #f00, #ff0080, #f0f, #8000ff, #00f, #0080ff, #0ff, #00ff80, #0f0, #80ff00, #ff0, #ff8000, #f00);
     height: 100%;
     width: 100%;
 }
@@ -1074,7 +1052,9 @@ svg {
 
 .tox .tox-swatch {
     height: 30px;
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition:
+        transform 0.15s,
+        box-shadow 0.15s;
     width: 30px;
 }
 
@@ -1394,7 +1374,9 @@ svg {
     border-radius: 10px;
     border-style: solid;
     border-width: 0px;
-    box-shadow: 0 16px 16px -10px rgba(34, 47, 62, 0.15), 0 0 40px 1px rgba(34, 47, 62, 0.15);
+    box-shadow:
+        0 16px 16px -10px rgba(34, 47, 62, 0.15),
+        0 0 40px 1px rgba(34, 47, 62, 0.15);
     display: flex;
     flex-direction: column;
     max-height: 100%;
@@ -1451,8 +1433,7 @@ svg {
 }
 
 .tox .tox-dialog__title {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-size: 20px;
     font-style: normal;
     font-weight: normal;
@@ -1720,7 +1701,9 @@ svg {
 }
 
 .tox .tox-dialog-dock-transition {
-    transition: visibility 0s linear 0.3s, opacity 0.3s ease;
+    transition:
+        visibility 0s linear 0.3s,
+        opacity 0.3s ease;
 }
 
 .tox .tox-dialog-dock-transition.tox-dialog-dock-fadein {
@@ -1858,7 +1841,9 @@ body.tox-dialog__disable-scroll {
 }
 
 .tox-editor-dock-transition {
-    transition: visibility 0s linear 0.25s, opacity 0.25s ease;
+    transition:
+        visibility 0s linear 0.25s,
+        opacity 0.25s ease;
 }
 
 .tox-editor-dock-transition.tox-editor-dock-fadein {
@@ -1963,10 +1948,14 @@ body.tox-dialog__disable-scroll {
 
 .tox .tox-color-input span::before {
     background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.25) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.25) 75%);
-    background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.25) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.25) 75%);
+    background-position:
+        0 0,
+        0 6px,
+        6px -6px,
+        -6px 0;
     background-size: 12px 12px;
     border: 1px solid #2b3b4e;
     border-radius: 6px;
@@ -2129,8 +2118,7 @@ body.tox-dialog__disable-scroll {
     box-shadow: none;
     box-sizing: border-box;
     color: #fff;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-size: 16px;
     line-height: 24px;
     margin: 0;
@@ -2247,8 +2235,7 @@ body.tox-dialog__disable-scroll {
     box-shadow: none;
     box-sizing: border-box;
     color: #fff;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue',
-    sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     font-size: 16px;
     line-height: 24px;
     margin: 0;
@@ -2529,7 +2516,8 @@ body.tox-dialog__disable-scroll {
 }
 
 .tox .tox-menubar {
-    background: url("data:image/svg+xml;charset=utf8,%3Csvg height='39px' viewBox='0 0 40 39px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='38px' width='100' height='1' fill='transparent'/%3E%3C/svg%3E") left 0 top 0 #222f3e;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg height='39px' viewBox='0 0 40 39px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='38px' width='100' height='1' fill='transparent'/%3E%3C/svg%3E")
+        left 0 top 0 #222f3e;
     background-color: #222f3e;
     display: flex;
     flex: 0 0 auto;
@@ -2625,7 +2613,9 @@ body.tox-dialog__disable-scroll {
     margin-top: 4px;
     opacity: 0;
     padding: 4px;
-    transition: transform 100ms ease-in, opacity 150ms ease-in;
+    transition:
+        transform 100ms ease-in,
+        opacity 150ms ease-in;
 }
 
 .tox .tox-notification p {
@@ -2791,14 +2781,19 @@ body.tox-dialog__disable-scroll {
 
 .tox .tox-pop--transition::before,
 .tox .tox-pop--transition::after {
-    transition: all 0.15s, visibility 0s, opacity 0.075s ease 0.075s;
+    transition:
+        all 0.15s,
+        visibility 0s,
+        opacity 0.075s ease 0.075s;
 }
 
 .tox .tox-pop__dialog {
     background-color: #222f3e;
     border: 1px solid #161f29;
     border-radius: 6px;
-    box-shadow: 0 0 2px 0 rgba(34, 47, 62, 0.2), 0 4px 8px 0 rgba(34, 47, 62, 0.15);
+    box-shadow:
+        0 0 2px 0 rgba(34, 47, 62, 0.2),
+        0 4px 8px 0 rgba(34, 47, 62, 0.15);
     min-width: 0;
     overflow: hidden;
 }
@@ -2826,7 +2821,10 @@ body.tox-dialog__disable-scroll {
 .tox .tox-pop.tox-pop--inset::before,
 .tox .tox-pop.tox-pop--inset::after {
     opacity: 0;
-    transition: all 0s 0.15s, visibility 0s, opacity 0.075s ease;
+    transition:
+        all 0s 0.15s,
+        visibility 0s,
+        opacity 0.075s ease;
 }
 
 .tox .tox-pop.tox-pop--bottom::before,
@@ -2953,7 +2951,9 @@ body.tox-dialog__disable-scroll {
 
 .tox .tox-sidebar--sliding-growing,
 .tox .tox-sidebar--sliding-shrinking {
-    transition: width 0.5s ease, opacity 0.5s ease;
+    transition:
+        width 0.5s ease,
+        opacity 0.5s ease;
 }
 
 .tox .tox-selector {
@@ -3459,11 +3459,16 @@ body.tox-dialog__disable-scroll {
 }
 
 .tox .tox-toolbar__overflow--growing {
-    transition: height 0.3s ease, opacity 0.2s linear 0.1s;
+    transition:
+        height 0.3s ease,
+        opacity 0.2s linear 0.1s;
 }
 
 .tox .tox-toolbar__overflow--shrinking {
-    transition: opacity 0.3s ease, height 0.2s linear 0.1s, visibility 0s linear 0.3s;
+    transition:
+        opacity 0.3s ease,
+        height 0.2s linear 0.1s,
+        visibility 0s linear 0.3s;
 }
 
 .tox .tox-menubar + .tox-toolbar,
@@ -3503,7 +3508,9 @@ body.tox-dialog__disable-scroll {
     background-size: calc(100% - 8px * 2) calc(100% - 51px);
     border: none;
     border-radius: 6px;
-    box-shadow: 0 0 2px 0 rgba(34, 47, 62, 0.2), 0 4px 8px 0 rgba(34, 47, 62, 0.15);
+    box-shadow:
+        0 0 2px 0 rgba(34, 47, 62, 0.2),
+        0 4px 8px 0 rgba(34, 47, 62, 0.15);
     padding: 4px 0;
 }
 

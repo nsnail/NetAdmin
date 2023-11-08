@@ -54,11 +54,11 @@ tool.data = {
 /*sessionStorage*/
 tool.session = {
     set(table, settings) {
-        var _set = JSON.stringify(settings)
+        const _set = JSON.stringify(settings)
         return sessionStorage.setItem(table, _set)
     },
     get(table) {
-        var data = sessionStorage.getItem(table)
+        let data = sessionStorage.getItem(table)
         try {
             data = JSON.parse(data)
         } catch (err) {
@@ -77,7 +77,7 @@ tool.session = {
 /*cookie*/
 tool.cookie = {
     set(name, value, config = {}) {
-        var cfg = {
+        const cfg = {
             expires: null,
             path: null,
             domain: null,
@@ -85,9 +85,9 @@ tool.cookie = {
             httpOnly: false,
             ...config,
         }
-        var cookieStr = `${name}=${escape(value)}`
+        let cookieStr = `${name}=${escape(value)}`
         if (cfg.expires) {
-            var exp = new Date()
+            const exp = new Date()
             exp.setTime(exp.getTime() + parseInt(cfg.expires) * 1000)
             cookieStr += `;expires=${exp.toGMTString()}`
         }
@@ -100,7 +100,7 @@ tool.cookie = {
         document.cookie = cookieStr
     },
     get(name) {
-        var arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'))
+        const arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'))
         if (arr !== null) {
             return unescape(arr[2])
         } else {
@@ -108,7 +108,7 @@ tool.cookie = {
         }
     },
     remove(name) {
-        var exp = new Date()
+        const exp = new Date()
         exp.setTime(exp.getTime() - 1)
         document.cookie = `${name}=;expires=${exp.toGMTString()}`
     },
@@ -125,7 +125,7 @@ tool.cookie = {
 
 /* Fullscreen */
 tool.screen = function (element) {
-    var isFull = !!(document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement || document.fullscreenElement)
+    const isFull = !!(document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement || document.fullscreenElement)
     if (isFull) {
         if (document.exitFullscreen) {
             document.exitFullscreen()
@@ -172,7 +172,7 @@ tool.getNestedProperty = function (obj, path) {
 /* 日期格式化 */
 tool.dateFormat = function (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
     date = new Date(date)
-    var o = {
+    const o = {
         'M+': date.getMonth() + 1, //月份
         'd+': date.getDate(), //日
         'h+': date.getHours(), //小时

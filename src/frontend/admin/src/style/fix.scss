@@ -51,7 +51,7 @@
     font-size: 12px;
     color: #999;
     flex-grow: 1;
-    line-height: 2rem
+    line-height: 2rem;
 }
 
 .el-container {
@@ -288,11 +288,9 @@ body .tox-tinymce-aux {
     z-index: 5700;
 }
 
-
 .el-descriptions__body .el-descriptions__table {
     word-break: break-word;
 }
-
 
 .el-dialog.is-fullscreen {
     display: flex;
@@ -301,7 +299,7 @@ body .tox-tinymce-aux {
     left: 0px !important;
 
     .el-dialog__body {
-        flex: 1
+        flex: 1;
     }
 }
 

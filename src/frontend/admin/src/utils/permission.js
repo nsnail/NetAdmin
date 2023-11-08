@@ -1,4 +1,4 @@
-import tool from "@/utils/tool";
+import tool from '@/utils/tool'
 
 /**
  * 是否含有不限分类，有则表示全部允许通过
@@ -19,7 +19,7 @@ export function judementSameArr(news, old) {
     // console.log(news)
     // console.log(old)
     let count = 0
-    const leng = news.length
+    const len = news.length
     for (let i in news) {
         for (let j in old) {
             if (news[i] === old[j]) {
@@ -29,7 +29,7 @@ export function judementSameArr(news, old) {
         }
     }
     // console.log('相同的数量', count)
-    return count === leng
+    return count === len
 }
 
 export function permission(data) {
@@ -37,8 +37,7 @@ export function permission(data) {
     if (!permissions) {
         return false
     }
-    let isHave = permissions.includes(data)
-    return isHave
+    return permissions.includes(data)
 }
 
 export function rolePermission(data) {
@@ -50,6 +49,5 @@ export function rolePermission(data) {
     if (!role) {
         return false
     }
-    let isHave = role.includes(data)
-    return isHave
+    return role.includes(data)
 }

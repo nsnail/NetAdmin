@@ -29,7 +29,6 @@
     </div>
 </template>
 <script type="text/babel">
-/* eslint-disable */
 /**
  * Verify 验证码组件
  * @description 分发验证码使用

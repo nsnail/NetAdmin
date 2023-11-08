@@ -55,8 +55,6 @@
 </template>
 
 <script>
-/* eslint-disable */
-//为了演示异常，跳过eslint
 export default {
     name: 'codebug',
     data() {

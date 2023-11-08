@@ -1,4 +1,4 @@
-import API from "@/api";
+import API from '@/api'
 
 //上传配置
 

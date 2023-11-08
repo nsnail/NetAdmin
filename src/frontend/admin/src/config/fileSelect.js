@@ -1,4 +1,4 @@
-import API from "@/api";
+import API from '@/api'
 
 //文件选择器配置
 

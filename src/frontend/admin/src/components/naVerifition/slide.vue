@@ -58,7 +58,6 @@
     </div>
 </template>
 <script type="text/babel">
-/* eslint-disable */
 /**
  * VerifySlide
  * @description 滑块
