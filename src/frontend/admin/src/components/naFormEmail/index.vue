@@ -16,7 +16,7 @@
                 clearable
                 maxlength="4"
                 oninput="value=value.replace(/\D/g,'')"
-                placeholder="邮箱验证码"
+                :placeholder="$t('邮箱验证码')"
                 prefix-icon="el-icon-message"></el-input>
             <el-button :disabled="sendDisabled" @click="getYzm"
                 >获取验证码<span v-if="sendDisabled"> ({{ waitSecs }})</span></el-button

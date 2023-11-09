@@ -2,12 +2,12 @@
     <sc-dialog v-model="visible" :title="titleMap[mode]" destroy-on-close @closed="$emit('closed')">
         <div v-loading="loading">
             <el-tabs v-if="!loading" tab-position="top">
-                <el-tab-pane label="基本信息">
+                <el-tab-pane :label="$t('基本信息')">
                     <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
                         <el-collapse>
-                            <el-collapse-item name="1" title="用户注册设置">
+                            <el-collapse-item name="1" :title="$t('用户注册设置')">
                                 <div style="margin: 10px">
-                                    <el-form-item label="默认角色" prop="userRegisterRoleId">
+                                    <el-form-item :label="$t('默认角色')" prop="userRegisterRoleId">
                                         <sc-select
                                             v-model="form.userRegisterRoleId"
                                             :apiObj="$API.sys_role.query"
@@ -15,23 +15,23 @@
                                             clearable
                                             filterable />
                                     </el-form-item>
-                                    <el-form-item label="默认部门" prop="userRegisterDeptId">
+                                    <el-form-item :label="$t('默认部门')" prop="userRegisterDeptId">
                                         <na-dept v-model="form.userRegisterDeptId"></na-dept>
                                     </el-form-item>
-                                    <el-form-item label="开启人工审核" prop="userRegisterConfirm">
+                                    <el-form-item :label="$t('开启人工审核')" prop="userRegisterConfirm">
                                         <el-switch v-model="form.userRegisterConfirm"></el-switch>
                                     </el-form-item>
                                 </div>
                             </el-collapse-item>
-                            <el-collapse-item name="2" title="其他设置"></el-collapse-item>
+                            <el-collapse-item name="2" :title="$t('其他设置')"></el-collapse-item>
                         </el-collapse>
 
-                        <el-form-item label="启用" prop="enabled">
+                        <el-form-item :label="$t('启用')" prop="enabled">
                             <el-switch v-model="form.enabled"></el-switch>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" label="原始数据">
+                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
                         :expanded="true"

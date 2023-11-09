@@ -2,20 +2,20 @@
     <sc-dialog v-model="visible" :title="titleMap[mode]" :width="400" destroy-on-close @closed="$emit('closed')">
         <div v-loading="loading">
             <el-tabs tab-position="top">
-                <el-tab-pane label="基本信息">
+                <el-tab-pane :label="$t('基本信息')">
                     <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
-                        <el-form-item label="所属字典" prop="catalogId">
+                        <el-form-item :label="$t('所属字典')" prop="catalogId">
                             <na-dic-catalog v-model="form.catalogId" />
                         </el-form-item>
-                        <el-form-item label="项名" prop="key">
+                        <el-form-item :label="$t('项名')" prop="key">
                             <el-input v-model="form.key" clearable></el-input>
                         </el-form-item>
-                        <el-form-item label="项值" prop="value">
+                        <el-form-item :label="$t('项值')" prop="value">
                             <el-input v-model="form.value" clearable></el-input>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" label="原始数据">
+                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
                         :expanded="true"

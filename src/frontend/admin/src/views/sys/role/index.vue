@@ -62,25 +62,25 @@
                     }
                 ">
                 <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column label="角色编号" prop="id" sortable="custom"></el-table-column>
-                <el-table-column label="角色名称" prop="name" sortable="custom"></el-table-column>
-                <el-table-column label="排序" prop="sort" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('角色编号')" prop="id" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('角色名称')" prop="name" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('排序')" prop="sort" sortable="custom"></el-table-column>
                 <na-col-indicator
                     :options="[
                         { text: '启用', type: 'success', value: true },
                         { text: '禁用', type: 'danger', value: false, pulse: true },
                     ]"
-                    label="状态"
+                    :label="$t('状态')"
                     prop="enabled"></na-col-indicator>
                 <na-col-indicator
                     :options="[
                         { text: '是', type: 'success', value: true, pulse: true },
                         { text: '否', type: 'danger', value: false },
                     ]"
-                    label="无限权限"
+                    :label="$t('无限权限')"
                     prop="ignorePermissionControl"></na-col-indicator>
 
-                <el-table-column label="数据范围" prop="dataScope" sortable="custom">
+                <el-table-column :label="$t('数据范围')" prop="dataScope" sortable="custom">
                     <template #default="scope">
                         {{ this.$GLOBAL.enums.dataScopes[scope.row.dataScope][1] }}
                     </template>
@@ -91,11 +91,11 @@
                         { text: '是', type: 'success', value: true },
                         { text: '否', type: 'danger', value: false },
                     ]"
-                    label="显示仪表板"
+                    :label="$t('显示仪表板')"
                     prop="displayDashboard"></na-col-indicator>
 
-                <el-table-column label="创建时间" prop="createdTime" sortable="custom"></el-table-column>
-                <el-table-column label="备注" prop="summary"></el-table-column>
+                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('备注')" prop="summary"></el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({

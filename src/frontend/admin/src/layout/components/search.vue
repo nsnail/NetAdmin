@@ -5,7 +5,7 @@
             v-model="input"
             :trigger-on-focus="false"
             clearable
-            placeholder="搜索"
+            :placeholder="$t('搜索')"
             prefix-icon="el-icon-search"
             size="large"
             @input="inputChange" />

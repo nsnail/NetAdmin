@@ -56,7 +56,7 @@
                     <el-input
                         v-model="keyword"
                         clearable
-                        placeholder="文件名搜索"
+                        :placeholder="$t('文件名搜索')"
                         prefix-icon="el-icon-search"
                         @clear="search"
                         @keyup.enter="search"></el-input>
@@ -64,7 +64,7 @@
             </div>
             <div class="sc-file-select__list">
                 <el-scrollbar ref="scrollbar">
-                    <el-empty v-if="fileList.length === 0 && data.length === 0" :image-size="80" description="无数据"></el-empty>
+                    <el-empty v-if="fileList.length === 0 && data.length === 0" :image-size="80" :description="$t('无数据')"></el-empty>
                     <div v-for="(file, index) in fileList" :key="index" class="sc-file-select__item">
                         <div class="sc-file-select__item__file">
                             <div class="sc-file-select__item__upload">

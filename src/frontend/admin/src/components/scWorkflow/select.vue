@@ -10,7 +10,7 @@
             <div class="sc-user-select">
                 <div class="sc-user-select__left">
                     <div class="sc-user-select__search">
-                        <el-input v-model="keyword" placeholder="搜索成员" prefix-icon="el-icon-search">
+                        <el-input v-model="keyword" :placeholder="$t('搜索成员')" prefix-icon="el-icon-search">
                             <template #append>
                                 <el-button icon="el-icon-search" @click="search"></el-button>
                             </template>

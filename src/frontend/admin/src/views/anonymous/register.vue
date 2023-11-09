@@ -1,25 +1,31 @@
 <template>
-    <common-page title="注册新账号">
+    <common-page :title="$t('注册新账号')">
         <el-steps :active="stepActive" finish-status="success" simple>
-            <el-step title="填写账号" />
-            <el-step title="验证手机" />
-            <el-step title="注册成功" />
+            <el-step :title="$t('填写账号')" />
+            <el-step :title="$t('验证手机')" />
+            <el-step :title="$t('注册成功')" />
         </el-steps>
         <el-form v-if="stepActive === 0" ref="stepForm_0" :model="form" :rules="rules" label-width="120" size="large" @keyup.enter="next">
-            <el-form-item label="登录账号" prop="userName">
-                <el-input v-model="form.userName" clearable maxlength="16" placeholder="请输入登录账号"></el-input>
+            <el-form-item :label="$t('登录账号')" prop="userName">
+                <el-input v-model="form.userName" clearable maxlength="16" :placeholder="$t('请输入登录账号')"></el-input>
             </el-form-item>
-            <el-form-item label="登录密码" prop="passwordText">
-                <el-input v-model="form.passwordText" clearable maxlength="16" placeholder="请输入登录密码" show-password type="password"></el-input>
+            <el-form-item :label="$t('登录密码')" prop="passwordText">
+                <el-input
+                    v-model="form.passwordText"
+                    clearable
+                    maxlength="16"
+                    :placeholder="$t('请输入登录密码')"
+                    show-password
+                    type="password"></el-input>
                 <sc-password-strength v-model="form.passwordText"></sc-password-strength>
                 <div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
             </el-form-item>
-            <el-form-item label="确认密码" prop="passwordText2">
+            <el-form-item :label="$t('确认密码')" prop="passwordText2">
                 <el-input
                     v-model="form.passwordText2"
                     clearable
                     maxlength="16"
-                    placeholder="请再一次输入登录密码"
+                    :placeholder="$t('请再一次输入登录密码')"
                     show-password
                     type="password"></el-input>
             </el-form-item>
@@ -37,7 +43,7 @@
                 form-name="stepForm_1"></na-form-phone>
         </el-form>
         <div v-if="stepActive >= 2">
-            <el-result icon="success" sub-title="可以使用登录账号以及手机号登录系统" title="注册成功">
+            <el-result icon="success" sub-title="$t('可以使用登录账号以及手机号登录系统')" :title="$t('注册成功')">
                 <template #extra>
                     <el-button size="large" type="primary" @click="goLogin">前去登录</el-button>
                 </template>
@@ -48,7 +54,7 @@
             <el-button v-if="stepActive < 1" size="large" type="primary" @click="next">下一步</el-button>
             <el-button v-if="stepActive === 1" :loading="loading" size="large" type="primary" @click="save">提 交</el-button>
         </el-form>
-        <el-dialog v-model="showAgree" destroy-on-close title="平台服务协议">
+        <el-dialog v-model="showAgree" destroy-on-close :title="$t('平台服务协议')">
             平台服务协议
             <template #footer>
                 <el-button @click="showAgree = false">取消</el-button>
@@ -106,7 +112,7 @@ export default {
                 passwordText2: naFormPassword.passwordText2(() => this.form.passwordText),
                 passwordText: naFormPassword.passwordText(this),
                 userName: [
-                    { required: true, message: this.$t('login.userError') },
+                    { required: true, message: this.$t('请输入用户名') },
                     {
                         validator: async (rule, valueEquals, callback) => {
                             try {

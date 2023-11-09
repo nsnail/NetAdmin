@@ -1,31 +1,31 @@
 <template>
-    <el-card header="账号信息" shadow="never">
+    <el-card :header="$t('账号信息')" shadow="never">
         <el-form ref="form" :model="form" label-width="10rem">
-            <el-form-item label="头像">
-                <sc-upload v-model="form.avatar" :onSuccess="updateUser" title="上传头像"></sc-upload>
+            <el-form-item :label="$t('头像')">
+                <sc-upload v-model="form.avatar" :onSuccess="updateUser" :title="$t('上传头像')"></sc-upload>
             </el-form-item>
-            <el-form-item label="用户编号">
+            <el-form-item :label="$t('用户编号')">
                 <el-input v-model="form.id" readonly></el-input>
             </el-form-item>
-            <el-form-item label="用户名称">
+            <el-form-item :label="$t('用户名称')">
                 <el-input v-model="form.userName" readonly></el-input>
             </el-form-item>
-            <el-form-item label="密码">
+            <el-form-item :label="$t('密码')">
                 <div class="flex w100p gap05">
                     <el-input readonly value="******"></el-input>
                     <el-button @click="setPasswordClick">设置密码</el-button>
                 </div>
             </el-form-item>
-            <el-form-item label="注册时间">
+            <el-form-item :label="$t('注册时间')">
                 <el-input v-model="form.createdTime" readonly></el-input>
             </el-form-item>
-            <el-form-item label="手机号码">
+            <el-form-item :label="$t('手机号码')">
                 <div class="flex w100p gap05">
                     <el-input v-model="form.mobile" readonly></el-input>
                     <el-button @click="setMobileClick">{{ `${form.mobile ? '换绑' : '绑定'}手机` }}</el-button>
                 </div>
             </el-form-item>
-            <el-form-item label="电子邮箱">
+            <el-form-item :label="$t('电子邮箱')">
                 <div class="flex w100p gap05">
                     <el-input v-model="form.email" readonly></el-input>
                     <el-button @click="setEmailClick">设置邮箱</el-button>

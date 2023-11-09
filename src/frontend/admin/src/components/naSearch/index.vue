@@ -69,9 +69,9 @@
                 },
             ]"
             :teleported="false"
-            end-placeholder="结束日期"
-            range-separator="至"
-            start-placeholder="开始日期"
+            :end-placeholder="$t('结束日期')"
+            :range-separator="$t('至')"
+            :start-placeholder="$t('开始日期')"
             type="daterange"
             value-format="YYYY-MM-DD"></el-date-picker>
 

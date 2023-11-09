@@ -11,7 +11,7 @@
             <div ref="widgets" class="widgets">
                 <div class="widgets-wrapper">
                     <div v-if="nowCompsList.length <= 0" class="no-widgets">
-                        <el-empty :image-size="280" description="没有部件啦"></el-empty>
+                        <el-empty :image-size="280" :description="$t('没有部件啦')"></el-empty>
                     </div>
                     <el-row :gutter="15">
                         <el-col v-for="(item, index) in grid.layout" v-bind:key="index" :md="item" :xs="24">
@@ -97,7 +97,7 @@
                 <el-main class="nopadding">
                     <div class="widgets-list">
                         <div v-if="myCompsList.length <= 0" class="widgets-list-nodata">
-                            <el-empty :image-size="60" description="没有部件啦"></el-empty>
+                            <el-empty :image-size="60" :description="$t('没有部件啦')"></el-empty>
                         </div>
                         <div v-for="item in myCompsList" :key="item.title" class="widgets-list-item">
                             <div class="item-logo">

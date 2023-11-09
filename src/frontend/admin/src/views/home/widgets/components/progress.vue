@@ -1,5 +1,5 @@
 <template>
-    <el-card header="进度环" shadow="hover">
+    <el-card :header="$t('进度环')" shadow="hover">
         <div class="progress">
             <el-progress :percentage="85.5" :width="160" type="dashboard">
                 <template #default="{ percentage }">

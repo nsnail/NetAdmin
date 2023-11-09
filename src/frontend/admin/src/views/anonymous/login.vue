@@ -39,15 +39,15 @@
                     </div>
                 </div>
                 <el-tabs>
-                    <el-tab-pane :label="$t('login.accountLogin')" lazy>
+                    <el-tab-pane :label="$t('账号登录')" lazy>
                         <password-form></password-form>
                     </el-tab-pane>
-                    <el-tab-pane :label="$t('login.mobileLogin')" lazy>
+                    <el-tab-pane :label="$t('手机号登录')" lazy>
                         <phone-form></phone-form>
                     </el-tab-pane>
                 </el-tabs>
                 <template v-if="$CONFIG.MY_SHOW_LOGIN_OAUTH">
-                    <el-divider>{{ $t('login.signInOther') }}</el-divider>
+                    <el-divider>{{ $t('其他登录方式') }}</el-divider>
                     <div class="login-oauth">
                         <el-button circle icon="sc-icon-wechat" type="success" @click="wechatLogin"></el-button>
                     </div>
@@ -55,12 +55,12 @@
             </div>
         </div>
     </div>
-    <el-dialog v-model="showWechatLogin" :title="$t('login.wechatLoginTitle')" :width="400" destroy-on-close>
+    <el-dialog v-model="showWechatLogin" :title="$t('二维码登录')" :width="400" destroy-on-close>
         <div class="qrCodeLogin">
             <sc-qr-code :size="200" :text="WechatLoginCode" class="qrCode"></sc-qr-code>
-            <p class="msg">{{ $tc('login.wechatLoginMsg', 1) }}<br />{{ $tc('login.wechatLoginMsg', 2) }}</p>
+            <p class="msg">{{ $t('请使用微信扫一扫登录') }}<br />{{ $t('模拟3秒后自动扫描') }}</p>
             <div v-if="isWechatLoginResult" class="qrCodeLogin-result">
-                <el-result :sub-title="$tc('login.wechatLoginResult', 2)" :title="$tc('login.wechatLoginResult', 1)" icon="success"></el-result>
+                <el-result :sub-title="$t('请在设备中点击授权登录')" :title="$t('已扫描')" icon="success"></el-result>
             </div>
         </div>
     </el-dialog>

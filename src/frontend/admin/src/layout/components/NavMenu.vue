@@ -1,6 +1,6 @@
 <template>
     <div v-if="navMenus.length <= 0" style="padding: 20px">
-        <el-alert :closable="false" center title="无子集菜单" type="info"></el-alert>
+        <el-alert :closable="false" center :title="$t('无子集菜单')" type="info"></el-alert>
     </div>
     <template v-for="navMenu in navMenus" v-bind:key="navMenu">
         <el-menu-item v-if="!hasChildren(navMenu)" :index="navMenu.path">
