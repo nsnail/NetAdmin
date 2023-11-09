@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="visible" :width="800" destroy-on-close title="设置邮箱" @closed="$emit('closed')">
+    <el-dialog v-model="visible" :width="800" destroy-on-close :title="$t('设置邮箱')" @closed="$emit('closed')">
         <el-form ref="form" :model="form" :rules="rules" label-position="top">
             <el-row class="is-justify-space-evenly">
                 <el-col v-if="$GLOBAL.user.mobile" :lg="10">
@@ -9,18 +9,18 @@
                         :phone-field="['verifySmsCodeReq.destDevice', 'destDevice']"
                         :phone-place-holder="$GLOBAL.user.mobile"
                         :vue="this"
-                        code-label="手机验证码"
+                        code-label="$t('手机验证码')"
                         form-name="form"
-                        phone-label="手机号码" />
+                        phone-label="$t('手机号码')" />
                 </el-col>
                 <el-col :lg="10">
                     <na-form-email
                         v-model="form"
                         :vue="this"
                         code-field="code"
-                        code-label="邮箱验证码"
+                        code-label="$t('邮箱验证码')"
                         email-field="destDevice"
-                        email-label="邮箱地址"
+                        email-label="$t('邮箱地址')"
                         form-name="form" />
                 </el-col>
             </el-row>

@@ -11,7 +11,7 @@
             <div ref="widgets" class="widgets">
                 <div class="widgets-wrapper">
                     <div v-if="nowCompsList.length <= 0" class="no-widgets">
-                        <el-empty :image-size="280" description="没有部件啦" image="@/assets/img/no-widgets.svg"></el-empty>
+                        <el-empty :image-size="280" :description="$t('没有部件啦')"></el-empty>
                     </div>
                     <el-row :gutter="15">
                         <el-col v-for="(item, index) in grid.layout" v-bind:key="index" :md="item" :xs="24">
@@ -68,21 +68,24 @@
                 </el-header>
                 <el-header style="height: auto">
                     <div class="selectLayout">
-                        <div :class="{ active: grid.layout.join(',') == '12,6,6' }" class="selectLayout-item item01" @click="setLayout([12, 6, 6])">
+                        <div :class="{ active: grid.layout.join(',') === '12,6,6' }" class="selectLayout-item item01" @click="setLayout([12, 6, 6])">
                             <el-row :gutter="2">
                                 <el-col :span="12"><span></span></el-col>
                                 <el-col :span="6"><span></span></el-col>
                                 <el-col :span="6"><span></span></el-col>
                             </el-row>
                         </div>
-                        <div :class="{ active: grid.layout.join(',') == '24,16,8' }" class="selectLayout-item item02" @click="setLayout([24, 16, 8])">
+                        <div
+                            :class="{ active: grid.layout.join(',') === '24,16,8' }"
+                            class="selectLayout-item item02"
+                            @click="setLayout([24, 16, 8])">
                             <el-row :gutter="2">
                                 <el-col :span="24"><span></span></el-col>
                                 <el-col :span="16"><span></span></el-col>
                                 <el-col :span="8"><span></span></el-col>
                             </el-row>
                         </div>
-                        <div :class="{ active: grid.layout.join(',') == '24' }" class="selectLayout-item item03" @click="setLayout([24])">
+                        <div :class="{ active: grid.layout.join(',') === '24' }" class="selectLayout-item item03" @click="setLayout([24])">
                             <el-row :gutter="2">
                                 <el-col :span="24"><span></span></el-col>
                                 <el-col :span="24"><span></span></el-col>
@@ -94,7 +97,7 @@
                 <el-main class="nopadding">
                     <div class="widgets-list">
                         <div v-if="myCompsList.length <= 0" class="widgets-list-nodata">
-                            <el-empty :image-size="60" description="没有部件啦"></el-empty>
+                            <el-empty :image-size="60" :description="$t('没有部件啦')"></el-empty>
                         </div>
                         <div v-for="item in myCompsList" :key="item.title" class="widgets-list-item">
                             <div class="item-logo">
@@ -113,7 +116,7 @@
                     </div>
                 </el-main>
                 <el-footer style="height: 51px">
-                    <el-button size="small" @click="backDefaul()">恢复默认</el-button>
+                    <el-button size="small" @click="backDefault()">恢复默认</el-button>
                 </el-footer>
             </el-container>
         </div>
@@ -145,8 +148,8 @@ export default {
     },
     computed: {
         allCompsList() {
-            var allCompsList = []
-            for (var key in this.allComps) {
+            const allCompsList = []
+            for (const key in this.allComps) {
                 allCompsList.push({
                     key: key,
                     title: allComps[key].title,
@@ -154,11 +157,11 @@ export default {
                     description: allComps[key].description,
                 })
             }
-            var mycompsList = this.grid.compsList.reduce(function (a, b) {
+            const myCompsList = this.grid.compsList.reduce(function (a, b) {
                 return a.concat(b)
             })
             for (let comp of allCompsList) {
-                const _item = mycompsList.find((item) => {
+                const _item = myCompsList.find((item) => {
                     return item === comp.key
                 })
                 if (_item) {
@@ -168,8 +171,8 @@ export default {
             return allCompsList
         },
         myCompsList() {
-            var myGrid = this.$TOOL.data.get('DASHBOARDGRID')
-            return this.allCompsList.filter((item) => !item.disabled && myGrid.includes(item.key))
+            const myGrid = this.$TOOL.data.get('DASHBOARD_GRID')
+            return this.allCompsList.filter((item) => !item.disabled && !myGrid?.includes(item.key))
         },
         nowCompsList() {
             return this.grid.compsList.reduce(function (a, b) {
@@ -203,10 +206,9 @@ export default {
         },
         //隐藏组件
         remove(item) {
-            var newcompsList = this.grid.compsList
-            newcompsList.forEach((obj, index) => {
-                var newObj = obj.filter((o) => o !== item)
-                newcompsList[index] = newObj
+            const newCompsList = this.grid.compsList
+            newCompsList.forEach((obj, index) => {
+                newCompsList[index] = obj.filter((o) => o !== item)
             })
         },
         //保存
@@ -216,7 +218,7 @@ export default {
             this.$TOOL.data.set('grid', this.grid)
         },
         //恢复默认
-        backDefaul() {
+        backDefault() {
             this.customizing = false
             this.$refs.widgets.style.removeProperty('transform')
             this.grid = JSON.parse(JSON.stringify(this.defaultGrid))

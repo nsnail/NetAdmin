@@ -57,26 +57,26 @@
                         remoteSort
                         stripe
                         @row-click="rowClick">
-                        <el-table-column label="日志编号" prop="id" sortable="custom" width="150"></el-table-column>
-                        <el-table-column label="日志时间" prop="createdTime" sortable="custom" width="170"></el-table-column>
-                        <el-table-column label="响应码" prop="httpStatusCode" sortable="custom" width="90"></el-table-column>
-                        <el-table-column label="请求服务">
-                            <el-table-column label="路径" min-width="150" prop="apiId" sortable="custom"></el-table-column>
-                            <el-table-column label="描述" prop="apiSummary"></el-table-column>
-                            <el-table-column label="方法" prop="method" sortable="custom" width="100"></el-table-column>
-                            <el-table-column align="right" label="耗时(毫秒)" prop="duration" sortable="custom" width="120">
+                        <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150"></el-table-column>
+                        <el-table-column :label="$t('日志时间')" prop="createdTime" sortable="custom" width="170"></el-table-column>
+                        <el-table-column :label="$t('响应码')" prop="httpStatusCode" sortable="custom" width="90"></el-table-column>
+                        <el-table-column :label="$t('请求服务')">
+                            <el-table-column :label="$t('路径')" min-width="150" prop="apiId" sortable="custom"></el-table-column>
+                            <el-table-column :label="$t('描述')" prop="apiSummary"></el-table-column>
+                            <el-table-column :label="$t('方法')" prop="method" sortable="custom" width="100"></el-table-column>
+                            <el-table-column align="right" :label="$t('耗时(毫秒)')" prop="duration" sortable="custom" width="120">
                                 <template #default="scope">
                                     {{ (scope.row.duration / 1000).toFixed(2) }}
                                 </template>
                             </el-table-column>
                         </el-table-column>
-                        <el-table-column label="用户" prop="createdUserName" sortable="custom">
+                        <el-table-column :label="$t('用户')" prop="createdUserName" sortable="custom">
                             <template #default="scope">
                                 {{ scope.row.apiId === 'api/sys/user/pwd.login' ? scope.row.extraData : scope.row.createdUserName }}
                             </template>
                         </el-table-column>
-                        <el-table-column label="客户端IP" prop="createdClientIp" sortable="custom" width="150"></el-table-column>
-                        <el-table-column label="操作系统" prop="os" sortable="custom"></el-table-column>
+                        <el-table-column :label="$t('客户端IP')" prop="createdClientIp" sortable="custom" width="150"></el-table-column>
+                        <el-table-column :label="$t('操作系统')" prop="os" sortable="custom"></el-table-column>
                     </sc-table>
                 </el-main>
             </el-container>

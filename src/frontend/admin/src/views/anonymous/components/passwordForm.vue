@@ -1,25 +1,25 @@
 <template>
     <el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large" @keyup.enter="login">
         <el-form-item prop="account">
-            <el-input v-model="form.account" :placeholder="$t('login.userPlaceholder')" clearable prefix-icon="el-icon-user"></el-input>
+            <el-input v-model="form.account" :placeholder="$t('用户名 / 手机 / 邮箱')" clearable prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-            <el-input v-model="form.password" :placeholder="$t('login.PWPlaceholder')" clearable prefix-icon="el-icon-lock" show-password></el-input>
+            <el-input v-model="form.password" :placeholder="$t('请输入密码')" clearable prefix-icon="el-icon-lock" show-password></el-input>
         </el-form-item>
         <el-form-item style="margin-bottom: 10px">
             <el-col :span="12">
-                <el-checkbox v-model="autoLogin" :label="$t('login.rememberMe')"></el-checkbox>
+                <el-checkbox v-model="autoLogin" :label="$t('24小时免登录')"></el-checkbox>
             </el-col>
             <el-col :span="12" class="login-forgot">
-                <router-link to="/anonymous/reset-password">{{ $t('login.forgetPassword') }}？</router-link>
+                <router-link to="/anonymous/reset-password">{{ $t('忘记密码') }}？</router-link>
             </el-col>
         </el-form-item>
         <el-form-item>
-            <el-button :loading="isLoading" round style="width: 100%" type="primary" @click="login">{{ $t('login.signIn') }}</el-button>
+            <el-button :loading="isLoading" round style="width: 100%" type="primary" @click="login">{{ $t('登录') }}</el-button>
         </el-form-item>
         <div class="login-reg">
-            {{ $t('login.noAccount') }}
-            <router-link to="/anonymous/register">{{ $t('login.createAccount') }}</router-link>
+            {{ $t('还没有账号?') }}
+            <router-link to="/anonymous/register">{{ $t('创建新账号') }}</router-link>
         </div>
     </el-form>
 </template>
@@ -34,8 +34,8 @@ export default {
                 password: '1234qwer',
             },
             rules: {
-                account: [{ required: true, message: this.$t('login.userError'), trigger: 'blur' }],
-                password: [{ required: true, message: this.$t('login.PWError'), trigger: 'blur' }],
+                account: [{ required: true, message: this.$t('请输入用户名'), trigger: 'blur' }],
+                password: [{ required: true, message: this.$t('请输入密码'), trigger: 'blur' }],
             },
             isLoading: false,
         }

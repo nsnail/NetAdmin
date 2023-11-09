@@ -30,13 +30,13 @@
                         <div class="title">
                             <h2>生成后端代码</h2>
                             <p>
-                                <el-input v-model="formCs.type" placeholder="模块类型"></el-input>
+                                <el-input v-model="formCs.type" :placeholder="$t('模块类型')"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="formCs.moduleName" placeholder="模块名称"></el-input>
+                                <el-input v-model="formCs.moduleName" :placeholder="$t('模块名称')"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="formCs.moduleRemark" placeholder="模块说明"></el-input>
+                                <el-input v-model="formCs.moduleRemark" :placeholder="$t('模块说明')"></el-input>
                             </p>
                             <p>
                                 <el-button @click="generateCsCode()">生成</el-button>
@@ -56,10 +56,10 @@
                         <div class="title">
                             <h2>生成图标代码</h2>
                             <p>
-                                <el-input v-model="form.iconName" placeholder="图标名称"></el-input>
+                                <el-input v-model="form.iconName" :placeholder="$t('图标名称')"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="form.svgCode" placeholder="粘贴SVG代码"></el-input>
+                                <el-input v-model="form.svgCode" :placeholder="$t('粘贴SVG代码')"></el-input>
                             </p>
                             <p>
                                 <el-row align="middle">
@@ -86,13 +86,13 @@
                         <div class="title">
                             <h2>生成表格代码</h2>
                             <p>
-                                <el-input v-model="form.summaryInfo" placeholder="注释信息" type="textarea"></el-input>
+                                <el-input v-model="form.summaryInfo" :placeholder="$t('注释信息')" type="textarea"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="form.tableCode" placeholder="表格代码" type="textarea"></el-input>
+                                <el-input v-model="form.tableCode" :placeholder="$t('表格代码')" type="textarea"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="form.formCode" placeholder="表单代码" type="textarea"></el-input>
+                                <el-input v-model="form.formCode" :placeholder="$t('表单代码')" type="textarea"></el-input>
                             </p>
                             <p>
                                 <el-button @click="generateTableCode()">生成</el-button>

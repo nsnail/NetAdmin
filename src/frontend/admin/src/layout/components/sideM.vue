@@ -5,7 +5,7 @@
         </el-icon>
     </div>
 
-    <el-drawer ref="mobileNavBox" v-model="nav" :size="240" :with-header="false" destroy-on-close direction="ltr" title="移动端菜单">
+    <el-drawer ref="mobileNavBox" v-model="nav" :size="240" :with-header="false" destroy-on-close direction="ltr" :title="$t('移动端菜单')">
         <el-container class="mobile-nav">
             <el-header>
                 <div class="logo-bar">

@@ -1,5 +1,5 @@
 <template>
-    <el-table-column align="right" label="操作">
+    <el-table-column align="right" :label="$t('操作')">
         <template #default="scope">
             <el-button-group>
                 <template v-for="(item, i) in buttons?.filter((x) => !x.condition || x.condition(scope))" :key="i">

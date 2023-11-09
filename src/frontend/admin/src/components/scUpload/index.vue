@@ -48,7 +48,7 @@
             </slot>
         </el-upload>
         <span style="display: none !important"><el-input v-model="value"></el-input></span>
-        <el-dialog v-model="cropperDialogVisible" :width="580" destroy-on-close draggable title="剪裁" @closed="cropperClosed">
+        <el-dialog v-model="cropperDialogVisible" :width="580" destroy-on-close draggable :title="$t('剪裁')" @closed="cropperClosed">
             <sc-cropper ref="cropper" :aspectRatio="aspectRatio" :compress="compress" :src="cropperFile.tempCropperFile"></sc-cropper>
             <template #footer>
                 <el-button @click="cropperDialogVisible = false">取 消</el-button>

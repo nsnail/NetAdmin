@@ -1,8 +1,8 @@
 <template>
-    <common-page title="重置密码">
+    <common-page :title="$t('重置密码')">
         <el-steps :active="stepActive" finish-status="success" simple>
-            <el-step title="填写新密码" />
-            <el-step title="完成重置" />
+            <el-step :title="$t('填写新密码')" />
+            <el-step :title="$t('完成重置')" />
         </el-steps>
         <el-form v-if="stepActive === 0" ref="form" :label-width="120" :model="form" :rules="rules" size="large" @keyup.enter="save">
             <na-form-phone
@@ -10,22 +10,22 @@
                 :code-field="['verifySmsCodeReq.code', 'code']"
                 :phone-field="['verifySmsCodeReq.destDevice', 'destDevice']"
                 :vue="this"
-                code-label="短信验证码"
+                code-label="$t('短信验证码')"
                 form-name="form"
-                phone-label="手机号码"></na-form-phone>
-            <el-form-item label="新密码" prop="passwordText">
-                <el-input v-model="form.passwordText" placeholder="请输入新密码" show-password></el-input>
+                phone-label="$t('手机号码')"></na-form-phone>
+            <el-form-item :label="$t('新密码')" prop="passwordText">
+                <el-input v-model="form.passwordText" :placeholder="$t('请输入新密码')" show-password></el-input>
                 <sc-password-strength v-model="form.passwordText"></sc-password-strength>
                 <div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
             </el-form-item>
-            <el-form-item label="确认新密码" prop="passwordText2">
-                <el-input v-model="form.passwordText2" placeholder="请再一次输入新密码" show-password></el-input>
+            <el-form-item :label="$t('确认新密码')" prop="passwordText2">
+                <el-input v-model="form.passwordText2" :placeholder="$t('请再一次输入新密码')" show-password></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button :loading="loading" type="primary" @click="save">提交</el-button>
             </el-form-item>
         </el-form>
-        <el-result v-if="stepActive >= 1" icon="success" sub-title="请牢记自己的新密码,返回登录后使用新密码登录" title="密码重置成功">
+        <el-result v-if="stepActive >= 1" icon="success" :sub-title="$t('请牢记自己的新密码,返回登录后使用新密码登录')" :title="$t('密码重置成功')">
             <template #extra>
                 <el-button size="large" type="primary" @click="backLogin">返回登录</el-button>
             </template>

@@ -10,12 +10,12 @@
         <template #header>
             <el-form :model="form">
                 <el-form-item>
-                    <el-input v-model="form.keywords" clearable placeholder="请输入地区或代码" @input="onInput"></el-input>
+                    <el-input v-model="form.keywords" clearable :placeholder="$t('请输入地区或代码')" @input="onInput"></el-input>
                 </el-form-item>
             </el-form>
         </template>
-        <el-table-column label="地区" prop="key" width="400"></el-table-column>
-        <el-table-column label="代码" prop="value"></el-table-column>
+        <el-table-column :label="$t('地区')" prop="key" width="400"></el-table-column>
+        <el-table-column :label="$t('代码')" prop="value"></el-table-column>
     </sc-table-select>
 </template>
 <style scoped></style>

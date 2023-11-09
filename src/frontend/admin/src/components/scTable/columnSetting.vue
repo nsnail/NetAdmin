@@ -35,7 +35,7 @@
             <el-button type="primary" @click="save">保存</el-button>
         </div>
     </div>
-    <el-empty v-else :image-size="80" description="暂无可配置的列"></el-empty>
+    <el-empty v-else :image-size="80" :description="$t('暂无可配置的列')"></el-empty>
 </template>
 
 <script>

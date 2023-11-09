@@ -1,5 +1,5 @@
 <template>
-    <el-card v-loading="loading" header="实时收入" shadow="hover">
+    <el-card v-loading="loading" :header="$t('实时收入')" shadow="hover">
         <scEcharts ref="c1" :option="option" height="300px"></scEcharts>
     </el-card>
 </template>
