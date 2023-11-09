@@ -48,10 +48,8 @@ export default {
         }
     },
     mounted() {
-        var searchHistory = this.$TOOL.data.get('SEARCH_HISTORY') || []
-        this.history = searchHistory
-        var menuTree = this.$TOOL.data.get('MENU')
-        this.filterMenu(menuTree)
+        this.history = this.$TOOL.data.get('SEARCH_HISTORY') || []
+        this.filterMenu(this.$GLOBAL.menu)
         this.$refs.input.focus()
     },
     methods: {
@@ -78,9 +76,9 @@ export default {
             })
         },
         menuFilter(queryString) {
-            var res = []
+            const res = []
             //过滤菜单树
-            var filterMenu = this.menu.filter((item) => {
+            const filterMenu = this.menu.filter((item) => {
                 if (item.meta.title.toLowerCase().indexOf(queryString.toLowerCase()) >= 0) {
                     return true
                 }
@@ -89,8 +87,8 @@ export default {
                 }
             })
             //匹配系统路由
-            var router = this.$router.getRoutes()
-            var filterRouter = filterMenu.map((m) => {
+            const router = this.$router.getRoutes()
+            const filterRouter = filterMenu.map((m) => {
                 if (m.meta.type === 'link') {
                     return router.find((r) => r.path === '/' + m.path)
                 } else {

@@ -69,8 +69,14 @@
 <script>
 import passwordForm from './components/passwordForm'
 import phoneForm from './components/phoneForm'
+import $CONFIG from '@/config'
 
 export default {
+    computed: {
+        $CONFIG() {
+            return $CONFIG
+        },
+    },
     components: {
         passwordForm,
         phoneForm,
@@ -116,7 +122,7 @@ export default {
         this.$TOOL.data.remove('USER_INFO')
         this.$TOOL.data.remove('MENU')
         this.$TOOL.data.remove('PERMISSIONS')
-        this.$TOOL.data.remove('DASHBOARDGRID')
+        this.$TOOL.data.remove('DASHBOARD_GRID')
         this.$TOOL.data.remove('grid')
         this.$store.commit('clearViewTags')
         this.$store.commit('clearKeepLive')
@@ -162,9 +168,9 @@ export default {
     color: #fff;
     padding: 40px;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 2;
 }
 
@@ -206,9 +212,9 @@ export default {
 
 .login_adv__bottom {
     position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     color: #fff;
     padding: 40px;
     background-image: linear-gradient(transparent, #000);
@@ -217,10 +223,10 @@ export default {
 
 .login_adv__mask {
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
