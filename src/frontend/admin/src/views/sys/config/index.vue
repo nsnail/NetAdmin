@@ -19,18 +19,18 @@
                     }
                 ">
                 <el-table-column type="selection"></el-table-column>
-                <el-table-column label="配置编号" prop="id"></el-table-column>
-                <el-table-column label="用户注册">
-                    <el-table-column label="默认部门" prop="userRegisterDept.name"></el-table-column>
-                    <el-table-column label="默认角色" prop="userRegisterRole.name"></el-table-column>
-                    <el-table-column label="人工审核" prop="userRegisterConfirm">
+                <el-table-column :label="$t('配置编号')" prop="id"></el-table-column>
+                <el-table-column :label="$t('用户注册')">
+                    <el-table-column :label="$t('默认部门')" prop="userRegisterDept.name"></el-table-column>
+                    <el-table-column :label="$t('默认角色')" prop="userRegisterRole.name"></el-table-column>
+                    <el-table-column :label="$t('人工审核')" prop="userRegisterConfirm">
                         <template #default="scope">
                             <el-switch v-model="scope.row.userRegisterConfirm" @change="changeSwitch($event, scope.row)"></el-switch>
                         </template>
                     </el-table-column>
                 </el-table-column>
 
-                <el-table-column label="启用" prop="enabled">
+                <el-table-column :label="$t('启用')" prop="enabled">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>

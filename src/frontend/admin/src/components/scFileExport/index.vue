@@ -11,22 +11,22 @@
     <slot :open="open">
         <el-button plain type="primary" @click="open">导出</el-button>
     </slot>
-    <el-drawer v-model="dialog" :size="400" append-to-body destroy-on-close direction="rtl" title="导出">
+    <el-drawer v-model="dialog" :size="400" append-to-body destroy-on-close direction="rtl" :title="$t('导出')">
         <el-main style="padding: 0 20px 20px 20px">
-            <div v-loading="downLoading" element-loading-text="正在处理中...">
+            <div v-loading="downLoading" :element-loading-text="$t('正在处理中...')">
                 <div
                     v-if="downLoading && progress"
                     style="position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 3000">
                     <el-progress :percentage="downLoadProgress" :stroke-width="20" :text-inside="true" style="width: 100%; margin-bottom: 120px" />
                 </div>
                 <el-tabs>
-                    <el-tab-pane label="常规" lazy>
+                    <el-tab-pane :label="$t('常规')" lazy>
                         <el-form label-position="left" label-width="100px" style="margin: 10px 0 20px 0">
-                            <el-form-item label="文件名">
-                                <el-input v-model="formData.fileName" placeholder="请输入文件名" />
+                            <el-form-item :label="$t('文件名')">
+                                <el-input v-model="formData.fileName" :placeholder="$t('请输入文件名')" />
                             </el-form-item>
-                            <el-form-item label="文件类型">
-                                <el-select v-model="formData.fileType" placeholder="请选择文件类型">
+                            <el-form-item :label="$t('文件类型')">
+                                <el-select v-model="formData.fileType" :placeholder="$t('请选择文件类型')">
                                     <el-option v-for="item in fileTypes" :key="item" :label="'*.' + item" :value="item" />
                                 </el-select>
                             </el-form-item>
@@ -44,10 +44,10 @@
                         </el-button>
                         <el-button v-else icon="el-icon-download" size="large" style="width: 100%" type="primary" @click="download">下 载</el-button>
                     </el-tab-pane>
-                    <el-tab-pane v-if="columnData.length > 0" label="列设置" lazy>
+                    <el-tab-pane v-if="columnData.length > 0" :label="$t('列设置')" lazy>
                         <columnSet :column="columnData"></columnSet>
                     </el-tab-pane>
-                    <el-tab-pane v-if="data && showData" label="其他参数" lazy>
+                    <el-tab-pane v-if="data && showData" :label="$t('其他参数')" lazy>
                         <el-descriptions :column="1" border size="small">
                             <el-descriptions-item v-for="(val, key) in data" :key="key" :label="key">{{ val }}</el-descriptions-item>
                         </el-descriptions>

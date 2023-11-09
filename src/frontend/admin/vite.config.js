@@ -17,12 +17,12 @@ export default defineConfig({
     },
     // vite 相关配置
     server: {
-        port: 65020,
+        port: 5020,
         host: true,
         open: false,
         proxy: {
             '/api': {
-                target: 'http://localhost:65010/api',
+                target: 'http://localhost:5010/api',
                 changeOrigin: true,
                 rewrite: (p) => p.replace(/^\/api/, ''),
             },

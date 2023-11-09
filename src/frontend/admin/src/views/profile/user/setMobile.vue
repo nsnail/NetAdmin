@@ -9,9 +9,9 @@
                         :phone-field="['originverifySmsCodeReq.destDevice', 'destDevice']"
                         :phone-place-holder="$GLOBAL.user.mobile"
                         :vue="this"
-                        code-label="原手机验证码"
+                        code-label="$t('原手机验证码')"
                         form-name="form"
-                        phone-label="原手机号码" />
+                        phone-label="$t('原手机号码')" />
                 </el-col>
                 <el-col v-if="mode === 'edit'" :lg="4" class="text-center arrow">
                     <el-icon>
@@ -24,9 +24,9 @@
                         :code-field="['newverifySmsCodeReq.code', 'code']"
                         :phone-field="['newverifySmsCodeReq.destDevice', 'destDevice']"
                         :vue="this"
-                        code-label="新手机验证码"
+                        code-label="$t('新手机验证码')"
                         form-name="form"
-                        phone-label="新手机号码" />
+                        phone-label="$t('新手机号码')" />
                 </el-col>
             </el-row>
         </el-form>

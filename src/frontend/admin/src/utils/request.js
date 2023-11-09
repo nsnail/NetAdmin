@@ -75,6 +75,7 @@ axios.interceptors.response.use(
         function setCookie(name, value) {
             tool.cookie.set(name, 'Bearer ' + value, {
                 expires: tool.data.get('AUTO_LOGIN') ? 24 * 60 * 60 : 0,
+                path: '/',
             })
         }
 
@@ -86,7 +87,7 @@ axios.interceptors.response.use(
         }
         return response
     },
-    (error) => {
+    async (error) => {
         if (error.response) {
             if (error.response.status === 404) {
                 ElNotification.error({
@@ -99,9 +100,14 @@ axios.interceptors.response.use(
                     message: error.response.data.message || 'Status:500，服务器发生错误！',
                 })
             } else if ([401, 403].includes(error.response.status)) {
+                // 如果token不存在，说明用户是第一次访问，直接跳转到登录页面
+                if (!tool.cookie.get('ACCESS-TOKEN')) {
+                    await router.replace({ path: '/anonymous/login' })
+                    return
+                }
                 if (!MessageBox_401_show && window.location.href.indexOf('anonymous') < 0) {
                     MessageBox_401_show = true
-                    ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
+                    await ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
                         type: 'error',
                         closeOnClickModal: false,
                         center: true,
@@ -111,10 +117,7 @@ axios.interceptors.response.use(
                             done()
                         },
                     })
-                        .then(() => {
-                            router.replace({ path: '/anonymous/login' })
-                        })
-                        .catch(() => {})
+                    await router.replace({ path: '/anonymous/login' })
                 }
             } else if (error.response.status === 900) {
                 function showErr(msg) {
@@ -271,9 +274,8 @@ export default {
      */
     jsonp: function (url, name = 'jsonp') {
         return new Promise((resolve) => {
-            var script = document.createElement('script')
-            var _id = `jsonp${Math.ceil(Math.random() * 1000000)}`
-            script.id = _id
+            const script = document.createElement('script')
+            script.id = `jsonp${Math.ceil(Math.random() * 1000000)}`
             script.type = 'text/javascript'
             script.src = url
             window[name] = (response) => {

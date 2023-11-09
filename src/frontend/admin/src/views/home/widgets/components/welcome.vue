@@ -1,5 +1,5 @@
 <template>
-    <el-card header="欢迎" shadow="hover">
+    <el-card :header="$t('欢迎')" shadow="hover">
         <div class="welcome">
             <div class="logo">
                 <img src="@/assets/img/logo.png" />
