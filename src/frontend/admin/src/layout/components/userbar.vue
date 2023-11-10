@@ -28,7 +28,7 @@
                     <el-icon-chat-dot-round />
                 </el-icon>
             </el-badge>
-            <el-drawer v-model="msg" :size="400" append-to-body destroy-on-close title="新消息">
+            <el-drawer v-model="msg" :size="400" append-to-body destroy-on-close :title="$t('新消息')">
                 <el-container>
                     <el-main class="nopadding">
                         <el-scrollbar>
@@ -49,7 +49,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                <el-empty v-if="msgList.length === 0" :image-size="100" description="暂无新消息"></el-empty>
+                                <el-empty v-if="msgList.length === 0" :image-size="100" :description="$t('暂无新消息')"></el-empty>
                             </ul>
                         </el-scrollbar>
                     </el-main>
@@ -78,11 +78,11 @@
         </el-dropdown>
     </div>
 
-    <el-dialog v-model="searchVisible" :width="700" center destroy-on-close title="搜索">
+    <el-dialog v-model="searchVisible" :width="700" center destroy-on-close :title="$t('搜索')">
         <search @success="searchVisible = false"></search>
     </el-dialog>
 
-    <el-drawer v-model="tasksVisible" :size="450" destroy-on-close title="任务中心">
+    <el-drawer v-model="tasksVisible" :size="450" destroy-on-close :title="$t('任务中心')">
         <tasks></tasks>
     </el-drawer>
 </template>

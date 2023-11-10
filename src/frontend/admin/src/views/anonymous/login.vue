@@ -39,15 +39,15 @@
                     </div>
                 </div>
                 <el-tabs>
-                    <el-tab-pane :label="$t('login.accountLogin')" lazy>
+                    <el-tab-pane :label="$t('账号登录')" lazy>
                         <password-form></password-form>
                     </el-tab-pane>
-                    <el-tab-pane :label="$t('login.mobileLogin')" lazy>
+                    <el-tab-pane :label="$t('手机号登录')" lazy>
                         <phone-form></phone-form>
                     </el-tab-pane>
                 </el-tabs>
                 <template v-if="$CONFIG.MY_SHOW_LOGIN_OAUTH">
-                    <el-divider>{{ $t('login.signInOther') }}</el-divider>
+                    <el-divider>{{ $t('其他登录方式') }}</el-divider>
                     <div class="login-oauth">
                         <el-button circle icon="sc-icon-wechat" type="success" @click="wechatLogin"></el-button>
                     </div>
@@ -55,12 +55,12 @@
             </div>
         </div>
     </div>
-    <el-dialog v-model="showWechatLogin" :title="$t('login.wechatLoginTitle')" :width="400" destroy-on-close>
+    <el-dialog v-model="showWechatLogin" :title="$t('二维码登录')" :width="400" destroy-on-close>
         <div class="qrCodeLogin">
             <sc-qr-code :size="200" :text="WechatLoginCode" class="qrCode"></sc-qr-code>
-            <p class="msg">{{ $tc('login.wechatLoginMsg', 1) }}<br />{{ $tc('login.wechatLoginMsg', 2) }}</p>
+            <p class="msg">{{ $t('请使用微信扫一扫登录') }}<br />{{ $t('模拟3秒后自动扫描') }}</p>
             <div v-if="isWechatLoginResult" class="qrCodeLogin-result">
-                <el-result :sub-title="$tc('login.wechatLoginResult', 2)" :title="$tc('login.wechatLoginResult', 1)" icon="success"></el-result>
+                <el-result :sub-title="$t('请在设备中点击授权登录')" :title="$t('已扫描')" icon="success"></el-result>
             </div>
         </div>
     </el-dialog>
@@ -69,8 +69,14 @@
 <script>
 import passwordForm from './components/passwordForm'
 import phoneForm from './components/phoneForm'
+import $CONFIG from '@/config'
 
 export default {
+    computed: {
+        $CONFIG() {
+            return $CONFIG
+        },
+    },
     components: {
         passwordForm,
         phoneForm,
@@ -116,7 +122,7 @@ export default {
         this.$TOOL.data.remove('USER_INFO')
         this.$TOOL.data.remove('MENU')
         this.$TOOL.data.remove('PERMISSIONS')
-        this.$TOOL.data.remove('DASHBOARDGRID')
+        this.$TOOL.data.remove('DASHBOARD_GRID')
         this.$TOOL.data.remove('grid')
         this.$store.commit('clearViewTags')
         this.$store.commit('clearKeepLive')
@@ -162,9 +168,9 @@ export default {
     color: #fff;
     padding: 40px;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 2;
 }
 
@@ -206,9 +212,9 @@ export default {
 
 .login_adv__bottom {
     position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     color: #fff;
     padding: 40px;
     background-image: linear-gradient(transparent, #000);
@@ -217,10 +223,10 @@ export default {
 
 .login_adv__mask {
     position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }

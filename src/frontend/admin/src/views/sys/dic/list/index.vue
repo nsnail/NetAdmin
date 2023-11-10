@@ -35,9 +35,9 @@
                     }
                 ">
                 <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column label="项名" prop="key" sortable="custom"></el-table-column>
-                <el-table-column label="项值" prop="value" sortable="custom"></el-table-column>
-                <el-table-column label="创建时间" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('项名')" prop="key" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('项值')" prop="value" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({

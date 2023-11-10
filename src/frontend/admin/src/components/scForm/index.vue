@@ -135,7 +135,7 @@
                         </template>
                         <!-- editor -->
                         <template v-else-if="item.component === 'editor'">
-                            <sc-editor v-model="form[item.name]" :height="400" placeholder="请输入"></sc-editor>
+                            <sc-editor v-model="form[item.name]" :height="400" :placeholder="$t('请输入')"></sc-editor>
                         </template>
                         <!-- noComponent -->
                         <template v-else>

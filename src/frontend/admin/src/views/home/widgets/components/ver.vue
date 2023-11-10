@@ -1,5 +1,5 @@
 <template>
-    <el-card header="版本信息" shadow="hover">
+    <el-card :header="$t('版本信息')" shadow="hover">
         <div style="height: 210px; text-align: center">
             <img src="@/assets/img/ver.svg" style="height: 140px" />
             <h2 style="margin-top: 15px">NetAdmin {{ $CONFIG.CORE_VER }}</h2>

@@ -2,26 +2,26 @@
     <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
         <div v-loading="loading">
             <el-tabs tab-position="top">
-                <el-tab-pane label="基本信息">
+                <el-tab-pane :label="$t('基本信息')">
                     <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
-                        <el-form-item label="角色名称" prop="name">
+                        <el-form-item :label="$t('角色名称')" prop="name">
                             <el-input v-model="form.name" clearable></el-input>
                         </el-form-item>
-                        <el-form-item label="排序" prop="sort">
+                        <el-form-item :label="$t('排序')" prop="sort">
                             <el-input-number v-model="form.sort" :min="0" controls-position="right" style="width: 100%"></el-input-number>
                         </el-form-item>
-                        <el-form-item label="启用" prop="enabled">
+                        <el-form-item :label="$t('启用')" prop="enabled">
                             <el-switch v-model="form.enabled"></el-switch>
                         </el-form-item>
-                        <el-form-item label="无限权限" prop="ignorePermissionControl">
+                        <el-form-item :label="$t('无限权限')" prop="ignorePermissionControl">
                             <el-switch v-model="form.ignorePermissionControl"></el-switch>
                         </el-form-item>
-                        <el-form-item label="备注" prop="summary">
+                        <el-form-item :label="$t('备注')" prop="summary">
                             <el-input v-model="form.summary" clearable type="textarea"></el-input>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
-                <el-tab-pane label="菜单权限">
+                <el-tab-pane :label="$t('菜单权限')">
                     <div class="treeMain">
                         <el-tree
                             ref="menu"
@@ -34,7 +34,7 @@
                             show-checkbox></el-tree>
                     </div>
                 </el-tab-pane>
-                <el-tab-pane label="接口权限">
+                <el-tab-pane :label="$t('接口权限')">
                     <div class="treeMain">
                         <el-tree
                             ref="api"
@@ -45,14 +45,14 @@
                             show-checkbox></el-tree>
                     </div>
                 </el-tab-pane>
-                <el-tab-pane label="数据范围">
+                <el-tab-pane :label="$t('数据范围')">
                     <el-form label-width="100px">
-                        <el-form-item label="规则类型">
+                        <el-form-item :label="$t('规则类型')">
                             <el-select v-model="form.dataScope" :disabled="mode === 'view'">
                                 <el-option v-for="(item, i) in this.$GLOBAL.enums.dataScopes" :key="i" :label="item[1]" :value="i"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item v-show="form.dataScope === 'specificDept'" label="选择部门">
+                        <el-form-item v-show="form.dataScope === 'specificDept'" :label="$t('选择部门')">
                             <div class="treeMain" style="width: 100%">
                                 <el-tree
                                     ref="dept"
@@ -65,18 +65,18 @@
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
-                <el-tab-pane label="控制台">
+                <el-tab-pane :label="$t('控制台')">
                     <el-form label-width="100px">
-                        <el-form-item label="控制台视图">
+                        <el-form-item :label="$t('控制台视图')">
                             <el-select v-model="form.displayDashboard" :disabled="mode === 'view'">
-                                <el-option :value="true" label="仪表板"></el-option>
-                                <el-option :value="false" label="工作台"></el-option>
+                                <el-option :value="true" :label="$t('仪表板')"></el-option>
+                                <el-option :value="false" :label="$t('工作台')"></el-option>
                             </el-select>
                             <div class="el-form-item-msg">用于控制角色登录后控制台的视图</div>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" label="原始数据">
+                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
                         :expanded="true"

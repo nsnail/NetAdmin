@@ -1,13 +1,13 @@
 <template>
     <sc-dialog v-model="visible" :title="titleMap[mode]" :width="400" destroy-on-close @closed="$emit('closed')">
         <el-form ref="dialogForm" v-loading="loading" :model="form" :rules="rules" label-width="100px">
-            <el-form-item label="字典名称" prop="name">
-                <el-input v-model="form.name" clearable placeholder="字典显示名称"></el-input>
+            <el-form-item :label="$t('字典名称')" prop="name">
+                <el-input v-model="form.name" clearable :placeholder="$t('字典显示名称')"></el-input>
             </el-form-item>
-            <el-form-item label="编码" prop="code">
-                <el-input v-model="form.code" clearable placeholder="字典编码"></el-input>
+            <el-form-item :label="$t('编码')" prop="code">
+                <el-input v-model="form.code" clearable :placeholder="$t('字典编码')"></el-input>
             </el-form-item>
-            <el-form-item label="父路径" prop="parentId">
+            <el-form-item :label="$t('父路径')" prop="parentId">
                 <na-dic-catalog v-model="form.parentId" />
             </el-form-item>
         </el-form>

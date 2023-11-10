@@ -14,7 +14,7 @@
         <div class="msg-yzm">
             <el-input
                 v-model="form[Array.isArray(codeField) ? codeField[1] : codeField]"
-                :placeholder="$t('login.smsPlaceholder')"
+                :placeholder="$t('短信验证码')"
                 clearable
                 maxlength="4"
                 oninput="value=value.replace(/\D/g,'')"

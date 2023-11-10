@@ -46,18 +46,18 @@
                     }
                 ">
                 <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column label="部门编号" prop="id" sortable="custom"></el-table-column>
-                <el-table-column label="部门名称" prop="name" sortable="custom"></el-table-column>
-                <el-table-column label="排序" prop="sort" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('部门编号')" prop="id" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('部门名称')" prop="name" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('排序')" prop="sort" sortable="custom"></el-table-column>
                 <na-col-indicator
                     :options="[
                         { text: '启用', type: 'success', value: true },
                         { text: '禁用', type: 'danger', value: false, pulse: true },
                     ]"
-                    label="状态"
+                    :label="$t('状态')"
                     prop="enabled"></na-col-indicator>
-                <el-table-column label="创建时间" prop="createdTime" sortable="custom"></el-table-column>
-                <el-table-column label="备注" prop="summary"></el-table-column>
+                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('备注')" prop="summary"></el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
