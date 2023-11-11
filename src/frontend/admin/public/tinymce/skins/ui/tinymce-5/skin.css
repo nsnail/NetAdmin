@@ -1004,11 +1004,11 @@ button::-moz-focus-inner {
 }
 
 .tox:not([dir='rtl']) .tox-sv-palette {
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .tox:not([dir='rtl']) .tox-hue-slider {
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .tox:not([dir='rtl']) .tox-hue-slider-thumb {
@@ -1020,11 +1020,11 @@ button::-moz-focus-inner {
 }
 
 .tox[dir='rtl'] .tox-sv-palette {
-    margin-left: 15px;
+    margin-left: 1rem;
 }
 
 .tox[dir='rtl'] .tox-hue-slider {
-    margin-left: 15px;
+    margin-left: 1rem;
 }
 
 .tox[dir='rtl'] .tox-hue-slider-thumb {
@@ -2875,7 +2875,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-pop.tox-pop--left::after {
     border-color: transparent #fff transparent transparent;
     border-width: 8px;
-    margin-left: -15px;
+    margin-left: -1rem;
 }
 
 .tox .tox-pop.tox-pop--left::before {
@@ -3411,7 +3411,7 @@ body.tox-dialog__disable-scroll {
 }
 
 .tox.tox-platform-touch .tox-split-button .tox-tbtn--select {
-    padding: 0 0px;
+    padding: 0 0;
 }
 
 .tox.tox-platform-touch .tox-split-button .tox-tbtn:not(.tox-tbtn--select):first-child {
@@ -3430,7 +3430,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-toolbar__primary,
 .tox .tox-toolbar__overflow {
     background-color: #fff;
-    background-image: repeating-linear-gradient(#cccccc 0px 1px, transparent 1px 39px);
+    background-image: repeating-linear-gradient(#cccccc 0 1px, transparent 1px 39px);
     background-position: center top 39px;
     background-repeat: no-repeat;
     background-size: calc(100% - 4px * 2) calc(100% - 39px);
@@ -3438,15 +3438,15 @@ body.tox-dialog__disable-scroll {
     flex: 0 0 auto;
     flex-shrink: 0;
     flex-wrap: wrap;
-    padding: 0 0px;
+    padding: 0 0;
     transform: perspective(1px);
 }
 
 .tox .tox-toolbar-overlord > .tox-toolbar,
 .tox .tox-toolbar-overlord > .tox-toolbar__primary,
 .tox .tox-toolbar-overlord > .tox-toolbar__overflow {
-    background-position: center top 0px;
-    background-size: calc(100% - 4px * 2) calc(100% - 0px);
+    background-position: center top 0;
+    background-size: calc(100% - 4px * 2) calc(100% - 0);
 }
 
 .tox .tox-toolbar__overflow.tox-toolbar__overflow--closed {
@@ -3474,8 +3474,8 @@ body.tox-dialog__disable-scroll {
 .tox .tox-menubar + .tox-toolbar-overlord {
     border-top: 1px solid #cccccc;
     margin-top: 0;
-    padding-bottom: 0px;
-    padding-top: 0px;
+    padding-bottom: 0;
+    padding-top: 0;
 }
 
 .tox .tox-toolbar--scrolling {
@@ -3712,7 +3712,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-toolbar__primary,
 .tox .tox-toolbar__overflow {
     background: url("data:image/svg+xml;charset=utf8,%3Csvg height='39px' viewBox='0 0 40 39px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='38px' width='100' height='1' fill='%23cccccc'/%3E%3C/svg%3E")
-        left 0 top 0px #fff !important;
+        left 0 top 0 #fff !important;
 }
 
 .tox .tox-menubar + .tox-toolbar-overlord {

@@ -80,7 +80,7 @@ export default {
 .sc-page-header__title p {
     font-size: 13px;
     color: #999;
-    margin-top: 15px;
+    margin-top: 1rem;
 }
 
 [data-theme='dark'] .sc-page-header {

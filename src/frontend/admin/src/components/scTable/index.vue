@@ -66,7 +66,7 @@
                     @update:page-size="pageSizeChange"></el-pagination>
             </div>
             <div v-if="!hideDo" class="scTable-do">
-                <el-button v-if="!hideRefresh" circle icon="el-icon-refresh" style="margin-left: 15px" @click="refresh"></el-button>
+                <el-button v-if="!hideRefresh" circle icon="el-icon-refresh" style="margin-left: 1rem" @click="refresh"></el-button>
                 <el-popover
                     v-if="column"
                     :hide-after="0"
@@ -77,7 +77,7 @@
                     @show="customColumnShow = true"
                     @after-leave="customColumnShow = false">
                     <template #reference>
-                        <el-button circle icon="el-icon-set-up" style="margin-left: 15px"></el-button>
+                        <el-button circle icon="el-icon-set-up" style="margin-left: 1rem"></el-button>
                     </template>
                     <columnSetting
                         v-if="customColumnShow"
@@ -89,7 +89,7 @@
                 </el-popover>
                 <el-popover v-if="!hideSetting" :hide-after="0" :width="400" placement="top" :title="$t('表格设置')" trigger="click">
                     <template #reference>
-                        <el-button circle icon="el-icon-setting" style="margin-left: 15px"></el-button>
+                        <el-button circle icon="el-icon-setting" style="margin-left: 1rem"></el-button>
                     </template>
                     <el-form label-position="left" label-width="80px">
                         <el-form-item :label="$t('表格尺寸')">
@@ -491,7 +491,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 15px;
+    padding: 0 1rem;
 }
 
 .scTable-do {

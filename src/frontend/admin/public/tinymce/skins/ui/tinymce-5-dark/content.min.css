@@ -218,7 +218,7 @@ pre[class*='language-'] {
     cursor: default;
     display: block;
     height: 5px;
-    margin-top: 15px;
+    margin-top: 1rem;
     page-break-before: always;
     width: 100%;
 }
@@ -556,10 +556,10 @@ pre[class*='language-'] {
 .mce-item-table[border='0'] caption,
 .mce-item-table[border='0'] td,
 .mce-item-table[border='0'] th,
-table[style*='border-width: 0px'],
-table[style*='border-width: 0px'] caption,
-table[style*='border-width: 0px'] td,
-table[style*='border-width: 0px'] th {
+table[style*='border-width: 0'],
+table[style*='border-width: 0'] caption,
+table[style*='border-width: 0'] td,
+table[style*='border-width: 0'] th {
     border: 1px dashed #bbb;
 }
 .mce-visualblocks address,

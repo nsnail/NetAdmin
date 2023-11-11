@@ -162,7 +162,7 @@ export default {
     list-style: none;
     cursor: pointer;
     height: 28px;
-    padding: 0 15px;
+    padding: 0 1rem;
     border-radius: 32px;
     margin: 0 10px 10px 0;
     display: flex;

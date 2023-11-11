@@ -1,6 +1,5 @@
 {
-    "name": "scui",
-    "version": "1.6.6",
+    "name": "NetAdmin",
     "private": true,
     "scripts": {
         "dev": "vite",

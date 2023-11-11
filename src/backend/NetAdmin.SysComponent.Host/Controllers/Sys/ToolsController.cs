@@ -1,3 +1,4 @@
+using NetAdmin.Domain.Dto.Sys.Tool;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
@@ -12,7 +13,16 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCache, IToolsService>(cache), IToolsModule
 {
     /// <summary>
-    ///     服务器时间
+    ///     获取模块信息
+    /// </summary>
+    [AllowAnonymous]
+    public Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
+    {
+        return Cache.GetModulesAsync();
+    }
+
+    /// <summary>
+    ///     获取服务器时间
     /// </summary>
     [AllowAnonymous]
     public Task<DateTime> GetServerUtcTimeAsync()
@@ -21,11 +31,11 @@ public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCa
     }
 
     /// <summary>
-    ///     版本信息
+    ///     获取版本信息
     /// </summary>
     [AllowAnonymous]
-    public Task<string> VersionAsync()
+    public Task<string> GetVersionAsync()
     {
-        return Cache.VersionAsync();
+        return Cache.GetVersionAsync();
     }
 }

@@ -160,12 +160,12 @@ export default {
 }
 
 .sc-search-result {
-    margin-top: 15px;
+    margin-top: 1rem;
 }
 
 .sc-search-result li {
     height: 56px;
-    padding: 0 15px;
+    padding: 0 1rem;
     background: var(--el-bg-color-overlay);
     border: 1px solid var(--el-border-color-light);
     list-style: none;
@@ -179,7 +179,7 @@ export default {
 
 .sc-search-result li i {
     font-size: 20px;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .sc-search-result li:hover {
