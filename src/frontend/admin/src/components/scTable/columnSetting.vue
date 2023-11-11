@@ -96,7 +96,7 @@ export default {
 <style scoped>
 .setting-column__title {
     border-bottom: 1px solid #ebeef5;
-    padding-bottom: 15px;
+    padding-bottom: 1rem;
 }
 
 .setting-column__title span {
@@ -108,7 +108,7 @@ export default {
 
 .setting-column__title span.move_b {
     width: 30px;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .setting-column__title span.show_b {
@@ -121,7 +121,7 @@ export default {
 
 .setting-column__title span.width_b {
     width: 60px;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .setting-column__title span.sortable_b {
@@ -151,7 +151,7 @@ export default {
 
 .setting-column__list li span.move_b {
     width: 30px;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .setting-column__list li span.show_b {
@@ -168,7 +168,7 @@ export default {
 
 .setting-column__list li span.width_b {
     width: 60px;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .setting-column__list li span.sortable_b {
@@ -185,7 +185,7 @@ export default {
 
 .setting-column__bottom {
     border-top: 1px solid #ebeef5;
-    padding-top: 15px;
+    padding-top: 1rem;
     text-align: right;
 }
 

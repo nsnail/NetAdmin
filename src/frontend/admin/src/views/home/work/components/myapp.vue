@@ -206,7 +206,7 @@ export default {
     color: #fff;
     vertical-align: top;
     padding: 4px;
-    padding-top: 15px;
+    padding-top: 1rem;
     cursor: move;
     border-radius: 3px;
 }

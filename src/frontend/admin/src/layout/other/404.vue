@@ -57,7 +57,7 @@ export default {
 .router-err__content p {
     font-size: 14px;
     color: #999;
-    margin: 15px 0 30px 0;
+    margin: 1rem 0 30px 0;
     line-height: 1.5;
 }
 

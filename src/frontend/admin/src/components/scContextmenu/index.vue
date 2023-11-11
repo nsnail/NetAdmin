@@ -107,7 +107,7 @@ export default {
     margin: 5px 0;
     border: none;
     height: 1px;
-    font-size: 0px;
+    font-size: 0;
     background-color: #ebeef5;
 }
 
@@ -149,7 +149,7 @@ export default {
 
 .sc-contextmenu__menu li ul {
     position: absolute;
-    top: 0px;
+    top: 0;
     left: 100%;
     display: none;
     margin: -11px 0;

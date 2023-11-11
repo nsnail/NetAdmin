@@ -198,7 +198,7 @@ export default {
 }
 
 .login_adv__title div span {
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .login_adv__title div i {
@@ -325,7 +325,7 @@ export default {
 }
 
 .qrCodeLogin p.msg {
-    margin-top: 15px;
+    margin-top: 1rem;
 }
 
 .qrCodeLogin .qrCodeLogin-result {

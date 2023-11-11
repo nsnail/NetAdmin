@@ -6,6 +6,7 @@ using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.Domain.Dto.Sys.Config;
+using NetAdmin.Domain.Dto.Sys.Tool;
 using NetAdmin.SysComponent.Application.Modules.Sys;
 using NetAdmin.Tests;
 using Xunit;
@@ -96,12 +97,33 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     }
 
     /// <inheritdoc />
+    public Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
     [Fact]
     public async Task<DateTime> GetServerUtcTimeAsync()
     {
         var response = await PostAsync("/api/sys/tools/get.server.utc.time", null);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return default;
+    }
+
+    /// <inheritdoc />
+    [Fact]
+    public async Task<string> GetVersionAsync()
+    {
+        var response = await PostAsync("/api/sys/tools/version", null);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    public Task<IEnumerable<(string Name, string Version)>> ModulesAsync()
+    {
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -146,14 +168,5 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     public Task<NopReq> UpdateAsync(NopReq req)
     {
         throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    [Fact]
-    public async Task<string> VersionAsync()
-    {
-        var response = await PostAsync("/api/sys/tools/version", null);
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        return default;
     }
 }

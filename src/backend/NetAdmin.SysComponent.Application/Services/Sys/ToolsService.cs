@@ -1,4 +1,5 @@
 using NetAdmin.Application.Services;
+using NetAdmin.Domain.Dto.Sys.Tool;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -7,13 +8,27 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
 {
     /// <inheritdoc />
+    public Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
+    {
+        return Task.FromResult<IEnumerable<GetModulesRsp>>(AppDomain.CurrentDomain.GetAssemblies()
+                                                                    .Select(x => {
+                                                                        var asm = x.GetName();
+                                                                        return new GetModulesRsp {
+                                                                                   Name    = asm.Name
+                                                                                 , Version = asm.Version?.ToString()
+                                                                               };
+                                                                    })
+                                                                    .OrderBy(x => x.Name));
+    }
+
+    /// <inheritdoc />
     public Task<DateTime> GetServerUtcTimeAsync()
     {
         return Task.FromResult(DateTime.UtcNow);
     }
 
     /// <inheritdoc />
-    public Task<string> VersionAsync()
+    public Task<string> GetVersionAsync()
     {
         return Task.FromResult(GlobalStatic.ProductVersion);
     }

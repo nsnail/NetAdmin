@@ -380,7 +380,7 @@ export default {
 .nodata {
     height: 46px;
     line-height: 46px;
-    margin: 15px 0;
+    margin: 1rem 0;
     border: 1px dashed #e6e6e6;
     color: #999;
     text-align: center;
@@ -401,7 +401,7 @@ export default {
 
 .sc-filter-main table {
     width: 100%;
-    margin: 15px 0;
+    margin: 1rem 0;
 }
 
 .sc-filter-main table td {

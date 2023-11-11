@@ -93,7 +93,7 @@ export default {
     outline: none;
     cursor: pointer;
     font-size: var(--el-message-close-size, 16px);
-    margin-left: 15px;
+    margin-left: 1rem;
     color: var(--el-color-info);
 }
 
@@ -104,8 +104,8 @@ export default {
 .sc-dialog:deep(.el-dialog).is-fullscreen {
     display: flex;
     flex-direction: column;
-    top: 0px !important;
-    left: 0px !important;
+    top: 0 !important;
+    left: 0 !important;
 }
 
 .sc-dialog:deep(.el-dialog) .el-dialog__body {

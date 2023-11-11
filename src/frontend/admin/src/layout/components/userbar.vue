@@ -256,7 +256,7 @@ export default {
 
 .msg-list__icon {
     width: 40px;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .msg-list__main {
@@ -264,7 +264,7 @@ export default {
 }
 
 .msg-list__main h2 {
-    font-size: 15px;
+    font-size: 1rem;
     font-weight: normal;
     color: #333;
 }

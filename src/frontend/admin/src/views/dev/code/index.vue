@@ -160,7 +160,7 @@ export default {
 
 <style scoped>
 .el-card {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .code-item {
@@ -185,7 +185,7 @@ export default {
 }
 
 .code-item .title {
-    padding: 15px;
+    padding: 1rem;
 }
 
 .code-item .title h2 {
@@ -200,6 +200,6 @@ export default {
 }
 
 .code-item .title p {
-    margin-top: 15px;
+    margin-top: 1rem;
 }
 </style>

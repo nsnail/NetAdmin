@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Dto.Sys.Tool;
+
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 
 /// <summary>
@@ -6,12 +8,17 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 public interface IToolsModule
 {
     /// <summary>
-    ///     服务器时间
+    ///     获取模块信息
+    /// </summary>
+    Task<IEnumerable<GetModulesRsp>> GetModulesAsync();
+
+    /// <summary>
+    ///     获取服务器时间
     /// </summary>
     Task<DateTime> GetServerUtcTimeAsync();
 
     /// <summary>
-    ///     版本信息
+    ///     获取版本信息
     /// </summary>
-    Task<string> VersionAsync();
+    Task<string> GetVersionAsync();
 }
