@@ -21,7 +21,7 @@ export default {
     border-bottom: 1px solid #eee;
     margin-bottom: 20px;
     font-size: 17px;
-    padding-bottom: 15px;
+    padding-bottom: 1rem;
     color: #3c4a54;
     font-weight: bold;
 }

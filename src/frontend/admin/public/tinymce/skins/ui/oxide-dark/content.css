@@ -271,7 +271,7 @@ pre[class*='language-'] {
     cursor: default;
     display: block;
     height: 5px;
-    margin-top: 15px;
+    margin-top: 1rem;
     page-break-before: always;
     width: 100%;
 }
@@ -668,16 +668,16 @@ pre[class*='language-'] {
     list-style-type: none;
 }
 
-table[style*='border-width: 0px'],
+table[style*='border-width: 0'],
 .mce-item-table:not([border]),
 .mce-item-table[border='0'],
-table[style*='border-width: 0px'] td,
+table[style*='border-width: 0'] td,
 .mce-item-table:not([border]) td,
 .mce-item-table[border='0'] td,
-table[style*='border-width: 0px'] th,
+table[style*='border-width: 0'] th,
 .mce-item-table:not([border]) th,
 .mce-item-table[border='0'] th,
-table[style*='border-width: 0px'] caption,
+table[style*='border-width: 0'] caption,
 .mce-item-table:not([border]) caption,
 .mce-item-table[border='0'] caption {
     border: 1px dashed #bbb;

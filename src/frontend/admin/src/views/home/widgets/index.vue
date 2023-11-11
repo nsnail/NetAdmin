@@ -1,13 +1,6 @@
 <template>
     <div ref="main" :class="['widgets-home', customizing ? 'customizing' : '']">
         <div class="widgets-content">
-            <div class="widgets-top">
-                <div class="widgets-top-title">控制台</div>
-                <div class="widgets-top-actions">
-                    <el-button v-if="customizing" icon="el-icon-check" round type="primary" @click="save">完成</el-button>
-                    <el-button v-else icon="el-icon-edit" round type="primary" @click="custom">自定义</el-button>
-                </div>
-            </div>
             <div ref="widgets" class="widgets">
                 <div class="widgets-wrapper">
                     <div v-if="nowCompsList.length <= 0" class="no-widgets">
@@ -59,6 +52,9 @@
                             <el-icon-circle-plus-filled />
                         </el-icon>
                         添加部件
+                    </div>
+                    <div>
+                        <el-button v-if="customizing" icon="el-icon-check" round type="primary" @click="save">完成</el-button>
                     </div>
                     <div class="widgets-aside-close" @click="close()">
                         <el-icon>
@@ -120,6 +116,10 @@
                 </el-footer>
             </el-container>
         </div>
+    </div>
+
+    <div class="layout-setting" @click="custom">
+        <el-icon><el-icon-setting /></el-icon>
     </div>
 </template>
 
@@ -245,7 +245,6 @@ export default {
     flex: 1;
     overflow: auto;
     overflow-x: hidden;
-    padding: 15px;
 }
 
 .widgets-aside {
@@ -284,7 +283,7 @@ export default {
 }
 
 .widgets-top {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -309,12 +308,12 @@ export default {
 }
 
 .customizing .widgets-wrapper .el-col {
-    padding-bottom: 15px;
+    padding-bottom: 1rem;
 }
 
 .customizing .widgets-wrapper .draggable-box {
     border: 1px dashed var(--el-color-primary);
-    padding: 15px;
+    padding: 1rem;
 }
 
 .customizing .widgets-wrapper .no-widgets {
@@ -323,7 +322,7 @@ export default {
 
 .customizing .widgets-item {
     position: relative;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .customize-overlay {
@@ -355,14 +354,14 @@ export default {
 }
 
 .customize-overlay label i {
-    margin-right: 15px;
+    margin-right: 1rem;
     font-size: 24px;
 }
 
 .customize-overlay .close {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 1rem;
+    right: 1rem;
 }
 
 .customize-overlay .close:focus,
@@ -373,7 +372,7 @@ export default {
 .widgets-list-item {
     display: flex;
     flex-direction: row;
-    padding: 15px;
+    padding: 1rem;
     align-items: center;
 }
 
@@ -386,7 +385,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    margin-right: 15px;
+    margin-right: 1rem;
     color: #6a8bad;
 }
 
@@ -425,7 +424,7 @@ export default {
     border: 2px solid var(--el-border-color-light);
     padding: 5px;
     cursor: pointer;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .selectLayout-item span {

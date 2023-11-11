@@ -1004,11 +1004,11 @@ button::-moz-focus-inner {
 }
 
 .tox:not([dir='rtl']) .tox-sv-palette {
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .tox:not([dir='rtl']) .tox-hue-slider {
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .tox:not([dir='rtl']) .tox-hue-slider-thumb {
@@ -1020,11 +1020,11 @@ button::-moz-focus-inner {
 }
 
 .tox[dir='rtl'] .tox-sv-palette {
-    margin-left: 15px;
+    margin-left: 1rem;
 }
 
 .tox[dir='rtl'] .tox-hue-slider {
-    margin-left: 15px;
+    margin-left: 1rem;
 }
 
 .tox[dir='rtl'] .tox-hue-slider-thumb {
@@ -1373,7 +1373,7 @@ button::-moz-focus-inner {
     border-color: #161f29;
     border-radius: 10px;
     border-style: solid;
-    border-width: 0px;
+    border-width: 0;
     box-shadow:
         0 16px 16px -10px rgba(34, 47, 62, 0.15),
         0 0 40px 1px rgba(34, 47, 62, 0.15);
@@ -2876,7 +2876,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-pop.tox-pop--left::after {
     border-color: transparent #222f3e transparent transparent;
     border-width: 8px;
-    margin-left: -15px;
+    margin-left: -1rem;
 }
 
 .tox .tox-pop.tox-pop--left::before {
@@ -3412,7 +3412,7 @@ body.tox-dialog__disable-scroll {
 }
 
 .tox.tox-platform-touch .tox-split-button .tox-tbtn--select {
-    padding: 0 0px;
+    padding: 0 0;
 }
 
 .tox.tox-platform-touch .tox-split-button .tox-tbtn:not(.tox-tbtn--select):first-child {
@@ -3431,7 +3431,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-toolbar__primary,
 .tox .tox-toolbar__overflow {
     background-color: #222f3e;
-    background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.15) 0px 1px, transparent 1px 39px);
+    background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.15) 0 1px, transparent 1px 39px);
     background-position: center top 40px;
     background-repeat: no-repeat;
     background-size: calc(100% - 11px * 2) calc(100% - 41px);
@@ -3439,15 +3439,15 @@ body.tox-dialog__disable-scroll {
     flex: 0 0 auto;
     flex-shrink: 0;
     flex-wrap: wrap;
-    padding: 0 0px;
+    padding: 0 0;
     transform: perspective(1px);
 }
 
 .tox .tox-toolbar-overlord > .tox-toolbar,
 .tox .tox-toolbar-overlord > .tox-toolbar__primary,
 .tox .tox-toolbar-overlord > .tox-toolbar__overflow {
-    background-position: center top 0px;
-    background-size: calc(100% - 11px * 2) calc(100% - 0px);
+    background-position: center top 0;
+    background-size: calc(100% - 11px * 2) calc(100% - 0);
 }
 
 .tox .tox-toolbar__overflow.tox-toolbar__overflow--closed {
@@ -3474,7 +3474,7 @@ body.tox-dialog__disable-scroll {
 .tox .tox-menubar + .tox-toolbar,
 .tox .tox-menubar + .tox-toolbar-overlord {
     border-top: 1px solid transparent;
-    margin-top: 0px;
+    margin-top: 0;
     padding-bottom: 1px;
     padding-top: 1px;
 }

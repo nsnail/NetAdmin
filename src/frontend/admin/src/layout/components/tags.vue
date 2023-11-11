@@ -289,7 +289,7 @@ export default {
     position: fixed;
     width: 200px;
     margin: 0;
-    border-radius: 0px;
+    border-radius: 0;
     background: var(--el-bg-color-overlay);
     border: 1px solid var(--el-border-color-light);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -302,7 +302,7 @@ export default {
     margin: 5px 0;
     border: none;
     height: 1px;
-    font-size: 0px;
+    font-size: 0;
     background-color: var(--el-border-color-light);
 }
 

@@ -75,7 +75,7 @@ export default {
     display: inline-block;
     position: relative;
     width: 100%;
-    padding: 54.5px 0px;
+    padding: 54.5px 0;
     align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
@@ -89,7 +89,7 @@ export default {
         flex-flow: column wrap;
         justify-content: flex-start;
         align-items: center;
-        padding: 0px 50px;
+        padding: 0 50px;
         position: relative;
         z-index: 1;
     }
@@ -113,7 +113,7 @@ export default {
         top: -12px;
         left: 50%;
         transform: translateX(-50%);
-        width: 0px;
+        width: 0;
         border-style: solid;
         border-width: 8px 6px 4px;
         border-color: rgb(202, 202, 202) transparent transparent;
@@ -141,7 +141,7 @@ export default {
     }
 
     .node-wrap-box .title .close {
-        font-size: 15px;
+        font-size: 1rem;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -151,7 +151,7 @@ export default {
 
     .node-wrap-box .content {
         position: relative;
-        padding: 15px;
+        padding: 1rem;
     }
 
     .node-wrap-box .content .placeholder {
@@ -173,10 +173,10 @@ export default {
     .add-node-btn-box:before {
         content: '';
         position: absolute;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: -1;
         margin: auto;
         width: 2px;
@@ -187,7 +187,7 @@ export default {
     .add-node-btn {
         user-select: none;
         width: 240px;
-        padding: 20px 0px 32px;
+        padding: 20px 0 32px;
         display: flex;
         justify-content: center;
         flex-shrink: 0;
@@ -196,7 +196,7 @@ export default {
 
     .add-branch {
         justify-content: center;
-        padding: 0px 10px;
+        padding: 0 10px;
         position: absolute;
         top: -16px;
         left: 50%;
@@ -237,16 +237,16 @@ export default {
         border-bottom: 2px solid #ccc;
         border-top: 2px solid #ccc;
         position: relative;
-        margin-top: 15px;
+        margin-top: 1rem;
     }
 
     .branch-box .col-box::before {
         content: '';
         position: absolute;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: 0;
         margin: auto;
         width: 2px;
@@ -275,10 +275,10 @@ export default {
     .condition-node-box::before {
         content: '';
         position: absolute;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         margin: auto;
         width: 2px;
         height: 100%;
@@ -291,7 +291,7 @@ export default {
         min-height: 72px;
         background: rgb(255, 255, 255);
         border-radius: 4px;
-        padding: 15px 15px;
+        padding: 1rem 1rem;
         cursor: pointer;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
     }
@@ -302,7 +302,7 @@ export default {
         top: -12px;
         left: 50%;
         transform: translateX(-50%);
-        width: 0px;
+        width: 0;
         border-style: solid;
         border-width: 8px 6px 4px;
         border-color: rgb(202, 202, 202) transparent transparent;
@@ -318,24 +318,24 @@ export default {
     }
 
     .auto-judge .title .close {
-        font-size: 15px;
+        font-size: 1rem;
         position: absolute;
-        top: 15px;
-        right: 15px;
+        top: 1rem;
+        right: 1rem;
         color: #999;
         display: none;
     }
 
     .auto-judge .title .priority-title {
         position: absolute;
-        top: 15px;
-        right: 15px;
+        top: 1rem;
+        right: 1rem;
         color: #999;
     }
 
     .auto-judge .content {
         position: relative;
-        padding-top: 15px;
+        padding-top: 1rem;
     }
 
     .auto-judge .content .placeholder {
@@ -483,7 +483,7 @@ export default {
 }
 
 .tags-list {
-    margin-top: 15px;
+    margin-top: 1rem;
     width: 100%;
 }
 

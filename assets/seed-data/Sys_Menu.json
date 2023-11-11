@@ -117,6 +117,17 @@
     "Type": 1
   },
   {
+    "Component": "home/widgets/components/ver",
+    "Icon": "el-icon-pointer",
+    "Id": 480998862188554,
+    "Name": "sys-about",
+    "ParentId": 373837917724677,
+    "Path": "/sys/about",
+    "Sort": 91,
+    "Title": "版本信息",
+    "Type": 1,
+  },
+  {
     "Component": "sys/api",
     "Icon": "sc-icon-api",
     "Id": 397880678895621,

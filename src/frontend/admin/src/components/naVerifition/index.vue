@@ -7,7 +7,7 @@
                     <i class="iconfont icon-close"></i>
                 </span>
             </div>
-            <div :style="{ padding: mode === 'pop' ? '15px' : '0' }" class="verifybox-bottom">
+            <div :style="{ padding: mode === 'pop' ? '1rem' : '0' }" class="verifybox-bottom">
                 <!-- 验证码容器 -->
                 <component
                     :is="componentType"
@@ -157,7 +157,7 @@ export default {
 }
 
 .verifybox-top {
-    padding: 0 15px;
+    padding: 0 1rem;
     height: 50px;
     line-height: 50px;
     text-align: left;
@@ -168,7 +168,7 @@ export default {
 }
 
 .verifybox-bottom {
-    padding: 15px;
+    padding: 1rem;
     box-sizing: border-box;
 }
 

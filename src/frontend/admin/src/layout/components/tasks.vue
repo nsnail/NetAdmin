@@ -112,7 +112,7 @@ export default {
 }
 
 .user-bar-tasks-item-body .title h2 {
-    font-size: 15px;
+    font-size: 1rem;
 }
 
 .user-bar-tasks-item-body .title p {

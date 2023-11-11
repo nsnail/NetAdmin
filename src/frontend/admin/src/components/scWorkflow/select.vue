@@ -356,7 +356,7 @@ export default {
     height: 43px;
     line-height: 43px;
     border-bottom: 1px solid var(--el-border-color-light);
-    padding: 0 15px;
+    padding: 0 1rem;
     font-size: 12px;
 }
 
@@ -369,7 +369,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 5px 5px 15px;
+    padding: 5px 5px 5px 1rem;
     height: 38px;
 }
 

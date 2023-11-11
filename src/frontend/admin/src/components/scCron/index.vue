@@ -51,7 +51,7 @@
                         </el-form-item>
                         <el-form-item v-if="value.second.type === 1" :label="$t('范围')">
                             <el-input-number v-model="value.second.range.start" :max="59" :min="0" controls-position="right"></el-input-number>
-                            <span style="padding: 0 15px">-</span>
+                            <span style="padding: 0 1rem">-</span>
                             <el-input-number v-model="value.second.range.end" :max="59" :min="0" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item v-if="value.second.type === 2" :label="$t('间隔')">
@@ -85,7 +85,7 @@
                         </el-form-item>
                         <el-form-item v-if="value.minute.type === 1" :label="$t('范围')">
                             <el-input-number v-model="value.minute.range.start" :max="59" :min="0" controls-position="right"></el-input-number>
-                            <span style="padding: 0 15px">-</span>
+                            <span style="padding: 0 1rem">-</span>
                             <el-input-number v-model="value.minute.range.end" :max="59" :min="0" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item v-if="value.minute.type === 2" :label="$t('间隔')">
@@ -119,7 +119,7 @@
                         </el-form-item>
                         <el-form-item v-if="value.hour.type === 1" :label="$t('范围')">
                             <el-input-number v-model="value.hour.range.start" :max="23" :min="0" controls-position="right"></el-input-number>
-                            <span style="padding: 0 15px">-</span>
+                            <span style="padding: 0 1rem">-</span>
                             <el-input-number v-model="value.hour.range.end" :max="23" :min="0" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item v-if="value.hour.type === 2" :label="$t('间隔')">
@@ -155,7 +155,7 @@
                         </el-form-item>
                         <el-form-item v-if="value.day.type === 1" :label="$t('范围')">
                             <el-input-number v-model="value.day.range.start" :max="31" :min="1" controls-position="right"></el-input-number>
-                            <span style="padding: 0 15px">-</span>
+                            <span style="padding: 0 1rem">-</span>
                             <el-input-number v-model="value.day.range.end" :max="31" :min="1" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item v-if="value.day.type === 2" :label="$t('间隔')">
@@ -189,7 +189,7 @@
                         </el-form-item>
                         <el-form-item v-if="value.month.type === 1" :label="$t('范围')">
                             <el-input-number v-model="value.month.range.start" :max="12" :min="1" controls-position="right"></el-input-number>
-                            <span style="padding: 0 15px">-</span>
+                            <span style="padding: 0 1rem">-</span>
                             <el-input-number v-model="value.month.range.end" :max="12" :min="1" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item v-if="value.month.type === 2" :label="$t('间隔')">
@@ -228,7 +228,7 @@
                                 <el-select v-model="value.week.range.start">
                                     <el-option v-for="(item, index) in data.week" :key="index" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
-                                <span style="padding: 0 15px">-</span>
+                                <span style="padding: 0 1rem">-</span>
                                 <el-select v-model="value.week.range.end">
                                     <el-option v-for="(item, index) in data.week" :key="index" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
@@ -274,7 +274,7 @@
                         </el-form-item>
                         <el-form-item v-if="value.year.type === 1" :label="$t('范围')">
                             <el-input-number v-model="value.year.range.start" controls-position="right"></el-input-number>
-                            <span style="padding: 0 15px">-</span>
+                            <span style="padding: 0 1rem">-</span>
                             <el-input-number v-model="value.year.range.end" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item v-if="value.year.type === 2" :label="$t('间隔')">
@@ -803,13 +803,13 @@ export default {
 
 .sc-cron-num {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     width: 100%;
 }
 
 .sc-cron-num h2 {
     font-size: 12px;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     font-weight: normal;
 }
 
@@ -819,7 +819,7 @@ export default {
     line-height: 30px;
     width: 100%;
     font-size: 12px;
-    padding: 0 15px;
+    padding: 0 1rem;
     background: var(--el-color-primary-light-9);
     border-radius: 4px;
 }

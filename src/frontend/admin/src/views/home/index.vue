@@ -4,7 +4,7 @@
             <el-card shadow="never">
                 <el-skeleton :rows="1"></el-skeleton>
             </el-card>
-            <el-card shadow="never" style="margin-top: 15px">
+            <el-card shadow="never" style="margin-top: 1rem">
                 <el-skeleton></el-skeleton>
             </el-card>
         </el-main>
