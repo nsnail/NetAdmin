@@ -54,6 +54,12 @@ public sealed class SiteMsgCache
     }
 
     /// <inheritdoc />
+    public Task<long> UnreadCountAsync()
+    {
+        return Service.UnreadCountAsync();
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgRsp> UpdateAsync(UpdateSiteMsgReq req)
     {
         return Service.UpdateAsync(req);

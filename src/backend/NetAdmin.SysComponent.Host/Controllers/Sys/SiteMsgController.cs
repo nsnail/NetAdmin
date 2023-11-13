@@ -75,6 +75,14 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     }
 
     /// <summary>
+    ///     未读数量
+    /// </summary>
+    public Task<long> UnreadCountAsync()
+    {
+        return Cache.UnreadCountAsync();
+    }
+
+    /// <summary>
     ///     更新站内信
     /// </summary>
     [Transaction]

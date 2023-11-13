@@ -10,16 +10,20 @@
             label-width="100px">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form-item prop="id" :label="$t('消息编号')" v-if="mode === 'view'"><el-input v-model="form.id" clearable /></el-form-item>
+                    <el-form-item prop="id" :label="$t('消息编号')" v-if="mode === 'view'">
+                        <el-input v-model="form.id" clearable />
+                    </el-form-item>
                     <el-form-item prop="msgType" :label="$t('消息类型')">
                         <el-select v-model="form.msgType" clearable filterable>
                             <el-option v-for="(item, i) in $GLOBAL.enums.siteMsgTypes" :key="i" :label="item[1]" :value="i" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item prop="title" :label="$t('消息主题')"><el-input v-model="form.title" clearable /></el-form-item>
-                    <el-form-item prop="content" :label="$t('消息内容')"
-                        ><el-input v-model="form.content" clearable type="textarea" rows="10"
-                    /></el-form-item>
+                    <el-form-item prop="title" :label="$t('消息主题')">
+                        <el-input v-model="form.title" clearable />
+                    </el-form-item>
+                    <el-form-item prop="content" :label="$t('消息内容')">
+                        <el-input v-model="form.content" clearable type="textarea" rows="10" />
+                    </el-form-item>
 
                     <el-form-item :label="$t('送至角色')" prop="roleIds">
                         <sc-select
@@ -38,12 +42,12 @@
                     <el-form-item :label="$t('送至用户')" prop="userIds">
                         <na-user v-model="form.userIds" class="w100p" :multiple="true"></na-user>
                     </el-form-item>
-                    <el-form-item prop="createdTime" v-if="mode === 'view'" :label="$t('创建时间')"
-                        ><el-input v-model="form.createdTime" clearable
-                    /></el-form-item>
-                    <el-form-item prop="modifiedTime" v-if="mode === 'view'" :label="$t('修改时间')"
-                        ><el-input v-model="form.modifiedTime" clearable
-                    /></el-form-item>
+                    <el-form-item prop="createdTime" v-if="mode === 'view'" :label="$t('创建时间')">
+                        <el-input v-model="form.createdTime" clearable />
+                    </el-form-item>
+                    <el-form-item prop="modifiedTime" v-if="mode === 'view'" :label="$t('修改时间')">
+                        <el-input v-model="form.modifiedTime" clearable />
+                    </el-form-item>
                 </el-tab-pane>
 
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
@@ -115,7 +119,12 @@ export default {
             this.loading = true
             this.mode = mode
             if (data) {
-                Object.assign(this.form, (await this.$API.sys_sitemsg.get.post({ id: data.id })).data)
+                const res = await this.$API.sys_sitemsg.get.post({ id: data.id })
+                Object.assign(this.form, res.data, {
+                    roleIds: res.data.roles?.map((x) => x.id) ?? [],
+                    deptIds: res.data.depts?.map((x) => x.id) ?? [],
+                    userIds: res.data.users ?? [],
+                })
             }
             this.loading = false
             return this

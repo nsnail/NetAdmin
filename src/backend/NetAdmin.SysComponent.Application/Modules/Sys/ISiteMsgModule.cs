@@ -11,4 +11,10 @@ public interface ISiteMsgModule : ICrudModule<CreateSiteMsgReq, QuerySiteMsgRsp 
   , QuerySiteMsgReq, QuerySiteMsgRsp                                            // 查询类型
   , UpdateSiteMsgReq, QuerySiteMsgRsp                                           // 修改类型
   , DelReq                                                                      // 删除类型
-> { }
+>
+{
+    /// <summary>
+    ///     未读数量
+    /// </summary>
+    Task<long> UnreadCountAsync();
+}
