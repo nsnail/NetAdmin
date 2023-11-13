@@ -99,7 +99,6 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
         var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req })).ToOneAsync();

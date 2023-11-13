@@ -54,14 +54,12 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req }).ToOneAsync();
@@ -69,7 +67,6 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<PagedQueryRsp<QueryDeptRsp>> PagedQueryAsync(PagedQueryReq<QueryDeptReq> req)
     {
         throw new NotImplementedException();

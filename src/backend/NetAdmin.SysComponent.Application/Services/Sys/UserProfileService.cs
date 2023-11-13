@@ -39,14 +39,12 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req }).ToOneAsync();

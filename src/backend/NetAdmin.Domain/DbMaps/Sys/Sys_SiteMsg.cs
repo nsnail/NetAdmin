@@ -1,0 +1,77 @@
+using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.Dto.Sys.SiteMsg;
+using NetAdmin.Domain.Enums.Sys;
+
+namespace NetAdmin.Domain.DbMaps.Sys;
+
+/// <summary>
+///     站内信表
+/// </summary>
+[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_SiteMsg))]
+public record Sys_SiteMsg : VersionEntity, IRegister
+{
+    /// <summary>
+    ///     消息内容
+    /// </summary>
+    [JsonIgnore]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_TEXT)]
+    public virtual string Content { get; init; }
+
+    /// <summary>
+    ///     消息-部门映射
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(Sys_SiteMsgDept))]
+    public virtual ICollection<Sys_Dept> Depts { get; init; }
+
+    /// <summary>
+    ///     消息类型
+    /// </summary>
+    [JsonIgnore]
+    public virtual SiteMsgTypes MsgType { get; init; }
+
+    /// <summary>
+    ///     消息-角色映射
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
+    public virtual ICollection<Sys_Role> Roles { get; init; }
+
+    /// <summary>
+    ///     消息主题
+    /// </summary>
+    [JsonIgnore]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    public virtual string Title { get; init; }
+
+    /// <summary>
+    ///     消息-用户映射
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(Sys_SiteMsgUser))]
+    public virtual ICollection<Sys_User> Users { get; init; }
+
+    /// <inheritdoc />
+    public void Register(TypeAdapterConfig config)
+    {
+        _ = config.ForType<CreateSiteMsgReq, Sys_SiteMsg>()
+                  .Map( //
+                      d => d.Roles
+                    , s => s.RoleIds.NullOrEmpty()
+                          ? Array.Empty<Sys_Role>()
+                          : s.RoleIds.Select(x => new Sys_Role { Id = x }))
+                  .Map( //
+                      d => d.Users
+                    , s => s.UserIds.NullOrEmpty()
+                          ? Array.Empty<Sys_User>()
+                          : s.UserIds.Select(x => new Sys_User { Id = x }))
+                  .Map( //
+                      d => d.Depts
+                    , s => s.DeptIds.NullOrEmpty()
+                          ? Array.Empty<Sys_Dept>()
+                          : s.DeptIds.Select(x => new Sys_Dept { Id = x }))
+
+            //
+            ;
+    }
+}

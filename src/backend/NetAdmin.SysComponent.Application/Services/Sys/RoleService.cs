@@ -46,14 +46,12 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req }).ToOneAsync();
