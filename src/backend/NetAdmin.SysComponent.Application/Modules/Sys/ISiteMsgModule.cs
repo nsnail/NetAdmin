@@ -1,6 +1,7 @@
 using NetAdmin.Application.Modules;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.SiteMsg;
+using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 
@@ -13,6 +14,16 @@ public interface ISiteMsgModule : ICrudModule<CreateSiteMsgReq, QuerySiteMsgRsp 
   , DelReq                                                                      // 删除类型
 >
 {
+    /// <summary>
+    ///     分页查询我的站内信
+    /// </summary>
+    Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req);
+
+    /// <summary>
+    ///     设置站内信状态
+    /// </summary>
+    Task SetSiteMsgStatusAsync(UpdateSiteMsgFlagReq req);
+
     /// <summary>
     ///     未读数量
     /// </summary>

@@ -23,7 +23,7 @@ export default {
             this.$router.go(-1)
         },
         gologin() {
-            this.$router.push('/anonymous/login')
+            this.$router.push('/guest/login')
         },
     },
 }

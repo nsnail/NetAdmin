@@ -82,7 +82,7 @@ export default {
         },
         backLogin() {
             this.$router.push({
-                path: '/anonymous/login',
+                path: '/guest/login',
             })
         },
     },

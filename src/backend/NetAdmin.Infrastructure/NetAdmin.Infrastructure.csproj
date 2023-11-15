@@ -8,14 +8,14 @@
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.802-preview20231010-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.802-preview20231010-ns1"/>
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.50"/>
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.8.8.50-ns1"/>
-        <PackageReference Include="Furion.Pure.NS" Version="4.8.8.50-ns1"/>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-rc.2.23480.2"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.1-ns1"/>
+        <PackageReference Include="Furion.Pure.NS" Version="4.9.1-ns1"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0"/>
         <PackageReference Include="NSExt" Version="1.1.0"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0"/>
-        <PackageReference Include="Minio" Version="6.0.0"/>
+        <PackageReference Include="Minio" Version="6.0.1"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
     </ItemGroup>
     <ItemGroup>

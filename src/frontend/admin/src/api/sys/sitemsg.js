@@ -72,11 +72,44 @@ export default {
     },
 
     /**
+     * 分页查询我的站内信
+     */
+    pagedQueryMine: {
+        url: `${config.API_URL}/api/sys/site.msg/paged.query.mine`,
+        name: `分页查询我的站内信`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 查询站内信
      */
     query: {
         url: `${config.API_URL}/api/sys/site.msg/query`,
         name: `查询站内信`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 设置站内信状态
+     */
+    setSiteMsgStatus: {
+        url: `${config.API_URL}/api/sys/site.msg/set.site.msg.status`,
+        name: `设置站内信状态`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 未读数量
+     */
+    unreadCount: {
+        url: `${config.API_URL}/api/sys/site.msg/unread.count`,
+        name: `未读数量`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

@@ -54,7 +54,7 @@
                         </el-scrollbar>
                     </el-main>
                     <el-footer>
-                        <el-button type="primary">消息中心</el-button>
+                        <el-button type="primary" @click="gotoMsgCenter">消息中心</el-button>
                         <el-button @click="markRead">全部设为已读</el-button>
                     </el-footer>
                 </el-container>
@@ -70,7 +70,7 @@
             </div>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item command="uc">帐号信息</el-dropdown-item>
+                    <el-dropdown-item command="uc">个人中心</el-dropdown-item>
                     <el-dropdown-item command="clearCache">清除缓存</el-dropdown-item>
                     <el-dropdown-item command="outLogin" divided>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
@@ -139,10 +139,14 @@ export default {
         this.user = this.$GLOBAL.user
     },
     methods: {
+        gotoMsgCenter() {
+            this.$router.push({ path: '/profile/message' })
+            this.msg = false
+        },
         //个人信息
         handleUser(command) {
             if (command === 'uc') {
-                this.$router.push({ path: '/profile' })
+                this.$router.push({ path: '/profile/account' })
             }
             if (command === 'cmd') {
                 this.$router.push({ path: '/cmd' })
@@ -155,7 +159,7 @@ export default {
                         const loading = this.$loading()
                         this.$TOOL.data.clear()
                         this.$TOOL.cookie.clear()
-                        this.$router.replace({ path: '/anonymous/login' })
+                        this.$router.replace({ path: '/guest/login' })
                         setTimeout(() => {
                             loading.close()
                             location.reload()
@@ -173,7 +177,7 @@ export default {
                 })
                     .then(() => {
                         this.$TOOL.cookie.clear()
-                        this.$router.replace({ path: '/anonymous/login' })
+                        this.$router.replace({ path: '/guest/login' })
                     })
                     .catch(() => {
                         //取消退出

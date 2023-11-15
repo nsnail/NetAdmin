@@ -6,7 +6,7 @@
         </el-form-item>
         <div class="login-reg">
             {{ $t('还没有账号?') }}
-            <router-link to="/anonymous/register">{{ $t('创建新账号') }}</router-link>
+            <router-link to="/guest/register">{{ $t('创建新账号') }}</router-link>
         </div>
     </el-form>
 </template>

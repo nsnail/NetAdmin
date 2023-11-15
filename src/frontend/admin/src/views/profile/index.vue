@@ -12,7 +12,7 @@
                     </div>
                 </el-header>
                 <el-main class="nopadding">
-                    <el-menu :default-active="page" class="menu">
+                    <el-menu :default-active="$route.path" class="menu">
                         <el-menu-item-group v-for="group in menu" :key="$t(group.groupName)" :title="$t(group.groupName)">
                             <el-menu-item v-for="item in group.list" :key="item.component" :index="item.component" @click="openPage">
                                 <el-icon v-if="item.icon">
@@ -28,30 +28,15 @@
             </el-container>
         </el-aside>
         <el-main>
-            <Suspense>
-                <template #default>
-                    <component :is="page" />
-                </template>
-                <template #fallback>
-                    <el-skeleton :rows="3" />
-                </template>
-            </Suspense>
+            <router-view v-slot="{ Component }">
+                <component :is="Component" />
+            </router-view>
         </el-main>
     </el-container>
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue'
-
 export default {
-    components: {
-        account: defineAsyncComponent(() => import('./user/account')),
-        settings: defineAsyncComponent(() => import('./user/settings')),
-        pushSettings: defineAsyncComponent(() => import('./user/pushSettings')),
-        setMobile: defineAsyncComponent(() => import('./user/setMobile')),
-        space: defineAsyncComponent(() => import('./user/space')),
-        logs: defineAsyncComponent(() => import('./user/logs')),
-    },
     data() {
         return {
             menu: [
@@ -61,17 +46,12 @@ export default {
                         {
                             icon: 'el-icon-postcard',
                             title: '账号信息',
-                            component: 'account',
+                            component: '/profile/account',
                         },
                         {
                             icon: 'el-icon-operation',
                             title: '系统设置',
-                            component: 'settings',
-                        },
-                        {
-                            icon: 'el-icon-bell',
-                            title: '通知设置',
-                            component: 'pushSettings',
+                            component: '/profile/settings',
                         },
                     ],
                 },
@@ -79,20 +59,14 @@ export default {
                     groupName: '数据管理',
                     list: [
                         {
-                            icon: 'el-icon-coin',
-                            title: '存储空间信息',
-                            component: 'space',
-                        },
-                        {
-                            icon: 'el-icon-clock',
-                            title: '操作日志',
-                            component: 'logs',
+                            icon: 'el-icon-bell',
+                            title: '我的消息',
+                            component: '/profile/message',
                         },
                     ],
                 },
             ],
             user: {},
-            page: 'account',
         }
     },
     created() {
@@ -100,7 +74,7 @@ export default {
     },
     methods: {
         openPage(item) {
-            this.page = item.index
+            this.$router.push({ path: item.index })
         },
     },
 }

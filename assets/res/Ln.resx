@@ -65,6 +65,7 @@
     <data name="共青团员" xml:space="preserve"><value>共青团员</value></data>
     <data name="出生证" xml:space="preserve"><value>出生证</value></data>
     <data name="初中" xml:space="preserve"><value>初中</value></data>
+    <data name="删除" xml:space="preserve"><value>删除</value></data>
     <data name="包含" xml:space="preserve"><value>包含</value></data>
     <data name="区号电话号码分机号" xml:space="preserve"><value>区号电话号码分机号</value></data>
     <data name="博士" xml:space="preserve"><value>博士</value></data>
@@ -102,6 +103,7 @@
     <data name="已婚" xml:space="preserve"><value>已婚</value></data>
     <data name="已完成" xml:space="preserve"><value>已完成</value></data>
     <data name="已校验" xml:space="preserve"><value>已校验</value></data>
+    <data name="已读" xml:space="preserve"><value>已读</value></data>
     <data name="布依族" xml:space="preserve"><value>布依族</value></data>
     <data name="布朗族" xml:space="preserve"><value>布朗族</value></data>
     <data name="并且" xml:space="preserve"><value>并且</value></data>
@@ -147,6 +149,7 @@
     <data name="朝鲜族" xml:space="preserve"><value>朝鲜族</value></data>
     <data name="未婚" xml:space="preserve"><value>未婚</value></data>
     <data name="未指定部门" xml:space="preserve"><value>未指定部门</value></data>
+    <data name="未读" xml:space="preserve"><value>未读</value></data>
     <data name="本人数据" xml:space="preserve"><value>本人数据</value></data>
     <data name="本科" xml:space="preserve"><value>本科</value></data>
     <data name="本部门和下级部门数据" xml:space="preserve"><value>本部门和下级部门数据</value></data>
@@ -185,6 +188,7 @@
     <data name="硕士" xml:space="preserve"><value>硕士</value></data>
     <data name="离异" xml:space="preserve"><value>离异</value></data>
     <data name="私信" xml:space="preserve"><value>私信</value></data>
+    <data name="站内信不存在" xml:space="preserve"><value>站内信不存在</value></data>
     <data name="等于" xml:space="preserve"><value>等于</value></data>
     <data name="等待发送" xml:space="preserve"><value>等待发送</value></data>
     <data name="签名缺失" xml:space="preserve"><value>签名缺失</value></data>

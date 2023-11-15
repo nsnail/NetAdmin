@@ -6,6 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     站内信-角色映射表
 /// </summary>
 [Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgRole))]
+[Index($"idx_{{tablename}}_{nameof(RoleId)}_{nameof(SiteMsgId)}", $"{nameof(RoleId)},{nameof(SiteMsgId)}", true)]
 public record Sys_SiteMsgRole : ImmutableEntity
 {
     /// <summary>

@@ -61,7 +61,6 @@
                 <el-table-column prop="id" label="消息编号" />
                 <el-table-column prop="msgType" label="消息类型" />
                 <el-table-column prop="title" label="消息主题" />
-                <el-table-column prop="content" label="消息内容" />
                 <el-table-column prop="createdTime" label="创建时间" />
                 <el-table-column prop="modifiedTime" label="修改时间" />
                 <na-col-operation

@@ -1,5 +1,6 @@
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.SiteMsg;
+using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
@@ -67,11 +68,27 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     }
 
     /// <summary>
+    ///     分页查询我的站内信
+    /// </summary>
+    public Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req)
+    {
+        return Cache.PagedQueryMineAsync(req);
+    }
+
+    /// <summary>
     ///     查询站内信
     /// </summary>
     public Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     设置站内信状态
+    /// </summary>
+    public Task SetSiteMsgStatusAsync(UpdateSiteMsgFlagReq req)
+    {
+        return Cache.SetSiteMsgStatusAsync(req);
     }
 
     /// <summary>

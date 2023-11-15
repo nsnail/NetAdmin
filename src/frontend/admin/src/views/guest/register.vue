@@ -162,7 +162,7 @@ export default {
         },
         goLogin() {
             this.$router.push({
-                path: '/anonymous/login',
+                path: '/guest/login',
             })
         },
     },

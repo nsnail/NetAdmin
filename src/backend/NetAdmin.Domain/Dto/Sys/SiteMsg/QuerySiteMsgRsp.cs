@@ -2,6 +2,7 @@ using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Enums.Sys;
 
@@ -35,6 +36,11 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
     /// <inheritdoc cref="Sys_SiteMsg.MsgType" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override SiteMsgTypes MsgType { get; init; }
+
+    /// <summary>
+    ///     我的标记
+    /// </summary>
+    public QuerySiteMsgFlagRsp MyFlags { get; set; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Roles" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -1,6 +1,7 @@
 using NetAdmin.Cache;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.SiteMsg;
+using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
@@ -48,9 +49,21 @@ public sealed class SiteMsgCache
     }
 
     /// <inheritdoc />
+    public Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req)
+    {
+        return Service.PagedQueryMineAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req)
     {
         return Service.QueryAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task SetSiteMsgStatusAsync(UpdateSiteMsgFlagReq req)
+    {
+        return Service.SetSiteMsgStatusAsync(req);
     }
 
     /// <inheritdoc />
