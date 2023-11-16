@@ -1,8 +1,7 @@
 # NetAdmin
 
-A universal RBAC (Role-Based Access Control)  management system built on newest technologies like C#12/.NET8, Vue3/Vite,
-Element Plus, with exceptionally elegant coding standards. 基于C#12/.NET8、Vue3/Vite、Element
-Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权限管理框架。
+通用后台权限管理系统、快速开发框架（基于C#12/.NET8、Vue3/Vite、Element Plus等现代技术构建，具有十分整洁、优雅的编码规范）
+
 
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
@@ -11,7 +10,7 @@ Plus等前沿技术构建的、具有非常优雅的编码规范的通用RBAC权
 
 ## 在线预览
 
-http://na.yaopy.com/anonymous/login
+http://na.yaopy.com
 
 ## 一键运行
 
@@ -68,7 +67,7 @@ docker run -p 8080:8080 --rm nsnail/netadmin
    npm run dev
    ```
     4. 体验前端程序
-        - 浏览器打开 http://localhost:65020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
+        - 浏览器打开 http://localhost:5020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
 
 ## 文件目录树
 
