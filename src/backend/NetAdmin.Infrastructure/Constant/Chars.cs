@@ -22,6 +22,7 @@ public static class Chars
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_255 = "nvarchar(255)";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_MAX = "nvarchar(max)";
     public const string FLG_DB_FIELD_TYPE_SMALL_INT    = "smallint";
+    public const string FLG_DB_FIELD_TYPE_TEXT         = "text";
     public const string FLG_DB_FIELD_TYPE_VARCHAR      = "varchar";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_1022 = "varchar(1022)";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_127  = "varchar(127)";

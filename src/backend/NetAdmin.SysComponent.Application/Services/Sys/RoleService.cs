@@ -46,14 +46,12 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req }).ToOneAsync();
@@ -102,8 +100,8 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords) ||
-                              a.Id == req.Keywords.Int64Try(0))
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
+                              a.Summary.Contains(req.Keywords))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.Sort), StringComparison.OrdinalIgnoreCase) ?? true) {

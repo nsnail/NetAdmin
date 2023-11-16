@@ -1,10 +1,3 @@
-<!--
- * @Author: Xujianchen
- * @Date: 2023-02-28 14:12:15
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-19 12:00:42
- * @Description:
--->
 <template>
     <div class="user-bar">
         <div class="panel-item hidden-sm-and-down" @click="search">
@@ -23,39 +16,18 @@
             </el-icon>
         </div>
         <div class="msg panel-item" @click="showMsg">
-            <el-badge :hidden="msgList.length == 0" :value="msgList.length" class="badge" type="danger">
+            <el-badge :hidden="unreadCnt === 0" :value="unreadCnt" class="badge" type="danger">
                 <el-icon>
                     <el-icon-chat-dot-round />
                 </el-icon>
             </el-badge>
-            <el-drawer v-model="msg" :size="400" append-to-body destroy-on-close :title="$t('新消息')">
+            <el-drawer v-model="msg" append-to-body destroy-on-close :title="$t('新消息')">
                 <el-container>
-                    <el-main class="nopadding">
-                        <el-scrollbar>
-                            <ul class="msg-list">
-                                <li v-for="item in msgList" v-bind:key="item.id">
-                                    <a :href="item.link" target="_blank">
-                                        <div class="msg-list__icon">
-                                            <el-badge is-dot type="danger">
-                                                <el-avatar :size="40" :src="item.avatar"></el-avatar>
-                                            </el-badge>
-                                        </div>
-                                        <div class="msg-list__main">
-                                            <h2>{{ item.title }}</h2>
-                                            <p>{{ item.describe }}</p>
-                                        </div>
-                                        <div class="msg-list__time">
-                                            <p>{{ item.time }}</p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <el-empty v-if="msgList.length === 0" :image-size="100" :description="$t('暂无新消息')"></el-empty>
-                            </ul>
-                        </el-scrollbar>
+                    <el-main style="padding: 0 1rem">
+                        <message />
                     </el-main>
-                    <el-footer>
-                        <el-button type="primary">消息中心</el-button>
-                        <el-button @click="markRead">全部设为已读</el-button>
+                    <el-footer style="height: unset">
+                        <el-button @click="gotoMsgCenter">{{ $t('消息中心') }}</el-button>
                     </el-footer>
                 </el-container>
             </el-drawer>
@@ -70,9 +42,9 @@
             </div>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item command="uc">帐号信息</el-dropdown-item>
-                    <el-dropdown-item command="clearCache">清除缓存</el-dropdown-item>
-                    <el-dropdown-item command="outLogin" divided>退出登录</el-dropdown-item>
+                    <el-dropdown-item command="uc"> {{ $t('个人中心') }}</el-dropdown-item>
+                    <el-dropdown-item command="clearCache"> {{ $t('清除缓存') }}</el-dropdown-item>
+                    <el-dropdown-item command="outLogin" divided>{{ $t('退出登录') }}</el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
@@ -90,11 +62,12 @@
 <script>
 import search from './search.vue'
 import tasks from './tasks.vue'
-
+import message from '@/views/profile/message/components/list.vue'
 export default {
     components: {
         search,
         tasks,
+        message,
     },
     data() {
         return {
@@ -104,45 +77,23 @@ export default {
             searchVisible: false,
             tasksVisible: false,
             msg: false,
-            msgList: [
-                {
-                    id: 1,
-                    type: 'user',
-                    avatar: '@/assets/img/avatar.jpg',
-                    title: 'Skuya',
-                    describe: '如果喜欢就点个星星支持一下哦',
-                    link: 'https://gitee.com/lolicode/scui',
-                    time: '5分钟前',
-                },
-                {
-                    id: 2,
-                    type: 'user',
-                    avatar: '@/assets/img/avatar2.gif',
-                    title: 'Lolowan',
-                    describe: '点进去Gitee获取最新开源版本',
-                    link: 'https://gitee.com/lolicode/scui',
-                    time: '14分钟前',
-                },
-                {
-                    id: 3,
-                    type: 'system',
-                    avatar: '@/assets/img/logo.png',
-                    title: '感谢登录NetAdmin Admin',
-                    describe: 'Vue 3.0 + Vue-Router 4.0 + ElementPlus + Axios 后台管理系统。',
-                    link: 'https://gitee.com/lolicode/scui',
-                    time: '2020年7月24日',
-                },
-            ],
+            unreadCnt: 0,
         }
     },
-    created() {
+    async created() {
         this.user = this.$GLOBAL.user
+        const res = await this.$API.sys_sitemsg.unreadCount.post()
+        this.unreadCnt = res.data
     },
     methods: {
+        gotoMsgCenter() {
+            this.$router.push({ path: '/profile/message' })
+            this.msg = false
+        },
         //个人信息
         handleUser(command) {
             if (command === 'uc') {
-                this.$router.push({ path: '/profile' })
+                this.$router.push({ path: '/profile/account' })
             }
             if (command === 'cmd') {
                 this.$router.push({ path: '/cmd' })
@@ -155,7 +106,7 @@ export default {
                         const loading = this.$loading()
                         this.$TOOL.data.clear()
                         this.$TOOL.cookie.clear()
-                        this.$router.replace({ path: '/anonymous/login' })
+                        this.$router.replace({ path: '/guest/login' })
                         setTimeout(() => {
                             loading.close()
                             location.reload()
@@ -173,7 +124,7 @@ export default {
                 })
                     .then(() => {
                         this.$TOOL.cookie.clear()
-                        this.$router.replace({ path: '/anonymous/login' })
+                        this.$router.replace({ path: '/guest/login' })
                     })
                     .catch(() => {
                         //取消退出
@@ -182,16 +133,11 @@ export default {
         },
         //全屏
         screen() {
-            var element = document.documentElement
-            this.$TOOL.screen(element)
+            this.$TOOL.screen(document.documentElement)
         },
         //显示短消息
         showMsg() {
             this.msg = true
-        },
-        //标记已读
-        markRead() {
-            this.msgList = []
         },
         //搜索
         search() {
@@ -239,58 +185,5 @@ export default {
     margin-left: 5px;
     font-size: 12px;
     cursor: pointer;
-}
-
-.msg-list li {
-    border-top: 1px solid #eee;
-}
-
-.msg-list li a {
-    display: flex;
-    padding: 20px;
-}
-
-.msg-list li a:hover {
-    background: #ecf5ff;
-}
-
-.msg-list__icon {
-    width: 40px;
-    margin-right: 1rem;
-}
-
-.msg-list__main {
-    flex: 1;
-}
-
-.msg-list__main h2 {
-    font-size: 1rem;
-    font-weight: normal;
-    color: #333;
-}
-
-.msg-list__main p {
-    font-size: 12px;
-    color: #999;
-    line-height: 1.8;
-    margin-top: 5px;
-}
-
-.msg-list__time {
-    width: 100px;
-    text-align: right;
-    color: #999;
-}
-
-.dark .msg-list__main h2 {
-    color: #d0d0d0;
-}
-
-.dark .msg-list li {
-    border-top: 1px solid #363636;
-}
-
-.dark .msg-list li a:hover {
-    background: #383838;
 }
 </style>

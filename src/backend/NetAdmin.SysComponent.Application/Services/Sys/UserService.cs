@@ -99,7 +99,6 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
         var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req })).ToOneAsync();
@@ -434,8 +433,8 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
                          req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.UserName.Contains(req.Keywords) || a.Id == req.Keywords.Int64Try(0) ||
-                              a.Mobile.Contains(req.Keywords)   || a.Email.Contains(req.Keywords)   ||
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.UserName.Contains(req.Keywords) ||
+                              a.Mobile.Contains(req.Keywords)  || a.Email.Contains(req.Keywords)    ||
                               a.Summary.Contains(req.Keywords))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 

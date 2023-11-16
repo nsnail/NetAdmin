@@ -7,6 +7,7 @@ import copy from '@/directives/copy'
 import errorHandler from '@/utils/errorHandler'
 import http from '@/utils/request'
 import naArea from '@/components/naArea/index.vue'
+import naUser from '@/components/naUser/index.vue'
 import naButtonAdd from '@/components/naButtonAdd/index.vue'
 import naButtonBatchDel from '@/components/naButtonBatchDel/index.vue'
 import naColAvatar from '@/components/naColAvatar'
@@ -94,6 +95,7 @@ export default {
         app.component('naButtonBatchDel', naButtonBatchDel)
         app.component('naFormEmail', naFormEmail)
         app.component('naColTime', naColTime)
+        app.component('naUser', naUser)
 
         //注册全局指令
         app.directive('auth', auth)

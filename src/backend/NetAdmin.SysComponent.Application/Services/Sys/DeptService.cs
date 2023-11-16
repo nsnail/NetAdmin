@@ -54,14 +54,12 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req }).ToOneAsync();
@@ -69,7 +67,6 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<PagedQueryRsp<QueryDeptRsp>> PagedQueryAsync(PagedQueryReq<QueryDeptReq> req)
     {
         throw new NotImplementedException();
@@ -104,8 +101,8 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords) ||
-                              a.Id == req.Keywords.Int64Try(0));
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
+                              a.Summary.Contains(req.Keywords));
         if (asTreeCte) {
             ret = ret.AsTreeCte();
         }

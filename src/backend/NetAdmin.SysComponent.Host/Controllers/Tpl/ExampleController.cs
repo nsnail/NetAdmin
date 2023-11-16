@@ -45,7 +45,6 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     /// <summary>
     ///     示例是否存在
     /// </summary>
-    [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
     {
         return Cache.ExistAsync(req);
@@ -54,7 +53,6 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     /// <summary>
     ///     获取单个示例
     /// </summary>
-    [NonAction]
     public Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
     {
         return Cache.GetAsync(req);
