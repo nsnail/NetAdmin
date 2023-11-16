@@ -1,5 +1,5 @@
 <template>
-    <el-card :header="$t('主题样式')" class="mt-4" shadow="never">
+    <el-card :header="$t('主题样式')" shadow="never">
         <el-form class="mt-4" label-width="10rem">
             <el-form-item :label="$t('黑夜模式')">
                 <el-switch v-model="config.dark" active-icon="el-icon-moon" inactive-icon="el-icon-sunny" inline-prompt />

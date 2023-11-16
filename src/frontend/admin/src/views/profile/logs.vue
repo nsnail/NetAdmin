@@ -13,7 +13,10 @@
 </template>
 
 <script>
+import ScTable from '@/components/scTable/index.vue'
+
 export default {
+    components: { ScTable },
     data() {
         return {
             data: [

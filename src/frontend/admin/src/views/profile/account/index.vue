@@ -22,7 +22,7 @@
             <el-form-item :label="$t('手机号码')">
                 <div class="flex w100p gap05">
                     <el-input v-model="form.mobile" readonly></el-input>
-                    <el-button @click="setMobileClick">{{ `${form.mobile ? '换绑' : '绑定'}手机` }}</el-button>
+                    <el-button @click="setMobileClick">{{ form.mobile ? $t('更换手机') : $t('绑定手机') }}</el-button>
                 </div>
             </el-form-item>
             <el-form-item :label="$t('电子邮箱')">
@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import setMobileDialog from '@/views/profile/user/setMobile.vue'
-import setPasswordDialog from '@/views/profile/user/setPassword.vue'
-import setEmailDialog from '@/views/profile/user/setEmail.vue'
+import setMobileDialog from '@/views/profile/account/set-mobile.vue'
+import setPasswordDialog from '@/views/profile/account/set-password.vue'
+import setEmailDialog from '@/views/profile/account/set-email.vue'
 
 export default {
     components: { setMobileDialog, setPasswordDialog, setEmailDialog },
@@ -50,7 +50,7 @@ export default {
         updateUser(res) {
             try {
                 this.$API.sys_user.setAvatar.post({ avatar: res.data })
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }

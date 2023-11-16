@@ -15,6 +15,11 @@ public interface ISiteMsgModule : ICrudModule<CreateSiteMsgReq, QuerySiteMsgRsp 
 >
 {
     /// <summary>
+    ///     获取单个我的站内信
+    /// </summary>
+    Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req);
+
+    /// <summary>
     ///     分页查询我的站内信
     /// </summary>
     Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req);

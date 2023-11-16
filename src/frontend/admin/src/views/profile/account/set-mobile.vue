@@ -9,9 +9,9 @@
                         :phone-field="['originverifySmsCodeReq.destDevice', 'destDevice']"
                         :phone-place-holder="$GLOBAL.user.mobile"
                         :vue="this"
-                        code-label="$t('原手机验证码')"
+                        :code-label="$t('原手机验证码')"
                         form-name="form"
-                        phone-label="$t('原手机号码')" />
+                        :phone-label="$t('原手机号码')" />
                 </el-col>
                 <el-col v-if="mode === 'edit'" :lg="4" class="text-center arrow">
                     <el-icon>
@@ -24,9 +24,9 @@
                         :code-field="['newverifySmsCodeReq.code', 'code']"
                         :phone-field="['newverifySmsCodeReq.destDevice', 'destDevice']"
                         :vue="this"
-                        code-label="$t('新手机验证码')"
+                        :code-label="$t('新手机验证码')"
                         form-name="form"
-                        phone-label="$t('新手机号码')" />
+                        :phone-label="$t('新手机号码')" />
                 </el-col>
             </el-row>
         </el-form>
@@ -63,7 +63,7 @@ export default {
                 const res = await this.$API.sys_user.setMobile.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success($t('操作成功'))
             } catch {}
             this.loading = false
         },
@@ -72,8 +72,8 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                add: '绑定手机',
-                edit: '换绑手机',
+                add: this.$t('绑定手机'),
+                edit: this.$t('更换手机'),
             },
             visible: false,
             loading: false,

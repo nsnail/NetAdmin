@@ -60,6 +60,14 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     }
 
     /// <summary>
+    ///     获取单个我的站内信
+    /// </summary>
+    public Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req)
+    {
+        return Cache.GetMineAsync(req);
+    }
+
+    /// <summary>
     ///     分页查询站内信
     /// </summary>
     public Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgReq> req)

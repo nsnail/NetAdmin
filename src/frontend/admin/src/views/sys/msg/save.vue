@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close fullscreen @closed="$emit('closed')">
         <el-form
             ref="dialogForm"
             v-loading="loading"
@@ -22,7 +22,7 @@
                         <el-input v-model="form.title" clearable />
                     </el-form-item>
                     <el-form-item prop="content" :label="$t('消息内容')">
-                        <el-input v-model="form.content" clearable type="textarea" rows="10" />
+                        <sc-editor v-model="form.content" :placeholder="$t('请输入')" height="800"></sc-editor>
                     </el-form-item>
 
                     <el-form-item :label="$t('送至角色')" prop="roleIds">
@@ -69,8 +69,12 @@
 </template>
 
 <script>
+import scEditor from '@/components/scEditor/index.vue'
+
 export default {
-    components: {},
+    components: {
+        scEditor,
+    },
     emits: ['success', 'closed'],
     data() {
         return {
@@ -153,11 +157,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-.password {
-    display: flex;
-    width: 100%;
-    gap: 0.5rem;
-}
-</style>

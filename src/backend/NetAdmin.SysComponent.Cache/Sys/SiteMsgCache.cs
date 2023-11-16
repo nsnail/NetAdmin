@@ -43,6 +43,12 @@ public sealed class SiteMsgCache
     }
 
     /// <inheritdoc />
+    public Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req)
+    {
+        return Service.GetMineAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgReq> req)
     {
         return Service.PagedQueryAsync(req);

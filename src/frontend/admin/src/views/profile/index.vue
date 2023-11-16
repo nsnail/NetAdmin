@@ -27,7 +27,7 @@
                 </el-main>
             </el-container>
         </el-aside>
-        <el-main>
+        <el-main class="profile-main">
             <router-view v-slot="{ Component }">
                 <component :is="Component" />
             </router-view>
@@ -79,3 +79,14 @@ export default {
     },
 }
 </script>
+<style scoped>
+@media (max-width: 992px) {
+    .adminui-main > .el-container {
+        height: 100%;
+    }
+
+    .profile-main {
+        height: 100%;
+    }
+}
+</style>

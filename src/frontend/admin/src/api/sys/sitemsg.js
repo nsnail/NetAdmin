@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 获取单个我的站内信
+     */
+    getMine: {
+        url: `${config.API_URL}/api/sys/site.msg/get.mine`,
+        name: `获取单个我的站内信`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询站内信
      */
     pagedQuery: {

@@ -17,21 +17,21 @@ const routes = [
                 children: [
                     {
                         path: '/profile/settings',
-                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/user/settings.vue'),
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/settings.vue'),
                         meta: {
                             title: '系统设置',
                         },
                     },
                     {
                         path: '/profile/message',
-                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/user/message.vue'),
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/message/index.vue'),
                         meta: {
                             title: '消息中心',
                         },
                     },
                     {
                         path: '/profile/account',
-                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/user/account.vue'),
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/account/index.vue'),
                         meta: {
                             title: '账号信息',
                         },

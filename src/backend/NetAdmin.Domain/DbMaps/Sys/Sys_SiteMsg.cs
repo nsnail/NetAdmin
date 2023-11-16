@@ -1,4 +1,5 @@
 using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Sys.SiteMsg;
 using NetAdmin.Domain.Enums.Sys;
 
@@ -8,7 +9,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     站内信表
 /// </summary>
 [Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_SiteMsg))]
-public record Sys_SiteMsg : VersionEntity, IRegister
+public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
 {
     /// <summary>
     ///     消息内容
@@ -25,6 +26,13 @@ public record Sys_SiteMsg : VersionEntity, IRegister
     public virtual ICollection<Sys_Dept> Depts { get; init; }
 
     /// <summary>
+    ///     消息-标记映射
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(nameof(Sys_SiteMsgFlag.SiteMsgId))]
+    public ICollection<Sys_SiteMsgFlag> Flags { get; set; }
+
+    /// <summary>
     ///     消息类型
     /// </summary>
     [JsonIgnore]
@@ -36,6 +44,13 @@ public record Sys_SiteMsg : VersionEntity, IRegister
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
     public virtual ICollection<Sys_Role> Roles { get; init; }
+
+    /// <summary>
+    ///     消息摘要
+    /// </summary>
+    [JsonIgnore]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    public virtual string Summary { get; init; }
 
     /// <summary>
     ///     消息主题
@@ -55,6 +70,8 @@ public record Sys_SiteMsg : VersionEntity, IRegister
     public void Register(TypeAdapterConfig config)
     {
         _ = config.ForType<CreateSiteMsgReq, Sys_SiteMsg>()
+                  .Map( //
+                      d => d.Summary, s => s.Content.RemoveHtmlTag().HtmlDe().Sub(0, 100))
                   .Map( //
                       d => d.Roles
                     , s => s.RoleIds.NullOrEmpty()
