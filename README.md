@@ -55,7 +55,7 @@ docker run -p 8080:8080 --rm nsnail/netadmin
    ``` shell
    node -v
 
-   # 下载 nodejs https://nodejs.org/ro/download
+   # 下载 nodejs https://nodejs.org/en/download
    ```
     2. 安装npm依赖包
    ``` shell
