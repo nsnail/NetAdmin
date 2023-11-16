@@ -21,11 +21,6 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
-    /// <summary>
-    ///     创建者
-    /// </summary>
-    public QueryUserRsp Creator { get; init; }
-
     /// <inheritdoc cref="Sys_SiteMsg.Depts" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new IEnumerable<QueryDeptRsp> Depts { get; init; }
@@ -50,6 +45,11 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
     /// <inheritdoc cref="Sys_SiteMsg.Roles" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new IEnumerable<QueryRoleRsp> Roles { get; init; }
+
+    /// <summary>
+    ///     消息发送者
+    /// </summary>
+    public QueryUserRsp Sender { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

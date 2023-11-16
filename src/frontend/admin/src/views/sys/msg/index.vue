@@ -7,31 +7,16 @@
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: '用户编号 / 用户名 / 手机号 / 邮箱 / 备注',
+                            placeholder: $t('消息编号 / 消息主题 / 消息内容'),
                             style: 'width:25rem',
                         },
                         {
-                            type: 'remote-select',
-                            field: ['filter', 'roleId'],
-                            api: $API.sys_role.query,
-                            config: { props: { label: 'name', value: 'id' } },
-                            placeholder: '所属角色',
-                        },
-                        {
-                            type: 'cascader',
-                            field: ['filter', 'deptId'],
-                            api: $API.sys_dept.query,
-                            props: { label: 'name', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
-                            placeholder: '所属部门',
-                        },
-                        {
                             type: 'select',
-                            field: ['dy', 'enabled'],
-                            options: [
-                                { label: '启用', value: true },
-                                { label: '禁用', value: false },
-                            ],
-                            placeholder: '状态',
+                            field: ['dy', 'msgType'],
+                            options: Object.entries(this.$GLOBAL.enums.siteMsgTypes).map((x) => {
+                                return { value: x[0], label: x[1][1] }
+                            }),
+                            placeholder: $t('消息类型'),
                         },
                     ]"
                     :vue="this"
@@ -58,17 +43,26 @@
                     }
                 ">
                 <el-table-column type="selection"></el-table-column>
-                <el-table-column prop="id" label="消息编号" />
-                <el-table-column prop="msgType" label="消息类型" />
-                <el-table-column prop="title" label="消息主题" />
-                <el-table-column prop="createdTime" label="创建时间" />
-                <el-table-column prop="modifiedTime" label="修改时间" />
+                <el-table-column prop="id" :label="$t('消息编号')" width="150" />
+                <na-col-avatar :label="$t('用户名')" prop="creator.userName" />
+                <na-col-indicator
+                    width="100"
+                    :options="[
+                        { text: '私信', type: 'success', value: 'private' },
+                        { text: '公告', type: 'warning', value: 'public' },
+                    ]"
+                    :label="$t('消息类型')"
+                    prop="msgType"></na-col-indicator>
+
+                <el-table-column prop="title" :label="$t('消息主题')" min-width="150" show-overflow-tooltip />
+                <el-table-column prop="summary" show-overflow-tooltip :label="$t('消息摘要')" min-width="200" />
+                <el-table-column prop="createdTime" :label="$t('创建时间')" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
                             icon: 'el-icon-delete',
                             confirm: true,
-                            title: '删除消息',
+                            title: $t('删除消息'),
                             click: rowDel,
                         })
                     "
@@ -103,8 +97,6 @@ export default {
                 filter: {},
             },
             dialog: {
-                roleSave: false,
-                deptSave: false,
                 save: false,
             },
             selection: [],
@@ -151,17 +143,6 @@ export default {
             loading?.close()
         },
 
-        async openDialog(api, id, dialog) {
-            this.loading = true
-            const res = await this.$API[api].query.post({
-                filter: { id: id },
-            })
-            this.loading = false
-            this.dialog[dialog] = true
-            await this.$nextTick()
-            this.$refs[`${dialog}Dialog`].open('view', res.data[0])
-        },
-
         //搜索
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
@@ -172,11 +153,11 @@ export default {
                 })
             }
 
-            if (typeof form.dy.enabled === 'boolean') {
+            if (typeof form.dy.msgType === 'string' && form.dy.msgType.trim() !== '') {
                 this.query.dynamicFilter.filters.push({
-                    field: 'enabled',
+                    field: 'msgType',
                     operator: 'eq',
-                    value: form.dy.enabled,
+                    value: form.dy.msgType,
                 })
             }
 

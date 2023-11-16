@@ -30,9 +30,9 @@
                                 <div class="msg-title">
                                     <div>
                                         <el-badge v-if="msg.myFlags.userSiteMsgStatus === 0" is-dot type="primary">
-                                            <el-avatar :size="40" :src="msg.creator.avatar ?? $CONFIG.DEFAULT_AVATAR"></el-avatar>
+                                            <el-avatar :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR"></el-avatar>
                                         </el-badge>
-                                        <el-avatar v-else :size="40" :src="msg.creator.avatar ?? $CONFIG.DEFAULT_AVATAR"></el-avatar>
+                                        <el-avatar v-else :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR"></el-avatar>
                                     </div>
                                     <div>
                                         <h2>{{ msg.title }}</h2>
@@ -44,7 +44,7 @@
                                         </p>
                                     </div>
                                     <div>
-                                        <p>{{ msg.creator.userName }}</p>
+                                        <p>{{ msg.sender.userName }}</p>
                                         <p v-time.tip="msg.createdTime"></p>
                                     </div>
                                 </div>

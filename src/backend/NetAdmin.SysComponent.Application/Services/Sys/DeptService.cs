@@ -101,8 +101,8 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords) ||
-                              a.Id == req.Keywords.Int64Try(0));
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
+                              a.Summary.Contains(req.Keywords));
         if (asTreeCte) {
             ret = ret.AsTreeCte();
         }

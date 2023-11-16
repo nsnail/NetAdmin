@@ -100,8 +100,8 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords) ||
-                              a.Id == req.Keywords.Int64Try(0))
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
+                              a.Summary.Contains(req.Keywords))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.Sort), StringComparison.OrdinalIgnoreCase) ?? true) {

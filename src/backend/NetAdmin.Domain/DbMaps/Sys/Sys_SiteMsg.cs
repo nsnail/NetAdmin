@@ -19,6 +19,13 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     public virtual string Content { get; init; }
 
     /// <summary>
+    ///     消息-创建者映射
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(nameof(CreatedUserId))]
+    public virtual Sys_User Creator { get; init; }
+
+    /// <summary>
     ///     消息-部门映射
     /// </summary>
     [JsonIgnore]

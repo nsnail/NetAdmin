@@ -93,7 +93,18 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync(a => new {
+                                                   a.CreatedTime
+                                                 , a.Creator
+                                                 , a.Id
+                                                 , a.MsgType
+                                                 , a.Summary
+                                                 , a.Title
+                                                 , a.Version
+                                               });
 
         return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total
                                                 , list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
@@ -217,12 +228,11 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
                                                                                  = a.Max(a.Value.Item6
                                                                                      .UserSiteMsgStatus)
                                                                          }
-                                                                 , Creator = new QueryUserRsp {
-                                                                                 UserName = a.Max(
-                                                                                     a.Value.Item2.UserName)
-                                                                               , Avatar = a.Max(
-                                                                                     a.Value.Item2.Avatar)
-                                                                             }
+                                                                 , Sender = new QueryUserRsp {
+                                                                                UserName = a.Max(
+                                                                                    a.Value.Item2.UserName)
+                                                                              , Avatar = a.Max(a.Value.Item2.Avatar)
+                                                                            }
                                                                });
         return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total
                                                 , list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
@@ -230,8 +240,13 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
 
     private ISelect<Sys_SiteMsg> QueryInternal(QueryReq<QuerySiteMsgReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+        var ret = Rpo.Select.Include(a => a.Creator)
+                     .WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
+                     .WhereIf( //
+                         req.Keywords?.Length > 0
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Title.Contains(req.Keywords) ||
+                              a.Summary.Contains(req.Keywords))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
