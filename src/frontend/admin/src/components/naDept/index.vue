@@ -3,7 +3,7 @@
         v-model="dept"
         :options="options"
         :placeholder="placeholder"
-        :props="{ label: 'name', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false }"
+        :props="{ label: 'name', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false, multiple: multiple }"
         clearable></el-cascader>
 </template>
 <style scoped></style>
@@ -12,6 +12,7 @@ export default {
     props: {
         modelValue: { type: Object },
         placeholder: { type: String },
+        multiple: { type: Boolean, default: false },
     },
     data() {
         return {

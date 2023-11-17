@@ -101,11 +101,11 @@ axios.interceptors.response.use(
                 })
             } else if ([401, 403].includes(error.response.status)) {
                 // 如果token不存在，说明用户是第一次访问，直接跳转到登录页面
-                if (!tool.cookie.get('ACCESS-TOKEN')) {
-                    await router.replace({ path: '/anonymous/login' })
+                if (!tool.cookie.get('ACCESS-TOKEN') && window.location.href.indexOf('guest') < 0) {
+                    await router.replace({ path: '/guest/login' })
                     return
                 }
-                if (!MessageBox_401_show && window.location.href.indexOf('anonymous') < 0) {
+                if (!MessageBox_401_show && window.location.href.indexOf('guest') < 0) {
                     MessageBox_401_show = true
                     await ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
                         type: 'error',
@@ -117,7 +117,7 @@ axios.interceptors.response.use(
                             done()
                         },
                     })
-                    await router.replace({ path: '/anonymous/login' })
+                    await router.replace({ path: '/guest/login' })
                 }
             } else if (error.response.status === 900) {
                 function showErr(msg) {

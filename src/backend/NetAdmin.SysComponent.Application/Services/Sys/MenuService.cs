@@ -36,14 +36,12 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req }).ToOneAsync();
@@ -51,7 +49,6 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
     {
         throw new NotImplementedException();

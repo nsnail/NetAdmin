@@ -42,14 +42,12 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryDicCatalogReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req }).ToOneAsync();

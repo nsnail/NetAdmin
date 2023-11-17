@@ -76,6 +76,13 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     public ICollection<Sys_Role> Roles { get; init; }
 
     /// <summary>
+    ///     发送给此用户的站内信集合
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(Sys_SiteMsgUser))]
+    public ICollection<Sys_SiteMsg> SiteMsgs { get; init; }
+
+    /// <summary>
     ///     描述
     /// </summary>
     [JsonIgnore]

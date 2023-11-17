@@ -44,7 +44,7 @@ router.beforeEach(async (to, from, next) => {
 
     let token = tool.cookie.get('ACCESS-TOKEN') || tool.cookie.get('X-ACCESS-TOKEN')
 
-    if (to.path === '/anonymous/login') {
+    if (to.path === '/guest/login') {
         //删除路由(替换当前layout路由)
         router.addRoute(routes[0])
         //删除路由(404)

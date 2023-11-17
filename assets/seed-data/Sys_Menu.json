@@ -10,16 +10,6 @@
     "Type": 1
   },
   {
-    "Component": "profile",
-    "Id": 374967228141573,
-    "Name": "profile",
-    "Path": "/profile",
-    "Sort": 100,
-    "Title": "账号信息",
-    "Hidden": true,
-    "Type": 1
-  },
-  {
     "Icon": "el-icon-setting",
     "Id": 373837917724677,
     "Name": "sys",
@@ -139,6 +129,17 @@
     "Type": 1
   },
   {
+    "Component": "sys/msg",
+    "Icon": "el-icon-message",
+    "Id": 482779610341392,
+    "Name": "sys-msg",
+    "ParentId": 373837917724677,
+    "Path": "/sys/msg",
+    "Sort": 98,
+    "Title": "消息管理",
+    "Type": 1,
+  },
+  {
     "Icon": "sc-icon-code",
     "Id": 373838105399301,
     "Name": "dev",
@@ -158,4 +159,14 @@
     "Title": "代码生成",
     "Type": 1
   },
+  {
+    "Id": 482777529417739,
+    "ParentId": 373838105399301,
+    "Icon": "el-icon-eleme-filled",
+    "Name": "dev-element",
+    "Path": "https://element-plus.gitee.io/zh-CN/component/button.html",
+    "Sort": 100,
+    "Title": "Element",
+    "Type": 3,
+  }
 ]

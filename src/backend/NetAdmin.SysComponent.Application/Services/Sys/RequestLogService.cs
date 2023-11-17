@@ -30,21 +30,18 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
     {
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public async Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req }).ToOneAsync();
@@ -83,7 +80,6 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public Task<NopReq> UpdateAsync(NopReq req)
     {
         throw new NotImplementedException();
