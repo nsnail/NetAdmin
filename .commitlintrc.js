@@ -19,6 +19,7 @@ module.exports = {
       confirmCommit: '是否提交或修改commit ?'
     },
     types: [
+      { value: 'wip', name: 'wip:     🧠 开发中的代码 | In development ' },
       { value: 'feat', name: 'feat:     新增功能 | A new feature' },
       { value: 'fix', name: 'fix:      修复缺陷 | A bug fix' },
       { value: 'docs', name: 'docs:     文档更新 | Documentation only changes' },
