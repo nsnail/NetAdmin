@@ -15,7 +15,7 @@ http://na.yaopy.com
 ## 一键运行
 
 ```shell
-docker run -p 8080:8080 --rm nsnail/netadmin
+docker run -p 8080:8080 nsnail/netadmin
 ```
 
 ## 构建步骤
