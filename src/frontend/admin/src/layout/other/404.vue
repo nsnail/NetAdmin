@@ -17,7 +17,7 @@
 export default {
     methods: {
         gohome() {
-            location.href = '#/'
+            location.href = '/'
         },
         goback() {
             this.$router.go(-1)

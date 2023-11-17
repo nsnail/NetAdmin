@@ -107,17 +107,19 @@ axios.interceptors.response.use(
                 }
                 if (!MessageBox_401_show && window.location.href.indexOf('guest') < 0) {
                     MessageBox_401_show = true
-                    await ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
-                        type: 'error',
-                        closeOnClickModal: false,
-                        center: true,
-                        confirmButtonText: '重新登录',
-                        beforeClose: (action, instance, done) => {
-                            MessageBox_401_show = false
-                            done()
-                        },
+                    tool.timeout(100).then(async () => {
+                        await ElMessageBox.confirm('您已退出登录或无权限访问当前资源，请重新登录后再操作。', '访问受限', {
+                            type: 'error',
+                            closeOnClickModal: false,
+                            center: true,
+                            confirmButtonText: '重新登录',
+                            beforeClose: (action, instance, done) => {
+                                MessageBox_401_show = false
+                                done()
+                            },
+                        })
+                        await router.replace({ path: '/guest/login' })
                     })
-                    await router.replace({ path: '/guest/login' })
                 }
             } else if (error.response.status === 900) {
                 function showErr(msg) {

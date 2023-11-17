@@ -252,6 +252,15 @@ tool.refreshTab = function (_this) {
     }, 0)
 }
 
+// 定时器
+tool.timeout = (time) => {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve()
+        }, time)
+    })
+}
+
 /* 常用加解密 */
 tool.crypto = {
     hashCode(str) {
