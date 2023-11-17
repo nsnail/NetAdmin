@@ -16,6 +16,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>preview</LangVersion>
         <MinVerDefaultPreReleaseIdentifiers>beta</MinVerDefaultPreReleaseIdentifiers>
+        <MinVerTagPrefix>v</MinVerTagPrefix>
         <Product>NetAdmin</Product>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>http://git.shequnpay.com/lingyun/NetAdmin.git</RepositoryUrl>
