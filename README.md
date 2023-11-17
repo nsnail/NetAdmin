@@ -51,7 +51,7 @@ docker run -p 8080:8080 --rm nsnail/netadmin
 ---
 
 - 前端
-    1. 检查nodejs版本>=18
+    1. 检查nodejs版本>=20
    ``` shell
    node -v
 
