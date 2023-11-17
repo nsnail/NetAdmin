@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		.tgitconfig = .tgitconfig
 		1.git.pr.ps1 = 1.git.pr.ps1
 		build.cake = build.cake
+		CHANGELOG.md = CHANGELOG.md
 		clone.project.refs.ps1 = clone.project.refs.ps1
 		code.clean.csx = code.clean.csx
 		code.clean.ps1 = code.clean.ps1
