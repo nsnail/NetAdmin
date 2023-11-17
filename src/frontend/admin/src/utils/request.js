@@ -4,6 +4,7 @@ import sysConfig from '@/config'
 import tool from '@/utils/tool'
 import router from '@/router'
 import { h } from 'vue'
+import jsonBigInt from 'json-bigint'
 
 axios.defaults.baseURL = ''
 
@@ -57,12 +58,24 @@ axios.interceptors.request.use(
 //FIX 多个API同时401时疯狂弹窗BUG
 let MessageBox_401_show = false
 
+// 进行大数字处理
+axios.defaults.transformResponse = [
+    (data) => {
+        try {
+            return jsonBigInt.parse(data)
+        } catch {
+            return data
+        }
+    },
+]
+
 // HTTP response 拦截器
 axios.interceptors.response.use(
     (response) => {
         function setCookie(name, value) {
             tool.cookie.set(name, 'Bearer ' + value, {
                 expires: tool.data.get('AUTO_LOGIN') ? 24 * 60 * 60 : 0,
+                path: '/',
             })
         }
 
@@ -74,7 +87,7 @@ axios.interceptors.response.use(
         }
         return response
     },
-    (error) => {
+    async (error) => {
         if (error.response) {
             if (error.response.status === 404) {
                 ElNotification.error({
@@ -87,22 +100,26 @@ axios.interceptors.response.use(
                     message: error.response.data.message || 'Status:500，服务器发生错误！',
                 })
             } else if ([401, 403].includes(error.response.status)) {
-                if (!MessageBox_401_show && window.location.href.indexOf('anonymous') < 0) {
+                // 如果token不存在，说明用户是第一次访问，直接跳转到登录页面
+                if (!tool.cookie.get('ACCESS-TOKEN') && window.location.href.indexOf('guest') < 0) {
+                    await router.replace({ path: '/guest/login' })
+                    return
+                }
+                if (!MessageBox_401_show && window.location.href.indexOf('guest') < 0) {
                     MessageBox_401_show = true
-                    ElMessageBox.confirm('当前用户已被登出或无权限访问当前资源，请尝试重新登录后再操作。', '无权限访问', {
-                        type: 'error',
-                        closeOnClickModal: false,
-                        center: true,
-                        confirmButtonText: '重新登录',
-                        beforeClose: (action, instance, done) => {
-                            MessageBox_401_show = false
-                            done()
-                        },
-                    })
-                        .then(() => {
-                            router.replace({ path: '/anonymous/login' })
+                    tool.timeout(100).then(async () => {
+                        await ElMessageBox.confirm('您已退出登录或无权限访问当前资源，请重新登录后再操作。', '访问受限', {
+                            type: 'error',
+                            closeOnClickModal: false,
+                            center: true,
+                            confirmButtonText: '重新登录',
+                            beforeClose: (action, instance, done) => {
+                                MessageBox_401_show = false
+                                done()
+                            },
                         })
-                        .catch(() => {})
+                        await router.replace({ path: '/guest/login' })
+                    })
                 }
             } else if (error.response.status === 900) {
                 function showErr(msg) {
@@ -259,9 +276,8 @@ export default {
      */
     jsonp: function (url, name = 'jsonp') {
         return new Promise((resolve) => {
-            var script = document.createElement('script')
-            var _id = `jsonp${Math.ceil(Math.random() * 1000000)}`
-            script.id = _id
+            const script = document.createElement('script')
+            script.id = `jsonp${Math.ceil(Math.random() * 1000000)}`
             script.type = 'text/javascript'
             script.src = url
             window[name] = (response) => {

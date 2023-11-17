@@ -7,19 +7,8 @@ namespace NetAdmin.Host.Filters;
 ///     事务拦截器
 /// </summary>
 [SuppressSniffer]
-public sealed class TransactionInterceptor : IAsyncActionFilter
+public sealed class TransactionInterceptor(UnitOfWorkManager uowManager) : IAsyncActionFilter
 {
-    private readonly UnitOfWorkManager _uowManager;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="TransactionInterceptor" /> class.
-    ///     事务拦截器
-    /// </summary>
-    public TransactionInterceptor(UnitOfWorkManager uowManager)
-    {
-        _uowManager = uowManager;
-    }
-
     /// <inheritdoc />
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
@@ -31,7 +20,7 @@ public sealed class TransactionInterceptor : IAsyncActionFilter
         }
 
         // 事务操作
-        await _uowManager.AtomicOperateAsync(async () => {
+        await uowManager.AtomicOperateAsync(async () => {
             var result = await next();
             if (result.Exception != null) {
                 throw result.Exception;

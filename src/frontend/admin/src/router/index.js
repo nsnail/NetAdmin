@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import config from '@/config'
 import NProgress from 'nprogress'
@@ -27,7 +27,7 @@ const routes_404 = {
 let routes_404_r = () => {}
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: routes,
 })
 
@@ -44,7 +44,7 @@ router.beforeEach(async (to, from, next) => {
 
     let token = tool.cookie.get('ACCESS-TOKEN') || tool.cookie.get('X-ACCESS-TOKEN')
 
-    if (to.path === '/anonymous/login') {
+    if (to.path === '/guest/login') {
         //删除路由(替换当前layout路由)
         router.addRoute(routes[0])
         //删除路由(404)
@@ -117,7 +117,7 @@ function filterAsyncRouter(routerMap) {
     routerMap.forEach((item) => {
         item.meta = item.meta ? item.meta : {}
         //处理外部链接特殊路由
-        if (item.meta.type === 'iframe') {
+        if (item.meta.type === 'iframe' && !item.meta.url) {
             item.meta.url = item.path
             item.path = `/i/${item.name}`
         }

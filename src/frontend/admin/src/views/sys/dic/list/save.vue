@@ -1,37 +1,41 @@
 <template>
-    <el-dialog v-model="visible" :title="titleMap[mode]" :width="400" destroy-on-close @closed="$emit('closed')">
-        <el-tabs tab-position="top">
-            <el-tab-pane label="基本信息">
-                <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
-                    <el-form-item label="所属字典" prop="catalogId">
-                        <na-dic-catalog v-model="form.catalogId" />
-                    </el-form-item>
-                    <el-form-item label="项名" prop="key">
-                        <el-input v-model="form.key" clearable></el-input>
-                    </el-form-item>
-                    <el-form-item label="项值" prop="value">
-                        <el-input v-model="form.value" clearable></el-input>
-                    </el-form-item>
-                </el-form>
-            </el-tab-pane>
-            <el-tab-pane v-if="mode === 'view'" label="Json">
-                <json-viewer :expand-depth="5" :expanded="true" :value="form" boxed copyable sort></json-viewer>
-            </el-tab-pane>
-        </el-tabs>
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="400" destroy-on-close @closed="$emit('closed')">
+        <div v-loading="loading">
+            <el-tabs tab-position="top">
+                <el-tab-pane :label="$t('基本信息')">
+                    <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
+                        <el-form-item :label="$t('所属字典')" prop="catalogId">
+                            <na-dic-catalog v-model="form.catalogId" />
+                        </el-form-item>
+                        <el-form-item :label="$t('项名')" prop="key">
+                            <el-input v-model="form.key" clearable></el-input>
+                        </el-form-item>
+                        <el-form-item :label="$t('项值')" prop="value">
+                            <el-input v-model="form.value" clearable></el-input>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
+                    <json-viewer
+                        :expand-depth="5"
+                        :expanded="true"
+                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :value="form"
+                        copyable
+                        sort></json-viewer>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
             <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
         </template>
-    </el-dialog>
+    </sc-dialog>
 </template>
 
 <script>
-import JsonViewer from 'vue-json-viewer'
-
 export default {
-    components: {
-        JsonViewer,
-    },
+    components: {},
     emits: ['success', 'closed'],
     data() {
         return {
@@ -54,12 +58,14 @@ export default {
     mounted() {},
     methods: {
         //显示
-        open(mode = 'add', data) {
+        async open(mode = 'add', data) {
+            this.visible = true
+            this.loading = true
             this.mode = mode
             if (data) {
-                Object.assign(this.form, data)
+                Object.assign(this.form, (await this.$API.sys_dic.getContent.post({ id: data.id })).data)
             }
-            this.visible = true
+            this.loading = false
             return this
         },
         //表单提交方法

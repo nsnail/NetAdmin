@@ -23,7 +23,7 @@
                 <h2>我的常用过滤</h2>
                 <li v-for="(item, index) in myFilter" :key="index" @click="selectMyfilter(item)">
                     <label>{{ item.title }}</label>
-                    <el-popconfirm title="确认删除此常用过滤吗？" @confirm="closeMyfilter(item, index)">
+                    <el-popconfirm :title="$t('确认删除此常用过滤吗？')" @confirm="closeMyfilter(item, index)">
                         <template #reference>
                             <el-icon class="del" @click.stop="() => {}">
                                 <el-icon-delete />
@@ -99,7 +99,7 @@ export default {
 
 <style scoped>
 .sc-filter-my-loading {
-    padding: 15px;
+    padding: 1rem;
 }
 
 .sc-filter-my-list {

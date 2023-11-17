@@ -10,14 +10,9 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     人机验证服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class CaptchaController : ControllerBase<ICaptchaCache, ICaptchaService>, ICaptchaModule
+public sealed class CaptchaController(ICaptchaCache cache) : ControllerBase<ICaptchaCache, ICaptchaService>(cache)
+                                                           , ICaptchaModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CaptchaController" /> class.
-    /// </summary>
-    public CaptchaController(ICaptchaCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     获取人机校验图
     /// </summary>

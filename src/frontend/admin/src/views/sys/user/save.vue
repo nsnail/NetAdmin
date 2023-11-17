@@ -1,28 +1,35 @@
 <template>
-    <el-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
-        <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-position="right" label-width="100px">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
+        <el-form
+            ref="dialogForm"
+            v-loading="loading"
+            :disabled="mode === 'view'"
+            :model="form"
+            :rules="rules"
+            label-position="right"
+            label-width="100px">
             <el-tabs tab-position="top">
-                <el-tab-pane label="基本信息">
+                <el-tab-pane :label="$t('基本信息')">
                     <el-form-item prop="avatar">
-                        <sc-upload v-model="form.avatar" title="上传头像"></sc-upload>
+                        <sc-upload v-model="form.avatar" :title="$t('上传头像')"></sc-upload>
                     </el-form-item>
-                    <el-form-item label="登录账号" prop="userName">
-                        <el-input v-model="form.userName" clearable placeholder="用于登录系统"></el-input>
+                    <el-form-item :label="$t('登录账号')" prop="userName">
+                        <el-input v-model="form.userName" clearable :placeholder="$t('用于登录系统')"></el-input>
                     </el-form-item>
                     <el-row :gutter="10">
                         <el-col :lg="12">
-                            <el-form-item label="手机号" prop="mobile">
-                                <el-input v-model="form.mobile" clearable placeholder="请输入手机号"></el-input>
+                            <el-form-item :label="$t('手机号')" prop="mobile">
+                                <el-input v-model="form.mobile" clearable :placeholder="$t('请输入手机号')"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="邮箱" prop="email">
-                                <el-input v-model="form.email" clearable placeholder="请输入邮箱"></el-input>
+                            <el-form-item :label="$t('邮箱')" prop="email">
+                                <el-input v-model="form.email" clearable :placeholder="$t('请输入邮箱')"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
 
-                    <el-form-item label="登录密码" prop="passwordText">
+                    <el-form-item :label="$t('登录密码')" prop="passwordText">
                         <div class="password">
                             <el-input
                                 v-model="form.passwordText"
@@ -34,8 +41,9 @@
                         </div>
                     </el-form-item>
 
-                    <el-form-item label="所属角色" prop="roleIds">
+                    <el-form-item :label="$t('所属角色')" prop="roleIds">
                         <sc-select
+                            v-if="!this.loading"
                             v-model="form.roleIds"
                             :apiObj="$API.sys_role.query"
                             :config="{ props: { label: 'name', value: 'id' } }"
@@ -44,106 +52,106 @@
                             filterable
                             multiple />
                     </el-form-item>
-                    <el-form-item label="所属部门" prop="deptId">
+                    <el-form-item :label="$t('所属部门')" prop="deptId">
                         <na-dept v-model="form.deptId" class="w100p"></na-dept>
                     </el-form-item>
 
                     <template v-if="mode !== 'add'">
-                        <el-form-item label="启用" prop="enabled">
+                        <el-form-item :label="$t('启用')" prop="enabled">
                             <el-switch v-model="form.enabled"></el-switch>
                         </el-form-item>
                     </template>
-                    <el-form-item label="备注" prop="summary">
+                    <el-form-item :label="$t('备注')" prop="summary">
                         <el-input v-model="form.summary" clearable type="textarea"></el-input>
                     </el-form-item>
                 </el-tab-pane>
-                <el-tab-pane label="档案信息">
+                <el-tab-pane :label="$t('档案信息')">
                     <el-row :gutter="10">
                         <el-col :lg="12">
-                            <el-form-item label="真实姓名" prop="profile.realName">
+                            <el-form-item :label="$t('真实姓名')" prop="profile.realName">
                                 <el-input v-model="form.profile.realName" clearable></el-input>
                             </el-form-item>
                         </el-col>
 
                         <el-col :lg="12">
-                            <el-form-item label="性别" prop="profile.sex">
+                            <el-form-item :label="$t('性别')" prop="profile.sex">
                                 <el-select v-model="form.profile.sex" clearable filterable>
                                     <el-option v-for="(item, i) in $GLOBAL.enums.sexes" :key="i" :label="item[1]" :value="i" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="出生日期" prop="profile.bornDate">
+                            <el-form-item :label="$t('出生日期')" prop="profile.bornDate">
                                 <el-date-picker
                                     v-model="form.profile.bornDate"
                                     :teleported="false"
-                                    placeholder="出生日期"
+                                    :placeholder="$t('出生日期')"
                                     type="date"
                                     value-format="YYYY-MM-DD"></el-date-picker>
                             </el-form-item>
                         </el-col>
 
                         <el-col :lg="12">
-                            <el-form-item label="婚姻状况" prop="profile.sex">
+                            <el-form-item :label="$t('婚姻状况')" prop="profile.sex">
                                 <el-select v-model="form.profile.marriageStatus" clearable filterable>
                                     <el-option v-for="(item, i) in $GLOBAL.enums.marriageStatues" :key="i" :label="item[1]" :value="i" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="身高" prop="profile.height">
+                            <el-form-item :label="$t('身高')" prop="profile.height">
                                 <el-input v-model="form.profile.height" :max="250" :min="100" clearable type="number">
                                     <template v-slot:append>cm</template>
                                 </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="职业" prop="profile.profession">
+                            <el-form-item :label="$t('职业')" prop="profile.profession">
                                 <el-input v-model="form.profile.profession" clearable></el-input>
                             </el-form-item>
                         </el-col>
 
                         <el-col :lg="12">
-                            <el-form-item label="证件类型" prop="profile.certificateType">
+                            <el-form-item :label="$t('证件类型')" prop="profile.certificateType">
                                 <el-select v-model="form.profile.certificateType" clearable filterable>
                                     <el-option v-for="(item, i) in $GLOBAL.enums.certificateTypes" :key="i" :label="item[1]" :value="i" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="证件号码" prop="profile.certificateNumber">
+                            <el-form-item :label="$t('证件号码')" prop="profile.certificateNumber">
                                 <el-input v-model="form.profile.certificateNumber" clearable type="text"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="民族" prop="profile.certificateNumber">
+                            <el-form-item :label="$t('民族')" prop="profile.certificateNumber">
                                 <el-select v-model="form.profile.nation" clearable filterable>
                                     <el-option v-for="(item, i) in $GLOBAL.enums.nations" :key="i" :label="item[1]" :value="i" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="籍贯" prop="profile.nationArea">
+                            <el-form-item :label="$t('籍贯')" prop="profile.nationArea">
                                 <na-area v-model="form.profile.nationArea"></na-area>
                             </el-form-item>
                         </el-col>
 
                         <el-col :lg="12">
-                            <el-form-item label="政治面貌" prop="profile.politicalStatus">
+                            <el-form-item :label="$t('政治面貌')" prop="profile.politicalStatus">
                                 <el-select v-model="form.profile.politicalStatus" clearable filterable>
                                     <el-option v-for="(item, i) in $GLOBAL.enums.politicalStatues" :key="i" :label="item[1]" :value="i" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="住宅电话" prop="profile.homeTelephone">
+                            <el-form-item :label="$t('住宅电话')" prop="profile.homeTelephone">
                                 <el-input v-model="form.profile.homeTelephone" clearable type="tel">
                                     <template v-slot:prepend>+86</template>
                                 </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
-                            <el-form-item label="住宅地址" prop="profile.homeAddress">
+                            <el-form-item :label="$t('住宅地址')" prop="profile.homeAddress">
                                 <el-input v-model="form.profile.homeAddress" clearable>
                                     <template v-slot:prepend>
                                         <na-area v-model="form.profile.homeArea"></na-area>
@@ -152,19 +160,19 @@
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="工作单位" prop="profile.companyName">
+                            <el-form-item :label="$t('工作单位')" prop="profile.companyName">
                                 <el-input v-model="form.profile.companyName" clearable></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="工作电话" prop="profile.companyTelephone">
+                            <el-form-item :label="$t('工作电话')" prop="profile.companyTelephone">
                                 <el-input v-model="form.profile.companyTelephone" clearable type="tel">
                                     <template v-slot:prepend>+86</template>
                                 </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
-                            <el-form-item label="工作地址" prop="profile.companyAddress">
+                            <el-form-item :label="$t('工作地址')" prop="profile.companyAddress">
                                 <el-input v-model="form.profile.companyAddress" clearable>
                                     <template v-slot:prepend>
                                         <na-area v-model="form.profile.companyArea"></na-area>
@@ -173,29 +181,29 @@
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="文化程度" prop="profile.education">
+                            <el-form-item :label="$t('文化程度')" prop="profile.education">
                                 <el-select v-model="form.profile.education" clearable filterable>
                                     <el-option v-for="(item, i) in $GLOBAL.enums.educations" :key="i" :label="item[1]" :value="i" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="毕业学校" prop="profile.graduateSchool">
+                            <el-form-item :label="$t('毕业学校')" prop="profile.graduateSchool">
                                 <el-input v-model="form.profile.graduateSchool" clearable></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="紧急联系人" prop="profile.emergencyContactName">
+                            <el-form-item :label="$t('紧急联系人')" prop="profile.emergencyContactName">
                                 <el-input v-model="form.profile.emergencyContactName" clearable></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
-                            <el-form-item label="联系人手机号" prop="profile.emergencyContactMobile">
+                            <el-form-item :label="$t('联系人手机号')" prop="profile.emergencyContactMobile">
                                 <el-input v-model="form.profile.emergencyContactMobile" clearable type="tel"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
-                            <el-form-item label="联系人地址" prop="profile.emergencyContactAddress">
+                            <el-form-item :label="$t('联系人地址')" prop="profile.emergencyContactAddress">
                                 <el-input v-model="form.profile.emergencyContactAddress" clearable>
                                     <template v-slot:prepend>
                                         <na-area v-model="form.profile.emergencyContactArea"></na-area>
@@ -205,8 +213,14 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" label="Json">
-                    <json-viewer :expand-depth="5" :expanded="true" :value="form" boxed copyable sort></json-viewer>
+                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
+                    <json-viewer
+                        :expand-depth="5"
+                        :expanded="true"
+                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :value="form"
+                        copyable
+                        sort></json-viewer>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -214,16 +228,12 @@
             <el-button @click="visible = false">取 消</el-button>
             <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
         </template>
-    </el-dialog>
+    </sc-dialog>
 </template>
 
 <script>
-import JsonViewer from 'vue-json-viewer'
-
 export default {
-    components: {
-        JsonViewer,
-    },
+    components: {},
     emits: ['success', 'closed'],
     data() {
         return {
@@ -286,21 +296,24 @@ export default {
     mounted() {},
     methods: {
         //显示
-        open(mode = 'add', data) {
+        async open(mode = 'add', data) {
+            this.visible = true
+            this.loading = true
             this.mode = mode
             if (mode === 'add') {
                 this.rules.passwordText[0].required = true
             }
             if (data) {
-                Object.assign(this.form, data, {
+                Object.assign(this.form, (await this.$API.sys_user.get.post({ id: data.id })).data, {
                     roleIds: data.roles.map((x) => x.id),
                     deptId: data.dept.id,
                 })
-                this.getProfile()
+                await this.getProfile()
             }
-            this.visible = true
+            this.loading = false
             return this
         },
+
         async getProfile() {
             const res = await this.$API.sys_user.queryProfile.post({
                 dynamicFilter: {

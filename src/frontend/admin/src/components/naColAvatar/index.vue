@@ -3,7 +3,7 @@
         <template #default="scope">
             <div class="avatar">
                 <el-avatar :src="getAvatar(scope)" size="small"></el-avatar>
-                <span>{{ scope.row[prop] }}</span>
+                <span>{{ tool.getNestedProperty(scope.row, prop) }}</span>
             </div>
         </template>
     </el-table-column>
@@ -15,6 +15,8 @@
 }
 </style>
 <script>
+import tool from '../../utils/tool'
+
 export default {
     emits: [],
     props: {
@@ -27,7 +29,11 @@ export default {
     mounted() {},
     created() {},
     components: {},
-    computed: {},
+    computed: {
+        tool() {
+            return tool
+        },
+    },
     methods: {
         //获取头像
         getAvatar(scope) {

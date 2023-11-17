@@ -5,7 +5,7 @@ using StackExchange.Redis;
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
-///     Redis锁
+///     Redis 分布锁
 /// </summary>
 #pragma warning disable DesignedForInheritance
 public class RedLocker : IDisposable, ISingleton
@@ -19,7 +19,7 @@ public class RedLocker : IDisposable, ISingleton
     /// </summary>
     public RedLocker(IOptions<RedisOptions> redisOptions)
     {
-        RedlockFactory = RedLockFactory.Create( //
+        RedLockFactory = RedLockFactory.Create( //
             new List<RedLockMultiplexer>        //
             {
                 ConnectionMultiplexer.Connect( //
@@ -44,9 +44,9 @@ public class RedLocker : IDisposable, ISingleton
     }
 
     /// <summary>
-    ///     RedlockFactory
+    ///     RedLockFactory
     /// </summary>
-    public RedLockFactory RedlockFactory { get; }
+    public RedLockFactory RedLockFactory { get; }
 
     /// <summary>
     ///     Implement IDisposable.
@@ -84,7 +84,7 @@ public class RedLocker : IDisposable, ISingleton
         // If disposing equals true, dispose all managed
         // and unmanaged resources.
         if (disposing) {
-            RedlockFactory.Dispose();
+            RedLockFactory.Dispose();
         }
 
         // Call the appropriate methods to clean up

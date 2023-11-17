@@ -47,7 +47,7 @@ export default {
 
 <style scoped>
 .el-breadcrumb {
-    margin-left: 15px;
+    margin-left: 1rem;
 }
 
 .el-breadcrumb .el-breadcrumb__inner .icon {

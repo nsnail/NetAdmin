@@ -1,22 +1,13 @@
 using Minio;
+using Minio.DataModel.Args;
 
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
 ///     MinioHelper
 /// </summary>
-public sealed class MinioHelper : IScoped
+public sealed class MinioHelper(IOptions<UploadOptions> uploadOptions) : IScoped
 {
-    private readonly UploadOptions _uploadOptions;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="MinioHelper" /> class.
-    /// </summary>
-    public MinioHelper(IOptions<UploadOptions> uploadOptions)
-    {
-        _uploadOptions = uploadOptions.Value;
-    }
-
     /// <summary>
     ///     上传文件
     /// </summary>
@@ -27,26 +18,26 @@ public sealed class MinioHelper : IScoped
     /// <returns>可访问的url地址</returns>
     public async Task<string> UploadAsync(string objectName, Stream fileStream, string contentType, long fileSize)
     {
-        using var minio = new MinioClient().WithEndpoint(_uploadOptions.Minio.ServerAddress)
+        using var minio = new MinioClient().WithEndpoint(uploadOptions.Value.Minio.ServerAddress)
                                            .WithCredentials( //
-                                               _uploadOptions.Minio.AccessKey, _uploadOptions.Minio.SecretKey)
-                                           .WithSSL(_uploadOptions.Minio.Secure)
+                                               uploadOptions.Value.Minio.AccessKey, uploadOptions.Value.Minio.SecretKey)
+                                           .WithSSL(uploadOptions.Value.Minio.Secure)
                                            .Build();
 
-        var beArgs = new BucketExistsArgs().WithBucket(_uploadOptions.Minio.BucketName);
+        var beArgs = new BucketExistsArgs().WithBucket(uploadOptions.Value.Minio.BucketName);
 
         if (!await minio.BucketExistsAsync(beArgs)) {
-            var mbArgs = new MakeBucketArgs().WithBucket(_uploadOptions.Minio.BucketName);
+            var mbArgs = new MakeBucketArgs().WithBucket(uploadOptions.Value.Minio.BucketName);
             await minio.MakeBucketAsync(mbArgs);
         }
 
-        var putArgs = new PutObjectArgs().WithBucket(_uploadOptions.Minio.BucketName)
+        var putArgs = new PutObjectArgs().WithBucket(uploadOptions.Value.Minio.BucketName)
                                          .WithObject(objectName)
                                          .WithStreamData(fileStream)
                                          .WithObjectSize(fileSize)
                                          .WithContentType(contentType);
         _ = await minio.PutObjectAsync(putArgs);
 
-        return $"{_uploadOptions.Minio.AccessUrl}/{_uploadOptions.Minio.BucketName}/{objectName}";
+        return $"{uploadOptions.Value.Minio.AccessUrl}/{uploadOptions.Value.Minio.BucketName}/{objectName}";
     }
 }

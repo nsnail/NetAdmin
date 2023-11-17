@@ -7,8 +7,9 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public sealed class XmlCommentReader : ISingleton
 {
-    private const    string            _XPATH        = "//doc/members/member[@name=\"{0}\"]";
-    private readonly List<XmlDocument> _xmlDocuments = new();
+    private const           string            _XPATH        = "//doc/members/member[@name=\"{0}\"]";
+    private static readonly Regex             _regex        = new(@"`\d+");
+    private readonly        List<XmlDocument> _xmlDocuments = new();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="XmlCommentReader" /> class.
@@ -20,14 +21,15 @@ public sealed class XmlCommentReader : ISingleton
                                     nameof(SpecificationDocumentSettingsOptions).TrimEndOptions())
                                 .XmlComments;
         foreach (var commentFile in xmlComments.Where(x => x.Contains(nameof(NetAdmin)))) {
-            var xmlDoc = new XmlDocument();
-            try {
-                xmlDoc.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile));
-                _xmlDocuments.Add(xmlDoc);
+            var xmlDoc      = new XmlDocument();
+            var xmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, commentFile);
+            if (!File.Exists(xmlFilePath)) {
+                LogHelper.Get<XmlCommentReader>().Warn($"{Ln.XML注释文件不存在}: {xmlFilePath}");
+                continue;
             }
-            catch (FileNotFoundException) {
-                LogHelper.Get<XmlCommentReader>().Warn(Ln.Xml注释文件不存在);
-            }
+
+            xmlDoc.Load(xmlFilePath);
+            _xmlDocuments.Add(xmlDoc);
         }
     }
 
@@ -66,30 +68,32 @@ public sealed class XmlCommentReader : ISingleton
 
     private XmlNode GetNodeByMethod(MethodInfo method)
     {
-        static string Replace(ParameterInfo parameterInfo)
-        {
-            return Regex.Replace(parameterInfo.ParameterType.ToString(), @"`\d+", string.Empty)
-                        .Replace("[", "{")
-                        .Replace("]", "}");
-        }
-
         var nodeName   = $"M:{method.DeclaringType}.{method.Name}";
         var parameters = method.GetParameters();
         if (parameters.Length != 0) {
             nodeName += $"({string.Join(',', parameters.Select(Replace))})";
         }
 
-        return _xmlDocuments
-               .Select(xmlDoc => xmlDoc.SelectSingleNode(
-                           string.Format(NumberFormatInfo.InvariantInfo, _XPATH, nodeName)))
-               .FirstOrDefault(ret => ret != null);
+        return _xmlDocuments.Select(xmlDoc => xmlDoc.SelectSingleNode(
+                                        #pragma warning disable CA1863
+                                        string.Format(NumberFormatInfo.InvariantInfo, _XPATH, nodeName)))
+                            #pragma warning restore CA1863
+                            .FirstOrDefault(ret => ret != null);
+
+        static string Replace(ParameterInfo parameterInfo)
+        {
+            return _regex.Replace(parameterInfo.ParameterType.ToString(), string.Empty)
+                         .Replace("[", "{")
+                         .Replace("]", "}");
+        }
     }
 
     private XmlNode GetNodeByType(Type type)
     {
-        return _xmlDocuments
-               .Select(xmlDoc => xmlDoc.SelectSingleNode(
-                           string.Format(NumberFormatInfo.InvariantInfo, _XPATH, $"T:{type.FullName}")))
-               .FirstOrDefault(ret => ret != null);
+        return _xmlDocuments.Select(xmlDoc => xmlDoc.SelectSingleNode(
+                                        #pragma warning disable CA1863
+                                        string.Format(NumberFormatInfo.InvariantInfo, _XPATH, $"T:{type.FullName}")))
+                            #pragma warning restore CA1863
+                            .FirstOrDefault(ret => ret != null);
     }
 }

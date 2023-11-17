@@ -13,11 +13,11 @@ namespace NetAdmin.BizServer.Host.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    ///     注册FreeSql
+    ///     添加 FreeSql
     /// </summary>
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
     {
-        _ = me.AddFreeSql( //
+        return me.AddFreeSql( //
             FreeSqlInitOptions.SyncStructure | FreeSqlInitOptions.InsertSeedData, freeSql => {
                 // 数据权限过滤器
                 _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
@@ -25,11 +25,10 @@ public static class ServiceCollectionExtensions
                   , () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.Self) ?? false
                   , a => a.OwnerId == ContextUserInfo.Create().Id);
             });
-        return me;
     }
 
     /// <summary>
-    ///     jwt授权处理器
+    ///     添加 jwt 授权处理器
     /// </summary>
     public static IServiceCollection AddJwt(this IServiceCollection me)
     {

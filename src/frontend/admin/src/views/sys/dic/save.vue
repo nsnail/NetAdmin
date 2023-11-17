@@ -1,13 +1,13 @@
 <template>
-    <el-dialog v-model="visible" :title="titleMap[mode]" :width="400" destroy-on-close @closed="$emit('closed')">
-        <el-form ref="dialogForm" :model="form" :rules="rules" label-width="100px">
-            <el-form-item label="字典名称" prop="name">
-                <el-input v-model="form.name" clearable placeholder="字典显示名称"></el-input>
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="400" destroy-on-close @closed="$emit('closed')">
+        <el-form ref="dialogForm" v-loading="loading" :model="form" :rules="rules" label-width="100px">
+            <el-form-item :label="$t('字典名称')" prop="name">
+                <el-input v-model="form.name" clearable :placeholder="$t('字典显示名称')"></el-input>
             </el-form-item>
-            <el-form-item label="编码" prop="code">
-                <el-input v-model="form.code" clearable placeholder="字典编码"></el-input>
+            <el-form-item :label="$t('编码')" prop="code">
+                <el-input v-model="form.code" clearable :placeholder="$t('字典编码')"></el-input>
             </el-form-item>
-            <el-form-item label="父路径" prop="parentId">
+            <el-form-item :label="$t('父路径')" prop="parentId">
                 <na-dic-catalog v-model="form.parentId" />
             </el-form-item>
         </el-form>
@@ -15,7 +15,7 @@
             <el-button @click="visible = false">取 消</el-button>
             <el-button :loading="loading" type="primary" @click="submit">保 存</el-button>
         </template>
-    </el-dialog>
+    </sc-dialog>
 </template>
 
 <script>
@@ -40,14 +40,17 @@ export default {
     mounted() {},
     methods: {
         //显示
-        open(mode = 'add', data) {
-            this.mode = mode
+        async open(mode = 'add', data) {
             this.visible = true
+            this.loading = true
+            this.mode = mode
             if (data) {
-                Object.assign(this.form, data)
+                Object.assign(this.form, (await this.$API.sys_dic.getCatalog.post({ id: data.id })).data)
             }
+            this.loading = false
             return this
         },
+
         //表单提交方法
         async submit() {
             const valid = await this.$refs.dialogForm.validate().catch(() => {})

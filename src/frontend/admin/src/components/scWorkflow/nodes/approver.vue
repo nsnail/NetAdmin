@@ -16,7 +16,7 @@
             </div>
         </div>
         <add-node v-model="nodeConfig.childNode"></add-node>
-        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close title="审批人设置">
+        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close :title="$t('审批人设置')">
             <template #header>
                 <div class="node-wrap-drawer__title">
                     <label v-if="!isEditTitle" @click="editTitle"
@@ -37,19 +37,19 @@
             <el-container>
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
-                        <el-form-item label="审批人员类型">
+                        <el-form-item :label="$t('审批人员类型')">
                             <el-select v-model="form.setType">
-                                <el-option :value="1" label="指定成员"></el-option>
-                                <el-option :value="2" label="主管"></el-option>
-                                <el-option :value="3" label="角色"></el-option>
-                                <el-option :value="4" label="发起人自选"></el-option>
-                                <el-option :value="5" label="发起人自己"></el-option>
-                                <el-option :value="7" label="连续多级主管"></el-option>
+                                <el-option :value="1" :label="$t('指定成员')"></el-option>
+                                <el-option :value="2" :label="$t('主管')"></el-option>
+                                <el-option :value="3" :label="$t('角色')"></el-option>
+                                <el-option :value="4" :label="$t('发起人自选')"></el-option>
+                                <el-option :value="5" :label="$t('发起人自己')"></el-option>
+                                <el-option :value="7" :label="$t('连续多级主管')"></el-option>
                             </el-select>
                         </el-form-item>
 
-                        <el-form-item v-if="form.setType === 1" label="选择成员">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员 </el-button>
+                        <el-form-item v-if="form.setType === 1" :label="$t('选择成员')">
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(user, index) in form.nodeUserList" :key="user.id" closable @close="delUser(index)"
                                     >{{ user.name }}
@@ -57,14 +57,14 @@
                             </div>
                         </el-form-item>
 
-                        <el-form-item v-if="form.setType === 2" label="指定主管">
+                        <el-form-item v-if="form.setType === 2" :label="$t('指定主管')">
                             发起人的第
                             <el-input-number v-model="form.examineLevel" :min="1" />
                             级主管
                         </el-form-item>
 
-                        <el-form-item v-if="form.setType === 3" label="选择角色">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色 </el-button>
+                        <el-form-item v-if="form.setType === 3" :label="$t('选择角色')">
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(role, index) in form.nodeRoleList" :key="role.id" closable type="info" @close="delRole(index)"
                                     >{{ role.name }}
@@ -72,14 +72,14 @@
                             </div>
                         </el-form-item>
 
-                        <el-form-item v-if="form.setType === 4" label="发起人自选">
+                        <el-form-item v-if="form.setType === 4" :label="$t('发起人自选')">
                             <el-radio-group v-model="form.selectMode">
                                 <el-radio :label="1">自选一个人</el-radio>
                                 <el-radio :label="2">自选多个人</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
-                        <el-form-item v-if="form.setType === 7" label="连续主管审批终点">
+                        <el-form-item v-if="form.setType === 7" :label="$t('连续主管审批终点')">
                             <el-radio-group v-model="form.directorMode">
                                 <el-radio :label="0">直到最上层主管</el-radio>
                                 <el-radio :label="1">自定义审批终点</el-radio>
@@ -93,14 +93,14 @@
 
                         <el-divider></el-divider>
                         <el-form-item label="">
-                            <el-checkbox v-model="form.termAuto" label="超时自动审批"></el-checkbox>
+                            <el-checkbox v-model="form.termAuto" :label="$t('超时自动审批')"></el-checkbox>
                         </el-form-item>
                         <template v-if="form.termAuto">
-                            <el-form-item label="审批期限（为 0 则不生效）">
+                            <el-form-item :label="$t('审批期限（为 0 则不生效）')">
                                 <el-input-number v-model="form.term" :min="0" />
                                 小时
                             </el-form-item>
-                            <el-form-item label="审批期限超时后执行">
+                            <el-form-item :label="$t('审批期限超时后执行')">
                                 <el-radio-group v-model="form.termMode">
                                     <el-radio :label="0">自动通过</el-radio>
                                     <el-radio :label="1">自动拒绝</el-radio>
@@ -108,7 +108,7 @@
                             </el-form-item>
                         </template>
                         <el-divider></el-divider>
-                        <el-form-item label="多人审批时审批方式">
+                        <el-form-item :label="$t('多人审批时审批方式')">
                             <el-radio-group v-model="form.examineMode">
                                 <p style="width: 100%">
                                     <el-radio :label="1">按顺序依次审批</el-radio>

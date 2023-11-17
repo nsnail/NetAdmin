@@ -8,17 +8,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicContentService" />
-public sealed class DicContentService : RepositoryService<Sys_DicContent, IDicContentService>, IDicContentService
+public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
+    : RepositoryService<Sys_DicContent, IDicContentService>(rpo), IDicContentService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicContentService" /> class.
-    /// </summary>
-    public DicContentService(Repository<Sys_DicContent> rpo) //
-        : base(rpo) { }
-
-    /// <summary>
-    ///     批量删除字典内容
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -29,9 +22,7 @@ public sealed class DicContentService : RepositoryService<Sys_DicContent, IDicCo
         return sum;
     }
 
-    /// <summary>
-    ///     创建字典内容
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Dictionary_directory_does_not_exist</exception>
     public async Task<QueryDicContentRsp> CreateAsync(CreateDicContentReq req)
     {
@@ -43,35 +34,26 @@ public sealed class DicContentService : RepositoryService<Sys_DicContent, IDicCo
         return ret.Adapt<QueryDicContentRsp>();
     }
 
-    /// <summary>
-    ///     删除字典内容
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断字典是否存在
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDicContentReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
-    /// <summary>
-    ///     获取单个字典
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
+    /// <inheritdoc />
+    public async Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryDicContentRsp>();
     }
 
-    /// <summary>
-    ///     分页查询字典内容
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDicContentReq> req)
     {
         var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
@@ -80,18 +62,14 @@ public sealed class DicContentService : RepositoryService<Sys_DicContent, IDicCo
                                                    , list.Adapt<IEnumerable<QueryDicContentRsp>>());
     }
 
-    /// <summary>
-    ///     查询字典内容
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
     }
 
-    /// <summary>
-    ///     更新字典内容
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Dictionary_directory_does_not_exist</exception>
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicContentRsp> UpdateAsync(UpdateDicContentReq req)
@@ -104,8 +82,14 @@ public sealed class DicContentService : RepositoryService<Sys_DicContent, IDicCo
             throw new NetAdminUnexpectedException();
         }
 
-        var ret = await Rpo.Select.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync();
         return ret.Adapt<QueryDicContentRsp>();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_DicContent> UpdateForSqliteAsync(Sys_DicContent req)
+    {
+        throw new NotImplementedException();
     }
 
     private ISelect<Sys_DicContent> QueryInternal(QueryReq<QueryDicContentReq> req)

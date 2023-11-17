@@ -6,17 +6,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     菜单缓存
-/// </summary>
-public sealed class MenuCache : DistributedCache<IMenuService>, IScoped, IMenuCache
+/// <inheritdoc cref="IMenuCache" />
+public sealed class MenuCache(IDistributedCache cache, IMenuService service) //
+    : DistributedCache<IMenuService>(cache, service), IScoped, IMenuCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="MenuCache" /> class.
-    /// </summary>
-    public MenuCache(IDistributedCache cache, IMenuService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

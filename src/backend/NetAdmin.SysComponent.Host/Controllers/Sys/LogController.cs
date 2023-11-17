@@ -12,14 +12,9 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     请求日志服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class LogController : ControllerBase<IRequestLogCache, IRequestLogService>, IRequestLogModule
+public sealed class LogController(IRequestLogCache cache) : ControllerBase<IRequestLogCache, IRequestLogService>(cache)
+                                                          , IRequestLogModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="LogController" /> class.
-    /// </summary>
-    public LogController(IRequestLogCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除请求日志
     /// </summary>
@@ -62,7 +57,6 @@ public sealed class LogController : ControllerBase<IRequestLogCache, IRequestLog
     /// <summary>
     ///     获取单个请求日志
     /// </summary>
-    [NonAction]
     public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
         return Cache.GetAsync(req);

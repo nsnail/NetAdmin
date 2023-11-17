@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Enums.Sys;
@@ -40,7 +39,7 @@ public record CreateMenuReq : Sys_Menu
 
     /// <inheritdoc cref="Sys_Menu.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.菜单名称))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.菜单名称不能为空))]
     public override string Name { get; init; }
 
     /// <inheritdoc cref="Sys_Menu.ParentId" />
@@ -63,7 +62,7 @@ public record CreateMenuReq : Sys_Menu
     public override string Tag => Meta.Tag;
 
     /// <inheritdoc cref="Sys_Menu.Title" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.菜单标题))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.菜单标题不能为空))]
     public override string Title => Meta.Title;
 
     /// <inheritdoc cref="Sys_Menu.Type" />

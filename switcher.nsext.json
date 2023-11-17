@@ -1,0 +1,17 @@
+{
+  "solution": "NetAdmin.sln",
+  "mappings": {
+    "NSExt": "./refs/ns-ext/src/NSExt/NSExt.csproj"
+  },
+  "restore": [
+    {
+      "name": "NetAdmin.Infrastructure",
+      "packages": [
+        {
+          "packageName": "NSExt",
+          "version": "1.1.0"
+        }
+      ]
+    }
+  ]
+}

@@ -7,14 +7,9 @@ namespace NetAdmin.Host.Controllers;
 ///     健康控制器
 /// </summary>
 [ApiDescriptionSettings("Health")]
-public sealed class HealthController : ControllerBase<ICache<IDistributedCache, IService>, IService>
+public sealed class HealthController
+    (ICache<IDistributedCache, IService> cache) : ControllerBase<ICache<IDistributedCache, IService>, IService>(cache)
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="HealthController" /> class.
-    /// </summary>
-    public HealthController(ICache<IDistributedCache, IService> cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     健康检查
     /// </summary>
@@ -24,6 +19,6 @@ public sealed class HealthController : ControllerBase<ICache<IDistributedCache, 
     public string Check()
         #pragma warning restore S3400, CA1822
     {
-        return Global.ProductVersion;
+        return GlobalStatic.ProductVersion;
     }
 }

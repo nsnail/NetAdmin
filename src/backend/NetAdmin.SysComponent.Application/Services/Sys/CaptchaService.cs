@@ -17,9 +17,7 @@ public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaServi
     /// </summary>
     public CaptchaService() { }
 
-    /// <summary>
-    ///     获取人机校验图
-    /// </summary>
+    /// <inheritdoc />
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
         var (backgroundImage, sliderImage, offsetSaw) = await CaptchaImageHelper.CreateSawSliderImageAsync(
@@ -35,9 +33,7 @@ public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaServi
                                  };
     }
 
-    /// <summary>
-    ///     完成人机校验
-    /// </summary>
+    /// <inheritdoc />
     public Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
     {
         if (req.SawOffsetX == null) {

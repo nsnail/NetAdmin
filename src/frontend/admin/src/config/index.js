@@ -1,20 +1,21 @@
 import MY_CONFIG from './myConfig'
+import APP_CONFIG from './appConfig'
 
 const DEFAULT_CONFIG = {
     //标题
-    APP_NAME: 'SCUI',
+    APP_NAME: 'NetAdmin',
 
     //首页地址
     DASHBOARD_URL: '/home',
 
     //版本号
-    APP_VER: '1.6.9',
+    APP_VER: '1.0.0',
 
     //内核版本号
     CORE_VER: '1.6.9',
 
     //接口地址
-    API_URL: 'http://localhost:65010',
+    API_URL: '',
 
     //请求超时
     TIMEOUT: 10000,
@@ -48,7 +49,7 @@ const DEFAULT_CONFIG = {
     LANG: 'zh-cn',
 
     //主题颜色
-    COLOR: '',
+    COLOR: '#21A675',
 
     //是否加密localStorage, 为空不加密，可填写AES(模式ECB,移位Pkcs7)加密
     LS_ENCRYPTION: '',
@@ -59,9 +60,9 @@ const DEFAULT_CONFIG = {
     //控制台首页默认布局
     DEFAULT_GRID: {
         //默认分栏数量和宽度 例如 [24] [18,6] [8,8,8] [6,12,6]
-        layout: [12, 6, 6],
+        layout: [24],
         //小组件分布，com取值:views/home/components 文件名
-        copmsList: [['welcome'], ['about', 'ver'], ['time', 'progress']],
+        compsList: [['ver']],
     },
 
     //默认头像
@@ -74,7 +75,7 @@ Object.assign(DEFAULT_CONFIG, MY_CONFIG)
 
 // 如果生产模式，就合并动态的APP_CONFIG
 // public/config.js
-if (process.env.NODE_ENV === 'production') {
+if (import.meta.env.PROD) {
     Object.assign(DEFAULT_CONFIG, APP_CONFIG)
 }
 

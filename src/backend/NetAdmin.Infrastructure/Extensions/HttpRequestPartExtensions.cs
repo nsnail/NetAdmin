@@ -20,16 +20,16 @@ public static class HttpRequestPartExtensions
             #pragma warning restore IDE0058
         }
 
-        async void ResponseHandle(HttpClient _, HttpResponseMessage rsp)
-        {
-            await rsp.LogAsync(logger, bodyHandle);
-        }
+        return me.OnRequesting(RequestHandle).OnResponsing(ResponseHandle).OnException(ExceptionHandle);
 
         async void ExceptionHandle(HttpClient _, HttpResponseMessage rsp, string errors)
         {
             await rsp.LogExceptionAsync(errors, logger, bodyHandle);
         }
 
-        return me.OnRequesting(RequestHandle).OnResponsing(ResponseHandle).OnException(ExceptionHandle);
+        async void ResponseHandle(HttpClient _, HttpResponseMessage rsp)
+        {
+            await rsp.LogAsync(logger, bodyHandle);
+        }
     }
 }

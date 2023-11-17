@@ -15,7 +15,7 @@
             </el-badge>
         </slot>
 
-        <el-drawer v-model="drawer" :size="650" append-to-body title="过滤器">
+        <el-drawer v-model="drawer" :size="650" append-to-body :title="$t('过滤器')">
             <el-container v-loading="saveLoading">
                 <el-main style="padding: 0">
                     <el-tabs class="root">
@@ -45,12 +45,12 @@
                                                     :filter="filter"
                                                     :options="fields"
                                                     filterable
-                                                    placeholder="过滤字段"
+                                                    :placeholder="$t('过滤字段')"
                                                     @change="fieldChange(item)">
                                                 </py-select>
                                             </td>
                                             <td v-if="showOperator">
-                                                <el-select v-model="item.operator" placeholder="运算符">
+                                                <el-select v-model="item.operator" :placeholder="$t('运算符')">
                                                     <el-option
                                                         v-for="ope in item.field.operators || operator"
                                                         :key="ope.value"
@@ -63,7 +63,7 @@
                                                     v-if="!item.field.type"
                                                     v-model="item.value"
                                                     disabled
-                                                    placeholder="请选择过滤字段"></el-input>
+                                                    :placeholder="$t('请选择过滤字段')"></el-input>
                                                 <!-- 输入框 -->
                                                 <el-input
                                                     v-if="item.field.type === 'text'"
@@ -102,8 +102,8 @@
                                                 <el-date-picker
                                                     v-if="item.field.type === 'daterange'"
                                                     v-model="item.value"
-                                                    end-placeholder="结束日期"
-                                                    start-placeholder="开始日期"
+                                                    end-placeholder="$t('结束日期')"
+                                                    start-placeholder="$t('开始日期')"
                                                     style="width: 100%"
                                                     type="daterange"
                                                     value-format="YYYY-MM-DD"></el-date-picker>
@@ -119,8 +119,8 @@
                                                 <el-date-picker
                                                     v-if="item.field.type === 'datetimerange'"
                                                     v-model="item.value"
-                                                    end-placeholder="结束日期"
-                                                    start-placeholder="开始日期"
+                                                    end-placeholder="$t('结束日期')"
+                                                    start-placeholder="$t('开始日期')"
                                                     style="width: 100%"
                                                     type="datetimerange"
                                                     value-format="YYYY-MM-DD HH:mm:ss"></el-date-picker>
@@ -131,8 +131,8 @@
                                                     :placeholder="item.field.placeholder || '请选择'"
                                                     :type="item.field.extend.dateType || 'date'"
                                                     :value-format="item.field.extend.valueFormat"
-                                                    end-placeholder="结束日期"
-                                                    start-placeholder="开始日期"
+                                                    end-placeholder="$t('结束日期')"
+                                                    start-placeholder="$t('开始日期')"
                                                     style="width: 100%"></el-date-picker>
                                                 <!-- 开关 -->
                                                 <el-switch
@@ -149,7 +149,7 @@
                                                     default-first-option
                                                     filterable
                                                     multiple
-                                                    no-data-text="输入关键词后按回车确认"></el-select>
+                                                    no-data-text="$t('输入关键词后按回车确认')"></el-select>
                                             </td>
                                             <td>
                                                 <el-icon class="del" @click="delFilter(index)">
@@ -380,7 +380,7 @@ export default {
 .nodata {
     height: 46px;
     line-height: 46px;
-    margin: 15px 0;
+    margin: 1rem 0;
     border: 1px dashed #e6e6e6;
     color: #999;
     text-align: center;
@@ -401,7 +401,7 @@ export default {
 
 .sc-filter-main table {
     width: 100%;
-    margin: 15px 0;
+    margin: 1rem 0;
 }
 
 .sc-filter-main table td {

@@ -8,19 +8,9 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IUserCache" />
-public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCache
+public sealed class UserCache(IDistributedCache cache, IUserService service, IVerifyCodeCache verifyCodeCache) //
+    : DistributedCache<IUserService>(cache, service), IScoped, IUserCache
 {
-    private readonly IVerifyCodeCache _verifyCodeCache;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="UserCache" /> class.
-    /// </summary>
-    public UserCache(IDistributedCache cache, IUserService service, IVerifyCodeCache verifyCodeCache) //
-        : base(cache, service)
-    {
-        _verifyCodeCache = verifyCodeCache;
-    }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
@@ -163,7 +153,7 @@ public sealed class UserCache : DistributedCache<IUserService>, IScoped, IUserCa
     /// <inheritdoc />
     public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
-        return !await _verifyCodeCache.VerifyAsync(req)
+        return !await verifyCodeCache.VerifyAsync(req)
             ? throw new NetAdminInvalidOperationException(Ln.邮箱验证码不正确)
             : await Service.SetEmailAsync(req);
     }

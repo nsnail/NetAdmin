@@ -5,7 +5,7 @@
             v-model="input"
             :trigger-on-focus="false"
             clearable
-            placeholder="搜索"
+            :placeholder="$t('搜索')"
             prefix-icon="el-icon-search"
             size="large"
             @input="inputChange" />
@@ -48,10 +48,8 @@ export default {
         }
     },
     mounted() {
-        var searchHistory = this.$TOOL.data.get('SEARCH_HISTORY') || []
-        this.history = searchHistory
-        var menuTree = this.$TOOL.data.get('MENU')
-        this.filterMenu(menuTree)
+        this.history = this.$TOOL.data.get('SEARCH_HISTORY') || []
+        this.filterMenu(this.$GLOBAL.menu)
         this.$refs.input.focus()
     },
     methods: {
@@ -78,9 +76,9 @@ export default {
             })
         },
         menuFilter(queryString) {
-            var res = []
+            const res = []
             //过滤菜单树
-            var filterMenu = this.menu.filter((item) => {
+            const filterMenu = this.menu.filter((item) => {
                 if (item.meta.title.toLowerCase().indexOf(queryString.toLowerCase()) >= 0) {
                     return true
                 }
@@ -89,8 +87,8 @@ export default {
                 }
             })
             //匹配系统路由
-            var router = this.$router.getRoutes()
-            var filterRouter = filterMenu.map((m) => {
+            const router = this.$router.getRoutes()
+            const filterRouter = filterMenu.map((m) => {
                 if (m.meta.type === 'link') {
                     return router.find((r) => r.path === '/' + m.path)
                 } else {
@@ -162,12 +160,12 @@ export default {
 }
 
 .sc-search-result {
-    margin-top: 15px;
+    margin-top: 1rem;
 }
 
 .sc-search-result li {
     height: 56px;
-    padding: 0 15px;
+    padding: 0 1rem;
     background: var(--el-bg-color-overlay);
     border: 1px solid var(--el-border-color-light);
     list-style: none;
@@ -181,7 +179,7 @@ export default {
 
 .sc-search-result li i {
     font-size: 20px;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .sc-search-result li:hover {

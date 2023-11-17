@@ -12,7 +12,7 @@
             </div>
         </div>
         <add-node v-model="nodeConfig.childNode"></add-node>
-        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close title="发起人">
+        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close :title="$t('发起人')">
             <template #header>
                 <div class="node-wrap-drawer__title">
                     <label v-if="!isEditTitle" @click="editTitle"
@@ -33,15 +33,19 @@
             <el-container>
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
-                        <el-form-item label="谁可以发起此审批">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色 </el-button>
+                        <el-form-item :label="$t('谁可以发起此审批')">
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(2, form.nodeRoleList)">选择角色</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(role, index) in form.nodeRoleList" :key="role.id" closable type="info" @close="delRole(index)"
                                     >{{ role.name }}
                                 </el-tag>
                             </div>
                         </el-form-item>
-                        <el-alert v-if="form.nodeRoleList.length === 0" :closable="false" title="不指定则默认所有人都可发起此审批" type="info" />
+                        <el-alert
+                            v-if="form.nodeRoleList.length === 0"
+                            :closable="false"
+                            :title="$t('不指定则默认所有人都可发起此审批')"
+                            type="info" />
                     </el-form>
                 </el-main>
                 <el-footer>

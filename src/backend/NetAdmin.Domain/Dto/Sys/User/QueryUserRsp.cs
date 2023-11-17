@@ -18,9 +18,7 @@ public record QueryUserRsp : Sys_User
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
-    /// <summary>
-    ///     部门
-    /// </summary>
+    /// <inheritdoc cref="Sys_User.Dept" />
     public new virtual QueryDeptRsp Dept { get; init; }
 
     /// <inheritdoc cref="Sys_User.Email" />
@@ -39,9 +37,7 @@ public record QueryUserRsp : Sys_User
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Mobile { get; init; }
 
-    /// <summary>
-    ///     角色列表
-    /// </summary>
+    /// <inheritdoc cref="Sys_User.Roles" />
     public new virtual IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc cref="Sys_User.Summary" />

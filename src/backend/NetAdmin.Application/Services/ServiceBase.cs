@@ -33,13 +33,9 @@ public abstract class ServiceBase : IScoped, IService
         ServiceId = Guid.NewGuid();
     }
 
-    /// <summary>
-    ///     服务编号
-    /// </summary>
+    /// <inheritdoc />
     public Guid ServiceId { get; set; }
 
-    /// <summary>
-    ///     上下文用户
-    /// </summary>
+    /// <inheritdoc />
     public ContextUserToken UserToken { get; set; }
 }

@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
-
 namespace NetAdmin.Domain.Dto.Sys.Captcha;
 
 /// <summary>
@@ -10,7 +8,7 @@ public sealed record VerifyCaptchaReq : DataAbstraction
     /// <summary>
     ///     唯一编码
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.唯一编码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.唯一编码不能为空))]
     public string Id { get; init; }
 
     /// <summary>
@@ -22,6 +20,6 @@ public sealed record VerifyCaptchaReq : DataAbstraction
     /// <summary>
     ///     验证数据
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证数据))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证数据不能为空))]
     public string VerifyData { get; init; }
 }

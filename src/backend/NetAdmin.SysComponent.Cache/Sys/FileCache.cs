@@ -4,17 +4,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     文件缓存
-/// </summary>
-public sealed class FileCache : DistributedCache<IFileService>, IScoped, IFileCache
+/// <inheritdoc cref="IFileCache" />
+public sealed class FileCache(IDistributedCache cache, IFileService service) //
+    : DistributedCache<IFileService>(cache, service), IScoped, IFileCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="FileCache" /> class.
-    /// </summary>
-    public FileCache(IDistributedCache cache, IFileService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<string> UploadAsync(IFormFile file)
     {

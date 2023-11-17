@@ -9,23 +9,46 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{4DAF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0CAC-4828-A807-34A693F73859}"
 	ProjectSection(SolutionItems) = preProject
+		.commitlintrc.js = .commitlintrc.js
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		Build.cake = Build.cake
-		CodeQuality.props = CodeQuality.props
-		CopyPackageXmlCommentFiles.targets = CopyPackageXmlCommentFiles.targets
+		.tgitconfig = .tgitconfig
+		1.git.pr.ps1 = 1.git.pr.ps1
+		build.cake = build.cake
+		clone.project.refs.ps1 = clone.project.refs.ps1
+		code.clean.csx = code.clean.csx
+		code.clean.ps1 = code.clean.ps1
+		code.cleanup.full.ps1 = code.cleanup.full.ps1
+		code.quality.props = code.quality.props
+		copy.pkg.xml.comment.files.targets = copy.pkg.xml.comment.files.targets
 		Directory.Build.props = Directory.Build.props
+		Dockerfile = Dockerfile
+		dot.clean.cmd = dot.clean.cmd
 		dotnet-tools.json = dotnet-tools.json
+		gen.cs.tt = gen.cs.tt
+		gen.id.linq = gen.id.linq
+		gen.ln.cmd = gen.ln.cmd
+		gen.resx.tt = gen.resx.tt
+		git.rc.ps1 = git.rc.ps1
 		global.json = global.json
+		image.optimize.csx = image.optimize.csx
+		install.as.tpl.ps1 = install.as.tpl.ps1
 		LICENSE = LICENSE
+		minver.targets = minver.targets
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
-		NuGet.Config = NuGet.Config
+		nuget.config = nuget.config
 		package.json = package.json
-		PreBuild.targets = PreBuild.targets
+		prebuild.targets = prebuild.targets
 		README.md = README.md
+		rename.csx = rename.csx
+		stylecop.analyzers.ruleset = stylecop.analyzers.ruleset
 		StyleCop.json = StyleCop.json
-		StyleCopAnalyzers.ruleset = StyleCopAnalyzers.ruleset
+		switcher.freesql.json = switcher.freesql.json
+		switcher.furion.json = switcher.furion.json
+		switcher.nsext.json = switcher.nsext.json
+		switcher.ps1 = switcher.ps1
+		sync.sln.files.csx = sync.sln.files.csx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
@@ -54,8 +77,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Appli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Components", "02.Components", "{3F23258D-8299-4992-9F51-2EE9B52CF9D2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "21.System", "21.System", "{E146D707-4D44-47B3-A8F9-D51EC5E1D047}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.BackgroundServices", "04.BackgroundServices", "{CBFBF29B-27E8-4DB1-ADD6-4B750897ACD3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Frameworks", "01.Frameworks", "{D9C3EF66-2757-473D-A26B-54FD08DA203F}"
@@ -66,28 +87,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.Tests", "06.Tests", "{89
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.BizServer.Tests", "src\backend\NetAdmin.BizServer.Tests\NetAdmin.BizServer.Tests.csproj", "{C7F27698-DA05-4ACD-B0D7-4791B3972002}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{2D81D62C-1B2E-4758-84C6-728343CB734F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
 	ProjectSection(SolutionItems) = preProject
-		CloneProjectRefs.ps1 = tools/CloneProjectRefs.ps1
-		CodeCleanup.csx = tools/CodeCleanup.csx
-		CodeCleanup.ps1 = tools/CodeCleanup.ps1
-		CodeCleanupFull.ps1 = tools/CodeCleanupFull.ps1
-		DotClean.cmd = tools/DotClean.cmd
-		GenerateLn.cmd = tools/GenerateLn.cmd
-		GenerateLnCs.tt = tools/GenerateLnCs.tt
-		GenerateLnResx.tt = tools/GenerateLnResx.tt
-		GitPR.ps1 = tools/GitPR.ps1
-		GitRecreate.ps1 = tools/GitRecreate.ps1
-		IdGenerator.linq = tools/IdGenerator.linq
-		ImageOptimize.csx = tools/ImageOptimize.csx
-		InstallAsTpl.ps1 = tools/InstallAsTpl.ps1
-		Switcher.FreeSql.json = tools/Switcher.FreeSql.json
-		Switcher.Furion.json = tools/Switcher.Furion.json
-		Switcher.NSExt.json = tools/Switcher.NSExt.json
-		Switcher.ps1 = tools/Switcher.ps1
-		SyncMetaFiles.csx = tools/SyncMetaFiles.csx
+		ci.yml = .github/workflows/ci.yml
 	EndProjectSection
-EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin.Tests\NetAdmin.Tests.csproj", "{00604162-C444-478B-B773-3AB23C856CA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,15 +157,15 @@ Global
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00604162-C444-478B-B773-3AB23C856CA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}
 		{12AE5B4B-CB1A-498E-83B8-04E201E31D86} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 		{3F23258D-8299-4992-9F51-2EE9B52CF9D2} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
-		{E146D707-4D44-47B3-A8F9-D51EC5E1D047} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
-		{34650E82-D257-46DA-BD6B-DE307113347B} = {E146D707-4D44-47B3-A8F9-D51EC5E1D047}
-		{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C} = {E146D707-4D44-47B3-A8F9-D51EC5E1D047}
-		{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C} = {E146D707-4D44-47B3-A8F9-D51EC5E1D047}
 		{CBFBF29B-27E8-4DB1-ADD6-4B750897ACD3} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 		{D9C3EF66-2757-473D-A26B-54FD08DA203F} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 		{70C54E1B-2083-4196-AB68-34CAF0075D82} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
@@ -172,5 +179,10 @@ Global
 		{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
 		{89260294-80FC-49F1-8D73-AECD39AFF2B7} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
 		{C7F27698-DA05-4ACD-B0D7-4791B3972002} = {89260294-80FC-49F1-8D73-AECD39AFF2B7}
+		{3C6F049E-3EE8-4D66-9AFF-E8A369032487} = {1129FE25-466B-4F4F-85FC-3752664245E1}
+		{00604162-C444-478B-B773-3AB23C856CA7} = {D9C3EF66-2757-473D-A26B-54FD08DA203F}
+		{34650E82-D257-46DA-BD6B-DE307113347B} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
+		{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
+		{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
 	EndGlobalSection
 EndGlobal

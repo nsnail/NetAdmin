@@ -8,107 +8,61 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IApiService" />
-public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiService
+public sealed class ApiService(DefaultRepository<Sys_Api>          rpo                                 //
+                             , XmlCommentReader                    xmlCommentReader                    //
+                             , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
+    : RepositoryService<Sys_Api, IApiService>(rpo), IApiService
 {
-    private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
-    private readonly XmlCommentReader                    _xmlCommentReader;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ApiService" /> class.
-    /// </summary>
-    public ApiService(Repository<Sys_Api>                 rpo, XmlCommentReader xmlCommentReader
-                    , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
-        : base(rpo)
-    {
-        _xmlCommentReader                   = xmlCommentReader;
-        _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
-    }
-
-    /// <summary>
-    ///     批量删除接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     创建接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     删除接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     判断接口是否存在
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     获取单个接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<QueryApiRsp> GetAsync(QueryApiReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     分页查询接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     查询接口
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
         return ret.Adapt<IEnumerable<QueryApiRsp>>();
     }
 
-    /// <summary>
-    ///     反射接口列表
-    /// </summary>
+    /// <inheritdoc />
     public IEnumerable<QueryApiRsp> ReflectionList(bool excludeAnonymous = true)
     {
         var regex = new Regex(@"\.(\w+)$", RegexOptions.Compiled);
 
-        QueryApiRsp SelectQueryApiRsp(IGrouping<TypeInfo, ControllerActionDescriptor> group)
-        {
-            var first = group.First()!;
-            return new QueryApiRsp {
-                                       Summary = _xmlCommentReader.GetComments(group.Key)
-                                     , Name    = first.ControllerName
-                                     , Id = Regex.Replace( //
-                                           first.AttributeRouteInfo!.Template!, $"/{first.ActionName}$", string.Empty)
-                                     , Children  = GetChildren(group)
-                                     , Namespace = regex.Match(group.Key.Namespace!).Groups[1].Value.ToLowerInvariant()
-                                   };
-        }
-
         var actionDescriptors //
-            = _actionDescriptorCollectionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>();
+            = actionDescriptorCollectionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>();
 
         if (excludeAnonymous) {
             actionDescriptors = actionDescriptors.Where(x => x.EndpointMetadata.All(y => y is AllowAnonymousAttribute));
@@ -118,11 +72,22 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
             = actionDescriptors.GroupBy(x => x.ControllerTypeInfo);
 
         return actionGroup.Select(SelectQueryApiRsp);
+
+        QueryApiRsp SelectQueryApiRsp(IGrouping<TypeInfo, ControllerActionDescriptor> group)
+        {
+            var first = group.First()!;
+            return new QueryApiRsp {
+                                       Summary = xmlCommentReader.GetComments(group.Key)
+                                     , Name    = first.ControllerName
+                                     , Id = Regex.Replace( //
+                                           first.AttributeRouteInfo!.Template!, $"/{first.ActionName}$", string.Empty)
+                                     , Children  = GetChildren(group)
+                                     , Namespace = regex.Match(group.Key.Namespace!).Groups[1].Value.ToLowerInvariant()
+                                   };
+        }
     }
 
-    /// <summary>
-    ///     同步接口
-    /// </summary>
+    /// <inheritdoc />
     public async Task SyncAsync()
     {
         _ = await Rpo.DeleteAsync(_ => true);
@@ -136,11 +101,14 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
         }
     }
 
-    /// <summary>
-    ///     更新接口
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<NopReq> UpdateAsync(NopReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_Api> UpdateForSqliteAsync(Sys_Api req)
     {
         throw new NotImplementedException();
     }
@@ -149,7 +117,7 @@ public sealed class ApiService : RepositoryService<Sys_Api, IApiService>, IApiSe
     {
         return actionDescriptors //
             .Select(x => new QueryApiRsp {
-                                             Summary = _xmlCommentReader.GetComments(x.MethodInfo)
+                                             Summary = xmlCommentReader.GetComments(x.MethodInfo)
                                            , Name    = x.ActionName
                                            , Id      = x.AttributeRouteInfo!.Template
                                            , Method = x.ActionConstraints?.OfType<HttpMethodActionConstraint>()

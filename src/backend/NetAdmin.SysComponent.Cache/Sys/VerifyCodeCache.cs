@@ -8,14 +8,9 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IVerifyCodeCache" />
-public sealed class VerifyCodeCache : DistributedCache<IVerifyCodeService>, IScoped, IVerifyCodeCache
+public sealed class VerifyCodeCache(IDistributedCache cache, IVerifyCodeService service) //
+    : DistributedCache<IVerifyCodeService>(cache, service), IScoped, IVerifyCodeCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="VerifyCodeCache" /> class.
-    /// </summary>
-    public VerifyCodeCache(IDistributedCache cache, IVerifyCodeService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

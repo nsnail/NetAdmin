@@ -17,13 +17,13 @@
 export default {
     methods: {
         gohome() {
-            location.href = '#/'
+            location.href = '/'
         },
         goback() {
             this.$router.go(-1)
         },
         gologin() {
-            this.$router.push('/anonymous/login')
+            this.$router.push('/guest/login')
         },
     },
 }
@@ -57,7 +57,7 @@ export default {
 .router-err__content p {
     font-size: 14px;
     color: #999;
-    margin: 15px 0 30px 0;
+    margin: 1rem 0 30px 0;
     line-height: 1.5;
 }
 

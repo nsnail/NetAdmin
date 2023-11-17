@@ -12,14 +12,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     部门服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class DeptController : ControllerBase<IDeptCache, IDeptService>, IDeptModule
+public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache, IDeptService>(cache), IDeptModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DeptController" /> class.
-    /// </summary>
-    public DeptController(IDeptCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除部门
     /// </summary>
@@ -59,7 +53,6 @@ public sealed class DeptController : ControllerBase<IDeptCache, IDeptService>, I
     /// <summary>
     ///     获取单个部门
     /// </summary>
-    [NonAction]
     public Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
         return Cache.GetAsync(req);

@@ -69,6 +69,13 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     public virtual string Name { get; init; }
 
     /// <summary>
+    ///     发送给此角色的站内信集合
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
+    public ICollection<Sys_SiteMsg> SiteMsgs { get; init; }
+
+    /// <summary>
     ///     排序值，越大越前
     /// </summary>
     [JsonIgnore]

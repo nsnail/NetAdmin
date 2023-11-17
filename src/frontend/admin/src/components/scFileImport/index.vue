@@ -11,8 +11,8 @@
     <slot :open="open">
         <el-button plain type="primary" @click="open">导入</el-button>
     </slot>
-    <el-dialog v-model="dialog" :close-on-click-modal="false" :width="550" append-to-body destroy-on-close title="导入">
-        <el-progress v-if="loading" :percentage="percentage" :stroke-width="20" :text-inside="true" style="margin-bottom: 15px" />
+    <el-dialog v-model="dialog" :close-on-click-modal="false" :width="550" append-to-body destroy-on-close :title="$t('导入')">
+        <el-progress v-if="loading" :percentage="percentage" :stroke-width="20" :text-inside="true" style="margin-bottom: 1rem" />
         <div v-loading="loading">
             <el-upload
                 ref="uploader"

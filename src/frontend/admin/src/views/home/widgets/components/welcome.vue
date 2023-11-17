@@ -1,9 +1,9 @@
 <template>
-    <el-card header="欢迎" shadow="hover">
+    <el-card :header="$t('欢迎')" shadow="hover">
         <div class="welcome">
             <div class="logo">
                 <img src="@/assets/img/logo.png" />
-                <h2>欢迎体验 SCUI</h2>
+                <h2>欢迎体验 NetAdmin</h2>
             </div>
             <div class="tips">
                 <div class="tips-item">

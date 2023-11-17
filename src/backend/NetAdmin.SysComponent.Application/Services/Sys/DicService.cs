@@ -7,113 +7,90 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicService" />
-public sealed class DicService : ServiceBase<IDicService>, IDicService
+public sealed class DicService(IDicCatalogService catalogService, IDicContentService contentService) //
+    : ServiceBase<IDicService>, IDicService
 {
-    private readonly IDicCatalogService _catalogService;
-    private readonly IDicContentService _contentService;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicService" /> class.
-    /// </summary>
-    public DicService(IDicCatalogService catalogService, IDicContentService contentService)
-    {
-        _catalogService = catalogService;
-        _contentService = contentService;
-    }
-
-    /// <summary>
-    ///     批量删除字典目录
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
     {
-        return _catalogService.BulkDeleteAsync(req);
+        return catalogService.BulkDeleteAsync(req);
     }
 
-    /// <summary>
-    ///     批量删除字典内容
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req)
     {
-        return _contentService.BulkDeleteAsync(req);
+        return contentService.BulkDeleteAsync(req);
     }
 
-    /// <summary>
-    ///     创建字典目录
-    /// </summary>
+    /// <inheritdoc />
     public Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
     {
-        return _catalogService.CreateAsync(req);
+        return catalogService.CreateAsync(req);
     }
 
-    /// <summary>
-    ///     创建字典内容
-    /// </summary>
+    /// <inheritdoc />
     public Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req)
     {
-        return _contentService.CreateAsync(req);
+        return contentService.CreateAsync(req);
     }
 
-    /// <summary>
-    ///     删除字典目录
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> DeleteCatalogAsync(DelReq req)
     {
-        return _catalogService.DeleteAsync(req);
+        return catalogService.DeleteAsync(req);
     }
 
-    /// <summary>
-    ///     删除字典内容
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> DeleteContentAsync(DelReq req)
     {
-        return _contentService.DeleteAsync(req);
+        return contentService.DeleteAsync(req);
     }
 
-    /// <summary>
-    ///     分页查询字典目录
-    /// </summary>
+    /// <inheritdoc />
+    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
+    {
+        return catalogService.GetAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
+    {
+        return contentService.GetAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
-        return _catalogService.PagedQueryAsync(req);
+        return catalogService.PagedQueryAsync(req);
     }
 
-    /// <summary>
-    ///     分页查询字典内容
-    /// </summary>
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req)
     {
-        return _contentService.PagedQueryAsync(req);
+        return contentService.PagedQueryAsync(req);
     }
 
-    /// <summary>
-    ///     查询字典目录
-    /// </summary>
+    /// <inheritdoc />
     public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req)
     {
-        return _catalogService.QueryAsync(req);
+        return catalogService.QueryAsync(req);
     }
 
-    /// <summary>
-    ///     查询字典内容
-    /// </summary>
+    /// <inheritdoc />
     public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
     {
-        return _contentService.QueryAsync(req);
+        return contentService.QueryAsync(req);
     }
 
-    /// <summary>
-    ///     更新字典目录
-    /// </summary>
+    /// <inheritdoc />
     public Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req)
     {
-        return _catalogService.UpdateAsync(req);
+        return catalogService.UpdateAsync(req);
     }
 
-    /// <summary>
-    ///     更新字典内容
-    /// </summary>
+    /// <inheritdoc />
     public Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req)
     {
-        return _contentService.UpdateAsync(req);
+        return contentService.UpdateAsync(req);
     }
 }

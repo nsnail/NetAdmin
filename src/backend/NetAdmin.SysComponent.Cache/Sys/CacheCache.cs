@@ -6,17 +6,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     缓存缓存
-/// </summary>
-public sealed class CacheCache : DistributedCache<ICacheService>, IScoped, ICacheCache
+/// <inheritdoc cref="ICacheCache" />
+public sealed class CacheCache(IDistributedCache cache, ICacheService service) //
+    : DistributedCache<ICacheService>(cache, service), IScoped, ICacheCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CacheCache" /> class.
-    /// </summary>
-    public CacheCache(IDistributedCache cache, ICacheService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
@@ -25,8 +18,8 @@ public sealed class CacheCache : DistributedCache<ICacheService>, IScoped, ICach
     }
 
     /// <inheritdoc />
-    public PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
-        return Service.GetAllEntries(req);
+        return Service.GetAllEntriesAsync(req);
     }
 }

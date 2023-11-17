@@ -12,66 +12,57 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     验证码服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class VerifyCodeController : ControllerBase<IVerifyCodeCache, IVerifyCodeService>, IVerifyCodeModule
+public sealed class VerifyCodeController
+    (IVerifyCodeCache cache, ICaptchaCache captchaCache) : ControllerBase<IVerifyCodeCache, IVerifyCodeService>(cache)
+                                                         , IVerifyCodeModule
 {
-    private readonly ICaptchaCache _captchaCache;
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="VerifyCodeController" /> class.
-    /// </summary>
-    public VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache captchaCache) //
-        : base(cache)
-    {
-        _captchaCache = captchaCache;
-    }
-
     /// <inheritdoc />
     [NonAction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.BulkDeleteAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
-        throw new NotImplementedException();
+        return Cache.CreateAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<int> DeleteAsync(DelReq req)
     {
-        throw new NotImplementedException();
+        return Cache.DeleteAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.ExistAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
-        throw new NotImplementedException();
+        return Cache.GetAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />
     [NonAction]
     public Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
-        throw new NotImplementedException();
+        return Cache.QueryAsync(req);
     }
 
     /// <summary>
@@ -81,7 +72,7 @@ public sealed class VerifyCodeController : ControllerBase<IVerifyCodeCache, IVer
     [AllowAnonymous]
     public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
     {
-        await _captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq);
+        await captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq);
         return await Cache.SendVerifyCodeAsync(req);
     }
 
@@ -89,7 +80,7 @@ public sealed class VerifyCodeController : ControllerBase<IVerifyCodeCache, IVer
     [NonAction]
     public Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
     {
-        throw new NotImplementedException();
+        return Cache.UpdateAsync(req);
     }
 
     /// <summary>

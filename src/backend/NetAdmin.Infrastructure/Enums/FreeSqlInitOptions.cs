@@ -16,6 +16,7 @@ public enum FreeSqlInitOptions
     /// <summary>
     ///     同步数据库结构
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.同步数据库结构))]
     SyncStructure = 1
 
    ,
@@ -23,6 +24,7 @@ public enum FreeSqlInitOptions
     /// <summary>
     ///     插入种子数据
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.插入种子数据))]
     InsertSeedData = 1 << 1
 
    ,
@@ -30,5 +32,6 @@ public enum FreeSqlInitOptions
     /// <summary>
     ///     比较数据库结构
     /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.比较数据库结构))]
     CompareStructure = 1 << 2
 }

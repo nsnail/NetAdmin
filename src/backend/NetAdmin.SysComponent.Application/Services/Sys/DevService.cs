@@ -6,7 +6,7 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDevService" />
-public sealed class DevService : ServiceBase<DevService>, IDevService
+public sealed class DevService(IApiService apiService) : ServiceBase<DevService>, IDevService
 {
     private const string _REPLACE_TO_EMPTY = "//~";
 
@@ -16,19 +16,10 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
     private static readonly string[] _projectDirs
         = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"));
 
-    private readonly IApiService _apiService;
+    private static readonly Regex _regex  = new(@"\.(\w)");
+    private static readonly Regex _regex2 = new("([a-zA-Z]+):");
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DevService" /> class.
-    /// </summary>
-    public DevService(IApiService apiService)
-    {
-        _apiService = apiService;
-    }
-
-    /// <summary>
-    ///     生成后端代码
-    /// </summary>
+    /// <inheritdoc />
     public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
         // 模块类型（Sys、Biz、等）
@@ -106,9 +97,7 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
                           ,           Path.Combine(entityDir, $"{moduleType[..3]}_{req.ModuleName}.cs"));
     }
 
-    /// <summary>
-    ///     生成图标代码
-    /// </summary>
+    /// <inheritdoc />
     public async Task GenerateIconCodeAsync(GenerateIconCodeReq req)
     {
         var tplSvg = await File.ReadAllTextAsync(
@@ -138,7 +127,7 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         var iconSelectFile    = Path.Combine(_clientProjectPath, "src", "config", "iconSelect.js");
         var iconSelectContent = await File.ReadAllTextAsync(iconSelectFile);
         iconSelectContent = iconSelectContent.Replace("export default", "exportDefault:").Replace("'", "\"");
-        iconSelectContent = Regex.Replace(iconSelectContent, "([a-zA-Z]+):", "\"$1\":");
+        iconSelectContent = _regex2.Replace(iconSelectContent, "\"$1\":");
         iconSelectContent = "{" + iconSelectContent + "}";
         var iconExportJsInfo = iconSelectContent.ToObject<IconExportJsInfo>();
         iconExportJsInfo.ExportDefault.Icons.Last().Icons.Add($"sc-icon-{req.IconName.ToLowerInvariant()}");
@@ -147,29 +136,14 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
         await File.WriteAllTextAsync(iconSelectFile, newContent);
     }
 
-    /// <summary>
-    ///     生成接口代码
-    /// </summary>
+    /// <inheritdoc />
     public async Task GenerateJsCodeAsync()
     {
         // 模板文件
         var tplOuter = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "outer.js"));
         var tplInner = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "inner.js"));
 
-        IEnumerable<string> Select(QueryApiRsp item)
-        {
-            return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)
-                                                     .Replace( //
-                                                         "$actionName$"
-                                                       , Regex.Replace(x.Name, @"\.(\w)"
-                                                                     , y => y.Groups[1].Value.ToUpperInvariant()))
-                                                     .Replace("$actionPath$", x.Id)
-                                                     .Replace( //
-                                                         "$actionMethod$",       x.Method?.ToLowerInvariant())
-                                                     .Replace(_REPLACE_TO_EMPTY, string.Empty)); //
-        }
-
-        foreach (var item in _apiService.ReflectionList(false)) {
+        foreach (var item in apiService.ReflectionList(false)) {
             var dir = Path.Combine(_clientProjectPath, "src", "api", item.Namespace);
             if (!Directory.Exists(dir)) {
                 _ = Directory.CreateDirectory(dir);
@@ -186,13 +160,26 @@ public sealed class DevService : ServiceBase<DevService>, IDevService
 
             await File.WriteAllTextAsync(file, content);
         }
+
+        IEnumerable<string> Select(QueryApiRsp item)
+        {
+            return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)
+                                                     .Replace( //
+                                                         "$actionName$"
+                                                       , _regex.Replace(
+                                                             x.Name, y => y.Groups[1].Value.ToUpperInvariant()))
+                                                     .Replace("$actionPath$", x.Id)
+                                                     .Replace( //
+                                                         "$actionMethod$",       x.Method?.ToLowerInvariant())
+                                                     .Replace(_REPLACE_TO_EMPTY, string.Empty)); //
+        }
     }
 
     private static void CreateDir(params string[] dirs)
     {
         foreach (var dir in dirs) {
             if (!Directory.Exists(dir)) {
-                _ = Directory.CreateDirectory(dir);
+                _ = Directory.CreateDirectory(dir!);
             }
         }
     }

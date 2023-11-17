@@ -12,14 +12,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     菜单服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class MenuController : ControllerBase<IMenuCache, IMenuService>, IMenuModule
+public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache, IMenuService>(cache), IMenuModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="MenuController" /> class.
-    /// </summary>
-    public MenuController(IMenuCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除菜单
     /// </summary>
@@ -59,7 +53,6 @@ public sealed class MenuController : ControllerBase<IMenuCache, IMenuService>, I
     /// <summary>
     ///     获取单个菜单
     /// </summary>
-    [NonAction]
     public Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
         return Cache.GetAsync(req);

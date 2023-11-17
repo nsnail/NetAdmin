@@ -13,14 +13,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     字典服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class DicController : ControllerBase<IDicCache, IDicService>, IDicModule
+public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, IDicService>(cache), IDicModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicController" /> class.
-    /// </summary>
-    public DicController(IDicCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除字典目录
     /// </summary>
@@ -73,6 +67,22 @@ public sealed class DicController : ControllerBase<IDicCache, IDicService>, IDic
     public Task<int> DeleteContentAsync(DelReq req)
     {
         return Cache.DeleteContentAsync(req);
+    }
+
+    /// <summary>
+    ///     获取单个字典目录
+    /// </summary>
+    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
+    {
+        return Cache.GetCatalogAsync(req);
+    }
+
+    /// <summary>
+    ///     获取单个字典内容
+    /// </summary>
+    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
+    {
+        return Cache.GetContentAsync(req);
     }
 
     /// <summary>

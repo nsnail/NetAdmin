@@ -5,10 +5,9 @@
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <div class="code-item">
-                        <div :style="{background: 'blue'}" class="img">
-                            <el-icon
-                                :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
-                                <component :is="`sc-icon-js`"/>
+                        <div :style="{ background: 'blue' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
+                                <component :is="`sc-icon-js`" />
                             </el-icon>
                         </div>
                         <div class="title">
@@ -23,22 +22,21 @@
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <div class="code-item">
-                        <div :style="{background: 'orange'}" class="img">
-                            <el-icon
-                                :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
-                                <component :is="`sc-icon-csharp`"/>
+                        <div :style="{ background: 'orange' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
+                                <component :is="`sc-icon-csharp`" />
                             </el-icon>
                         </div>
                         <div class="title">
                             <h2>生成后端代码</h2>
                             <p>
-                                <el-input v-model="formCs.type" placeholder="模块类型"></el-input>
+                                <el-input v-model="formCs.type" :placeholder="$t('模块类型')"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="formCs.moduleName" placeholder="模块名称"></el-input>
+                                <el-input v-model="formCs.moduleName" :placeholder="$t('模块名称')"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="formCs.moduleRemark" placeholder="模块说明"></el-input>
+                                <el-input v-model="formCs.moduleRemark" :placeholder="$t('模块说明')"></el-input>
                             </p>
                             <p>
                                 <el-button @click="generateCsCode()">生成</el-button>
@@ -50,19 +48,18 @@
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
                 <el-card :body-style="{ padding: '0px' }" shadow="hover">
                     <div class="code-item">
-                        <div :style="{background: 'green'}" class="img">
-                            <el-icon
-                                :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
-                                <component :is="`el-icon-picture`"/>
+                        <div :style="{ background: 'green' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
+                                <component :is="`el-icon-picture`" />
                             </el-icon>
                         </div>
                         <div class="title">
                             <h2>生成图标代码</h2>
                             <p>
-                                <el-input v-model="form.iconName" placeholder="图标名称"></el-input>
+                                <el-input v-model="form.iconName" :placeholder="$t('图标名称')"></el-input>
                             </p>
                             <p>
-                                <el-input v-model="form.svgCode" placeholder="粘贴SVG代码"></el-input>
+                                <el-input v-model="form.svgCode" :placeholder="$t('粘贴SVG代码')"></el-input>
                             </p>
                             <p>
                                 <el-row align="middle">
@@ -78,6 +75,32 @@
                     </div>
                 </el-card>
             </el-col>
+            <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
+                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                    <div class="code-item">
+                        <div :style="{ background: 'gray' }" class="img">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
+                                <component :is="`el-icon-picture`" />
+                            </el-icon>
+                        </div>
+                        <div class="title">
+                            <h2>生成表格代码</h2>
+                            <p>
+                                <el-input v-model="form.summaryInfo" :placeholder="$t('注释信息')" type="textarea"></el-input>
+                            </p>
+                            <p>
+                                <el-input v-model="form.tableCode" :placeholder="$t('表格代码')" type="textarea"></el-input>
+                            </p>
+                            <p>
+                                <el-input v-model="form.formCode" :placeholder="$t('表单代码')" type="textarea"></el-input>
+                            </p>
+                            <p>
+                                <el-button @click="generateTableCode()">生成</el-button>
+                            </p>
+                        </div>
+                    </div>
+                </el-card>
+            </el-col>
         </el-row>
     </el-main>
 </template>
@@ -88,15 +111,15 @@ export default {
         return {
             form: {
                 svgCode: '',
-                iconName: ''
+                iconName: '',
             },
             formCs: {
                 moduleName: '',
                 ///     模块说明
                 moduleRemark: '',
                 ///     模块类型
-                type: 'Sys',
-            }
+                type: 'SysComponent',
+            },
         }
     },
     methods: {
@@ -104,33 +127,40 @@ export default {
             try {
                 await this.$API.sys_dev.generateIconCode.post(this.form)
                 this.$message.success('生成完毕')
-            } catch {
+            } catch {}
+        },
+        async generateTableCode() {
+            for (const line of this.form.summaryInfo.split('\n')) {
+                if (!line) continue
+                let lineSplit = line.split(',')
+                this.form.tableCode += `<el-table-column prop="${lineSplit[0].slice(0, 1).toLowerCase()}${lineSplit[0].slice(1)}" label="${
+                    lineSplit[1]
+                }" />`
 
+                this.form.formCode += `<el-form-item  prop="${lineSplit[0].slice(0, 1).toLowerCase()}${lineSplit[0].slice(1)}" label="${
+                    lineSplit[1]
+                }"><el-input v-model="form.${lineSplit[0].slice(0, 1).toLowerCase()}${lineSplit[0].slice(1)}" clearable /></el-form-item>`
             }
         },
         async generateJsCode() {
             try {
                 await this.$API.sys_dev.generateJsCode.post()
                 this.$message.success('生成完毕')
-            } catch {
-
-            }
+            } catch {}
         },
         async generateCsCode() {
             try {
                 await this.$API.sys_dev.generateCsCode.post(this.formCs)
                 this.$message.success('生成完毕')
-            } catch {
-
-            }
-        }
-    }
+            } catch {}
+        },
+    },
 }
 </script>
 
 <style scoped>
 .el-card {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .code-item {
@@ -155,7 +185,7 @@ export default {
 }
 
 .code-item .title {
-    padding: 15px;
+    padding: 1rem;
 }
 
 .code-item .title h2 {
@@ -170,6 +200,6 @@ export default {
 }
 
 .code-item .title p {
-    margin-top: 15px;
+    margin-top: 1rem;
 }
 </style>

@@ -8,9 +8,7 @@ namespace NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 /// </summary>
 public sealed record QueryDicCatalogRsp : Sys_DicCatalog
 {
-    /// <summary>
-    ///     子节点
-    /// </summary>
+    /// <inheritdoc cref="Sys_DicCatalog.Children" />
     public new IEnumerable<QueryDicCatalogRsp> Children { get; init; }
 
     /// <inheritdoc cref="Sys_DicCatalog.Code" />

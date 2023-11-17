@@ -1,54 +1,57 @@
 <template>
-    <el-dialog v-model="visible" :title="titleMap[mode]" destroy-on-close @closed="$emit('closed')">
-        <el-tabs tab-position="top">
-            <el-tab-pane label="基本信息">
-                <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
-                    <el-collapse>
-                        <el-collapse-item name="1" title="用户注册设置">
-                            <div style="margin: 10px">
-                                <el-form-item label="默认角色" prop="userRegisterRoleId">
-                                    <sc-select
-                                        v-model="form.userRegisterRoleId"
-                                        :apiObj="$API.sys_role.query"
-                                        :config="{ props: { label: 'name', value: 'id' } }"
-                                        clearable
-                                        filterable />
-                                </el-form-item>
-                                <el-form-item label="默认部门" prop="userRegisterDeptId">
-                                    <na-dept v-model="form.userRegisterDeptId"></na-dept>
-                                </el-form-item>
-                                <el-form-item label="开启人工审核" prop="userRegisterConfirm">
-                                    <el-switch v-model="form.userRegisterConfirm"></el-switch>
-                                </el-form-item>
-                            </div>
-                        </el-collapse-item>
-                        <el-collapse-item name="2" title="其他设置"></el-collapse-item>
-                    </el-collapse>
+    <sc-dialog v-model="visible" :title="titleMap[mode]" destroy-on-close @closed="$emit('closed')">
+        <div v-loading="loading">
+            <el-tabs v-if="!loading" tab-position="top">
+                <el-tab-pane :label="$t('基本信息')">
+                    <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
+                        <el-collapse>
+                            <el-collapse-item name="1" :title="$t('用户注册设置')">
+                                <div style="margin: 10px">
+                                    <el-form-item :label="$t('默认角色')" prop="userRegisterRoleId">
+                                        <sc-select
+                                            v-model="form.userRegisterRoleId"
+                                            :apiObj="$API.sys_role.query"
+                                            :config="{ props: { label: 'name', value: 'id' } }"
+                                            clearable
+                                            filterable />
+                                    </el-form-item>
+                                    <el-form-item :label="$t('默认部门')" prop="userRegisterDeptId">
+                                        <na-dept v-model="form.userRegisterDeptId"></na-dept>
+                                    </el-form-item>
+                                    <el-form-item :label="$t('开启人工审核')" prop="userRegisterConfirm">
+                                        <el-switch v-model="form.userRegisterConfirm"></el-switch>
+                                    </el-form-item>
+                                </div>
+                            </el-collapse-item>
+                            <el-collapse-item name="2" :title="$t('其他设置')"></el-collapse-item>
+                        </el-collapse>
 
-                    <el-form-item label="启用" prop="enabled">
-                        <el-switch v-model="form.enabled"></el-switch>
-                    </el-form-item>
-                </el-form>
-            </el-tab-pane>
-            <el-tab-pane v-if="mode === 'view'" label="Json">
-                <json-viewer :expand-depth="5" :expanded="true" :value="form" boxed copyable sort></json-viewer>
-            </el-tab-pane>
-        </el-tabs>
-
+                        <el-form-item :label="$t('启用')" prop="enabled">
+                            <el-switch v-model="form.enabled"></el-switch>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
+                    <json-viewer
+                        :expand-depth="5"
+                        :expanded="true"
+                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :value="form"
+                        copyable
+                        sort></json-viewer>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
             <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
         </template>
-    </el-dialog>
+    </sc-dialog>
 </template>
 
 <script>
-import JsonViewer from 'vue-json-viewer'
-
 export default {
-    components: {
-        JsonViewer,
-    },
+    components: {},
     emits: ['success', 'closed'],
     data() {
         return {
@@ -74,14 +77,17 @@ export default {
     mounted() {},
     methods: {
         //显示
-        open(mode = 'add', data) {
-            this.mode = mode
+        async open(mode = 'add', data) {
             this.visible = true
+            this.loading = true
+            this.mode = mode
             if (data) {
-                Object.assign(this.form, data)
+                Object.assign(this.form, (await this.$API.sys_config.get.post({ id: data.id })).data)
             }
+            this.loading = false
             return this
         },
+
         //表单提交方法
         async submit() {
             const valid = await this.$refs.dialogForm.validate().catch(() => {})

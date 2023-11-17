@@ -10,7 +10,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public abstract record CreateUpdateUserReq : Sys_User
 {
     /// <inheritdoc cref="Sys_User.Avatar" />
-    [CultureUrl]
+    [Url]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string Avatar { get; init; }
 
@@ -41,7 +41,7 @@ public abstract record CreateUpdateUserReq : Sys_User
     /// <summary>
     ///     角色编号列表
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号列表))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号列表不能为空))]
     [MinLength(1)]
     [MaxLength(Numbers.BULK_REQ_LIMIT)]
     public IReadOnlyCollection<long> RoleIds { get; init; }
@@ -51,7 +51,7 @@ public abstract record CreateUpdateUserReq : Sys_User
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="Sys_User.UserName" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名不能为空))]
     [UserName]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string UserName { get; init; }

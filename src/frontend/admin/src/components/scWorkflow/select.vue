@@ -10,7 +10,7 @@
             <div class="sc-user-select">
                 <div class="sc-user-select__left">
                     <div class="sc-user-select__search">
-                        <el-input v-model="keyword" placeholder="搜索成员" prefix-icon="el-icon-search">
+                        <el-input v-model="keyword" :placeholder="$t('搜索成员')" prefix-icon="el-icon-search">
                             <template #append>
                                 <el-button icon="el-icon-search" @click="search"></el-button>
                             </template>
@@ -356,7 +356,7 @@ export default {
     height: 43px;
     line-height: 43px;
     border-bottom: 1px solid var(--el-border-color-light);
-    padding: 0 15px;
+    padding: 0 1rem;
     font-size: 12px;
 }
 
@@ -369,7 +369,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 5px 5px 15px;
+    padding: 5px 5px 5px 1rem;
     height: 38px;
 }
 

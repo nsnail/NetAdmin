@@ -24,7 +24,7 @@
             </li>
         </ul>
 
-        <el-drawer v-model="modsDrawer" :size="570" destroy-on-close title="添加应用">
+        <el-drawer v-model="modsDrawer" :size="570" destroy-on-close :title="$t('添加应用')">
             <div class="setMods">
                 <h4>我的常用 ( {{ myMods.length }} )</h4>
                 <draggable v-model="myMods" animation="200" group="people" item-key="path" tag="ul">
@@ -206,7 +206,7 @@ export default {
     color: #fff;
     vertical-align: top;
     padding: 4px;
-    padding-top: 15px;
+    padding-top: 1rem;
     cursor: move;
     border-radius: 3px;
 }

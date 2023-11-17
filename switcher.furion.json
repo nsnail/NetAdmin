@@ -1,0 +1,17 @@
+{
+  "solution": "NetAdmin.sln",
+  "mappings": {
+    "Furion.Pure.NS": "./refs/Furion/framework/Furion.Pure/Furion.Pure.csproj"
+  },
+  "restore": [
+    {
+      "name": "NetAdmin.Infrastructure",
+      "packages": [
+        {
+          "packageName": "Furion.Pure.NS",
+          "version": "4.9.1-ns1"
+        }
+      ]
+    }
+  ]
+}

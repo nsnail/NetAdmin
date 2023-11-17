@@ -10,17 +10,10 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserProfileService" />
-public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUserProfileService>, IUserProfileService
+public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) //
+    : RepositoryService<Sys_UserProfile, IUserProfileService>(rpo), IUserProfileService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="UserProfileService" /> class.
-    /// </summary>
-    public UserProfileService(Repository<Sys_UserProfile> rpo) //
-        : base(rpo) { }
-
-    /// <summary>
-    ///     批量删除用户档案
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -31,9 +24,7 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
         return sum;
     }
 
-    /// <summary>
-    ///     创建用户档案
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryUserProfileRsp> CreateAsync(CreateUserProfileReq req)
     {
         var entity = req.Adapt<Sys_UserProfile>();
@@ -41,36 +32,26 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
         return ret.Adapt<QueryUserProfileRsp>();
     }
 
-    /// <summary>
-    ///     删除用户档案
-    /// </summary>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断用户档案是否存在
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
-    /// <summary>
-    ///     获取单个用户档案
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
         var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req }).ToOneAsync();
         return ret.Adapt<QueryUserProfileRsp>();
     }
 
-    /// <summary>
-    ///     分页查询用户档案
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryUserProfileRsp>> PagedQueryAsync(PagedQueryReq<QueryUserProfileReq> req)
     {
         var list = await QueryInternal(req)
@@ -95,9 +76,7 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
                                                                }));
     }
 
-    /// <summary>
-    ///     查询用户档案
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryUserProfileRsp>> QueryAsync(QueryReq<QueryUserProfileReq> req)
     {
         var ret = await QueryInternal(req)
@@ -122,29 +101,37 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
                                                                              = x.d.Key == null
                                                                                  ? null
                                                                                  : x.d.Adapt<QueryDicContentRsp>()
-                                                                           , EmergencyContactArea = x.e.Key == null
+                                                                           , EmergencyContactArea
+                                                                             = x.e.Key == null
                                                                                  ? null
                                                                                  : x.e.Adapt<QueryDicContentRsp>()
                                                                          });
     }
 
-    /// <summary>
-    ///     更新用户档案
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryUserProfileRsp> UpdateAsync(UpdateUserProfileReq req)
     {
         var entity = req.Adapt<Sys_UserProfile>();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(entity);
+            return await UpdateForSqliteAsync(entity) as QueryUserProfileRsp;
         }
 
         var ret = await Rpo.UpdateDiy.SetSource(entity).ExecuteUpdatedAsync();
         return ret.FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
     }
 
+    /// <inheritdoc />
+    protected override async Task<Sys_UserProfile> UpdateForSqliteAsync(Sys_UserProfile req)
+    {
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+            ? null
+            : await GetAsync(new QueryUserProfileReq { Id = req.Id });
+    }
+
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(
         QueryReq<QueryUserProfileReq> req)
     {
+        #pragma warning disable CA1305
         return Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()
                   .LeftJoin((a, b, _, __, ___) =>
                                 a.NationArea.ToString() == b.Value && b.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA)
@@ -157,15 +144,6 @@ public sealed class UserProfileService : RepositoryService<Sys_UserProfile, IUse
                   .WhereDynamicFilter(req.DynamicFilter)
                   .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
                   .OrderByDescending((a, _, __, ___, ____) => a.Id);
-    }
-
-    /// <summary>
-    ///     非sqlite数据库请删掉
-    /// </summary>
-    private async Task<QueryUserProfileRsp> UpdateForSqliteAsync(Sys_UserProfile req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
-            ? null
-            : await GetAsync(new QueryUserProfileReq { Id = req.Id });
+        #pragma warning restore CA1305
     }
 }

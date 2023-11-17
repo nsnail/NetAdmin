@@ -114,7 +114,7 @@
                     <el-menu
                         :default-active="active"
                         active-text-color="var(--el-color-primary)"
-                        background-color="#222b45"
+                        background-color="#424C50"
                         mode="horizontal"
                         router
                         text-color="#fff">
@@ -204,16 +204,6 @@
         </el-icon>
     </div>
 
-    <div class="layout-setting" @click="openSetting">
-        <el-icon>
-            <el-icon-brush-filled />
-        </el-icon>
-    </div>
-
-    <el-drawer v-model="settingDialog" :size="400" append-to-body destroy-on-close title="布局实时演示">
-        <setting></setting>
-    </el-drawer>
-
     <auto-exit></auto-exit>
 </template>
 
@@ -223,7 +213,6 @@ import Topbar from './components/topbar.vue'
 import Tags from './components/tags.vue'
 import NavMenu from './components/NavMenu.vue'
 import userbar from './components/userbar.vue'
-import setting from './components/setting.vue'
 import iframeView from './components/iframeView.vue'
 import autoExit from './other/autoExit.js'
 
@@ -235,13 +224,11 @@ export default {
         Tags,
         NavMenu,
         userbar,
-        setting,
         iframeView,
         autoExit,
     },
     data() {
         return {
-            settingDialog: false,
             menu: [],
             nextMenu: [],
             pmenu: {},
@@ -281,9 +268,6 @@ export default {
         },
     },
     methods: {
-        openSetting() {
-            this.settingDialog = true
-        },
         onLayoutResize() {
             this.$store.commit('SET_ismobile', document.body.clientWidth < 992)
         },

@@ -12,7 +12,7 @@ public record RegisterUserReq : Sys_User
     /// <summary>
     ///     密码
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
     [Password]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public virtual string PasswordText { get; init; }
@@ -23,10 +23,8 @@ public record RegisterUserReq : Sys_User
     [JsonIgnore]
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
-    /// <summary>
-    ///     用户名
-    /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名))]
+    /// <inheritdoc cref="Sys_User.UserName" />
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名不能为空))]
     [UserName]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override string UserName { get; init; }
@@ -34,6 +32,6 @@ public record RegisterUserReq : Sys_User
     /// <summary>
     ///     短信验证请求
     /// </summary>
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求不能为空))]
     public VerifySmsCodeReq VerifySmsCodeReq { get; set; }
 }

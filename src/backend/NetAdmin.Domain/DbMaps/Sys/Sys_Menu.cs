@@ -7,7 +7,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     菜单表
 /// </summary>
-[Table(Name = "Sys_Menu")]
+[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_Menu))]
 [Index($"idx_{{tablename}}_{nameof(Name)}", nameof(Name), true)]
 public record Sys_Menu : VersionEntity, IFieldSort
 {

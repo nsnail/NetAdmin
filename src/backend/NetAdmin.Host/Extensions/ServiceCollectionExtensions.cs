@@ -3,10 +3,12 @@ using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Events;
 using NetAdmin.Host.Filters;
 using NetAdmin.Host.Utils;
-using Spectre.Console;
 using StackExchange.Redis;
 using Yitter.IdGenerator;
 using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
+#if DEBUG
+using Spectre.Console;
+#endif
 
 namespace NetAdmin.Host.Extensions;
 
@@ -16,8 +18,7 @@ namespace NetAdmin.Host.Extensions;
 [SuppressSniffer]
 public static class ServiceCollectionExtensions
 {
-    private const int _CONSOLE_LINE_LEN_LIMIT = 4096;
-
+    #if DEBUG
     private static readonly Dictionary<Regex, string> _consoleColors //
         = new() {
                     {
@@ -72,6 +73,8 @@ public static class ServiceCollectionExtensions
                     }
                 };
 
+    #endif
+
     /// <summary>
     ///     扫描程序集中继承自IConfigurableOptions的选项，注册
     /// </summary>
@@ -89,138 +92,104 @@ public static class ServiceCollectionExtensions
                 nameof(ConfigurableOptionsServiceCollectionExtensions.AddConfigurableOptions)
               , BindingFlags.Public | BindingFlags.Static, new[] { typeof(IServiceCollection) });
             _ = configureMethod!.MakeGenericMethod(type).Invoke(me, new object[] { me });
-            _ = sbLog.Append(CultureInfo.InvariantCulture, $", {type.Name}");
+            _ = sbLog.Append(CultureInfo.InvariantCulture, $" {type.Name}");
         }
 
-        LogHelper.Get<IServiceCollection>()?.Info($"{nameof(IConfigurableOptions)} {Ln.初始化完毕} {sbLog}");
+        LogHelper.Get<IServiceCollection>()?.Info($"{Ln.配置文件初始化完毕} {sbLog}");
         return me;
     }
 
     /// <summary>
-    ///     注册控制台日志模板
+    ///     添加控制台日志模板
     /// </summary>
     public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
     {
-        static (string Date, string LogName, string LogFormat) ParseMessage(LogMessage message, bool showColor)
-        {
-            var date    = message.LogDateTime.ToString(Chars.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture);
-            var logName = message.LogName.PadRight(64, ' ')[^64..];
-            var format = showColor
-                ? $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{64}}} #{{3,4}}]][/] {{4}}"
-                : $"[{{0}} {{1}} {{2,-{64}}} #{{3,4}}] {{4}}";
-
-            return (date, logName, format);
-        }
-
         return me.AddConsoleFormatter(options => {
             var logLevels = Enum.GetValues(typeof(LogLevels))
                                 .Cast<LogLevels>()
                                 .ToDictionary(x => x, x => x.GetDisplay());
 
-            if (App.WebHostEnvironment.IsDevelopment()) {
-                static void MarkupLine(string                                           msg, LogMessage message
-                                     , IReadOnlyDictionary<LogLevels, DisplayAttribute> logLevels)
-                {
-                    // 日志过长
-                    if (msg.Length > _CONSOLE_LINE_LEN_LIMIT) {
-                        msg = $"{Ln.日志长度超过限制} {_CONSOLE_LINE_LEN_LIMIT}";
-                    }
-
-                    msg = _consoleColors.Aggregate( //
-                        msg, (current, regex) => regex.Key.Replace(current, regex.Value));
-                    msg = msg.ReplaceLineEndings(string.Empty);
-                    var colorName = logLevels[(LogLevels)message.LogLevel].Name!;
-                    var (date, logName, logFormat) = ParseMessage(message, true);
-                    AnsiConsole.MarkupLine( //
-                        CultureInfo.InvariantCulture, logFormat, date, colorName, logName, message.ThreadId, msg);
+            #if DEBUG
+            options.WriteHandler = (message, _, _, _, _) => {
+                MarkupLine(message.Message.EscapeMarkup(), message, logLevels);
+                if (message.Exception != null) {
+                    MarkupLine(message.Exception.ToString().EscapeMarkup(), message, logLevels);
                 }
+            };
 
-                options.WriteHandler = (message, _, _, _, _) => {
-                    MarkupLine(message.Message.EscapeMarkup(), message, logLevels);
-                    if (message.Exception != null) {
-                        MarkupLine(message.Exception.ToString().EscapeMarkup(), message, logLevels);
-                    }
-                };
-            }
-            else {
-                options.WriteHandler = (message, _, _, _, _) => {
-                    var msg = message.Message.ReplaceLineEndings(string.Empty);
-                    var (date, logName, logFormat) = ParseMessage(message, false);
-                    Console.WriteLine( //
-                        logFormat, date, logLevels[(LogLevels)message.LogLevel].ShortName, logName, message.ThreadId
-                      , msg);
-                };
-            }
+            #else
+            options.WriteHandler = (message, _, _, _, _) => {
+                var msg = message.Message.ReplaceLineEndings(string.Empty);
+                var (date, logName, logFormat) = ParseMessage(message, false);
+                Console.WriteLine( //
+                    logFormat, date, logLevels[(LogLevels)message.LogLevel].ShortName, logName, message.ThreadId, msg);
+            };
+            #endif
         });
     }
 
     /// <summary>
-    ///     注册上下文用户
+    ///     添加上下文用户
     /// </summary>
     public static IServiceCollection AddContextUser(this IServiceCollection me)
     {
-        _ = me.AddScoped(typeof(ContextUserToken), _ => ContextUserToken.Create());
-        _ = me.AddScoped(typeof(ContextUserInfo),  _ => ContextUserInfo.Create());
-
-        return me;
+        return me.AddScoped(typeof(ContextUserToken), _ => ContextUserToken.Create())
+                 .AddScoped(typeof(ContextUserInfo), _ => ContextUserInfo.Create());
     }
 
     /// <summary>
-    ///     注册事件总线
+    ///     添加事件总线
     /// </summary>
     public static IServiceCollection AddEventBus(this IServiceCollection me)
     {
-        _ = me.AddEventBus(builder => builder.AddSubscribers(App.Assemblies.ToArray()));
-        return me;
+        return me.AddEventBus(builder => builder.AddSubscribers(App.Assemblies.ToArray()));
     }
 
     /// <summary>
-    ///     注册freeSql orm工具
+    ///     添加 freeSql orm工具
     /// </summary>
     public static IServiceCollection AddFreeSql( //
         this IServiceCollection me, FreeSqlInitOptions initOptions = FreeSqlInitOptions.None
       , Action<IFreeSql>        freeSqlConfig = null)
     {
-        // 非调试模式下禁止同步数据库
-        #if !DEBUG
-        initOptions = FreeSqlInitOptions.None;
-        #endif
+        // // 非调试模式下禁止同步数据库
+        // #if !DEBUG
+        // initOptions = FreeSqlInitOptions.None;
+        // #endif
         var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build(initOptions);
         _ = me.AddSingleton(freeSql);
 
         var sqlAuditor = App.GetService<SqlAuditor>();
 
         freeSql.Aop.AuditValue += sqlAuditor.DataAuditHandler; // Insert/Update自动值处理
+        var eventPublisher = App.GetService<IEventPublisher>();
 
         // AOP事件发布（异步）
         freeSql.Aop.CommandBefore
-            += (_, e) => App.GetService<IEventPublisher>().PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
+            += (_, e) => eventPublisher.PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
         freeSql.Aop.CommandAfter
-            += (_, e) => App.GetService<IEventPublisher>().PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
+            += (_, e) => eventPublisher.PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
 
         freeSql.Aop.SyncStructureBefore += (_, e) =>
-            App.GetService<IEventPublisher>().PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
+            eventPublisher.PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
 
         freeSql.Aop.SyncStructureAfter += (_, e) =>
-            App.GetService<IEventPublisher>().PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
+            eventPublisher.PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
 
         // 全局过滤器设置
         freeSqlConfig?.Invoke(freeSql);
 
-        _ = me.AddScoped<UnitOfWorkManager>();                    // 注入工作单元管理器
-        _ = me.AddFreeRepository(null, App.Assemblies.ToArray()); // 批量注入 Repository
-        _ = me.AddMvcFilter<TransactionInterceptor>();            // 注入事务拦截器
-
-        return me;
+        return me.AddScoped<UnitOfWorkManager>()                    // 注入工作单元管理器
+                 .AddFreeRepository(null, App.Assemblies.ToArray()) // 批量注入 Repository
+                 .AddMvcFilter<TransactionInterceptor>();           // 注入事务拦截器
     }
 
     /// <summary>
-    ///     注册内存缓存
+    ///     添加内存缓存
     /// </summary>
     public static IServiceCollection AddMemCache(this IServiceCollection me)
     {
-        _ = me.AddMemoryCache(options => options.TrackStatistics = true);
-        return me;
+        return me.AddMemoryCache(options => options.TrackStatistics = true);
     }
 
     /// <summary>
@@ -238,7 +207,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     注册Redis缓存
+    ///     添加 Redis缓存
     /// </summary>
     public static IServiceCollection AddRedisCache(this IServiceCollection me)
     {
@@ -252,18 +221,50 @@ public static class ServiceCollectionExtensions
         });
 
         // Redis原生接口
-        _ = me.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.ConnStr));
-        return me;
+        return me.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisOptions.ConnStr));
     }
 
     /// <summary>
-    ///     注册雪花编号生成器
+    ///     添加雪花编号生成器
     /// </summary>
     public static IServiceCollection AddSnowflake(this IServiceCollection me)
     {
         // 雪花漂移算法
-        var idGeneratorOptions = new IdGeneratorOptions();
+        var workerId           = Environment.GetEnvironmentVariable(Chars.FLG_SNOWFLAKE_WORK_ID).Int32Try(0);
+        var idGeneratorOptions = new IdGeneratorOptions((ushort)workerId) { WorkerIdBitLength = 6 };
         YitIdHelper.SetIdGenerator(idGeneratorOptions);
         return me;
+    }
+
+    #if DEBUG
+    private static void MarkupLine(                              //
+        string                                           msg     //
+      , LogMessage                                       message //
+      , IReadOnlyDictionary<LogLevels, DisplayAttribute> logLevels)
+    {
+        // 日志过长
+        if (msg.Length > Numbers.CONSOLE_LINE_LEN_LIMIT) {
+            msg = $"{Ln.日志长度超过限制} {Numbers.CONSOLE_LINE_LEN_LIMIT}";
+        }
+
+        msg = _consoleColors.Aggregate( //
+            msg, (current, regex) => regex.Key.Replace(current, regex.Value));
+        msg = msg.ReplaceLineEndings(string.Empty);
+        var colorName = logLevels[(LogLevels)message.LogLevel].Name!;
+        var (date, logName, logFormat) = ParseMessage(message, true);
+        AnsiConsole.MarkupLine( //
+            CultureInfo.InvariantCulture, logFormat, date, colorName, logName, message.ThreadId, msg);
+    }
+
+    #endif
+    private static (string Date, string LogName, string LogFormat) ParseMessage(LogMessage message, bool showColor)
+    {
+        var date    = message.LogDateTime.ToString(Chars.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture);
+        var logName = message.LogName.PadRight(64, ' ')[^64..];
+        var format = showColor
+            ? $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{64}}} #{{3,4}}]][/] {{4}}"
+            : $"[{{0}} {{1}} {{2,-{64}}} #{{3,4}}] {{4}}";
+
+        return (date, logName, format);
     }
 }

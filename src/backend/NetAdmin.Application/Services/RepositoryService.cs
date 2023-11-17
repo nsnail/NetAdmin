@@ -14,7 +14,7 @@ public abstract class RepositoryService<TEntity, TLogger> : ServiceBase<TLogger>
     /// <summary>
     ///     Initializes a new instance of the <see cref="RepositoryService{TEntity, TLogger}" /> class.
     /// </summary>
-    protected RepositoryService(Repository<TEntity> rpo) //
+    protected RepositoryService(DefaultRepository<TEntity> rpo) //
     {
         Rpo = rpo;
     }
@@ -22,7 +22,7 @@ public abstract class RepositoryService<TEntity, TLogger> : ServiceBase<TLogger>
     /// <summary>
     ///     默认仓储
     /// </summary>
-    protected Repository<TEntity> Rpo { get; }
+    protected DefaultRepository<TEntity> Rpo { get; }
 
     /// <summary>
     ///     启用级联保存
@@ -31,4 +31,12 @@ public abstract class RepositoryService<TEntity, TLogger> : ServiceBase<TLogger>
         get => Rpo.DbContextOptions.EnableCascadeSave;
         set => Rpo.DbContextOptions.EnableCascadeSave = value;
     }
+
+    /// <summary>
+    ///     针对 Sqlite 数据的更新操作
+    /// </summary>
+    /// <returns>
+    ///     非 Sqlite 数据库请删除
+    /// </returns>
+    protected abstract Task<TEntity> UpdateForSqliteAsync(TEntity req);
 }

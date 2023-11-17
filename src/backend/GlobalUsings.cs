@@ -59,11 +59,12 @@ global using NetAdmin.Infrastructure.Configuration.Options.SubNodes.Upload;
 global using NetAdmin.Infrastructure.Constant;
 global using NetAdmin.Infrastructure.Enums;
 global using NetAdmin.Infrastructure.Exceptions;
-global using NetAdmin.Infrastructure.Exceptions.InvalidInput;
-global using NetAdmin.Infrastructure.Exceptions.InvalidOperation;
-global using NetAdmin.Infrastructure.Exceptions.Unexpected;
 global using NetAdmin.Infrastructure.Extensions;
 global using NetAdmin.Infrastructure.Languages;
 global using NetAdmin.Infrastructure.Utils;
 global using NSExt.Attributes;
 global using NSExt.Extensions;
+#if !INFRAS
+global using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
+global using DynamicFilterOperators = NetAdmin.Domain.Enums.DynamicFilterOperators;
+#endif

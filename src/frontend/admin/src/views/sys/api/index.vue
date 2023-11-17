@@ -16,10 +16,10 @@
                 row-key="id"
                 show-summary
                 stripe>
-                <el-table-column label="接口路径" prop="id"></el-table-column>
-                <el-table-column label="接口名称" prop="name"></el-table-column>
-                <el-table-column label="请求方式" prop="method"></el-table-column>
-                <el-table-column label="接口描述" prop="summary"></el-table-column>
+                <el-table-column :label="$t('接口路径')" prop="id"></el-table-column>
+                <el-table-column :label="$t('接口名称')" prop="name"></el-table-column>
+                <el-table-column :label="$t('请求方式')" prop="method"></el-table-column>
+                <el-table-column :label="$t('接口描述')" prop="summary"></el-table-column>
             </sc-table>
         </el-main>
     </el-container>

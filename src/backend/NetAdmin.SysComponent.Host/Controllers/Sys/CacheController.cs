@@ -11,14 +11,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     缓存服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class CacheController : ControllerBase<ICacheCache, ICacheService>, ICacheModule
+public sealed class CacheController(ICacheCache cache) : ControllerBase<ICacheCache, ICacheService>(cache), ICacheModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CacheController" /> class.
-    /// </summary>
-    public CacheController(ICacheCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     缓存统计
     /// </summary>
@@ -30,8 +24,8 @@ public sealed class CacheController : ControllerBase<ICacheCache, ICacheService>
     /// <summary>
     ///     获取所有缓存项
     /// </summary>
-    public PagedQueryRsp<GetAllEntriesRsp> GetAllEntries(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
-        return Cache.GetAllEntries(req);
+        return Cache.GetAllEntriesAsync(req);
     }
 }

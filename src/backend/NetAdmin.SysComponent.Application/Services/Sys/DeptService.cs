@@ -8,17 +8,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDeptService" />
-public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDeptService
+public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
+    : RepositoryService<Sys_Dept, IDeptService>(rpo), IDeptService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DeptService" /> class.
-    /// </summary>
-    public DeptService(Repository<Sys_Dept> rpo) //
-        : base(rpo) { }
-
-    /// <summary>
-    ///     批量删除部门
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -29,9 +22,7 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
         return sum;
     }
 
-    /// <summary>
-    ///     创建部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Parent_department_does_not_exist</exception>
     public async Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
     {
@@ -44,9 +35,7 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
         return ret.Adapt<QueryDeptRsp>();
     }
 
-    /// <summary>
-    ///     删除部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">该部门下存在用户</exception>
     /// <exception cref="NetAdminInvalidOperationException">该部门下存在子部门</exception>
     public async Task<int> DeleteAsync(DelReq req)
@@ -64,44 +53,32 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
         return await Rpo.DeleteAsync(x => x.Id == req.Id);
     }
 
-    /// <summary>
-    ///     判断部门是否存在
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
-    /// <summary>
-    ///     获取单个部门
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
+    /// <inheritdoc />
+    public async Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryDeptRsp>();
     }
 
-    /// <summary>
-    ///     分页查询部门
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDeptRsp>> PagedQueryAsync(PagedQueryReq<QueryDeptReq> req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     查询部门
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
         return (await QueryInternal(req).ToTreeListAsync()).Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
-    /// <summary>
-    ///     更新部门
-    /// </summary>
+    /// <inheritdoc />
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
     {
@@ -112,14 +89,20 @@ public sealed class DeptService : RepositoryService<Sys_Dept, IDeptService>, IDe
             .Adapt<QueryDeptRsp>();
     }
 
+    /// <inheritdoc />
+    protected override Task<Sys_Dept> UpdateForSqliteAsync(Sys_Dept req)
+    {
+        throw new NotImplementedException();
+    }
+
     private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req, bool asTreeCte = false)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords) ||
-                              a.Id == req.Keywords.Int64Try(0));
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
+                              a.Summary.Contains(req.Keywords));
         if (asTreeCte) {
             ret = ret.AsTreeCte();
         }

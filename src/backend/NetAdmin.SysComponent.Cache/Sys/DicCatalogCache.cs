@@ -6,17 +6,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     字典目录缓存
-/// </summary>
-public sealed class DicCatalogCache : DistributedCache<IDicCatalogService>, IScoped, IDicCatalogCache
+/// <inheritdoc cref="IDicCatalogCache" />
+public sealed class DicCatalogCache(IDistributedCache cache, IDicCatalogService service) //
+    : DistributedCache<IDicCatalogService>(cache, service), IScoped, IDicCatalogCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicCatalogCache" /> class.
-    /// </summary>
-    public DicCatalogCache(IDistributedCache cache, IDicCatalogService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

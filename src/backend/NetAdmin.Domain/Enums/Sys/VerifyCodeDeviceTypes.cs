@@ -3,6 +3,7 @@ namespace NetAdmin.Domain.Enums.Sys;
 /// <summary>
 ///     验证码目标设备类型
 /// </summary>
+[Export]
 public enum VerifyCodeDeviceTypes
 {
     /// <summary>

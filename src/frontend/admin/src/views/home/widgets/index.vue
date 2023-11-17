@@ -1,22 +1,15 @@
 <template>
     <div ref="main" :class="['widgets-home', customizing ? 'customizing' : '']">
         <div class="widgets-content">
-            <div class="widgets-top">
-                <div class="widgets-top-title">控制台</div>
-                <div class="widgets-top-actions">
-                    <el-button v-if="customizing" icon="el-icon-check" round type="primary" @click="save">完成</el-button>
-                    <el-button v-else icon="el-icon-edit" round type="primary" @click="custom">自定义</el-button>
-                </div>
-            </div>
             <div ref="widgets" class="widgets">
                 <div class="widgets-wrapper">
                     <div v-if="nowCompsList.length <= 0" class="no-widgets">
-                        <el-empty :image-size="280" description="没有部件啦" image="@/assets/img/no-widgets.svg"></el-empty>
+                        <el-empty :image-size="280" :description="$t('没有部件啦')"></el-empty>
                     </div>
                     <el-row :gutter="15">
                         <el-col v-for="(item, index) in grid.layout" v-bind:key="index" :md="item" :xs="24">
                             <draggable
-                                v-model="grid.copmsList[index]"
+                                v-model="grid.compsList[index]"
                                 animation="200"
                                 class="draggable-box"
                                 dragClass="aaaaa"
@@ -60,6 +53,9 @@
                         </el-icon>
                         添加部件
                     </div>
+                    <div>
+                        <el-button v-if="customizing" icon="el-icon-check" round type="primary" @click="save">完成</el-button>
+                    </div>
                     <div class="widgets-aside-close" @click="close()">
                         <el-icon>
                             <el-icon-close />
@@ -68,21 +64,24 @@
                 </el-header>
                 <el-header style="height: auto">
                     <div class="selectLayout">
-                        <div :class="{ active: grid.layout.join(',') == '12,6,6' }" class="selectLayout-item item01" @click="setLayout([12, 6, 6])">
+                        <div :class="{ active: grid.layout.join(',') === '12,6,6' }" class="selectLayout-item item01" @click="setLayout([12, 6, 6])">
                             <el-row :gutter="2">
                                 <el-col :span="12"><span></span></el-col>
                                 <el-col :span="6"><span></span></el-col>
                                 <el-col :span="6"><span></span></el-col>
                             </el-row>
                         </div>
-                        <div :class="{ active: grid.layout.join(',') == '24,16,8' }" class="selectLayout-item item02" @click="setLayout([24, 16, 8])">
+                        <div
+                            :class="{ active: grid.layout.join(',') === '24,16,8' }"
+                            class="selectLayout-item item02"
+                            @click="setLayout([24, 16, 8])">
                             <el-row :gutter="2">
                                 <el-col :span="24"><span></span></el-col>
                                 <el-col :span="16"><span></span></el-col>
                                 <el-col :span="8"><span></span></el-col>
                             </el-row>
                         </div>
-                        <div :class="{ active: grid.layout.join(',') == '24' }" class="selectLayout-item item03" @click="setLayout([24])">
+                        <div :class="{ active: grid.layout.join(',') === '24' }" class="selectLayout-item item03" @click="setLayout([24])">
                             <el-row :gutter="2">
                                 <el-col :span="24"><span></span></el-col>
                                 <el-col :span="24"><span></span></el-col>
@@ -94,7 +93,7 @@
                 <el-main class="nopadding">
                     <div class="widgets-list">
                         <div v-if="myCompsList.length <= 0" class="widgets-list-nodata">
-                            <el-empty :image-size="60" description="没有部件啦"></el-empty>
+                            <el-empty :image-size="60" :description="$t('没有部件啦')"></el-empty>
                         </div>
                         <div v-for="item in myCompsList" :key="item.title" class="widgets-list-item">
                             <div class="item-logo">
@@ -113,10 +112,14 @@
                     </div>
                 </el-main>
                 <el-footer style="height: 51px">
-                    <el-button size="small" @click="backDefaul()">恢复默认</el-button>
+                    <el-button size="small" @click="backDefault()">恢复默认</el-button>
                 </el-footer>
             </el-container>
         </div>
+    </div>
+
+    <div class="layout-setting" @click="custom">
+        <el-icon><el-icon-setting /></el-icon>
     </div>
 </template>
 
@@ -145,8 +148,8 @@ export default {
     },
     computed: {
         allCompsList() {
-            var allCompsList = []
-            for (var key in this.allComps) {
+            const allCompsList = []
+            for (const key in this.allComps) {
                 allCompsList.push({
                     key: key,
                     title: allComps[key].title,
@@ -154,11 +157,11 @@ export default {
                     description: allComps[key].description,
                 })
             }
-            var myCopmsList = this.grid.copmsList.reduce(function (a, b) {
+            const myCompsList = this.grid.compsList.reduce(function (a, b) {
                 return a.concat(b)
             })
             for (let comp of allCompsList) {
-                const _item = myCopmsList.find((item) => {
+                const _item = myCompsList.find((item) => {
                     return item === comp.key
                 })
                 if (_item) {
@@ -168,11 +171,11 @@ export default {
             return allCompsList
         },
         myCompsList() {
-            var myGrid = this.$TOOL.data.get('DASHBOARDGRID')
-            return this.allCompsList.filter((item) => !item.disabled && myGrid.includes(item.key))
+            const myGrid = this.$TOOL.data.get('DASHBOARD_GRID')
+            return this.allCompsList.filter((item) => !item.disabled && !myGrid?.includes(item.key))
         },
         nowCompsList() {
-            return this.grid.copmsList.reduce(function (a, b) {
+            return this.grid.compsList.reduce(function (a, b) {
                 return a.concat(b)
             })
         },
@@ -191,22 +194,21 @@ export default {
         setLayout(layout) {
             this.grid.layout = layout
             if (layout.join(',') === '24') {
-                this.grid.copmsList[0] = [...this.grid.copmsList[0], ...this.grid.copmsList[1], ...this.grid.copmsList[2]]
-                this.grid.copmsList[1] = []
-                this.grid.copmsList[2] = []
+                this.grid.compsList[0] = [...this.grid.compsList[0], ...this.grid.compsList[1], ...this.grid.compsList[2]]
+                this.grid.compsList[1] = []
+                this.grid.compsList[2] = []
             }
         },
         //追加
         push(item) {
-            let target = this.grid.copmsList[0]
+            let target = this.grid.compsList[0]
             target.push(item.key)
         },
         //隐藏组件
         remove(item) {
-            var newCopmsList = this.grid.copmsList
-            newCopmsList.forEach((obj, index) => {
-                var newObj = obj.filter((o) => o !== item)
-                newCopmsList[index] = newObj
+            const newCompsList = this.grid.compsList
+            newCompsList.forEach((obj, index) => {
+                newCompsList[index] = obj.filter((o) => o !== item)
             })
         },
         //保存
@@ -216,7 +218,7 @@ export default {
             this.$TOOL.data.set('grid', this.grid)
         },
         //恢复默认
-        backDefaul() {
+        backDefault() {
             this.customizing = false
             this.$refs.widgets.style.removeProperty('transform')
             this.grid = JSON.parse(JSON.stringify(this.defaultGrid))
@@ -243,7 +245,6 @@ export default {
     flex: 1;
     overflow: auto;
     overflow-x: hidden;
-    padding: 15px;
 }
 
 .widgets-aside {
@@ -282,7 +283,7 @@ export default {
 }
 
 .widgets-top {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -307,12 +308,12 @@ export default {
 }
 
 .customizing .widgets-wrapper .el-col {
-    padding-bottom: 15px;
+    padding-bottom: 1rem;
 }
 
 .customizing .widgets-wrapper .draggable-box {
     border: 1px dashed var(--el-color-primary);
-    padding: 15px;
+    padding: 1rem;
 }
 
 .customizing .widgets-wrapper .no-widgets {
@@ -321,7 +322,7 @@ export default {
 
 .customizing .widgets-item {
     position: relative;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .customize-overlay {
@@ -353,14 +354,14 @@ export default {
 }
 
 .customize-overlay label i {
-    margin-right: 15px;
+    margin-right: 1rem;
     font-size: 24px;
 }
 
 .customize-overlay .close {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 1rem;
+    right: 1rem;
 }
 
 .customize-overlay .close:focus,
@@ -371,7 +372,7 @@ export default {
 .widgets-list-item {
     display: flex;
     flex-direction: row;
-    padding: 15px;
+    padding: 1rem;
     align-items: center;
 }
 
@@ -384,7 +385,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    margin-right: 15px;
+    margin-right: 1rem;
     color: #6a8bad;
 }
 
@@ -423,7 +424,7 @@ export default {
     border: 2px solid var(--el-border-color-light);
     padding: 5px;
     cursor: pointer;
-    margin-right: 15px;
+    margin-right: 1rem;
 }
 
 .selectLayout-item span {

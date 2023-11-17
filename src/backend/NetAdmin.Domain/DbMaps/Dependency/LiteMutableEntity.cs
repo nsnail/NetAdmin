@@ -3,14 +3,10 @@ using NetAdmin.Domain.DbMaps.Dependency.Fields;
 
 namespace NetAdmin.Domain.DbMaps.Dependency;
 
-/// <summary>
-///     轻型可变实体
-/// </summary>
+/// <inheritdoc />
 public abstract record LiteMutableEntity : LiteMutableEntity<long>
 {
-    /// <summary>
-    ///     唯一编码
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [Snowflake]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public override long Id { get; init; }
@@ -21,15 +17,11 @@ public abstract record LiteMutableEntity : LiteMutableEntity<long>
 /// </summary>
 public abstract record LiteMutableEntity<T> : LiteImmutableEntity<T>, IFieldModifiedTime
 {
-    /// <summary>
-    ///     唯一编码
-    /// </summary>
+    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public override T Id { get; init; }
 
-    /// <summary>
-    ///     修改时间
-    /// </summary>
+    /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
     [JsonIgnore]
     [Column(ServerTime = DateTimeKind.Utc, CanInsert = false, Position = -1)]
     public virtual DateTime? ModifiedTime { get; init; }

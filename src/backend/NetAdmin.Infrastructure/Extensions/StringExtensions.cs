@@ -5,12 +5,14 @@ namespace NetAdmin.Infrastructure.Extensions;
 /// </summary>
 public static class StringExtensions
 {
+    private static readonly Regex _regex = new("Options$");
+
     /// <summary>
     ///     object -> json
     /// </summary>
     public static T ToObject<T>(this string me)
     {
-        return me.Object<T>(Global.JsonSerializerOptions);
+        return me.Object<T>(GlobalStatic.JsonSerializerOptions);
     }
 
     /// <summary>
@@ -18,7 +20,7 @@ public static class StringExtensions
     /// </summary>
     public static object ToObject(this string me, Type toType)
     {
-        return me.Object(toType, Global.JsonSerializerOptions);
+        return me.Object(toType, GlobalStatic.JsonSerializerOptions);
     }
 
     /// <summary>
@@ -26,6 +28,6 @@ public static class StringExtensions
     /// </summary>
     public static string TrimEndOptions(this string me)
     {
-        return Regex.Replace(me, "Options$", string.Empty);
+        return _regex.Replace(me, string.Empty);
     }
 }

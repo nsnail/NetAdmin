@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 
@@ -10,11 +9,11 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public record CreateUserReq : CreateUpdateUserReq, IRegister
 {
     /// <inheritdoc cref="CreateUpdateUserReq.PasswordText" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
     public override string PasswordText { get; init; }
 
     /// <inheritdoc cref="Sys_User.Profile" />
-    [CultureRequired(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户档案))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户档案不能为空))]
     public new CreateUserProfileReq Profile { get; init; }
 
     /// <inheritdoc />

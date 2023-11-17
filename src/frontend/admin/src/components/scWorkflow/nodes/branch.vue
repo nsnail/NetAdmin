@@ -41,7 +41,7 @@
             </div>
             <add-node v-model="nodeConfig.childNode"></add-node>
         </div>
-        <el-drawer v-model="drawer" :size="600" append-to-body destroy-on-close title="条件设置">
+        <el-drawer v-model="drawer" :size="600" append-to-body destroy-on-close :title="$t('条件设置')">
             <template #header>
                 <div class="node-wrap-drawer__title">
                     <label v-if="!isEditTitle" @click="editTitle"
@@ -62,7 +62,7 @@
             <el-container>
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
-                        <el-form-item label="条件关系">
+                        <el-form-item :label="$t('条件关系')">
                             <el-radio-group v-model="form.conditionMode">
                                 <el-radio :label="1">且</el-radio>
                                 <el-radio :label="2">或</el-radio>
@@ -71,36 +71,36 @@
                         <el-divider></el-divider>
                         <el-form-item>
                             <el-table :data="form.conditionList">
-                                <el-table-column label="描述" prop="label">
+                                <el-table-column :label="$t('描述')" prop="label">
                                     <template #default="scope">
-                                        <el-input v-model="scope.row.label" placeholder="描述"></el-input>
+                                        <el-input v-model="scope.row.label" :placeholder="$t('描述')"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="条件字段" prop="field" width="130">
+                                <el-table-column :label="$t('条件字段')" prop="field" width="130">
                                     <template #default="scope">
-                                        <el-input v-model="scope.row.field" placeholder="条件字段"></el-input>
+                                        <el-input v-model="scope.row.field" :placeholder="$t('条件字段')"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="运算符" prop="operator" width="130">
+                                <el-table-column :label="$t('运算符')" prop="operator" width="130">
                                     <template #default="scope">
                                         <el-select v-model="scope.row.operator" placeholder="Select">
-                                            <el-option label="等于" value="="></el-option>
-                                            <el-option label="不等于" value="!="></el-option>
-                                            <el-option label="大于" value=">"></el-option>
-                                            <el-option label="大于等于" value=">="></el-option>
-                                            <el-option label="小于" value="<"></el-option>
-                                            <el-option label="小于等于" value="<="></el-option>
-                                            <el-option label="包含" value="include"></el-option>
-                                            <el-option label="不包含" value="notinclude"></el-option>
+                                            <el-option :label="$t('等于')" value="="></el-option>
+                                            <el-option :label="$t('不等于')" value="!="></el-option>
+                                            <el-option :label="$t('大于')" value=">"></el-option>
+                                            <el-option :label="$t('大于等于')" value=">="></el-option>
+                                            <el-option :label="$t('小于')" value="<"></el-option>
+                                            <el-option :label="$t('小于等于')" value="<="></el-option>
+                                            <el-option :label="$t('包含')" value="include"></el-option>
+                                            <el-option :label="$t('不包含')" value="notinclude"></el-option>
                                         </el-select>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="值" prop="value" width="100">
+                                <el-table-column :label="$t('值')" prop="value" width="100">
                                     <template #default="scope">
-                                        <el-input v-model="scope.row.value" placeholder="值"></el-input>
+                                        <el-input v-model="scope.row.value" :placeholder="$t('值')"></el-input>
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="移除" prop="value" width="55">
+                                <el-table-column :label="$t('移除')" prop="value" width="55">
                                     <template #default="scope">
                                         <el-link :underline="false" type="danger" @click="deleteConditionList(scope.$index)">移除</el-link>
                                     </template>

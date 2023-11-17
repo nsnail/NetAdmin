@@ -6,17 +6,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     配置缓存
-/// </summary>
-public sealed class ConfigCache : DistributedCache<IConfigService>, IScoped, IConfigCache
+/// <inheritdoc cref="IConfigCache" />
+public sealed class ConfigCache(IDistributedCache cache, IConfigService service) //
+    : DistributedCache<IConfigService>(cache, service), IScoped, IConfigCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ConfigCache" /> class.
-    /// </summary>
-    public ConfigCache(IDistributedCache cache, IConfigService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {

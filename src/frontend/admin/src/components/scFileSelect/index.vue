@@ -56,7 +56,7 @@
                     <el-input
                         v-model="keyword"
                         clearable
-                        placeholder="文件名搜索"
+                        :placeholder="$t('文件名搜索')"
                         prefix-icon="el-icon-search"
                         @clear="search"
                         @keyup.enter="search"></el-input>
@@ -64,7 +64,7 @@
             </div>
             <div class="sc-file-select__list">
                 <el-scrollbar ref="scrollbar">
-                    <el-empty v-if="fileList.length === 0 && data.length === 0" :image-size="80" description="无数据"></el-empty>
+                    <el-empty v-if="fileList.length === 0 && data.length === 0" :image-size="80" :description="$t('无数据')"></el-empty>
                     <div v-for="(file, index) in fileList" :key="index" class="sc-file-select__item">
                         <div class="sc-file-select__item__file">
                             <div class="sc-file-select__item__upload">
@@ -312,7 +312,7 @@ export default {
 
 .sc-file-select__item {
     display: inline-block;
-    margin: 0 15px 25px 0;
+    margin: 0 1rem 25px 0;
     width: 110px;
     cursor: pointer;
 }
@@ -398,8 +398,8 @@ export default {
     position: absolute;
     width: 20px;
     height: 20px;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     z-index: 2;
     background: var(--el-color-success);
     display: none;
@@ -459,7 +459,7 @@ export default {
 
 .sc-file-select__side {
     width: 200px;
-    margin-right: 15px;
+    margin-right: 1rem;
     border-right: 1px solid rgba(128, 128, 128, 0.2);
     display: flex;
     flex-flow: column;
@@ -475,7 +475,7 @@ export default {
 }
 
 .sc-file-select__top {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
 }
@@ -498,7 +498,7 @@ export default {
 }
 
 .sc-file-select__pagination {
-    margin: 15px 0;
+    margin: 1rem 0;
 }
 
 .sc-file-select__do {

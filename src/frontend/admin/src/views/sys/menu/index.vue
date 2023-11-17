@@ -3,7 +3,7 @@
         <el-aside v-loading="loading" width="300px">
             <el-container>
                 <el-header>
-                    <el-input v-model="filterText" clearable placeholder="输入关键字进行过滤"></el-input>
+                    <el-input v-model="filterText" clearable :placeholder="$t('输入关键字进行过滤')"></el-input>
                 </el-header>
                 <el-main class="nopadding">
                     <el-tree
@@ -159,9 +159,8 @@ export default {
             }
             this.loading = false
         },
-        handleSuccess() {
-            this.$refs.save.setData({})
-            this.getTree()
+        async handleSuccess() {
+            this.$TOOL.refreshTab(this)
         },
     },
 }

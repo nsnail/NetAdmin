@@ -57,21 +57,21 @@
                     }
                 ">
                 <el-table-column type="selection"></el-table-column>
-                <el-table-column label="用户编号" prop="id" sortable="custom" width="150"></el-table-column>
-                <na-col-avatar label="用户名" prop="userName" />
-                <el-table-column label="手机号" prop="mobile" sortable="custom" width="120"></el-table-column>
-                <el-table-column label="邮箱" prop="email" sortable="custom"></el-table-column>
-                <na-col-tags field="name" label="所属角色" prop="roles" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" />
-                <na-col-tags field="name" label="所属部门" prop="dept" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" />
+                <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" width="150"></el-table-column>
+                <na-col-avatar :label="$t('用户名')" prop="userName" />
+                <el-table-column :label="$t('手机号')" prop="mobile" sortable="custom" width="120"></el-table-column>
+                <el-table-column :label="$t('邮箱')" prop="email" sortable="custom"></el-table-column>
+                <na-col-tags field="name" :label="$t('所属角色')" prop="roles" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" />
+                <na-col-tags field="name" :label="$t('所属部门')" prop="dept" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" />
                 <na-col-indicator
                     :options="[
                         { text: '启用', type: 'success', value: true },
                         { text: '禁用', type: 'danger', value: false, pulse: true },
                     ]"
-                    label="状态"
+                    :label="$t('状态')"
                     prop="enabled"></na-col-indicator>
-                <el-table-column label="创建时间" prop="createdTime" sortable="custom"></el-table-column>
-                <el-table-column label="备注" prop="summary" width="50"></el-table-column>
+                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('备注')" prop="summary" width="50"></el-table-column>
                 <na-col-operation :vue="this"></na-col-operation>
             </sc-table>
         </el-main>

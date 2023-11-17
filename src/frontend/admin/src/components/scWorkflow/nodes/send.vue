@@ -16,7 +16,7 @@
             </div>
         </div>
         <add-node v-model="nodeConfig.childNode"></add-node>
-        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close title="抄送人设置">
+        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close :title="$t('抄送人设置')">
             <template #header>
                 <div class="node-wrap-drawer__title">
                     <label v-if="!isEditTitle" @click="editTitle"
@@ -37,8 +37,8 @@
             <el-container>
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
-                        <el-form-item label="选择要抄送的人员">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员 </el-button>
+                        <el-form-item :label="$t('选择要抄送的人员')">
+                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员</el-button>
                             <div class="tags-list">
                                 <el-tag v-for="(user, index) in form.nodeUserList" :key="user.id" closable @close="delUser(index)"
                                     >{{ user.name }}
@@ -46,7 +46,7 @@
                             </div>
                         </el-form-item>
                         <el-form-item label="">
-                            <el-checkbox v-model="form.userSelectFlag" label="允许发起人自选抄送人"></el-checkbox>
+                            <el-checkbox v-model="form.userSelectFlag" :label="$t('允许发起人自选抄送人')"></el-checkbox>
                         </el-form-item>
                     </el-form>
                 </el-main>

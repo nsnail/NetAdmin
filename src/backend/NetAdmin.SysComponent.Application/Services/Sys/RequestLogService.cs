@@ -8,17 +8,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IRequestLogService" />
-public sealed class RequestLogService : RepositoryService<Sys_RequestLog, IRequestLogService>, IRequestLogService
+public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
+    : RepositoryService<Sys_RequestLog, IRequestLogService>(rpo), IRequestLogService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="RequestLogService" /> class.
-    /// </summary>
-    public RequestLogService(Repository<Sys_RequestLog> rpo) //
-        : base(rpo) { }
-
-    /// <summary>
-    ///     批量删除请求日志
-    /// </summary>
+    /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var sum = 0;
@@ -29,45 +22,33 @@ public sealed class RequestLogService : RepositoryService<Sys_RequestLog, IReque
         return sum;
     }
 
-    /// <summary>
-    ///     创建请求日志
-    /// </summary>
+    /// <inheritdoc />
     public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
         var ret = await Rpo.InsertAsync(req);
         return ret.Adapt<QueryRequestLogRsp>();
     }
 
-    /// <summary>
-    ///     删除请求日志
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     判断请求日志是否存在
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
     {
-        throw new NotImplementedException();
+        return QueryInternal(req).AnyAsync();
     }
 
-    /// <summary>
-    ///     获取单个请求日志
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
-    public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
+    /// <inheritdoc />
+    public async Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
-        throw new NotImplementedException();
+        var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req }).ToOneAsync();
+        return ret.Adapt<QueryRequestLogRsp>();
     }
 
-    /// <summary>
-    ///     分页查询请求日志
-    /// </summary>
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
     {
         var list = await QueryInternal(req)
@@ -91,20 +72,21 @@ public sealed class RequestLogService : RepositoryService<Sys_RequestLog, IReque
                                                    , list.Adapt<IEnumerable<QueryRequestLogRsp>>());
     }
 
-    /// <summary>
-    ///     查询请求日志
-    /// </summary>
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
         return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
     }
 
-    /// <summary>
-    ///     更新请求日志
-    /// </summary>
-    /// <exception cref="NotImplementedException">NotImplementedException</exception>
+    /// <inheritdoc />
     public Task<NopReq> UpdateAsync(NopReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    protected override Task<Sys_RequestLog> UpdateForSqliteAsync(Sys_RequestLog req)
     {
         throw new NotImplementedException();
     }

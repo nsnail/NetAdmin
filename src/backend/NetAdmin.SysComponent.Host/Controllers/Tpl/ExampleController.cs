@@ -12,14 +12,9 @@ namespace NetAdmin.SysComponent.Host.Controllers.Tpl;
 ///     示例服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Tpl), Module = nameof(Tpl))]
-public sealed class ExampleController : ControllerBase<IExampleCache, IExampleService>, IExampleModule
+public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExampleCache, IExampleService>(cache)
+                                                           , IExampleModule
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="ExampleController" /> class.
-    /// </summary>
-    public ExampleController(IExampleCache cache) //
-        : base(cache) { }
-
     /// <summary>
     ///     批量删除示例
     /// </summary>
@@ -50,7 +45,6 @@ public sealed class ExampleController : ControllerBase<IExampleCache, IExampleSe
     /// <summary>
     ///     示例是否存在
     /// </summary>
-    [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
     {
         return Cache.ExistAsync(req);
@@ -59,7 +53,6 @@ public sealed class ExampleController : ControllerBase<IExampleCache, IExampleSe
     /// <summary>
     ///     获取单个示例
     /// </summary>
-    [NonAction]
     public Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
     {
         return Cache.GetAsync(req);

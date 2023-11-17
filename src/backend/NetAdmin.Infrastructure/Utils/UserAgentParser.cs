@@ -301,8 +301,10 @@ public sealed class UserAgentParser
 
     private bool SetMobile()
     {
+        #pragma warning disable S3267
         foreach (var item in _mobiles) {
-            if (_agent.IndexOf(item.Key, StringComparison.OrdinalIgnoreCase) != -1) {
+            #pragma warning restore S3267
+            if (_agent.Contains(item.Key, StringComparison.OrdinalIgnoreCase)) {
                 IsMobile = true;
                 Mobile   = item.Value;
                 return true;

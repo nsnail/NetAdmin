@@ -8,29 +8,18 @@ namespace NetAdmin.Host.Middlewares;
 /// <remarks>
 ///     放在所有中间件最前面
 /// </remarks>
-public sealed class RequestAuditMiddleware
+public sealed class RequestAuditMiddleware(RequestDelegate next
+                                         , IOptions<DynamicApiControllerSettingsOptions>
+                                               dynamicApiControllerSettingsOptions, RequestLogger requestLogger)
 {
-    private readonly PathString      _defaultRoutePrefix;
-    private readonly PathString      _healthCheckRoutePrefix;
-    private readonly RequestDelegate _next;
-    private readonly RequestLogger   _requestLogger;
+    private readonly PathString _defaultRoutePrefix
+        = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
+
+    private readonly PathString _healthCheckRoutePrefix
+        = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}/health/check");
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RequestAuditMiddleware" /> class.
-    /// </summary>
-    public RequestAuditMiddleware( //
-        RequestDelegate next, IOptions<DynamicApiControllerSettingsOptions> dynamicApiControllerSettingsOptions
-      , RequestLogger   requestLogger)
-    {
-        _next               = next;
-        _requestLogger      = requestLogger;
-        _defaultRoutePrefix = new PathString($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
-        _healthCheckRoutePrefix
-            = new PathString($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}/health/check");
-    }
-
-    /// <summary>
-    ///     InvokeAsync
+    ///     主函数
     /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {
@@ -38,7 +27,7 @@ public sealed class RequestAuditMiddleware
         if (!context.Request.Path.StartsWithSegments(_defaultRoutePrefix)       // 非api请求
             || context.Request.Path.StartsWithSegments(_healthCheckRoutePrefix) // 健康检查
             || context.Request.Method == Chars.FLG_HTTP_METHOD_OPTIONS) {       // is options 请求
-            await _next(context);
+            await next(context);
             return;
         }
 
@@ -51,7 +40,7 @@ public sealed class RequestAuditMiddleware
 
         // 调用下一个中间件
         var sw = Stopwatch.StartNew();
-        await _next(context);
+        await next(context);
         sw.Stop();
 
         _ = ms.Seek(0, SeekOrigin.Begin);
@@ -66,7 +55,7 @@ public sealed class RequestAuditMiddleware
                                .FirstOrDefault()
                                ?.Enum<ErrorCodes>() ?? 0;
 
-        _ = await _requestLogger.LogAsync(context, (long)sw.Elapsed.TotalMicroseconds, responseBody, errorCode
-                                        , exception);
+        _ = await requestLogger.LogAsync(context, (long)sw.Elapsed.TotalMicroseconds, responseBody, errorCode
+                                       , exception);
     }
 }

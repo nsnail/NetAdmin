@@ -7,17 +7,10 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
-/// <summary>
-///     字典缓存
-/// </summary>
-public sealed class DicCache : DistributedCache<IDicService>, IScoped, IDicCache
+/// <inheritdoc cref="IDicCache" />
+public sealed class DicCache(IDistributedCache cache, IDicService service) //
+    : DistributedCache<IDicService>(cache, service), IScoped, IDicCache
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DicCache" /> class.
-    /// </summary>
-    public DicCache(IDistributedCache cache, IDicService service) //
-        : base(cache, service) { }
-
     /// <inheritdoc />
     public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
     {
@@ -52,6 +45,18 @@ public sealed class DicCache : DistributedCache<IDicService>, IScoped, IDicCache
     public Task<int> DeleteContentAsync(DelReq req)
     {
         return Service.DeleteContentAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
+    {
+        return Service.GetCatalogAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
+    {
+        return Service.GetContentAsync(req);
     }
 
     /// <inheritdoc />

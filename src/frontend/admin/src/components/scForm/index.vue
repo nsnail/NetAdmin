@@ -114,7 +114,7 @@
                         <!-- radio -->
                         <template v-else-if="item.component === 'radio'">
                             <el-radio-group v-model="form[item.name]">
-                                <el-radio v-for="_item in item.options.items" :key="_item.value" :label="_item.value">{{ _item.label }} </el-radio>
+                                <el-radio v-for="_item in item.options.items" :key="_item.value" :label="_item.value">{{ _item.label }}</el-radio>
                             </el-radio-group>
                         </template>
                         <!-- color -->
@@ -135,7 +135,7 @@
                         </template>
                         <!-- editor -->
                         <template v-else-if="item.component === 'editor'">
-                            <sc-editor v-model="form[item.name]" :height="400" placeholder="请输入"></sc-editor>
+                            <sc-editor v-model="form[item.name]" :height="400" :placeholder="$t('请输入')"></sc-editor>
                         </template>
                         <!-- noComponent -->
                         <template v-else>

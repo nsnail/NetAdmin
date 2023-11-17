@@ -69,9 +69,9 @@
                 },
             ]"
             :teleported="false"
-            end-placeholder="结束日期"
-            range-separator="至"
-            start-placeholder="开始日期"
+            :end-placeholder="$t('结束日期')"
+            :range-separator="$t('至')"
+            :start-placeholder="$t('开始日期')"
             type="daterange"
             value-format="YYYY-MM-DD"></el-date-picker>
 
@@ -79,6 +79,7 @@
             <el-input
                 v-if="item.type === 'input' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
+                :class="item.class"
                 :placeholder="item.placeholder"
                 :style="item.style"
                 clearable />
@@ -86,15 +87,19 @@
                 v-else-if="item.type === 'remote-select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
                 :apiObj="item.api"
+                :class="item.class"
                 :config="item.config"
                 :placeholder="item.placeholder"
+                :style="item.style"
                 clearable
                 filterable />
             <el-select
                 v-else-if="item.type === 'select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
+                :class="item.class"
                 :multiple="item.multiple === true"
                 :placeholder="item.placeholder"
+                :style="item.style"
                 clearable
                 collapse-tags
                 filterable>
@@ -103,16 +108,18 @@
             <el-cascader
                 v-else-if="casLoaded && item.type === 'cascader' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
+                :class="item.class"
                 :options="item.options"
                 :placeholder="item.placeholder"
                 :props="item.props"
+                :style="item.style"
                 clearable
                 filterable />
         </template>
 
         <el-button-group>
-            <el-button icon="el-icon-search" type="primary" @click="search"></el-button>
-            <el-button icon="el-icon-refresh-left" @click="tool.refreshTab(vue)"></el-button>
+            <el-button icon="el-icon-search" type="primary" @click="search">查询</el-button>
+            <el-button icon="el-icon-refresh-left" @click="tool.refreshTab(vue)">重置</el-button>
         </el-button-group>
     </form>
 </template>
