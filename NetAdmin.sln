@@ -30,7 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		gen.id.linq = gen.id.linq
 		gen.ln.cmd = gen.ln.cmd
 		gen.resx.tt = gen.resx.tt
-		git.rc.ps1 = git.rc.ps1
 		global.json = global.json
 		image.optimize.csx = image.optimize.csx
 		install.as.tpl.ps1 = install.as.tpl.ps1
