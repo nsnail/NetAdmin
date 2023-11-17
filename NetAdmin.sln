@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{4DAF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0CAC-4828-A807-34A693F73859}"
 	ProjectSection(SolutionItems) = preProject
+		.commitlintrc.js = .commitlintrc.js
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
@@ -19,7 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		code.clean.ps1 = code.clean.ps1
 		code.cleanup.full.ps1 = code.cleanup.full.ps1
 		code.quality.props = code.quality.props
-		CONTRIBUTING.md = CONTRIBUTING.md
 		copy.pkg.xml.comment.files.targets = copy.pkg.xml.comment.files.targets
 		Directory.Build.props = Directory.Build.props
 		Dockerfile = Dockerfile
