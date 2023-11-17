@@ -10,9 +10,8 @@
     "dependencies": {
         "@element-plus/icons-vue": "^2.1.0",
         "@tinymce/tinymce-vue": "^5.1.1",
-        "axios": "^1.6.0",
+        "axios": "^1.6.2",
         "clipboard": "^2.0.11",
-        "codemirror": "^5.65.15",
         "core-js": "^3.33.2",
         "cropperjs": "^1.6.1",
         "crypto-js": "^4.2.0",
@@ -24,22 +23,22 @@
         "pinyin-match": "^1.2.4",
         "qrcodejs2": "^0.0.2",
         "sortablejs": "^1.15.0",
-        "tinymce": "^6.7.2",
+        "tinymce": "^6.7.3",
         "vue": "^3.3.8",
-        "vue-i18n": "^9.6.5",
+        "vue-i18n": "^9.7.0",
         "vue-router": "^4.2.5",
         "vue3-json-viewer": "^2.2.2",
         "vuedraggable": "^4.0.3",
         "vuex": "^4.1.0",
-        "xgplayer": "^3.0.9",
-        "xgplayer-hls": "^3.0.9"
+        "xgplayer": "^3.0.10",
+        "xgplayer-hls": "^3.0.10"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "^4.4.0",
-        "prettier": "^3.0.3",
+        "@vitejs/plugin-vue": "^4.5.0",
+        "prettier": "^3.1.0",
         "sass": "^1.69.5",
         "terser": "^5.24.0",
-        "vite": "^4.5.0"
+        "vite": "^5.0.0"
     },
     "browserslist": [
         "> 1%",
