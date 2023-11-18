@@ -403,3 +403,4 @@ dist/
 refs/
 *.[Dd]esigner.cs
 *.db
+cache
