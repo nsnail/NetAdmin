@@ -9,6 +9,11 @@ namespace NetAdmin.Domain.Dto.Sys.RequestLog;
 public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
 {
     /// <summary>
+    ///     创建者客户端IP
+    /// </summary>
+    public new string CreatedClientIp => base.CreatedClientIp?.ToIpV4();
+
+    /// <summary>
     ///     操作系统
     /// </summary>
     public string Os => UserAgentParser.Create(CreatedUserAgent).Platform;
@@ -21,10 +26,6 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     ///     接口描述
     /// </summary>
     public string ApiSummary { get; init; }
-
-    /// <inheritdoc cref="Sys_RequestLog.CreatedClientIp" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override int? CreatedClientIp { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
