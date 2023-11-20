@@ -17,7 +17,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,7 +26,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgDeptRsp> CreateAsync(CreateSiteMsgDeptReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgDeptRsp>();
     }
 
@@ -45,14 +45,20 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgDeptRsp> GetAsync(QuerySiteMsgDeptReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgDeptReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgDeptReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgDeptRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QuerySiteMsgDeptRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgDeptReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QuerySiteMsgDeptRsp>(req.Page, req.PageSize, total
                                                     , list.Adapt<IEnumerable<QuerySiteMsgDeptRsp>>());
@@ -61,7 +67,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<IEnumerable<QuerySiteMsgDeptRsp>> QueryAsync(QueryReq<QuerySiteMsgDeptReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgDeptRsp>>();
     }
 
@@ -69,19 +75,19 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     public async Task<QuerySiteMsgDeptRsp> UpdateAsync(UpdateSiteMsgDeptReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req) as QuerySiteMsgDeptRsp;
+            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QuerySiteMsgDeptRsp;
         }
 
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
+        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
         return ret.FirstOrDefault()?.Adapt<QuerySiteMsgDeptRsp>();
     }
 
     /// <inheritdoc />
     protected override async Task<Sys_SiteMsgDept> UpdateForSqliteAsync(Sys_SiteMsgDept req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QuerySiteMsgDeptReq { Id = req.Id });
+            : await GetAsync(new QuerySiteMsgDeptReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_SiteMsgDept> QueryInternal(QueryReq<QuerySiteMsgDeptReq> req)

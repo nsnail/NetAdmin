@@ -30,14 +30,16 @@ public abstract class WebApiTestBase<T>
         if (_accessToken == null) {
             var loginRsp = await client.PostAsync(_API_SYS_USER_LOGIN_BY_PWD
                                                 , JsonContent.Create(
-                                                      new LoginByPwdReq { Password = _PASSWORD, Account = _ACCOUNT }));
-            var loginRspObj = (await loginRsp.Content.ReadAsStringAsync()).ToObject<RestfulInfo<LoginRsp>>();
+                                                      new LoginByPwdReq { Password = _PASSWORD, Account = _ACCOUNT }))
+                                       .ConfigureAwait(false);
+            var loginRspObj = (await loginRsp.Content.ReadAsStringAsync().ConfigureAwait(false))
+                .ToObject<RestfulInfo<LoginRsp>>();
             _accessToken = loginRspObj.Data.AccessToken;
         }
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(_AUTH_SCHEMA, _accessToken);
-        var ret = await client.PostAsync(url, content);
-        testOutputHelper.WriteLine(await ret.Content.ReadAsStringAsync());
+        var ret = await client.PostAsync(url, content).ConfigureAwait(false);
+        testOutputHelper.WriteLine(await ret.Content.ReadAsStringAsync().ConfigureAwait(false));
         return ret;
     }
 }

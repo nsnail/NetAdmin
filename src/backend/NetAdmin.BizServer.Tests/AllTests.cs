@@ -32,7 +32,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
-        var rsp = await PostAsync("/api/sys/cache/cache.statistics", null);
+        var rsp = await PostAsync("/api/sys/cache/cache.statistics", null).ConfigureAwait(false);
         Assert.Equal(HttpStatusCode.OK, rsp.StatusCode);
         return default;
     }
@@ -73,7 +73,8 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     public async Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
         var rsp = await PostAsync("/api/sys/cache/get.all.entries"
-                                , JsonContent.Create(new PagedQueryReq<GetAllEntriesReq>()));
+                                , JsonContent.Create(new PagedQueryReq<GetAllEntriesReq>()))
+            .ConfigureAwait(false);
         Assert.Equal(HttpStatusCode.OK, rsp.StatusCode);
         return default;
     }
@@ -106,7 +107,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task<DateTime> GetServerUtcTimeAsync()
     {
-        var response = await PostAsync("/api/sys/tools/get.server.utc.time", null);
+        var response = await PostAsync("/api/sys/tools/get.server.utc.time", null).ConfigureAwait(false);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return default;
     }
@@ -115,7 +116,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task<string> GetVersionAsync()
     {
-        var response = await PostAsync("/api/sys/tools/version", null);
+        var response = await PostAsync("/api/sys/tools/version", null).ConfigureAwait(false);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return default;
     }
@@ -154,7 +155,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task SyncAsync()
     {
-        var response = await PostAsync("/api/sys/api/sync", null);
+        var response = await PostAsync("/api/sys/api/sync", null).ConfigureAwait(false);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 

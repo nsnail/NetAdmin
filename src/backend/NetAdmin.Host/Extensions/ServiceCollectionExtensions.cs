@@ -164,6 +164,8 @@ public static class ServiceCollectionExtensions
         freeSql.Aop.AuditValue += sqlAuditor.DataAuditHandler; // Insert/Update自动值处理
         var eventPublisher = App.GetService<IEventPublisher>();
 
+        #pragma warning disable VSTHRD110
+
         // AOP事件发布（异步）
         freeSql.Aop.CommandBefore
             += (_, e) => eventPublisher.PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
@@ -175,6 +177,7 @@ public static class ServiceCollectionExtensions
 
         freeSql.Aop.SyncStructureAfter += (_, e) =>
             eventPublisher.PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
+        #pragma warning restore VSTHRD110
 
         // 全局过滤器设置
         freeSqlConfig?.Invoke(freeSql);

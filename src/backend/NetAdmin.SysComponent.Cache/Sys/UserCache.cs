@@ -153,9 +153,9 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     /// <inheritdoc />
     public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
-        return !await verifyCodeCache.VerifyAsync(req)
+        return !await verifyCodeCache.VerifyAsync(req).ConfigureAwait(false)
             ? throw new NetAdminInvalidOperationException(Ln.邮箱验证码不正确)
-            : await Service.SetEmailAsync(req);
+            : await Service.SetEmailAsync(req).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

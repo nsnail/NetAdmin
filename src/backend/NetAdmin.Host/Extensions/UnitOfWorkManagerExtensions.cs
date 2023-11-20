@@ -17,7 +17,7 @@ public static class UnitOfWorkManagerExtensions
             #if DEBUG
             logger?.Debug($"{Ln.开始事务}: {hashCode}");
             #endif
-            await handle();
+            await handle().ConfigureAwait(false);
             unitOfWork.Commit();
             logger?.Info($"{Ln.事务已提交}: {hashCode}");
         }

@@ -56,11 +56,11 @@ public static class IApplicationBuilderExtensions
             if (output != null) {
                 context.Response.ContentLength = output.Length;
                 context.Response.ContentType = MimeTypeHelper.GetMimeTypeByExtName(_regex.Match(path!).Groups[1].Value);
-                await output.CopyToAsync(context.Response.Body);
+                await output.CopyToAsync(context.Response.Body).ConfigureAwait(false);
                 return;
             }
         }
 
-        await next.Invoke();
+        await next.Invoke().ConfigureAwait(false);
     }
 }

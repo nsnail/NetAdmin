@@ -12,9 +12,10 @@ public sealed class CaptchaCache(IDistributedCache cache, ICaptchaService servic
     /// <inheritdoc />
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
-        var captchaRsp = await Service.GetCaptchaImageAsync();
+        var captchaRsp = await Service.GetCaptchaImageAsync().ConfigureAwait(false);
         await CreateAsync(GetCacheKey(captchaRsp.Id, nameof(CaptchaCache)), captchaRsp.SawOffsetX
-,                                                                           TimeSpan.FromMinutes(1));
+,                                                                           TimeSpan.FromMinutes(1))
+            .ConfigureAwait(false);
         return captchaRsp;
     }
 
@@ -22,10 +23,10 @@ public sealed class CaptchaCache(IDistributedCache cache, ICaptchaService servic
     /// <exception cref="NetAdminInvalidOperationException">人机验证未通过</exception>
     public async Task VerifyCaptchaAndRemoveAsync(VerifyCaptchaReq req)
     {
-        var ret = await VerifyCaptchaAsync(req);
+        var ret = await VerifyCaptchaAsync(req).ConfigureAwait(false);
         if (ret) {
             // 人机验证通过，删除人机验证缓存
-            await RemoveAsync(GetCacheKey(req.Id, nameof(CaptchaCache)));
+            await RemoveAsync(GetCacheKey(req.Id, nameof(CaptchaCache))).ConfigureAwait(false);
         }
         else {
             throw new NetAdminInvalidOperationException(Ln.人机验证未通过);
@@ -35,7 +36,7 @@ public sealed class CaptchaCache(IDistributedCache cache, ICaptchaService servic
     /// <inheritdoc />
     public async Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
     {
-        var val = await GetAsync<int?>(GetCacheKey(req.Id, nameof(CaptchaCache)));
-        return await Service.VerifyCaptchaAsync(req with { SawOffsetX = val });
+        var val = await GetAsync<int?>(GetCacheKey(req.Id, nameof(CaptchaCache))).ConfigureAwait(false);
+        return await Service.VerifyCaptchaAsync(req with { SawOffsetX = val }).ConfigureAwait(false);
     }
 }

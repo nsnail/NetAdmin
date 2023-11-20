@@ -15,16 +15,17 @@ public sealed class TransactionInterceptor(UnitOfWorkManager uowManager) : IAsyn
         // 跳过没有事务特性标记的方法
         if (context.HttpContext.GetControllerActionDescriptor().MethodInfo.GetCustomAttribute<TransactionAttribute>() ==
             null) {
-            _ = await next();
+            _ = await next().ConfigureAwait(false);
             return;
         }
 
         // 事务操作
         await uowManager.AtomicOperateAsync(async () => {
-            var result = await next();
-            if (result.Exception != null) {
-                throw result.Exception;
-            }
-        });
+                            var result = await next().ConfigureAwait(false);
+                            if (result.Exception != null) {
+                                throw result.Exception;
+                            }
+                        })
+                        .ConfigureAwait(false);
     }
 }

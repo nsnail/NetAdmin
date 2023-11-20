@@ -24,11 +24,11 @@ public static class HttpContextExtensions
 
         _ = me.Response.Body.Seek(0, SeekOrigin.Begin);
         var sr         = new StreamReader(me.Response.Body);
-        var bodyString = await sr.ReadToEndAsync();
+        var bodyString = await sr.ReadToEndAsync().ConfigureAwait(false);
         bodyString = _nullRegex.Replace(bodyString, string.Empty).Replace(",}", "}");
         _          = me.Response.Body.Seek(0, SeekOrigin.Begin);
         var bytes = Encoding.UTF8.GetBytes(bodyString);
         me.Response.Body.SetLength(bytes.Length);
-        await me.Response.Body.WriteAsync(bytes);
+        await me.Response.Body.WriteAsync(bytes).ConfigureAwait(false);
     }
 }

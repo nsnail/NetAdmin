@@ -10,7 +10,7 @@ public static class HttpRequestMessageExtensions
     /// </summary>
     public static async Task<string> BuildJsonAsync(this HttpRequestMessage me)
     {
-        var body = me?.Content == null ? null : await me.Content!.ReadAsStringAsync();
+        var body = me?.Content == null ? null : await me.Content!.ReadAsStringAsync().ConfigureAwait(false);
         return new { Uri = me?.RequestUri, Header = me?.ToString(), Body = body }.ToJson();
     }
 
@@ -19,7 +19,7 @@ public static class HttpRequestMessageExtensions
     /// </summary>
     public static async Task<HttpRequestMessage> LogAsync<T>(this HttpRequestMessage me, ILogger<T> logger)
     {
-        logger.Info($"{Ln.请求}: {await me.BuildJsonAsync()}");
+        logger.Info($"{Ln.请求}: {await me.BuildJsonAsync().ConfigureAwait(false)}");
         return me;
     }
 }

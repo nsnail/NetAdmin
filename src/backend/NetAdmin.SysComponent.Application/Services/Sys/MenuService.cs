@@ -16,7 +16,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -25,7 +25,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <inheritdoc />
     public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryMenuRsp>();
     }
 
@@ -44,7 +44,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <inheritdoc />
     public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryMenuRsp>();
     }
 
@@ -57,7 +57,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <inheritdoc />
     public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
-        var ret = await QueryInternal(req).ToTreeListAsync();
+        var ret = await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryMenuRsp>>();
     }
 
@@ -65,18 +65,18 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
     {
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
             throw new NetAdminUnexpectedException();
         }
 
-        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryMenuRsp>();
     }
 
     /// <inheritdoc />
     public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {
-        var                             userInfo = await userService.UserInfoAsync();
+        var                             userInfo = await userService.UserInfoAsync().ConfigureAwait(false);
         Task<IEnumerable<QueryMenuRsp>> ret;
         var                             req = new QueryReq<QueryMenuReq>();
 
@@ -98,7 +98,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
             ret = QueryAsync(req with { DynamicFilter = df });
         }
 
-        return await ret;
+        return await ret.ConfigureAwait(false);
     }
 
     /// <inheritdoc />

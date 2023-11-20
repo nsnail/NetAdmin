@@ -17,7 +17,7 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,7 +26,7 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgFlagRsp> CreateAsync(CreateSiteMsgFlagReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgFlagRsp>();
     }
 
@@ -45,14 +45,20 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgFlagRsp> GetAsync(QuerySiteMsgFlagReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgFlagReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgFlagReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgFlagRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QuerySiteMsgFlagRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgFlagReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QuerySiteMsgFlagRsp>(req.Page, req.PageSize, total
                                                     , list.Adapt<IEnumerable<QuerySiteMsgFlagRsp>>());
@@ -61,7 +67,7 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     /// <inheritdoc />
     public async Task<IEnumerable<QuerySiteMsgFlagRsp>> QueryAsync(QueryReq<QuerySiteMsgFlagReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgFlagRsp>>();
     }
 
@@ -69,12 +75,13 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     public async Task<QuerySiteMsgFlagRsp> UpdateAsync(UpdateSiteMsgFlagReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req) as QuerySiteMsgFlagRsp;
+            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QuerySiteMsgFlagRsp;
         }
 
         var ret = await Rpo.UpdateDiy.Set(a => a.UserSiteMsgStatus == req.UserSiteMsgStatus)
                            .Where(a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId)
-                           .ExecuteUpdatedAsync();
+                           .ExecuteUpdatedAsync()
+                           .ConfigureAwait(false);
         return ret.FirstOrDefault()?.Adapt<QuerySiteMsgFlagRsp>();
     }
 
@@ -83,9 +90,10 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     {
         return await Rpo.UpdateDiy.Set(a => a.UserSiteMsgStatus == req.UserSiteMsgStatus)
                         .Where(a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId)
-                        .ExecuteAffrowsAsync() <= 0
+                        .ExecuteAffrowsAsync()
+                        .ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QuerySiteMsgFlagReq { Id = req.Id });
+            : await GetAsync(new QuerySiteMsgFlagReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_SiteMsgFlag> QueryInternal(QueryReq<QuerySiteMsgFlagReq> req)

@@ -17,7 +17,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,7 +26,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryConfigRsp>();
     }
 
@@ -45,7 +45,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryConfigRsp>();
     }
 
@@ -53,14 +53,19 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     public async Task<QueryConfigRsp> GetLatestConfigAsync()
     {
         var ret = await QueryAsync(
-            new QueryReq<QueryConfigReq> { Count = 1, Filter = new QueryConfigReq { Enabled = true } });
+                new QueryReq<QueryConfigReq> { Count = 1, Filter = new QueryConfigReq { Enabled = true } })
+            .ConfigureAwait(false);
         return ret.FirstOrDefault();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryConfigRsp>(req.Page, req.PageSize, total
                                                , list.Adapt<IEnumerable<QueryConfigRsp>>());
@@ -69,7 +74,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryConfigRsp>>();
     }
 
@@ -77,19 +82,19 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     public async Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req) as QueryConfigRsp;
+            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryConfigRsp;
         }
 
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
+        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
         return ret.FirstOrDefault()?.Adapt<QueryConfigRsp>();
     }
 
     /// <inheritdoc />
     protected override async Task<Sys_Config> UpdateForSqliteAsync(Sys_Config req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QueryConfigReq { Id = req.Id });
+            : await GetAsync(new QueryConfigReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_Config> QueryInternal(QueryReq<QueryConfigReq> req)
