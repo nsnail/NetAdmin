@@ -45,7 +45,7 @@ public abstract class DistributedCache<TService> : CacheBase<IDistributedCache, 
     /// </summary>
     protected async Task<T> GetAsync<T>(string key)
     {
-        var cacheRead = await Cache.GetStringAsync(key);
+        var cacheRead = await Cache.GetStringAsync(key).ConfigureAwait(false);
         return cacheRead != null ? cacheRead.ToObject<T>() : default;
     }
 
@@ -69,19 +69,19 @@ public abstract class DistributedCache<TService> : CacheBase<IDistributedCache, 
     protected async Task<T> GetOrCreateAsync<T>(string    key, Func<Task<T>> createProc, TimeSpan? absLifeTime = null
                                               , TimeSpan? slideLifeTime = null)
     {
-        var cacheRead = await GetAsync<T>(key);
+        var cacheRead = await GetAsync<T>(key).ConfigureAwait(false);
         if (cacheRead is not null) {
             return cacheRead;
         }
 
-        var obj = await createProc.Invoke();
+        var obj = await createProc.Invoke().ConfigureAwait(false);
 
         var cacheWrite = obj?.ToJson();
         if (cacheWrite == null) {
             return obj;
         }
 
-        await CreateAsync(key, obj, absLifeTime, slideLifeTime);
+        await CreateAsync(key, obj, absLifeTime, slideLifeTime).ConfigureAwait(false);
         return obj;
     }
 

@@ -17,7 +17,7 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,7 +26,7 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     /// <inheritdoc />
     public async Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryExampleRsp>();
     }
 
@@ -45,14 +45,20 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     /// <inheritdoc />
     public async Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryExampleReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryExampleReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryExampleRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryExampleRsp>> PagedQueryAsync(PagedQueryReq<QueryExampleReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryExampleRsp>(req.Page, req.PageSize, total
                                                 , list.Adapt<IEnumerable<QueryExampleRsp>>());
@@ -61,7 +67,7 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryExampleRsp>>();
     }
 
@@ -69,19 +75,19 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     public async Task<QueryExampleRsp> UpdateAsync(UpdateExampleReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req) as QueryExampleRsp;
+            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryExampleRsp;
         }
 
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
+        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
         return ret.FirstOrDefault()?.Adapt<QueryExampleRsp>();
     }
 
     /// <inheritdoc />
     protected override async Task<Tpl_Example> UpdateForSqliteAsync(Tpl_Example req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QueryExampleReq { Id = req.Id });
+            : await GetAsync(new QueryExampleReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Tpl_Example> QueryInternal(QueryReq<QueryExampleReq> req)

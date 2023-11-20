@@ -41,6 +41,6 @@ public sealed class OperationLogger : IEventSubscriber
         logReq ??= operationEvent.Data;
         var logService = App.GetService<IRequestLogService>();
         logReq.TruncateStrings();
-        _ = await logService.CreateAsync(logReq);
+        _ = await logService.CreateAsync(logReq).ConfigureAwait(false);
     }
 }

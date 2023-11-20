@@ -18,7 +18,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -28,7 +28,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     public async Task<QueryUserProfileRsp> CreateAsync(CreateUserProfileReq req)
     {
         var entity = req.Adapt<Sys_UserProfile>();
-        var ret    = await Rpo.InsertAsync(entity);
+        var ret    = await Rpo.InsertAsync(entity).ConfigureAwait(false);
         return ret.Adapt<QueryUserProfileRsp>();
     }
 
@@ -47,7 +47,9 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     /// <inheritdoc />
     public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryUserProfileRsp>();
     }
 
@@ -63,7 +65,8 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
                                                                , c = new { c.Key, c.Value }
                                                                , d = new { d.Key, d.Value }
                                                                , e = new { e.Key, e.Value }
-                                                             });
+                                                             })
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryUserProfileRsp>(req.Page, req.PageSize, total
                                                     , list.ConvertAll(
@@ -87,7 +90,8 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
                                                               , c = new { c.Key, c.Value }
                                                               , d = new { d.Key, d.Value }
                                                               , e = new { e.Key, e.Value }
-                                                            });
+                                                            })
+                        .ConfigureAwait(false);
         return ret.ConvertAll(x => x.a.Adapt<QueryUserProfileRsp>() with {
                                                                              NationArea
                                                                              = x.b.Key == null
@@ -113,19 +117,19 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     {
         var entity = req.Adapt<Sys_UserProfile>();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(entity) as QueryUserProfileRsp;
+            return await UpdateForSqliteAsync(entity).ConfigureAwait(false) as QueryUserProfileRsp;
         }
 
-        var ret = await Rpo.UpdateDiy.SetSource(entity).ExecuteUpdatedAsync();
+        var ret = await Rpo.UpdateDiy.SetSource(entity).ExecuteUpdatedAsync().ConfigureAwait(false);
         return ret.FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
     }
 
     /// <inheritdoc />
     protected override async Task<Sys_UserProfile> UpdateForSqliteAsync(Sys_UserProfile req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QueryUserProfileReq { Id = req.Id });
+            : await GetAsync(new QueryUserProfileReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(

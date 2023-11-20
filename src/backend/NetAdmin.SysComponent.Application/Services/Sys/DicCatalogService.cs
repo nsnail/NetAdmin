@@ -16,7 +16,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,18 +26,19 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
     public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
-        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
+        if (req.ParentId != 0 &&
+            !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
         }
 
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 
     /// <inheritdoc />
     public async Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id);
+        var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id).ConfigureAwait(false);
         return ret.Count;
     }
 
@@ -50,14 +51,20 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <inheritdoc />
     public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDicCatalogRsp>(req.Page, req.PageSize, total
                                                    , list.Adapt<IEnumerable<QueryDicCatalogRsp>>());
@@ -66,7 +73,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req)
     {
-        var ret = await QueryInternal(req).ToTreeListAsync();
+        var ret = await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
     }
 
@@ -75,15 +82,16 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
     {
-        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync()) {
+        if (req.ParentId != 0 &&
+            !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
         }
 
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
             throw new NetAdminUnexpectedException();
         }
 
-        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 

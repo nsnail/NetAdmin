@@ -72,8 +72,8 @@ public sealed class VerifyCodeController
     [AllowAnonymous]
     public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
     {
-        await captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq);
-        return await Cache.SendVerifyCodeAsync(req);
+        await captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq).ConfigureAwait(false);
+        return await Cache.SendVerifyCodeAsync(req).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

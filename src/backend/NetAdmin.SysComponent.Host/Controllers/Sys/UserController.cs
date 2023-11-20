@@ -86,7 +86,7 @@ public sealed class UserController
     [Transaction]
     public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
-        var ret = await Cache.LoginByPwdAsync(req);
+        var ret = await Cache.LoginByPwdAsync(req).ConfigureAwait(false);
         ret.SetToRspHeader();
         return ret;
     }
@@ -98,7 +98,7 @@ public sealed class UserController
     [Transaction]
     public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
     {
-        var ret = await Cache.LoginBySmsAsync(req);
+        var ret = await Cache.LoginBySmsAsync(req).ConfigureAwait(false);
         ret.SetToRspHeader();
         return ret;
     }
@@ -134,7 +134,7 @@ public sealed class UserController
     [AllowAnonymous]
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
-        var config = await configCache.GetLatestConfigAsync();
+        var config = await configCache.GetLatestConfigAsync().ConfigureAwait(false);
 
         return await Cache.RegisterAsync(req with {
                                                       DeptId = config.UserRegisterDeptId
@@ -142,7 +142,8 @@ public sealed class UserController
                                                     , Profile = new CreateUserProfileReq()
                                                     , Enabled = !config.UserRegisterConfirm
                                                     , Mobile = req.VerifySmsCodeReq.DestDevice
-                                                  });
+                                                  })
+                          .ConfigureAwait(false);
     }
 
     /// <summary>

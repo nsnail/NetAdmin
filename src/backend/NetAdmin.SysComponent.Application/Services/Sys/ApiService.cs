@@ -52,7 +52,10 @@ public sealed class ApiService(DefaultRepository<Sys_Api>          rpo          
     /// <inheritdoc />
     public async Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
-        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync();
+        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                           .WhereDynamic(req.Filter)
+                           .ToTreeListAsync()
+                           .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryApiRsp>>();
     }
 
@@ -90,14 +93,14 @@ public sealed class ApiService(DefaultRepository<Sys_Api>          rpo          
     /// <inheritdoc />
     public async Task SyncAsync()
     {
-        _ = await Rpo.DeleteAsync(_ => true);
+        _ = await Rpo.DeleteAsync(_ => true).ConfigureAwait(false);
 
         var list = ReflectionList(false);
 
         EnableCascadeSave = true;
         foreach (var item in list) {
             var entity = item.Adapt<Sys_Api>();
-            _ = await Rpo.InsertAsync(entity);
+            _ = await Rpo.InsertAsync(entity).ConfigureAwait(false);
         }
     }
 

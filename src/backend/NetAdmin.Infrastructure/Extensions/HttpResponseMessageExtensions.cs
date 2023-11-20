@@ -11,7 +11,7 @@ public static class HttpResponseMessageExtensions
     public static async Task LogAsync<T>(this HttpResponseMessage me, ILogger<T> logger
                                        , Func<string, string>     bodyPreHandle = null)
     {
-        logger.Info(await me.BuildJsonAsync(bodyPreHandle));
+        logger.Info(await me.BuildJsonAsync(bodyPreHandle).ConfigureAwait(false));
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public static class HttpResponseMessageExtensions
     public static async Task LogExceptionAsync<T>(this HttpResponseMessage me, string errors, ILogger<T> logger
                                                 , Func<string, string>     bodyHandle = null)
     {
-        logger.Warn($"{errors}: {await me.BuildJsonAsync(bodyHandle)}");
+        logger.Warn($"{errors}: {await me.BuildJsonAsync(bodyHandle).ConfigureAwait(false)}");
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public static class HttpResponseMessageExtensions
     private static async Task<string> BuildJsonAsync( //
         this HttpResponseMessage me, Func<string, string> bodyHandle = null)
     {
-        var body = me?.Content is null ? null : await me.Content!.ReadAsStringAsync();
+        var body = me?.Content is null ? null : await me.Content!.ReadAsStringAsync().ConfigureAwait(false);
         return new { Header = me?.ToString(), Body = bodyHandle is null ? body : bodyHandle(body) }.ToJson();
     }
 }

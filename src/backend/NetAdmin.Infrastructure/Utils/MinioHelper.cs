@@ -26,9 +26,9 @@ public sealed class MinioHelper(IOptions<UploadOptions> uploadOptions) : IScoped
 
         var beArgs = new BucketExistsArgs().WithBucket(uploadOptions.Value.Minio.BucketName);
 
-        if (!await minio.BucketExistsAsync(beArgs)) {
+        if (!await minio.BucketExistsAsync(beArgs).ConfigureAwait(false)) {
             var mbArgs = new MakeBucketArgs().WithBucket(uploadOptions.Value.Minio.BucketName);
-            await minio.MakeBucketAsync(mbArgs);
+            await minio.MakeBucketAsync(mbArgs).ConfigureAwait(false);
         }
 
         var putArgs = new PutObjectArgs().WithBucket(uploadOptions.Value.Minio.BucketName)
@@ -36,7 +36,7 @@ public sealed class MinioHelper(IOptions<UploadOptions> uploadOptions) : IScoped
                                          .WithStreamData(fileStream)
                                          .WithObjectSize(fileSize)
                                          .WithContentType(contentType);
-        _ = await minio.PutObjectAsync(putArgs);
+        _ = await minio.PutObjectAsync(putArgs).ConfigureAwait(false);
 
         return $"{uploadOptions.Value.Minio.AccessUrl}/{uploadOptions.Value.Minio.BucketName}/{objectName}";
     }

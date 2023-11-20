@@ -58,15 +58,15 @@ public abstract class WorkBase<TLogger>
     {
         if (singleInstance) {
             // 加锁
-            await using var redLock = await GetLockerAsync(GetType().FullName);
+            await using var redLock = await GetLockerAsync(GetType().FullName).ConfigureAwait(false);
             if (!redLock.IsAcquired) {
                 throw new NetAdminGetLockerException();
             }
 
-            await WorkflowAsync(cancelToken);
+            await WorkflowAsync(cancelToken).ConfigureAwait(false);
             return;
         }
 
-        await WorkflowAsync(cancelToken);
+        await WorkflowAsync(cancelToken).ConfigureAwait(false);
     }
 }

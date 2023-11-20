@@ -16,7 +16,7 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -25,7 +25,7 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     /// <inheritdoc />
     public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryRequestLogRsp>();
     }
 
@@ -44,7 +44,9 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     /// <inheritdoc />
     public async Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryRequestLogRsp>();
     }
 
@@ -66,7 +68,8 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
                                                  , a.CreatedUserAgent
                                                  , a.HttpStatusCode
                                                  , a.Id
-                                               });
+                                               })
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryRequestLogRsp>(req.Page, req.PageSize, total
                                                    , list.Adapt<IEnumerable<QueryRequestLogRsp>>());
@@ -75,7 +78,7 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
     }
 

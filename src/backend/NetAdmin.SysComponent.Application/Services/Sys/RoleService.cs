@@ -16,7 +16,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,11 +26,11 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     public async Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
     {
         var entity = req.Adapt<Sys_Role>();
-        var ret    = await Rpo.InsertAsync(entity);
+        var ret    = await Rpo.InsertAsync(entity).ConfigureAwait(false);
 
-        await Rpo.SaveManyAsync(entity, nameof(entity.Depts));
-        await Rpo.SaveManyAsync(entity, nameof(entity.Menus));
-        await Rpo.SaveManyAsync(entity, nameof(entity.Apis));
+        await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Menus)).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Apis)).ConfigureAwait(false);
 
         entity = entity with { Id = ret.Id };
         return entity.Adapt<QueryRoleRsp>();
@@ -40,9 +40,9 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">Users_exist_under_this_role_and_deletion_is_not_allowed</exception>
     public async Task<int> DeleteAsync(DelReq req)
     {
-        return await Rpo.Orm.Select<Sys_UserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id)
+        return await Rpo.Orm.Select<Sys_UserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id).ConfigureAwait(false)
             ? throw new NetAdminInvalidOperationException(Ln.该角色下存在用户)
-            : await Rpo.DeleteAsync(a => a.Id == req.Id);
+            : await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -54,14 +54,18 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryRoleRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryRoleRsp>>());
     }
@@ -69,7 +73,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
-        var ret = await QueryInternal(req).ToListAsync();
+        var ret = await QueryInternal(req).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRoleRsp>>();
     }
 
@@ -77,12 +81,13 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     public async Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
     {
         var entity = req.Adapt<Sys_Role>();
-        _ = await Rpo.UpdateAsync(entity);
-        await Rpo.SaveManyAsync(entity, nameof(entity.Depts));
-        await Rpo.SaveManyAsync(entity, nameof(entity.Menus));
-        await Rpo.SaveManyAsync(entity, nameof(entity.Apis));
+        _ = await Rpo.UpdateAsync(entity).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Menus)).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Apis)).ConfigureAwait(false);
 
-        return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } })).First();
+        return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } })
+            .ConfigureAwait(false)).First();
     }
 
     /// <inheritdoc />

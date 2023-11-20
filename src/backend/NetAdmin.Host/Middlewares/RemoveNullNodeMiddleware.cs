@@ -13,12 +13,12 @@ public sealed class RemoveNullNodeMiddleware(RequestDelegate next)
     /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {
-        await next(context);
+        await next(context).ConfigureAwait(false);
 
         if (context.GetMetadata<RemoveNullNodeAttribute>() is null) {
             return;
         }
 
-        await context.RemoveJsonNodeWithNullValueAsync();
+        await context.RemoveJsonNodeWithNullValueAsync().ConfigureAwait(false);
     }
 }

@@ -29,6 +29,6 @@ public sealed class FileService(IOptions<UploadOptions> uploadOptions, MinioHelp
         var             fileName   = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
         var             objectName = $"{UserToken.Id}/{fileName}";
         await using var fs         = file.OpenReadStream();
-        return await minioHelper.UploadAsync(objectName, fs, file.ContentType, file.Length);
+        return await minioHelper.UploadAsync(objectName, fs, file.ContentType, file.Length).ConfigureAwait(false);
     }
 }

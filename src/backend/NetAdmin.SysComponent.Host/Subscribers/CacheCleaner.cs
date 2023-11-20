@@ -26,6 +26,6 @@ public sealed class CacheCleaner : IEventSubscriber
 
         var cache = App.GetService<IUserCache>();
         cache.Service.UserToken = ContextUserToken.Create(userUpdatedEvent.Data);
-        await cache.RemoveUserInfoAsync();
+        await cache.RemoveUserInfoAsync().ConfigureAwait(false);
     }
 }

@@ -21,7 +21,7 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -30,23 +30,23 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
     /// <inheritdoc />
     public async Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req)
     {
-        await CreateUpdateCheckAsync(req);
+        await CreateUpdateCheckAsync(req).ConfigureAwait(false);
 
         // 主表
         var entity    = req.Adapt<Sys_SiteMsg>();
-        var dbSiteMsg = await Rpo.InsertAsync(entity);
+        var dbSiteMsg = await Rpo.InsertAsync(entity).ConfigureAwait(false);
 
         // 分表
-        await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
+        await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);
 
         // 分表
-        await Rpo.SaveManyAsync(entity, nameof(entity.Users));
+        await Rpo.SaveManyAsync(entity, nameof(entity.Users)).ConfigureAwait(false);
 
         // 分表
-        await Rpo.SaveManyAsync(entity, nameof(entity.Depts));
+        await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
 
-        var ret = await QueryAsync(
-            new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = dbSiteMsg.Id } });
+        var ret = await QueryAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = dbSiteMsg.Id } })
+            .ConfigureAwait(false);
 
         return ret.Adapt<QuerySiteMsgRsp>();
     }
@@ -54,7 +54,7 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
     /// <inheritdoc />
     public async Task<int> DeleteAsync(DelReq req)
     {
-        var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id);
+        var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id).ConfigureAwait(false);
         return ret.Count;
     }
 
@@ -71,7 +71,8 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
                         .IncludeMany(a => a.Roles)
                         .IncludeMany(a => a.Users)
                         .IncludeMany(a => a.Depts)
-                        .ToOneAsync();
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgRsp>();
     }
 
@@ -79,14 +80,15 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
     public async Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req)
     {
         var ret = await PagedQueryMineAsync(
-            new PagedQueryReq<QuerySiteMsgReq> {
-                                                   DynamicFilter
-                                                       = new DynamicFilterInfo {
-                                                                                   Field    = nameof(req.Id)
-                                                                                 , Value    = req.Id
-                                                                                 , Operator = DynamicFilterOperators.Eq
-                                                                               }
-                                               }, true);
+                new PagedQueryReq<QuerySiteMsgReq> {
+                                                       DynamicFilter
+                                                           = new DynamicFilterInfo {
+                                                                 Field    = nameof(req.Id)
+                                                               , Value    = req.Id
+                                                               , Operator = DynamicFilterOperators.Eq
+                                                             }
+                                                   }, true)
+            .ConfigureAwait(false);
         return ret.Rows.FirstOrDefault();
     }
 
@@ -104,7 +106,8 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
                                                  , a.Summary
                                                  , a.Title
                                                  , a.Version
-                                               });
+                                               })
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total
                                                 , list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
@@ -119,22 +122,23 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
     /// <inheritdoc />
     public async Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgRsp>>();
     }
 
     /// <inheritdoc />
     public async Task SetSiteMsgStatusAsync(UpdateSiteMsgFlagReq req)
     {
-        if (!await ExistAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.SiteMsgId } })) {
+        if (!await ExistAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.SiteMsgId } })
+                .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.站内信不存在);
         }
 
         try {
-            _ = await siteMsgFlagService.CreateAsync(req with { UserId = contextUserInfo.Id });
+            _ = await siteMsgFlagService.CreateAsync(req with { UserId = contextUserInfo.Id }).ConfigureAwait(false);
         }
         catch {
-            _ = await siteMsgFlagService.UpdateAsync(req with { UserId = contextUserInfo.Id });
+            _ = await siteMsgFlagService.UpdateAsync(req with { UserId = contextUserInfo.Id }).ConfigureAwait(false);
         }
     }
 
@@ -145,46 +149,50 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
         var subtract = await Rpo.Orm.Select<Sys_SiteMsgFlag>()
                                 .Where(a => a.UserId            == contextUserInfo.Id &&
                                             a.UserSiteMsgStatus == UserSiteMsgStatues.Read)
-                                .CountAsync();
+                                .CountAsync()
+                                .ConfigureAwait(false);
 
-        return await QueryMineInternal(new QueryReq<QuerySiteMsgReq>()).CountAsync() - subtract;
+        return await QueryMineInternal(new QueryReq<QuerySiteMsgReq>()).CountAsync().ConfigureAwait(false) - subtract;
     }
 
     /// <inheritdoc />
     public async Task<QuerySiteMsgRsp> UpdateAsync(UpdateSiteMsgReq req)
     {
-        await CreateUpdateCheckAsync(req);
+        await CreateUpdateCheckAsync(req).ConfigureAwait(false);
 
         // 主表
         var entity = req.Adapt<Sys_SiteMsg>();
-        _ = await Rpo.UpdateDiy.SetSource(entity).ExecuteAffrowsAsync();
+        _ = await Rpo.UpdateDiy.SetSource(entity).ExecuteAffrowsAsync().ConfigureAwait(false);
 
         // 分表
-        await Rpo.SaveManyAsync(entity, nameof(entity.Roles));
+        await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);
 
         // 分表
-        await Rpo.SaveManyAsync(entity, nameof(entity.Users));
+        await Rpo.SaveManyAsync(entity, nameof(entity.Users)).ConfigureAwait(false);
 
         // 分表
-        await Rpo.SaveManyAsync(entity, nameof(entity.Depts));
+        await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
 
-        return (await QueryAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.Id } }))
-            .First();
+        return (await QueryAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.Id } })
+            .ConfigureAwait(false)).First();
     }
 
     /// <inheritdoc />
     protected override async Task<Sys_SiteMsg> UpdateForSqliteAsync(Sys_SiteMsg req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QuerySiteMsgReq { Id = req.Id });
+            : await GetAsync(new QuerySiteMsgReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private async Task CreateUpdateCheckAsync(CreateSiteMsgReq req)
     {
         // 检查角色是否存在
         if (!req.RoleIds.NullOrEmpty()) {
-            var roles = await Rpo.Orm.Select<Sys_Role>().Where(a => req.RoleIds.Contains(a.Id)).ToListAsync(a => a.Id);
+            var roles = await Rpo.Orm.Select<Sys_Role>()
+                                 .Where(a => req.RoleIds.Contains(a.Id))
+                                 .ToListAsync(a => a.Id)
+                                 .ConfigureAwait(false);
             if (roles.Count != req.RoleIds.Count) {
                 throw new NetAdminInvalidOperationException(Ln.角色不存在);
             }
@@ -192,7 +200,10 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
 
         if (!req.DeptIds.NullOrEmpty()) {
             // 检查部门是否存在
-            var depts = await Rpo.Orm.Select<Sys_Dept>().Where(a => req.DeptIds.Contains(a.Id)).ToListAsync(a => a.Id);
+            var depts = await Rpo.Orm.Select<Sys_Dept>()
+                                 .Where(a => req.DeptIds.Contains(a.Id))
+                                 .ToListAsync(a => a.Id)
+                                 .ConfigureAwait(false);
             if (depts.Count != req.DeptIds.Count) {
                 throw new NetAdminInvalidOperationException(Ln.部门不存在);
             }
@@ -200,7 +211,10 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
 
         if (!req.UserIds.NullOrEmpty()) {
             // 检查用户是否存在
-            var users = await Rpo.Orm.Select<Sys_User>().Where(a => req.UserIds.Contains(a.Id)).ToListAsync(a => a.Id);
+            var users = await Rpo.Orm.Select<Sys_User>()
+                                 .Where(a => req.UserIds.Contains(a.Id))
+                                 .ToListAsync(a => a.Id)
+                                 .ConfigureAwait(false);
             if (users.Count != req.UserIds.Count) {
                 throw new NetAdminInvalidOperationException(Ln.用户不存在);
             }
@@ -233,7 +247,8 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
                                                                                     a.Value.Item2.UserName)
                                                                               , Avatar = a.Max(a.Value.Item2.Avatar)
                                                                             }
-                                                               });
+                                                               })
+                         .ConfigureAwait(false);
         return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total
                                                 , list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
     }
