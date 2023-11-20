@@ -15,27 +15,6 @@ indent_size = 2
 
 [*.cs]
 dotnet_analyzer_diagnostic.severity = warning
-dotnet_diagnostic.CA1707.severity = none
-dotnet_diagnostic.IDE0005.severity = none
-dotnet_diagnostic.IDE0008.severity = none
-dotnet_diagnostic.IDE0010.severity = none
-dotnet_diagnostic.IDE0028.severity = none
-dotnet_diagnostic.IDE0055.severity = none
-dotnet_diagnostic.IDE0160.severity = none
-dotnet_diagnostic.IDE0300.severity = none
-dotnet_diagnostic.IDE0305.severity = none
-dotnet_diagnostic.RCS1141.severity = none
-dotnet_diagnostic.RCS1142.severity = none
-dotnet_diagnostic.RCS1181.severity = none
-dotnet_diagnostic.S101.severity = none
-dotnet_diagnostic.S1121.severity = none
-dotnet_diagnostic.S1135.severity = none
-dotnet_diagnostic.S125.severity = none
-dotnet_diagnostic.S2094.severity = none
-dotnet_diagnostic.S3604.severity = none
-dotnet_diagnostic.S4663.severity = none
-dotnet_diagnostic.SYSLIB1045.severity = none
-
 
 # ReSharper properties
 resharper_align_linq_query = true
@@ -71,7 +50,6 @@ resharper_place_simple_switch_expression_on_single_line = true
 resharper_wrap_before_eq = true
 resharper_wrap_chained_method_calls = chop_if_long
 resharper_wrap_switch_expression = chop_if_long
-
 
 # Microsoft .NET properties
 csharp_indent_braces = false
