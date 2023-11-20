@@ -144,7 +144,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         iconSelectContent = _regex2.Replace(iconSelectContent, "\"$1\":");
         iconSelectContent = "{" + iconSelectContent + "}";
         var iconExportJsInfo = iconSelectContent.ToObject<IconExportJsInfo>();
-        iconExportJsInfo.ExportDefault.Icons.Last().Icons.Add($"sc-icon-{req.IconName}");
+        iconExportJsInfo.ExportDefault.Icons.Last().Icons.Add($"sc-icon-{req.IconName.ToLowerInvariant()}");
         var newContent = iconExportJsInfo.ToJson().TrimStart('{')[..^1].Replace("\"exportDefault\":", "export default");
 
         await File.WriteAllTextAsync(iconSelectFile, newContent).ConfigureAwait(false);
