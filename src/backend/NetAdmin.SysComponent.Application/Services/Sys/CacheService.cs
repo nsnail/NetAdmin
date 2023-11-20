@@ -11,19 +11,23 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) /
     : ServiceBase<ICacheService>, ICacheService
 {
     /// <inheritdoc />
-    public Task<CacheStatisticsRsp> CacheStatisticsAsync()
+    public async Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
         var database = connectionMultiplexer.GetDatabase();
-        return Task.FromResult(
-            new CacheStatisticsRsp((string)database.Execute("info")) { DbSize = (long)database.Execute("dbSize") });
+
+        return new CacheStatisticsRsp((string)await database.ExecuteAsync("info").ConfigureAwait(false)) {
+                   DbSize = (long)await database.ExecuteAsync("dbSize").ConfigureAwait(false)
+               };
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
+    public async Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
         var database = connectionMultiplexer.GetDatabase((int?)req.Filter?.DbIndex ?? 0);
-        var redisResults
-            = (RedisResult[])database.Execute("scan", (req.Page - 1) * req.PageSize, "count", req.PageSize);
+        var redisResults = (RedisResult[])await database
+                                                .ExecuteAsync("scan", (req.Page - 1) * req.PageSize, "count"
+                                                    ,                 req.PageSize)
+                                                .ConfigureAwait(false);
 
         var list = ((string[])redisResults![1])!.Where(x => database.KeyType(x) == RedisType.Hash)
                                                 .Select(x => database.HashGetAll(x)
@@ -33,6 +37,6 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) /
                                                 .ToList()
                                                 .ConvertAll(x => x.Adapt<GetAllEntriesRsp>());
 
-        return Task.FromResult(new PagedQueryRsp<GetAllEntriesRsp>(req.Page, req.PageSize, 10000, list));
+        return new PagedQueryRsp<GetAllEntriesRsp>(req.Page, req.PageSize, 10000, list);
     }
 }

@@ -66,7 +66,7 @@ public sealed record ContextApp : DataAbstraction, IValidatableObject
         // 具有secret的情况下，自动生成时间戳+sign，方便调试
         if (!ret.AppSecret.NullOrEmpty()) {
             ret.Timestamp = DateTime.Now.TimeUnixUtc();
-            ret.Sign      = await ret.BuildSignFromHttpContextAsync();
+            ret.Sign      = await ret.BuildSignFromHttpContextAsync().ConfigureAwait(false);
         }
 
         return ret;
@@ -88,7 +88,7 @@ public sealed record ContextApp : DataAbstraction, IValidatableObject
     public async Task<string> BuildSignFromHttpContextAsync()
     {
         var sr      = new StreamReader(App.HttpContext.Request.Body);
-        var reqBody = await sr.ReadToEndAsync();
+        var reqBody = await sr.ReadToEndAsync().ConfigureAwait(false);
 
         _ = App.HttpContext.Request.Body.Seek(0, SeekOrigin.Begin);
         return BuildSign(reqBody);

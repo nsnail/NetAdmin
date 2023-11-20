@@ -16,7 +16,7 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,11 +26,11 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">Parent_department_does_not_exist</exception>
     public async Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
     {
-        if (req.ParentId != 0 && !await Rpo.Select.AnyAsync(a => a.Id == req.ParentId)) {
+        if (req.ParentId != 0 && !await Rpo.Select.AnyAsync(a => a.Id == req.ParentId).ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
         }
 
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
 
         return ret.Adapt<QueryDeptRsp>();
     }
@@ -40,17 +40,17 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">该部门下存在子部门</exception>
     public async Task<int> DeleteAsync(DelReq req)
     {
-        if (await Rpo.Orm.Select<Sys_User>().AnyAsync(a => a.DeptId == req.Id)) {
+        if (await Rpo.Orm.Select<Sys_User>().AnyAsync(a => a.DeptId == req.Id).ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.该部门下存在用户);
         }
 
         #pragma warning disable IDE0046
-        if (await Rpo.Select.AnyAsync(a => a.ParentId == req.Id)) {
+        if (await Rpo.Select.AnyAsync(a => a.ParentId == req.Id).ConfigureAwait(false)) {
             #pragma warning restore IDE0046
             throw new NetAdminInvalidOperationException(Ln.该部门下存在子部门);
         }
 
-        return await Rpo.DeleteAsync(x => x.Id == req.Id);
+        return await Rpo.DeleteAsync(x => x.Id == req.Id).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -62,7 +62,7 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     /// <inheritdoc />
     public async Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDeptRsp>();
     }
 
@@ -75,17 +75,18 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
-        return (await QueryInternal(req).ToTreeListAsync()).Adapt<IEnumerable<QueryDeptRsp>>();
+        return (await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false)).Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
     /// <inheritdoc />
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? throw new NetAdminUnexpectedException()
             : (await QueryInternal(new QueryReq<QueryDeptReq> { Filter = new QueryDeptReq { Id = req.Id } }, true)
-                .ToTreeListAsync())[0]
+                     .ToTreeListAsync()
+                     .ConfigureAwait(false))[0]
             .Adapt<QueryDeptRsp>();
     }
 

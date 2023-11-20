@@ -27,7 +27,7 @@ public sealed class RequestAuditMiddleware(RequestDelegate next
         if (!context.Request.Path.StartsWithSegments(_defaultRoutePrefix)       // 非api请求
             || context.Request.Path.StartsWithSegments(_healthCheckRoutePrefix) // 健康检查
             || context.Request.Method == Chars.FLG_HTTP_METHOD_OPTIONS) {       // is options 请求
-            await next(context);
+            await next(context).ConfigureAwait(false);
             return;
         }
 
@@ -40,14 +40,14 @@ public sealed class RequestAuditMiddleware(RequestDelegate next
 
         // 调用下一个中间件
         var sw = Stopwatch.StartNew();
-        await next(context);
+        await next(context).ConfigureAwait(false);
         sw.Stop();
 
         _ = ms.Seek(0, SeekOrigin.Begin);
         using var sr           = new StreamReader(ms);
-        var       responseBody = await sr.ReadToEndAsync();
+        var       responseBody = await sr.ReadToEndAsync().ConfigureAwait(false);
         _ = ms.Seek(0, SeekOrigin.Begin);
-        await ms.CopyToAsync(stream);
+        await ms.CopyToAsync(stream).ConfigureAwait(false);
         context.Response.Body = stream;
 
         var exception = context.Features.Get<IExceptionHandlerFeature>();
@@ -56,6 +56,7 @@ public sealed class RequestAuditMiddleware(RequestDelegate next
                                ?.Enum<ErrorCodes>() ?? 0;
 
         _ = await requestLogger.LogAsync(context, (long)sw.Elapsed.TotalMicroseconds, responseBody, errorCode
-                                       , exception);
+                                       , exception)
+                               .ConfigureAwait(false);
     }
 }

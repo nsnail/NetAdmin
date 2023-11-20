@@ -16,7 +16,7 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,11 +26,15 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">Dictionary_directory_does_not_exist</exception>
     public async Task<QueryDicContentRsp> CreateAsync(CreateDicContentReq req)
     {
-        if (!await Rpo.Orm.Select<Sys_DicCatalog>().Where(a => a.Id == req.CatalogId).ForUpdate().AnyAsync()) {
+        if (!await Rpo.Orm.Select<Sys_DicCatalog>()
+                      .Where(a => a.Id == req.CatalogId)
+                      .ForUpdate()
+                      .AnyAsync()
+                      .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.字典目录不存在);
         }
 
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryDicContentRsp>();
     }
 
@@ -49,14 +53,20 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <inheritdoc />
     public async Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryDicContentRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDicContentReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDicContentRsp>(req.Page, req.PageSize, total
                                                    , list.Adapt<IEnumerable<QueryDicContentRsp>>());
@@ -65,7 +75,7 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
     }
 
@@ -74,15 +84,19 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicContentRsp> UpdateAsync(UpdateDicContentReq req)
     {
-        if (!await Rpo.Orm.Select<Sys_DicCatalog>().Where(a => a.Id == req.CatalogId).ForUpdate().AnyAsync()) {
+        if (!await Rpo.Orm.Select<Sys_DicCatalog>()
+                      .Where(a => a.Id == req.CatalogId)
+                      .ForUpdate()
+                      .AnyAsync()
+                      .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.字典目录不存在);
         }
 
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0) {
+        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
             throw new NetAdminUnexpectedException();
         }
 
-        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync();
+        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDicContentRsp>();
     }
 

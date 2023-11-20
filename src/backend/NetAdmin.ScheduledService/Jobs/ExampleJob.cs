@@ -20,7 +20,7 @@ public sealed class ExampleJob : WorkBase<ExampleJob>, IJob
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        await WorkflowAsync(stoppingToken);
+        await WorkflowAsync(stoppingToken).ConfigureAwait(false);
     }
 
     /// <summary>

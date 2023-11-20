@@ -35,7 +35,7 @@ public sealed class RequestLogger(ILogger<RequestLogger>                        
                                                         _textContentTypes
                                                       , x => context.Request.ContentType?.Contains(
                                                             x, StringComparison.OrdinalIgnoreCase) ?? false)
-                                                        ? await context.ReadBodyContentAsync()
+                                                        ? await context.ReadBodyContentAsync().ConfigureAwait(false)
                                                         : string.Empty
                                                   , RequestUrl = context.Request.GetRequestUrlAddress()
                                                   , ResponseBody = responseBody
@@ -57,7 +57,7 @@ public sealed class RequestLogger(ILogger<RequestLogger>                        
         logger.Info(auditData);
 
         // 发布请求日志事件
-        await eventPublisher.PublishAsync(new RequestLogEvent(auditData));
+        await eventPublisher.PublishAsync(new RequestLogEvent(auditData)).ConfigureAwait(false);
 
         return auditData;
     }

@@ -21,7 +21,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -30,12 +30,12 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
-        var entity = await Rpo.InsertAsync(req);
+        var entity = await Rpo.InsertAsync(req).ConfigureAwait(false);
 
         var ret = entity.Adapt<QueryVerifyCodeRsp>();
 
         // 发布验证码创建事件
-        await eventPublisher.PublishAsync(new VerifyCodeCreatedEvent(ret));
+        await eventPublisher.PublishAsync(new VerifyCodeCreatedEvent(ret)).ConfigureAwait(false);
 
         return ret;
     }
@@ -55,14 +55,20 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryVerifyCodeRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryVerifyCodeRsp>(req.Page, req.PageSize, total
                                                    , list.Adapt<IEnumerable<QueryVerifyCodeRsp>>());
@@ -71,14 +77,14 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryVerifyCodeRsp>>();
     }
 
     /// <inheritdoc />
     public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
     {
-        var lastSent = await GetLastSentAsync(req.DestDevice);
+        var lastSent = await GetLastSentAsync(req.DestDevice).ConfigureAwait(false);
 
         QueryVerifyCodeRsp ret;
 
@@ -90,11 +96,12 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
         #endif
 
         if (lastSent != null && lastSent.Status != VerifyCodeStatues.Verified) { // 上次发送未验证，生成相同code
-            ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = lastSent.Code });
+            ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = lastSent.Code })
+                .ConfigureAwait(false);
         }
         else { // 生成新的code
             var code = _randRange.Rand().ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
-            ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = code });
+            ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = code }).ConfigureAwait(false);
         }
 
         return ret.Adapt<SendVerifyCodeRsp>();
@@ -104,10 +111,10 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     public async Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req) as QueryVerifyCodeRsp;
+            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryVerifyCodeRsp;
         }
 
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
+        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
         return ret.FirstOrDefault()?.Adapt<QueryVerifyCodeRsp>();
     }
 
@@ -123,14 +130,15 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
             return true;
         }
 
-        var lastSent = await GetLastSentAsync(req.DestDevice);
+        var lastSent = await GetLastSentAsync(req.DestDevice).ConfigureAwait(false);
 
         if (lastSent is not { Status: VerifyCodeStatues.Sent } || req.Code != lastSent.Code ||
             (DateTime.UtcNow - lastSent.CreatedTime).TotalMinutes          > 10) {
             return false;
         }
 
-        _ = await UpdateAsync((lastSent with { Status = VerifyCodeStatues.Verified }).Adapt<UpdateVerifyCodeReq>());
+        _ = await UpdateAsync((lastSent with { Status = VerifyCodeStatues.Verified }).Adapt<UpdateVerifyCodeReq>())
+            .ConfigureAwait(false);
 
         return true;
     }
@@ -138,9 +146,9 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     protected override async Task<Sys_VerifyCode> UpdateForSqliteAsync(Sys_VerifyCode req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QueryVerifyCodeReq { Id = req.Id });
+            : await GetAsync(new QueryVerifyCodeReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private Task<Sys_VerifyCode> GetLastSentAsync(string destDevice)

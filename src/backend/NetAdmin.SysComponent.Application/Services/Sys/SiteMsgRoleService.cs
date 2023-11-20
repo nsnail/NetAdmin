@@ -17,7 +17,7 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     {
         var sum = 0;
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item);
+            sum += await DeleteAsync(item).ConfigureAwait(false);
         }
 
         return sum;
@@ -26,7 +26,7 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgRoleRsp> CreateAsync(CreateSiteMsgRoleReq req)
     {
-        var ret = await Rpo.InsertAsync(req);
+        var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgRoleRsp>();
     }
 
@@ -45,14 +45,20 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgRoleRsp> GetAsync(QuerySiteMsgRoleReq req)
     {
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgRoleReq> { Filter = req }).ToOneAsync();
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgRoleReq> { Filter = req })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgRoleRsp>();
     }
 
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QuerySiteMsgRoleRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgRoleReq> req)
     {
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).Count(out var total).ToListAsync();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QuerySiteMsgRoleRsp>(req.Page, req.PageSize, total
                                                     , list.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>());
@@ -61,7 +67,7 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     /// <inheritdoc />
     public async Task<IEnumerable<QuerySiteMsgRoleRsp>> QueryAsync(QueryReq<QuerySiteMsgRoleReq> req)
     {
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>();
     }
 
@@ -69,19 +75,19 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     public async Task<QuerySiteMsgRoleRsp> UpdateAsync(UpdateSiteMsgRoleReq req)
     {
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req) as QuerySiteMsgRoleRsp;
+            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QuerySiteMsgRoleRsp;
         }
 
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync();
+        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
         return ret.FirstOrDefault()?.Adapt<QuerySiteMsgRoleRsp>();
     }
 
     /// <inheritdoc />
     protected override async Task<Sys_SiteMsgRole> UpdateForSqliteAsync(Sys_SiteMsgRole req)
     {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync() <= 0
+        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
             ? null
-            : await GetAsync(new QuerySiteMsgRoleReq { Id = req.Id });
+            : await GetAsync(new QuerySiteMsgRoleReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_SiteMsgRole> QueryInternal(QueryReq<QuerySiteMsgRoleReq> req)
