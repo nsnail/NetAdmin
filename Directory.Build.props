@@ -10,16 +10,17 @@
         <BaseIntermediateOutputPath>$(SolutionDir)/dist/backend/$(MSBuildProjectName)/obj</BaseIntermediateOutputPath>
         <BaseOutputPath>$(SolutionDir)/dist/backend/$(MSBuildProjectName)/bin</BaseOutputPath>
         <Copyright>© 2006-2023 nsnail</Copyright>
-        <Description>一个基于.Net8/Vue3，极致优雅的RBAC通用权限管理模板</Description>
+        <Description>通用后台权限管理系统、快速开发框架（基于C#12/.NET8、Vue3/Vite、Element Plus等现代技术构建，具有十分整洁、优雅的编码规范）</Description>
         <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>preview</LangVersion>
         <MinVerDefaultPreReleaseIdentifiers>beta</MinVerDefaultPreReleaseIdentifiers>
         <MinVerTagPrefix>v</MinVerTagPrefix>
+        <NoWarn>CA1707;IDE0005;IDE0008;IDE0010;IDE0028;IDE0055;IDE0160;IDE0300;IDE0305;RCS1141;RCS1142;RCS1181;S101;S1121;S1135;S125;S2094;S3604;S4663;SYSLIB1045</NoWarn>
         <Product>NetAdmin</Product>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>http://git.shequnpay.com/lingyun/NetAdmin.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/nsnail/NetAdmin.git</RepositoryUrl>
         <TargetFramework>net8.0</TargetFramework>
         <Title>$(AssemblyName)</Title>
     </PropertyGroup>
