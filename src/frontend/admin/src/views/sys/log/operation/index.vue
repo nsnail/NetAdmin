@@ -89,9 +89,11 @@
 <script>
 import naInfo from '@/components/naInfo/index.vue'
 import tool from '@/utils/tool'
+import ScTable from '@/components/scTable/index.vue'
 
 export default {
     components: {
+        ScTable,
         naInfo,
     },
     watch: {},
