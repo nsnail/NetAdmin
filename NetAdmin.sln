@@ -13,28 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		.tgitconfig = .tgitconfig
-		1.git.pr.ps1 = 1.git.pr.ps1
-		build.cake = build.cake
+		.gitmodules = .gitmodules
 		CHANGELOG.md = CHANGELOG.md
-		clone.project.refs.ps1 = clone.project.refs.ps1
-		code.clean.csx = code.clean.csx
-		code.clean.ps1 = code.clean.ps1
-		code.cleanup.full.ps1 = code.cleanup.full.ps1
 		code.quality.props = code.quality.props
 		copy.pkg.xml.comment.files.targets = copy.pkg.xml.comment.files.targets
 		Directory.Build.props = Directory.Build.props
 		Dockerfile = Dockerfile
-		dot.clean.cmd = dot.clean.cmd
 		dotnet-tools.json = dotnet-tools.json
-		gen.cs.tt = gen.cs.tt
-		gen.id.linq = gen.id.linq
-		gen.ln.cmd = gen.ln.cmd
-		gen.resx.tt = gen.resx.tt
-		git.rc.ps1 = git.rc.ps1
 		global.json = global.json
-		image.optimize.csx = image.optimize.csx
-		install.as.tpl.ps1 = install.as.tpl.ps1
 		LICENSE = LICENSE
 		minver.targets = minver.targets
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
@@ -42,14 +28,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		package.json = package.json
 		prebuild.targets = prebuild.targets
 		README.md = README.md
-		rename.csx = rename.csx
 		stylecop.analyzers.ruleset = stylecop.analyzers.ruleset
 		StyleCop.json = StyleCop.json
-		switcher.freesql.json = switcher.freesql.json
-		switcher.furion.json = switcher.furion.json
-		switcher.nsext.json = switcher.nsext.json
-		switcher.ps1 = switcher.ps1
-		sync.sln.files.csx = sync.sln.files.csx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B25C9-0901-4923-913F-00F9A6B352A5}"
+	ProjectSection(SolutionItems) = preProject
+		code.clean.csx = scripts/code.clean.csx
+		code.clean.ps1 = scripts/code.clean.ps1
+		code.cleanup.full.ps1 = scripts/code.cleanup.full.ps1
+		dot.clean.cmd = scripts/dot.clean.cmd
+		gen.cs.tt = scripts/gen.cs.tt
+		gen.id.linq = scripts/gen.id.linq
+		gen.ln.cmd = scripts/gen.ln.cmd
+		gen.resx.tt = scripts/gen.resx.tt
+		git.pr.ps1 = scripts/git.pr.ps1
+		git.rc.ps1 = scripts/git.rc.ps1
+		image.optimize.csx = scripts/image.optimize.csx
+		install.as.tpl.ps1 = scripts/install.as.tpl.ps1
+		rename.csx = scripts/rename.csx
+		switcher.freesql.json = scripts/switcher.freesql.json
+		switcher.furion.json = scripts/switcher.furion.json
+		switcher.nsext.json = scripts/switcher.nsext.json
+		switcher.ps1 = scripts/switcher.ps1
+		sync.sln.files.csx = scripts/sync.sln.files.csx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
+	ProjectSection(SolutionItems) = preProject
+		ci.yml = .github/workflows/ci.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
@@ -87,13 +96,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.Tests", "06.Tests", "{89260294-80FC-49F1-8D73-AECD39AFF2B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.BizServer.Tests", "src\backend\NetAdmin.BizServer.Tests\NetAdmin.BizServer.Tests.csproj", "{C7F27698-DA05-4ACD-B0D7-4791B3972002}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
-	ProjectSection(SolutionItems) = preProject
-		ci.yml = .github/workflows/ci.yml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin.Tests\NetAdmin.Tests.csproj", "{00604162-C444-478B-B773-3AB23C856CA7}"
 EndProject

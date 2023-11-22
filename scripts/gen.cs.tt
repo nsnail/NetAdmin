@@ -63,7 +63,7 @@ public sealed class Ln
     public static CultureInfo Culture { get; set; }
 <#
     var xml = new XmlDocument();
-    xml.Load("./assets/res/Ln.resx");
+    xml.Load("../assets/res/Ln.resx");
     foreach (XmlNode data in xml.SelectNodes("//root/data")!)
     {
 #>

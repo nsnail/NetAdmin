@@ -1,8 +1,8 @@
 {
   "solution": "NetAdmin.sln",
   "mappings": {
-    "FreeSql.NS": "./refs/FreeSql/FreeSql/FreeSql.csproj",
-    "FreeSql.DbContext.NS": "./refs/FreeSql/FreeSql.DbContext/FreeSql.DbContext.csproj"
+    "FreeSql.NS": "../refs/FreeSql/FreeSql/FreeSql.csproj",
+    "FreeSql.DbContext.NS": "../refs/FreeSql/FreeSql.DbContext/FreeSql.DbContext.csproj"
   },
   "restore": [
     {

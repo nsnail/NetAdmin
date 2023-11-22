@@ -1,7 +1,7 @@
 {
   "solution": "NetAdmin.sln",
   "mappings": {
-    "Furion.Pure.NS": "./refs/Furion/framework/Furion.Pure/Furion.Pure.csproj"
+    "Furion.Pure.NS": "../refs/Furion/framework/Furion.Pure/Furion.Pure.csproj"
   },
   "restore": [
     {

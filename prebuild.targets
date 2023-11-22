@@ -1,12 +1,12 @@
 <Project>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <Exec Command="dotnet tool restore" StdOutEncoding="utf-8"/>
-        <Exec Condition="!Exists('$(SolutionDir)/assets/res/Ln.resx')" WorkingDirectory="$(SolutionDir)"
-              Command="dotnet t4 $(SolutionDir)/gen.resx.tt -o $(SolutionDir)/assets/res/Ln.resx"
+        <Exec Condition="!Exists('$(SolutionDir)/assets/res/Ln.resx')" WorkingDirectory="$(SolutionDir)/scripts"
+              Command="dotnet t4 ./gen.resx.tt -o ../assets/res/Ln.resx"
               StdOutEncoding="utf-8"/>
         <Exec Condition="!Exists('$(SolutionDir)/dist/backend/$(ProjectName)/Ln.cs')"
-              WorkingDirectory="$(SolutionDir)"
-              Command="dotnet t4 $(SolutionDir)/gen.cs.tt -o $(SolutionDir)/dist/backend/$(ProjectName)/Ln.cs"
+              WorkingDirectory="$(SolutionDir)/scripts"
+              Command="dotnet t4 ./gen.cs.tt -o ../dist/backend/$(ProjectName)/Ln.cs"
               StdOutEncoding="utf-8"/>
     </Target>
     <ItemGroup>
