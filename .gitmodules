@@ -1,0 +1,9 @@
+[submodule "refs/Furion"]
+	path = refs/Furion
+	url = https://github.com/nsnail/Furion.git
+[submodule "refs/ns-ext"]
+	path = refs/ns-ext
+	url = https://github.com/nsnail/ns-ext.git
+[submodule "refs/FreeSql"]
+	path = refs/FreeSql
+	url = https://github.com/nsnail/FreeSql.git

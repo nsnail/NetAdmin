@@ -8,12 +8,6 @@
         "t4"
       ]
     },
-    "cake.tool": {
-      "version": "4.0.0",
-      "commands": [
-        "dotnet-cake"
-      ]
-    },
     "dotnet-script": {
       "version": "1.5.0",
       "commands": [
@@ -21,7 +15,7 @@
       ]
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2023.2.3",
+      "version": "2023.3.0-eap08",
       "commands": [
         "jb"
       ]

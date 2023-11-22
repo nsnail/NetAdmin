@@ -7,7 +7,7 @@
 
 var files = Directory
     .EnumerateFiles(
-        "./",
+        "../",
         "*.png",
         new EnumerationOptions
         {
@@ -37,7 +37,7 @@ files = new[] { "*.jpg", "*.jpeg" }
     .SelectMany(
         x =>
             Directory.EnumerateFiles(
-                "./",
+                "../",
                 x,
                 new EnumerationOptions
                 {

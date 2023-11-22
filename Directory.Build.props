@@ -3,7 +3,7 @@
     <PropertyGroup>
         <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
     </PropertyGroup>
-    <Import Project="$(SolutionDir)/minver.targets"/>
+    <Import Project="$(SolutionDir)/minver.targets" />
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>nsnail</Authors>
@@ -31,6 +31,6 @@
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs"/>
+        <Compile Include="../GlobalUsings.cs" Link="GlobalUsings.cs" />
     </ItemGroup>
 </Project>

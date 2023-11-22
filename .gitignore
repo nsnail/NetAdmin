@@ -400,7 +400,6 @@ FodyWeavers.xsd
 
 # User Define
 dist/
-refs/
 *.[Dd]esigner.cs
 *.db
 cache

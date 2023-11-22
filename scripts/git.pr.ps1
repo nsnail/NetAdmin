@@ -1,7 +1,7 @@
 $branch = $( git branch --show-current )
 ./dot.clean.cmd
-git add .
-./node_modules/.bin/git-cz.ps1
+git add ../
+../node_modules/.bin/git-cz.ps1
 git pull
 git push --set-upstream origin $branch
 Start-Process -FilePath "https://github.com/nsnail/NetAdmin/compare/main...$branch"

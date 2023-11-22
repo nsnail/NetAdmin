@@ -29,7 +29,7 @@
 // ReSharper disable DuplicateResource
    <#
     var regex = new Regex(@"^\d", RegexOptions.Compiled);
-    foreach (var line in File.ReadLines("./assets/res/ln.txt"))
+    foreach (var line in File.ReadLines("../assets/res/ln.txt"))
     {
 #>
     <data name="<#= regex.IsMatch(line) ? "_" : "" #><#= line #>" xml:space="preserve"><value><#= line #></value></data>
