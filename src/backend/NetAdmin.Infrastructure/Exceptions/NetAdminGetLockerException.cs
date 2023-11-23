@@ -5,5 +5,5 @@ namespace NetAdmin.Infrastructure.Exceptions;
 /// </summary>
 #pragma warning disable RCS1194
 public sealed class NetAdminGetLockerException : NetAdminUnexpectedException
-    #pragma warning restore RCS1194
+#pragma warning restore RCS1194
 { }

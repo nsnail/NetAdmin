@@ -11,9 +11,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 /// </summary>
 [AllowAnonymous]
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ConstantController
-    (IConstantCache cache, IOptions<JsonOptions> jsonOptions) : ControllerBase<IConstantCache, IConstantService>(cache)
-                                                              , IConstantModule
+public sealed class ConstantController(IConstantCache cache, IOptions<JsonOptions> jsonOptions)
+    : ControllerBase<IConstantCache, IConstantService>(cache), IConstantModule
 {
     /// <summary>
     ///     获得常量字符串
