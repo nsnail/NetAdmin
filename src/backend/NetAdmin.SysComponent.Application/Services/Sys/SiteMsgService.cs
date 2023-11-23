@@ -12,8 +12,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ISiteMsgService" />
-public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUserInfo contextUserInfo
-                                 , ISiteMsgFlagService            siteMsgFlagService) //
+public sealed class SiteMsgService(
+    DefaultRepository<Sys_SiteMsg> rpo
+  , ContextUserInfo                contextUserInfo
+  , ISiteMsgFlagService            siteMsgFlagService) //
     : RepositoryService<Sys_SiteMsg, ISiteMsgService>(rpo), ISiteMsgService
 {
     /// <inheritdoc />

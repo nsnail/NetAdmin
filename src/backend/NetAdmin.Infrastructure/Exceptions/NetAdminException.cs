@@ -5,7 +5,7 @@ namespace NetAdmin.Infrastructure.Exceptions;
 /// </summary>
 #pragma warning disable RCS1194
 public abstract class NetAdminException : Exception
-    #pragma warning restore RCS1194
+#pragma warning restore RCS1194
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="NetAdminException" /> class.

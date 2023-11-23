@@ -7,9 +7,8 @@ using NetAdmin.SysComponent.Cache.Tpl.Dependency;
 namespace NetAdmin.SysComponent.Cache.Tpl;
 
 /// <inheritdoc cref="IExampleCache" />
-public sealed class ExampleCache
-    (IDistributedCache cache, IExampleService service) : DistributedCache<IExampleService>(cache, service), IScoped
-                                                       , IExampleCache
+public sealed class ExampleCache(IDistributedCache cache, IExampleService service)
+    : DistributedCache<IExampleService>(cache, service), IScoped, IExampleCache
 {
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

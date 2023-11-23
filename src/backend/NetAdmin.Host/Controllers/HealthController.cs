@@ -7,8 +7,8 @@ namespace NetAdmin.Host.Controllers;
 ///     健康控制器
 /// </summary>
 [ApiDescriptionSettings("Health")]
-public sealed class HealthController
-    (ICache<IDistributedCache, IService> cache) : ControllerBase<ICache<IDistributedCache, IService>, IService>(cache)
+public sealed class HealthController(ICache<IDistributedCache, IService> cache)
+    : ControllerBase<ICache<IDistributedCache, IService>, IService>(cache)
 {
     /// <summary>
     ///     健康检查

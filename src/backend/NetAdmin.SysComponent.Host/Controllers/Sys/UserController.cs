@@ -13,8 +13,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     用户服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class UserController
-    (IUserCache cache, IConfigCache configCache) : ControllerBase<IUserCache, IUserService>(cache), IUserModule
+public sealed class UserController(IUserCache cache, IConfigCache configCache)
+    : ControllerBase<IUserCache, IUserService>(cache), IUserModule
 {
     /// <summary>
     ///     批量删除用户

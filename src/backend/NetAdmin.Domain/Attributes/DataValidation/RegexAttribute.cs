@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 #pragma warning disable DesignedForInheritance
 public class RegexAttribute : RegularExpressionAttribute
-    #pragma warning restore DesignedForInheritance
+#pragma warning restore DesignedForInheritance
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="RegexAttribute" /> class.
