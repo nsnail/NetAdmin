@@ -15,21 +15,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 		.gitignore = .gitignore
 		.gitmodules = .gitmodules
 		CHANGELOG.md = CHANGELOG.md
-		code.quality.props = code.quality.props
-		copy.pkg.xml.comment.files.targets = copy.pkg.xml.comment.files.targets
 		Directory.Build.props = Directory.Build.props
 		Dockerfile = Dockerfile
 		dotnet-tools.json = dotnet-tools.json
 		global.json = global.json
 		LICENSE = LICENSE
-		minver.targets = minver.targets
 		NetAdmin.sln.DotSettings = NetAdmin.sln.DotSettings
 		nuget.config = nuget.config
 		package.json = package.json
-		prebuild.targets = prebuild.targets
 		README.md = README.md
-		stylecop.analyzers.ruleset = stylecop.analyzers.ruleset
-		StyleCop.json = StyleCop.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B25C9-0901-4923-913F-00F9A6B352A5}"
@@ -58,6 +52,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
 	ProjectSection(SolutionItems) = preProject
 		ci.yml = .github/workflows/ci.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E4C93BA-9493-4892-80C4-5E174C504829}"
+	ProjectSection(SolutionItems) = preProject
+		code.quality.props = build/code.quality.props
+		copy.pkg.xml.comment.files.targets = build/copy.pkg.xml.comment.files.targets
+		minver.targets = build/minver.targets
+		prebuild.targets = build/prebuild.targets
+		stylecop.analyzers.ruleset = build/stylecop.analyzers.ruleset
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
     </PropertyGroup>
-    <Import Project="$(SolutionDir)/minver.targets" />
+    <Import Project="$(SolutionDir)/build/minver.targets" />
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>nsnail</Authors>

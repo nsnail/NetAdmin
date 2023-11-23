@@ -2,9 +2,9 @@
     <PropertyGroup>
         <DefineConstants>INFRAS</DefineConstants>
     </PropertyGroup>
-    <Import Project="$(SolutionDir)/code.quality.props"/>
-    <Import Project="$(SolutionDir)/copy.pkg.xml.comment.files.targets"/>
-    <Import Project="$(SolutionDir)/prebuild.targets"/>
+    <Import Project="$(SolutionDir)/build/code.quality.props"/>
+    <Import Project="$(SolutionDir)/build/copy.pkg.xml.comment.files.targets"/>
+    <Import Project="$(SolutionDir)/build/prebuild.targets"/>
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.802-preview20231010-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.802-preview20231010-ns1"/>
