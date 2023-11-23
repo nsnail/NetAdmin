@@ -1,5 +1,6 @@
 $branch = $( git branch --show-current )
-./dot.clean.cmd
+git add ../
+./code.clean.ps1
 git add ../
 ../node_modules/.bin/git-cz.ps1
 git pull

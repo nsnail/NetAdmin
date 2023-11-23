@@ -1,7 +1,5 @@
-$files = $( foreach ($line in $( git diff head origin/dev --stat-width 200 ) | findstr '\|')
-{
-    $line.split('\|')[0].trim()
-} ) -join ';'
-echo $files
-dotnet jb cleanupcode --no-build --include = "$files" ./NetAdmin.sln
-dotnet script ./PushSign.csx
+npm --prefix ../src/frontend/admin run prettier
+dotnet jb cleanupcode --no-build --include=$($(git status --porcelain | Where-Object { $_ -match "^\s*[MA]" } | ForEach-Object { $_.TrimStart(" M").TrimStart(" A") }) -join ";") ../NetAdmin.sln
+dot rbom -w -e refs -e .git -e node_modules ../
+dot trim -w -e refs -e .git -e node_modules ../
+dot tolf -w -e refs -e .git -e node_modules ../
