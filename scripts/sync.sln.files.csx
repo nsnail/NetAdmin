@@ -45,5 +45,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B
 """
 );
 
+content = Regex.Replace(
+    content,
+    "Project\\(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\"\\) = \"build\", \"build\", \"{8E4C93BA-9493-4892-80C4-5E174C504829}\"(?:.|\n)*?EndProject",
+    $$"""
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E4C93BA-9493-4892-80C4-5E174C504829}"
+{{'\t'}}ProjectSection(SolutionItems) = preProject
+{{string.Join('\n',
+             Directory.GetFiles(@"../build", "*")
+                      .Select(x=>$"\t\t{Path.GetFileName(x)} = build/{Path.GetFileName(x)}")
+                      )}}
+{{'\t'}}EndProject
+"""
+);
+
 Console.WriteLine(content);
 File.WriteAllText(slnFile, content);

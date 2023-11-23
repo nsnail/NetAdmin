@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(SolutionDir)/code.quality.props"/>
+    <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
         <Content Include="$(SolutionDir)/assets/seed-data/**" LinkBase="SeedData" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>

@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <CodeAnalysisRuleSet>$(SolutionDir)/stylecop.analyzers.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>$(SolutionDir)/build/stylecop.analyzers.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <PropertyGroup>
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>

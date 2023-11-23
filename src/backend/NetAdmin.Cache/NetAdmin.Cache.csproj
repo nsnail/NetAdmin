@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(SolutionDir)/code.quality.props"/>
+    <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Application/NetAdmin.Application.csproj"/>
     </ItemGroup>
