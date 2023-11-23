@@ -9,7 +9,7 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 #pragma warning disable DesignedForInheritance
 public class RedLocker : IDisposable, ISingleton
-    #pragma warning restore DesignedForInheritance
+#pragma warning restore DesignedForInheritance
 {
     // Track whether Dispose has been called.
     private bool _disposed;

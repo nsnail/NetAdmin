@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.HttpOverrides;
 #if DEBUG
 using IGeekFan.AspNetCore.Knife4jUI;
+
 #else
 using Prometheus;
 #endif
-using Microsoft.AspNetCore.HttpOverrides;
 
 namespace NetAdmin.Host.Extensions;
 

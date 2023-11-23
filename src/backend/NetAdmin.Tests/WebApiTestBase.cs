@@ -11,8 +11,8 @@ namespace NetAdmin.Tests;
 /// <summary>
 ///     WebApi 测试用例基类
 /// </summary>
-public abstract class WebApiTestBase<T>
-    (WebApplicationFactory<T> factory, ITestOutputHelper testOutputHelper) : IClassFixture<WebApplicationFactory<T>>
+public abstract class WebApiTestBase<T>(WebApplicationFactory<T> factory, ITestOutputHelper testOutputHelper)
+    : IClassFixture<WebApplicationFactory<T>>
     where T : AppStartup
 {
     private const string _ACCOUNT                   = "root";

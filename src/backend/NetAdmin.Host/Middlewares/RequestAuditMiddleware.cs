@@ -8,9 +8,10 @@ namespace NetAdmin.Host.Middlewares;
 /// <remarks>
 ///     放在所有中间件最前面
 /// </remarks>
-public sealed class RequestAuditMiddleware(RequestDelegate next
-                                         , IOptions<DynamicApiControllerSettingsOptions>
-                                               dynamicApiControllerSettingsOptions, RequestLogger requestLogger)
+public sealed class RequestAuditMiddleware(
+    RequestDelegate                               next
+  , IOptions<DynamicApiControllerSettingsOptions> dynamicApiControllerSettingsOptions
+  , RequestLogger                                 requestLogger)
 {
     private readonly PathString _defaultRoutePrefix
         = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");

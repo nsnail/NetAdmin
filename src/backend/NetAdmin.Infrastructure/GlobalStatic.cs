@@ -17,7 +17,7 @@ public static class GlobalStatic
     public static bool DebugMode =>
         #if DEBUG
         true
-        #else
+    #else
         false
     #endif
     ;

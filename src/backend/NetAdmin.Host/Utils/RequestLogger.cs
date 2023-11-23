@@ -7,9 +7,10 @@ namespace NetAdmin.Host.Utils;
 /// <summary>
 ///     请求日志记录器
 /// </summary>
-public sealed class RequestLogger(ILogger<RequestLogger>                         logger
-                                , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
-                                , IEventPublisher                                eventPublisher) : ISingleton
+public sealed class RequestLogger(
+    ILogger<RequestLogger>                         logger
+  , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
+  , IEventPublisher                                eventPublisher) : ISingleton
 {
     private static readonly string[] _textContentTypes = { "text", "json", "xml", "urlencoded" };
 
