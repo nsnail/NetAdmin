@@ -149,14 +149,14 @@ public static class ServiceCollectionExtensions
     ///     添加 freeSql orm工具
     /// </summary>
     public static IServiceCollection AddFreeSql( //
-        this IServiceCollection me, FreeSqlInitOptions initOptions = FreeSqlInitOptions.None
+        this IServiceCollection me, FreeSqlInitMethods initMethods = FreeSqlInitMethods.None
       , Action<IFreeSql>        freeSqlConfig = null)
     {
         // // 非调试模式下禁止同步数据库
         // #if !DEBUG
         // initOptions = FreeSqlInitOptions.None;
         // #endif
-        var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build(initOptions);
+        var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build(initMethods);
         _ = me.AddSingleton(freeSql);
 
         var sqlAuditor = App.GetService<SqlAuditor>();

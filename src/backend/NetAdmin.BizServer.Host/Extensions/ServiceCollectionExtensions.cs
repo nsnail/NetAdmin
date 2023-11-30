@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddFreeSql(this IServiceCollection me)
     {
         return me.AddFreeSql( //
-            FreeSqlInitOptions.SyncStructure | FreeSqlInitOptions.InsertSeedData, freeSql => {
+            FreeSqlInitMethods.SyncStructure | FreeSqlInitMethods.InsertSeedData, freeSql => {
                 // 数据权限过滤器
                 _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
                     Chars.FLG_GLOBAL_FILTER_DATA

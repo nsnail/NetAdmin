@@ -13,7 +13,7 @@ public interface IService
     Guid ServiceId { get; set; }
 
     /// <summary>
-    ///     上下文用户
+    ///     上下文用户令牌
     /// </summary>
     ContextUserToken UserToken { get; set; }
 }

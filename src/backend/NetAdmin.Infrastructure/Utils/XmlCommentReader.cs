@@ -3,7 +3,7 @@ using System.Xml;
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
-///     程序集注释文档读取工具
+///     程序集注释文档读取器
 /// </summary>
 public sealed class XmlCommentReader : ISingleton
 {

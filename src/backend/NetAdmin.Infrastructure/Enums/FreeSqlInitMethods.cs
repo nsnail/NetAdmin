@@ -1,10 +1,10 @@
 namespace NetAdmin.Infrastructure.Enums;
 
 /// <summary>
-///     初始化选项
+///     FreeSql 初始化方式
 /// </summary>
 [Flags]
-public enum FreeSqlInitOptions
+public enum FreeSqlInitMethods
 {
     /// <summary>
     ///     无

@@ -4,7 +4,7 @@ using Minio.DataModel.Args;
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
-///     MinioHelper
+///     Minio 帮助类
 /// </summary>
 public sealed class MinioHelper(IOptions<UploadOptions> uploadOptions) : IScoped
 {

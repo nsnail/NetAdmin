@@ -1,7 +1,7 @@
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
-///     MIME类型帮助类
+///     MIME 类型帮助类
 /// </summary>
 public static class MimeTypeHelper
 {
