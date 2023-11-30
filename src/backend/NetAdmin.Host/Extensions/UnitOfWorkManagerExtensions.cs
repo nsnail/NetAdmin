@@ -1,7 +1,7 @@
 namespace NetAdmin.Host.Extensions;
 
 /// <summary>
-///     工作单元管理器扩展类
+///     工作单元管理器扩展方法
 /// </summary>
 public static class UnitOfWorkManagerExtensions
 {

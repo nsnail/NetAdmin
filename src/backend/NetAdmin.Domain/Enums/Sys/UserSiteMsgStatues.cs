@@ -1,4 +1,4 @@
-namespace NetAdmin.Infrastructure.Enums;
+namespace NetAdmin.Domain.Enums.Sys;
 
 /// <summary>
 ///     站内信状态

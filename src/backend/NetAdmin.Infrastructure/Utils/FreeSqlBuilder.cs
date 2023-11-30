@@ -4,20 +4,20 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
-///     FreeSqlBuilder
+///     FreeSql 构建器
 /// </summary>
 public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
 {
     /// <summary>
     ///     构建freeSql对象
     /// </summary>
-    public IFreeSql Build(FreeSqlInitOptions initOptions)
+    public IFreeSql Build(FreeSqlInitMethods initMethods)
     {
         var freeSql = new FreeSql.FreeSqlBuilder().UseConnectionString(databaseOptions.DbType, databaseOptions.ConnStr)
                                                   .UseAutoSyncStructure(false)
                                                   .Build();
 
-        _ = InitDbAsync(freeSql, initOptions); // 初始化数据库 ，异步
+        _ = InitDbAsync(freeSql, initMethods); // 初始化数据库 ，异步
         return freeSql;
     }
 
@@ -59,23 +59,23 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     /// <summary>
     ///     初始化数据库
     /// </summary>
-    private Task InitDbAsync(IFreeSql freeSql, FreeSqlInitOptions initOptions)
+    private Task InitDbAsync(IFreeSql freeSql, FreeSqlInitMethods initMethods)
     {
         return Task.Run(() => {
-            if (initOptions == FreeSqlInitOptions.None) {
+            if (initMethods == FreeSqlInitMethods.None) {
                 return;
             }
 
             var entityTypes = GetEntityTypes();
-            if (initOptions.HasFlag(FreeSqlInitOptions.SyncStructure)) {
+            if (initMethods.HasFlag(FreeSqlInitMethods.SyncStructure)) {
                 SyncStructure(freeSql, entityTypes);
             }
 
-            if (initOptions.HasFlag(FreeSqlInitOptions.InsertSeedData)) {
+            if (initMethods.HasFlag(FreeSqlInitMethods.InsertSeedData)) {
                 InsertSeedData(freeSql, entityTypes);
             }
 
-            if (initOptions.HasFlag(FreeSqlInitOptions.CompareStructure)) {
+            if (initMethods.HasFlag(FreeSqlInitMethods.CompareStructure)) {
                 CompareStructure(freeSql, entityTypes);
             }
         });

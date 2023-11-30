@@ -1,7 +1,7 @@
 namespace NetAdmin.BizServer.Host.Extensions;
 
 /// <summary>
-///     ApplicationBuilder对象 扩展方法
+///     ApplicationBuilder 扩展方法
 /// </summary>
 [SuppressSniffer]
 

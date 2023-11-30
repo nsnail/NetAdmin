@@ -14,7 +14,7 @@ public sealed class DefaultRepository<TEntity>(
     where TEntity : EntityBase
 {
     /// <summary>
-    ///     当前上下文关联的用户
+    ///     当前上下文关联的用户令牌
     /// </summary>
     public ContextUserToken UserToken => userToken;
 }

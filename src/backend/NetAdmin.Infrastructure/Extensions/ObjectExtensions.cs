@@ -1,7 +1,7 @@
 namespace NetAdmin.Infrastructure.Extensions;
 
 /// <summary>
-///     Object 扩展类
+///     Object 扩展方法
 /// </summary>
 public static class ObjectExtensions
 {

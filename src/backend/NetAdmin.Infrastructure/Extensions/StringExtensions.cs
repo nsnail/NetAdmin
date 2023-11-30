@@ -1,7 +1,7 @@
 namespace NetAdmin.Infrastructure.Extensions;
 
 /// <summary>
-///     String 扩展类
+///     String 扩展方法
 /// </summary>
 public static class StringExtensions
 {

@@ -1,4 +1,5 @@
 using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
 

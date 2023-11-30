@@ -3,7 +3,7 @@
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
-///     解析用户代理字符串
+///     用户代理字符串解析器
 /// </summary>
 public sealed class UserAgentParser
 {
