@@ -6,11 +6,11 @@
     <Import Project="$(SolutionDir)/build/copy.pkg.xml.comment.files.targets"/>
     <Import Project="$(SolutionDir)/build/prebuild.targets"/>
     <ItemGroup>
-        <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.802-preview20231010-ns1"/>
-        <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.802-preview20231010-ns1"/>
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.5"/>
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.1.5-ns1"/>
-        <PackageReference Include="Furion.Pure.NS" Version="4.9.1.5-ns1"/>
+        <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.806-preview20231206-ns1"/>
+        <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.806-preview20231206-ns1"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.11"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.1.11-ns1"/>
+        <PackageReference Include="Furion.Pure.NS" Version="4.9.1.11-ns1"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0"/>
         <PackageReference Include="NSExt" Version="1.1.0"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>
