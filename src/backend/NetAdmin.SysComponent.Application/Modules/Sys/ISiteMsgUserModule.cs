@@ -11,4 +11,4 @@ public interface ISiteMsgUserModule : ICrudModule<CreateSiteMsgUserReq, QuerySit
   , QuerySiteMsgUserReq, QuerySiteMsgUserRsp                                                // 查询类型
   , UpdateSiteMsgUserReq, QuerySiteMsgUserRsp                                               // 修改类型
   , DelReq                                                                                  // 删除类型
-> { }
+>;

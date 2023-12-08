@@ -11,4 +11,4 @@ public interface ISiteMsgRoleModule : ICrudModule<CreateSiteMsgRoleReq, QuerySit
   , QuerySiteMsgRoleReq, QuerySiteMsgRoleRsp                                                // 查询类型
   , UpdateSiteMsgRoleReq, QuerySiteMsgRoleRsp                                               // 修改类型
   , DelReq                                                                                  // 删除类型
-> { }
+>;

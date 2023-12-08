@@ -11,4 +11,4 @@ public interface ISiteMsgFlagModule : ICrudModule<CreateSiteMsgFlagReq, QuerySit
   , QuerySiteMsgFlagReq, QuerySiteMsgFlagRsp                                                // 查询类型
   , UpdateSiteMsgFlagReq, QuerySiteMsgFlagRsp                                               // 修改类型
   , DelReq                                                                                  // 删除类型
-> { }
+>;

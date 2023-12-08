@@ -11,4 +11,4 @@ public interface IRequestLogModule : ICrudModule<CreateRequestLogReq, QueryReque
   , QueryRequestLogReq, QueryRequestLogRsp                                               // 查询类型
   , NopReq, NopReq                                                                       // 修改类型
   , DelReq                                                                               // 删除类型
-> { }
+>;

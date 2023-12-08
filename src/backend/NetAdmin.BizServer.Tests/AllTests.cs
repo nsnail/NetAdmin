@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
+using NetAdmin.Application.Modules;
 using NetAdmin.BizServer.Host;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
@@ -22,7 +23,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     : WebApiTestBase<Startup>(factory, testOutputHelper), IToolsModule, ICacheModule, IApiModule, IConfigModule
 
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="ICrudModule{TCreateReq,TCreateRsp,TQueryReq,TQueryRsp,TUpdateReq,TUpdateRsp,TDelReq}.BulkDeleteAsync" />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         throw new NotImplementedException();
@@ -32,7 +33,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
-        var rsp = await PostAsync("/api/sys/cache/cache.statistics", null).ConfigureAwait(false);
+        var rsp = await PostAsync("/api/sys/cache/cache.statistics", null).ConfigureAwait(true);
         Assert.Equal(HttpStatusCode.OK, rsp.StatusCode);
         return default;
     }
@@ -49,7 +50,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
         throw new NotImplementedException();
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="ICrudModule{TCreateReq,TCreateRsp,TQueryReq,TQueryRsp,TUpdateReq,TUpdateRsp,TDelReq}.DeleteAsync" />
     public Task<int> DeleteAsync(DelReq req)
     {
         throw new NotImplementedException();
@@ -74,7 +75,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     {
         var rsp = await PostAsync("/api/sys/cache/get.all.entries"
                                 , JsonContent.Create(new PagedQueryReq<GetAllEntriesReq>()))
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
         Assert.Equal(HttpStatusCode.OK, rsp.StatusCode);
         return default;
     }
@@ -107,7 +108,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task<DateTime> GetServerUtcTimeAsync()
     {
-        var response = await PostAsync("/api/sys/tools/get.server.utc.time", null).ConfigureAwait(false);
+        var response = await PostAsync("/api/sys/tools/get.server.utc.time", null).ConfigureAwait(true);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return default;
     }
@@ -116,15 +117,9 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task<string> GetVersionAsync()
     {
-        var response = await PostAsync("/api/sys/tools/version", null).ConfigureAwait(false);
+        var response = await PostAsync("/api/sys/tools/version", null).ConfigureAwait(true);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return default;
-    }
-
-    /// <inheritdoc />
-    public Task<IEnumerable<(string Name, string Version)>> ModulesAsync()
-    {
-        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -155,7 +150,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [Fact]
     public async Task SyncAsync()
     {
-        var response = await PostAsync("/api/sys/api/sync", null).ConfigureAwait(false);
+        var response = await PostAsync("/api/sys/api/sync", null).ConfigureAwait(true);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 

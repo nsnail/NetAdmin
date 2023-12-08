@@ -9,7 +9,7 @@ public sealed class XmlCommentReader : ISingleton
 {
     private const           string            _XPATH        = "//doc/members/member[@name=\"{0}\"]";
     private static readonly Regex             _regex        = new(@"`\d+");
-    private readonly        List<XmlDocument> _xmlDocuments = new();
+    private readonly        List<XmlDocument> _xmlDocuments = [];
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="XmlCommentReader" /> class.

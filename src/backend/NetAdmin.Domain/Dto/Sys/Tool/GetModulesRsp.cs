@@ -8,7 +8,7 @@ public record GetModulesRsp : DataAbstraction
     /// <summary>
     ///     模块名称
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
     ///     模块版本
