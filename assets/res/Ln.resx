@@ -22,8 +22,8 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-// ReSharper disable DuplicateResource
-       <data name="_1分钟内只能发送1次" xml:space="preserve"><value>1分钟内只能发送1次</value></data>
+    // ReSharper disable DuplicateResource
+    <data name="_1分钟内只能发送1次" xml:space="preserve"><value>1分钟内只能发送1次</value></data>
     <data name="_6位数字" xml:space="preserve"><value>6位数字</value></data>
     <data name="_8位以上数字字母组合" xml:space="preserve"><value>8位以上数字字母组合</value></data>
     <data name="XML注释文件不存在" xml:space="preserve"><value>XML注释文件不存在</value></data>

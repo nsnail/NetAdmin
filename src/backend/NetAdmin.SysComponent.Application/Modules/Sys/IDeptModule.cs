@@ -11,4 +11,4 @@ public interface IDeptModule : ICrudModule<CreateDeptReq, QueryDeptRsp // 创建
   , QueryDeptReq, QueryDeptRsp                                         // 查询类型
   , UpdateDeptReq, QueryDeptRsp                                        // 修改类型
   , DelReq                                                             // 删除类型
-> { }
+>;

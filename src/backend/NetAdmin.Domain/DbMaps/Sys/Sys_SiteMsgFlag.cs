@@ -20,7 +20,7 @@ public record Sys_SiteMsgFlag : MutableEntity
     ///     用户编号
     /// </summary>
     [JsonIgnore]
-    public virtual long UserId { get; set; }
+    public virtual long UserId { get; init; }
 
     /// <summary>
     ///     用户站内信状态

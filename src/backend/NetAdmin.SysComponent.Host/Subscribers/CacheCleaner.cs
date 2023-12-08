@@ -18,14 +18,14 @@ public sealed class CacheCleaner : IEventSubscriber
     ///     用户缓存清理
     /// </summary>
     [EventSubscribe(nameof(UserUpdatedEvent))]
-    public async Task RemoveUserInfoAsync(EventHandlerExecutingContext context)
+    public Task RemoveUserInfoAsync(EventHandlerExecutingContext context)
     {
         if (context.Source is not UserUpdatedEvent userUpdatedEvent) {
-            return;
+            return Task.CompletedTask;
         }
 
         var cache = App.GetService<IUserCache>();
         cache.Service.UserToken = ContextUserToken.Create(userUpdatedEvent.Data);
-        await cache.RemoveUserInfoAsync().ConfigureAwait(false);
+        return cache.RemoveUserInfoAsync();
     }
 }
