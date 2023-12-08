@@ -33,8 +33,8 @@ public sealed class RequestAuditMiddleware(
         }
 
         // Response.Body流默认是不可读的，将Response.Body流替换成MemoryStream 使其可读
-        using var ms     = new MemoryStream();
-        var       stream = context.Response.Body;
+        await using var ms     = new MemoryStream();
+        var             stream = context.Response.Body;
         context.Response.Body = ms;
 
         // 在控制台上输出分割线，区分不同请求
