@@ -28,6 +28,6 @@ public sealed class SmsCodeSender(ILogger<SmsCodeSender> logger) : IEventSubscri
                                            Status = VerifyCodeStatues.Sent
                                        })
                                    .ConfigureAwait(false);
-        logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已完成}");
+        logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已处理完毕}");
     }
 }

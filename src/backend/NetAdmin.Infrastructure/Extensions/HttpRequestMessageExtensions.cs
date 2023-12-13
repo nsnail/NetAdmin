@@ -19,7 +19,7 @@ public static class HttpRequestMessageExtensions
     /// </summary>
     public static async Task<HttpRequestMessage> LogAsync<T>(this HttpRequestMessage me, ILogger<T> logger)
     {
-        logger.Info($"{Ln.请求}: {await me.BuildJsonAsync().ConfigureAwait(false)}");
+        logger.Info($"HTTP Request: {await me.BuildJsonAsync().ConfigureAwait(false)}");
         return me;
     }
 }

@@ -10,8 +10,14 @@
               StdOutEncoding="utf-8" />
     </Target>
     <ItemGroup>
-        <None Include="$(SolutionDir)/assets/res/Ln.txt">
-            <Link>Languages/Ln.txt</Link>
+        <None Include="$(SolutionDir)/assets/res/Statements.ln">
+            <Link>Languages/Statements.ln</Link>
+        </None>
+        <None Include="$(SolutionDir)/assets/res/Nations.ln">
+            <Link>Languages/Nations.ln</Link>
+        </None>
+        <None Include="$(SolutionDir)/assets/res/Enums.ln">
+            <Link>Languages/Enums.ln</Link>
         </None>
         <EmbeddedResource Include="$(SolutionDir)/assets/res/Ln.resx">
             <Link>Languages/Ln.resx</Link>
