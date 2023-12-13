@@ -16,6 +16,6 @@ public sealed class ApiSynchronizer(ILogger<ApiSynchronizer> logger) : IEventSub
     {
         var logService = App.GetService<IApiService>();
         await logService.SyncAsync().ConfigureAwait(false);
-        logger.Info($"{nameof(IApiService)}.{nameof(IApiService.SyncAsync)} {Ln.已完成}");
+        logger.Info($"{nameof(IApiService)}.{nameof(IApiService.SyncAsync)} {Ln.已处理完毕}");
     }
 }

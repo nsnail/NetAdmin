@@ -12,7 +12,7 @@ public sealed class MobileAttribute : RegexAttribute
     public MobileAttribute() //
         : base(Chars.RGX_MOBILE)
     {
-        ErrorMessageResourceName = nameof(Ln.手机号码);
+        ErrorMessageResourceName = nameof(Ln.手机号码不正确);
         ErrorMessageResourceType = typeof(Ln);
     }
 }

@@ -26,14 +26,16 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-// ReSharper disable DuplicateResource
    <#
     var regex = new Regex(@"^\d", RegexOptions.Compiled);
-    foreach (var line in File.ReadLines("../assets/res/ln.txt"))
+    foreach (var file in Directory.GetFiles("../assets/res/", "*.ln"))
     {
+        foreach (var line in File.ReadLines(file))
+        {
 #>
     <data name="<#= regex.IsMatch(line) ? "_" : "" #><#= line #>" xml:space="preserve"><value><#= line #></value></data>
 <#
+        }
     }
 #>
 </root>

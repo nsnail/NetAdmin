@@ -28,6 +28,6 @@ public sealed class EmailCodeSender(ILogger<EmailCodeSender> logger) : IEventSub
                                            Status = VerifyCodeStatues.Sent
                                        })
                                    .ConfigureAwait(false);
-        logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已完成}");
+        logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.UpdateAsync)} {Ln.已处理完毕}");
     }
 }
