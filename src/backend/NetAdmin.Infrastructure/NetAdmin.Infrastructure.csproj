@@ -8,11 +8,11 @@
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.806-preview20231206-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.806-preview20231206-ns1"/>
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.11"/>
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.1.11-ns1"/>
-        <PackageReference Include="Furion.Pure.NS" Version="4.9.1.11-ns1"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.14"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.1.14-ns1"/>
+        <PackageReference Include="Furion.Pure.NS" Version="4.9.1.14-ns1"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0"/>
-        <PackageReference Include="NSExt" Version="1.1.0"/>
+        <PackageReference Include="NSExt" Version="2.0.11"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0"/>
         <PackageReference Include="Minio" Version="6.0.1"/>
