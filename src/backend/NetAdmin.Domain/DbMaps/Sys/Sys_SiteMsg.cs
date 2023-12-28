@@ -15,7 +15,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     ///     消息内容
     /// </summary>
     [JsonIgnore]
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_TEXT)]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     public virtual string Content { get; init; }
 
     /// <summary>
