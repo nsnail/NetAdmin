@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Attributes.DataValidation;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
@@ -9,12 +8,9 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// </summary>
 public sealed record CheckMobileAvailableReq : Sys_User
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; init; }
-
     /// <inheritdoc cref="Sys_User.Mobile" />
     [Mobile]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.手机号码不能为空))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Mobile { get; init; }
 }

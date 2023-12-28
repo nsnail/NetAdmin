@@ -229,6 +229,7 @@ public sealed class SiteMsgService(
         var list = await QueryMineInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
+                         .OrderByDescending(a => a.Max(a.Value.Item1.CreatedTime))
                          .ToListAsync(a => new QuerySiteMsgRsp {
                                                                    Id      = a.Max(a.Value.Item1.Id)
                                                                  , Title   = a.Max(a.Value.Item1.Title)
@@ -291,7 +292,6 @@ public sealed class SiteMsgService(
                               f.UserSiteMsgStatus != UserSiteMsgStatues.Deleted) &&
                              (a.MsgType == SiteMsgTypes.Public || c.DeptId == contextUserInfo.DeptId ||
                               roleIds.Contains(d.RoleId)       || e.UserId == contextUserInfo.Id))
-                  .GroupBy((a, _, _, _, _, _) => a.Id)
-                  .OrderByDescending(a => a.Value.Item1.CreatedTime);
+                  .GroupBy((a, _, _, _, _, _) => a.Id);
     }
 }
