@@ -15,10 +15,11 @@ public static class ServiceCollectionExtensions
     /// <summary>
     ///     添加 FreeSql
     /// </summary>
-    public static IServiceCollection AddFreeSql(this IServiceCollection me)
+    public static IServiceCollection AddFreeSqlWithArgs(this IServiceCollection me)
     {
         return me.AddFreeSql( //
-            FreeSqlInitMethods.SyncStructure | FreeSqlInitMethods.InsertSeedData, freeSql => {
+            (Startup.Args.SyncStructure ? FreeSqlInitMethods.SyncStructure : FreeSqlInitMethods.None) |
+            (Startup.Args.InsertSeedData ? FreeSqlInitMethods.InsertSeedData : FreeSqlInitMethods.None), freeSql => {
                 // 数据权限过滤器
                 _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
                     Chars.FLG_GLOBAL_FILTER_DATA
