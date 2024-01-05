@@ -1,4 +1,5 @@
 using Spectre.Console;
+using Spectre.Console.Cli;
 
 namespace NetAdmin.Host;
 
@@ -7,6 +8,21 @@ namespace NetAdmin.Host;
 /// </summary>
 public abstract class Startup : AppStartup
 {
+    /// <summary>
+    ///     程序入口
+    /// </summary>
+    public static void Entry<T>(IEnumerable<string> args, Action<IConfigurator> commandConfig = null)
+        where T : class, ICommand
+    {
+        ShowBanner();
+        var app = new CommandApp<T>();
+        if (commandConfig != null) {
+            app.Configure(commandConfig);
+        }
+
+        _ = app.Run(args);
+    }
+
     /// <summary>
     ///     打印Banner
     /// </summary>

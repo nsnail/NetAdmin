@@ -42,7 +42,7 @@ docker run -p 8080:8080 nsnail/netadmin
    ```
     4. 运行后端WebApi
    ``` shell
-   dotnet run --project ./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj --urls http://[::]:5010
+   dotnet run --project ./src/backend/NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj --urls http://[::]:5010 -is
    ```
     5. 体验WebApi程序
         - 浏览器打开 http://localhost:5010 ，将看到Swagger（Knife4jUI）界面

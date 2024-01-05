@@ -10,6 +10,14 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "InitDB": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "commandLineArgs": "-is",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
