@@ -9,7 +9,7 @@
 
 ## 在线预览
 
-http://na.yaopy.com
+http://na.yaopy.com （演示站点仅300kbps带宽，访问较慢）
 
 ## 一键运行
 
