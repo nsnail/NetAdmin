@@ -28,5 +28,8 @@ public sealed record VerifyCodeCreatedEvent : DataAbstraction, IEventSourceGener
     public string EventId => nameof(VerifyCodeCreatedEvent);
 
     /// <inheritdoc />
+    public bool IsConsumOnce { get; }
+
+    /// <inheritdoc />
     public object Payload { get; }
 }
