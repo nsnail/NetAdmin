@@ -49,11 +49,13 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     private static MethodInfo MakeInsertMethod(Type entityType)
     {
         return typeof(IBaseRepository<>).MakeGenericType(entityType)
-                                        .GetMethod( //
-                                            nameof(IBaseRepository<dynamic>.Insert)
-                                          , BindingFlags.Public | BindingFlags.Instance, null
-                                          , CallingConventions.Any
-                                          , new[] { typeof(IEnumerable<>).MakeGenericType(entityType) }, null);
+                                        .GetMethod(                                             //
+                                            nameof(IBaseRepository<dynamic>.Insert)             //
+                                          , BindingFlags.Public | BindingFlags.Instance         //
+                                          , null                                                //
+                                          , CallingConventions.Any                              //
+                                          , [typeof(IEnumerable<>).MakeGenericType(entityType)] //
+                                          , null);
     }
 
     /// <summary>
@@ -108,7 +110,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
                 continue;
             }
 
-            var rep = MakeGetRepositoryMethod(entityType)?.Invoke(null, new object[] { freeSql, null });
+            var rep = MakeGetRepositoryMethod(entityType)?.Invoke(null, [freeSql, null]);
             if (rep?.GetType().GetProperty(nameof(DbContextOptions))?.GetValue(rep) is DbContextOptions options) {
                 options.EnableCascadeSave = true;
                 options.NoneParameter     = true;
@@ -116,7 +118,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
 
             var insert = MakeInsertMethod(entityType);
 
-            _ = insert?.Invoke(rep, new[] { entities });
+            _ = insert?.Invoke(rep, [entities]);
         }
     }
 
