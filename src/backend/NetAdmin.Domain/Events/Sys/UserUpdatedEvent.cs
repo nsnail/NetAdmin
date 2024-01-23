@@ -28,5 +28,8 @@ public sealed record UserUpdatedEvent : DataAbstraction, IEventSourceGeneric<Use
     public string EventId => nameof(UserUpdatedEvent);
 
     /// <inheritdoc />
+    public bool IsConsumOnce { get; }
+
+    /// <inheritdoc />
     public object Payload { get; }
 }

@@ -8,9 +8,9 @@
     <ItemGroup>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.810-preview20231229-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.810-preview20231229-ns1"/>
-        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.17"/>
-        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.1.17-ns1"/>
-        <PackageReference Include="Furion.Pure.NS" Version="4.9.1.17-ns1"/>
+        <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.24"/>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.1.24-ns1"/>
+        <PackageReference Include="Furion.Pure.NS" Version="4.9.1.24-ns1"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.1"/>
         <PackageReference Include="NSExt" Version="2.0.11"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>

@@ -28,5 +28,8 @@ public sealed record RequestLogEvent : DataAbstraction, IEventSourceGeneric<Crea
     public string EventId => nameof(RequestLogEvent);
 
     /// <inheritdoc />
+    public bool IsConsumOnce { get; }
+
+    /// <inheritdoc />
     public object Payload { get; }
 }

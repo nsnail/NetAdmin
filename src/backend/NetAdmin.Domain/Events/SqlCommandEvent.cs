@@ -11,6 +11,9 @@ public record SqlCommandEvent : DataAbstraction, IEventSource
     public string Id => Identifier.ToString()[..8].ToUpperInvariant();
 
     /// <inheritdoc />
+    public bool IsConsumOnce { get; }
+
+    /// <inheritdoc />
     public CancellationToken CancellationToken { get; init; }
 
     /// <inheritdoc />
