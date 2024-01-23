@@ -90,8 +90,8 @@ public static class ServiceCollectionExtensions
         foreach (var type in optionsTypes) {
             var configureMethod = typeof(ConfigurableOptionsServiceCollectionExtensions).GetMethod(
                 nameof(ConfigurableOptionsServiceCollectionExtensions.AddConfigurableOptions)
-              , BindingFlags.Public | BindingFlags.Static, new[] { typeof(IServiceCollection) });
-            _ = configureMethod!.MakeGenericMethod(type).Invoke(me, new object[] { me });
+              , BindingFlags.Public | BindingFlags.Static, [typeof(IServiceCollection)]);
+            _ = configureMethod!.MakeGenericMethod(type).Invoke(me, [me]);
             _ = sbLog.Append(CultureInfo.InvariantCulture, $" {type.Name}");
         }
 

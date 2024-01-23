@@ -75,7 +75,7 @@ public abstract class ApiResultHandler<T>
                 ? dic.ToDictionary( //
                     x => (startWithDollar = x.Key.StartsWith('$'))
                         ? x.Key[1..].TrimStart('.').NullOrEmpty(null) ?? throw new NetAdminInvalidInputException()
-                        : x.Key, x => startWithDollar ? new[] { Ln.参数格式不正确 } : x.Value)
+                        : x.Key, x => startWithDollar ? [Ln.参数格式不正确] : x.Value)
                 : validationResult;
         }
         catch (NetAdminInvalidInputException) {

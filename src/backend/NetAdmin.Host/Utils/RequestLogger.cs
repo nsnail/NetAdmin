@@ -12,7 +12,7 @@ public sealed class RequestLogger(
   , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
   , IEventPublisher                                eventPublisher) : ISingleton
 {
-    private static readonly string[] _textContentTypes = { "text", "json", "xml", "urlencoded" };
+    private static readonly string[] _textContentTypes = ["text", "json", "xml", "urlencoded"];
 
     private readonly int _tokenPrefixLength
         = specificationDocumentSettingsOptions?.Value.SecurityDefinitions?[0]?.Scheme?.Length + 1 ??

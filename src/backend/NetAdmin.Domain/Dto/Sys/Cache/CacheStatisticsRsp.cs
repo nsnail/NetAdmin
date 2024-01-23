@@ -5,15 +5,15 @@ namespace NetAdmin.Domain.Dto.Sys.Cache;
 /// </summary>
 public sealed record CacheStatisticsRsp : DataAbstraction
 {
-    private static readonly Regex[] _regexes = {
-                                                   new(@"keyspace_hits:(\d+)", RegexOptions.Compiled)
-                                                 , new(@"keyspace_misses:(\d+)", RegexOptions.Compiled)
-                                                 , new(@"uptime_in_seconds:(\d+)", RegexOptions.Compiled)
-                                                 , new(@"used_cpu_sys:([\d\\.]+)", RegexOptions.Compiled)
-                                                 , new(@"used_cpu_user:([\d\\.]+)", RegexOptions.Compiled)
-                                                 , new(@"used_memory:(\d+)", RegexOptions.Compiled)
-                                                 , new("redis_version:(.+)", RegexOptions.Compiled)
-                                               };
+    private static readonly Regex[] _regexes = [
+        new Regex(@"keyspace_hits:(\d+)",      RegexOptions.Compiled) //
+      , new Regex(@"keyspace_misses:(\d+)",    RegexOptions.Compiled) //
+      , new Regex(@"uptime_in_seconds:(\d+)",  RegexOptions.Compiled) //
+      , new Regex(@"used_cpu_sys:([\d\\.]+)",  RegexOptions.Compiled) //
+      , new Regex(@"used_cpu_user:([\d\\.]+)", RegexOptions.Compiled) //
+      , new Regex(@"used_memory:(\d+)",        RegexOptions.Compiled) //
+      , new Regex("redis_version:(.+)",        RegexOptions.Compiled) //
+    ];
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CacheStatisticsRsp" /> class.
