@@ -8,7 +8,7 @@
                             type: 'input',
                             field: ['root', 'keywords'],
                             placeholder: $t('消息编号 / 消息主题 / 消息内容'),
-                            style: 'width:25rem',
+                            style: 'width:20rem',
                         },
                         {
                             type: 'select',
@@ -17,6 +17,7 @@
                                 return { value: x[0], label: x[1][1] }
                             }),
                             placeholder: $t('消息类型'),
+                            style: 'width:15rem',
                         },
                     ]"
                     :vue="this"
@@ -43,20 +44,20 @@
                     }
                 ">
                 <el-table-column type="selection"></el-table-column>
-                <el-table-column prop="id" :label="$t('消息编号')" width="150" />
+                <el-table-column :label="$t('消息编号')" prop="id" width="150" />
                 <na-col-avatar :label="$t('用户名')" prop="creator.userName" />
                 <na-col-indicator
-                    width="100"
+                    :label="$t('消息类型')"
                     :options="[
                         { text: '私信', type: 'success', value: 'private' },
                         { text: '公告', type: 'warning', value: 'public' },
                     ]"
-                    :label="$t('消息类型')"
-                    prop="msgType"></na-col-indicator>
+                    prop="msgType"
+                    width="100"></na-col-indicator>
 
-                <el-table-column prop="title" :label="$t('消息主题')" min-width="150" show-overflow-tooltip />
-                <el-table-column prop="summary" show-overflow-tooltip :label="$t('消息摘要')" min-width="200" />
-                <el-table-column prop="createdTime" :label="$t('创建时间')" />
+                <el-table-column :label="$t('消息主题')" min-width="150" prop="title" show-overflow-tooltip />
+                <el-table-column :label="$t('消息摘要')" min-width="200" prop="summary" show-overflow-tooltip />
+                <el-table-column :label="$t('创建时间')" prop="createdTime" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
