@@ -16,6 +16,7 @@
                             api: $API.sys_role.query,
                             config: { props: { label: 'name', value: 'id' } },
                             placeholder: '所属角色',
+                            style: 'width:15rem',
                         },
                         {
                             type: 'cascader',
@@ -23,6 +24,7 @@
                             api: $API.sys_dept.query,
                             props: { label: 'name', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
                             placeholder: '所属部门',
+                            style: 'width:15rem',
                         },
                         {
                             type: 'select',
@@ -32,6 +34,7 @@
                                 { label: '禁用', value: false },
                             ],
                             placeholder: '状态',
+                            style: 'width:15rem',
                         },
                     ]"
                     :vue="this"
@@ -61,14 +64,14 @@
                 <na-col-avatar :label="$t('用户名')" prop="userName" />
                 <el-table-column :label="$t('手机号')" prop="mobile" sortable="custom" width="120"></el-table-column>
                 <el-table-column :label="$t('邮箱')" prop="email" sortable="custom"></el-table-column>
-                <na-col-tags field="name" :label="$t('所属角色')" prop="roles" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" />
-                <na-col-tags field="name" :label="$t('所属部门')" prop="dept" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" />
+                <na-col-tags :label="$t('所属角色')" field="name" prop="roles" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" />
+                <na-col-tags :label="$t('所属部门')" field="name" prop="dept" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" />
                 <na-col-indicator
+                    :label="$t('状态')"
                     :options="[
                         { text: '启用', type: 'success', value: true },
                         { text: '禁用', type: 'danger', value: false, pulse: true },
                     ]"
-                    :label="$t('状态')"
                     prop="enabled"></na-col-indicator>
                 <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('备注')" prop="summary" width="50"></el-table-column>

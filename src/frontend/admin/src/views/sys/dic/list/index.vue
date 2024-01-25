@@ -9,6 +9,7 @@
                             type: 'input',
                             field: ['dy', 'keywords'],
                             placeholder: '项名 / 项值',
+                            style: 'width:20rem',
                         },
                     ]"
                     :vue="this"

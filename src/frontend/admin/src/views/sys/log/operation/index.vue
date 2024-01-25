@@ -2,7 +2,7 @@
     <el-container>
         <el-main class="nopadding">
             <el-container>
-                <el-header>
+                <el-header class="headerPublic">
                     <div class="left-panel">
                         <na-search
                             :controls="[
@@ -10,6 +10,7 @@
                                     type: 'input',
                                     field: ['filter', 'id'],
                                     placeholder: '日志编号',
+                                    style: 'width:15rem',
                                 },
                                 {
                                     multiple: true,
@@ -23,6 +24,7 @@
                                         { label: '90x', value: '900,999' },
                                     ],
                                     placeholder: '状态码',
+                                    style: 'width:20rem',
                                 },
                                 {
                                     type: 'cascader',
@@ -30,16 +32,19 @@
                                     api: $API.sys_api.query,
                                     props: { label: 'summary', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
                                     placeholder: '请求服务',
+                                    style: 'width:20rem',
                                 },
                                 {
                                     type: 'input',
                                     field: ['dy', 'createdUserName'],
                                     placeholder: '用户',
+                                    style: 'width:15rem',
                                 },
                                 {
                                     type: 'input',
                                     field: ['dy', 'createdClientIp'],
                                     placeholder: '客户端IP',
+                                    style: 'width:15rem',
                                 },
                             ]"
                             :vue="this"
@@ -64,7 +69,7 @@
                             <el-table-column :label="$t('路径')" min-width="150" prop="apiId" sortable="custom"></el-table-column>
                             <el-table-column :label="$t('描述')" prop="apiSummary"></el-table-column>
                             <el-table-column :label="$t('方法')" prop="method" sortable="custom" width="100"></el-table-column>
-                            <el-table-column align="right" :label="$t('耗时(毫秒)')" prop="duration" sortable="custom" width="120">
+                            <el-table-column :label="$t('耗时(毫秒)')" align="right" prop="duration" sortable="custom" width="120">
                                 <template #default="scope">
                                     {{ (scope.row.duration / 1000).toFixed(2) }}
                                 </template>

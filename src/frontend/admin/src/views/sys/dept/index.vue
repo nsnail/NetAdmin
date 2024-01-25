@@ -8,7 +8,7 @@
                             type: 'input',
                             field: ['root', 'keywords'],
                             placeholder: '部门编号 / 部门名称 / 备注',
-                            style: 'width:20rem',
+                            style: 'width:25rem',
                         },
                         {
                             type: 'select',
@@ -18,6 +18,7 @@
                                 { label: '禁用', value: false },
                             ],
                             placeholder: '状态',
+                            style: 'width:15rem',
                         },
                     ]"
                     :vue="this"
@@ -50,11 +51,11 @@
                 <el-table-column :label="$t('部门名称')" prop="name" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('排序')" prop="sort" sortable="custom"></el-table-column>
                 <na-col-indicator
+                    :label="$t('状态')"
                     :options="[
                         { text: '启用', type: 'success', value: true },
                         { text: '禁用', type: 'danger', value: false, pulse: true },
                     ]"
-                    :label="$t('状态')"
                     prop="enabled"></na-col-indicator>
                 <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('备注')" prop="summary"></el-table-column>

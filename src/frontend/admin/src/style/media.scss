@@ -66,14 +66,13 @@
             display: none;
         }
 
-        .right-panel {
-            display: block;
-            border-top: 1px solid var(--el-border-color-light);
-            margin-top: 1rem;
+        .right-panel-search {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .right-panel .right-panel-search {
-            display: block;
+        .right-panel {
+            margin-top: 1rem;
         }
     }
     .adminui-main > .el-container > *:first-child:not(.el-aside):not(.el-header) {

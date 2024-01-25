@@ -18,6 +18,7 @@
                                 { label: '禁用', value: false },
                             ],
                             placeholder: '状态',
+                            style: 'width:15rem',
                         },
                         {
                             type: 'select',
@@ -27,6 +28,7 @@
                                 { label: '否', value: false },
                             ],
                             placeholder: '无限权限',
+                            style: 'width:15rem',
                         },
                         {
                             type: 'select',
@@ -36,6 +38,7 @@
                                 { label: '否', value: false },
                             ],
                             placeholder: '显示仪表板',
+                            style: 'width:15rem',
                         },
                     ]"
                     :vue="this"
@@ -66,18 +69,18 @@
                 <el-table-column :label="$t('角色名称')" prop="name" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('排序')" prop="sort" sortable="custom"></el-table-column>
                 <na-col-indicator
+                    :label="$t('状态')"
                     :options="[
                         { text: '启用', type: 'success', value: true },
                         { text: '禁用', type: 'danger', value: false, pulse: true },
                     ]"
-                    :label="$t('状态')"
                     prop="enabled"></na-col-indicator>
                 <na-col-indicator
+                    :label="$t('无限权限')"
                     :options="[
                         { text: '是', type: 'success', value: true, pulse: true },
                         { text: '否', type: 'danger', value: false },
                     ]"
-                    :label="$t('无限权限')"
                     prop="ignorePermissionControl"></na-col-indicator>
 
                 <el-table-column :label="$t('数据范围')" prop="dataScope" sortable="custom">
@@ -87,11 +90,11 @@
                 </el-table-column>
 
                 <na-col-indicator
+                    :label="$t('显示仪表板')"
                     :options="[
                         { text: '是', type: 'success', value: true },
                         { text: '否', type: 'danger', value: false },
                     ]"
-                    :label="$t('显示仪表板')"
                     prop="displayDashboard"></na-col-indicator>
 
                 <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>

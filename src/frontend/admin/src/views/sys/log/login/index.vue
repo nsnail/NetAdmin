@@ -2,7 +2,7 @@
     <el-container>
         <el-main class="nopadding">
             <el-container>
-                <el-header>
+                <el-header class="headerPublic">
                     <div class="left-panel">
                         <na-search
                             ref="search"
@@ -15,16 +15,19 @@
                                         { label: '失败', value: '300,999' },
                                     ],
                                     placeholder: '登录结果',
+                                    style: 'width:15rem',
                                 },
                                 {
                                     type: 'input',
                                     field: ['dy', 'extraData'],
                                     placeholder: '登录名',
+                                    style: 'width:15rem',
                                 },
                                 {
                                     type: 'input',
                                     field: ['dy', 'createdClientIp'],
                                     placeholder: 'IP地址',
+                                    style: 'width:15rem',
                                 },
                             ]"
                             :vue="this"
@@ -50,15 +53,15 @@
                                 {{ scope.row.httpStatusCode === 200 ? '成功' : '失败' }}
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('登录名')" prop="extraData" sortable="custom"> </el-table-column>
+                        <el-table-column :label="$t('登录名')" prop="extraData" sortable="custom"></el-table-column>
                         <el-table-column :label="$t('IP地址')" prop="createdClientIp" sortable="custom"></el-table-column>
                         <el-table-column :label="$t('操作系统')" prop="os" sortable="custom"></el-table-column>
                         <el-table-column
                             :label="$t('用户代理')"
+                            min-width="200"
                             prop="createdUserAgent"
-                            sortable="custom"
                             show-overflow-tooltip
-                            min-width="200"></el-table-column>
+                            sortable="custom"></el-table-column>
                     </sc-table>
                 </el-main>
             </el-container>

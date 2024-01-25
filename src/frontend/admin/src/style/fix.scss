@@ -24,8 +24,9 @@
     --el-disabled-bg-color: --el-bg-color;
 }
 
-.right-panel-search .el-input {
-    --el-input-width: 15rem;
+.el-input__inner,
+.el-range-input {
+    font-family: inherit;
 }
 
 .el-date-editor {
@@ -301,12 +302,4 @@ body .tox-tinymce-aux {
     .el-dialog__body {
         flex: 1;
     }
-}
-
-.jv-dark {
-    background: unset !important;
-}
-
-.input-width-full .el-input {
-    --el-input-width: 100%;
 }
