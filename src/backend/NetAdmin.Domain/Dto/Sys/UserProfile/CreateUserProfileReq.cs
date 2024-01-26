@@ -15,7 +15,7 @@ public record CreateUserProfileReq : Sys_UserProfile
 
     /// <inheritdoc cref="Sys_UserProfile.CertificateNumber" />
     [Certificate]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CertificateNumber { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CertificateType" />
@@ -24,19 +24,19 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override CertificateTypes? CertificateType { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CompanyAddress" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CompanyAddress { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CompanyArea" />
     public new QueryDicContentRsp CompanyArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CompanyName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CompanyName { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CompanyTelephone" />
     [Telephone]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CompanyTelephone { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Education" />
@@ -45,7 +45,7 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override Educations? Education { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.EmergencyContactAddress" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactAddress { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.EmergencyContactArea" />
@@ -53,15 +53,15 @@ public record CreateUserProfileReq : Sys_UserProfile
 
     /// <inheritdoc cref="Sys_UserProfile.EmergencyContactMobile" />
     [Mobile]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactMobile { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.EmergencyContactName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactName { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.GraduateSchool" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string GraduateSchool { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Height" />
@@ -70,7 +70,7 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override int? Height { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.HomeAddress" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string HomeAddress { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.HomeArea" />
@@ -78,7 +78,7 @@ public record CreateUserProfileReq : Sys_UserProfile
 
     /// <inheritdoc cref="Sys_UserProfile.HomeTelephone" />
     [Telephone]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string HomeTelephone { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.MarriageStatus" />
@@ -100,11 +100,11 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override PoliticalStatues? PoliticalStatus { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Profession" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Profession { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.RealName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string RealName { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Sex" />

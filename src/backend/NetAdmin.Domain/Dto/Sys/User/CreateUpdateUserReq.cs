@@ -10,8 +10,8 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public abstract record CreateUpdateUserReq : Sys_User
 {
     /// <inheritdoc cref="Sys_User.Avatar" />
-    [Url]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [Url(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.网络地址不正确))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Avatar { get; init; }
 
     /// <inheritdoc cref="Sys_User.DeptId" />
@@ -20,7 +20,7 @@ public abstract record CreateUpdateUserReq : Sys_User
 
     /// <inheritdoc cref="Sys_User.Email" />
     [EmailAddress]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Email { get; init; }
 
     /// <inheritdoc cref="IFieldEnabled.Enabled" />
@@ -29,7 +29,7 @@ public abstract record CreateUpdateUserReq : Sys_User
 
     /// <inheritdoc cref="Sys_User.Mobile" />
     [Mobile]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Mobile { get; init; }
 
     /// <summary>
@@ -47,12 +47,12 @@ public abstract record CreateUpdateUserReq : Sys_User
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="Sys_User.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="Sys_User.UserName" />
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名不能为空))]
     [UserName]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string UserName { get; init; }
 }
