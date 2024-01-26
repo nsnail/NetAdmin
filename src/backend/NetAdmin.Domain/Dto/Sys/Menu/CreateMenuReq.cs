@@ -10,14 +10,14 @@ namespace NetAdmin.Domain.Dto.Sys.Menu;
 public record CreateMenuReq : Sys_Menu
 {
     /// <inheritdoc cref="Sys_Menu.Active" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Active { get; init; }
 
     /// <inheritdoc cref="Sys_Menu.Color" />
     public override string Color => Meta.Color;
 
     /// <inheritdoc cref="Sys_Menu.Component" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Component { get; init; }
 
     /// <inheritdoc cref="Sys_Menu.FullPageRouting" />
@@ -47,11 +47,11 @@ public record CreateMenuReq : Sys_Menu
     public override long ParentId { get; init; } = 0;
 
     /// <inheritdoc cref="Sys_Menu.Path" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Path { get; init; }
 
     /// <inheritdoc cref="Sys_Menu.Redirect" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Redirect { get; init; }
 
     /// <inheritdoc cref="IFieldSort.Sort" />

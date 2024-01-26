@@ -52,6 +52,6 @@ public record CreateRoleReq : Sys_Role
     public override long Sort { get; init; } = Numbers.DEF_SORT_VAL;
 
     /// <inheritdoc cref="IFieldSummary.Summary" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
 }

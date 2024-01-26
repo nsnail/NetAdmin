@@ -9,7 +9,7 @@ public sealed record SendVerifyCodeRsp : Sys_VerifyCode
 {
     #if DEBUG
     /// <inheritdoc cref="Sys_VerifyCode.Code" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Code { get; init; }
     #endif
 }

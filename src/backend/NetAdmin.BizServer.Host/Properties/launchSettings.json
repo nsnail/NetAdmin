@@ -4,17 +4,10 @@
     "NetAdmin.BizServer.Host": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "commandLineArgs": "-is",
       "launchBrowser": true,
       "launchUrl": "http://localhost:5010",
       "applicationUrl": "http://[::]:5010",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "InitDB": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "commandLineArgs": "-is",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

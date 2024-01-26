@@ -26,7 +26,7 @@ public record RegisterUserReq : Sys_User
     /// <inheritdoc cref="Sys_User.UserName" />
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名不能为空))]
     [UserName]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string UserName { get; init; }
 
     /// <summary>
