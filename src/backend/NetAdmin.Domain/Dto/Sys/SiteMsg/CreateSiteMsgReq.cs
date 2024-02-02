@@ -22,7 +22,8 @@ public record CreateSiteMsgReq : Sys_SiteMsg
 
     /// <inheritdoc cref="Sys_SiteMsg.MsgType" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [EnumDataType(typeof(SiteMsgTypes))]
+    [EnumDataType(typeof(SiteMsgTypes), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.站内信类型不正确))]
     public override SiteMsgTypes MsgType { get; init; }
 
     /// <summary>

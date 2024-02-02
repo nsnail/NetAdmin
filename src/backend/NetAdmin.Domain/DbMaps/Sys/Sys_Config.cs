@@ -21,7 +21,7 @@ public record Sys_Config : VersionEntity, IFieldEnabled
     /// </summary>
     [JsonIgnore]
     [Column]
-    public virtual bool UserRegisterConfirm { get; set; }
+    public virtual bool UserRegisterConfirm { get; init; }
 
     /// <summary>
     ///     用户注册默认部门

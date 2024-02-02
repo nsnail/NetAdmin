@@ -3,16 +3,16 @@
         v-model="dialogVisible"
         :title="titleMap[type - 1]"
         :width="type == 1 ? 680 : 460"
+        @closed="$emit('closed')"
         append-to-body
-        destroy-on-close
-        @closed="$emit('closed')">
+        destroy-on-close>
         <template v-if="type === 1">
             <div class="sc-user-select">
                 <div class="sc-user-select__left">
                     <div class="sc-user-select__search">
                         <el-input v-model="keyword" :placeholder="$t('搜索成员')" prefix-icon="el-icon-search">
                             <template #append>
-                                <el-button icon="el-icon-search" @click="search"></el-button>
+                                <el-button @click="search" icon="el-icon-search"></el-button>
                             </template>
                         </el-input>
                     </div>
@@ -20,30 +20,30 @@
                         <div v-loading="showGrouploading" class="sc-user-select__tree">
                             <el-scrollbar>
                                 <el-tree
-                                    ref="groupTree"
                                     :current-node-key="groupId"
                                     :data="group"
                                     :expand-on-click-node="false"
                                     :node-key="groupProps.key"
                                     :props="groupProps"
+                                    @node-click="groupClick"
                                     class="menu"
                                     highlight-current
-                                    @node-click="groupClick" />
+                                    ref="groupTree" />
                             </el-scrollbar>
                         </div>
                         <div v-loading="showUserloading" class="sc-user-select__user">
                             <div class="sc-user-select__user__list">
                                 <el-scrollbar ref="userScrollbar">
                                     <el-tree
-                                        ref="userTree"
                                         :data="user"
                                         :default-checked-keys="selectedIds"
                                         :node-key="userProps.key"
                                         :props="userProps"
+                                        @check-change="userClick"
                                         check-on-click-node
                                         class="menu"
-                                        show-checkbox
-                                        @check-change="userClick"></el-tree>
+                                        ref="userTree"
+                                        show-checkbox></el-tree>
                                 </el-scrollbar>
                             </div>
                             <footer>
@@ -51,10 +51,10 @@
                                     v-model:currentPage="currentPage"
                                     :page-size="pageSize"
                                     :total="total"
+                                    @current-change="paginationChange"
                                     background
                                     layout="prev,next"
-                                    small
-                                    @current-change="paginationChange"></el-pagination>
+                                    small></el-pagination>
                             </footer>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                     <label>{{ item.name }}</label>
                                 </span>
                                 <span class="delete">
-                                    <el-button circle icon="el-icon-delete" size="small" type="danger" @click="deleteSelected(index)"></el-button>
+                                    <el-button @click="deleteSelected(index)" circle icon="el-icon-delete" size="small" type="danger"></el-button>
                                 </span>
                             </li>
                         </el-scrollbar>
@@ -90,17 +90,17 @@
                         <div v-loading="showGrouploading" class="sc-user-select__tree">
                             <el-scrollbar>
                                 <el-tree
-                                    ref="groupTree"
                                     :data="role"
                                     :default-checked-keys="selectedIds"
                                     :expand-on-click-node="false"
                                     :node-key="roleProps.key"
                                     :props="roleProps"
+                                    @check-change="roleClick"
                                     check-on-click-node
                                     check-strictly
                                     class="menu"
-                                    show-checkbox
-                                    @check-change="roleClick" />
+                                    ref="groupTree"
+                                    show-checkbox />
                             </el-scrollbar>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                                     <label>{{ item.name }}</label>
                                 </span>
                                 <span class="delete">
-                                    <el-button circle icon="el-icon-delete" size="small" type="danger" @click="deleteSelected(index)"></el-button>
+                                    <el-button @click="deleteSelected(index)" circle icon="el-icon-delete" size="small" type="danger"></el-button>
                                 </span>
                             </li>
                         </el-scrollbar>
@@ -130,7 +130,7 @@
 
         <template #footer>
             <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="save">确 认</el-button>
+            <el-button @click="save" type="primary">确 认</el-button>
         </template>
     </el-dialog>
 </template>

@@ -13,14 +13,13 @@
                 </template>
             </el-image>
             <div v-if="!disabled" class="sc-upload__img-actions">
-                <span class="del" @click="handleRemove()"
+                <span @click="handleRemove()" class="del"
                     ><el-icon><el-icon-delete /></el-icon
                 ></span>
             </div>
         </div>
         <el-upload
             v-if="!file"
-            ref="uploader"
             :accept="accept"
             :action="action"
             :auto-upload="cropper ? false : autoUpload"
@@ -35,7 +34,8 @@
             :on-exceed="handleExceed"
             :on-success="success"
             :show-file-list="showFileList"
-            class="uploader">
+            class="uploader"
+            ref="uploader">
             <slot>
                 <div class="el-upload--picture-card">
                     <div class="file-empty">
@@ -48,11 +48,11 @@
             </slot>
         </el-upload>
         <span style="display: none !important"><el-input v-model="value"></el-input></span>
-        <el-dialog v-model="cropperDialogVisible" :width="580" destroy-on-close draggable :title="$t('剪裁')" @closed="cropperClosed">
-            <sc-cropper ref="cropper" :aspectRatio="aspectRatio" :compress="compress" :src="cropperFile.tempCropperFile"></sc-cropper>
+        <el-dialog v-model="cropperDialogVisible" :title="$t('剪裁')" :width="580" @closed="cropperClosed" destroy-on-close draggable>
+            <sc-cropper :aspectRatio="aspectRatio" :compress="compress" :src="cropperFile.tempCropperFile" ref="cropper"></sc-cropper>
             <template #footer>
                 <el-button @click="cropperDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="cropperSave">确 定</el-button>
+                <el-button @click="cropperSave" type="primary">确 定</el-button>
             </template>
         </el-dialog>
     </div>

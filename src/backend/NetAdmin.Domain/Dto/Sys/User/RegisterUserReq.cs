@@ -33,5 +33,5 @@ public record RegisterUserReq : Sys_User
     ///     短信验证请求
     /// </summary>
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.短信验证请求不能为空))]
-    public VerifySmsCodeReq VerifySmsCodeReq { get; set; }
+    public VerifySmsCodeReq VerifySmsCodeReq { get; init; }
 }

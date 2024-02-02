@@ -2,8 +2,8 @@
     <div class="adminui-tags">
         <ul ref="tags">
             <li
-                v-for="tag in tagList"
                 v-bind:key="tag"
+                v-for="tag in tagList"
                 :class="[isActive(tag) ? 'active' : '', tag.meta.affix ? 'affix' : '']"
                 @contextmenu.prevent="openContextMenu($event, tag)">
                 <router-link :to="tag">
@@ -17,7 +17,7 @@
     </div>
 
     <transition name="el-zoom-in-top">
-        <ul v-if="contextMenuVisible" id="contextmenu" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
+        <ul v-if="contextMenuVisible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu" id="contextmenu">
             <li @click="refreshTab()">
                 <el-icon>
                     <el-icon-refresh />

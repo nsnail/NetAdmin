@@ -5,7 +5,6 @@
                 <el-header class="headerPublic">
                     <div class="left-panel">
                         <na-search
-                            ref="search"
                             :controls="[
                                 {
                                     type: 'select',
@@ -31,20 +30,21 @@
                                 },
                             ]"
                             :vue="this"
-                            @search="onSearch" />
+                            @search="onSearch"
+                            ref="search" />
                     </div>
                     <div class="right-panel"></div>
                 </el-header>
                 <el-main class="nopadding">
                     <sc-table
-                        ref="table"
                         :apiObj="$API.sys_log.pagedQuery"
                         :default-sort="{ prop: 'createdTime', order: 'descending' }"
                         :params="query"
+                        @row-click="rowClick"
+                        ref="table"
                         remoteFilter
                         remoteSort
-                        stripe
-                        @row-click="rowClick">
+                        stripe>
                         <el-table-column :label="$t('日志编号')" prop="id" sortable="custom"></el-table-column>
                         <el-table-column :label="$t('日志时间')" prop="createdTime" sortable="custom"></el-table-column>
                         <el-table-column :label="$t('结果')" prop="httpStatusCode" sortable="custom">

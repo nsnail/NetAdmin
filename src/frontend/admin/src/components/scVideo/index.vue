@@ -8,7 +8,7 @@
 -->
 
 <template>
-    <div ref="scVideo" class="sc-video"></div>
+    <div class="sc-video" ref="scVideo"></div>
 </template>
 
 <script>

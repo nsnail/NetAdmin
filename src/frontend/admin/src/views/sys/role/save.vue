@@ -1,9 +1,9 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
+                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px" ref="dialogForm">
                         <el-form-item :label="$t('角色名称')" prop="name">
                             <el-input v-model="form.name" clearable></el-input>
                         </el-form-item>
@@ -24,24 +24,24 @@
                 <el-tab-pane :label="$t('菜单权限')">
                     <div class="treeMain">
                         <el-tree
-                            ref="menu"
                             :data="trees.menu"
                             :props="{
                                 label: (data) => data.meta.title,
                             }"
                             default-expand-all
                             node-key="id"
+                            ref="menu"
                             show-checkbox></el-tree>
                     </div>
                 </el-tab-pane>
                 <el-tab-pane :label="$t('接口权限')">
                     <div class="treeMain">
                         <el-tree
-                            ref="api"
                             :data="trees.api"
                             :props="{ label: (data) => data.summary }"
                             default-expand-all
                             node-key="id"
+                            ref="api"
                             show-checkbox></el-tree>
                     </div>
                 </el-tab-pane>
@@ -55,11 +55,11 @@
                         <el-form-item v-show="form.dataScope === 'specificDept'" :label="$t('选择部门')">
                             <div class="treeMain" style="width: 100%">
                                 <el-tree
-                                    ref="dept"
                                     :data="trees.dept"
                                     :props="{ label: (data) => data.name }"
                                     default-expand-all
                                     node-key="id"
+                                    ref="dept"
                                     show-checkbox></el-tree>
                             </div>
                         </el-form-item>
@@ -69,8 +69,8 @@
                     <el-form label-width="100px">
                         <el-form-item :label="$t('控制台视图')">
                             <el-select v-model="form.displayDashboard" :disabled="mode === 'view'">
-                                <el-option :value="true" :label="$t('仪表板')"></el-option>
-                                <el-option :value="false" :label="$t('工作台')"></el-option>
+                                <el-option :label="$t('仪表板')" :value="true"></el-option>
+                                <el-option :label="$t('工作台')" :value="false"></el-option>
                             </el-select>
                             <div class="el-form-item-msg">用于控制角色登录后控制台的视图</div>
                         </el-form-item>
@@ -89,7 +89,7 @@
         </div>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
         </template>
     </sc-dialog>
 </template>

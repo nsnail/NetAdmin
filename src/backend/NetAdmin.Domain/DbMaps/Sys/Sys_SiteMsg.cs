@@ -23,21 +23,21 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(nameof(CreatedUserId))]
-    public virtual Sys_User Creator { get; init; }
+    public Sys_User Creator { get; init; }
 
     /// <summary>
     ///     消息-部门映射
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgDept))]
-    public virtual ICollection<Sys_Dept> Depts { get; init; }
+    public ICollection<Sys_Dept> Depts { get; init; }
 
     /// <summary>
     ///     消息-标记映射
     /// </summary>
     [JsonIgnore]
     [Navigate(nameof(Sys_SiteMsgFlag.SiteMsgId))]
-    public ICollection<Sys_SiteMsgFlag> Flags { get; set; }
+    public ICollection<Sys_SiteMsgFlag> Flags { get; init; }
 
     /// <summary>
     ///     消息类型
@@ -50,7 +50,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
-    public virtual ICollection<Sys_Role> Roles { get; init; }
+    public ICollection<Sys_Role> Roles { get; init; }
 
     /// <summary>
     ///     消息摘要
@@ -71,7 +71,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// </summary>
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgUser))]
-    public virtual ICollection<Sys_User> Users { get; init; }
+    public ICollection<Sys_User> Users { get; init; }
 
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)

@@ -8,7 +8,7 @@
                     <span>{{ $CONFIG.APP_NAME }}</span>
                 </div>
                 <ul v-if="!ismobile" class="nav">
-                    <li v-for="item in menu" :key="item" :class="pmenu.path == item.path ? 'active' : ''" @click="showMenu(item)">
+                    <li v-for="item in menu" :class="pmenu.path == item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
                         <el-icon>
                             <component :is="item.meta.icon || 'el-icon-menu'" />
                         </el-icon>
@@ -32,7 +32,7 @@
                         </el-menu>
                     </el-scrollbar>
                 </div>
-                <div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="adminui-side-bottom">
                     <el-icon>
                         <el-icon-expand v-if="menuIsCollapse" />
                         <el-icon-fold v-else />
@@ -43,10 +43,10 @@
             <div class="aminui-body el-container">
                 <Topbar v-if="!ismobile"></Topbar>
                 <Tags v-if="!ismobile && layoutTags"></Tags>
-                <div id="adminui-main" class="adminui-main">
+                <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
                         <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
-                            <component :is="Component" v-if="$store.state.keepAlive.routeShow" :key="$route.fullPath" />
+                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
                     <iframe-view></iframe-view>
@@ -77,7 +77,7 @@
                         </el-menu>
                     </el-scrollbar>
                 </div>
-                <div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="adminui-side-bottom">
                     <el-icon>
                         <el-icon-expand v-if="menuIsCollapse" />
                         <el-icon-fold v-else />
@@ -88,10 +88,10 @@
             <div class="aminui-body el-container">
                 <Topbar v-if="!ismobile"></Topbar>
                 <Tags v-if="!ismobile && layoutTags"></Tags>
-                <div id="adminui-main" class="adminui-main">
+                <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
                         <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
-                            <component :is="Component" v-if="$store.state.keepAlive.routeShow" :key="$route.fullPath" />
+                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
                     <iframe-view></iframe-view>
@@ -128,10 +128,10 @@
         <section class="aminui-wrapper">
             <div class="aminui-body el-container">
                 <Tags v-if="!ismobile && layoutTags"></Tags>
-                <div id="adminui-main" class="adminui-main">
+                <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
                         <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
-                            <component :is="Component" v-if="$store.state.keepAlive.routeShow" :key="$route.fullPath" />
+                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
                     <iframe-view></iframe-view>
@@ -152,7 +152,7 @@
                 <div class="adminui-side-split-scroll">
                     <el-scrollbar>
                         <ul>
-                            <li v-for="item in menu" :key="item" :class="pmenu.path == item.path ? 'active' : ''" @click="showMenu(item)">
+                            <li v-for="item in menu" :class="pmenu.path == item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
                                 <el-icon>
                                     <component :is="item.meta.icon || el - icon - menu" />
                                 </el-icon>
@@ -173,7 +173,7 @@
                         </el-menu>
                     </el-scrollbar>
                 </div>
-                <div class="adminui-side-bottom" @click="$store.commit('TOGGLE_menuIsCollapse')">
+                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="adminui-side-bottom">
                     <el-icon>
                         <el-icon-expand v-if="menuIsCollapse" />
                         <el-icon-fold v-else />
@@ -186,10 +186,10 @@
                     <userbar></userbar>
                 </Topbar>
                 <Tags v-if="!ismobile && layoutTags"></Tags>
-                <div id="adminui-main" class="adminui-main">
+                <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
                         <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
-                            <component :is="Component" v-if="$store.state.keepAlive.routeShow" :key="$route.fullPath" />
+                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
                     <iframe-view></iframe-view>
@@ -198,7 +198,7 @@
         </section>
     </template>
 
-    <div class="main-maximize-exit" @click="exitMaximize">
+    <div @click="exitMaximize" class="main-maximize-exit">
         <el-icon>
             <el-icon-close />
         </el-icon>

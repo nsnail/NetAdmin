@@ -18,8 +18,8 @@
                 <ul>
                     <li
                         v-for="option in item.options"
-                        :key="option.value"
                         :class="{ active: selected[item.key] && selected[item.key].includes(option.value) }"
+                        :key="option.value"
                         @click="select(option, item)">
                         <el-icon v-if="option.icon">
                             <component :is="option.icon" />

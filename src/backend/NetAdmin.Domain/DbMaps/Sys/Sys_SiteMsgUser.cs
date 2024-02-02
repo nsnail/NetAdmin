@@ -20,7 +20,7 @@ public record Sys_SiteMsgUser : ImmutableEntity
     /// </summary>
     [JsonIgnore]
     [Column]
-    public virtual long SiteMsgId { get; init; }
+    public long SiteMsgId { get; init; }
 
     /// <summary>
     ///     关联的用户
@@ -33,5 +33,5 @@ public record Sys_SiteMsgUser : ImmutableEntity
     /// </summary>
     [JsonIgnore]
     [Column]
-    public virtual long UserId { get; init; }
+    public long UserId { get; init; }
 }

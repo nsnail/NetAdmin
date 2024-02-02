@@ -12,12 +12,12 @@
 
     <el-form
         v-else
-        ref="form"
         v-loading="loading"
         :label-position="config.labelPosition"
         :label-width="config.labelWidth"
         :model="form"
-        element-loading-text="Loading...">
+        element-loading-text="Loading..."
+        ref="form">
         <el-row :gutter="15">
             <template v-for="(item, index) in config.formItems" :key="index">
                 <el-col v-if="!hideHandle(item)" :span="item.span || 24">
@@ -45,15 +45,15 @@
                             <template v-if="item.name">
                                 <el-checkbox
                                     v-for="(_item, _index) in item.options.items"
-                                    :key="_index"
                                     v-model="form[item.name][_item.name]"
+                                    :key="_index"
                                     :label="_item.label"></el-checkbox>
                             </template>
                             <template v-else>
                                 <el-checkbox
                                     v-for="(_item, _index) in item.options.items"
-                                    :key="_index"
                                     v-model="form[_item.name]"
+                                    :key="_index"
                                     :label="_item.label"></el-checkbox>
                             </template>
                         </template>
@@ -148,7 +148,7 @@
             <el-col :span="24">
                 <el-form-item>
                     <slot>
-                        <el-button type="primary" @click="submit">提交</el-button>
+                        <el-button @click="submit" type="primary">提交</el-button>
                     </slot>
                 </el-form-item>
             </el-col>

@@ -26,7 +26,7 @@ public abstract record ImmutableEntity<T> : LiteImmutableEntity<T>, IFieldCreate
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
     [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
-    public virtual string CreatedUserName { get; set; }
+    public virtual string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]

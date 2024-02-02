@@ -14,7 +14,7 @@ public record CreateConfigReq : Sys_Config
 
     /// <inheritdoc cref="Sys_Config.UserRegisterConfirm" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override bool UserRegisterConfirm { get; set; }
+    public override bool UserRegisterConfirm { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterDeptId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

@@ -4,7 +4,7 @@
             <el-step :title="$t('填写新密码')" />
             <el-step :title="$t('完成重置')" />
         </el-steps>
-        <el-form v-if="stepActive === 0" ref="form" :label-width="120" :model="form" :rules="rules" size="large" @keyup.enter="save">
+        <el-form v-if="stepActive === 0" :label-width="120" :model="form" :rules="rules" @keyup.enter="save" ref="form" size="large">
             <na-form-phone
                 v-model="form.verifySmsCodeReq"
                 :code-field="['verifySmsCodeReq.code', 'code']"
@@ -22,12 +22,12 @@
                 <el-input v-model="form.passwordText2" :placeholder="$t('请再一次输入新密码')" show-password></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button :loading="loading" type="primary" @click="save">提交</el-button>
+                <el-button :loading="loading" @click="save" type="primary">提交</el-button>
             </el-form-item>
         </el-form>
-        <el-result v-if="stepActive >= 1" icon="success" :sub-title="$t('请牢记自己的新密码,返回登录后使用新密码登录')" :title="$t('密码重置成功')">
+        <el-result v-if="stepActive >= 1" :sub-title="$t('请牢记自己的新密码,返回登录后使用新密码登录')" :title="$t('密码重置成功')" icon="success">
             <template #extra>
-                <el-button size="large" type="primary" @click="backLogin">返回登录</el-button>
+                <el-button @click="backLogin" size="large" type="primary">返回登录</el-button>
             </template>
         </el-result>
     </common-page>

@@ -14,7 +14,7 @@
                 <el-main class="nopadding">
                     <el-menu :default-active="$route.path" class="menu">
                         <el-menu-item-group v-for="group in menu" :key="$t(group.groupName)" :title="$t(group.groupName)">
-                            <el-menu-item v-for="item in group.list" :key="item.component" :index="item.component" @click="openPage">
+                            <el-menu-item v-for="item in group.list" :index="item.component" :key="item.component" @click="openPage">
                                 <el-icon v-if="item.icon">
                                     <component :is="item.icon" />
                                 </el-icon>

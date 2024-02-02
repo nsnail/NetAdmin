@@ -8,9 +8,9 @@
 -->
 
 <template>
-    <el-input v-model="defaultValue" v-bind="$attrs">
+    <el-input v-bind="$attrs" v-model="defaultValue">
         <template #append>
-            <el-dropdown size="medium" @command="handleShortcuts">
+            <el-dropdown @command="handleShortcuts" size="medium">
                 <el-button icon="el-icon-arrow-down"></el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
@@ -20,7 +20,7 @@
                         <el-dropdown-item command="0 0 0 1 * ?">每月一号零点</el-dropdown-item>
                         <el-dropdown-item command="0 0 0 L * ?">每月最后一天零点</el-dropdown-item>
                         <el-dropdown-item command="0 0 0 ? * 1">每周星期日零点</el-dropdown-item>
-                        <el-dropdown-item v-for="(item, index) in shortcuts" :key="item.value" :command="item.value" :divided="index == 0"
+                        <el-dropdown-item v-for="(item, index) in shortcuts" :command="item.value" :divided="index == 0" :key="item.value"
                             >{{ item.text }}
                         </el-dropdown-item>
                         <el-dropdown-item command="custom" divided icon="el-icon-plus">自定义</el-dropdown-item>
@@ -295,7 +295,7 @@
 
         <template #footer>
             <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submit()">确 认</el-button>
+            <el-button @click="submit()" type="primary">确 认</el-button>
         </template>
     </el-dialog>
 </template>

@@ -2,29 +2,29 @@
     <el-main>
         <el-row>
             <el-col :lg="24">
-                <el-card shadow="never" class="aboutTop">
+                <el-card class="aboutTop" shadow="never">
                     <div class="aboutTop-info">
-                        <img src="@/assets/img/logo.png" alt="" />
+                        <img alt="" src="@/assets/img/logo.png" />
                         <h2>{{ packageJson.name }}</h2>
                         <p>{{ ver }}</p>
                     </div>
                 </el-card>
-                <el-card shadow="never" header="dependencies">
-                    <el-descriptions border :column="3">
+                <el-card header="dependencies" shadow="never">
+                    <el-descriptions :column="3" border>
                         <el-descriptions-item v-for="(value, key) in packageJson.dependencies" :key="key" :label="key">{{
                             value
                         }}</el-descriptions-item>
                     </el-descriptions>
                 </el-card>
-                <el-card shadow="never" header="devDependencies">
-                    <el-descriptions border :column="3">
+                <el-card header="devDependencies" shadow="never">
+                    <el-descriptions :column="3" border>
                         <el-descriptions-item v-for="(value, key) in packageJson.devDependencies" :key="key" :label="key">{{
                             value
                         }}</el-descriptions-item>
                     </el-descriptions>
                 </el-card>
-                <el-card shadow="never" header="Assemblies">
-                    <el-descriptions border :column="2">
+                <el-card header="Assemblies" shadow="never">
+                    <el-descriptions :column="2" border>
                         <el-descriptions-item v-for="(value, key) in modules" :key="key" :label="value.name">{{
                             value.version
                         }}</el-descriptions-item>

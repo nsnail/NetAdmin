@@ -1,13 +1,13 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close fullscreen @closed="$emit('closed')">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-form
-            ref="dialogForm"
             v-loading="loading"
             :disabled="mode === 'view'"
             :model="form"
             :rules="rules"
             label-position="right"
-            label-width="150px">
+            label-width="150px"
+            ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form-item v-if="mode === 'view'" :label="$t('作业编号')" prop="id">
@@ -24,13 +24,13 @@
                     <el-form-item :label="$t('作业名称')" prop="jobName">
                         <el-input v-model="form.jobName" clearable />
                     </el-form-item>
-                    <el-form-item v-if="mode === 'view'" :label="$t('最近一次执行时间')" prop="lastExecTime">
+                    <el-form-item v-if="mode === 'view'" :label="$t('上次执行时间')" prop="lastExecTime">
                         <el-input v-model="form.lastExecTime" clearable />
                     </el-form-item>
-                    <el-form-item v-if="mode === 'view'" :label="$t('下一次执行时间')" prop="nextExecTime">
+                    <el-form-item v-if="mode === 'view'" :label="$t('下次执行时间')" prop="nextExecTime">
                         <el-input v-model="form.nextExecTime" clearable />
                     </el-form-item>
-                    <el-form-item v-if="mode === 'view'" :label="$t('下一次执行时间编号')" prop="nextTimeId">
+                    <el-form-item v-if="mode === 'view'" :label="$t('下次执行时间编号')" prop="nextTimeId">
                         <el-input v-model="form.nextTimeId" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求头')" prop="requestHeader">
@@ -49,7 +49,7 @@
                         <el-input v-model="form.userId" clearable />
                     </el-form-item>
                     <el-form-item v-else :label="$t('执行用户')" prop="userId">
-                        <na-user v-model="form.userId"></na-user>
+                        <na-user-select v-model="form.userId"></na-user-select>
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('创建时间')" prop="createdTime">
                         <el-input v-model="form.createdTime" clearable />
@@ -86,7 +86,7 @@
         </el-form>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
         </template>
     </sc-dialog>
 </template>

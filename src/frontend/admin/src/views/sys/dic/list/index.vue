@@ -3,7 +3,6 @@
         <el-header>
             <div class="left-panel">
                 <na-search
-                    ref="search"
                     :controls="[
                         {
                             type: 'input',
@@ -13,7 +12,8 @@
                         },
                     ]"
                     :vue="this"
-                    @search="onSearch" />
+                    @search="onSearch"
+                    ref="search" />
             </div>
             <div class="right-panel">
                 <na-button-add :data="{ catalogId: this.catalogId }" :vue="this" />
@@ -22,19 +22,19 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                ref="table"
                 :apiObj="$API.sys_dic.pagedQueryContent"
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
-                remote-sort
-                row-key="id"
-                stripe
                 @selection-change="
                     (items) => {
                         selection = items
                     }
-                ">
+                "
+                ref="table"
+                remote-sort
+                row-key="id"
+                stripe>
                 <el-table-column type="selection" width="50"></el-table-column>
                 <el-table-column :label="$t('项名')" prop="key" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('项值')" prop="value" sortable="custom"></el-table-column>
@@ -54,9 +54,9 @@
     </el-container>
     <save-dialog
         v-if="dialog.save"
-        ref="saveDialog"
         @closed="dialog.save = false"
-        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"></save-dialog>
+        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
+        ref="saveDialog"></save-dialog>
 </template>
 <script>
 import saveDialog from './save'

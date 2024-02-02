@@ -19,7 +19,8 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override string CertificateNumber { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CertificateType" />
-    [EnumDataType(typeof(CertificateTypes))]
+    [EnumDataType(typeof(CertificateTypes), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.证件类型不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override CertificateTypes? CertificateType { get; init; }
 
@@ -40,7 +41,8 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override string CompanyTelephone { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Education" />
-    [EnumDataType(typeof(Educations))]
+    [EnumDataType(typeof(Educations), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.学历不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Educations? Education { get; init; }
 
@@ -82,12 +84,13 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override string HomeTelephone { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.MarriageStatus" />
-    [EnumDataType(typeof(MarriageStatues))]
+    [EnumDataType(typeof(MarriageStatues), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.婚姻状况不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override MarriageStatues? MarriageStatus { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Nation" />
-    [EnumDataType(typeof(Nations))]
+    [EnumDataType(typeof(Nations), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.民族不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Nations? Nation { get; init; }
 
@@ -96,7 +99,8 @@ public record CreateUserProfileReq : Sys_UserProfile
 
     /// <inheritdoc cref="Sys_UserProfile.PoliticalStatus" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [EnumDataType(typeof(PoliticalStatues))]
+    [EnumDataType(typeof(PoliticalStatues), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.政治面貌不正确))]
     public override PoliticalStatues? PoliticalStatus { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Profession" />
@@ -108,7 +112,7 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override string RealName { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Sex" />
-    [EnumDataType(typeof(Sexes))]
+    [EnumDataType(typeof(Sexes), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.性别不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override Sexes? Sex { get; init; }
 }

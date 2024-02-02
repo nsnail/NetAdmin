@@ -25,7 +25,7 @@ public abstract record VersionEntity<T> : LiteVersionEntity<T>, IFieldModifiedUs
     /// <inheritdoc />
     [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
-    public string CreatedUserName { get; set; }
+    public string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]

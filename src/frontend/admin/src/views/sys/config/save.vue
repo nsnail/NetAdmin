@@ -1,11 +1,11 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" destroy-on-close @closed="$emit('closed')">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs v-if="!loading" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form ref="dialogForm" :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px">
+                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px" ref="dialogForm">
                         <el-collapse>
-                            <el-collapse-item name="1" :title="$t('用户注册设置')">
+                            <el-collapse-item :title="$t('用户注册设置')" name="1">
                                 <div style="margin: 10px">
                                     <el-form-item :label="$t('默认角色')" prop="userRegisterRoleId">
                                         <sc-select
@@ -23,7 +23,7 @@
                                     </el-form-item>
                                 </div>
                             </el-collapse-item>
-                            <el-collapse-item name="2" :title="$t('其他设置')"></el-collapse-item>
+                            <el-collapse-item :title="$t('其他设置')" name="2"></el-collapse-item>
                         </el-collapse>
 
                         <el-form-item :label="$t('启用')" prop="enabled">
@@ -44,7 +44,7 @@
         </div>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
         </template>
     </sc-dialog>
 </template>

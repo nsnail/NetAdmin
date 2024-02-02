@@ -8,23 +8,23 @@
 -->
 
 <template>
-    <div ref="scFormTable" class="sc-form-table">
-        <el-table ref="table" :data="data" border stripe>
+    <div class="sc-form-table" ref="scFormTable">
+        <el-table :data="data" border ref="table" stripe>
             <el-table-column fixed="left" type="index" width="50">
                 <template #header>
-                    <el-button v-if="!hideAdd" circle icon="el-icon-plus" size="small" type="primary" @click="rowAdd"></el-button>
+                    <el-button v-if="!hideAdd" @click="rowAdd" circle icon="el-icon-plus" size="small" type="primary"></el-button>
                 </template>
                 <template #default="scope">
                     <div :class="['sc-form-table-handle', { 'sc-form-table-handle-delete': !hideDelete }]">
                         <span>{{ scope.$index + 1 }}</span>
                         <el-button
                             v-if="!hideDelete"
+                            @click="rowDel(scope.row, scope.$index)"
                             circle
                             icon="el-icon-delete"
                             plain
                             size="small"
-                            type="danger"
-                            @click="rowDel(scope.row, scope.$index)"></el-button>
+                            type="danger"></el-button>
                     </div>
                 </template>
             </el-table-column>

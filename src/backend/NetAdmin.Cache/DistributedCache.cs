@@ -52,7 +52,7 @@ public abstract class DistributedCache<TService> : CacheBase<IDistributedCache, 
     /// <summary>
     ///     获取缓存键
     /// </summary>
-    protected virtual string GetCacheKey(string id = "0", [CallerMemberName] string memberName = null)
+    protected string GetCacheKey(string id = "0", [CallerMemberName] string memberName = null)
     {
         return $"{GetType().FullName}.{memberName}.{id}";
     }

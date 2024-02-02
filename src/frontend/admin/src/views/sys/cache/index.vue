@@ -11,9 +11,9 @@
                     <el-col :lg="4">
                         <el-card shadow="never">
                             <sc-statistic
+                                :suffix="$t('天')"
                                 :value="parseInt(statistics.upTime / 86400)"
                                 groupSeparator
-                                :suffix="$t('天')"
                                 title="Redis 运行时间"></sc-statistic>
                         </el-card>
                     </el-col>
@@ -29,24 +29,24 @@
                     <el-col :lg="4">
                         <el-card shadow="never">
                             <sc-statistic
+                                :title="$t('内存使用量')"
                                 :value="(statistics.usedMemory / 1024 / 1024).toFixed(2)"
                                 groupSeparator
-                                suffix="MiB"
-                                :title="$t('内存使用量')"></sc-statistic>
+                                suffix="MiB"></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic :value="statistics.dbSize" groupSeparator :title="$t('缓存数量')"></sc-statistic>
+                            <sc-statistic :title="$t('缓存数量')" :value="statistics.dbSize" groupSeparator></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
                             <sc-statistic
+                                :title="$t('缓存命中率')"
                                 :value="((statistics.keyspaceHits / (statistics.keyspaceMisses + statistics.keyspaceHits)) * 100).toFixed(2)"
                                 groupSeparator
-                                suffix="%"
-                                :title="$t('缓存命中率')"></sc-statistic>
+                                suffix="%"></sc-statistic>
                         </el-card>
                     </el-col>
                 </el-row>
@@ -56,7 +56,7 @@
                 <el-container>
                     <el-aside>
                         <el-menu :default-active="query.filter.dbIndex" class="el-menu-vertical-demo">
-                            <el-menu-item v-for="(i, index) in 16" :key="index" :index="index" @click="this.query.filter.dbIndex = index">
+                            <el-menu-item v-for="(i, index) in 16" :index="index" :key="index" @click="this.query.filter.dbIndex = index">
                                 <el-icon>
                                     <el-icon-notebook></el-icon-notebook>
                                 </el-icon>
@@ -65,11 +65,11 @@
                         </el-menu>
                     </el-aside>
                     <el-main>
-                        <sc-table ref="table" :apiObj="$API.sys_cache.getAllEntries" :params="query" row-key="key" stripe @row-click="rowClick">
-                            <el-table-column :min-width="300" :label="$t('键名')" prop="key" show-overflow-tooltip />
+                        <sc-table :apiObj="$API.sys_cache.getAllEntries" :params="query" @row-click="rowClick" ref="table" row-key="key" stripe>
+                            <el-table-column :label="$t('键名')" :min-width="300" prop="key" show-overflow-tooltip />
                             <el-table-column :label="$t('键值')" prop="data" show-overflow-tooltip />
-                            <el-table-column align="right" :label="$t('滑动过期')" prop="sldExp" />
-                            <el-table-column align="right" :label="$t('绝对过期')" prop="absExp" />
+                            <el-table-column :label="$t('滑动过期')" align="right" prop="sldExp" />
+                            <el-table-column :label="$t('绝对过期')" align="right" prop="absExp" />
                         </sc-table>
                     </el-main>
                 </el-container>

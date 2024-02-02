@@ -1,19 +1,20 @@
 <template>
     <el-row :gutter="40">
         <el-col v-if="!form.id">
-            <el-empty :image-size="100" :description="$t('请选择左侧菜单后操作')"></el-empty>
+            <el-empty :description="$t('请选择左侧菜单后操作')" :image-size="100"></el-empty>
         </el-col>
         <template v-else>
             <el-col>
                 <h2>{{ form.meta.title || '新增菜单' }}</h2>
-                <el-form ref="dialogForm" :model="form" :rules="rules" label-width="100px">
+                <el-form :model="form" :rules="rules" label-width="100px" ref="dialogForm">
                     <el-form-item :label="$t('显示名称')" prop="meta.title">
-                        <el-input v-model="form.meta.title" clearable :placeholder="$t('菜单显示名字')"></el-input>
+                        <el-input v-model="form.meta.title" :placeholder="$t('菜单显示名字')" clearable></el-input>
                     </el-form-item>
                     <el-form-item :label="$t('上级菜单')" prop="parentId">
                         <el-cascader
                             v-model="form.parentId"
                             :options="treeOptions"
+                            :placeholder="$t('顶级菜单')"
                             :props="{
                                 emitPath: false,
                                 value: 'id',
@@ -21,8 +22,7 @@
                                 checkStrictly: true,
                             }"
                             :show-all-levels="false"
-                            clearable
-                            :placeholder="$t('顶级菜单')"></el-cascader>
+                            clearable></el-cascader>
                     </el-form-item>
                     <el-form-item :label="$t('类型')" prop="meta.type">
                         <el-radio-group v-model="form.meta.type">
@@ -30,7 +30,7 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item :label="$t('别名')" prop="name">
-                        <el-input v-model="form.name" clearable :placeholder="$t('菜单别名')"></el-input>
+                        <el-input v-model="form.name" :placeholder="$t('菜单别名')" clearable></el-input>
                         <div class="el-form-item-msg">
                             系统唯一且与内置组件名一致，否则导致缓存失效。如类型为Iframe的菜单，别名将代替源地址显示在地址栏
                         </div>
@@ -72,7 +72,7 @@
                         <el-input v-model="form.meta.tag" clearable placeholder=""></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button :loading="loading" type="primary" @click="save">保 存</el-button>
+                        <el-button :loading="loading" @click="save" type="primary">保 存</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>

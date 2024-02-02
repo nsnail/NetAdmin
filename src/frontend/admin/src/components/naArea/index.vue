@@ -1,16 +1,16 @@
 <template>
     <sc-table-select
-        ref="area"
         v-model="area"
         :apiObj="$API.sys_dic.pagedQueryContent"
         :params="form"
         :props="{ label: 'key', value: 'value' }"
         :table-width="600"
-        clearable>
+        clearable
+        ref="area">
         <template #header>
             <el-form :model="form">
                 <el-form-item>
-                    <el-input v-model="form.keywords" clearable :placeholder="$t('请输入地区或代码')" @input="onInput"></el-input>
+                    <el-input v-model="form.keywords" :placeholder="$t('请输入地区或代码')" @input="onInput" clearable></el-input>
                 </el-form-item>
             </el-form>
         </template>

@@ -18,7 +18,8 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
     /// <inheritdoc cref="Sys_VerifyCode.DeviceType" />
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.设备类型不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [EnumDataType(typeof(VerifyCodeDeviceTypes))]
+    [EnumDataType(typeof(VerifyCodeDeviceTypes), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.验证码目标设备类型不正确))]
     public override VerifyCodeDeviceTypes DeviceType { get; init; }
 
     /// <inheritdoc cref="Sys_VerifyCode.Status" />
@@ -27,7 +28,8 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
     /// <inheritdoc cref="Sys_VerifyCode.Type" />
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码类型不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [EnumDataType(typeof(VerifyCodeTypes))]
+    [EnumDataType(typeof(VerifyCodeTypes), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.验证码类型不正确))]
     public override VerifyCodeTypes Type { get; init; }
 
     /// <summary>

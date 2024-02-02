@@ -8,14 +8,14 @@
 -->
 
 <template>
-    <div ref="scDialog" class="sc-dialog">
-        <el-dialog ref="dialog" v-model="dialogVisible" :fullscreen="isFullscreen" :show-close="false" v-bind="$attrs">
+    <div class="sc-dialog" ref="scDialog">
+        <el-dialog v-bind="$attrs" v-model="dialogVisible" :fullscreen="isFullscreen" :show-close="false" ref="dialog">
             <template #header>
                 <slot name="header">
                     <span class="el-dialog__title">{{ title }}</span>
                 </slot>
                 <div class="sc-dialog__headerbtn">
-                    <button v-if="showFullscreen" aria-label="fullscreen" type="button" @click="setFullscreen">
+                    <button v-if="showFullscreen" @click="setFullscreen" aria-label="fullscreen" type="button">
                         <el-icon v-if="isFullscreen" class="el-dialog__close">
                             <el-icon-bottom-left />
                         </el-icon>
@@ -23,7 +23,7 @@
                             <el-icon-full-screen />
                         </el-icon>
                     </button>
-                    <button v-if="showClose" aria-label="close" type="button" @click="closeDialog">
+                    <button v-if="showClose" @click="closeDialog" aria-label="close" type="button">
                         <el-icon class="el-dialog__close">
                             <el-icon-close />
                         </el-icon>
@@ -48,19 +48,17 @@ export default {
         showClose: { type: Boolean, default: true },
         showFullscreen: { type: Boolean, default: true },
         loading: { type: Boolean, default: false },
+        fullScreen: { type: Boolean, default: false },
     },
     data() {
         return {
             dialogVisible: false,
-            isFullscreen: false,
+            isFullscreen: this.fullScreen,
         }
     },
     watch: {
         modelValue() {
             this.dialogVisible = this.modelValue
-            if (this.dialogVisible) {
-                this.isFullscreen = false
-            }
         },
     },
     mounted() {

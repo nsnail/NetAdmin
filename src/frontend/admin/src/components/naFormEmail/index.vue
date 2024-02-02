@@ -13,17 +13,17 @@
         <div class="msg-yzm">
             <el-input
                 v-model="form[Array.isArray(codeField) ? codeField[1] : codeField]"
+                :placeholder="$t('邮箱验证码')"
                 clearable
                 maxlength="4"
                 oninput="value=value.replace(/\D/g,'')"
-                :placeholder="$t('邮箱验证码')"
                 prefix-icon="el-icon-message"></el-input>
             <el-button :disabled="sendDisabled" @click="getYzm"
                 >获取验证码<span v-if="sendDisabled"> ({{ waitSecs }})</span></el-button
             >
         </div>
     </el-form-item>
-    <na-verify ref="verify" :imgSize="{ width: '310px', height: '155px' }" captchaType="blockPuzzle" mode="pop" @success="captchaSuccess"></na-verify>
+    <na-verify :imgSize="{ width: '310px', height: '155px' }" @success="captchaSuccess" captchaType="blockPuzzle" mode="pop" ref="verify"></na-verify>
 </template>
 
 <script>

@@ -1,11 +1,11 @@
 <template>
-    <div v-drag class="mobile-nav-button" draggable="false" @click="showMobileNav($event)">
+    <div v-drag @click="showMobileNav($event)" class="mobile-nav-button" draggable="false">
         <el-icon>
             <el-icon-menu />
         </el-icon>
     </div>
 
-    <el-drawer ref="mobileNavBox" v-model="nav" :size="240" :with-header="false" destroy-on-close direction="ltr" :title="$t('移动端菜单')">
+    <el-drawer v-model="nav" :size="240" :title="$t('移动端菜单')" :with-header="false" destroy-on-close direction="ltr" ref="mobileNavBox">
         <el-container class="mobile-nav">
             <el-header>
                 <div class="logo-bar">
@@ -16,11 +16,11 @@
                 <el-scrollbar>
                     <el-menu
                         :default-active="$route.meta.active || $route.fullPath"
+                        @select="select"
                         active-text-color="#409EFF"
                         background-color="#212d3d"
                         router
-                        text-color="#fff"
-                        @select="select">
+                        text-color="#fff">
                         <NavMenu :navMenus="menu"></NavMenu>
                     </el-menu>
                 </el-scrollbar>

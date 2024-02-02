@@ -8,11 +8,11 @@
 -->
 
 <template>
-    <el-select :filter-method="filterMethod" v-bind="$attrs" @visible-change="visibleChange">
+    <el-select v-bind="$attrs" :filter-method="filterMethod" @visible-change="visibleChange">
         <el-option
             v-for="field in optionsList"
-            :key="field.value"
             :disabled="isDisabled(field.value)"
+            :key="field.value"
             :label="field.label"
             :value="field"></el-option>
     </el-select>

@@ -1,8 +1,10 @@
 <template>
-    <form class="right-panel-search" @keyup.enter="search" @submit.prevent="search">
+    <form @keyup.enter="search" @submit.prevent="search" class="right-panel-search">
         <el-date-picker
             v-if="hasDate"
             v-model="form.dy.createdTime"
+            :end-placeholder="$t('结束日期')"
+            :range-separator="$t('至')"
             :shortcuts="[
                 {
                     text: '今天',
@@ -68,10 +70,8 @@
                     },
                 },
             ]"
-            :teleported="false"
-            :end-placeholder="$t('结束日期')"
-            :range-separator="$t('至')"
             :start-placeholder="$t('开始日期')"
+            :teleported="false"
             type="daterange"
             value-format="YYYY-MM-DD"></el-date-picker>
 
@@ -118,8 +118,8 @@
         </template>
 
         <el-button-group>
-            <el-button icon="el-icon-search" type="primary" @click="search">查询</el-button>
-            <el-button icon="el-icon-refresh-left" @click="tool.refreshTab(vue)">重置</el-button>
+            <el-button @click="search" icon="el-icon-search" type="primary">查询</el-button>
+            <el-button @click="tool.refreshTab(vue)" icon="el-icon-refresh-left">重置</el-button>
         </el-button-group>
     </form>
 </template>

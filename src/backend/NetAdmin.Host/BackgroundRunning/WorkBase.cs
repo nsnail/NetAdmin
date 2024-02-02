@@ -54,7 +54,7 @@ public abstract class WorkBase<TLogger>
     ///     通用工作流
     /// </summary>
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
-    protected virtual async ValueTask WorkflowAsync(bool singleInstance, CancellationToken cancelToken)
+    protected async ValueTask WorkflowAsync(bool singleInstance, CancellationToken cancelToken)
     {
         if (singleInstance) {
             // 加锁

@@ -1,14 +1,14 @@
 <template>
-    <el-table-column align="right" :label="$t('操作')">
+    <el-table-column :label="$t('操作')" align="right">
         <template #default="scope">
             <el-button-group>
                 <template v-for="(item, i) in buttons?.filter((x) => !x.condition || x.condition(scope))" :key="i">
                     <el-popconfirm v-if="item.confirm" :title="`确定${item.title}吗？`" @confirm="item.click(scope.row, vue)">
                         <template #reference>
-                            <el-button :icon="item.icon" :title="item.title" :type="item.type" size="small" @click.native.stop></el-button>
+                            <el-button :icon="item.icon" :title="item.title" :type="item.type" @click.native.stop size="small"></el-button>
                         </template>
                     </el-popconfirm>
-                    <el-button v-else :icon="item.icon" :title="item.title" size="small" @click="item.click(scope.row, vue)"
+                    <el-button v-else :icon="item.icon" :title="item.title" @click="item.click(scope.row, vue)" size="small"
                         >{{ item.title }}
                     </el-button>
                 </template>

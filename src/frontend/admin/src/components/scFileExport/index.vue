@@ -9,9 +9,9 @@
 
 <template>
     <slot :open="open">
-        <el-button plain type="primary" @click="open">导出</el-button>
+        <el-button @click="open" plain type="primary">导出</el-button>
     </slot>
-    <el-drawer v-model="dialog" :size="400" append-to-body destroy-on-close direction="rtl" :title="$t('导出')">
+    <el-drawer v-model="dialog" :size="400" :title="$t('导出')" append-to-body destroy-on-close direction="rtl">
         <el-main style="padding: 0 20px 20px 20px">
             <div v-loading="downLoading" :element-loading-text="$t('正在处理中...')">
                 <div
@@ -35,14 +35,14 @@
                         <el-button
                             v-if="async"
                             :loading="asyncLoading"
+                            @click="download"
                             icon="el-icon-plus"
                             size="large"
                             style="width: 100%"
                             type="primary"
-                            @click="download"
                             >发起导出任务
                         </el-button>
-                        <el-button v-else icon="el-icon-download" size="large" style="width: 100%" type="primary" @click="download">下 载</el-button>
+                        <el-button v-else @click="download" icon="el-icon-download" size="large" style="width: 100%" type="primary">下 载</el-button>
                     </el-tab-pane>
                     <el-tab-pane v-if="columnData.length > 0" :label="$t('列设置')" lazy>
                         <columnSet :column="columnData"></columnSet>

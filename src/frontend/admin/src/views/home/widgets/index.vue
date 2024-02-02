@@ -1,13 +1,13 @@
 <template>
-    <div ref="main" :class="['widgets-home', customizing ? 'customizing' : '']">
+    <div :class="['widgets-home', customizing ? 'customizing' : '']" ref="main">
         <div class="widgets-content">
-            <div ref="widgets" class="widgets">
+            <div class="widgets" ref="widgets">
                 <div class="widgets-wrapper">
                     <div v-if="nowCompsList.length <= 0" class="no-widgets">
-                        <el-empty :image-size="280" :description="$t('没有部件啦')"></el-empty>
+                        <el-empty :description="$t('没有部件啦')" :image-size="280"></el-empty>
                     </div>
                     <el-row :gutter="15">
-                        <el-col v-for="(item, index) in grid.layout" v-bind:key="index" :md="item" :xs="24">
+                        <el-col v-bind:key="index" v-for="(item, index) in grid.layout" :md="item" :xs="24">
                             <draggable
                                 v-model="grid.compsList[index]"
                                 animation="200"
@@ -23,12 +23,12 @@
                                         <component :is="allComps[element]"></component>
                                         <div v-if="customizing" class="customize-overlay">
                                             <el-button
+                                                @click="remove(element)"
                                                 class="close"
                                                 icon="el-icon-close"
                                                 plain
                                                 size="small"
-                                                type="danger"
-                                                @click="remove(element)"></el-button>
+                                                type="danger"></el-button>
                                             <label>
                                                 <el-icon>
                                                     <component :is="allComps[element].icon" />
@@ -54,9 +54,9 @@
                         添加部件
                     </div>
                     <div>
-                        <el-button v-if="customizing" icon="el-icon-check" round type="primary" @click="save">完成</el-button>
+                        <el-button v-if="customizing" @click="save" icon="el-icon-check" round type="primary">完成</el-button>
                     </div>
-                    <div class="widgets-aside-close" @click="close()">
+                    <div @click="close()" class="widgets-aside-close">
                         <el-icon>
                             <el-icon-close />
                         </el-icon>
@@ -64,7 +64,7 @@
                 </el-header>
                 <el-header style="height: auto">
                     <div class="selectLayout">
-                        <div :class="{ active: grid.layout.join(',') === '12,6,6' }" class="selectLayout-item item01" @click="setLayout([12, 6, 6])">
+                        <div :class="{ active: grid.layout.join(',') === '12,6,6' }" @click="setLayout([12, 6, 6])" class="selectLayout-item item01">
                             <el-row :gutter="2">
                                 <el-col :span="12"><span></span></el-col>
                                 <el-col :span="6"><span></span></el-col>
@@ -73,15 +73,15 @@
                         </div>
                         <div
                             :class="{ active: grid.layout.join(',') === '24,16,8' }"
-                            class="selectLayout-item item02"
-                            @click="setLayout([24, 16, 8])">
+                            @click="setLayout([24, 16, 8])"
+                            class="selectLayout-item item02">
                             <el-row :gutter="2">
                                 <el-col :span="24"><span></span></el-col>
                                 <el-col :span="16"><span></span></el-col>
                                 <el-col :span="8"><span></span></el-col>
                             </el-row>
                         </div>
-                        <div :class="{ active: grid.layout.join(',') === '24' }" class="selectLayout-item item03" @click="setLayout([24])">
+                        <div :class="{ active: grid.layout.join(',') === '24' }" @click="setLayout([24])" class="selectLayout-item item03">
                             <el-row :gutter="2">
                                 <el-col :span="24"><span></span></el-col>
                                 <el-col :span="24"><span></span></el-col>
@@ -93,7 +93,7 @@
                 <el-main class="nopadding">
                     <div class="widgets-list">
                         <div v-if="myCompsList.length <= 0" class="widgets-list-nodata">
-                            <el-empty :image-size="60" :description="$t('没有部件啦')"></el-empty>
+                            <el-empty :description="$t('没有部件啦')" :image-size="60"></el-empty>
                         </div>
                         <div v-for="item in myCompsList" :key="item.title" class="widgets-list-item">
                             <div class="item-logo">
@@ -106,19 +106,19 @@
                                 <p>{{ item.description }}</p>
                             </div>
                             <div class="item-actions">
-                                <el-button icon="el-icon-plus" size="small" type="primary" @click="push(item)"></el-button>
+                                <el-button @click="push(item)" icon="el-icon-plus" size="small" type="primary"></el-button>
                             </div>
                         </div>
                     </div>
                 </el-main>
                 <el-footer style="height: 51px">
-                    <el-button size="small" @click="backDefault()">恢复默认</el-button>
+                    <el-button @click="backDefault()" size="small">恢复默认</el-button>
                 </el-footer>
             </el-container>
         </div>
     </div>
 
-    <div class="layout-setting" @click="custom">
+    <div @click="custom" class="layout-setting">
         <el-icon><el-icon-setting /></el-icon>
     </div>
 </template>

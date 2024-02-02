@@ -13,5 +13,5 @@ public interface IFieldCreatedUser
     /// <summary>
     ///     创建者用户名
     /// </summary>
-    string CreatedUserName { get; set; }
+    string CreatedUserName { get; init; }
 }

@@ -1,30 +1,30 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" append-to-body destroy-on-close>
         <el-form
-            ref="dialogForm"
             v-loading="loading"
             :disabled="mode === 'view'"
             :model="form"
             :rules="rules"
             label-position="right"
-            label-width="100px">
+            label-width="100px"
+            ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form-item prop="avatar">
                         <sc-upload v-model="form.avatar" :title="$t('上传头像')"></sc-upload>
                     </el-form-item>
                     <el-form-item :label="$t('登录账号')" prop="userName">
-                        <el-input v-model="form.userName" clearable :placeholder="$t('用于登录系统')"></el-input>
+                        <el-input v-model="form.userName" :placeholder="$t('用于登录系统')" clearable></el-input>
                     </el-form-item>
                     <el-row :gutter="10">
                         <el-col :lg="12">
                             <el-form-item :label="$t('手机号')" prop="mobile">
-                                <el-input v-model="form.mobile" clearable :placeholder="$t('请输入手机号')"></el-input>
+                                <el-input v-model="form.mobile" :placeholder="$t('请输入手机号')" clearable></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('邮箱')" prop="email">
-                                <el-input v-model="form.email" clearable :placeholder="$t('请输入邮箱')"></el-input>
+                                <el-input v-model="form.email" :placeholder="$t('请输入邮箱')" clearable></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -84,8 +84,8 @@
                             <el-form-item :label="$t('出生日期')" prop="profile.bornDate">
                                 <el-date-picker
                                     v-model="form.profile.bornDate"
-                                    :teleported="false"
                                     :placeholder="$t('出生日期')"
+                                    :teleported="false"
                                     type="date"
                                     value-format="YYYY-MM-DD"></el-date-picker>
                             </el-form-item>
@@ -226,7 +226,7 @@
         </el-form>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -304,9 +304,10 @@ export default {
                 this.rules.passwordText[0].required = true
             }
             if (data) {
-                Object.assign(this.form, (await this.$API.sys_user.get.post({ id: data.id })).data, {
-                    roleIds: data.roles.map((x) => x.id),
-                    deptId: data.dept.id,
+                const user = (await this.$API.sys_user.get.post({ id: data.id })).data
+                Object.assign(this.form, user, {
+                    roleIds: user.roles.map((x) => x.id),
+                    deptId: user.dept.id,
                 })
                 await this.getProfile()
             }

@@ -3,7 +3,7 @@
         <div v-if="type === '2'" :style="{ height: parseInt(setSize.imgHeight) + vSpace + 'px' }" class="verify-img-out">
             <div :style="{ width: setSize.imgWidth, height: setSize.imgHeight }" class="verify-img-panel">
                 <img :src="backImgBase" alt="" style="width: 100%; height: 100%; display: block" />
-                <div v-show="showRefresh" class="verify-refresh" @click="refresh">
+                <div v-show="showRefresh" @click="refresh" class="verify-refresh">
                     <i class="iconfont icon-refresh"></i>
                 </div>
                 <transition name="tips">
@@ -19,7 +19,7 @@
                 'line-height': barSize.height,
             }"
             class="verify-bar-area">
-            <span class="verify-msg" v-text="text"></span>
+            <span v-text="text" class="verify-msg"></span>
             <div
                 :style="{
                     width: leftBarWidth !== undefined ? leftBarWidth : barSize.height,
@@ -28,7 +28,7 @@
                     transaction: transitionWidth,
                 }"
                 class="verify-left-bar">
-                <span class="verify-msg" v-text="finishText"></span>
+                <span v-text="finishText" class="verify-msg"></span>
                 <div
                     :style="{
                         width: barSize.height,
@@ -37,9 +37,9 @@
                         left: moveBlockLeft,
                         transition: transitionLeft,
                     }"
-                    class="verify-move-block"
                     @mousedown="start"
-                    @touchstart="start">
+                    @touchstart="start"
+                    class="verify-move-block">
                     <i :class="['verify-icon iconfont', iconClass]" :style="{ color: iconColor }"></i>
                     <div
                         v-if="type === '2'"

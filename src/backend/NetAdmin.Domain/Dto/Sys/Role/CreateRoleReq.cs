@@ -16,7 +16,8 @@ public record CreateRoleReq : Sys_Role
     public IReadOnlyCollection<string> ApiIds { get; init; }
 
     /// <inheritdoc cref="Sys_Role.DataScope" />
-    [EnumDataType(typeof(DataScopes))]
+    [EnumDataType(typeof(DataScopes), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.角色数据范围不正确))]
     public override DataScopes DataScope { get; init; } = DataScopes.All;
 
     /// <summary>

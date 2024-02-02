@@ -13,10 +13,10 @@ public sealed record InstanceNode
     /// <summary>
     ///     数据库
     /// </summary>
-    public int Database { get; set; }
+    public int Database { get; init; }
 
     /// <summary>
     ///     实例名称
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; init; }
 }

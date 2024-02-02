@@ -25,7 +25,7 @@ public record QueryReq<T> : DataAbstraction
     /// <summary>
     ///     查询关键字
     /// </summary>
-    public string Keywords { get; set; }
+    public string Keywords { get; init; }
 
     /// <summary>
     ///     排序方式

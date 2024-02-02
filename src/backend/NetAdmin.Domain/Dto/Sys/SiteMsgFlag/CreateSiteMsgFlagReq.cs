@@ -10,10 +10,11 @@ public record CreateSiteMsgFlagReq : Sys_SiteMsgFlag
 {
     /// <inheritdoc cref="Sys_SiteMsgFlag.SiteMsgId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long SiteMsgId { get; set; }
+    public override long SiteMsgId { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsgFlag.UserSiteMsgStatus" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [EnumDataType(typeof(UserSiteMsgStatues))]
-    public override UserSiteMsgStatues UserSiteMsgStatus { get; set; }
+    [EnumDataType(typeof(UserSiteMsgStatues), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.站内信状态不正确))]
+    public override UserSiteMsgStatues UserSiteMsgStatus { get; init; }
 }

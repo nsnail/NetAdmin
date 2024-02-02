@@ -1,6 +1,6 @@
 <template>
     <el-card :header="$t('近7天操作记录')" shadow="never">
-        <scTable ref="table" :data="data" height="auto" hideDo paginationLayout="total, prev, pager, next">
+        <scTable :data="data" height="auto" hideDo paginationLayout="total, prev, pager, next" ref="table">
             <sc-table-column :label="$t('序号')" type="index"></sc-table-column>
             <sc-table-column :label="$t('业务名称')" min-width="240" prop="title"></sc-table-column>
             <sc-table-column label="IP" prop="ip" width="150"></sc-table-column>

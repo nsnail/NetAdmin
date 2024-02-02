@@ -1,6 +1,6 @@
 <template>
     <el-card :header="$t('账号信息')" shadow="never">
-        <el-form ref="form" :model="form" label-width="10rem">
+        <el-form :model="form" label-width="10rem" ref="form">
             <el-form-item :label="$t('头像')">
                 <sc-upload v-model="form.avatar" :onSuccess="updateUser" :title="$t('上传头像')"></sc-upload>
             </el-form-item>
@@ -34,9 +34,9 @@
         </el-form>
     </el-card>
 
-    <set-mobile-dialog v-if="dialog.setMobile" ref="setMobileDialog" @closed="dialog.setMobile = false" @success="setSuccess"></set-mobile-dialog>
-    <set-password-dialog v-if="dialog.setPassword" ref="setPasswordDialog" @closed="dialog.setPassword = false"></set-password-dialog>
-    <set-email-dialog v-if="dialog.setEmail" ref="setEmailDialog" @closed="dialog.setEmail = false" @success="setSuccess"></set-email-dialog>
+    <set-mobile-dialog v-if="dialog.setMobile" @closed="dialog.setMobile = false" @success="setSuccess" ref="setMobileDialog"></set-mobile-dialog>
+    <set-password-dialog v-if="dialog.setPassword" @closed="dialog.setPassword = false" ref="setPasswordDialog"></set-password-dialog>
+    <set-email-dialog v-if="dialog.setEmail" @closed="dialog.setEmail = false" @success="setSuccess" ref="setEmailDialog"></set-email-dialog>
 </template>
 
 <script>

@@ -3,11 +3,10 @@
         <el-aside v-loading="loading" width="300px">
             <el-container>
                 <el-header>
-                    <el-input v-model="filterText" clearable :placeholder="$t('输入关键字进行过滤')"></el-input>
+                    <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable></el-input>
                 </el-header>
                 <el-main class="nopadding">
                     <el-tree
-                        ref="dic"
                         :data="data"
                         :expand-on-click-node="false"
                         :filter-node-method="filterNode"
@@ -15,18 +14,19 @@
                         :props="{
                             label: 'name',
                         }"
+                        @node-click="click"
                         default-expand-all
                         node-key="id"
-                        @node-click="click">
+                        ref="dic">
                         <template #default="{ _, data }">
                             <div class="custom-tree-node">
                                 <span>{{ data.name }} {{ data.code }}</span>
                                 <span class="btn">
                                     <el-button-group size="small">
-                                        <el-button icon="el-icon-edit" @click.stop="edit(data)"></el-button>
+                                        <el-button @click.stop="edit(data)" icon="el-icon-edit"></el-button>
                                         <el-popconfirm :title="`确定删除 ${data.name} 吗？`" @confirm="del(data)">
                                             <template #reference>
-                                                <el-button icon="el-icon-delete" @click.stop="() => {}"></el-button>
+                                                <el-button @click.stop="() => {}" icon="el-icon-delete"></el-button>
                                             </template>
                                         </el-popconfirm>
                                     </el-button-group>
@@ -36,13 +36,13 @@
                     </el-tree>
                 </el-main>
                 <el-footer>
-                    <el-button icon="el-icon-plus" size="small" style="width: 100%" type="primary" @click="add">字典分类</el-button>
+                    <el-button @click="add" icon="el-icon-plus" size="small" style="width: 100%" type="primary">字典分类</el-button>
                 </el-footer>
             </el-container>
         </el-aside>
         <list :catalogId="form.catalogId" />
     </el-container>
-    <save-dialog v-if="dialog.save" ref="saveDialog" @closed="dialog.save = false" @success="getData"></save-dialog>
+    <save-dialog v-if="dialog.save" @closed="dialog.save = false" @success="getData" ref="saveDialog"></save-dialog>
 </template>
 
 <script>
