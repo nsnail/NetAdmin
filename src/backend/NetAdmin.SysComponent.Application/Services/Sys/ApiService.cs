@@ -17,42 +17,49 @@ public sealed class ApiService(
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
     {
-        throw new NotImplementedException();
+        req.ThrowIfInvalid();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public Task<QueryApiRsp> GetAsync(QueryApiReq req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     public async Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
                            .WhereDynamic(req.Filter)
                            .ToTreeListAsync()
@@ -108,6 +115,7 @@ public sealed class ApiService(
     /// <inheritdoc />
     public Task<NopReq> UpdateAsync(NopReq req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
@@ -128,5 +136,18 @@ public sealed class ApiService(
                                                        .FirstOrDefault()
                                                        ?.HttpMethods.First()
                                          });
+    }
+
+    private ISelect<Sys_Api> QueryInternal(QueryReq<QueryApiReq> req)
+    {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+
+        if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.CreatedTime);
+        }
+
+        return ret;
     }
 }

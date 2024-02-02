@@ -1,0 +1,175 @@
+using Cronos;
+using NetAdmin.Application.Repositories;
+using NetAdmin.Application.Services;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.Domain.Enums.Sys;
+using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using DataType = FreeSql.DataType;
+
+namespace NetAdmin.SysComponent.Application.Services.Sys;
+
+/// <inheritdoc cref="IJobService" />
+public sealed class JobService(DefaultRepository<Sys_Job> rpo) //
+    : RepositoryService<Sys_Job, IJobService>(rpo), IJobService
+{
+    /// <inheritdoc />
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
+    {
+        req.ThrowIfInvalid();
+        var sum = 0;
+        foreach (var item in req.Items) {
+            sum += await DeleteAsync(item).ConfigureAwait(false);
+        }
+
+        return sum;
+    }
+
+    /// <inheritdoc />
+    public async Task<QueryJobRsp> CreateAsync(CreateJobReq req)
+    {
+        req.ThrowIfInvalid();
+        var nextExecTime = CronExpression.Parse(req.ExecutionCron).GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Utc);
+        var ret = await Rpo.InsertAsync(req with {
+                                                     NextExecTime = nextExecTime
+                                                   , NextTimeId = nextExecTime?.TimeUnixUtc()
+                                                   , RequestHeader = req.RequestHeaders?.Json()
+                                                 })
+                           .ConfigureAwait(false);
+        return ret.Adapt<QueryJobRsp>();
+    }
+
+    /// <inheritdoc />
+    public async Task<int> DeleteAsync(DelReq req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id).ConfigureAwait(false);
+        return ret.Count;
+    }
+
+    /// <inheritdoc />
+    public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).AnyAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task FinishJobAsync(UpdateJobReq req)
+    {
+        var nextExecTime = CronExpression.Parse(req.ExecutionCron).GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Utc);
+        _ = await UpdateAsync(req with {
+                                           Status = JobStatues.Idle
+                                         , NextExecTime = nextExecTime
+                                         , NextTimeId = nextExecTime?.TimeUnixUtc()
+                                       })
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task<QueryJobRsp> GetAsync(QueryJobReq req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(new QueryReq<QueryJobReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
+        return ret.Adapt<QueryJobRsp>();
+    }
+
+    /// <inheritdoc />
+    public async Task<QueryJobRsp> GetNextJobAsync()
+    {
+        var df = new DynamicFilterInfo {
+                                           Filters = [
+                                               new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.NextExecTime)
+                                                                       , Value    = DateTime.UtcNow
+                                                                       , Operator = DynamicFilterOperators.LessThan
+                                                                     }
+                                             , new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.Status)
+                                                                       , Value    = JobStatues.Idle
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                     }
+                                             , new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.Enabled)
+                                                                       , Value    = true
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                     }
+                                           ]
+                                       };
+        var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Count = 1 }, true)
+                        .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
+                                        .As("b")
+                                        .Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId)
+                                        .Any())
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
+        return job == null
+            ? null
+            : await UpdateAsync(job.Adapt<UpdateJobReq>() with {
+                                                                   Status = JobStatues.Running
+                                                                 , LastExecTime = DateTime.UtcNow
+                                                               })
+                .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task<PagedQueryRsp<QueryJobRsp>> PagedQueryAsync(PagedQueryReq<QueryJobReq> req)
+    {
+        req.ThrowIfInvalid();
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .Count(out var total)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
+
+        return new PagedQueryRsp<QueryJobRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryJobRsp>>());
+    }
+
+    /// <inheritdoc />
+    public async Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        return ret.Adapt<IEnumerable<QueryJobRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task SetEnabledAsync(UpdateJobReq req)
+    {
+        req.ThrowIfInvalid();
+        return Rpo.UpdateDiy.Set(a => a.Enabled == req.Enabled).Where(a => a.Id == req.Id).ExecuteAffrowsAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task<QueryJobRsp> UpdateAsync(UpdateJobReq req)
+    {
+        req.ThrowIfInvalid();
+        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
+            return (await UpdateForSqliteAsync(req).ConfigureAwait(false)).Adapt<QueryJobRsp>();
+        }
+
+        _ = await Rpo.UpdateAsync(req).ConfigureAwait(false);
+        return req.Adapt<QueryJobRsp>();
+    }
+
+    /// <inheritdoc />
+    protected override async Task<Sys_Job> UpdateForSqliteAsync(Sys_Job req)
+    {
+        _ = await Rpo.UpdateAsync(req).ConfigureAwait(false);
+        return req;
+    }
+
+    private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req, bool orderByRandom = false)
+    {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereDynamic(req.Filter)
+                     .WhereIf( //
+                         req.Keywords?.Length > 0
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords))
+                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        return !orderByRandom && (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true)
+            ? ret.OrderByDescending(a => a.Id)
+            : ret.OrderByRandom();
+    }
+}

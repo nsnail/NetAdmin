@@ -1,0 +1,13 @@
+[
+  {
+    "Enabled": true,
+    "ExecutionCron": "* * * * *",
+    "HttpMethod": 3,
+    "JobName": "HTTP 请求测试",
+    "NextExecTime": "2020/9/13 12:26:40",
+    "NextTimeId": 1600000000,
+    "RequestUrl": "https://httpbin.org/ip",
+    "Status": 1,
+    "UserId": 370942943322181,
+  }
+]

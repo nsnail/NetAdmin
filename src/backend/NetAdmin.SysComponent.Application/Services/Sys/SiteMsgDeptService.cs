@@ -15,6 +15,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -26,6 +27,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgDeptRsp> CreateAsync(CreateSiteMsgDeptReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgDeptRsp>();
     }
@@ -33,18 +35,21 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QuerySiteMsgDeptReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QuerySiteMsgDeptRsp> GetAsync(QuerySiteMsgDeptReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QuerySiteMsgDeptReq> { Filter = req })
                         .ToOneAsync()
                         .ConfigureAwait(false);
@@ -54,6 +59,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QuerySiteMsgDeptRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgDeptReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -67,6 +73,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<IEnumerable<QuerySiteMsgDeptRsp>> QueryAsync(QueryReq<QuerySiteMsgDeptReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgDeptRsp>>();
     }
@@ -74,6 +81,7 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     /// <inheritdoc />
     public async Task<QuerySiteMsgDeptRsp> UpdateAsync(UpdateSiteMsgDeptReq req)
     {
+        req.ThrowIfInvalid();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
             return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QuerySiteMsgDeptRsp;
         }

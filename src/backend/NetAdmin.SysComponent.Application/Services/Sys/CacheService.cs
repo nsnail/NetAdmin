@@ -23,6 +23,7 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) /
     /// <inheritdoc />
     public async Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
+        req.ThrowIfInvalid();
         var database = connectionMultiplexer.GetDatabase((int?)req.Filter?.DbIndex ?? 0);
         var redisResults = (RedisResult[])await database
                                                 .ExecuteAsync("scan", (req.Page - 1) * req.PageSize, "count"

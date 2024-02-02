@@ -14,6 +14,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -25,6 +26,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <inheritdoc />
     public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryMenuRsp>();
     }
@@ -32,18 +34,21 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryMenuRsp>();
     }
@@ -51,12 +56,14 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <inheritdoc />
     public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
     public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryMenuRsp>>();
     }
@@ -65,6 +72,7 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
     {
+        req.ThrowIfInvalid();
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
             throw new NetAdminUnexpectedException();
         }

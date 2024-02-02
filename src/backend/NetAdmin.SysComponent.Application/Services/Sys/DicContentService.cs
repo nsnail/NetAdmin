@@ -14,6 +14,7 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -26,6 +27,7 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">Dictionary_directory_does_not_exist</exception>
     public async Task<QueryDicContentRsp> CreateAsync(CreateDicContentReq req)
     {
+        req.ThrowIfInvalid();
         if (!await Rpo.Orm.Select<Sys_DicCatalog>()
                       .Where(a => a.Id == req.CatalogId)
                       .ForUpdate()
@@ -41,18 +43,21 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDicContentReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req })
                         .ToOneAsync()
                         .ConfigureAwait(false);
@@ -62,6 +67,7 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDicContentReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -75,6 +81,7 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
     }
@@ -84,6 +91,7 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicContentRsp> UpdateAsync(UpdateDicContentReq req)
     {
+        req.ThrowIfInvalid();
         if (!await Rpo.Orm.Select<Sys_DicCatalog>()
                       .Where(a => a.Id == req.CatalogId)
                       .ForUpdate()

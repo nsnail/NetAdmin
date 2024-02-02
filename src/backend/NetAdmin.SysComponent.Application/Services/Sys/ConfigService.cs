@@ -15,6 +15,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -26,6 +27,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryConfigRsp>();
     }
@@ -33,18 +35,21 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryConfigRsp>();
     }
@@ -61,6 +66,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -74,6 +80,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryConfigRsp>>();
     }
@@ -81,6 +88,7 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     /// <inheritdoc />
     public async Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
     {
+        req.ThrowIfInvalid();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
             return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryConfigRsp;
         }

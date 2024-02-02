@@ -16,6 +16,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -27,6 +28,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     /// <inheritdoc />
     public async Task<QueryUserProfileRsp> CreateAsync(CreateUserProfileReq req)
     {
+        req.ThrowIfInvalid();
         var entity = req.Adapt<Sys_UserProfile>();
         var ret    = await Rpo.InsertAsync(entity).ConfigureAwait(false);
         return ret.Adapt<QueryUserProfileRsp>();
@@ -35,18 +37,21 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req })
                         .ToOneAsync()
                         .ConfigureAwait(false);
@@ -56,6 +61,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryUserProfileRsp>> PagedQueryAsync(PagedQueryReq<QueryUserProfileReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -82,6 +88,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     /// <inheritdoc />
     public async Task<IEnumerable<QueryUserProfileRsp>> QueryAsync(QueryReq<QueryUserProfileReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req)
                         .Take(req.Count)
                         .ToListAsync((a, b, c, d, e) => new {
@@ -115,6 +122,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     /// <inheritdoc />
     public async Task<QueryUserProfileRsp> UpdateAsync(UpdateUserProfileReq req)
     {
+        req.ThrowIfInvalid();
         var entity = req.Adapt<Sys_UserProfile>();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
             return await UpdateForSqliteAsync(entity).ConfigureAwait(false) as QueryUserProfileRsp;

@@ -21,6 +21,7 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -32,6 +33,7 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public async Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req)
     {
+        req.ThrowIfInvalid();
         await CreateUpdateCheckAsync(req).ConfigureAwait(false);
 
         // 主表
@@ -56,6 +58,7 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public async Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id).ConfigureAwait(false);
         return ret.Count;
     }
@@ -63,12 +66,14 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QuerySiteMsgReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QuerySiteMsgRsp> GetAsync(QuerySiteMsgReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QuerySiteMsgReq> { Filter = req })
                         .IncludeMany(a => a.Roles)
                         .IncludeMany(a => a.Users)
@@ -81,6 +86,7 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public async Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await PagedQueryMineAsync(
                 new PagedQueryReq<QuerySiteMsgReq> {
                                                        DynamicFilter
@@ -97,6 +103,7 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -118,12 +125,14 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req)
     {
+        req.ThrowIfInvalid();
         return PagedQueryMineAsync(req, false);
     }
 
     /// <inheritdoc />
     public async Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgRsp>>();
     }
@@ -131,6 +140,7 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public async Task SetSiteMsgStatusAsync(UpdateSiteMsgFlagReq req)
     {
+        req.ThrowIfInvalid();
         if (!await ExistAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.SiteMsgId } })
                 .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.站内信不存在);
@@ -160,6 +170,7 @@ public sealed class SiteMsgService(
     /// <inheritdoc />
     public async Task<QuerySiteMsgRsp> UpdateAsync(UpdateSiteMsgReq req)
     {
+        req.ThrowIfInvalid();
         await CreateUpdateCheckAsync(req).ConfigureAwait(false);
 
         // 主表

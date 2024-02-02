@@ -2,6 +2,7 @@ using NetAdmin.BizServer.Host;
 using NetAdmin.BizServer.Host.Extensions;
 using NetAdmin.Host.Extensions;
 using NetAdmin.Host.Middlewares;
+using NetAdmin.SysComponent.Host.Extensions;
 using Spectre.Console.Cli;
 using ValidationResult = Spectre.Console.ValidationResult;
 #if !DEBUG
@@ -62,6 +63,7 @@ namespace NetAdmin.BizServer.Host
                         .AddCorsAccessor()     // 添加支持跨域访问
                         .AddContextUser()      // 添加上下文用户
                         .AddRedisCache()       // 添加 Redis 缓存
+                        .AddSchedules()        // 添加计划任务
 
                         // IMvcBuilder
                         .AddControllers()             // 添加控制器
