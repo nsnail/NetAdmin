@@ -7,24 +7,24 @@
  * @LastEditTime: 2023年3月2日10:43:35
 -->
 <template>
-    <div ref="scTableMain" v-loading="loading" :style="{ height: _height }" class="scTable">
+    <div v-loading="loading" :style="{ height: _height }" class="scTable" ref="scTableMain">
         <div :style="{ height: _table_height }" class="scTable-table">
             <el-table
-                :key="toggleIndex"
-                ref="scTable"
+                v-bind="$attrs"
                 :border="config.border"
                 :data="tableData"
                 :default-expand-all="config.defaultExpandAll"
                 :default-sort="defaultSort"
                 :height="height === 'auto' ? null : '100%'"
+                :key="toggleIndex"
                 :row-key="rowKey"
                 :size="config.size"
                 :stripe="config.stripe"
                 :summary-method="remoteSummary ? remoteSummaryMethod : summaryMethod"
-                v-bind="$attrs"
-                @sort-change="sortChange"
+                @cell-click="cellClickMethod"
                 @filter-change="filterChange"
-                @cell-click="cellClickMethod">
+                @sort-change="sortChange"
+                ref="scTable">
                 <slot></slot>
                 <template v-for="(item, index) in userColumn" :key="index">
                     <el-table-column
@@ -39,7 +39,7 @@
                         :sortable="item.sortable"
                         :width="item.width">
                         <template #default="scope">
-                            <slot :name="item.prop" v-bind="scope">
+                            <slot v-bind="scope" :name="item.prop">
                                 {{ scope.row[item.prop] }}
                             </slot>
                         </template>
@@ -61,39 +61,39 @@
                     :page-sizes="pageSizes"
                     :small="true"
                     :total="total"
-                    background
                     @current-change="paginationChange"
-                    @update:page-size="pageSizeChange"></el-pagination>
+                    @update:page-size="pageSizeChange"
+                    background></el-pagination>
             </div>
             <div v-if="!hideDo" class="scTable-do">
-                <el-button v-if="!hideRefresh" circle icon="el-icon-refresh" style="margin-left: 1rem" @click="refresh"></el-button>
+                <el-button v-if="!hideRefresh" @click="refresh" circle icon="el-icon-refresh" style="margin-left: 1rem"></el-button>
                 <el-popover
                     v-if="column"
                     :hide-after="0"
-                    :width="500"
-                    placement="top"
                     :title="$t('列设置')"
-                    trigger="click"
+                    :width="500"
+                    @after-leave="customColumnShow = false"
                     @show="customColumnShow = true"
-                    @after-leave="customColumnShow = false">
+                    placement="top"
+                    trigger="click">
                     <template #reference>
                         <el-button circle icon="el-icon-set-up" style="margin-left: 1rem"></el-button>
                     </template>
                     <columnSetting
                         v-if="customColumnShow"
-                        ref="columnSetting"
                         :column="userColumn"
                         @back="columnSettingBack"
                         @save="columnSettingSave"
-                        @userChange="columnSettingChange"></columnSetting>
+                        @userChange="columnSettingChange"
+                        ref="columnSetting"></columnSetting>
                 </el-popover>
-                <el-popover v-if="!hideSetting" :hide-after="0" :width="400" placement="top" :title="$t('表格设置')" trigger="click">
+                <el-popover v-if="!hideSetting" :hide-after="0" :title="$t('表格设置')" :width="400" placement="top" trigger="click">
                     <template #reference>
                         <el-button circle icon="el-icon-setting" style="margin-left: 1rem"></el-button>
                     </template>
                     <el-form label-position="left" label-width="80px">
                         <el-form-item :label="$t('表格尺寸')">
-                            <el-radio-group v-model="config.size" size="small" @change="configSizeChange">
+                            <el-radio-group v-model="config.size" @change="configSizeChange" size="small">
                                 <el-radio-button label="large">大</el-radio-button>
                                 <el-radio-button label="default">正常</el-radio-button>
                                 <el-radio-button label="small">小</el-radio-button>

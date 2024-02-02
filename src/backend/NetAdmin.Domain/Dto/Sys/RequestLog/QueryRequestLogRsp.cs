@@ -37,7 +37,7 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
 
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string CreatedUserName { get; set; }
+    public override string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.Duration" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -102,6 +102,6 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
     {
-        _ = config.ForType<Sys_RequestLog, QueryRequestLogRsp>().Map(dest => dest.ApiSummary, src => src.Api.Summary);
+        _ = config.ForType<Sys_RequestLog, QueryRequestLogRsp>().Map(d => d.ApiSummary, s => s.Api.Summary);
     }
 }

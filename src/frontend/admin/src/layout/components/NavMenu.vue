@@ -1,10 +1,10 @@
 <template>
     <div v-if="navMenus.length <= 0" style="padding: 20px">
-        <el-alert :closable="false" center :title="$t('无子集菜单')" type="info"></el-alert>
+        <el-alert :closable="false" :title="$t('无子集菜单')" center type="info"></el-alert>
     </div>
-    <template v-for="navMenu in navMenus" v-bind:key="navMenu">
+    <template v-bind:key="navMenu" v-for="navMenu in navMenus">
         <el-menu-item v-if="!hasChildren(navMenu)" :index="navMenu.path">
-            <a v-if="navMenu.meta && navMenu.meta.type == 'link'" :href="navMenu.path" target="_blank" @click.stop="() => {}"></a>
+            <a v-if="navMenu.meta && navMenu.meta.type == 'link'" :href="navMenu.path" @click.stop="() => {}" target="_blank"></a>
             <el-icon v-if="navMenu.meta && navMenu.meta.icon">
                 <component :is="navMenu.meta.icon || 'el-icon-menu'" />
             </el-icon>

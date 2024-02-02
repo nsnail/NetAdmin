@@ -20,7 +20,7 @@ public record Sys_SiteMsgDept : ImmutableEntity
     /// </summary>
     [JsonIgnore]
     [Column]
-    public virtual long DeptId { get; init; }
+    public long DeptId { get; init; }
 
     /// <summary>
     ///     关联的站内信
@@ -33,5 +33,5 @@ public record Sys_SiteMsgDept : ImmutableEntity
     /// </summary>
     [JsonIgnore]
     [Column]
-    public virtual long SiteMsgId { get; init; }
+    public long SiteMsgId { get; init; }
 }

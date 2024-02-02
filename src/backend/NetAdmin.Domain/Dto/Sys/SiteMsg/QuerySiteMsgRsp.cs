@@ -40,7 +40,7 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
     /// <summary>
     ///     我的标记
     /// </summary>
-    public QuerySiteMsgFlagRsp MyFlags { get; set; }
+    public QuerySiteMsgFlagRsp MyFlags { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Roles" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

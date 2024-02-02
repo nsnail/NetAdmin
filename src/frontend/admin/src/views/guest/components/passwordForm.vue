@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large" @keyup.enter="login">
+    <el-form :model="form" :rules="rules" @keyup.enter="login" label-width="0" ref="loginForm" size="large">
         <el-form-item prop="account">
             <el-input v-model="form.account" :placeholder="$t('用户名 / 手机 / 邮箱')" clearable prefix-icon="el-icon-user"></el-input>
         </el-form-item>
@@ -15,7 +15,7 @@
             </el-col>
         </el-form-item>
         <el-form-item>
-            <el-button :loading="isLoading" round style="width: 100%" type="primary" @click="login">{{ $t('登录') }}</el-button>
+            <el-button :loading="isLoading" @click="login" round style="width: 100%" type="primary">{{ $t('登录') }}</el-button>
         </el-form-item>
         <div class="login-reg">
             {{ $t('还没有账号?') }}

@@ -2,8 +2,8 @@
     <div class="login_bg">
         <div class="login_main">
             <div class="login_config">
-                <el-button :icon="config.dark ? 'el-icon-sunny' : 'el-icon-moon'" circle type="info" @click="configDark"></el-button>
-                <el-dropdown placement="bottom-end" trigger="click" @command="configLang">
+                <el-button :icon="config.dark ? 'el-icon-sunny' : 'el-icon-moon'" @click="configDark" circle type="info"></el-button>
+                <el-dropdown @command="configLang" placement="bottom-end" trigger="click">
                     <el-button circle>
                         <svg
                             aria-hidden="true"
@@ -12,8 +12,8 @@
                             role="img"
                             viewBox="0 0 512 512"
                             width="1em"
-                            xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M478.33 433.6l-90-218a22 22 0 0 0-40.67 0l-90 218a22 22 0 1 0 40.67 16.79L316.66 406h102.67l18.33 44.39A22 22 0 0 0 458 464a22 22 0 0 0 20.32-30.4zM334.83 362L368 281.65L401.17 362z"
                                 fill="currentColor"></path>
@@ -24,7 +24,7 @@
                     </el-button>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item v-for="item in lang" :key="item.value" :class="{ selected: config.lang === item.value }" :command="item"
+                            <el-dropdown-item v-for="item in lang" :class="{ selected: config.lang === item.value }" :command="item" :key="item.value"
                                 >{{ item.name }}
                             </el-dropdown-item>
                         </el-dropdown-menu>
@@ -49,7 +49,7 @@
                 <template v-if="$CONFIG.MY_SHOW_LOGIN_OAUTH">
                     <el-divider>{{ $t('其他登录方式') }}</el-divider>
                     <div class="login-oauth">
-                        <el-button circle icon="sc-icon-wechat" type="success" @click="wechatLogin"></el-button>
+                        <el-button @click="wechatLogin" circle icon="sc-icon-wechat" type="success"></el-button>
                     </div>
                 </template>
             </div>

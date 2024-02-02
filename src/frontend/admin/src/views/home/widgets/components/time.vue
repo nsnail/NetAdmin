@@ -1,5 +1,5 @@
 <template>
-    <el-card class="item-background" :header="$t('时钟')" shadow="hover">
+    <el-card :header="$t('时钟')" class="item-background" shadow="hover">
         <div class="time">
             <h2>{{ time }}</h2>
             <p>{{ day }}</p>

@@ -66,6 +66,7 @@ public sealed record MetaInfo : DataAbstraction
     /// <summary>
     ///     类型
     /// </summary>
-    [EnumDataType(typeof(MenuTypes))]
+    [EnumDataType(typeof(MenuTypes), ErrorMessageResourceType = typeof(Ln)
+                , ErrorMessageResourceName = nameof(Ln.菜单类型不正确))]
     public MenuTypes Type { get; init; }
 }

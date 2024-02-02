@@ -9,13 +9,12 @@
 
 <template>
     <slot :open="open">
-        <el-button plain type="primary" @click="open">导入</el-button>
+        <el-button @click="open" plain type="primary">导入</el-button>
     </slot>
-    <el-dialog v-model="dialog" :close-on-click-modal="false" :width="550" append-to-body destroy-on-close :title="$t('导入')">
+    <el-dialog v-model="dialog" :close-on-click-modal="false" :title="$t('导入')" :width="550" append-to-body destroy-on-close>
         <el-progress v-if="loading" :percentage="percentage" :stroke-width="20" :text-inside="true" style="margin-bottom: 1rem" />
         <div v-loading="loading">
             <el-upload
-                ref="uploader"
                 :accept="accept"
                 :before-upload="before"
                 :data="data"
@@ -26,7 +25,8 @@
                 :on-progress="progress"
                 :on-success="success"
                 :show-file-list="false"
-                drag>
+                drag
+                ref="uploader">
                 <slot name="uploader">
                     <el-icon class="el-icon--upload">
                         <el-icon-upload-filled />

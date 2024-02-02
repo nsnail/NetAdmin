@@ -10,7 +10,7 @@
 
 <template>
     <transition name="el-zoom-in-top">
-        <div v-if="visible" ref="contextmenu" :style="{ left: left + 'px', top: top + 'px' }" class="sc-contextmenu" @contextmenu.prevent="fun">
+        <div v-if="visible" :style="{ left: left + 'px', top: top + 'px' }" @contextmenu.prevent="fun" class="sc-contextmenu" ref="contextmenu">
             <ul class="sc-contextmenu__menu">
                 <slot></slot>
             </ul>

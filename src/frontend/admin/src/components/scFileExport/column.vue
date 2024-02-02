@@ -1,5 +1,5 @@
 <template>
-    <el-table ref="table" :data="columnData" border row-key="prop" style="width: 100%">
+    <el-table :data="columnData" border ref="table" row-key="prop" style="width: 100%">
         <el-table-column :label="$t('排序')" prop="" width="60">
             <el-tag class="move" disable-transitions style="cursor: move">
                 <el-icon style="cursor: move">

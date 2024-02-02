@@ -13,5 +13,5 @@ public record GetModulesRsp : DataAbstraction
     /// <summary>
     ///     模块版本
     /// </summary>
-    public string Version { get; set; }
+    public string Version { get; init; }
 }

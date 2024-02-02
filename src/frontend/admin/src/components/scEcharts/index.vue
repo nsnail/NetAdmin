@@ -1,5 +1,5 @@
 <template>
-    <div ref="scEcharts" :style="{ height: height, width: width }"></div>
+    <div :style="{ height: height, width: width }" ref="scEcharts"></div>
 </template>
 
 <script>

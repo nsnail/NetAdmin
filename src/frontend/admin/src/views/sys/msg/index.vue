@@ -25,24 +25,24 @@
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
-                <el-button :disabled="selection.length === 0" icon="el-icon-delete" plain type="danger" @click="batchDel"></el-button>
+                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                ref="table"
                 v-loading="loading"
                 :apiObj="$API.sys_sitemsg.pagedQuery"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
-                remote-filter
-                remote-sort
-                stripe
                 @selection-change="
                     (items) => {
                         selection = items
                     }
-                ">
+                "
+                ref="table"
+                remote-filter
+                remote-sort
+                stripe>
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column :label="$t('消息编号')" prop="id" width="150" />
                 <na-col-avatar :label="$t('用户名')" prop="creator.userName" />
@@ -74,9 +74,9 @@
 
     <save-dialog
         v-if="dialog.save"
-        ref="saveDialog"
         @closed="dialog.save = false"
-        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"></save-dialog>
+        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
+        ref="saveDialog"></save-dialog>
 </template>
 
 <script>

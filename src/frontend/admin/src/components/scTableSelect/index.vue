@@ -9,7 +9,6 @@
 
 <template>
     <el-select
-        ref="select"
         v-model="defaultValue"
         :clearable="clearable"
         :collapse-tags="collapseTags"
@@ -22,20 +21,21 @@
         :size="size"
         @clear="clear"
         @remove-tag="removeTag"
-        @visible-change="visibleChange">
+        @visible-change="visibleChange"
+        ref="select">
         <template #empty>
             <div v-loading="loading" :style="{ width: tableWidth + 'px' }" class="sc-table-select__table">
                 <div class="sc-table-select__header">
                     <slot :form="formData" :submit="formSubmit" name="header"></slot>
                 </div>
                 <el-table
-                    ref="table"
                     :data="tableData"
-                    :height="245"
                     :highlight-current-row="!multiple"
-                    @select="select"
                     @row-click="click"
-                    @select-all="selectAll">
+                    @select="select"
+                    @select-all="selectAll"
+                    max-height="30rem"
+                    ref="table">
                     <el-table-column v-if="multiple" type="selection" width="45"></el-table-column>
                     <el-table-column v-else type="index" width="45">
                         <template #default="scope"
@@ -49,10 +49,10 @@
                         v-model:currentPage="currentPage"
                         :page-size="pageSize"
                         :total="total"
+                        @current-change="reload"
                         background
                         layout="prev, pager, next"
-                        small
-                        @current-change="reload"></el-pagination>
+                        small></el-pagination>
                 </div>
             </div>
         </template>
@@ -182,7 +182,7 @@ export default {
                         item.currentLabel = item.value[this.defaultProps.label]
                     })
                 } else {
-                    this.$refs.select.selectedLabel = this.defaultValue[this.defaultProps.label]
+                    this.$refs.select.states.selectedLabel = this.defaultValue[this.defaultProps.label]
                 }
             })
         },

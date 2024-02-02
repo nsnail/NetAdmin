@@ -1,8 +1,8 @@
 <template>
-    <el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large" @keyup.enter="login">
+    <el-form :model="form" :rules="rules" @keyup.enter="login" label-width="0" ref="loginForm" size="large">
         <na-form-phone v-model="form" :vue="this" code-field="code" form-name="loginForm" phone-field="destDevice"></na-form-phone>
         <el-form-item>
-            <el-button :loading="loading" class="w100p" round type="primary" @click="login">{{ $t('登录') }}</el-button>
+            <el-button :loading="loading" @click="login" class="w100p" round type="primary">{{ $t('登录') }}</el-button>
         </el-form-item>
         <div class="login-reg">
             {{ $t('还没有账号?') }}

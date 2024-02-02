@@ -1,5 +1,5 @@
 <template>
-    <el-button icon="el-icon-plus" type="primary" @click="add"></el-button>
+    <el-button @click="add" icon="el-icon-plus" type="primary"></el-button>
 </template>
 <style scoped></style>
 <script>

@@ -9,18 +9,18 @@
 
 <template>
     <div class="sc-icon-select">
-        <div :class="{ hasValue: value }" class="sc-icon-select__wrapper" @click="open">
+        <div :class="{ hasValue: value }" @click="open" class="sc-icon-select__wrapper">
             <el-input v-model="value" :disabled="disabled" :prefix-icon="value || 'el-icon-plus'" readonly></el-input>
         </div>
-        <el-dialog v-model="dialogVisible" :width="760" append-to-body destroy-on-close :title="$t('图标选择器')">
+        <el-dialog v-model="dialogVisible" :title="$t('图标选择器')" :width="760" append-to-body destroy-on-close>
             <div class="sc-icon-select__dialog" style="margin: -20px 0 -10px 0">
                 <el-form :rules="{}">
                     <el-form-item prop="searchText">
                         <el-input
                             v-model="searchText"
+                            :placeholder="$t('搜索')"
                             class="sc-icon-select__search-input"
                             clearable
-                            :placeholder="$t('搜索')"
                             prefix-icon="el-icon-search"
                             size="large" />
                     </el-form-item>
@@ -34,7 +34,7 @@
                         <div class="sc-icon-select__list">
                             <el-scrollbar>
                                 <ul @click="selectIcon">
-                                    <el-empty v-if="item.icons.length === 0" :image-size="100" :description="$t('未查询到相关图标')" />
+                                    <el-empty v-if="item.icons.length === 0" :description="$t('未查询到相关图标')" :image-size="100" />
                                     <li v-for="icon in item.icons" :key="icon">
                                         <span :data-icon="icon"></span>
                                         <el-icon>
@@ -48,7 +48,7 @@
                 </el-tabs>
             </div>
             <template #footer>
-                <el-button text @click="clear">清除</el-button>
+                <el-button @click="clear" text>清除</el-button>
                 <el-button @click="dialogVisible = false">取消</el-button>
             </template>
         </el-dialog>

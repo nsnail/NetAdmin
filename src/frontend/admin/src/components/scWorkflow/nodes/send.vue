@@ -1,12 +1,12 @@
 <template>
     <div class="node-wrap">
-        <div class="node-wrap-box" @click="show">
+        <div @click="show" class="node-wrap-box">
             <div class="title" style="background: #3296fa">
                 <el-icon class="icon">
                     <el-icon-promotion />
                 </el-icon>
                 <span>{{ nodeConfig.nodeName }}</span>
-                <el-icon class="close" @click.stop="delNode()">
+                <el-icon @click.stop="delNode()" class="close">
                     <el-icon-close />
                 </el-icon>
             </div>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <add-node v-model="nodeConfig.childNode"></add-node>
-        <el-drawer v-model="drawer" :size="500" append-to-body destroy-on-close :title="$t('抄送人设置')">
+        <el-drawer v-model="drawer" :size="500" :title="$t('抄送人设置')" append-to-body destroy-on-close>
             <template #header>
                 <div class="node-wrap-drawer__title">
                     <label v-if="!isEditTitle" @click="editTitle"
@@ -27,20 +27,20 @@
                     </label>
                     <el-input
                         v-if="isEditTitle"
-                        ref="nodeTitle"
                         v-model="form.nodeName"
-                        clearable
                         @blur="saveTitle"
-                        @keyup.enter="saveTitle"></el-input>
+                        @keyup.enter="saveTitle"
+                        clearable
+                        ref="nodeTitle"></el-input>
                 </div>
             </template>
             <el-container>
                 <el-main style="padding: 0 20px 20px 20px">
                     <el-form label-position="top">
                         <el-form-item :label="$t('选择要抄送的人员')">
-                            <el-button icon="el-icon-plus" round type="primary" @click="selectHandle(1, form.nodeUserList)">选择人员</el-button>
+                            <el-button @click="selectHandle(1, form.nodeUserList)" icon="el-icon-plus" round type="primary">选择人员</el-button>
                             <div class="tags-list">
-                                <el-tag v-for="(user, index) in form.nodeUserList" :key="user.id" closable @close="delUser(index)"
+                                <el-tag v-for="(user, index) in form.nodeUserList" :key="user.id" @close="delUser(index)" closable
                                     >{{ user.name }}
                                 </el-tag>
                             </div>
@@ -51,7 +51,7 @@
                     </el-form>
                 </el-main>
                 <el-footer>
-                    <el-button type="primary" @click="save">保存</el-button>
+                    <el-button @click="save" type="primary">保存</el-button>
                     <el-button @click="drawer = false">取消</el-button>
                 </el-footer>
             </el-container>

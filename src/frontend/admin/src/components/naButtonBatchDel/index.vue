@@ -1,5 +1,5 @@
 <template>
-    <el-button :disabled="vue.selection.length === 0" :loading="loading" icon="el-icon-delete" plain type="danger" @click="batchDel"></el-button>
+    <el-button :disabled="vue.selection.length === 0" :loading="loading" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
 </template>
 <style scoped></style>
 <script>

@@ -1,27 +1,27 @@
 <template>
     <div class="user-bar">
-        <div class="panel-item hidden-sm-and-down" @click="search">
+        <div @click="search" class="panel-item hidden-sm-and-down">
             <el-icon>
                 <el-icon-search />
             </el-icon>
         </div>
-        <div class="screen panel-item hidden-sm-and-down" @click="screen">
+        <div @click="screen" class="screen panel-item hidden-sm-and-down">
             <el-icon>
                 <el-icon-full-screen />
             </el-icon>
         </div>
-        <div class="tasks panel-item" @click="tasks">
+        <div @click="tasks" class="tasks panel-item">
             <el-icon>
                 <el-icon-sort />
             </el-icon>
         </div>
-        <div class="msg panel-item" @click="showMsg">
+        <div @click="showMsg" class="msg panel-item">
             <el-badge :hidden="unreadCnt === 0" :value="unreadCnt" class="badge" type="danger">
                 <el-icon>
                     <el-icon-chat-dot-round />
                 </el-icon>
             </el-badge>
-            <el-drawer v-model="msg" append-to-body destroy-on-close :title="$t('新消息')">
+            <el-drawer v-model="msg" :title="$t('新消息')" append-to-body destroy-on-close>
                 <el-container>
                     <el-main style="padding: 0 1rem">
                         <message />
@@ -32,7 +32,7 @@
                 </el-container>
             </el-drawer>
         </div>
-        <el-dropdown class="user panel-item" trigger="click" @command="handleUser">
+        <el-dropdown @command="handleUser" class="user panel-item" trigger="click">
             <div class="user-avatar">
                 <el-avatar :size="30" :src="user.avatar ? user.avatar : $CONFIG.DEFAULT_AVATAR"></el-avatar>
                 <label>{{ user.userName }}</label>
@@ -50,11 +50,11 @@
         </el-dropdown>
     </div>
 
-    <el-dialog v-model="searchVisible" :width="700" center destroy-on-close :title="$t('搜索')">
+    <el-dialog v-model="searchVisible" :title="$t('搜索')" :width="700" center destroy-on-close>
         <search @success="searchVisible = false"></search>
     </el-dialog>
 
-    <el-drawer v-model="tasksVisible" :size="450" destroy-on-close :title="$t('任务中心')">
+    <el-drawer v-model="tasksVisible" :size="450" :title="$t('任务中心')" destroy-on-close>
         <tasks></tasks>
     </el-drawer>
 </template>

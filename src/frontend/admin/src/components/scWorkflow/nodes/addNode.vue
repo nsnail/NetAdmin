@@ -8,19 +8,19 @@
                 <div class="add-node-popover-body">
                     <ul>
                         <li>
-                            <el-icon style="color: #ff943e" @click="addType(1)">
+                            <el-icon @click="addType(1)" style="color: #ff943e">
                                 <el-icon-user-filled />
                             </el-icon>
                             <p>审批节点</p>
                         </li>
                         <li>
-                            <el-icon style="color: #3296fa" @click="addType(2)">
+                            <el-icon @click="addType(2)" style="color: #3296fa">
                                 <el-icon-promotion />
                             </el-icon>
                             <p>抄送节点</p>
                         </li>
                         <li>
-                            <el-icon style="color: #15bc83" @click="addType(4)">
+                            <el-icon @click="addType(4)" style="color: #15bc83">
                                 <el-icon-share />
                             </el-icon>
                             <p>条件分支</p>

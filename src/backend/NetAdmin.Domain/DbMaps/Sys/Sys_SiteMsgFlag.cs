@@ -14,17 +14,17 @@ public record Sys_SiteMsgFlag : MutableEntity
     ///     站内信编号
     /// </summary>
     [JsonIgnore]
-    public virtual long SiteMsgId { get; set; }
+    public virtual long SiteMsgId { get; init; }
 
     /// <summary>
     ///     用户编号
     /// </summary>
     [JsonIgnore]
-    public virtual long UserId { get; init; }
+    public long UserId { get; init; }
 
     /// <summary>
     ///     用户站内信状态
     /// </summary>
     [JsonIgnore]
-    public virtual UserSiteMsgStatues UserSiteMsgStatus { get; set; }
+    public virtual UserSiteMsgStatues UserSiteMsgStatus { get; init; }
 }

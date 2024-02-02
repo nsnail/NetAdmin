@@ -1,13 +1,13 @@
 <template>
-    <el-skeleton :rows="5" animated v-if="loading" />
+    <el-skeleton v-if="loading" :rows="5" animated />
     <template v-else>
         <el-container v-if="msgList.length > 0" class="nopadding">
             <el-header style="border: none">
                 <div class="right-panel">
-                    <el-button icon="el-icon-message" plain type="success" @click="batchRead"></el-button>
+                    <el-button @click="batchRead" icon="el-icon-message" plain type="success"></el-button>
                     <el-popconfirm :title="`确定清空本页消息吗？`" @confirm="batchDel" width="15rem">
                         <template #reference>
-                            <el-button icon="el-icon-delete" plain type="danger" v-loading="delLoading"></el-button>
+                            <el-button v-loading="delLoading" icon="el-icon-delete" plain type="danger"></el-button>
                         </template>
                     </el-popconfirm>
                 </div>
@@ -15,17 +15,17 @@
             <el-main>
                 <div class="msg-collapse">
                     <el-collapse
-                        v-model="currMsgId"
-                        accordion
-                        @change="change"
                         v-infinite-scroll="load"
-                        infinite-scroll-distance="200"
-                        v-loading="msgLoading">
+                        v-loading="msgLoading"
+                        v-model="currMsgId"
+                        @change="change"
+                        accordion
+                        infinite-scroll-distance="200">
                         <el-collapse-item
                             v-for="(msg, i) in msgList"
+                            :class="msg.myFlags.userSiteMsgStatus === 'read' ? 'msg-wrapper-read' : ''"
                             :key="i"
-                            :name="msg.id"
-                            :class="msg.myFlags.userSiteMsgStatus === 'read' ? 'msg-wrapper-read' : ''">
+                            :name="msg.id">
                             <template #title>
                                 <div class="msg-title">
                                     <div>
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             </template>
-                            <div class="msg-content" v-html="msg.content"></div>
+                            <div v-html="msg.content" class="msg-content"></div>
                         </el-collapse-item>
                     </el-collapse>
                 </div>

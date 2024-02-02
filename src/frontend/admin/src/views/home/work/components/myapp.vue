@@ -15,7 +15,7 @@
                     <p>{{ mod.meta.title }}</p>
                 </router-link>
             </li>
-            <li class="modItem-add" @click="addMods">
+            <li @click="addMods" class="modItem-add">
                 <a href="javascript:void(0)">
                     <el-icon>
                         <el-icon-plus />
@@ -24,7 +24,7 @@
             </li>
         </ul>
 
-        <el-drawer v-model="modsDrawer" :size="570" destroy-on-close :title="$t('添加应用')">
+        <el-drawer v-model="modsDrawer" :size="570" :title="$t('添加应用')" destroy-on-close>
             <div class="setMods">
                 <h4>我的常用 ( {{ myMods.length }} )</h4>
                 <draggable v-model="myMods" animation="200" group="people" item-key="path" tag="ul">
@@ -53,7 +53,7 @@
             </div>
             <template #footer>
                 <el-button @click="modsDrawer = false">取消</el-button>
-                <el-button type="primary" @click="saveMods">保存</el-button>
+                <el-button @click="saveMods" type="primary">保存</el-button>
             </template>
         </el-drawer>
     </div>

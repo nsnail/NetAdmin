@@ -3,21 +3,21 @@
         <el-header>
             <div class="left-panel">
                 <na-button-add :vue="this"></na-button-add>
-                <el-button :disabled="selection.length === 0" icon="el-icon-delete" plain type="danger" @click="batchDel"></el-button>
+                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
             </div>
             <div class="right-panel"></div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                ref="table"
                 :apiObj="$API.sys_config.pagedQuery"
-                row-key="id"
-                stripe
                 @selection-change="
                     (items) => {
                         selection = items
                     }
-                ">
+                "
+                ref="table"
+                row-key="id"
+                stripe>
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column :label="$t('配置编号')" prop="id"></el-table-column>
                 <el-table-column :label="$t('用户注册')">
@@ -51,9 +51,9 @@
 
     <save-dialog
         v-if="dialog.save"
-        ref="saveDialog"
         @closed="dialog.save = false"
-        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"></save-dialog>
+        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
+        ref="saveDialog"></save-dialog>
 </template>
 
 <script>

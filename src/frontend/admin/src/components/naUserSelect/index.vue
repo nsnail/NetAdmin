@@ -1,20 +1,20 @@
 <template>
     <sc-table-select
-        ref="user"
         v-model="user"
         :apiObj="$API.sys_user.pagedQuery"
         :params="form"
         :props="{ label: 'userName', value: 'id' }"
         :table-width="600"
-        clearable>
+        clearable
+        ref="user">
         <template #header>
             <el-form :model="form">
                 <el-form-item>
                     <el-input
                         v-model="form.keywords"
-                        clearable
                         :placeholder="$t('用户编号 / 用户名 / 手机号 / 邮箱 / 备注')"
-                        @input="onInput"></el-input>
+                        @input="onInput"
+                        clearable></el-input>
                 </el-form-item>
             </el-form>
         </template>

@@ -12,14 +12,14 @@
         <div v-loading="menuLoading" class="sc-file-select__side">
             <div class="sc-file-select__side-menu">
                 <el-tree
-                    ref="group"
                     :current-node-key="menu.length > 0 ? menu[0][treeProps.key] : ''"
                     :data="menu"
                     :node-key="treeProps.key"
                     :props="treeProps"
+                    @node-click="groupClick"
                     class="menu"
                     highlight-current
-                    @node-click="groupClick">
+                    ref="group">
                     <template #default="{ node }">
                         <span class="el-tree-node__label">
                             <el-icon class="icon"><el-icon-folder /></el-icon>{{ node.label }}
@@ -55,16 +55,16 @@
                 <div class="keyword">
                     <el-input
                         v-model="keyword"
-                        clearable
                         :placeholder="$t('文件名搜索')"
-                        prefix-icon="el-icon-search"
                         @clear="search"
-                        @keyup.enter="search"></el-input>
+                        @keyup.enter="search"
+                        clearable
+                        prefix-icon="el-icon-search"></el-input>
                 </div>
             </div>
             <div class="sc-file-select__list">
                 <el-scrollbar ref="scrollbar">
-                    <el-empty v-if="fileList.length === 0 && data.length === 0" :image-size="80" :description="$t('无数据')"></el-empty>
+                    <el-empty v-if="fileList.length === 0 && data.length === 0" :description="$t('无数据')" :image-size="80"></el-empty>
                     <div v-for="(file, index) in fileList" :key="index" class="sc-file-select__item">
                         <div class="sc-file-select__item__file">
                             <div class="sc-file-select__item__upload">
@@ -76,10 +76,10 @@
                     </div>
                     <div
                         v-for="item in data"
-                        :key="item[fileProps.key]"
                         :class="{ active: value.includes(item[fileProps.url]) }"
-                        class="sc-file-select__item"
-                        @click="select(item)">
+                        :key="item[fileProps.key]"
+                        @click="select(item)"
+                        class="sc-file-select__item">
                         <div class="sc-file-select__item__file">
                             <div v-if="multiple" class="sc-file-select__item__checkbox">
                                 <el-icon>
@@ -110,14 +110,14 @@
                     v-model:currentPage="currentPage"
                     :page-size="pageSize"
                     :total="total"
+                    @current-change="reload"
                     background
                     layout="prev, pager, next"
-                    small
-                    @current-change="reload"></el-pagination>
+                    small></el-pagination>
             </div>
             <div class="sc-file-select__do">
                 <slot name="do"></slot>
-                <el-button :disabled="value.length <= 0" type="primary" @click="submit">确 定</el-button>
+                <el-button :disabled="value.length <= 0" @click="submit" type="primary">确 定</el-button>
             </div>
         </div>
     </div>

@@ -46,26 +46,26 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                ref="table"
                 v-loading="loading"
                 :apiObj="$API.sys_user.pagedQuery"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
-                remote-filter
-                remote-sort
-                stripe
                 @selection-change="
                     (items) => {
                         selection = items
                     }
-                ">
+                "
+                ref="table"
+                remote-filter
+                remote-sort
+                stripe>
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" width="150"></el-table-column>
                 <na-col-avatar :label="$t('用户名')" prop="userName" />
                 <el-table-column :label="$t('手机号')" prop="mobile" sortable="custom" width="120"></el-table-column>
                 <el-table-column :label="$t('邮箱')" prop="email" sortable="custom"></el-table-column>
-                <na-col-tags :label="$t('所属角色')" field="name" prop="roles" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" />
-                <na-col-tags :label="$t('所属部门')" field="name" prop="dept" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" />
+                <na-col-tags :label="$t('所属角色')" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" field="name" prop="roles" />
+                <na-col-tags :label="$t('所属部门')" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" field="name" prop="dept" />
                 <na-col-indicator
                     :label="$t('状态')"
                     :options="[
@@ -82,11 +82,11 @@
 
     <save-dialog
         v-if="dialog.save"
-        ref="saveDialog"
         @closed="dialog.save = false"
-        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"></save-dialog>
-    <role-save-dialog v-if="dialog.roleSave" ref="roleSaveDialog" @closed="dialog.roleSave = false"></role-save-dialog>
-    <dept-save-dialog v-if="dialog.deptSave" ref="deptSaveDialog" @closed="dialog.deptSave = false"></dept-save-dialog>
+        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
+        ref="saveDialog"></save-dialog>
+    <role-save-dialog v-if="dialog.roleSave" @closed="dialog.roleSave = false" ref="roleSaveDialog"></role-save-dialog>
+    <dept-save-dialog v-if="dialog.deptSave" @closed="dialog.deptSave = false" ref="deptSaveDialog"></dept-save-dialog>
 </template>
 
 <script>

@@ -54,14 +54,14 @@
                 </el-header>
                 <el-main class="nopadding">
                     <sc-table
-                        ref="table"
                         :apiObj="$API.sys_log.pagedQuery"
                         :default-sort="{ prop: 'createdTime', order: 'descending' }"
                         :params="query"
+                        @row-click="rowClick"
+                        ref="table"
                         remoteFilter
                         remoteSort
-                        stripe
-                        @row-click="rowClick">
+                        stripe>
                         <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150"></el-table-column>
                         <el-table-column :label="$t('日志时间')" prop="createdTime" sortable="custom" width="170"></el-table-column>
                         <el-table-column :label="$t('响应码')" prop="httpStatusCode" sortable="custom" width="90"></el-table-column>

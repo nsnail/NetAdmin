@@ -19,5 +19,5 @@ public record RestfulInfo<T> : DataAbstraction
     /// <summary>
     ///     消息
     /// </summary>
-    public virtual object Msg { get; init; }
+    public object Msg { get; init; }
 }

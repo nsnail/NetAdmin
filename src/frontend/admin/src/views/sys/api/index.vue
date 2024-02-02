@@ -3,16 +3,16 @@
         <el-header>
             <div class="left-panel"></div>
             <div class="right-panel">
-                <el-button :loading="loading" icon="sc-icon-sync" type="primary" @click="sync">同步接口</el-button>
+                <el-button :loading="loading" @click="sync" icon="sc-icon-sync" type="primary">同步接口</el-button>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                ref="table"
                 :apiObj="$API.sys_api.query"
                 :summary-method="(x) => ['接口总数', countTotalRows(x.data)]"
                 default-expand-all
                 hidePagination
+                ref="table"
                 row-key="id"
                 show-summary
                 stripe>

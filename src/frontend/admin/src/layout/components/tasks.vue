@@ -32,10 +32,10 @@
                             <div class="handler">
                                 <el-button
                                     v-if="task.state === '1'"
+                                    @click="download(task)"
                                     circle
                                     icon="el-icon-download"
-                                    type="primary"
-                                    @click="download(task)"></el-button>
+                                    type="primary"></el-button>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
             </el-card>
         </el-main>
         <el-footer style="padding: 10px; text-align: right">
-            <el-button circle icon="el-icon-refresh" @click="refresh"></el-button>
+            <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
         </el-footer>
     </el-container>
 </template>

@@ -6,7 +6,7 @@ export default {
                 vue.loading = true
                 vue.dialog.save = true
                 await vue.$nextTick()
-                vue.$refs.saveDialog.open('view', row)
+                await vue.$refs.saveDialog.open('view', row)
                 vue.loading = false
             },
         },
@@ -16,7 +16,7 @@ export default {
                 vue.loading = true
                 vue.dialog.save = true
                 await vue.$nextTick()
-                vue.$refs.saveDialog.open('edit', row)
+                await vue.$refs.saveDialog.open('edit', row)
                 vue.loading = false
             },
         },

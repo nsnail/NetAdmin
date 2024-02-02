@@ -3,16 +3,14 @@
         <div :class="mode === 'pop' ? 'verifybox' : ''" :style="{ 'max-width': parseInt(imgSize.width) + 30 + 'px' }">
             <div v-if="mode === 'pop'" class="verifybox-top">
                 请完成安全验证
-                <span class="verifybox-close" @click="closeBox">
+                <span @click="closeBox" class="verifybox-close">
                     <i class="iconfont icon-close"></i>
                 </span>
             </div>
             <div :style="{ padding: mode === 'pop' ? '1rem' : '0' }" class="verifybox-bottom">
                 <!-- 验证码容器 -->
                 <component
-                    :is="componentType"
                     v-if="componentType"
-                    ref="instance"
                     :arith="arith"
                     :barSize="barSize"
                     :blockSize="blockSize"
@@ -20,10 +18,12 @@
                     :explain="explain"
                     :figure="figure"
                     :imgSize="imgSize"
+                    :is="componentType"
                     :mode="mode"
                     :tpl="tpl"
                     :type="verifyType"
-                    :vSpace="vSpace"></component>
+                    :vSpace="vSpace"
+                    ref="instance"></component>
             </div>
         </div>
     </div>

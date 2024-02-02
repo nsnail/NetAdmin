@@ -1,5 +1,5 @@
 <template>
-    <el-card class="item-background" :header="$t('关于项目')" shadow="hover">
+    <el-card :header="$t('关于项目')" class="item-background" shadow="hover">
         <p>高性能 / 精致 / 优雅。基于Vue3 + Element-Plus 的中后台前端解决方案，如果喜欢就点个星星支持一下。</p>
         <p>
             <a href="https://gitee.com/lolicode/scui" target="_blank">

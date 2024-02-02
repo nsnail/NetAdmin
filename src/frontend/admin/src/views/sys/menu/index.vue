@@ -3,11 +3,10 @@
         <el-aside v-loading="loading" width="300px">
             <el-container>
                 <el-header>
-                    <el-input v-model="filterText" clearable :placeholder="$t('输入关键字进行过滤')"></el-input>
+                    <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable></el-input>
                 </el-header>
                 <el-main class="nopadding">
                     <el-tree
-                        ref="tree"
                         :check-strictly="true"
                         :data="treeList"
                         :default-expand-all="true"
@@ -18,20 +17,21 @@
                                 return data.meta.title
                             },
                         }"
+                        @node-click="treeClick"
                         draggable
                         highlight-current
                         node-key="id"
-                        show-checkbox
-                        @node-click="treeClick">
+                        ref="tree"
+                        show-checkbox>
                         <template #default="{ node, data }">
                             <div class="custom-tree-node">
                                 <span>{{ node.label }}</span>
                                 <span class="btn">
                                     <el-button-group size="small">
-                                        <el-button icon="el-icon-plus" @click.stop="add(node, data)"></el-button>
+                                        <el-button @click.stop="add(node, data)" icon="el-icon-plus"></el-button>
                                         <el-popconfirm :title="`确定删除 ${data.meta.title} 吗？`" @confirm="del(node, data)">
                                             <template #reference>
-                                                <el-button icon="el-icon-delete" @click.stop="() => {}"></el-button>
+                                                <el-button @click.stop="() => {}" icon="el-icon-delete"></el-button>
                                             </template>
                                         </el-popconfirm>
                                     </el-button-group>
@@ -41,14 +41,14 @@
                     </el-tree>
                 </el-main>
                 <el-footer>
-                    <el-button icon="el-icon-plus" size="small" type="primary" @click="add()"></el-button>
-                    <el-button icon="el-icon-delete" plain size="small" type="danger" @click="batchDel"></el-button>
+                    <el-button @click="add()" icon="el-icon-plus" size="small" type="primary"></el-button>
+                    <el-button @click="batchDel" icon="el-icon-delete" plain size="small" type="danger"></el-button>
                 </el-footer>
             </el-container>
         </el-aside>
         <el-container>
-            <el-main ref="main" class="main">
-                <save ref="save" :tree="treeList" @success="handleSuccess"></save>
+            <el-main class="main" ref="main">
+                <save :tree="treeList" @success="handleSuccess" ref="save"></save>
             </el-main>
         </el-container>
     </el-container>

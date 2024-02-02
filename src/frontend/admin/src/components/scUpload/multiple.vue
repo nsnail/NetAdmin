@@ -1,7 +1,6 @@
 <template>
     <div class="sc-upload-multiple">
         <el-upload
-            ref="uploader"
             v-model:file-list="defaultFileList"
             :accept="accept"
             :action="action"
@@ -18,7 +17,8 @@
             :on-preview="handlePreview"
             :on-success="success"
             :show-file-list="showFileList"
-            list-type="picture-card">
+            list-type="picture-card"
+            ref="uploader">
             <slot>
                 <el-icon>
                     <el-icon-plus />
@@ -43,7 +43,7 @@
                         </template>
                     </el-image>
                     <div v-if="!disabled && file.status === 'success'" class="sc-upload__item-actions">
-                        <span class="del" @click="handleRemove(file)"
+                        <span @click="handleRemove(file)" class="del"
                             ><el-icon><el-icon-delete /></el-icon
                         ></span>
                     </div>

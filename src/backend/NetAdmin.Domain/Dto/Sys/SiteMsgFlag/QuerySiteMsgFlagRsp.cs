@@ -15,5 +15,5 @@ public sealed record QuerySiteMsgFlagRsp : Sys_SiteMsgFlag
 
     /// <inheritdoc />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override UserSiteMsgStatues UserSiteMsgStatus { get; set; }
+    public override UserSiteMsgStatues UserSiteMsgStatus { get; init; }
 }

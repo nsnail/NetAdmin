@@ -11,11 +11,11 @@
     <div class="sc-filterBar">
         <slot :filterLength="filterObjLength" :openFilter="openFilter">
             <el-badge :hidden="filterObjLength <= 0" :value="filterObjLength" type="danger">
-                <el-button icon="el-icon-filter" @click="openFilter"></el-button>
+                <el-button @click="openFilter" icon="el-icon-filter"></el-button>
             </el-badge>
         </slot>
 
-        <el-drawer v-model="drawer" :size="650" append-to-body :title="$t('过滤器')">
+        <el-drawer v-model="drawer" :size="650" :title="$t('过滤器')" append-to-body>
             <el-container v-loading="saveLoading">
                 <el-main style="padding: 0">
                     <el-tabs class="root">
@@ -44,9 +44,9 @@
                                                     v-model="item.field"
                                                     :filter="filter"
                                                     :options="fields"
-                                                    filterable
                                                     :placeholder="$t('过滤字段')"
-                                                    @change="fieldChange(item)">
+                                                    @change="fieldChange(item)"
+                                                    filterable>
                                                 </py-select>
                                             </td>
                                             <td v-if="showOperator">
@@ -62,8 +62,8 @@
                                                 <el-input
                                                     v-if="!item.field.type"
                                                     v-model="item.value"
-                                                    disabled
-                                                    :placeholder="$t('请选择过滤字段')"></el-input>
+                                                    :placeholder="$t('请选择过滤字段')"
+                                                    disabled></el-input>
                                                 <!-- 输入框 -->
                                                 <el-input
                                                     v-if="item.field.type === 'text'"
@@ -82,8 +82,8 @@
                                                             remoteMethod(query, item)
                                                         }
                                                     "
-                                                    filterable
-                                                    @visible-change="visibleChange($event, item)">
+                                                    @visible-change="visibleChange($event, item)"
+                                                    filterable>
                                                     <el-option
                                                         v-for="field in item.field.extend.data"
                                                         :key="field.value"
@@ -152,13 +152,13 @@
                                                     no-data-text="$t('输入关键词后按回车确认')"></el-select>
                                             </td>
                                             <td>
-                                                <el-icon class="del" @click="delFilter(index)">
+                                                <el-icon @click="delFilter(index)" class="del">
                                                     <el-icon-delete />
                                                 </el-icon>
                                             </td>
                                         </tr>
                                     </table>
-                                    <el-button icon="el-icon-plus" text type="primary" @click="addFilter">增加过滤项</el-button>
+                                    <el-button @click="addFilter" icon="el-icon-plus" text type="primary">增加过滤项</el-button>
                                 </div>
                             </el-scrollbar>
                         </el-tab-pane>
@@ -167,14 +167,14 @@
                                 <div class="tabs-label">常用</div>
                             </template>
                             <el-scrollbar>
-                                <my ref="my" :data="myFilter" :filterName="filterName" @selectMyfilter="selectMyfilter"></my>
+                                <my :data="myFilter" :filterName="filterName" @selectMyfilter="selectMyfilter" ref="my"></my>
                             </el-scrollbar>
                         </el-tab-pane>
                     </el-tabs>
                 </el-main>
                 <el-footer>
-                    <el-button :disabled="filter.length <= 0" type="primary" @click="ok">立即过滤</el-button>
-                    <el-button :disabled="filter.length <= 0" plain type="primary" @click="saveMy">另存为常用</el-button>
+                    <el-button :disabled="filter.length <= 0" @click="ok" type="primary">立即过滤</el-button>
+                    <el-button :disabled="filter.length <= 0" @click="saveMy" plain type="primary">另存为常用</el-button>
                     <el-button @click="clear">清空过滤</el-button>
                 </el-footer>
             </el-container>

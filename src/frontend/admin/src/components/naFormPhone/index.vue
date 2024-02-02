@@ -24,7 +24,7 @@
             >
         </div>
     </el-form-item>
-    <na-verify ref="verify" :imgSize="{ width: '310px', height: '155px' }" captchaType="blockPuzzle" mode="pop" @success="captchaSuccess"></na-verify>
+    <na-verify :imgSize="{ width: '310px', height: '155px' }" @success="captchaSuccess" captchaType="blockPuzzle" mode="pop" ref="verify"></na-verify>
 </template>
 
 <script>

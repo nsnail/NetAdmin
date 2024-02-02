@@ -2,12 +2,12 @@
     <div class="branch-wrap">
         <div class="branch-box-wrap">
             <div class="branch-box">
-                <el-button class="add-branch" plain round type="success" @click="addTerm">添加条件</el-button>
+                <el-button @click="addTerm" class="add-branch" plain round type="success">添加条件</el-button>
                 <div v-for="(item, index) in nodeConfig.conditionNodes" :key="index" class="col-box">
                     <div class="condition-node">
                         <div class="condition-node-box">
-                            <div class="auto-judge" @click="show(index)">
-                                <div v-if="index !== 0" class="sort-left" @click.stop="arrTransfer(index, -1)">
+                            <div @click="show(index)" class="auto-judge">
+                                <div v-if="index !== 0" @click.stop="arrTransfer(index, -1)" class="sort-left">
                                     <el-icon>
                                         <el-icon-arrow-left />
                                     </el-icon>
@@ -15,7 +15,7 @@
                                 <div class="title">
                                     <span class="node-title">{{ item.nodeName }}</span>
                                     <span class="priority-title">优先级{{ item.priorityLevel }}</span>
-                                    <el-icon class="close" @click.stop="delTerm(index)">
+                                    <el-icon @click.stop="delTerm(index)" class="close">
                                         <el-icon-close />
                                     </el-icon>
                                 </div>
@@ -23,7 +23,7 @@
                                     <span v-if="toText(nodeConfig, index)">{{ toText(nodeConfig, index) }}</span>
                                     <span v-else class="placeholder">请设置条件</span>
                                 </div>
-                                <div v-if="index != nodeConfig.conditionNodes.length - 1" class="sort-right" @click.stop="arrTransfer(index)">
+                                <div v-if="index != nodeConfig.conditionNodes.length - 1" @click.stop="arrTransfer(index)" class="sort-right">
                                     <el-icon>
                                         <el-icon-arrow-right />
                                     </el-icon>
@@ -41,7 +41,7 @@
             </div>
             <add-node v-model="nodeConfig.childNode"></add-node>
         </div>
-        <el-drawer v-model="drawer" :size="600" append-to-body destroy-on-close :title="$t('条件设置')">
+        <el-drawer v-model="drawer" :size="600" :title="$t('条件设置')" append-to-body destroy-on-close>
             <template #header>
                 <div class="node-wrap-drawer__title">
                     <label v-if="!isEditTitle" @click="editTitle"
@@ -52,11 +52,11 @@
                     </label>
                     <el-input
                         v-if="isEditTitle"
-                        ref="nodeTitle"
                         v-model="form.nodeName"
-                        clearable
                         @blur="saveTitle"
-                        @keyup.enter="saveTitle"></el-input>
+                        @keyup.enter="saveTitle"
+                        clearable
+                        ref="nodeTitle"></el-input>
                 </div>
             </template>
             <el-container>
@@ -102,18 +102,18 @@
                                 </el-table-column>
                                 <el-table-column :label="$t('移除')" prop="value" width="55">
                                     <template #default="scope">
-                                        <el-link :underline="false" type="danger" @click="deleteConditionList(scope.$index)">移除</el-link>
+                                        <el-link :underline="false" @click="deleteConditionList(scope.$index)" type="danger">移除</el-link>
                                     </template>
                                 </el-table-column>
                             </el-table>
                         </el-form-item>
                         <p>
-                            <el-button icon="el-icon-plus" round type="primary" @click="addConditionList">增加条件</el-button>
+                            <el-button @click="addConditionList" icon="el-icon-plus" round type="primary">增加条件</el-button>
                         </p>
                     </el-form>
                 </el-main>
                 <el-footer>
-                    <el-button type="primary" @click="save">保存</el-button>
+                    <el-button @click="save" type="primary">保存</el-button>
                     <el-button @click="drawer = false">取消</el-button>
                 </el-footer>
             </el-container>

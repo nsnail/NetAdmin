@@ -1,27 +1,27 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close fullscreen @closed="$emit('closed')">
+    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-form
-            ref="dialogForm"
             v-loading="loading"
             :disabled="mode === 'view'"
             :model="form"
             :rules="rules"
             label-position="right"
-            label-width="100px">
+            label-width="100px"
+            ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form-item prop="id" :label="$t('消息编号')" v-if="mode === 'view'">
+                    <el-form-item v-if="mode === 'view'" :label="$t('消息编号')" prop="id">
                         <el-input v-model="form.id" clearable />
                     </el-form-item>
-                    <el-form-item prop="msgType" :label="$t('消息类型')">
+                    <el-form-item :label="$t('消息类型')" prop="msgType">
                         <el-select v-model="form.msgType" clearable filterable>
                             <el-option v-for="(item, i) in $GLOBAL.enums.siteMsgTypes" :key="i" :label="item[1]" :value="i" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item prop="title" :label="$t('消息主题')">
+                    <el-form-item :label="$t('消息主题')" prop="title">
                         <el-input v-model="form.title" clearable />
                     </el-form-item>
-                    <el-form-item prop="content" :label="$t('消息内容')">
+                    <el-form-item :label="$t('消息内容')" prop="content">
                         <sc-editor v-model="form.content" :placeholder="$t('请输入')" height="800"></sc-editor>
                     </el-form-item>
 
@@ -37,15 +37,15 @@
                             multiple />
                     </el-form-item>
                     <el-form-item :label="$t('送至部门')" prop="deptIds">
-                        <na-dept v-model="form.deptIds" class="w100p" :multiple="true"></na-dept>
+                        <na-dept v-model="form.deptIds" :multiple="true" class="w100p"></na-dept>
                     </el-form-item>
                     <el-form-item :label="$t('送至用户')" prop="userIds">
-                        <na-user v-model="form.userIds" class="w100p" :multiple="true"></na-user>
+                        <na-user-select v-model="form.userIds" :multiple="true" class="w100p"></na-user-select>
                     </el-form-item>
-                    <el-form-item prop="createdTime" v-if="mode === 'view'" :label="$t('创建时间')">
+                    <el-form-item v-if="mode === 'view'" :label="$t('创建时间')" prop="createdTime">
                         <el-input v-model="form.createdTime" clearable />
                     </el-form-item>
-                    <el-form-item prop="modifiedTime" v-if="mode === 'view'" :label="$t('修改时间')">
+                    <el-form-item v-if="mode === 'view'" :label="$t('修改时间')" prop="modifiedTime">
                         <el-input v-model="form.modifiedTime" clearable />
                     </el-form-item>
                 </el-tab-pane>
@@ -63,7 +63,7 @@
         </el-form>
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" type="primary" @click="submit">保 存</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
         </template>
     </sc-dialog>
 </template>

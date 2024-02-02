@@ -8,7 +8,7 @@
             <span class="sortable_b">排序</span>
             <span class="fixed_b">固定</span>
         </div>
-        <div ref="list" class="setting-column__list">
+        <div class="setting-column__list" ref="list">
             <ul>
                 <li v-for="item in usercolumn" :key="item.prop">
                     <span class="move_b">
@@ -32,10 +32,10 @@
         </div>
         <div class="setting-column__bottom">
             <el-button :disabled="isSave" @click="backDefaul">重置</el-button>
-            <el-button type="primary" @click="save">保存</el-button>
+            <el-button @click="save" type="primary">保存</el-button>
         </div>
     </div>
-    <el-empty v-else :image-size="80" :description="$t('暂无可配置的列')"></el-empty>
+    <el-empty v-else :description="$t('暂无可配置的列')" :image-size="80"></el-empty>
 </template>
 
 <script>

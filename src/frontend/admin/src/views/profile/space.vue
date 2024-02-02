@@ -4,22 +4,22 @@
         <el-row :gutter="15" style="margin-top: 20px">
             <el-col :lg="6">
                 <el-card shadow="never">
-                    <sc-statistic groupSeparator suffix="GB" :title="$t('文档')" value="7.41"></sc-statistic>
+                    <sc-statistic :title="$t('文档')" groupSeparator suffix="GB" value="7.41"></sc-statistic>
                 </el-card>
             </el-col>
             <el-col :lg="6">
                 <el-card shadow="never">
-                    <sc-statistic groupSeparator suffix="GB" :title="$t('图片')" value="12.90"></sc-statistic>
+                    <sc-statistic :title="$t('图片')" groupSeparator suffix="GB" value="12.90"></sc-statistic>
                 </el-card>
             </el-col>
             <el-col :lg="6">
                 <el-card shadow="never">
-                    <sc-statistic groupSeparator suffix="MB" :title="$t('视音频')" value="68.79"></sc-statistic>
+                    <sc-statistic :title="$t('视音频')" groupSeparator suffix="MB" value="68.79"></sc-statistic>
                 </el-card>
             </el-col>
             <el-col :lg="6">
                 <el-card shadow="never">
-                    <sc-statistic groupSeparator suffix="GB" :title="$t('其他')" value="17.58"></sc-statistic>
+                    <sc-statistic :title="$t('其他')" groupSeparator suffix="GB" value="17.58"></sc-statistic>
                 </el-card>
             </el-col>
         </el-row>

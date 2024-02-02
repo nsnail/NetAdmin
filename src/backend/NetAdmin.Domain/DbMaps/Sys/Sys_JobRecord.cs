@@ -15,21 +15,21 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// </summary>
     [Column]
     [JsonIgnore]
-    public virtual long Duration { get; init; }
+    public long Duration { get; init; }
 
     /// <summary>
     ///     请求方法
     /// </summary>
     [JsonIgnore]
     [Column]
-    public virtual HttpMethods HttpMethod { get; init; }
+    public HttpMethods HttpMethod { get; init; }
 
     /// <summary>
     ///     HTTP 状态码
     /// </summary>
     [Column]
     [JsonIgnore]
-    public virtual HttpStatusCode HttpStatusCode { get; init; }
+    public HttpStatusCode HttpStatusCode { get; init; }
 
     /// <summary>
     ///     作业编号
@@ -43,40 +43,40 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public virtual string RequestBody { get; init; }
+    public string RequestBody { get; init; }
 
     /// <summary>
     ///     请求头
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public virtual string RequestHeader { get; init; }
+    public string RequestHeader { get; init; }
 
     /// <summary>
     ///     请求的网络地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
     [JsonIgnore]
-    public virtual string RequestUrl { get; init; }
+    public string RequestUrl { get; init; }
 
     /// <summary>
     ///     响应体
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public virtual string ResponseBody { get; init; }
+    public string ResponseBody { get; init; }
 
     /// <summary>
     ///     响应头
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public virtual string ResponseHeader { get; init; }
+    public string ResponseHeader { get; init; }
 
     /// <summary>
     ///     执行时间编号
     /// </summary>
     [Column]
     [JsonIgnore]
-    public long TimeId { get; set; }
+    public long TimeId { get; init; }
 }

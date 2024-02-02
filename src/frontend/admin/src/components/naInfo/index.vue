@@ -1,5 +1,5 @@
 <template>
-    <el-drawer v-model="visible" :size="size" :title="title" destroy-on-close @closed="$emit('closed')">
+    <el-drawer v-model="visible" :size="size" :title="title" @closed="$emit('closed')" destroy-on-close>
         <el-main>
             <el-descriptions :column="1" border size="small">
                 <el-descriptions-item v-for="(item, i) in data" :key="i" :label="i" label-class-name="w15">

@@ -5,16 +5,16 @@
             <el-step :title="$t('验证手机')" />
             <el-step :title="$t('注册成功')" />
         </el-steps>
-        <el-form v-if="stepActive === 0" ref="stepForm_0" :model="form" :rules="rules" label-width="120" size="large" @keyup.enter="next">
+        <el-form v-if="stepActive === 0" :model="form" :rules="rules" @keyup.enter="next" label-width="120" ref="stepForm_0" size="large">
             <el-form-item :label="$t('登录账号')" prop="userName">
-                <el-input v-model="form.userName" clearable maxlength="16" :placeholder="$t('请输入登录账号')"></el-input>
+                <el-input v-model="form.userName" :placeholder="$t('请输入登录账号')" clearable maxlength="16"></el-input>
             </el-form-item>
             <el-form-item :label="$t('登录密码')" prop="passwordText">
                 <el-input
                     v-model="form.passwordText"
+                    :placeholder="$t('请输入登录密码')"
                     clearable
                     maxlength="16"
-                    :placeholder="$t('请输入登录密码')"
                     show-password
                     type="password"></el-input>
                 <sc-password-strength v-model="form.passwordText"></sc-password-strength>
@@ -23,18 +23,18 @@
             <el-form-item :label="$t('确认密码')" prop="passwordText2">
                 <el-input
                     v-model="form.passwordText2"
+                    :placeholder="$t('请再一次输入登录密码')"
                     clearable
                     maxlength="16"
-                    :placeholder="$t('请再一次输入登录密码')"
                     show-password
                     type="password"></el-input>
             </el-form-item>
             <el-form-item label="" prop="agree">
                 <el-checkbox v-model="form.agree" label="">已阅读并同意</el-checkbox>
-                <span class="link" @click="showAgree = true">《平台服务协议》</span>
+                <span @click="showAgree = true" class="link">《平台服务协议》</span>
             </el-form-item>
         </el-form>
-        <el-form v-if="stepActive === 1" ref="stepForm_1" :model="form" :rules="rules" size="large">
+        <el-form v-if="stepActive === 1" :model="form" :rules="rules" ref="stepForm_1" size="large">
             <na-form-phone
                 v-model="form.verifySmsCodeReq"
                 :code-field="['verifySmsCodeReq.code', 'code']"
@@ -43,29 +43,29 @@
                 form-name="stepForm_1"></na-form-phone>
         </el-form>
         <div v-if="stepActive >= 2">
-            <el-result icon="success" sub-title="$t('可以使用登录账号以及手机号登录系统')" :title="$t('注册成功')">
+            <el-result :title="$t('注册成功')" icon="success" sub-title="$t('可以使用登录账号以及手机号登录系统')">
                 <template #extra>
-                    <el-button size="large" type="primary" @click="goLogin">前去登录</el-button>
+                    <el-button @click="goLogin" size="large" type="primary">前去登录</el-button>
                 </template>
             </el-result>
         </div>
         <el-form size="large" style="text-align: center">
-            <el-button v-if="stepActive > 0 && stepActive < 2" size="large" @click="pre">上一步</el-button>
-            <el-button v-if="stepActive < 1" size="large" type="primary" @click="next">下一步</el-button>
-            <el-button v-if="stepActive === 1" :loading="loading" size="large" type="primary" @click="save">提 交</el-button>
+            <el-button v-if="stepActive > 0 && stepActive < 2" @click="pre" size="large">上一步</el-button>
+            <el-button v-if="stepActive < 1" @click="next" size="large" type="primary">下一步</el-button>
+            <el-button v-if="stepActive === 1" :loading="loading" @click="save" size="large" type="primary">提 交</el-button>
         </el-form>
-        <el-dialog v-model="showAgree" destroy-on-close :title="$t('平台服务协议')">
+        <el-dialog v-model="showAgree" :title="$t('平台服务协议')" destroy-on-close>
             平台服务协议
             <template #footer>
                 <el-button @click="showAgree = false">取消</el-button>
                 <el-button
-                    type="primary"
                     @click="
                         () => {
                             showAgree = false
                             form.agree = true
                         }
                     "
+                    type="primary"
                     >我已阅读并同意
                 </el-button>
             </template>

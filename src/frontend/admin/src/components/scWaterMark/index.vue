@@ -8,7 +8,7 @@
 -->
 
 <template>
-    <div ref="scWaterMark" class="sc-water-mark">
+    <div class="sc-water-mark" ref="scWaterMark">
         <slot></slot>
     </div>
 </template>

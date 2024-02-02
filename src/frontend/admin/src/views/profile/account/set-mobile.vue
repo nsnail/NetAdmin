@@ -1,17 +1,17 @@
 <template>
-    <el-dialog v-model="visible" :title="titleMap[mode]" :width="800" destroy-on-close @closed="$emit('closed')">
-        <el-form ref="form" :model="form" :rules="rules" label-position="top">
+    <el-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" destroy-on-close>
+        <el-form :model="form" :rules="rules" label-position="top" ref="form">
             <el-row class="items-center justify-content-center">
                 <el-col v-if="mode === 'edit'" :lg="10">
                     <na-form-phone
                         v-model="form.originverifySmsCodeReq"
                         :code-field="['originverifySmsCodeReq.code', 'code']"
+                        :code-label="$t('原手机验证码')"
                         :phone-field="['originverifySmsCodeReq.destDevice', 'destDevice']"
+                        :phone-label="$t('原手机号码')"
                         :phone-place-holder="$GLOBAL.user.mobile"
                         :vue="this"
-                        :code-label="$t('原手机验证码')"
-                        form-name="form"
-                        :phone-label="$t('原手机号码')" />
+                        form-name="form" />
                 </el-col>
                 <el-col v-if="mode === 'edit'" :lg="4" class="text-center arrow">
                     <el-icon>
@@ -22,18 +22,18 @@
                     <na-form-phone
                         v-model="form.newverifySmsCodeReq"
                         :code-field="['newverifySmsCodeReq.code', 'code']"
-                        :phone-field="['newverifySmsCodeReq.destDevice', 'destDevice']"
-                        :vue="this"
                         :code-label="$t('新手机验证码')"
-                        form-name="form"
-                        :phone-label="$t('新手机号码')" />
+                        :phone-field="['newverifySmsCodeReq.destDevice', 'destDevice']"
+                        :phone-label="$t('新手机号码')"
+                        :vue="this"
+                        form-name="form" />
                 </el-col>
             </el-row>
         </el-form>
 
         <template #footer>
             <el-button @click="visible = false">取 消</el-button>
-            <el-button :loading="loading" type="primary" @click="submit">保 存</el-button>
+            <el-button :loading="loading" @click="submit" type="primary">保 存</el-button>
         </template>
     </el-dialog>
 </template>

@@ -1,23 +1,23 @@
 <template>
     <div class="sc-search">
         <el-input
-            ref="input"
             v-model="input"
-            :trigger-on-focus="false"
-            clearable
             :placeholder="$t('搜索')"
+            :trigger-on-focus="false"
+            @input="inputChange"
+            clearable
             prefix-icon="el-icon-search"
-            size="large"
-            @input="inputChange" />
+            ref="input"
+            size="large" />
         <div v-if="history.length > 0" class="sc-search-history">
             <el-tag
                 v-for="(item, index) in history"
                 :key="item"
+                @click="historyClick(item)"
+                @close="historyClose(index)"
                 closable
                 effect="dark"
                 type="info"
-                @click="historyClick(item)"
-                @close="historyClose(index)"
                 >{{ item }}
             </el-tag>
         </div>

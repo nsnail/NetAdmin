@@ -10,7 +10,7 @@ public interface IService
     /// <summary>
     ///     服务编号
     /// </summary>
-    Guid ServiceId { get; set; }
+    Guid ServiceId { get; init; }
 
     /// <summary>
     ///     上下文用户令牌

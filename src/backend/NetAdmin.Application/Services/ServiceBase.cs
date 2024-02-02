@@ -34,7 +34,7 @@ public abstract class ServiceBase : IScoped, IService
     }
 
     /// <inheritdoc />
-    public Guid ServiceId { get; set; }
+    public Guid ServiceId { get; init; }
 
     /// <inheritdoc />
     public ContextUserToken UserToken { get; set; }

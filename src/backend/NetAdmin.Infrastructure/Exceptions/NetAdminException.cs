@@ -30,5 +30,5 @@ public abstract class NetAdminException : Exception
     /// <summary>
     ///     错误码
     /// </summary>
-    public ErrorCodes Code { get; set; }
+    public ErrorCodes Code { get; init; }
 }
