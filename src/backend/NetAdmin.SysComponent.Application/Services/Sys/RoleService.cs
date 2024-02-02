@@ -14,6 +14,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -25,6 +26,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public async Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
     {
+        req.ThrowIfInvalid();
         var entity = req.Adapt<Sys_Role>();
         var ret    = await Rpo.InsertAsync(entity).ConfigureAwait(false);
 
@@ -40,6 +42,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">Users_exist_under_this_role_and_deletion_is_not_allowed</exception>
     public async Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         return await Rpo.Orm.Select<Sys_UserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id).ConfigureAwait(false)
             ? throw new NetAdminInvalidOperationException(Ln.该角色下存在用户)
             : await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
@@ -48,12 +51,14 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryRoleRsp>();
     }
@@ -61,6 +66,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -73,6 +79,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRoleRsp>>();
     }
@@ -80,6 +87,7 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     /// <inheritdoc />
     public async Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
     {
+        req.ThrowIfInvalid();
         var entity = req.Adapt<Sys_Role>();
         _ = await Rpo.UpdateAsync(entity).ConfigureAwait(false);
         await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);

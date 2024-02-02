@@ -38,6 +38,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -49,12 +50,14 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req)
     {
+        req.ThrowIfInvalid();
         return !await Rpo.Select.Where(a => a.Mobile == req.Mobile && a.Id != req.Id).AnyAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<bool> CheckUserNameAvailableAsync(CheckUserNameAvailableReq req)
     {
+        req.ThrowIfInvalid();
         return !await Rpo.Select.Where(a => a.UserName == req.UserName && a.Id != req.Id)
                          .AnyAsync()
                          .ConfigureAwait(false);
@@ -63,6 +66,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
+        req.ThrowIfInvalid();
         await CreateUpdateCheckAsync(req).ConfigureAwait(false);
 
         // 主表
@@ -82,6 +86,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         var effect = 0;
 
         // 删除主表
@@ -101,12 +106,14 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<bool> ExistAsync(QueryReq<QueryUserReq> req)
     {
+        req.ThrowIfInvalid();
         return await (await QueryInternalAsync(req).ConfigureAwait(false)).AnyAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req }).ConfigureAwait(false))
                         .ToOneAsync()
                         .ConfigureAwait(false);
@@ -116,6 +123,8 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<QueryUserRsp> GetForUpdateAsync(QueryUserReq req)
     {
+        req.ThrowIfInvalid();
+
         // ReSharper disable once MethodHasAsyncOverload
         #pragma warning disable VSTHRD103
         return (await QueryInternal(new QueryReq<QueryUserReq> { Filter = req })
@@ -129,6 +138,7 @@ public sealed class UserService(
     /// <exception cref="NetAdminInvalidOperationException">用户名或密码错误</exception>
     public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
+        req.ThrowIfInvalid();
         var pwd = req.Password.Pwd().Guid();
 
         Sys_User dbUser;
@@ -155,6 +165,7 @@ public sealed class UserService(
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
     {
+        req.ThrowIfInvalid();
         if (!await verifyCodeService.VerifyAsync(req.Adapt<VerifySmsCodeReq>()).ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
@@ -164,8 +175,17 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
+    public async Task<LoginRsp> LoginByUserIdAsync(long userId)
+    {
+        var dbUser = await Rpo.Where(a => a.Id == userId).ToOneAsync().ConfigureAwait(false);
+
+        return LoginInternal(dbUser);
+    }
+
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await (await QueryInternalAsync(req).ConfigureAwait(false)).Page(req.Page, req.PageSize)
                                                                               .Count(out var total)
                                                                               .ToListAsync(_selectUserFields)
@@ -176,6 +196,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await (await QueryInternalAsync(req).ConfigureAwait(false)).Take(req.Count)
                                                                               .ToListAsync(_selectUserFields)
                                                                               .ConfigureAwait(false);
@@ -185,6 +206,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
     {
+        req.ThrowIfInvalid();
         return userProfileService.QueryAsync(req);
     }
 
@@ -192,6 +214,7 @@ public sealed class UserService(
     /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
+        req.ThrowIfInvalid();
         if (!await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq).ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
@@ -205,6 +228,7 @@ public sealed class UserService(
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
     public async Task<uint> ResetPasswordAsync(ResetPasswordReq req)
     {
+        req.ThrowIfInvalid();
         return !await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq).ConfigureAwait(false)
             ? throw new NetAdminInvalidOperationException(Ln.验证码不正确)
             : (uint)await Rpo.UpdateDiy
@@ -221,6 +245,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req)
     {
+        req.ThrowIfInvalid();
         if (await Rpo.UpdateDiy
                      .SetSource(req with {
                                              Id = UserToken.Id
@@ -244,6 +269,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
+        req.ThrowIfInvalid();
         var user = Rpo.Where(a => a.Id == UserToken.Id).ToOne(a => new { a.Mobile, a.Version, a.Email });
 
         // 如果已绑定手机号、需要手机安全验证
@@ -277,6 +303,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
+        req.ThrowIfInvalid();
         var user = await Rpo.Where(a => a.Id == UserToken.Id)
                             .ToOneAsync(a => new { a.Version, a.Mobile })
                             .ConfigureAwait(false);
@@ -321,6 +348,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<uint> SetPasswordAsync(SetPasswordReq req)
     {
+        req.ThrowIfInvalid();
         var version = await Rpo.Where(a => a.Id == UserToken.Id && a.Password == req.OldPassword.Pwd().Guid())
                                .ToOneAsync(a => new long?(a.Version))
                                .ConfigureAwait(false);
@@ -343,6 +371,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
     {
+        req.ThrowIfInvalid();
         await CreateUpdateCheckAsync(req).ConfigureAwait(false);
 
         // 主表
@@ -374,6 +403,7 @@ public sealed class UserService(
     /// <inheritdoc />
     public Task UpdateSingleAsync(UpdateUserReq req)
     {
+        req.ThrowIfInvalid();
         return Rpo.UpdateAsync(req);
     }
 

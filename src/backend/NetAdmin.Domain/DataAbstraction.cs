@@ -5,6 +5,17 @@ namespace NetAdmin.Domain;
 /// </summary>
 public abstract record DataAbstraction
 {
+    /// <summary>
+    ///     如果数据校验失败，抛出异常
+    /// </summary>
+    /// <exception cref="NetAdminInvalidInputException">NetAdminInvalidInputException</exception>
+    public void ThrowIfInvalid()
+    {
+        if (!this.TryValidate().IsValid) {
+            throw new NetAdminInvalidInputException(Ln.无效输入);
+        }
+    }
+
     /// <inheritdoc />
     public override string ToString()
     {

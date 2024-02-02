@@ -86,13 +86,24 @@
     "Type": 1
   },
   {
+    "Component": "sys/job",
+    "Icon": "sc-icon-ScheduledJob",
+    "Id": 510067557638158,
+    "Name": "sys-job",
+    "ParentId": 485278637670422,
+    "Path": "/sys/job",
+    "Sort": 99,
+    "Title": "计划作业",
+    "Type": 1
+  },
+  {
     "Component": "sys/dic",
     "Icon": "sc-icon-dic",
     "Id": 375315654221829,
     "Name": "sys-dic",
     "ParentId": 485278637670422,
     "Path": "/sys/dic",
-    "Sort": 99,
+    "Sort": 98,
     "Title": "字典管理",
     "Type": 1
   },
@@ -103,7 +114,7 @@
     "Name": "sys-msg",
     "ParentId": 485278637670422,
     "Path": "/sys/msg",
-    "Sort": 98,
+    "Sort": 97,
     "Title": "消息管理",
     "Type": 1,
   },
@@ -114,7 +125,7 @@
     "Name": "sys-api",
     "ParentId": 485278637670422,
     "Path": "/sys/api",
-    "Sort": 97,
+    "Sort": 96,
     "Title": "接口管理",
     "Type": 1
   },
@@ -125,7 +136,7 @@
     "Name": "sys-cache",
     "ParentId": 485278637670422,
     "Path": "/sys/cache",
-    "Sort": 96,
+    "Sort": 95,
     "Title": "缓存管理",
     "Type": 1
   },
@@ -136,7 +147,7 @@
     "Name": "sys-about",
     "ParentId": 485278637670422,
     "Path": "/sys/about",
-    "Sort": 95,
+    "Sort": 94,
     "Title": "版本信息",
     "Type": 1,
   },

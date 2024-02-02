@@ -14,6 +14,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -26,6 +27,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
     public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
+        req.ThrowIfInvalid();
         if (req.ParentId != 0 &&
             !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
@@ -38,6 +40,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <inheritdoc />
     public async Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id).ConfigureAwait(false);
         return ret.Count;
     }
@@ -45,12 +48,14 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDicCatalogReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req })
                         .ToOneAsync()
                         .ConfigureAwait(false);
@@ -60,6 +65,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -73,6 +79,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <inheritdoc />
     public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
     }
@@ -82,6 +89,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
     {
+        req.ThrowIfInvalid();
         if (req.ParentId != 0 &&
             !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);

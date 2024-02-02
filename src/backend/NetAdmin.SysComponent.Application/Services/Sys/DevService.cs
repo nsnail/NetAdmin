@@ -22,6 +22,8 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     /// <inheritdoc />
     public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
+        req.ThrowIfInvalid();
+
         // 模块类型（Sys、Biz、等）
         var moduleType = Enum.GetName(req.Type)!;
 
@@ -111,6 +113,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     /// <inheritdoc />
     public async Task GenerateIconCodeAsync(GenerateIconCodeReq req)
     {
+        req.ThrowIfInvalid();
         var tplSvg = await File.ReadAllTextAsync(
                                    Path.Combine(_clientProjectPath, "src", "assets", "icons", "tpl", "Svg.vue"))
                                .ConfigureAwait(false);

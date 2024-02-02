@@ -19,6 +19,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
+        req.ThrowIfInvalid();
         var sum = 0;
         foreach (var item in req.Items) {
             sum += await DeleteAsync(item).ConfigureAwait(false);
@@ -30,6 +31,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
+        req.ThrowIfInvalid();
         var entity = await Rpo.InsertAsync(req).ConfigureAwait(false);
 
         var ret = entity.Adapt<QueryVerifyCodeRsp>();
@@ -43,18 +45,21 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
+        req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
     {
+        req.ThrowIfInvalid();
         return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req })
                         .ToOneAsync()
                         .ConfigureAwait(false);
@@ -64,6 +69,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
     {
+        req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
@@ -77,6 +83,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
+        req.ThrowIfInvalid();
         var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryVerifyCodeRsp>>();
     }
@@ -84,6 +91,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
     {
+        req.ThrowIfInvalid();
         var lastSent = await GetLastSentAsync(req.DestDevice).ConfigureAwait(false);
 
         QueryVerifyCodeRsp ret;
@@ -110,6 +118,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
     {
+        req.ThrowIfInvalid();
         if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
             return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryVerifyCodeRsp;
         }
@@ -121,6 +130,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     /// <inheritdoc />
     public async Task<bool> VerifyAsync(VerifyCodeReq req)
     {
+        req.ThrowIfInvalid();
         #if DEBUG
         if (req.Code == "8888") {
             return true;
