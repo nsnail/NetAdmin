@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B
 		clean.ln.csx = scripts/clean.ln.csx
 		code.clean.csx = scripts/code.clean.csx
 		code.clean.ps1 = scripts/code.clean.ps1
+		find.unused.ln.csx = scripts/find.unused.ln.csx
 		gen.cs.tt = scripts/gen.cs.tt
 		gen.id.linq = scripts/gen.id.linq
 		gen.ln.cmd = scripts/gen.ln.cmd

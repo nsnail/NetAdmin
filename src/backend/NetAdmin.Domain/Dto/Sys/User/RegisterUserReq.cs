@@ -7,7 +7,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：注册用户
 /// </summary>
-public record RegisterUserReq : Sys_User
+public sealed record RegisterUserReq : Sys_User
 {
     /// <summary>
     ///     密码
@@ -15,7 +15,7 @@ public record RegisterUserReq : Sys_User
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
     [Password]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public virtual string PasswordText { get; init; }
+    public string PasswordText { get; init; }
 
     /// <summary>
     ///     角色编号列表

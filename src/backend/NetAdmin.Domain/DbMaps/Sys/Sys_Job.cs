@@ -99,6 +99,13 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     public virtual string Summary { get; init; }
 
     /// <summary>
+    ///     执行用户
+    /// </summary>
+    [Navigate(nameof(UserId))]
+    [JsonIgnore]
+    public Sys_User User { get; init; }
+
+    /// <summary>
     ///     执行用户编号
     /// </summary>
     [JsonIgnore]

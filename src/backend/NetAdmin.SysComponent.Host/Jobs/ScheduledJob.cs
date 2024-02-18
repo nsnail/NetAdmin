@@ -87,7 +87,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
                                             {
                                                 Duration       = sw.ElapsedMilliseconds
                                               , HttpMethod     = job.HttpMethod
-                                              , HttpStatusCode = rsp.StatusCode
+                                              , HttpStatusCode = (int)rsp.StatusCode
                                               , JobId          = job.Id
                                               , RequestBody    = job.RequestBody
                                               , RequestHeader  = _requestHeader

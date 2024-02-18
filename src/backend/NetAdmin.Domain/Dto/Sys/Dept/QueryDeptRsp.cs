@@ -6,10 +6,10 @@ namespace NetAdmin.Domain.Dto.Sys.Dept;
 /// <summary>
 ///     响应：查询部门
 /// </summary>
-public record QueryDeptRsp : Sys_Dept
+public sealed record QueryDeptRsp : Sys_Dept
 {
     /// <inheritdoc cref="Sys_Dept.Children" />
-    public new virtual IEnumerable<QueryDeptRsp> Children { get; init; }
+    public new IEnumerable<QueryDeptRsp> Children { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

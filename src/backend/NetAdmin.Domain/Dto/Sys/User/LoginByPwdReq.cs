@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：密码登录
 /// </summary>
-public record LoginByPwdReq : DataAbstraction
+public sealed record LoginByPwdReq : DataAbstraction
 {
     /// <summary>
     ///     用户名、手机号、邮箱

@@ -61,6 +61,7 @@
                         ref="table"
                         remoteFilter
                         remoteSort
+                        row-key="id"
                         stripe>
                         <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150"></el-table-column>
                         <el-table-column :label="$t('日志时间')" prop="createdTime" sortable="custom" width="170"></el-table-column>

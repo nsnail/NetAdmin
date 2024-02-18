@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     用户-角色映射表
 /// </summary>
 [Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_UserRole))]
-public sealed record Sys_UserRole : VersionEntity
+public record Sys_UserRole : VersionEntity
 {
     /// <summary>
     ///     关联的角色

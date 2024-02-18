@@ -18,4 +18,9 @@ public interface IJobService : IService, IJobModule
     ///     获取下一个要执行的计划作业
     /// </summary>
     Task<QueryJobRsp> GetNextJobAsync();
+
+    /// <summary>
+    ///     释放卡死的任务
+    /// </summary>
+    Task<int> ReleaseStuckTaskAsync();
 }

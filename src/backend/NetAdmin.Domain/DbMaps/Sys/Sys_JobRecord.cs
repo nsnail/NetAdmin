@@ -15,68 +15,68 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// </summary>
     [Column]
     [JsonIgnore]
-    public long Duration { get; init; }
+    public virtual long Duration { get; init; }
 
     /// <summary>
     ///     请求方法
     /// </summary>
     [JsonIgnore]
     [Column]
-    public HttpMethods HttpMethod { get; init; }
+    public virtual HttpMethods HttpMethod { get; init; }
 
     /// <summary>
     ///     HTTP 状态码
     /// </summary>
     [Column]
     [JsonIgnore]
-    public HttpStatusCode HttpStatusCode { get; init; }
+    public virtual int HttpStatusCode { get; init; }
 
     /// <summary>
     ///     作业编号
     /// </summary>
     [Column]
     [JsonIgnore]
-    public long JobId { get; init; }
+    public virtual long JobId { get; init; }
 
     /// <summary>
     ///     请求体
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public string RequestBody { get; init; }
+    public virtual string RequestBody { get; init; }
 
     /// <summary>
     ///     请求头
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public string RequestHeader { get; init; }
+    public virtual string RequestHeader { get; init; }
 
     /// <summary>
     ///     请求的网络地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
     [JsonIgnore]
-    public string RequestUrl { get; init; }
+    public virtual string RequestUrl { get; init; }
 
     /// <summary>
     ///     响应体
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public string ResponseBody { get; init; }
+    public virtual string ResponseBody { get; init; }
 
     /// <summary>
     ///     响应头
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [JsonIgnore]
-    public string ResponseHeader { get; init; }
+    public virtual string ResponseHeader { get; init; }
 
     /// <summary>
     ///     执行时间编号
     /// </summary>
     [Column]
     [JsonIgnore]
-    public long TimeId { get; init; }
+    public virtual long TimeId { get; init; }
 }

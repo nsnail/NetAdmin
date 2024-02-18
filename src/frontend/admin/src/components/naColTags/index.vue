@@ -3,7 +3,7 @@
         <template #default="scope">
             <template v-for="(item, i) in Array.isArray(scope.row[prop]) ? scope.row[prop] : [scope.row[prop]]" :key="i">
                 <el-tag v-if="item" @click="$emit('click', item)">
-                    {{ item ? item[field] : console.error(scope.row) }}
+                    {{ item ? item[field] : '' }}
                 </el-tag>
             </template>
         </template>

@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：创建用户
 /// </summary>
-public record CreateUserReq : CreateUpdateUserReq, IRegister
+public sealed record CreateUserReq : CreateUpdateUserReq, IRegister
 {
     /// <inheritdoc cref="CreateUpdateUserReq.PasswordText" />
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]

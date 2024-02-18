@@ -6,15 +6,10 @@ namespace NetAdmin.Cache;
 /// <summary>
 ///     分布式缓存
 /// </summary>
-public abstract class DistributedCache<TService> : CacheBase<IDistributedCache, TService>
+public abstract class DistributedCache<TService>(IDistributedCache cache, TService service)
+    : CacheBase<IDistributedCache, TService>(cache, service)
     where TService : IService
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="DistributedCache{TService}" /> class.
-    /// </summary>
-    protected DistributedCache(IDistributedCache cache, TService service) //
-        : base(cache, service) { }
-
     /// <summary>
     ///     创建缓存
     /// </summary>

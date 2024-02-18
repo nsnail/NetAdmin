@@ -1,10 +1,10 @@
 [
   {
     "DataScope": 1,
+    "DisplayDashboard": true,
     "Enabled": true,
     "Id": 370943613149253,
     "IgnorePermissionControl": true,
-    "DisplayDashboard": true,
     "Name": "超级管理员",
     "Sort": 100
   },

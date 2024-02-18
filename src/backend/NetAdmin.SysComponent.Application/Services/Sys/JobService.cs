@@ -4,6 +4,7 @@ using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using DataType = FreeSql.DataType;
@@ -11,7 +12,7 @@ using DataType = FreeSql.DataType;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IJobService" />
-public sealed class JobService(DefaultRepository<Sys_Job> rpo) //
+public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService jobRecordService) //
     : RepositoryService<Sys_Job, IJobService>(rpo), IJobService
 {
     /// <inheritdoc />
@@ -135,6 +136,28 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.GetAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
+    {
+        return jobRecordService.PagedQueryAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> ReleaseStuckTaskAsync()
+    {
+        return Rpo.UpdateDiy.Set(a => a.Status == JobStatues.Idle)
+                  .Where(a => a.Status       == JobStatues.Running &&
+                              a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.JOB_TIMEOUT_SECS))
+                  .ExecuteAffrowsAsync();
+    }
+
+    /// <inheritdoc />
     public Task SetEnabledAsync(UpdateJobReq req)
     {
         req.ThrowIfInvalid();
@@ -162,7 +185,8 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo) //
 
     private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req, bool orderByRandom = false)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+        var ret = Rpo.Select.Include(a => a.User)
+                     .WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0

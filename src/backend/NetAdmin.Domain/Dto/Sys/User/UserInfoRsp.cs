@@ -7,7 +7,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     响应：当前用户信息
 /// </summary>
-public record UserInfoRsp : QueryUserRsp, IRegister
+public sealed record UserInfoRsp : QueryUserRsp, IRegister
 {
     /// <inheritdoc cref="Sys_User.Dept" />
     public override QueryDeptRsp Dept { get; init; }

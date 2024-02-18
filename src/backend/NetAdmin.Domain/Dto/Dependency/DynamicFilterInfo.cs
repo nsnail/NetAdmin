@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Dependency;
 /// <summary>
 ///     动态过滤条件
 /// </summary>
-public record DynamicFilterInfo : DataAbstraction
+public sealed record DynamicFilterInfo : DataAbstraction
 {
     /// <summary>
     ///     字段名

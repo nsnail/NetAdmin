@@ -7,7 +7,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// </summary>
 [Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_RoleDept))]
 [Index($"idx_{{tablename}}_{nameof(RoleId)}_{nameof(DeptId)}", $"{nameof(RoleId)},{nameof(DeptId)}", true)]
-public sealed record Sys_RoleDept : ImmutableEntity
+public record Sys_RoleDept : ImmutableEntity
 {
     /// <summary>
     ///     关联的部门

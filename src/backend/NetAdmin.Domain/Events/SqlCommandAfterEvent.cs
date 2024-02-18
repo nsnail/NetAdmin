@@ -18,7 +18,7 @@ public sealed record SqlCommandAfterEvent : SqlCommandBeforeEvent
     /// <summary>
     ///     耗时（单位：微秒）
     /// </summary>
-    public long ElapsedMicroseconds { get; set; }
+    public long ElapsedMicroseconds { get; init; }
 
     /// <inheritdoc />
     public override string ToString()
