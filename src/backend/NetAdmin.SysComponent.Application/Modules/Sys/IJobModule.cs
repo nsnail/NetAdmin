@@ -1,6 +1,7 @@
 using NetAdmin.Application.Modules;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.Domain.Dto.Sys.JobRecord;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 
@@ -13,6 +14,16 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
   , DelReq                                                          // 删除类型
 >
 {
+    /// <summary>
+    ///     获取单个作业记录
+    /// </summary>
+    Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req);
+
+    /// <summary>
+    ///     分页查询作业记录
+    /// </summary>
+    Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req);
+
     /// <summary>
     ///     启用/禁用作业
     /// </summary>

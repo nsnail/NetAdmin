@@ -1,5 +1,6 @@
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
@@ -71,6 +72,22 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     获取单个作业记录
+    /// </summary>
+    public Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req)
+    {
+        return Cache.RecordGetAsync(req);
+    }
+
+    /// <summary>
+    ///     分页查询作业记录
+    /// </summary>
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.RecordPagedQueryAsync(req);
     }
 
     /// <summary>

@@ -1,5 +1,10 @@
 <template>
     <div class="user-bar">
+        <div @click="configDark" class="tasks panel-item">
+            <el-icon>
+                <component :is="config.dark ? 'el-icon-sunny' : 'el-icon-moon'" />
+            </el-icon>
+        </div>
         <div @click="search" class="panel-item hidden-sm-and-down">
             <el-icon>
                 <el-icon-search />
@@ -12,7 +17,7 @@
         </div>
         <div @click="tasks" class="tasks panel-item">
             <el-icon>
-                <el-icon-sort />
+                <sc-icon-ScheduledJob />
             </el-icon>
         </div>
         <div @click="showMsg" class="msg panel-item">
@@ -69,8 +74,22 @@ export default {
         tasks,
         message,
     },
+    watch: {
+        'config.dark'(val) {
+            if (val) {
+                document.documentElement.classList.add('dark')
+                this.$TOOL.data.set('APP_DARK', val)
+            } else {
+                document.documentElement.classList.remove('dark')
+                this.$TOOL.data.remove('APP_DARK')
+            }
+        },
+    },
     data() {
         return {
+            config: {
+                dark: this.$TOOL.data.get('APP_DARK') || false,
+            },
             user: {},
             userName: '',
             userNameF: '',
@@ -86,6 +105,9 @@ export default {
         this.unreadCnt = res.data
     },
     methods: {
+        configDark() {
+            this.config.dark = !this.config.dark
+        },
         gotoMsgCenter() {
             this.$router.push({ path: '/profile/message' })
             this.msg = false

@@ -8,11 +8,14 @@ public abstract record DataAbstraction
     /// <summary>
     ///     如果数据校验失败，抛出异常
     /// </summary>
-    /// <exception cref="NetAdminInvalidInputException">NetAdminInvalidInputException</exception>
+    /// <exception cref="NetAdminValidateException">NetAdminValidateException</exception>
     public void ThrowIfInvalid()
     {
-        if (!this.TryValidate().IsValid) {
-            throw new NetAdminInvalidInputException(Ln.无效输入);
+        var validationResult = this.TryValidate();
+        if (!validationResult.IsValid) {
+            throw new NetAdminValidateException(validationResult.ValidationResults.ToDictionary( //
+                                                    x => x.MemberNames.First()                   //
+                                                  , x => new[] { x.ErrorMessage }));
         }
     }
 

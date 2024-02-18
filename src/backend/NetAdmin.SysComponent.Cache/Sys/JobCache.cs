@@ -1,6 +1,7 @@
 using NetAdmin.Cache;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
@@ -50,6 +51,18 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         return Service.QueryAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req)
+    {
+        return Service.RecordGetAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
+    {
+        return Service.RecordPagedQueryAsync(req);
     }
 
     /// <inheritdoc />

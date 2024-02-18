@@ -40,7 +40,7 @@ public interface IUserCache : ICache<IDistributedCache, IUserService>, IUserModu
     /// <summary>
     ///     删除缓存 RegisterAsync
     /// </summary>
-    Task RemoveRegisterAsync(RegisterUserReq userReq);
+    Task RemoveRegisterAsync(RegisterUserReq req);
 
     /// <summary>
     ///     删除缓存 ResetPasswordAsync

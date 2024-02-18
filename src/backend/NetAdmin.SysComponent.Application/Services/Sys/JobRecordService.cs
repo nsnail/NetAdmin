@@ -102,6 +102,9 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
+                     .WhereIf( //
+                         req.Keywords?.Length > 0
+                       , a => a.JobId == req.Keywords.Int64Try(0) || a.Id == req.Keywords.Int64Try(0))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);

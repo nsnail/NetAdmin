@@ -42,6 +42,7 @@
                 ref="table"
                 remote-filter
                 remote-sort
+                row-key="id"
                 stripe>
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column :label="$t('消息编号')" prop="id" width="150" />

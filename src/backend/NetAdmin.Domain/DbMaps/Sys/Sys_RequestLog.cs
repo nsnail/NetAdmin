@@ -28,7 +28,7 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     /// </summary>
     [Column(Position = -1)]
     [JsonIgnore]
-    public virtual int? CreatedClientIp { get; init; }
+    public int? CreatedClientIp { get; init; }
 
     /// <summary>
     ///     创建者来源地址

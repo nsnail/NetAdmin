@@ -24,8 +24,11 @@ public abstract class ApiResultHandler<T>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
         var lineException = context.Exception switch { NetAdminException ex => ex, _ => null };
-        var errorCode = lineException?.Code ?? ErrorCodes.Unhandled;
-        var result = RestfulResult(errorCode, metadata.Data, lineException?.Message ?? errorCode.ResDesc<ErrorCodes>());
+        var errorCode     = lineException?.Code ?? ErrorCodes.Unhandled;
+        var result = RestfulResult(errorCode, metadata.Data
+                      ,                       lineException is NetAdminValidateException vEx
+                                       ? vEx.ValidateResults
+                                       : lineException?.Message ?? errorCode.ResDesc<ErrorCodes>());
 
         SetErrorCodeToHeader(context.HttpContext, errorCode);
 

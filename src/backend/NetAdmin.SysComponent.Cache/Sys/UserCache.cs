@@ -120,7 +120,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
-    public Task RemoveRegisterAsync(RegisterUserReq userReq)
+    public Task RemoveRegisterAsync(RegisterUserReq req)
     {
         throw new NotImplementedException();
     }

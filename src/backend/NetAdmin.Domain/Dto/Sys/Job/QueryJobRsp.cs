@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Enums.Sys;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
@@ -13,6 +14,14 @@ public sealed record QueryJobRsp : Sys_Job
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
+
+    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override long? CreatedUserId { get; init; }
+
+    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="IFieldEnabled.Enabled" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -42,6 +51,18 @@ public sealed record QueryJobRsp : Sys_Job
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override HttpStatusCode? LastStatusCode { get; init; }
 
+    /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override DateTime? ModifiedTime { get; init; }
+
+    /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override long? ModifiedUserId { get; init; }
+
+    /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserName" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string ModifiedUserName { get; init; }
+
     /// <inheritdoc cref="Sys_Job.NextExecTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override DateTime? NextExecTime { get; init; }
@@ -69,6 +90,9 @@ public sealed record QueryJobRsp : Sys_Job
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
+
+    /// <inheritdoc cref="Sys_Job.User" />
+    public new QueryUserRsp User { get; init; }
 
     /// <inheritdoc cref="Sys_Job.UserId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

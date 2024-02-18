@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Tool;
 /// <summary>
 ///     响应：获取模块信息
 /// </summary>
-public record GetModulesRsp : DataAbstraction
+public sealed record GetModulesRsp : DataAbstraction
 {
     /// <summary>
     ///     模块名称

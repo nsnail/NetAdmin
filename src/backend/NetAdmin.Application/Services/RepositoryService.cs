@@ -8,21 +8,13 @@ namespace NetAdmin.Application.Services;
 /// </summary>
 /// <typeparam name="TEntity">实体类型</typeparam>
 /// <typeparam name="TLogger">日志类型</typeparam>
-public abstract class RepositoryService<TEntity, TLogger> : ServiceBase<TLogger>
+public abstract class RepositoryService<TEntity, TLogger>(DefaultRepository<TEntity> rpo) : ServiceBase<TLogger>
     where TEntity : EntityBase
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="RepositoryService{TEntity, TLogger}" /> class.
-    /// </summary>
-    protected RepositoryService(DefaultRepository<TEntity> rpo) //
-    {
-        Rpo = rpo;
-    }
-
-    /// <summary>
     ///     默认仓储
     /// </summary>
-    protected DefaultRepository<TEntity> Rpo { get; }
+    protected DefaultRepository<TEntity> Rpo => rpo;
 
     /// <summary>
     ///     启用级联保存

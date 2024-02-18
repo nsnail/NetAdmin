@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     响应：密码登录
 /// </summary>
-public record LoginRsp : DataAbstraction
+public sealed record LoginRsp : DataAbstraction
 {
     /// <summary>
     ///     访问令牌

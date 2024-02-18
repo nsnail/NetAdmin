@@ -1,8 +1,8 @@
 [
   {
+    "Enabled": true,
     "Id": 372119301627909,
     "Name": "默认部门",
-    "Enabled": true,
     "Sort": 100
   }
 ]

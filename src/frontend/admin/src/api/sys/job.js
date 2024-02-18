@@ -83,6 +83,28 @@ export default {
     },
 
     /**
+     * 获取单个作业记录
+     */
+    recordGet: {
+        url: `${config.API_URL}/api/sys/job/record.get`,
+        name: `获取单个作业记录`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 分页查询作业记录
+     */
+    recordPagedQuery: {
+        url: `${config.API_URL}/api/sys/job/record.paged.query`,
+        name: `分页查询作业记录`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 启用/禁用作业
      */
     setEnabled: {

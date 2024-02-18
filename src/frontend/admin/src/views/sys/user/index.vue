@@ -58,6 +58,7 @@
                 ref="table"
                 remote-filter
                 remote-sort
+                row-key="id"
                 stripe>
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" width="150"></el-table-column>

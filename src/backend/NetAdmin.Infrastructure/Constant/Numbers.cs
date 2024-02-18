@@ -16,6 +16,7 @@ public static class Numbers
     public const long DIC_CATALOG_ID_GEO_AREA   = 379794295185413; // 字典目录编号-行政区划字典
     public const int  HEART_TIMEOUT_SECS        = 600;             // 心跳超时时间
     public const int  HTTP_STATUS_BIZ_FAIL      = 900;             // Http状态码-业务异常
+    public const int  JOB_TIMEOUT_SECS          = 600;             // 作业超时时间
     public const int  QUERY_DEF_PAGE_SIZE       = 20;              // 分页查询默认的页容量
     public const int  QUERY_LIMIT               = 100;             // 非分页查询允许返回的最大条数
     public const int  QUERY_MAX_PAGE_NO         = 1000;            // 分页查询允许最大的页码
