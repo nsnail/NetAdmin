@@ -10,7 +10,7 @@
         <BaseIntermediateOutputPath>$(SolutionDir)/dist/backend/$(MSBuildProjectName)/obj</BaseIntermediateOutputPath>
         <BaseOutputPath>$(SolutionDir)/dist/backend/$(MSBuildProjectName)/bin</BaseOutputPath>
         <Copyright>© 2006-2023 nsnail</Copyright>
-        <Description>通用后台权限管理系统、快速开发框架（基于C#12/.NET8、Vue3/Vite、Element Plus等现代技术构建，具有十分整洁、优雅的编码规范）</Description>
+        <Description>通用后台权限管理系统、快速开发框架（基于C#12/.NET9、Vue3/Vite、Element Plus等现代技术构建，具有十分整洁、优雅的编码规范）</Description>
         <EnableBaseIntermediateOutputPathMismatchWarning>false</EnableBaseIntermediateOutputPathMismatchWarning>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -21,7 +21,7 @@
         <Product>NetAdmin</Product>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/nsnail/NetAdmin.git</RepositoryUrl>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <Title>$(AssemblyName)</Title>
     </PropertyGroup>
     <ItemGroup>

@@ -1,10 +1,10 @@
 [
   {
-    "Content": "<p>尊敬的用户：</p>\n<p style=\"padding-left: 40px;\">欢迎您使用 NetAdmin 后台管理系统！NetAdmin 是一款通用后台权限管理系统和快速开发框架，它基于 C#12/.NET8、Vue3/Vite、Element Plus 等现代技术构建，具有十分整洁、优雅的编码规范。</p>\n<p style=\"padding-left: 40px;\">NetAdmin 致力于为企业提供高效、安全、易用的解决方案，帮助您快速构建出符合业务需求的应用程序。系统提供了丰富的功能模块，包括用户管理、权限管理、日志管理、文件上传等，可以满足您日常管理的需求。</p>\n<p style=\"padding-left: 40px;\">在使用 NetAdmin 的过程中，我们真诚地希望您能够遵守以下规定：</p>\n<p style=\"padding-left: 80px;\">1. 不得利用 NetAdmin 进行非法活动或者侵犯他人权益；</p>\n<p style=\"padding-left: 80px;\">2. 不得对 NetAdmin 系统进行恶意攻击或者破坏；</p>\n<p style=\"padding-left: 80px;\">3. 不得将 NetAdmin 系统的任何部分用于商业目的或者未经授权的访问。</p>\n<p style=\"padding-left: 80px;\">4. 为了更好地为您提供服务，NetAdmin 将不断进行优化和升级，同时也欢迎您提出宝贵的意见和建议。如果您在使用过程中遇到任何问题，可以通过官方网站或者技术支持团队进行咨询和解决。</p>\n<p style=\"padding-left: 40px;\">再次感谢您对 NetAdmin 的信任和支持！我们相信，在您的使用过程中，NetAdmin 一定会成为您的得力助手，为您的事业发展提供强有力的支持！</p>\n<p style=\"text-align: right;\">NetAdmin 开发团队</p>",
+    "Content": "<p>尊敬的用户：</p>\n<p style=\"padding-left: 40px;\">欢迎您使用 NetAdmin 后台管理系统！NetAdmin 是一款通用后台权限管理系统和快速开发框架，它基于 C#12/.NET9、Vue3/Vite、Element Plus 等现代技术构建，具有十分整洁、优雅的编码规范。</p>\n<p style=\"padding-left: 40px;\">NetAdmin 致力于为企业提供高效、安全、易用的解决方案，帮助您快速构建出符合业务需求的应用程序。系统提供了丰富的功能模块，包括用户管理、权限管理、日志管理、文件上传等，可以满足您日常管理的需求。</p>\n<p style=\"padding-left: 40px;\">在使用 NetAdmin 的过程中，我们真诚地希望您能够遵守以下规定：</p>\n<p style=\"padding-left: 80px;\">1. 不得利用 NetAdmin 进行非法活动或者侵犯他人权益；</p>\n<p style=\"padding-left: 80px;\">2. 不得对 NetAdmin 系统进行恶意攻击或者破坏；</p>\n<p style=\"padding-left: 80px;\">3. 不得将 NetAdmin 系统的任何部分用于商业目的或者未经授权的访问。</p>\n<p style=\"padding-left: 80px;\">4. 为了更好地为您提供服务，NetAdmin 将不断进行优化和升级，同时也欢迎您提出宝贵的意见和建议。如果您在使用过程中遇到任何问题，可以通过官方网站或者技术支持团队进行咨询和解决。</p>\n<p style=\"padding-left: 40px;\">再次感谢您对 NetAdmin 的信任和支持！我们相信，在您的使用过程中，NetAdmin 一定会成为您的得力助手，为您的事业发展提供强有力的支持！</p>\n<p style=\"text-align: right;\">NetAdmin 开发团队</p>",
     "CreatedUserId": 370942943322181,
     "CreatedUserName": "root",
     "MsgType": 2,
-    "Summary": "尊敬的用户：\n欢迎您使用 NetAdmin 后台管理系统！NetAdmin 是一款通用后台权限管理系统和快速开发框架，它基于 C#12/.NET8、Vue3/Vite、Element Plus 等现代",
+    "Summary": "尊敬的用户：\n欢迎您使用 NetAdmin 后台管理系统！NetAdmin 是一款通用后台权限管理系统和快速开发框架，它基于 C#12/.NET9、Vue3/Vite、Element Plus 等现代",
     "Title": "欢迎使用 NetAdmin 后台管理系统",
   }
 ]
