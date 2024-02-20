@@ -2,7 +2,6 @@ using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
@@ -429,7 +428,7 @@ public sealed class UserService(
         throw new NotImplementedException();
     }
 
-    private static LoginRsp LoginInternal(IFieldEnabled dbUser)
+    private static LoginRsp LoginInternal(Sys_User dbUser)
     {
         if (!dbUser.Enabled) {
             throw new NetAdminInvalidOperationException(Ln.请联系管理员激活账号);

@@ -2,7 +2,6 @@ using FreeSql.Internal;
 using Furion.RemoteRequest;
 using Furion.RemoteRequest.Extensions;
 using Furion.Schedule;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.BackgroundRunning;
@@ -104,7 +103,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
                         .ConfigureAwait(false);
     }
 
-    private HttpRequestPart BuildRequest(Sys_Job job)
+    private HttpRequestPart BuildRequest(QueryJobRsp job)
     {
         var ret     = job.RequestUrl.SetHttpMethod(new HttpMethod(job.HttpMethod.ToString()));
         var headers = new Dictionary<string, string>();

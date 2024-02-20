@@ -240,10 +240,10 @@ public static class ServiceCollectionExtensions
     }
 
     #if DEBUG
-    private static void MarkupLine(                              //
-        string                                           msg     //
-      , LogMessage                                       message //
-      , IReadOnlyDictionary<LogLevels, DisplayAttribute> logLevels)
+    private static void MarkupLine(                     //
+        string                                  msg     //
+      , LogMessage                              message //
+      , Dictionary<LogLevels, DisplayAttribute> logLevels)
     {
         // 日志过长
         if (msg.Length > Numbers.CONSOLE_LINE_LEN_LIMIT) {
