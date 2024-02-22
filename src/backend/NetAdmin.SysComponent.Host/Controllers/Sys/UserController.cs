@@ -175,6 +175,15 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
+    ///     启用/禁用用户
+    /// </summary>
+    [Transaction]
+    public Task SetEnabledAsync(SetUserEnabledReq req)
+    {
+        return Cache.SetEnabledAsync(req);
+    }
+
+    /// <summary>
     ///     设置手机号
     /// </summary>
     [Transaction]

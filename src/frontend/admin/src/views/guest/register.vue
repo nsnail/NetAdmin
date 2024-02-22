@@ -43,7 +43,7 @@
                 form-name="stepForm_1"></na-form-phone>
         </el-form>
         <div v-if="stepActive >= 2">
-            <el-result :title="$t('注册成功')" icon="success" sub-title="$t('可以使用登录账号以及手机号登录系统')">
+            <el-result :sub-title="$t('可以使用登录账号以及手机号登录系统')" :title="$t('注册成功')" icon="success">
                 <template #extra>
                     <el-button @click="goLogin" size="large" type="primary">前去登录</el-button>
                 </template>

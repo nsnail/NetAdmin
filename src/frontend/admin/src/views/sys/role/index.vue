@@ -98,7 +98,6 @@
                     prop="displayDashboard"></na-col-indicator>
 
                 <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
-                <el-table-column :label="$t('备注')" prop="summary"></el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({

@@ -59,7 +59,7 @@
         <search @success="searchVisible = false"></search>
     </el-dialog>
 
-    <el-drawer v-model="tasksVisible" :size="450" :title="$t('任务中心')" destroy-on-close>
+    <el-drawer v-model="tasksVisible" :size="450" :title="$t('作业中心')" destroy-on-close>
         <tasks></tasks>
     </el-drawer>
 </template>

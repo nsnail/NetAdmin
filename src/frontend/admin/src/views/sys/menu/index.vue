@@ -14,7 +14,7 @@
                         :filter-node-method="treeFilterNode"
                         :props="{
                             label: (data) => {
-                                return data.meta.title
+                                return data.meta.title + ' - ' + data.sort
                             },
                         }"
                         @node-click="treeClick"

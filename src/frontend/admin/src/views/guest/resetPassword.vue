@@ -8,11 +8,11 @@
             <na-form-phone
                 v-model="form.verifySmsCodeReq"
                 :code-field="['verifySmsCodeReq.code', 'code']"
+                :code-label="$t('短信验证码')"
                 :phone-field="['verifySmsCodeReq.destDevice', 'destDevice']"
+                :phone-label="$t('手机号码')"
                 :vue="this"
-                code-label="$t('短信验证码')"
-                form-name="form"
-                phone-label="$t('手机号码')"></na-form-phone>
+                form-name="form"></na-form-phone>
             <el-form-item :label="$t('新密码')" prop="passwordText">
                 <el-input v-model="form.passwordText" :placeholder="$t('请输入新密码')" show-password></el-input>
                 <sc-password-strength v-model="form.passwordText"></sc-password-strength>

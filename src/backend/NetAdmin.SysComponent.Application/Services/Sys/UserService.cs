@@ -76,7 +76,8 @@ public sealed class UserService(
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);
 
         // 档案表
-        _ = await userProfileService.CreateAsync(req.Profile with { Id = dbUser.Id }).ConfigureAwait(false);
+        _ = await userProfileService.CreateAsync((req.Profile ?? new CreateUserProfileReq()) with { Id = dbUser.Id })
+                                    .ConfigureAwait(false);
         var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } })
             .ConfigureAwait(false);
         return ret.First();
@@ -300,6 +301,13 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
+    public Task SetEnabledAsync(SetUserEnabledReq req)
+    {
+        req.ThrowIfInvalid();
+        return Rpo.UpdateDiy.Set(a => a.Enabled == req.Enabled).Where(a => a.Id == req.Id).ExecuteAffrowsAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         req.ThrowIfInvalid();
@@ -386,7 +394,9 @@ public sealed class UserService(
                      .ConfigureAwait(false);
 
         // 档案表
-        _ = await userProfileService.UpdateAsync(req.Profile).ConfigureAwait(false);
+        if (req.Profile != null) {
+            _ = await userProfileService.UpdateAsync(req.Profile).ConfigureAwait(false);
+        }
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);

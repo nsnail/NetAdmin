@@ -22,7 +22,7 @@
                         <el-input v-model="form.title" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('消息内容')" prop="content">
-                        <sc-editor v-model="form.content" :placeholder="$t('请输入')" height="800"></sc-editor>
+                        <sc-editor v-model="form.content" :placeholder="$t('请输入')" class="w100p" height="800"></sc-editor>
                     </el-form-item>
 
                     <el-form-item :label="$t('送至角色')" prop="roleIds">

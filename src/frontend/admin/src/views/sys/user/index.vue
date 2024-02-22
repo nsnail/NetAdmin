@@ -33,8 +33,8 @@
                                 { label: '启用', value: true },
                                 { label: '禁用', value: false },
                             ],
-                            placeholder: '状态',
-                            style: 'width:15rem',
+                            placeholder: '是否启用',
+                            style: 'width:10rem',
                         },
                     ]"
                     :vue="this"
@@ -67,15 +67,12 @@
                 <el-table-column :label="$t('邮箱')" prop="email" sortable="custom"></el-table-column>
                 <na-col-tags :label="$t('所属角色')" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" field="name" prop="roles" />
                 <na-col-tags :label="$t('所属部门')" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" field="name" prop="dept" />
-                <na-col-indicator
-                    :label="$t('状态')"
-                    :options="[
-                        { text: '启用', type: 'success', value: true },
-                        { text: '禁用', type: 'danger', value: false, pulse: true },
-                    ]"
-                    prop="enabled"></na-col-indicator>
+                <el-table-column :label="$t('启用')" prop="enabled" sortable="custom" width="100">
+                    <template #default="scope">
+                        <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
+                    </template>
+                </el-table-column>
                 <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
-                <el-table-column :label="$t('备注')" prop="summary" width="50"></el-table-column>
                 <na-col-operation :vue="this"></na-col-operation>
             </sc-table>
         </el-main>
@@ -128,6 +125,16 @@ export default {
     mounted() {},
     created() {},
     methods: {
+        //表格内开关事件
+        async changeSwitch(event, row) {
+            try {
+                await this.$API.sys_user.setEnabled.post(row)
+                this.$message.success(`操作成功`)
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+        },
         async openDialog(api, id, dialog) {
             this.loading = true
             const res = await this.$API[api].query.post({

@@ -1,4 +1,5 @@
 import Api from '@/api'
+import tool from '@/utils/tool'
 
 export default {
     async install(app, global) {
@@ -46,5 +47,6 @@ export default {
         global.enums = preloads[2]?.data
         global.numbers = preloads[3]?.data
         global.chars = preloads[4]?.data
+        global.permissions = tool.recursiveFindProperty(preloads[0]?.data, 'type', 'button').map((x) => x.tag)
     },
 }

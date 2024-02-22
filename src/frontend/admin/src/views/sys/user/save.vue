@@ -154,7 +154,7 @@
                             <el-form-item :label="$t('住宅地址')" prop="profile.homeAddress">
                                 <el-input v-model="form.profile.homeAddress" clearable>
                                     <template v-slot:prepend>
-                                        <na-area v-model="form.profile.homeArea"></na-area>
+                                        <na-area v-model="form.profile.homeArea" style="width: 15rem"></na-area>
                                     </template>
                                 </el-input>
                             </el-form-item>
@@ -175,7 +175,7 @@
                             <el-form-item :label="$t('工作地址')" prop="profile.companyAddress">
                                 <el-input v-model="form.profile.companyAddress" clearable>
                                     <template v-slot:prepend>
-                                        <na-area v-model="form.profile.companyArea"></na-area>
+                                        <na-area v-model="form.profile.companyArea" style="width: 15rem"></na-area>
                                     </template>
                                 </el-input>
                             </el-form-item>
@@ -206,7 +206,7 @@
                             <el-form-item :label="$t('联系人地址')" prop="profile.emergencyContactAddress">
                                 <el-input v-model="form.profile.emergencyContactAddress" clearable>
                                     <template v-slot:prepend>
-                                        <na-area v-model="form.profile.emergencyContactArea"></na-area>
+                                        <na-area v-model="form.profile.emergencyContactArea" style="width: 15rem"></na-area>
                                     </template>
                                 </el-input>
                             </el-form-item>
@@ -248,10 +248,10 @@ export default {
             //表单数据
             form: {
                 profile: {
-                    nationArea: {},
-                    homeArea: {},
-                    companyArea: {},
-                    emergencyContactArea: {},
+                    nationArea: '',
+                    homeArea: '',
+                    companyArea: '',
+                    emergencyContactArea: '',
                 },
             },
             //验证规则
@@ -342,7 +342,7 @@ export default {
                 this.visible = false
                 this.$message.success('操作成功')
             } catch {
-                //
+                this.loading = false
             }
         },
     },

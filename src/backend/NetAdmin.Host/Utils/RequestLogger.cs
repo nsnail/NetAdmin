@@ -42,9 +42,9 @@ public sealed class RequestLogger(
                                                   , ResponseBody = responseBody
                                                   , ServerIp = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
                                                   , ApiId = context.Request.Path.Value?.TrimStart('/')
-                                                  , RequestHeaders = context.Request.Headers.ToJson()
+                                                  , RequestHeaders = context.Request.Headers.Json()
                                                   , ResponseContentType = context.Response.ContentType
-                                                  , ResponseHeaders = context.Response.Headers.ToJson()
+                                                  , ResponseHeaders = context.Response.Headers.Json()
                                                   , HttpStatusCode = context.Response.StatusCode
                                                   , ErrorCode = errorCode
                                                   , Exception = exception?.Error.ToString()

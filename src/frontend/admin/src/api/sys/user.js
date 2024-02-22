@@ -160,6 +160,17 @@ export default {
     },
 
     /**
+     * 启用/禁用用户
+     */
+    setEnabled: {
+        url: `${config.API_URL}/api/sys/user/set.enabled`,
+        name: `启用/禁用用户`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 设置手机号
      */
     setMobile: {

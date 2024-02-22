@@ -5,7 +5,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI.NS" Condition="'$(Configuration)' == 'Debug'" Version="0.0.15-ns2"/>
-        <PackageReference Include="Spectre.Console.Cli.NS" Version="0.45.1-preview.0.124"/>
+        <PackageReference Include="Spectre.Console.Cli.NS" Version="0.45.1-preview.0.149"/>
         <PackageReference Include="prometheus-net.AspNetCore" Condition="'$(Configuration)' != 'Debug'" Version="8.1.0"/>
     </ItemGroup>
 </Project>

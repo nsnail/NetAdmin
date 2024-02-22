@@ -6,7 +6,7 @@ export default {
         if (Array.isArray(value)) {
             let ishas = false
             value.forEach((item) => {
-                if (rolePermission(item)) {
+                if (rolePermission(item, binding.instance.$GLOBAL.user)) {
                     ishas = true
                 }
             })
@@ -14,7 +14,7 @@ export default {
                 el.parentNode.removeChild(el)
             }
         } else {
-            if (!rolePermission(value)) {
+            if (!rolePermission(value, binding.instance.$GLOBAL.user)) {
                 el.parentNode.removeChild(el)
             }
         }

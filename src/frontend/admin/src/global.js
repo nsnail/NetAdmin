@@ -38,7 +38,6 @@ import scUploadMultiple from '@/components/scUpload/multiple'
 import scWaterMark from '@/components/scWaterMark'
 import time from '@/directives/time'
 import tool from '@/utils/tool'
-import { permission, rolePermission } from '@/utils/permission'
 import JsonViewer from 'vue3-json-viewer'
 import 'vue3-json-viewer/dist/index.css'
 import naColTime from '@/components/naColTime/index.vue'
@@ -54,8 +53,6 @@ export default {
         app.config.globalProperties.$HTTP = http
 
         app.config.globalProperties.$API = api
-        app.config.globalProperties.$AUTH = permission
-        app.config.globalProperties.$ROLE = rolePermission
         app.config.globalProperties.$GLOBAL = {
             enums: null,
             menu: null,

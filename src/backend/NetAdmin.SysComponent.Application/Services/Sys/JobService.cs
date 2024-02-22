@@ -153,7 +153,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     {
         return Rpo.UpdateDiy.Set(a => a.Status == JobStatues.Idle)
                   .Where(a => a.Status       == JobStatues.Running &&
-                              a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.JOB_TIMEOUT_SECS))
+                              a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.TIMEOUT_SECS_JOB))
                   .ExecuteAffrowsAsync();
     }
 

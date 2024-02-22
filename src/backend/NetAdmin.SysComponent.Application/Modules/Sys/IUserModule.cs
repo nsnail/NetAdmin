@@ -60,6 +60,11 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     Task<UserInfoRsp> SetEmailAsync(SetEmailReq req);
 
     /// <summary>
+    ///     启用/禁用用户
+    /// </summary>
+    Task SetEnabledAsync(SetUserEnabledReq req);
+
+    /// <summary>
     ///     设置手机号
     /// </summary>
     Task<UserInfoRsp> SetMobileAsync(SetMobileReq req);
