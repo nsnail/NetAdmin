@@ -1,12 +1,8 @@
-import tool from '@/utils/tool'
-
 /**
  * 是否含有不限分类，有则表示全部允许通过
  */
-export function permissionAll() {
-    const allPermissions = '*/*/*'
-    let permissions = tool.data.get('PERMISSIONS')
-    return permissions.includes(allPermissions)
+export function permissionAll(permissions) {
+    return permissions.includes('*/*/*')
 }
 
 /**
@@ -32,22 +28,9 @@ export function judementSameArr(news, old) {
     return count === len
 }
 
-export function permission(data) {
-    let permissions = tool.data.get('PERMISSIONS')
-    if (!permissions) {
+export function rolePermission(data, user) {
+    if (!user || !user.roles) {
         return false
     }
-    return permissions.includes(data)
-}
-
-export function rolePermission(data) {
-    let userInfo = tool.data.get('USER_INFO')
-    if (!userInfo) {
-        return false
-    }
-    let role = userInfo.role
-    if (!role) {
-        return false
-    }
-    return role.includes(data)
+    return user.roles.some((x) => x.name === data)
 }

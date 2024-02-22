@@ -1,5 +1,4 @@
 import { judementSameArr, permissionAll } from '@/utils/permission'
-import tool from '@/utils/tool'
 
 /**
  * 用户权限指令
@@ -9,11 +8,10 @@ import tool from '@/utils/tool'
  */
 export default {
     mounted(el, binding) {
-        if (permissionAll()) {
+        if (permissionAll(binding.instance.$GLOBAL.permissions)) {
             return
         }
-        let permissions = tool.data.get('PERMISSIONS')
-        const flag = judementSameArr(binding.value, permissions)
+        const flag = judementSameArr(binding.value, binding.instance.$GLOBAL.permissions)
         if (!flag) el.parentNode.removeChild(el)
     },
 }

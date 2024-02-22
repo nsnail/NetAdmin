@@ -1,5 +1,4 @@
 import { permissionAll } from '@/utils/permission'
-import tool from '@/utils/tool'
 
 /**
  * 用户权限指令
@@ -9,12 +8,11 @@ import tool from '@/utils/tool'
  */
 export default {
     mounted(el, binding) {
-        if (permissionAll()) {
+        if (permissionAll(binding.instance.$GLOBAL.permissions)) {
             return
         }
-        let permissions = tool.data.get('PERMISSIONS')
         let flag = false
-        permissions.map((val) => {
+        binding.instance.$GLOBAL.permissions.map((val) => {
             binding.value.map((v) => {
                 if (val === v) flag = true
             })

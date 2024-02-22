@@ -149,7 +149,7 @@ export default {
             this.total = parseData.total
             this.loading = false
             //表格默认赋值
-            this.$nextTick(() => {
+            await this.$nextTick(() => {
                 if (this.multiple) {
                     this.defaultValue.forEach((row) => {
                         const setrow = this.tableData.filter((item) => item[this.defaultProps.value] === row[this.defaultProps.value])
@@ -178,7 +178,7 @@ export default {
         autoCurrentLabel() {
             this.$nextTick(() => {
                 if (this.multiple) {
-                    this.$refs.select.selected.forEach((item) => {
+                    this.$refs.select.states.selected.forEach((item) => {
                         item.currentLabel = item.value[this.defaultProps.label]
                     })
                 } else {

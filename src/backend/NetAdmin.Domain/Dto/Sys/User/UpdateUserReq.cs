@@ -14,7 +14,6 @@ public sealed record UpdateUserReq : CreateUpdateUserReq
     public override long Id { get; init; }
 
     /// <inheritdoc cref="Sys_User.Profile" />
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户档案不能为空))]
     public new UpdateUserProfileReq Profile { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />

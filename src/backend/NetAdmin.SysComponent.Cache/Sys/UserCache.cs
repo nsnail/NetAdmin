@@ -159,6 +159,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task SetEnabledAsync(SetUserEnabledReq req)
+    {
+        return Service.SetEnabledAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         return Service.SetMobileAsync(req);

@@ -6,17 +6,18 @@
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px" ref="dialogForm">
                         <el-collapse>
                             <el-collapse-item :title="$t('用户注册设置')" name="1">
-                                <div style="margin: 10px">
+                                <div style="margin: 1rem">
                                     <el-form-item :label="$t('默认角色')" prop="userRegisterRoleId">
                                         <sc-select
                                             v-model="form.userRegisterRoleId"
                                             :apiObj="$API.sys_role.query"
                                             :config="{ props: { label: 'name', value: 'id' } }"
                                             clearable
-                                            filterable />
+                                            filterable
+                                            style="width: 15rem" />
                                     </el-form-item>
                                     <el-form-item :label="$t('默认部门')" prop="userRegisterDeptId">
-                                        <na-dept v-model="form.userRegisterDeptId"></na-dept>
+                                        <na-dept v-model="form.userRegisterDeptId" style="width: 15rem"></na-dept>
                                     </el-form-item>
                                     <el-form-item :label="$t('开启人工审核')" prop="userRegisterConfirm">
                                         <el-switch v-model="form.userRegisterConfirm"></el-switch>

@@ -1,5 +1,4 @@
 import { permissionAll } from '@/utils/permission'
-import tool from '@/utils/tool'
 
 /**
  * 用户权限指令
@@ -9,10 +8,11 @@ import tool from '@/utils/tool'
  */
 export default {
     mounted(el, binding) {
-        if (permissionAll()) {
+        if (permissionAll(binding.instance.$GLOBAL.permissions)) {
             return
         }
-        let permissions = tool.data.get('PERMISSIONS')
-        if (!permissions.some((v) => v === binding.value)) el.parentNode.removeChild(el)
+        if (!binding.instance.$GLOBAL.permissions.some((v) => v === binding.value)) {
+            el.parentNode.removeChild(el)
+        }
     },
 }

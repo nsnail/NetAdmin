@@ -225,6 +225,34 @@ tool.sortProperties = function (obj) {
     return sortedObject
 }
 
+tool.recursiveFindProperty = function (obj, propName, propValue, result = [], visited = new Set()) {
+    if (visited.has(obj)) {
+        return result
+    }
+
+    visited.add(obj)
+
+    if (Array.isArray(obj)) {
+        // 遍历数组
+        for (const item of obj) {
+            this.recursiveFindProperty(item, propName, propValue, result, visited)
+        }
+    } else if (typeof obj === 'object') {
+        // 遍历对象的属性
+        for (const key in obj) {
+            if (key === propName && obj[key] === propValue) {
+                // 找到匹配的对象，将其添加到结果数组中
+                result.push(obj)
+            } else {
+                // 继续递归遍历子对象或数组
+                this.recursiveFindProperty(obj[key], propName, propValue, result, visited)
+            }
+        }
+    }
+
+    return result
+}
+
 //TAB 刷新
 tool.refreshTab = function (_this) {
     _this.$parent.keepAliveList = []

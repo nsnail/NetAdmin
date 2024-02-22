@@ -3,13 +3,13 @@
         <el-main>
             <el-empty v-if="jobs.length === 0" :image-size="120">
                 <template #description>
-                    <h2>没有正在执行的任务</h2>
+                    <h2>没有正在执行的作业</h2>
                 </template>
                 <p style="color: #999; line-height: 1.5; margin: 0 3rem">
-                    在处理耗时过久的任务时为了不阻碍正在处理的工作，可在任务中心进行异步执行。
+                    在处理耗时过久的作业时为了不阻碍正在处理的工作，可在作业中心进行异步执行。
                 </p>
             </el-empty>
-            <el-card v-for="job in jobs" :key="job.id" class="user-bar-jobs-item" shadow="hover">
+            <el-card v-for="job in jobs" :class="`user-bar-jobs-item ${job.lastStatusCode === 'ok' ? '' : 'alert'}`" :key="job.id" shadow="hover">
                 <div class="user-bar-jobs-item-body">
                     <div class="jobIcon">
                         {{ job.lastStatusCode }}
@@ -24,11 +24,15 @@
                         </div>
                         <div class="bottom">
                             <div class="status">
-                                <el-tag v-if="job.status === 'running'" type="info">执行中</el-tag>
-                                <el-tag v-if="job.status === 'idle'">空闲</el-tag>
+                                <el-tag v-if="job.status === 'running'" type="warning">执行中</el-tag>
+                                <el-tag v-if="job.status === 'idle'" :type="job.lastStatusCode === 'ok' ? 'primary' : 'danger'">空闲</el-tag>
                             </div>
                             <div class="handler">
-                                <el-button v-if="job.status === 'idle'" @click="view(job)" circle icon="el-icon-view" type="primary"></el-button>
+                                <el-button
+                                    :type="job.lastStatusCode === 'ok' ? 'primary' : 'danger'"
+                                    @click="view(job)"
+                                    circle
+                                    icon="el-icon-view"></el-button>
                             </div>
                         </div>
                     </div>
@@ -63,7 +67,7 @@ export default {
     methods: {
         async getData() {
             this.loading = true
-            const res = await this.$API.sys_job.query.post({ prop: 'lastExecTime', order: 'descending' })
+            const res = await this.$API.sys_job.query.post({ prop: 'lastStatusCode', order: 'descending' })
             this.jobs = res.data
             this.loading = false
         },
@@ -83,9 +87,12 @@ export default {
 .user-bar-jobs-item {
     margin-bottom: 0.5rem;
 }
-
 .user-bar-jobs-item:hover {
     border-color: var(--el-color-primary);
+}
+
+.user-bar-jobs-item.alert:hover {
+    border-color: var(--el-color-danger);
 }
 
 .user-bar-jobs-item-body {
@@ -103,7 +110,6 @@ export default {
     color: var(--el-color-primary);
     border-radius: 1.5rem;
 }
-
 .user-bar-jobs-item-body .jobMain {
     flex: 1;
 }
@@ -122,5 +128,10 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.user-bar-jobs-item.alert .jobIcon {
+    background: var(--el-color-danger-light-9);
+    color: var(--el-color-danger);
 }
 </style>

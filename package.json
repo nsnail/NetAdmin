@@ -3,7 +3,7 @@
   "devDependencies": {
     "cz-git": "^1.8.0",
     "commitizen": "^4.3.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "standard-version": "^9.5.0"
   },
   "config": {

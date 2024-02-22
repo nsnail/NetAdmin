@@ -13,7 +13,6 @@ public sealed record CreateUserReq : CreateUpdateUserReq, IRegister
     public override string PasswordText { get; init; }
 
     /// <inheritdoc cref="Sys_User.Profile" />
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户档案不能为空))]
     public new CreateUserProfileReq Profile { get; init; }
 
     /// <inheritdoc />
