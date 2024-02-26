@@ -30,7 +30,7 @@
             <template #file="{ file }">
                 <div class="sc-upload-list-item">
                     <el-image
-                        :initial-index="preview.findIndex((n) => n == file.url)"
+                        :initial-index="preview.findIndex((n) => n === file.url)"
                         :preview-src-list="preview"
                         :src="file.url"
                         :z-index="9999"
@@ -133,12 +133,12 @@ export default {
     methods: {
         //默认值转换为数组
         toArr(str) {
-            var _arr = []
-            var arr = str.split(',')
+            const _arr = []
+            const arr = str.split(',')
             arr.forEach((item) => {
                 if (item) {
-                    var urlArr = item.split('/')
-                    var fileName = urlArr[urlArr.length - 1]
+                    const urlArr = item.split('/')
+                    const fileName = urlArr[urlArr.length - 1]
                     _arr.push({
                         name: fileName,
                         url: item,
@@ -153,7 +153,7 @@ export default {
         },
         //格式化数组值
         formatArr(arr) {
-            var _arr = []
+            const _arr = []
             arr.forEach((item) => {
                 if (item) {
                     _arr.push({
@@ -191,11 +191,11 @@ export default {
             }
         },
         success(res, file) {
-            var os = this.onSuccess(res, file)
+            const os = this.onSuccess(res, file)
             if (os !== undefined && os === false) {
                 return false
             }
-            var response = config.parseData(res)
+            const response = config.parseData(res)
             file.name = response.fileName
             file.url = response.src
         },
@@ -227,7 +227,7 @@ export default {
             window.open(uploadFile.url)
         },
         request(param) {
-            var apiObj = config.apiObj
+            let apiObj = config.apiObj
             if (this.apiObj) {
                 apiObj = this.apiObj
             }
@@ -244,7 +244,7 @@ export default {
                     },
                 })
                 .then((res) => {
-                    var response = config.parseData(res)
+                    const response = config.parseData(res)
                     if (response.code === config.successCode) {
                         param.onSuccess(res)
                     } else {

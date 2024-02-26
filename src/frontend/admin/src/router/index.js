@@ -42,8 +42,6 @@ router.beforeEach(async (to, from, next) => {
     //动态标题
     document.title = to.meta.title ? `${to.meta.title} - ${config.APP_NAME}` : `${config.APP_NAME}`
 
-    let token = tool.cookie.get('ACCESS-TOKEN') || tool.cookie.get('X-ACCESS-TOKEN')
-
     if (to.path === '/guest/login') {
         //删除路由(替换当前layout路由)
         router.addRoute(routes[0])

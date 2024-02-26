@@ -51,7 +51,6 @@ export default {
 }
 
 .sc-page-header__icon span {
-    display: inline-block;
     width: 30px;
     height: 30px;
     background: #409eff;

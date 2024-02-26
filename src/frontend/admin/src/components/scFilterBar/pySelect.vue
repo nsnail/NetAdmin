@@ -51,11 +51,7 @@ export default {
             }
         },
         isDisabled(key) {
-            if (this.filter.find((item) => item.field.value === key && !item.field.repeat)) {
-                return true
-            } else {
-                return false
-            }
+            return !!this.filter.find((item) => item.field.value === key && !item.field.repeat)
         },
     },
 }

@@ -72,8 +72,9 @@ export default {
         },
         //删除常用过滤
         async closeMyfilter(item, index) {
+            let del
             try {
-                var del = await config.delMy(this.filterName)
+                del = await config.delMy(this.filterName)
             } catch (error) {
                 return false
             }
@@ -116,11 +117,10 @@ export default {
 }
 
 .sc-filter-my-list li {
-    padding: 12px 20px;
     cursor: pointer;
     position: relative;
     color: #3c4a54;
-    padding-right: 80px;
+    padding: 12px 80px 12px 20px;
 }
 
 .sc-filter-my-list li:hover {

@@ -242,7 +242,7 @@ export default {
         //增加过滤项
         addFilter() {
             //下一组新增过滤
-            var filterArr = this.fields.filter((field) => !this.filter.some((item) => field.value === item.field.value && !item.field.repeat))
+            const filterArr = this.fields.filter((field) => !this.filter.some((item) => field.value === item.field.value && !item.field.repeat))
             if (this.fields.length <= 0 || filterArr.length <= 0) {
                 this.$message.warning('无过滤项')
                 return false
@@ -273,7 +273,7 @@ export default {
             if (isopen && item.field.extend.request && !item.field.extend.remote) {
                 item.selectLoading = true
                 try {
-                    var data = await item.field.extend.request()
+                    const data = await item.field.extend.request()
                 } catch (error) {
                     console.log(error)
                 }
@@ -289,7 +289,7 @@ export default {
             if (query !== '') {
                 item.selectLoading = true
                 try {
-                    var data = await item.field.extend.request(query)
+                    const data = await item.field.extend.request(query)
                 } catch (error) {
                     console.log(error)
                 }
@@ -304,10 +304,10 @@ export default {
             //常用过滤回显当前过滤项
             this.filter = []
             this.fields.forEach((field) => {
-                var filterValue = item.filterObj[field.value]
+                const filterValue = item.filterObj[field.value]
                 if (filterValue) {
-                    var operator = filterValue.split('|')[1]
-                    var value = filterValue.split('|')[0]
+                    const operator = filterValue.split('|')[1]
+                    let value = filterValue.split('|')[0]
                     if (field.type === 'select' && field.extend.multiple) {
                         value = value.split(',')
                     } else if (field.type === 'daterange') {
@@ -344,7 +344,7 @@ export default {
                         filterObj: this.filterObj,
                     }
                     try {
-                        var save = await config.saveMy(this.filterName, saveObj)
+                        const save = await config.saveMy(this.filterName, saveObj)
                     } catch (error) {
                         this.saveLoading = false
                         console.log(error)

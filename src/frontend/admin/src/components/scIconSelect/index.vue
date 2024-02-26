@@ -174,7 +174,6 @@ export default {
 }
 
 .sc-icon-select__list li i {
-    display: inline-block;
     width: 100%;
     height: 100%;
     font-size: 26px;

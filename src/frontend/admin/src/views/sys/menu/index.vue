@@ -121,7 +121,7 @@ export default {
             } catch {
                 //
             }
-            this.handleSuccess()
+            await this.handleSuccess()
             this.loading = false
         },
         //批量删除

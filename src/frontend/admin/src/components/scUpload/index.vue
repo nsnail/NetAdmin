@@ -218,7 +218,7 @@ export default {
             //释放内存删除blob
             URL.revokeObjectURL(file.tempFile)
             delete file.tempFile
-            var os = this.onSuccess(res, file)
+            const os = this.onSuccess(res, file)
             if (os !== undefined && os === false) {
                 this.$nextTick(() => {
                     this.file = null
@@ -226,7 +226,7 @@ export default {
                 })
                 return false
             }
-            var response = config.parseData(res)
+            const response = config.parseData(res)
             file.url = response.src
             this.value = file.url
         },
@@ -240,7 +240,7 @@ export default {
             })
         },
         request(param) {
-            var apiObj = config.apiObj
+            let apiObj = config.apiObj
             if (this.apiObj) {
                 apiObj = this.apiObj
             }
@@ -257,7 +257,7 @@ export default {
                     },
                 })
                 .then((res) => {
-                    var response = config.parseData(res)
+                    const response = config.parseData(res)
                     if (response.code === config.successCode) {
                         param.onSuccess(res)
                     } else {

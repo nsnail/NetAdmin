@@ -23,7 +23,7 @@ export default {
         refreshIframe(state, route) {
             state.iframeList.forEach((item) => {
                 if (item.path === route.path) {
-                    var url = route.meta.url
+                    const url = route.meta.url
                     item.meta.url = ''
                     setTimeout(function () {
                         item.meta.url = url

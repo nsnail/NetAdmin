@@ -38,8 +38,7 @@ export default {
     },
     methods: {
         getBreadcrumb() {
-            let matched = this.$route.meta.breadcrumb
-            this.breadList = matched
+            this.breadList = this.$route.meta.breadcrumb
         },
     },
 }

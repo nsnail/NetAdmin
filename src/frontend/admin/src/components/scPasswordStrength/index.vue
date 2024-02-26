@@ -33,19 +33,19 @@ export default {
     },
     methods: {
         strength(v) {
-            var _level = 0
+            let _level = 0
             //长度
-            var has_length = v.length >= 6
+            const has_length = v.length >= 6
             //包含数字
-            var has_number = /\d/.test(v)
+            const has_number = /\d/.test(v)
             //包含小写英文
-            var has_lovercase = /[a-z]/.test(v)
+            const has_lovercase = /[a-z]/.test(v)
             //包含大写英文
-            var has_uppercase = /[A-Z]/.test(v)
+            const has_uppercase = /[A-Z]/.test(v)
             //没有连续的字符3位
-            var no_continuity = !/(\w)\1{2}/.test(v)
+            const no_continuity = !/(\w)\1{2}/.test(v)
             //包含特殊字符
-            var has_special = /[`~!@#$%^&*()_+<>?:"{},./;'[\]]/.test(v)
+            const has_special = /[`~!@#$%^&*()_+<>?:"{},./;'[\]]/.test(v)
 
             if (v.length <= 0) {
                 _level = 0
@@ -114,7 +114,7 @@ export default {
 .sc-password-strength-bar {
     position: absolute;
     height: inherit;
-    width: 0%;
+    width: 0;
     border-radius: inherit;
     transition:
         width 0.5s ease-in-out,

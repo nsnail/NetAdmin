@@ -10,7 +10,7 @@
 <template>
     <el-input v-bind="$attrs" v-model="defaultValue">
         <template #append>
-            <el-dropdown @command="handleShortcuts" size="medium">
+            <el-dropdown @command="handleShortcuts" size="large" trigger="click">
                 <el-button icon="el-icon-arrow-down"></el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
@@ -20,7 +20,7 @@
                         <el-dropdown-item command="0 0 0 1 * ?">每月一号零点</el-dropdown-item>
                         <el-dropdown-item command="0 0 0 L * ?">每月最后一天零点</el-dropdown-item>
                         <el-dropdown-item command="0 0 0 ? * 1">每周星期日零点</el-dropdown-item>
-                        <el-dropdown-item v-for="(item, index) in shortcuts" :command="item.value" :divided="index == 0" :key="item.value"
+                        <el-dropdown-item v-for="(item, index) in shortcuts" :command="item.value" :divided="index === 0" :key="item.value"
                             >{{ item.text }}
                         </el-dropdown-item>
                         <el-dropdown-item command="custom" divided icon="el-icon-plus">自定义</el-dropdown-item>
@@ -30,7 +30,7 @@
         </template>
     </el-input>
 
-    <el-dialog v-model="dialogVisible" :width="580" append-to-body destroy-on-close title="cron规则生成器">
+    <el-dialog v-model="dialogVisible" :width="800" append-to-body destroy-on-close title="Cron 规则生成器">
         <div class="sc-cron">
             <el-tabs>
                 <el-tab-pane>
@@ -43,10 +43,10 @@
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.second.type">
-                                <el-radio-button label="0">任意值</el-radio-button>
-                                <el-radio-button label="1">范围</el-radio-button>
-                                <el-radio-button label="2">间隔</el-radio-button>
-                                <el-radio-button label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">任意值</el-radio-button>
+                                <el-radio-button :label="1">范围</el-radio-button>
+                                <el-radio-button :label="2">间隔</el-radio-button>
+                                <el-radio-button :label="3">指定</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.second.type === 1" :label="$t('范围')">
@@ -77,10 +77,10 @@
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.minute.type">
-                                <el-radio-button label="0">任意值</el-radio-button>
-                                <el-radio-button label="1">范围</el-radio-button>
-                                <el-radio-button label="2">间隔</el-radio-button>
-                                <el-radio-button label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">任意值</el-radio-button>
+                                <el-radio-button :label="1">范围</el-radio-button>
+                                <el-radio-button :label="2">间隔</el-radio-button>
+                                <el-radio-button :label="3">指定</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.minute.type === 1" :label="$t('范围')">
@@ -111,10 +111,10 @@
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.hour.type">
-                                <el-radio-button label="0">任意值</el-radio-button>
-                                <el-radio-button label="1">范围</el-radio-button>
-                                <el-radio-button label="2">间隔</el-radio-button>
-                                <el-radio-button label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">任意值</el-radio-button>
+                                <el-radio-button :label="1">范围</el-radio-button>
+                                <el-radio-button :label="2">间隔</el-radio-button>
+                                <el-radio-button :label="3">指定</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.hour.type === 1" :label="$t('范围')">
@@ -145,12 +145,12 @@
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.day.type">
-                                <el-radio-button label="0">任意值</el-radio-button>
-                                <el-radio-button label="1">范围</el-radio-button>
-                                <el-radio-button label="2">间隔</el-radio-button>
-                                <el-radio-button label="3">指定</el-radio-button>
-                                <el-radio-button label="4">本月最后一天</el-radio-button>
-                                <el-radio-button label="5">不指定</el-radio-button>
+                                <el-radio-button :label="0">任意值</el-radio-button>
+                                <el-radio-button :label="1">范围</el-radio-button>
+                                <el-radio-button :label="2">间隔</el-radio-button>
+                                <el-radio-button :label="3">指定</el-radio-button>
+                                <el-radio-button :label="4">本月最后一天</el-radio-button>
+                                <el-radio-button :label="5">不指定</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.day.type === 1" :label="$t('范围')">
@@ -181,10 +181,10 @@
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.month.type">
-                                <el-radio-button label="0">任意值</el-radio-button>
-                                <el-radio-button label="1">范围</el-radio-button>
-                                <el-radio-button label="2">间隔</el-radio-button>
-                                <el-radio-button label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">任意值</el-radio-button>
+                                <el-radio-button :label="1">范围</el-radio-button>
+                                <el-radio-button :label="2">间隔</el-radio-button>
+                                <el-radio-button :label="3">指定</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.month.type === 1" :label="$t('范围')">
@@ -216,12 +216,12 @@
                         <el-form>
                             <el-form-item :label="$t('类型')">
                                 <el-radio-group v-model="value.week.type">
-                                    <el-radio-button label="0">任意值</el-radio-button>
-                                    <el-radio-button label="1">范围</el-radio-button>
-                                    <el-radio-button label="2">间隔</el-radio-button>
-                                    <el-radio-button label="3">指定</el-radio-button>
-                                    <el-radio-button label="4">本月最后一周</el-radio-button>
-                                    <el-radio-button label="5">不指定</el-radio-button>
+                                    <el-radio-button :label="0">任意值</el-radio-button>
+                                    <el-radio-button :label="1">范围</el-radio-button>
+                                    <el-radio-button :label="2">间隔</el-radio-button>
+                                    <el-radio-button :label="3">指定</el-radio-button>
+                                    <el-radio-button :label="4">本月最后一周</el-radio-button>
+                                    <el-radio-button :label="5">不指定</el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item v-if="value.week.type === 1" :label="$t('范围')">
@@ -237,7 +237,7 @@
                                 第
                                 <el-input-number v-model="value.week.loop.start" :max="4" :min="1" controls-position="right"></el-input-number>
                                 周的星期
-                                <el-select v-model="value.week.loop.end">
+                                <el-select v-model="value.week.loop.end" style="width: 10rem">
                                     <el-option v-for="(item, index) in data.week" :key="index" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                                 执行一次
@@ -265,11 +265,11 @@
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.year.type">
-                                <el-radio-button label="-1">忽略</el-radio-button>
-                                <el-radio-button label="0">任意值</el-radio-button>
-                                <el-radio-button label="1">范围</el-radio-button>
-                                <el-radio-button label="2">间隔</el-radio-button>
-                                <el-radio-button label="3">指定</el-radio-button>
+                                <el-radio-button :label="-1">忽略</el-radio-button>
+                                <el-radio-button :label="0">任意值</el-radio-button>
+                                <el-radio-button :label="1">范围</el-radio-button>
+                                <el-radio-button :label="2">间隔</el-radio-button>
+                                <el-radio-button :label="3">指定</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.year.type === 1" :label="$t('范围')">
@@ -308,13 +308,13 @@ export default {
     },
     data() {
         return {
-            type: '0',
+            type: 0,
             defaultValue: '',
             dialogVisible: false,
 
             value: {
                 second: {
-                    type: '0',
+                    type: 0,
                     range: {
                         start: 1,
                         end: 2,
@@ -326,7 +326,7 @@ export default {
                     appoint: [],
                 },
                 minute: {
-                    type: '0',
+                    type: 0,
                     range: {
                         start: 1,
                         end: 2,
@@ -338,7 +338,7 @@ export default {
                     appoint: [],
                 },
                 hour: {
-                    type: '0',
+                    type: 0,
                     range: {
                         start: 1,
                         end: 2,
@@ -350,7 +350,7 @@ export default {
                     appoint: [],
                 },
                 day: {
-                    type: '0',
+                    type: 0,
                     range: {
                         start: 1,
                         end: 2,
@@ -362,7 +362,7 @@ export default {
                     appoint: [],
                 },
                 month: {
-                    type: '0',
+                    type: 0,
                     range: {
                         start: 1,
                         end: 2,
@@ -374,7 +374,7 @@ export default {
                     appoint: [],
                 },
                 week: {
-                    type: '5',
+                    type: 5,
                     range: {
                         start: '2',
                         end: '3',
@@ -387,7 +387,7 @@ export default {
                     appoint: [],
                 },
                 year: {
-                    type: '-1',
+                    type: -1,
                     range: {
                         start: this.getYear()[0],
                         end: this.getYear()[1],
@@ -499,12 +499,12 @@ export default {
     watch: {
         'value.week.type'(val) {
             if (val !== '5') {
-                this.value.day.type = '5'
+                this.value.day.type = 5
             }
         },
         'value.day.type'(val) {
             if (val !== '5') {
-                this.value.week.type = '5'
+                this.value.week.type = 5
             }
         },
         modelValue() {
@@ -648,118 +648,118 @@ export default {
 
             //秒
             if (arr[0] === '*') {
-                this.value.second.type = '0'
+                this.value.second.type = 0
             } else if (arr[0].includes('-')) {
-                this.value.second.type = '1'
+                this.value.second.type = 1
                 this.value.second.range.start = Number(arr[0].split('-')[0])
                 this.value.second.range.end = Number(arr[0].split('-')[1])
             } else if (arr[0].includes('/')) {
-                this.value.second.type = '2'
+                this.value.second.type = 2
                 this.value.second.loop.start = Number(arr[0].split('/')[0])
                 this.value.second.loop.end = Number(arr[0].split('/')[1])
             } else {
-                this.value.second.type = '3'
+                this.value.second.type = 3
                 this.value.second.appoint = arr[0].split(',')
             }
             //分
             if (arr[1] === '*') {
-                this.value.minute.type = '0'
+                this.value.minute.type = 0
             } else if (arr[1].includes('-')) {
-                this.value.minute.type = '1'
+                this.value.minute.type = 1
                 this.value.minute.range.start = Number(arr[1].split('-')[0])
                 this.value.minute.range.end = Number(arr[1].split('-')[1])
             } else if (arr[1].includes('/')) {
-                this.value.minute.type = '2'
+                this.value.minute.type = 2
                 this.value.minute.loop.start = Number(arr[1].split('/')[0])
                 this.value.minute.loop.end = Number(arr[1].split('/')[1])
             } else {
-                this.value.minute.type = '3'
+                this.value.minute.type = 3
                 this.value.minute.appoint = arr[1].split(',')
             }
             //小时
             if (arr[2] === '*') {
-                this.value.hour.type = '0'
+                this.value.hour.type = 0
             } else if (arr[2].includes('-')) {
-                this.value.hour.type = '1'
+                this.value.hour.type = 1
                 this.value.hour.range.start = Number(arr[2].split('-')[0])
                 this.value.hour.range.end = Number(arr[2].split('-')[1])
             } else if (arr[2].includes('/')) {
-                this.value.hour.type = '2'
+                this.value.hour.type = 2
                 this.value.hour.loop.start = Number(arr[2].split('/')[0])
                 this.value.hour.loop.end = Number(arr[2].split('/')[1])
             } else {
-                this.value.hour.type = '3'
+                this.value.hour.type = 3
                 this.value.hour.appoint = arr[2].split(',')
             }
             //日
             if (arr[3] === '*') {
-                this.value.day.type = '0'
+                this.value.day.type = 0
             } else if (arr[3] === 'L') {
-                this.value.day.type = '4'
+                this.value.day.type = 4
             } else if (arr[3] === '?') {
-                this.value.day.type = '5'
+                this.value.day.type = 5
             } else if (arr[3].includes('-')) {
-                this.value.day.type = '1'
+                this.value.day.type = 1
                 this.value.day.range.start = Number(arr[3].split('-')[0])
                 this.value.day.range.end = Number(arr[3].split('-')[1])
             } else if (arr[3].includes('/')) {
-                this.value.day.type = '2'
+                this.value.day.type = 2
                 this.value.day.loop.start = Number(arr[3].split('/')[0])
                 this.value.day.loop.end = Number(arr[3].split('/')[1])
             } else {
-                this.value.day.type = '3'
+                this.value.day.type = 3
                 this.value.day.appoint = arr[3].split(',')
             }
             //月
             if (arr[4] === '*') {
-                this.value.month.type = '0'
+                this.value.month.type = 0
             } else if (arr[4].includes('-')) {
-                this.value.month.type = '1'
+                this.value.month.type = 1
                 this.value.month.range.start = Number(arr[4].split('-')[0])
                 this.value.month.range.end = Number(arr[4].split('-')[1])
             } else if (arr[4].includes('/')) {
-                this.value.month.type = '2'
+                this.value.month.type = 2
                 this.value.month.loop.start = Number(arr[4].split('/')[0])
                 this.value.month.loop.end = Number(arr[4].split('/')[1])
             } else {
-                this.value.month.type = '3'
+                this.value.month.type = 3
                 this.value.month.appoint = arr[4].split(',')
             }
             //周
             if (arr[5] === '*') {
-                this.value.week.type = '0'
+                this.value.week.type = 0
             } else if (arr[5] === '?') {
-                this.value.week.type = '5'
+                this.value.week.type = 5
             } else if (arr[5].includes('-')) {
-                this.value.week.type = '1'
+                this.value.week.type = 1
                 this.value.week.range.start = arr[5].split('-')[0]
                 this.value.week.range.end = arr[5].split('-')[1]
             } else if (arr[5].includes('#')) {
-                this.value.week.type = '2'
+                this.value.week.type = 2
                 this.value.week.loop.start = Number(arr[5].split('#')[1])
                 this.value.week.loop.end = arr[5].split('#')[0]
             } else if (arr[5].includes('L')) {
-                this.value.week.type = '4'
+                this.value.week.type = 4
                 this.value.week.last = arr[5].split('L')[0]
             } else {
-                this.value.week.type = '3'
+                this.value.week.type = 3
                 this.value.week.appoint = arr[5].split(',')
             }
             //年
             if (!arr[6]) {
-                this.value.year.type = '-1'
+                this.value.year.type = -1
             } else if (arr[6] === '*') {
-                this.value.year.type = '0'
+                this.value.year.type = 0
             } else if (arr[6].includes('-')) {
-                this.value.year.type = '1'
+                this.value.year.type = 1
                 this.value.year.range.start = Number(arr[6].split('-')[0])
                 this.value.year.range.end = Number(arr[6].split('-')[1])
             } else if (arr[6].includes('/')) {
-                this.value.year.type = '2'
+                this.value.year.type = 2
                 this.value.year.loop.start = Number(arr[6].split('/')[1])
                 this.value.year.loop.end = Number(arr[6].split('/')[0])
             } else {
-                this.value.year.type = '3'
+                this.value.year.type = 3
                 this.value.year.appoint = arr[6].split(',')
             }
         },
@@ -794,6 +794,10 @@ export default {
 </script>
 
 <style scoped>
+.el-input-number,
+.el-select {
+    margin: 0 0.5rem;
+}
 .sc-cron:deep(.el-tabs__item) {
     height: auto;
     line-height: 1;

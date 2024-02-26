@@ -104,13 +104,13 @@ export default {
         async add() {
             this.dialog.save = true
             await this.$nextTick()
-            this.$refs.saveDialog.open()
+            await this.$refs.saveDialog.open()
         },
         //字典目录编辑
         async edit(data) {
             this.dialog.save = true
             await this.$nextTick()
-            this.$refs.saveDialog.open('edit', data)
+            await this.$refs.saveDialog.open('edit', data)
         },
         //字典目录点击
         click(data) {

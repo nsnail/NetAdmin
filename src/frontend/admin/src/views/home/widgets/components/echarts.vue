@@ -21,12 +21,12 @@ export default {
         }
     },
     created() {
-        var _this = this
+        const _this = this
         setTimeout(function () {
             _this.loading = false
         }, 500)
 
-        var option = {
+        this.option = {
             tooltip: {
                 trigger: 'axis',
             },
@@ -34,9 +34,9 @@ export default {
                 boundaryGap: false,
                 type: 'category',
                 data: (function () {
-                    var now = new Date()
-                    var res = []
-                    var len = 30
+                    let now = new Date()
+                    const res = []
+                    let len = 30
                     while (len--) {
                         res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''))
                         now = new Date(now - 2000)
@@ -67,22 +67,21 @@ export default {
                         color: '#79bbff',
                     },
                     data: (function () {
-                        var res = []
-                        var len = 30
+                        const res = []
+                        let len = 30
                         while (len--) {
-                            res.push(Math.round(Math.random() * 0))
+                            res.push(Math.round(0))
                         }
                         return res
                     })(),
                 },
             ],
         }
-        this.option = option
     },
     mounted() {
-        var _this = this
+        const _this = this
         setInterval(function () {
-            var o = _this.option
+            const o = _this.option
 
             o.series[0].data.shift()
             o.series[0].data.push(Math.round(Math.random() * 100))

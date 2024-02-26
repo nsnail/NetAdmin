@@ -119,8 +119,7 @@ export default {
         },
         toText(nodeConfig) {
             if (nodeConfig.nodeUserList && nodeConfig.nodeUserList.length > 0) {
-                const users = nodeConfig.nodeUserList.map((item) => item.name).join('、')
-                return users
+                return nodeConfig.nodeUserList.map((item) => item.name).join('、')
             } else {
                 if (nodeConfig.userSelectFlag) {
                     return '发起人自选'

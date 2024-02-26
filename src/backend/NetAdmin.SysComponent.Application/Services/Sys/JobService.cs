@@ -31,7 +31,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public async Task<QueryJobRsp> CreateAsync(CreateJobReq req)
     {
         req.ThrowIfInvalid();
-        var nextExecTime = CronExpression.Parse(req.ExecutionCron).GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Utc);
+        var nextExecTime = GetNextExecTime(req.ExecutionCron);
         var ret = await Rpo.InsertAsync(req with {
                                                      NextExecTime = nextExecTime
                                                    , NextTimeId = nextExecTime?.TimeUnixUtc()
@@ -50,6 +50,23 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     }
 
     /// <inheritdoc />
+    public async Task<QueryJobRsp> EditAsync(UpdateJobReq req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await Rpo.UpdateDiy.Set(a => a.ExecutionCron == req.ExecutionCron)
+                           .Set(a => a.HttpMethod              == req.HttpMethod)
+                           .Set(a => a.JobName                 == req.JobName)
+                           .Set(a => a.RequestHeader           == req.RequestHeader)
+                           .Set(a => a.RequestBody             == req.RequestBody)
+                           .Set(a => a.RequestUrl              == req.RequestUrl)
+                           .Set(a => a.UserId                  == req.UserId)
+                           .Where(a => a.Id                    == req.Id)
+                           .ExecuteUpdatedAsync()
+                           .ConfigureAwait(false);
+        return ret[0].Adapt<QueryJobRsp>();
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
@@ -59,7 +76,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     /// <inheritdoc />
     public async Task FinishJobAsync(UpdateJobReq req)
     {
-        var nextExecTime = CronExpression.Parse(req.ExecutionCron).GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Utc);
+        var nextExecTime = GetNextExecTime(req.ExecutionCron);
         _ = await UpdateAsync(req with {
                                            Status = JobStatues.Idle
                                          , NextExecTime = nextExecTime
@@ -181,6 +198,12 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     {
         _ = await Rpo.UpdateAsync(req).ConfigureAwait(false);
         return req;
+    }
+
+    private static DateTime? GetNextExecTime(string cron)
+    {
+        return CronExpression.Parse(cron, CronFormat.IncludeSeconds)
+                             .GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Utc);
     }
 
     private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req, bool orderByRandom = false)

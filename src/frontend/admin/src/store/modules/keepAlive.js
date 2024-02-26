@@ -11,7 +11,7 @@ export default {
             }
         },
         removeKeepLive(state, component) {
-            var index = state.keepLiveRoute.indexOf(component)
+            const index = state.keepLiveRoute.indexOf(component)
             if (index !== -1) {
                 state.keepLiveRoute.splice(index, 1)
             }
