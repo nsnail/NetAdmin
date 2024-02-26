@@ -24,7 +24,7 @@ export default {
     二维码登录: 'QR code login',
     人工审核: '人工审核',
     从不: 'Never',
-    任务中心: '任务中心',
+    作业中心: '作业中心',
     关于项目: '关于项目',
     其他登录方式: 'Other login methods',
     内存使用量: '内存使用量',

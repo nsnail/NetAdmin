@@ -212,7 +212,7 @@ export default {
         },
         //TAB 关闭
         closeTabs() {
-            var nowTag = this.contextMenuItem
+            const nowTag = this.contextMenuItem
             if (!nowTag.meta.affix) {
                 this.closeSelectedTag(nowTag)
                 this.contextMenuVisible = false
@@ -220,7 +220,7 @@ export default {
         },
         //TAB 关闭其他
         closeOtherTabs() {
-            var nowTag = this.contextMenuItem
+            const nowTag = this.contextMenuItem
             //判断是否当前路由，否的话跳转
             if (this.$route.fullPath !== nowTag.fullPath) {
                 this.$router.push({
@@ -228,7 +228,7 @@ export default {
                     query: nowTag.query,
                 })
             }
-            var tags = [...this.tagList]
+            const tags = [...this.tagList]
             tags.forEach((tag) => {
                 if ((tag.meta && tag.meta.affix) || nowTag.fullPath === tag.fullPath) {
                     return true
@@ -240,7 +240,7 @@ export default {
         },
         //TAB 最大化
         maximize() {
-            var nowTag = this.contextMenuItem
+            const nowTag = this.contextMenuItem
             this.contextMenuVisible = false
             //判断是否当前路由，否的话跳转
             if (this.$route.fullPath !== nowTag.fullPath) {
@@ -253,8 +253,8 @@ export default {
         },
         //新窗口打开
         openWindow() {
-            var nowTag = this.contextMenuItem
-            var url = nowTag.href || '/'
+            const nowTag = this.contextMenuItem
+            const url = nowTag.href || '/'
             if (!nowTag.meta.affix) {
                 this.closeSelectedTag(nowTag)
             }
@@ -271,7 +271,7 @@ export default {
                 //火狐上滚键值-3 下滚键值3，其他内核上滚键值120 下滚键值-120
                 const moveForwardStep = 1
                 const moveBackStep = -1
-                let step = 0
+                let step
                 if (detail === 3 || (detail < 0 && detail !== -3)) {
                     step = moveForwardStep * 50
                 } else {

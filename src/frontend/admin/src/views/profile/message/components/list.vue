@@ -98,7 +98,7 @@ export default {
         async batchRead() {
             try {
                 for (const msg of this.msgList) {
-                    this.$API.sys_sitemsg.setSiteMsgStatus.post({ siteMsgId: msg.id, userSiteMsgStatus: 'read' })
+                    await this.$API.sys_sitemsg.setSiteMsgStatus.post({ siteMsgId: msg.id, userSiteMsgStatus: 'read' })
                     msg.myFlags.userSiteMsgStatus = 'read'
                 }
             } catch {

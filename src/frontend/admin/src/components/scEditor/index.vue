@@ -54,8 +54,8 @@ export default {
             type: [String, Array],
             default:
                 'undo redo |  forecolor backcolor bold italic underline strikethrough link | blocks fontfamily fontsize | \
-					alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | pagebreak | \
-					image media table template preview | code selectall',
+                    alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | pagebreak | \
+                    image media table template preview | code selectall',
         },
         templates: {
             type: Array,
@@ -71,8 +71,8 @@ export default {
             init: {
                 language_url: '/public/tinymce/langs/zh_CN.js',
                 language: 'zh_CN',
-                skin_url: '/public/tinymce/skins/ui/oxide',
-                content_css: '/public/tinymce/skins/content/default/content.css',
+                skin_url: '',
+                content_css: '',
                 menubar: false,
                 statusbar: true,
                 plugins: this.plugins,
@@ -112,10 +112,10 @@ export default {
                     })
                     editor.on('OpenWindow', function (e) {
                         //FIX 编辑器在el-drawer中，编辑器的弹框无法获得焦点
-                        var D = document.querySelector('.el-drawer.open')
-                        var E = e.target.editorContainer
+                        const D = document.querySelector('.el-drawer.open')
+                        const E = e.target.editorContainer
                         if (D && D.contains(E)) {
-                            var nowDA = document.activeElement
+                            const nowDA = document.activeElement
                             setTimeout(() => {
                                 document.activeElement.blur()
                                 nowDA.focus()
@@ -135,6 +135,11 @@ export default {
         contentValue(val) {
             this.$emit('update:modelValue', val)
         },
+    },
+    created() {
+        const darkMode = this.$TOOL.data.get('APP_DARK') ?? false
+        this.init.skin_url = `/public/tinymce/skins/ui/tinymce-5${darkMode ? '-dark' : ''}`
+        this.init.content_css = `/public/tinymce/skins/content/tinymce-5${darkMode ? '-dark' : ''}/content.css`
     },
     mounted() {
         tinymce.init({})

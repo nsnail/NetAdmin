@@ -15,6 +15,11 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
 >
 {
     /// <summary>
+    ///     编辑作业
+    /// </summary>
+    Task<QueryJobRsp> EditAsync(UpdateJobReq req);
+
+    /// <summary>
     ///     获取单个作业记录
     /// </summary>
     Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req);

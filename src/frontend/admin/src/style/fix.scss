@@ -279,12 +279,6 @@
     background-color: var(--el-color-primary) !important;
 }
 
-/* 覆盖tinymce样式 */
-.sceditor .tox-tinymce {
-    border: 1px solid #dcdfe6;
-    border-radius: 0;
-}
-
 body .tox-tinymce-aux {
     z-index: 5700;
 }

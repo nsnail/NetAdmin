@@ -46,7 +46,7 @@ export default {
             this.menuClick(this.command)
         },
         openSubmenu(e) {
-            var menu = e.target.querySelector('ul')
+            const menu = e.target.querySelector('ul')
             if (!menu) {
                 return false
             }
@@ -54,13 +54,13 @@ export default {
                 return false
             }
             menu.style.display = 'inline-block'
-            var rect = menu.getBoundingClientRect()
-            var menuX = rect.left
-            var menuY = rect.top
-            var innerWidth = window.innerWidth
-            var innerHeight = window.innerHeight
-            var menuHeight = menu.offsetHeight
-            var menuWidth = menu.offsetWidth
+            const rect = menu.getBoundingClientRect()
+            const menuX = rect.left
+            const menuY = rect.top
+            const innerWidth = window.innerWidth
+            const innerHeight = window.innerHeight
+            const menuHeight = menu.offsetHeight
+            const menuWidth = menu.offsetWidth
             if (menuX + menuWidth > innerWidth) {
                 menu.style.left = 'auto'
                 menu.style.right = '100%'
@@ -71,7 +71,7 @@ export default {
             }
         },
         closeSubmenu(e) {
-            var menu = e.target.querySelector('ul')
+            const menu = e.target.querySelector('ul')
             if (!menu) {
                 return false
             }

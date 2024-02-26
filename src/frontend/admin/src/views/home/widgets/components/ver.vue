@@ -69,7 +69,7 @@ export default {
 <style scoped>
 .aboutTop {
     border: 0;
-    background: linear-gradient(to right, #8e54e9, #4776e6);
+    background: linear-gradient(to right, rgb(66, 76, 80), #ccc);
     color: #fff;
 }
 .aboutTop-info {

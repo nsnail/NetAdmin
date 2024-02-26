@@ -23,7 +23,7 @@
                                     <span v-if="toText(nodeConfig, index)">{{ toText(nodeConfig, index) }}</span>
                                     <span v-else class="placeholder">请设置条件</span>
                                 </div>
-                                <div v-if="index != nodeConfig.conditionNodes.length - 1" @click.stop="arrTransfer(index)" class="sort-right">
+                                <div v-if="index !== nodeConfig.conditionNodes.length - 1" @click.stop="arrTransfer(index)" class="sort-right">
                                     <el-icon>
                                         <el-icon-arrow-right />
                                     </el-icon>
@@ -221,10 +221,9 @@ export default {
             this.form.conditionList.splice(index, 1)
         },
         toText(nodeConfig, index) {
-            var { conditionList } = nodeConfig.conditionNodes[index]
+            const { conditionList } = nodeConfig.conditionNodes[index]
             if (conditionList && conditionList.length === 1) {
-                const text = conditionList.map((item) => `${item.label}${item.operator}${item.value}`).join(' 和 ')
-                return text
+                return conditionList.map((item) => `${item.label}${item.operator}${item.value}`).join(' 和 ')
             } else if (conditionList && conditionList.length > 1) {
                 const conditionModeText = nodeConfig.conditionNodes[index].conditionMode === 1 ? '且行' : '或行'
                 return conditionList.length + '个条件，' + conditionModeText

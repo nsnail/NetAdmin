@@ -39,6 +39,17 @@ export default {
     },
 
     /**
+     * 编辑作业
+     */
+    edit: {
+        url: `${config.API_URL}/api/sys/job/edit`,
+        name: `编辑作业`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 计划作业是否存在
      */
     exist: {
@@ -110,17 +121,6 @@ export default {
     setEnabled: {
         url: `${config.API_URL}/api/sys/job/set.enabled`,
         name: `启用/禁用作业`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新计划作业
-     */
-    update: {
-        url: `${config.API_URL}/api/sys/job/update`,
-        name: `更新计划作业`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

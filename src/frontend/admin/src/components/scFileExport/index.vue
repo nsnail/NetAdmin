@@ -145,7 +145,7 @@ export default {
         },
         downloadFile(apiObj, fileName, data = {}) {
             this.downLoading = true
-            var _this = this
+            const _this = this
             apiObj
                 .get(data, {
                     responseType: 'blob',
@@ -188,7 +188,7 @@ export default {
                         this.dialog = false
                         this.$msgbox({
                             title: '成功发起任务',
-                            message: `<div><img style="height:200px" src="@/assets/img/tasks-example.png"/></div><p>已成功发起导出任务，您可以操作其他事务</p><p>稍后可在 <b>任务中心</b> 查看执行结果</p>`,
+                            message: `<p>已成功发起导出任务，您可以操作其他事务</p><p>稍后可在 <b>任务中心</b> 查看执行结果</p>`,
                             type: 'success',
                             confirmButtonText: '知道了',
                             dangerouslyUseHTMLString: true,
@@ -207,7 +207,7 @@ export default {
         },
         toQueryString(obj) {
             let arr = []
-            for (var k in obj) {
+            for (const k in obj) {
                 arr.push(`${k}=${obj[k]}`)
             }
             return (arr.length > 0 ? '?' : '') + arr.join('&')

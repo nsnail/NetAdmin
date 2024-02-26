@@ -8,7 +8,7 @@
 -->
 
 <template>
-    <el-skeleton v-if="renderLoading || Object.keys(form).length == 0" animated />
+    <el-skeleton v-if="renderLoading || Object.keys(form).length === 0" animated />
 
     <el-form
         v-else
@@ -78,7 +78,7 @@
                             <el-switch v-model="form[item.name]" />
                         </template>
                         <!-- select -->
-                        <template v-else-if="item.component == 'select'">
+                        <template v-else-if="item.component === 'select'">
                             <el-select
                                 v-model="form[item.name]"
                                 :multiple="item.options.multiple"
@@ -256,10 +256,10 @@ export default {
         //处理远程选项数据
         getData() {
             this.renderLoading = true
-            var remoteData = []
+            const remoteData = []
             this.config.formItems.forEach((item) => {
                 if (item.options && item.options.remote) {
-                    var req = http.get(item.options.remote.api, item.options.remote.data).then((res) => {
+                    const req = http.get(item.options.remote.api, item.options.remote.data).then((res) => {
                         item.options.items = res.data
                     })
                     remoteData.push(req)
@@ -284,8 +284,7 @@ export default {
         //处理动态隐藏
         hideHandle(item) {
             if (item.hideHandle) {
-                const exp = eval(item.hideHandle.replace(/\$/g, 'this.form'))
-                return exp
+                return eval(item.hideHandle.replace(/\$/g, 'this.form'))
             }
             return false
         },
@@ -293,7 +292,7 @@ export default {
         rulesHandle(item) {
             if (item.requiredHandle) {
                 const exp = eval(item.requiredHandle.replace(/\$/g, 'this.form'))
-                var requiredRule = item.rules.find((t) => 'required' in t)
+                const requiredRule = item.rules.find((t) => 'required' in t)
                 requiredRule.required = exp
             }
             return item.rules

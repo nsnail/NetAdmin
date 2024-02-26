@@ -43,6 +43,15 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     }
 
     /// <summary>
+    ///     编辑作业
+    /// </summary>
+    [Transaction]
+    public Task<QueryJobRsp> EditAsync(UpdateJobReq req)
+    {
+        return Cache.EditAsync(req);
+    }
+
+    /// <summary>
     ///     计划作业是否存在
     /// </summary>
     public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
@@ -102,6 +111,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     ///     更新计划作业
     /// </summary>
     [Transaction]
+    [NonAction]
     public Task<QueryJobRsp> UpdateAsync(UpdateJobReq req)
     {
         return Cache.UpdateAsync(req);

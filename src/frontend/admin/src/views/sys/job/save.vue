@@ -14,7 +14,7 @@
                         <el-input v-model="form.id" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('执行计划')" prop="executionCron">
-                        <el-input v-model="form.executionCron" clearable />
+                        <sc-cron v-model="form.executionCron" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求方法')" prop="httpMethod">
                         <el-select v-model="form.httpMethod" clearable filterable>
@@ -118,7 +118,7 @@ export default {
             loading: false,
             //表单数据
             form: {
-                executionCron: '* * * * *',
+                executionCron: '0 * * * * ?',
                 httpMethod: 'Post',
                 requestHeader: `{ "Content-Type": "application/json" }`,
                 requestBody: '{}',
@@ -201,7 +201,7 @@ export default {
             }
 
             try {
-                const method = this.mode === 'add' ? this.$API.sys_job.create : this.$API.sys_job.update
+                const method = this.mode === 'add' ? this.$API.sys_job.create : this.$API.sys_job.edit
                 this.loading = true
                 const res = await method.post(
                     Object.assign({}, this.form, { userId: this.form.user.id, requestHeaders: JSON.parse(this.form.requestHeader) }),

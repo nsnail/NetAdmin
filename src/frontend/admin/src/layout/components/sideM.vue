@@ -44,14 +44,14 @@ export default {
     },
     computed: {},
     created() {
-        var menu = this.$router.sc_getMenu()
+        const menu = this.$router.sc_getMenu()
         this.menu = this.filterUrl(menu)
     },
 
     watch: {},
     methods: {
         showMobileNav(e) {
-            var isdrag = e.currentTarget.getAttribute('drag-flag')
+            const isdrag = e.currentTarget.getAttribute('drag-flag')
             if (isdrag === 'true') {
                 return false
             } else {
@@ -63,7 +63,7 @@ export default {
         },
         //转换外部链接的路由
         filterUrl(map) {
-            var newMap = []
+            const newMap = []
             map &&
                 map.forEach((item) => {
                     item.meta = item.meta ? item.meta : {}
@@ -91,7 +91,7 @@ export default {
                 lastTime = ''
             //禁止选择网页上的文字
             // document.onselectstart = function() {
-            // 	return false;
+            //     return false;
             // };
             oDiv.onmousedown = function (e) {
                 //鼠标按下，计算当前元素距离可视区的距离

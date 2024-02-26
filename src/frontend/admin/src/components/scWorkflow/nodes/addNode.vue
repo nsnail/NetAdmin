@@ -46,7 +46,7 @@ export default {
     mounted() {},
     methods: {
         addType(type) {
-            var node = {}
+            let node = {}
             if (type === 1) {
                 node = {
                     nodeName: '审核人',

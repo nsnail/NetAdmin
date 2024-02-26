@@ -40,7 +40,7 @@ export default {
     getMy: function (name) {
         return new Promise((resolve) => {
             console.log(`这里可以根据${name}参数请求接口`)
-            var list = []
+            const list = []
             setTimeout(() => {
                 resolve(list)
             }, 500)

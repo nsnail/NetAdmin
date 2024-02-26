@@ -1,14 +1,14 @@
 import tool from '@/utils/tool'
 
-var Time = {
+const Time = {
     //获取当前时间戳
     getUnix: function () {
-        var date = new Date()
+        const date = new Date()
         return date.getTime()
     },
     //获取今天0点0分0秒的时间戳
     getTodayUnix: function () {
-        var date = new Date()
+        const date = new Date()
         date.setHours(0)
         date.setMinutes(0)
         date.setSeconds(0)
@@ -17,7 +17,7 @@ var Time = {
     },
     //获取今年1月1日0点0秒的时间戳
     getYearUnix: function () {
-        var date = new Date()
+        const date = new Date()
         date.setMonth(0)
         date.setDate(1)
         date.setHours(0)
@@ -28,19 +28,19 @@ var Time = {
     },
     //获取标准年月日
     getLastDate: function (time) {
-        var date = new Date(time)
-        var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
-        var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+        const date = new Date(time)
+        const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+        const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
         return date.getFullYear() + '-' + month + '-' + day
     },
     //转换时间
     getFormateTime: function (timestamp) {
         timestamp = new Date(timestamp)
-        var now = this.getUnix()
-        var today = this.getTodayUnix()
+        const now = this.getUnix()
+        const today = this.getTodayUnix()
         //var year = this.getYearUnix();
-        var timer = (now - timestamp) / 1000
-        var tip = ''
+        const timer = (now - timestamp) / 1000
+        let tip
 
         if (timer <= 0) {
             tip = '刚刚'

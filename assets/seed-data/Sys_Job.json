@@ -1,7 +1,7 @@
 [
   {
     "Enabled": true,
-    "ExecutionCron": "* * * * *",
+    "ExecutionCron": "0 * * * * ?",
     "HttpMethod": 3,
     "JobName": "HTTP 请求测试",
     "NextExecTime": "2020/9/13 12:26:40",

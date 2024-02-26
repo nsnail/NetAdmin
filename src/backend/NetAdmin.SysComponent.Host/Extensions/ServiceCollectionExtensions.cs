@@ -14,11 +14,9 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddSchedules(this IServiceCollection me)
     {
-        return App.WebHostEnvironment.EnvironmentName != Environments.Production
-            ? me
-            : me.AddSchedule(      //
-                builder => builder //
-                           .AddJob<ScheduledJob>(false,     Triggers.PeriodSeconds(5).SetRunOnStart(true))
-                           .AddJob<FreeScheduledJob>(false, Triggers.PeriodMinutes(1).SetRunOnStart(true)));
+        return me.AddSchedule( //
+            builder => builder //
+                       .AddJob<ScheduledJob>(false,     Triggers.PeriodSeconds(5).SetRunOnStart(true))
+                       .AddJob<FreeScheduledJob>(false, Triggers.PeriodMinutes(1).SetRunOnStart(true)));
     }
 }

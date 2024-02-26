@@ -60,8 +60,8 @@ export default {
     },
     computed: {
         selectedString() {
-            var outputData = JSON.parse(JSON.stringify(this.selected))
-            for (var key in outputData) {
+            const outputData = JSON.parse(JSON.stringify(this.selected))
+            for (const key in outputData) {
                 outputData[key] = outputData[key].join(',')
             }
             return outputData

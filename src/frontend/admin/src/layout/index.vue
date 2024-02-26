@@ -8,7 +8,7 @@
                     <span>{{ $CONFIG.APP_NAME }}</span>
                 </div>
                 <ul v-if="!ismobile" class="nav">
-                    <li v-for="item in menu" :class="pmenu.path == item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
+                    <li v-for="item in menu" :class="pmenu.path === item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
                         <el-icon>
                             <component :is="item.meta.icon || 'el-icon-menu'" />
                         </el-icon>
@@ -21,7 +21,9 @@
             </div>
         </header>
         <section class="aminui-wrapper">
-            <div v-if="(!ismobile && nextMenu.length > 0) || !pmenu.component" :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
+            <div
+                v-if="(!ismobile && nextMenu.length > 0) || (!pmenu.component && pmenu.meta)"
+                :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
                 <div v-if="!menuIsCollapse" class="adminui-side-top">
                     <h2>{{ pmenu.meta.title }}</h2>
                 </div>
@@ -152,7 +154,7 @@
                 <div class="adminui-side-split-scroll">
                     <el-scrollbar>
                         <ul>
-                            <li v-for="item in menu" :class="pmenu.path == item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
+                            <li v-for="item in menu" :class="pmenu.path === item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
                                 <el-icon>
                                     <component :is="item.meta.icon || el - icon - menu" />
                                 </el-icon>
@@ -162,7 +164,9 @@
                     </el-scrollbar>
                 </div>
             </div>
-            <div v-if="(!ismobile && nextMenu.length > 0) || !pmenu.component" :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
+            <div
+                v-if="(!ismobile && nextMenu.length > 0) || (!pmenu.component && pmenu.meta)"
+                :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
                 <div v-if="!menuIsCollapse" class="adminui-side-top">
                     <h2>{{ pmenu.meta.title }}</h2>
                 </div>
@@ -252,7 +256,7 @@ export default {
     created() {
         this.onLayoutResize()
         window.addEventListener('resize', this.onLayoutResize)
-        var menu = this.$router.sc_getMenu()
+        const menu = this.$router.sc_getMenu()
         this.menu = this.filterUrl(menu)
         this.showThis()
     },
@@ -289,7 +293,7 @@ export default {
         },
         //转换外部链接的路由
         filterUrl(map) {
-            var newMap = []
+            const newMap = []
             map &&
                 map.forEach((item) => {
                     item.meta = item.meta ? item.meta : {}

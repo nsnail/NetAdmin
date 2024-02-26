@@ -20,7 +20,7 @@ export default {
             document.onscroll = () => {
                 this.setNewAutoExitTime()
             }
-            window.autoExitTimer = window.setInterval(this.autoExitfun, 1000)
+            window.autoExitTimer = window.setInterval(this.autoExitFun, 1000)
         }
     },
     unmounted() {
@@ -33,7 +33,7 @@ export default {
         setNewAutoExitTime() {
             window.autoExitTime = new Date().getTime()
         },
-        autoExitfun() {
+        autoExitFun() {
             if (new Date().getTime() - window.autoExitTime > this.logoutCount * 60 * 1000) {
                 clearInterval(window.autoExitTimer)
                 window.autoExitTimer = null
