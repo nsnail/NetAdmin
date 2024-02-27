@@ -12,7 +12,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-    <ItemGroup>
+    <ItemGroup Condition="'$(Configuration)' != 'Debug'">
         <EmbeddedResource Include="../../../dist/frontend/admin/**/*" LinkBase="UI"/>
     </ItemGroup>
 </Project>

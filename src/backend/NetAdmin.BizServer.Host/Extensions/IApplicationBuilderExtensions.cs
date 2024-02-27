@@ -38,7 +38,7 @@ public static class IApplicationBuilderExtensions
     private static async Task UseVueAdminAsync(HttpContext context, Func<Task> next)
     {
         if (!context.Request.Path.StartsWithSegments(new PathString("/api"))) {
-            var path = context.Request.Path.Value;
+            var path = context.Request.Path.Value?.Replace("-", "_");
             if (path == "/" || path?.Length == 0) {
                 path = _INDEX_HTML_PATH;
             }
