@@ -119,7 +119,7 @@
 
         <el-button-group>
             <el-button @click="search" icon="el-icon-search" type="primary">查询</el-button>
-            <el-button @click="tool.refreshTab(vue)" icon="el-icon-refresh-left">重置</el-button>
+            <el-button @click="reset" icon="el-icon-refresh-left">重置</el-button>
         </el-button-group>
     </form>
 </template>
@@ -137,6 +137,7 @@ export default {
     data() {
         return {
             casLoaded: false,
+            keepKeywords: null,
             form: {
                 root: {},
                 filter: {},
@@ -188,7 +189,9 @@ export default {
             Object.keys(this.form.dy).forEach((x) => {
                 delete this.form.dy[x]
             })
-
+            if (this.keepKeywords) {
+                this.form.root.keywords = this.keepKeywords
+            }
             this.search()
         },
     },
