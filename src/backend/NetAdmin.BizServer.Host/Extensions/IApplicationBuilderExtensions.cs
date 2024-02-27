@@ -35,32 +35,41 @@ public static class IApplicationBuilderExtensions
         return Assembly.GetExecutingAssembly().GetManifestResourceStream(_RES_PFX + path);
     }
 
-    private static async Task UseVueAdminAsync(HttpContext context, Func<Task> next)
+    private static string GetResName(string path)
     {
-        if (!context.Request.Path.StartsWithSegments(new PathString("/api"))) {
-            var path = context.Request.Path.Value?.Replace("-", "_");
-            if (path == "/" || path?.Length == 0) {
-                path = _INDEX_HTML_PATH;
-            }
+        return _allResNames.FirstOrDefault(x => path.EndsWith(x, StringComparison.OrdinalIgnoreCase));
+    }
 
-            path = path!.Replace('/', '.');
-
-            var output = GetManifestResourceStream(path);
-            if (output == null) {
-                var resName = _allResNames.FirstOrDefault(x => path.EndsWith(x, StringComparison.OrdinalIgnoreCase));
-                output = resName == null
-                    ? GetManifestResourceStream(_INDEX_HTML_PATH)
-                    : GetManifestResourceStream(resName);
-            }
-
-            if (output != null) {
-                context.Response.ContentLength = output.Length;
-                context.Response.ContentType = MimeTypeHelper.GetMimeTypeByExtName(_regex.Match(path!).Groups[1].Value);
-                await output.CopyToAsync(context.Response.Body).ConfigureAwait(false);
-                return;
-            }
+    private static Task UseVueAdminAsync(HttpContext context, Func<Task> next)
+    {
+        if (context.Request.Path.StartsWithSegments(new PathString("/api"))) {
+            return next.Invoke();
         }
 
-        await next.Invoke().ConfigureAwait(false);
+        var path = context.Request.Path.Value;
+        if (path == "/" || path?.Length == 0) {
+            path = _INDEX_HTML_PATH;
+        }
+
+        path = path!.Replace('/', '.');
+
+        var output = GetManifestResourceStream(path);
+        if (output == null) {
+            var resName = GetResName(path);
+            if (resName == null) {
+                path    = path.Replace("-", "_");
+                resName = GetResName(path);
+            }
+
+            output = resName == null ? GetManifestResourceStream(_INDEX_HTML_PATH) : GetManifestResourceStream(resName);
+        }
+
+        if (output == null) {
+            return next.Invoke();
+        }
+
+        context.Response.ContentLength = output.Length;
+        context.Response.ContentType   = MimeTypeHelper.GetMimeTypeByExtName(_regex.Match(path!).Groups[1].Value);
+        return output.CopyToAsync(context.Response.Body);
     }
 }
