@@ -111,6 +111,7 @@ export default {
     mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
         }
     },
     created() {
