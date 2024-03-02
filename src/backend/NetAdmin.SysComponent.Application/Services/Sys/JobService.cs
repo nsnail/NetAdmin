@@ -19,12 +19,14 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         req.ThrowIfInvalid();
-        var sum = 0;
+        var ret = 0;
+
+        // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item).ConfigureAwait(false);
+            ret += await DeleteAsync(item).ConfigureAwait(false);
         }
 
-        return sum;
+        return ret;
     }
 
     /// <inheritdoc />
@@ -56,11 +58,12 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
         var ret = await Rpo.UpdateDiy.Set(a => a.ExecutionCron == req.ExecutionCron)
                            .Set(a => a.HttpMethod              == req.HttpMethod)
                            .Set(a => a.JobName                 == req.JobName)
-                           .Set(a => a.RequestHeader           == req.RequestHeader)
-                           .Set(a => a.RequestBody             == req.RequestBody)
-                           .Set(a => a.RequestUrl              == req.RequestUrl)
-                           .Set(a => a.UserId                  == req.UserId)
-                           .Where(a => a.Id                    == req.Id)
+                           .SetIf(req.RequestHeaders == null, a => a.RequestHeader, null)
+                           .SetIf(req.RequestHeaders != null, a => a.RequestHeader, req.RequestHeaders.Json())
+                           .Set(a => a.RequestBody == req.RequestBody)
+                           .Set(a => a.RequestUrl  == req.RequestUrl)
+                           .Set(a => a.UserId      == req.UserId)
+                           .Where(a => a.Id        == req.Id)
                            .ExecuteUpdatedAsync()
                            .ConfigureAwait(false);
         return ret[0].Adapt<QueryJobRsp>();
@@ -97,24 +100,22 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public async Task<QueryJobRsp> GetNextJobAsync()
     {
         var df = new DynamicFilterInfo {
-                                           Filters = [
-                                               new DynamicFilterInfo {
-                                                                         Field    = nameof(QueryJobReq.NextExecTime)
-                                                                       , Value    = DateTime.UtcNow
-                                                                       , Operator = DynamicFilterOperators.LessThan
-                                                                     }
-                                             , new DynamicFilterInfo {
-                                                                         Field    = nameof(QueryJobReq.Status)
-                                                                       , Value    = JobStatues.Idle
-                                                                       , Operator = DynamicFilterOperators.Eq
-                                                                     }
-                                             , new DynamicFilterInfo {
-                                                                         Field    = nameof(QueryJobReq.Enabled)
-                                                                       , Value    = true
-                                                                       , Operator = DynamicFilterOperators.Eq
-                                                                     }
-                                           ]
-                                       };
+                                           Filters =  [ new DynamicFilterInfo { Field = nameof(QueryJobReq.NextExecTime)
+                                         , Value = DateTime.UtcNow
+                                         , Operator = DynamicFilterOperators.LessThan
+                                       }
+          ,  new DynamicFilterInfo {
+                                       Field    = nameof(QueryJobReq.Status)
+                                     , Value    = JobStatues.Idle
+                                     , Operator = DynamicFilterOperators.Eq
+                                   }
+          , new DynamicFilterInfo {
+                                      Field    = nameof(QueryJobReq.Enabled)
+                                    , Value    = true
+                                    , Operator = DynamicFilterOperators.Eq
+                                  }
+            ]
+        };
         var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Count = 1 }, true)
                         .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
                                         .As("b")

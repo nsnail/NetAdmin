@@ -6,7 +6,7 @@
             :model="form"
             :rules="rules"
             label-position="right"
-            label-width="100px"
+            label-width="10rem"
             ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
@@ -53,10 +53,10 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :expanded="true"
                         :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
                         :value="form"
                         copyable
+                        expanded
                         sort></json-viewer>
                 </el-tab-pane>
             </el-tabs>

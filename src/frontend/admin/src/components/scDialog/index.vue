@@ -90,7 +90,7 @@ export default {
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: var(--el-message-close-size, 16px);
+    font-size: var(--el-message-close-size, 1.2rem);
     margin-left: 1rem;
     color: var(--el-color-info);
 }
@@ -107,7 +107,7 @@ export default {
 }
 
 .sc-dialog:deep(.el-dialog) .el-dialog__body {
-    padding-top: 10px;
+    padding-top: 1rem;
 }
 
 .sc-dialog:deep(.el-dialog).is-fullscreen .el-dialog__body {
@@ -116,7 +116,7 @@ export default {
 }
 
 .sc-dialog:deep(.el-dialog).is-fullscreen .el-dialog__footer {
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
     border-top: 1px solid var(--el-border-color-base);
 }
 </style>

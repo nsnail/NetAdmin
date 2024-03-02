@@ -8,6 +8,11 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 public interface IToolsModule
 {
     /// <summary>
+    ///     获取更新日志
+    /// </summary>
+    Task<string> GetChangeLogAsync();
+
+    /// <summary>
     ///     获取模块信息
     /// </summary>
     Task<IEnumerable<GetModulesRsp>> GetModulesAsync();

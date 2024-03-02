@@ -10,6 +10,12 @@ public sealed class ToolsCache(IDistributedCache cache, IToolsService service) /
     : DistributedCache<IToolsService>(cache, service), IScoped, IToolsCache
 {
     /// <inheritdoc />
+    public Task<string> GetChangeLogAsync()
+    {
+        return Service.GetChangeLogAsync();
+    }
+
+    /// <inheritdoc />
     public Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
     {
         return Service.GetModulesAsync();

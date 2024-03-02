@@ -91,7 +91,7 @@
                     <template #reference>
                         <el-button circle icon="el-icon-setting" style="margin-left: 1rem"></el-button>
                     </template>
-                    <el-form label-position="left" label-width="80px">
+                    <el-form label-position="left" label-width="10rem">
                         <el-form-item :label="$t('表格尺寸')">
                             <el-radio-group v-model="config.size" @change="configSizeChange" size="small">
                                 <el-radio-button label="large">大</el-radio-button>
@@ -179,7 +179,7 @@ export default {
             return Number(this.height) ? Number(this.height) + 'px' : this.height
         },
         _table_height() {
-            return this.hidePagination && this.hideDo ? '100%' : 'calc(100% - 50px)'
+            return this.hidePagination && this.hideDo ? '100%' : 'calc(100% - 4rem)'
         },
     },
     data() {
@@ -483,11 +483,11 @@ export default {
 }
 
 .scTable-table {
-    height: calc(100% - 50px);
+    height: calc(100% - 4rem);
 }
 
 .scTable-page {
-    height: 50px;
+    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -503,12 +503,12 @@ export default {
 }
 
 .scTable:deep(.el-table__body-wrapper) .el-scrollbar__bar.is-horizontal {
-    height: 12px;
-    border-radius: 12px;
+    height: 0.9rem;
+    border-radius: 0.9rem;
 }
 
 .scTable:deep(.el-table__body-wrapper) .el-scrollbar__bar.is-vertical {
-    width: 12px;
-    border-radius: 12px;
+    width: 0.9rem;
+    border-radius: 0.9rem;
 }
 </style>

@@ -35,17 +35,17 @@ export default {
 
 <style scoped>
 .item-background {
-    background: linear-gradient(to right, #8e54e9, #4776e6);
+    background: linear-gradient(to right, rgb(66, 76, 80), #ccc);
     color: #fff;
 }
 
 .time h2 {
-    font-size: 40px;
+    font-size: 3rem;
 }
 
 .time p {
-    font-size: 14px;
-    margin-top: 13px;
+    font-size: 1.1rem;
+    margin-top: 1rem;
     opacity: 0.7;
 }
 </style>

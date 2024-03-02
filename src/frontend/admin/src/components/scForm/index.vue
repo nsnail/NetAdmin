@@ -123,7 +123,7 @@
                         </template>
                         <!-- rate -->
                         <template v-else-if="item.component === 'rate'">
-                            <el-rate v-model="form[item.name]" style="margin-top: 6px"></el-rate>
+                            <el-rate v-model="form[item.name]" style="margin-top: 0.5rem"></el-rate>
                         </template>
                         <!-- slider -->
                         <template v-else-if="item.component === 'slider'">

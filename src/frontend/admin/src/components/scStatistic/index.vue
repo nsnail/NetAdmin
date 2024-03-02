@@ -13,7 +13,7 @@
             {{ title }}
             <el-tooltip v-if="tips" effect="light">
                 <template #content>
-                    <div style="width: 200px; line-height: 2">
+                    <div style="width: 15rem; line-height: 2">
                         {{ tips }}
                     </div>
                 </template>
@@ -59,19 +59,19 @@ export default {
 
 <style scoped>
 .sc-statistic-title {
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #999;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
 }
 
 .sc-statistic-tips {
-    margin-left: 5px;
+    margin-left: 0.4rem;
 }
 
 .sc-statistic-content {
-    font-size: 20px;
+    font-size: 1.5rem;
     color: #333;
 }
 
@@ -80,16 +80,16 @@ export default {
 }
 
 .sc-statistic-content-prefix {
-    margin-right: 5px;
+    margin-right: 0.4rem;
 }
 
 .sc-statistic-content-suffix {
-    margin-left: 5px;
-    font-size: 12px;
+    margin-left: 0.4rem;
+    font-size: 0.9rem;
 }
 
 .sc-statistic-description {
-    margin-top: 10px;
+    margin-top: 1rem;
     color: #999;
 }
 

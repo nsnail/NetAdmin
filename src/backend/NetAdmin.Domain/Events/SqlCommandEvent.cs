@@ -3,12 +3,15 @@ namespace NetAdmin.Domain.Events;
 /// <summary>
 ///     Sql命令事件
 /// </summary>
-public record SqlCommandEvent : DataAbstraction, IEventSource
+public abstract record SqlCommandEvent : DataAbstraction, IEventSource
 {
     /// <summary>
-    ///     标识符缩写
+    ///     Initializes a new instance of the <see cref="SqlCommandEvent" /> class.
     /// </summary>
-    public string Id => Identifier.ToString()[..8].ToUpperInvariant();
+    protected SqlCommandEvent(bool isConsumOnce = false)
+    {
+        IsConsumOnce = isConsumOnce;
+    }
 
     /// <inheritdoc />
     public bool IsConsumOnce { get; }
@@ -22,16 +25,21 @@ public record SqlCommandEvent : DataAbstraction, IEventSource
     /// <inheritdoc />
     public string EventId { get; protected init; }
 
-    /// <summary>
-    ///     标识符，可将 CommandBefore 与 CommandAfter 进行匹配
-    /// </summary>
-    public Guid Identifier { get; protected init; }
-
     /// <inheritdoc />
     public object Payload { get; init; }
 
     /// <summary>
+    ///     标识符缩写
+    /// </summary>
+    protected string Id => Identifier.ToString()[..8].ToUpperInvariant();
+
+    /// <summary>
+    ///     标识符，可将 CommandBefore 与 CommandAfter 进行匹配
+    /// </summary>
+    protected Guid Identifier { get; init; }
+
+    /// <summary>
     ///     关联的Sql语句
     /// </summary>
-    public string Sql { get; protected init; }
+    protected string Sql { get; init; }
 }

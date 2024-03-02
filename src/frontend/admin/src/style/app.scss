@@ -5,8 +5,8 @@ html {
     width: 100%;
     height: 100%;
     background-color: #f6f8f9;
-    font-size: 13px;
-    font-family: monospace;
+    font-size: var(--el-font-size-base);
+    font-family: 'Lucida Console', 'Microsoft YaHei', 'monospace';
 }
 
 a {
@@ -63,8 +63,8 @@ textarea {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 0.4rem;
+    height: 0.4rem;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -86,10 +86,10 @@ textarea {
 /*布局设置*/
 .layout-setting {
     position: fixed;
-    width: 40px;
-    height: 40px;
-    border-radius: 3px 0 0 3px;
-    bottom: 100px;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.3rem 0 0 0.3rem;
+    bottom: 10rem;
     right: 0;
     z-index: 100;
     background: #409eff;
@@ -101,13 +101,13 @@ textarea {
 }
 
 .layout-setting i {
-    font-size: 18px;
+    font-size: 1.3rem;
     color: #fff;
 }
 
 /* 头部 */
 .adminui-header {
-    height: 58px;
+    height: 4rem;
     background: #424c50;
     color: #fff;
     display: flex;
@@ -117,7 +117,7 @@ textarea {
 .adminui-header-left {
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 1rem;
 }
 
 .adminui-header-right {
@@ -126,28 +126,28 @@ textarea {
 }
 
 .adminui-header .logo-bar {
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: bold;
     display: flex;
     align-items: center;
 }
 
 .adminui-header .logo-bar .logo {
-    margin-right: 10px;
-    width: 35px;
-    height: 35px;
+    margin-right: 1rem;
+    width: 3rem;
+    height: 3rem;
 }
 
 .adminui-header .nav {
     display: flex;
     height: 100%;
-    margin-left: 40px;
+    margin-left: 3rem;
 }
 
 .adminui-header .nav li {
-    padding: 0 10px;
-    margin: 0 10px 0 0;
-    font-size: 14px;
+    padding: 0 1rem;
+    margin: 0 1rem 0 0;
+    font-size: 1.1rem;
     color: rgba(255, 255, 255, 0.6);
     list-style: none;
     height: 100%;
@@ -157,7 +157,7 @@ textarea {
 }
 
 .adminui-header .nav li i {
-    margin-right: 5px;
+    margin-right: 0.3rem;
 }
 
 .adminui-header .nav li:hover {
@@ -179,7 +179,7 @@ textarea {
 
 /* 左侧菜单 */
 .aminui-side-split {
-    width: 65px;
+    width: 5rem;
     flex-shrink: 0;
     background: #424c50;
     display: flex;
@@ -187,7 +187,7 @@ textarea {
 }
 
 .aminui-side-split-top {
-    height: 49px;
+    height: 4rem;
 }
 
 .aminui-side-split-top a {
@@ -199,7 +199,7 @@ textarea {
 }
 
 .aminui-side-split-top .logo {
-    height: 30px;
+    height: 3rem;
     vertical-align: bottom;
 }
 
@@ -212,8 +212,8 @@ textarea {
 
 .aminui-side-split li {
     cursor: pointer;
-    width: 65px;
-    height: 65px;
+    width: 5rem;
+    height: 5rem;
     color: #fff;
     text-align: center;
     display: flex;
@@ -223,11 +223,11 @@ textarea {
 }
 
 .aminui-side-split li i {
-    font-size: 18px;
+    font-size: 1.5rem;
 }
 
 .aminui-side-split li p {
-    margin-top: 5px;
+    margin-top: 0.5rem;
 }
 
 .aminui-side-split li:hover {
@@ -240,7 +240,7 @@ textarea {
 
 .adminui-side-split-scroll::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.4);
-    border-radius: 5px;
+    border-radius: 0.4rem;
 }
 
 .adminui-side-split-scroll::-webkit-scrollbar-thumb:hover {
@@ -259,22 +259,21 @@ textarea {
     display: flex;
     flex-flow: column;
     flex-shrink: 0;
-    width: 210px;
+    width: 15rem;
     background: #fff;
-    box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
     border-right: 1px solid #e6e6e6;
     transition: width 0.3s;
 }
 
 .adminui-side-top {
     border-bottom: 1px solid #ebeef5;
-    height: 50px;
-    line-height: 50px;
+    height: 4rem;
+    line-height: 4rem;
 }
 
 .adminui-side-top h2 {
-    padding: 0 20px;
-    font-size: 17px;
+    padding: 0 var(--el-menu-base-level-padding);
+    font-size: 1.3rem;
     color: #3c4a54;
 }
 
@@ -286,7 +285,7 @@ textarea {
 
 .adminui-side-bottom {
     border-top: 1px solid #ebeef5;
-    height: 51px;
+    height: 4rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -294,7 +293,7 @@ textarea {
 }
 
 .adminui-side-bottom i {
-    font-size: 16px;
+    font-size: 1.3rem;
 }
 
 .adminui-side-bottom:hover {
@@ -302,23 +301,19 @@ textarea {
 }
 
 .aminui-side.isCollapse {
-    width: 65px;
+    width: 5rem;
 }
 
 .el-menu .menu-tag {
     position: absolute;
-    height: 18px;
-    line-height: 18px;
+    height: 1.4rem;
+    line-height: 1.4rem;
     background: var(--el-color-danger);
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #fff;
-    right: 20px;
-    border-radius: 18px;
-    padding: 0 6px;
-}
-
-.el-menu .el-sub-menu__title .menu-tag {
-    right: 40px;
+    right: 1rem;
+    border-radius: 1.5rem;
+    padding: 0 0.5rem;
 }
 
 .el-menu--horizontal > li .menu-tag {
@@ -333,10 +328,9 @@ textarea {
 }
 
 .adminui-topbar {
-    height: 50px;
+    height: 3rem;
     border-bottom: 1px solid #ebeef5;
     background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
     display: flex;
     justify-content: space-between;
 }
@@ -358,7 +352,7 @@ textarea {
 }
 
 .adminui-tags {
-    height: 35px;
+    height: 3rem;
     background: #fff;
     border-bottom: 1px solid #e6e6e6;
 }
@@ -371,8 +365,8 @@ textarea {
 .adminui-tags li {
     cursor: pointer;
     display: inline-block;
-    height: 34px;
-    line-height: 34px;
+    height: calc(3rem - 1px);
+    line-height: calc(3rem - 1px);
     position: relative;
     flex-shrink: 0;
 }
@@ -387,7 +381,7 @@ textarea {
 }
 
 .adminui-tags li a {
-    padding: 0 10px;
+    padding: 0 1rem;
     width: 100%;
     height: 100%;
     color: #999;
@@ -397,10 +391,10 @@ textarea {
 }
 
 .adminui-tags li i {
-    margin-left: 10px;
-    border-radius: 3px;
-    width: 18px;
-    height: 18px;
+    margin-left: 1rem;
+    border-radius: 0.3rem;
+    width: 1.3rem;
+    height: 1.3rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -452,20 +446,20 @@ textarea {
     display: none;
     position: fixed;
     z-index: 3000;
-    top: -20px;
+    top: -1.5rem;
     left: 50%;
-    margin-left: -20px;
+    margin-left: -1.5rem;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 3rem;
+    height: 3rem;
     cursor: pointer;
     background: rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
 .main-maximize-exit i {
-    font-size: 14px;
-    margin-top: 22px;
+    font-size: 1rem;
+    margin-top: 1.5rem;
     color: #fff;
 }
 
@@ -475,7 +469,7 @@ textarea {
 
 /*定宽页面*/
 .sc-page {
-    width: 1230px;
+    width: 100rem;
     margin: 0 auto;
 }
 

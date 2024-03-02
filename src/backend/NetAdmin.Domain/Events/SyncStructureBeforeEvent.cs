@@ -19,7 +19,7 @@ public record SyncStructureBeforeEvent : SqlCommandEvent
     /// <summary>
     ///     实体类型
     /// </summary>
-    public Type[] EntityTypes { get; }
+    protected Type[] EntityTypes { get; }
 
     /// <inheritdoc />
     public override string ToString()

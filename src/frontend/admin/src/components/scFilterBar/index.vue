@@ -394,7 +394,7 @@ export default {
 }
 
 .sc-filter-main h2 {
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #999;
     font-weight: normal;
 }
@@ -405,7 +405,7 @@ export default {
 }
 
 .sc-filter-main table td {
-    padding: 5px 10px 5px 0;
+    padding: 0.4rem 10px 5px 0;
 }
 
 .sc-filter-main table td:deep(.el-input .el-input__inner) {
@@ -429,7 +429,7 @@ export default {
     line-height: 32px;
     text-align: center;
     border-radius: 50%;
-    font-size: 12px;
+    font-size: 0.9rem;
     cursor: pointer;
 }
 

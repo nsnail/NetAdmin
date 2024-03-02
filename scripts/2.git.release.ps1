@@ -13,10 +13,8 @@ git checkout main
 git branch -D release
 git checkout -b release
 ./node_modules/.bin/standard-version -r $types[$prefix][0]
-cd ./scripts
-./code.clean.ps1
 git commit --amend --no-edit -a
-$tag = $(git describe --tags $(git rev-list --tags --max-count=1))
+$tag = $( git describe --tags $( git rev-list --tags --max-count = 1 ) )
 git tag -d $tag
 git tag $tag
 git push --tags origin release

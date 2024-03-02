@@ -3,7 +3,7 @@
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px" ref="dialogForm">
+                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
                         <el-form-item :label="$t('所属字典')" prop="catalogId">
                             <na-dic-catalog v-model="form.catalogId" />
                         </el-form-item>
@@ -18,10 +18,10 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :expanded="true"
                         :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
                         :value="form"
                         copyable
+                        expanded
                         sort></json-viewer>
                 </el-tab-pane>
             </el-tabs>

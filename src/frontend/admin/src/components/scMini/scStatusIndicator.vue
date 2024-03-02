@@ -24,8 +24,8 @@ export default {
 .sc-state {
     display: inline-block;
     background: #000;
-    width: 8px;
-    height: 8px;
+    width: 0.6rem;
+    height: 0.6rem;
     border-radius: 50%;
     vertical-align: middle;
 }

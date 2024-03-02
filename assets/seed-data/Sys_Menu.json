@@ -140,17 +140,6 @@
     "Title": "缓存管理",
     "Type": 1
   },
-  {
-    "Component": "home/widgets/components/ver",
-    "Icon": "el-icon-pointer",
-    "Id": 480998862188554,
-    "Name": "sys-about",
-    "ParentId": 485278637670422,
-    "Path": "/sys/about",
-    "Sort": 94,
-    "Title": "版本信息",
-    "Type": 1,
-  },
   // ------------------------------  日志管理 ------------------------------
   {
     "Icon": "el-icon-tickets",

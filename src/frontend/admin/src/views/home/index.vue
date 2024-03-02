@@ -1,16 +1,8 @@
 <template>
-    <div v-if="pageLoading">
-        <el-main>
-            <el-card shadow="never">
-                <el-skeleton :rows="1"></el-skeleton>
-            </el-card>
-            <el-card shadow="never" style="margin-top: 1rem">
-                <el-skeleton></el-skeleton>
-            </el-card>
-        </el-main>
-    </div>
-    <widgets v-if="dashboard" @on-mounted="onMounted"></widgets>
-    <work v-else @on-mounted="onMounted"></work>
+    <el-main>
+        <widgets v-if="dashboard" @on-mounted="onMounted"></widgets>
+        <work v-else @on-mounted="onMounted"></work>
+    </el-main>
 </template>
 
 <script>

@@ -287,19 +287,19 @@ export default {
 <style>
 .contextmenu {
     position: fixed;
-    width: 200px;
+    width: 15rem;
     margin: 0;
     border-radius: 0;
     background: var(--el-bg-color-overlay);
     border: 1px solid var(--el-border-color-light);
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.2rem 1rem 0 rgba(0, 0, 0, 0.1);
     z-index: 3000;
     list-style-type: none;
-    padding: 10px 0;
+    padding: 1rem 0;
 }
 
 .contextmenu hr {
-    margin: 5px 0;
+    margin: 0.4rem 0;
     border: none;
     height: 1px;
     font-size: 0;
@@ -311,14 +311,14 @@ export default {
     align-items: center;
     margin: 0;
     cursor: pointer;
-    line-height: 30px;
-    padding: 0 17px;
+    line-height: 2.5rem;
+    padding: 0 1.3rem;
     color: #606266;
 }
 
 .contextmenu li i {
-    font-size: 14px;
-    margin-right: 10px;
+    font-size: 1.1rem;
+    margin-right: 1rem;
 }
 
 .contextmenu li:hover {
@@ -330,14 +330,6 @@ export default {
     cursor: not-allowed;
     color: #bbb;
     background: transparent;
-}
-
-.tags-tip {
-    padding: 5px;
-}
-
-.tags-tip p {
-    margin-bottom: 10px;
 }
 
 .dark .contextmenu li {

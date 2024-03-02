@@ -50,8 +50,8 @@ export default {
 }
 
 .el-breadcrumb .el-breadcrumb__inner .icon {
-    font-size: 14px;
-    margin-right: 5px;
+    font-size: 1.1rem;
+    margin-right: 0.4rem;
     float: left;
 }
 
@@ -63,7 +63,7 @@ export default {
 .breadcrumb-enter-from,
 .breadcrumb-leave-active {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(1.5rem);
 }
 
 .breadcrumb-leave-active {

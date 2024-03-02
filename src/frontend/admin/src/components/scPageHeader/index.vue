@@ -42,17 +42,17 @@ export default {
 .sc-page-header {
     background: #fff;
     border-bottom: 1px solid #e6e6e6;
-    padding: 20px 25px;
+    padding: 1.5rem 2rem;
     display: flex;
 }
 
 .sc-page-header__icon {
-    width: 50px;
+    width: 4rem;
 }
 
 .sc-page-header__icon span {
-    width: 30px;
-    height: 30px;
+    width: 2.5rem;
+    height: 2.5rem;
     background: #409eff;
     border-radius: 40%;
     display: flex;
@@ -62,7 +62,7 @@ export default {
 
 .sc-page-header__icon span i {
     color: #fff;
-    font-size: 14px;
+    font-size: 1.1rem;
 }
 
 .sc-page-header__title {
@@ -70,14 +70,14 @@ export default {
 }
 
 .sc-page-header__title h2 {
-    font-size: 17px;
+    font-size: 1.3rem;
     color: #3c4a54;
     font-weight: bold;
-    margin-top: 3px;
+    margin-top: 0.3rem;
 }
 
 .sc-page-header__title p {
-    font-size: 13px;
+    font-size: 1rem;
     color: #999;
     margin-top: 1rem;
 }

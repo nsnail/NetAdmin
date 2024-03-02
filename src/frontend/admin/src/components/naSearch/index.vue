@@ -79,6 +79,7 @@
             <el-input
                 v-if="item.type === 'input' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
+                v-role="item.role || '*/*/*'"
                 :class="item.class"
                 :placeholder="item.placeholder"
                 :style="item.style"
@@ -86,6 +87,7 @@
             <sc-select
                 v-else-if="item.type === 'remote-select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
+                v-role="item.role || '*/*/*'"
                 :apiObj="item.api"
                 :class="item.class"
                 :config="item.config"
@@ -96,6 +98,7 @@
             <el-select
                 v-else-if="item.type === 'select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
+                v-role="item.role || '*/*/*'"
                 :class="item.class"
                 :multiple="item.multiple === true"
                 :placeholder="item.placeholder"
@@ -108,6 +111,7 @@
             <el-cascader
                 v-else-if="casLoaded && item.type === 'cascader' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
+                v-role="item.role || '*/*/*'"
                 :class="item.class"
                 :options="item.options"
                 :placeholder="item.placeholder"
@@ -116,7 +120,6 @@
                 clearable
                 filterable />
         </template>
-
         <el-button-group>
             <el-button @click="search" icon="el-icon-search" type="primary">查询</el-button>
             <el-button @click="reset" icon="el-icon-refresh-left">重置</el-button>

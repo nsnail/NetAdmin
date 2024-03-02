@@ -19,8 +19,8 @@ namespace NetAdmin.BizServer.Tests;
 ///     所有测试
 /// </summary>
 [SuppressMessage("Usage", "xUnit1028:Test method must have valid return type")]
-public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper testOutputHelper)
-    : WebApiTestBase<Startup>(factory, testOutputHelper), IToolsModule, ICacheModule, IApiModule, IConfigModule
+public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper testOutputHelper) :
+    WebApiTestBase<Startup>(factory, testOutputHelper), IToolsModule, ICacheModule, IApiModule, IConfigModule
 
 {
     /// <inheritdoc cref="ICrudModule{TCreateReq,TCreateRsp,TQueryReq,TQueryRsp,TUpdateReq,TUpdateRsp,TDelReq}.BulkDeleteAsync" />
@@ -88,6 +88,12 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
 
     /// <inheritdoc />
     public Task<QueryApiRsp> GetAsync(QueryApiReq req)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task<string> GetChangeLogAsync()
     {
         throw new NotImplementedException();
     }

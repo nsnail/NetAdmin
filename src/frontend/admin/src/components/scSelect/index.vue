@@ -98,15 +98,15 @@ export default {
     bottom: 0;
     background: #fff;
     z-index: 100;
-    border-radius: 5px;
+    border-radius: 0.4rem;
     border: 1px solid #ebeef5;
     display: flex;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 1rem;
 }
 
 .sc-select-loading i {
-    font-size: 14px;
+    font-size: 1.1rem;
 }
 
 .dark .sc-select-loading {

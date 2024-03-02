@@ -123,17 +123,17 @@ export default {
 <style scoped>
 .myMods {
     list-style: none;
-    margin: -10px;
+    margin: -0.8rem;
 }
 
 .myMods li {
     display: inline-block;
-    width: 100px;
-    height: 100px;
+    width: 7rem;
+    height: 7rem;
     vertical-align: top;
     transition: all 0.3s ease;
-    margin: 10px;
-    border-radius: 5px;
+    margin: 1rem;
+    border-radius: 0.4rem;
 }
 
 .myMods li:hover {
@@ -143,7 +143,6 @@ export default {
 .myMods li a {
     width: 100%;
     height: 100%;
-    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,14 +152,14 @@ export default {
 }
 
 .myMods li i {
-    font-size: 26px;
+    font-size: 2rem;
     color: #fff;
 }
 
 .myMods li p {
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #fff;
-    margin-top: 10px;
+    margin-top: 1rem;
     width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -173,7 +172,7 @@ export default {
 }
 
 .modItem-add i {
-    font-size: 30px;
+    font-size: 2.3rem;
     color: #999 !important;
 }
 
@@ -184,39 +183,39 @@ export default {
 }
 
 .setMods {
-    padding: 0 20px;
+    padding: 0 1.5rem;
 }
 
 .setMods h4 {
-    font-size: 14px;
+    font-size: 1.1rem;
     font-weight: normal;
 }
 
 .setMods ul {
-    margin: 20px -5px;
-    min-height: 90px;
+    margin: 1.5rem -0.4rem;
+    min-height: 7rem;
 }
 
 .setMods li {
     display: inline-block;
-    width: 80px;
-    height: 80px;
+    width: 6rem;
+    height: 6rem;
     text-align: center;
-    margin: 5px;
+    margin: 0.4rem;
     color: #fff;
     vertical-align: top;
-    padding: 1rem 4px 4px;
+    padding: 1rem 0.3rem 0.3rem;
     cursor: move;
-    border-radius: 3px;
+    border-radius: 0.3rem;
 }
 
 .setMods li i {
-    font-size: 20px;
+    font-size: 1.5rem;
 }
 
 .setMods li p {
-    font-size: 12px;
-    margin-top: 10px;
+    font-size: 0.9rem;
+    margin-top: 1rem;
 }
 
 .setMods li.sortable-ghost {

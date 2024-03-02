@@ -801,7 +801,7 @@ export default {
 .sc-cron:deep(.el-tabs__item) {
     height: auto;
     line-height: 1;
-    padding: 0 7px;
+    padding: 1rem;
     vertical-align: bottom;
 }
 
@@ -812,20 +812,20 @@ export default {
 }
 
 .sc-cron-num h2 {
-    font-size: 12px;
+    font-size: 0.9rem;
     margin-bottom: 1rem;
     font-weight: normal;
 }
 
 .sc-cron-num h4 {
     display: block;
-    height: 32px;
-    line-height: 30px;
+    height: 2.5rem;
+    line-height: 2.5rem;
     width: 100%;
-    font-size: 12px;
+    font-size: 0.9rem;
     padding: 0 1rem;
     background: var(--el-color-primary-light-9);
-    border-radius: 4px;
+    border-radius: 0.3rem;
 }
 
 .sc-cron:deep(.el-tabs__item.is-active) .sc-cron-num h4 {

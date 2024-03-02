@@ -12,22 +12,22 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ISiteMsgService" />
-public sealed class SiteMsgService(
-    DefaultRepository<Sys_SiteMsg> rpo
-  , ContextUserInfo                contextUserInfo
-  , ISiteMsgFlagService            siteMsgFlagService) //
+public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUserInfo contextUserInfo
+                                 , ISiteMsgFlagService            siteMsgFlagService) //
     : RepositoryService<Sys_SiteMsg, ISiteMsgService>(rpo), ISiteMsgService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         req.ThrowIfInvalid();
-        var sum = 0;
+        var ret = 0;
+
+        // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item).ConfigureAwait(false);
+            ret += await DeleteAsync(item).ConfigureAwait(false);
         }
 
-        return sum;
+        return ret;
     }
 
     /// <inheritdoc />
@@ -300,9 +300,9 @@ public sealed class SiteMsgService(
                   .WhereDynamicFilter(req.DynamicFilter)
                   .Where((a, _, c, d, e, f) =>
                              (SqlExt.EqualIsNull(f.UserSiteMsgStatus) ||
-                              f.UserSiteMsgStatus != UserSiteMsgStatues.Deleted) &&
-                             (a.MsgType == SiteMsgTypes.Public || c.DeptId == contextUserInfo.DeptId ||
-                              roleIds.Contains(d.RoleId)       || e.UserId == contextUserInfo.Id))
+                              f.UserSiteMsgStatus != UserSiteMsgStatues.Deleted) && (a.MsgType == SiteMsgTypes.Public ||
+                                 c.DeptId == contextUserInfo.DeptId || roleIds.Contains(d.RoleId) ||
+                                 e.UserId == contextUserInfo.Id))
                   .GroupBy((a, _, _, _, _, _) => a.Id);
     }
 }

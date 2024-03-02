@@ -11,7 +11,7 @@
     <div class="sc-select-filter">
         <div v-if="data.length <= 0" class="sc-select-filter__no-data">暂无数据</div>
         <div v-for="item in data" :key="item.key" class="sc-select-filter__item">
-            <div :style="{ width: labelWidth + 'px' }" class="sc-select-filter__item-title">
+            <div :style="{ width: labelWidth + 'rem' }" class="sc-select-filter__item-title">
                 <label>{{ item.title }}：</label>
             </div>
             <div class="sc-select-filter__item-options">
@@ -42,7 +42,7 @@ export default {
                 return {}
             },
         },
-        labelWidth: { type: Number, default: 80 },
+        labelWidth: { type: Number, default: 6 },
         outputValueTypeToArray: { type: Boolean, default: false },
     },
     data() {
@@ -137,12 +137,12 @@ export default {
 }
 
 .sc-select-filter__item-title {
-    width: 80px;
+    width: 6rem;
 }
 
 .sc-select-filter__item-title label {
-    font-size: 14px;
-    padding-top: 13px;
+    font-size: 1.1rem;
+    padding-top: 1rem;
     display: inline-block;
     color: #999;
 }
@@ -155,24 +155,24 @@ export default {
 .sc-select-filter__item-options ul {
     display: flex;
     flex-wrap: wrap;
-    padding-top: 10px;
+    padding-top: 1rem;
 }
 
 .sc-select-filter__item-options li {
     list-style: none;
     cursor: pointer;
-    height: 28px;
+    height: 2rem;
     padding: 0 1rem;
-    border-radius: 32px;
-    margin: 0 10px 10px 0;
+    border-radius: 2.5rem;
+    margin: 0 1rem 1rem 0;
     display: flex;
     align-items: center;
     background: var(--el-color-primary-light-9);
 }
 
 .sc-select-filter__item-options li .el-icon {
-    margin-right: 3px;
-    font-size: 16px;
+    margin-right: 0.2rem;
+    font-size: 1.2rem;
 }
 
 .sc-select-filter__item-options li:hover {

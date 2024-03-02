@@ -20,6 +20,8 @@
         "element-plus": "^2.5.6",
         "json-bigint": "^1.0.0",
         "json5-to-table": "^0.1.8",
+        "markdown-it": "^14.0.0",
+        "markdown-it-emoji": "^3.0.0",
         "nprogress": "^0.2.0",
         "pinyin-match": "^1.2.5",
         "qrcodejs2": "^0.0.2",

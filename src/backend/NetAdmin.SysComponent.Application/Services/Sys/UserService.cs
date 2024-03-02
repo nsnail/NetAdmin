@@ -13,11 +13,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserService" />
-public sealed class UserService(
-    DefaultRepository<Sys_User> rpo                //
-  , IUserProfileService         userProfileService //
-  , IVerifyCodeService          verifyCodeService  //
-  , IEventPublisher             eventPublisher)    //
+public sealed class UserService(DefaultRepository<Sys_User> rpo                //
+                              , IUserProfileService         userProfileService //
+                              , IVerifyCodeService          verifyCodeService  //
+                              , IEventPublisher             eventPublisher)    //
     : RepositoryService<Sys_User, IUserService>(rpo), IUserService
 {
     private readonly Expression<Func<Sys_User, Sys_User>> _selectUserFields = a => new Sys_User {
@@ -38,12 +37,14 @@ public sealed class UserService(
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         req.ThrowIfInvalid();
-        var sum = 0;
+        var ret = 0;
+
+        // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item).ConfigureAwait(false);
+            ret += await DeleteAsync(item).ConfigureAwait(false);
         }
 
-        return sum;
+        return ret;
     }
 
     /// <inheritdoc />
@@ -358,21 +359,18 @@ public sealed class UserService(
         req.ThrowIfInvalid();
         var version = await Rpo.Where(a => a.Id == UserToken.Id && a.Password == req.OldPassword.Pwd().Guid())
                                .ToOneAsync(a => new long?(a.Version))
-                               .ConfigureAwait(false);
-        if (version != null) {
-            var ret = await Rpo.UpdateDiy
-                               .SetSource(new Sys_User {
-                                                           Id       = UserToken.Id
-                                                         , Password = req.NewPassword.Pwd().Guid()
-                                                         , Version  = version.Value
-                                                       })
-                               .UpdateColumns(a => a.Password)
-                               .ExecuteAffrowsAsync()
-                               .ConfigureAwait(false);
-            return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
-        }
+                               .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException($"{Ln.旧密码不正确}");
 
-        throw new NetAdminInvalidOperationException($"{Ln.旧密码不正确}");
+        var ret = await Rpo.UpdateDiy
+                           .SetSource(new Sys_User {
+                                                       Id       = UserToken.Id
+                                                     , Password = req.NewPassword.Pwd().Guid()
+                                                     , Version  = version
+                                                   })
+                           .UpdateColumns(a => a.Password)
+                           .ExecuteAffrowsAsync()
+                           .ConfigureAwait(false);
+        return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
     }
 
     /// <inheritdoc />

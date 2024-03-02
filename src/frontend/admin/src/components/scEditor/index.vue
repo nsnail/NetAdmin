@@ -69,7 +69,7 @@ export default {
     data() {
         return {
             init: {
-                language_url: '/public/tinymce/langs/zh_CN.js',
+                language_url: '/tinymce/langs/zh_CN.js',
                 language: 'zh_CN',
                 skin_url: '',
                 content_css: '',
@@ -138,8 +138,8 @@ export default {
     },
     created() {
         const darkMode = this.$TOOL.data.get('APP_DARK') ?? false
-        this.init.skin_url = `/public/tinymce/skins/ui/tinymce-5${darkMode ? '-dark' : ''}`
-        this.init.content_css = `/public/tinymce/skins/content/tinymce-5${darkMode ? '-dark' : ''}/content.css`
+        this.init.skin_url = `/tinymce/skins/ui/tinymce-5${darkMode ? '-dark' : ''}`
+        this.init.content_css = `/tinymce/skins/content/tinymce-5${darkMode ? '-dark' : ''}/content.css`
     },
     mounted() {
         tinymce.init({})

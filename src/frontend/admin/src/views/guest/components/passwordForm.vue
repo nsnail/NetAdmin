@@ -6,7 +6,7 @@
         <el-form-item prop="password">
             <el-input v-model="form.password" :placeholder="$t('请输入密码')" clearable prefix-icon="el-icon-lock" show-password></el-input>
         </el-form-item>
-        <el-form-item style="margin-bottom: 10px">
+        <el-form-item style="margin-bottom: 1rem">
             <el-col :span="12">
                 <el-checkbox v-model="autoLogin" :label="$t('24小时免登录')"></el-checkbox>
             </el-col>

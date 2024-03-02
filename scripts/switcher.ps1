@@ -23,5 +23,5 @@ while ($null -eq $files[[int]$file - 1])
 }
 $file = [int]$file - 1
 Copy-Item $files[$file] 'switcher.json' -Force
-dotnet dnt $targets[$key] ../NetAdmin.sln
+dnt $targets[$key] ../NetAdmin.sln
 Remove-Item switcher.json

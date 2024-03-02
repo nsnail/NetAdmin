@@ -13,10 +13,7 @@ public static class HttpRequestPartExtensions
     public static HttpRequestPart SetLog<T>(this HttpRequestPart me, ILogger<T> logger
                                           , Func<string, string> bodyHandle = null)
     {
-        Task RequestHandleAsync(HttpClient _, HttpRequestMessage req)
-        {
-            return req.LogAsync(logger);
-        }
+        return me.OnRequesting(RequestHandleAsync).OnResponsing(ResponseHandleAsync).OnException(ExceptionHandleAsync);
 
         Task ExceptionHandleAsync(HttpClient _, HttpResponseMessage rsp, string errors)
         {
@@ -28,6 +25,9 @@ public static class HttpRequestPartExtensions
             return rsp.LogAsync(logger, bodyHandle);
         }
 
-        return me.OnRequesting(RequestHandleAsync).OnResponsing(ResponseHandleAsync).OnException(ExceptionHandleAsync);
+        Task RequestHandleAsync(HttpClient _, HttpRequestMessage req)
+        {
+            return req.LogAsync(logger);
+        }
     }
 }

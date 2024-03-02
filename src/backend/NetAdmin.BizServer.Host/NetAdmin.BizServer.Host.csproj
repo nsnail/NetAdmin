@@ -2,6 +2,7 @@
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
         <EmbeddedResource Include="$(SolutionDir)/assets/captcha/**" LinkBase="Assets/Captcha"/>
+        <EmbeddedResource Include="$(SolutionDir)/CHANGELOG.md" LogicalName="CHANGELOG.md"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.SysComponent.Host/NetAdmin.SysComponent.Host.csproj"/>

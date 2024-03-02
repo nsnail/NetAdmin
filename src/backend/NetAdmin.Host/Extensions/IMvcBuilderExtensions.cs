@@ -108,7 +108,7 @@ public static class IMvcBuilderExtensions
         options.JsonSerializerOptions.TypeInfoResolver = new CollectionJsonTypeInfoResolver();
 
         // 日期格式 2023-01-18 20:02:12
-        _ = options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters(Chars.TPL_DATE_YYYY_MM_DD_HH_MM_SS);
+        _ = options.JsonSerializerOptions.Converters.AddDateTimeTypeConverters();
 
         // object->json 枚举显名 而非数字 ，json->object 可以枚举名 也可以数值
         if (enumToString) {

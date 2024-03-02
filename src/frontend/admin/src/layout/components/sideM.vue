@@ -18,7 +18,7 @@
                         :default-active="$route.meta.active || $route.fullPath"
                         @select="select"
                         active-text-color="#409EFF"
-                        background-color="#212d3d"
+                        background-color="#424c50"
                         router
                         text-color="#fff">
                         <NavMenu :navMenus="menu"></NavMenu>
@@ -132,13 +132,13 @@ export default {
 <style scoped>
 .mobile-nav-button {
     position: fixed;
-    bottom: 10px;
-    left: 10px;
+    bottom: 1rem;
+    left: 1rem;
     z-index: 10;
-    width: 50px;
-    height: 50px;
+    width: 4rem;
+    height: 4rem;
     background: #409eff;
-    box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 1);
+    box-shadow: 0 0.2rem 1rem 0 rgba(64, 158, 255, 1);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -147,11 +147,11 @@ export default {
 
 .mobile-nav-button i {
     color: #fff;
-    font-size: 20px;
+    font-size: 1.5rem;
 }
 
 .mobile-nav {
-    background: #212d3d;
+    background: #424c50;
 }
 
 .mobile-nav .el-header {
@@ -167,16 +167,12 @@ export default {
     display: flex;
     align-items: center;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.5rem;
     color: #fff;
 }
 
 .mobile-nav .logo-bar img {
-    width: 30px;
-    margin-right: 10px;
-}
-
-.mobile-nav .el-submenu__title:hover {
-    background: #fff !important;
+    width: 2.5rem;
+    margin-right: 1rem;
 }
 </style>

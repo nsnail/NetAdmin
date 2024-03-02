@@ -80,7 +80,7 @@ export default {
 }
 </script>
 <style scoped>
-@media (max-width: 992px) {
+@media (max-width: 77rem) {
     .adminui-main > .el-container {
         height: 100%;
     }

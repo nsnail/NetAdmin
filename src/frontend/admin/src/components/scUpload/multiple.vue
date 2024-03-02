@@ -297,7 +297,7 @@ export default {
     align-items: center;
     width: 100%;
     height: 100%;
-    font-size: 12px;
+    font-size: 0.9rem;
 }
 
 .sc-upload-multiple .el-upload-list__item:hover .sc-upload__item-actions {
@@ -322,7 +322,7 @@ export default {
 }
 
 .sc-upload__item-actions span i {
-    font-size: 12px;
+    font-size: 0.9rem;
 }
 
 .sc-upload__item-actions .del {

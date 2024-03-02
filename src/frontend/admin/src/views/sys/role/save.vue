@@ -3,7 +3,7 @@
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="100px" ref="dialogForm">
+                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
                         <el-form-item :label="$t('角色名称')" prop="name">
                             <el-input v-model="form.name" clearable></el-input>
                         </el-form-item>
@@ -46,7 +46,7 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane :label="$t('数据范围')">
-                    <el-form label-width="100px">
+                    <el-form label-width="10rem">
                         <el-form-item :label="$t('规则类型')">
                             <el-select v-model="form.dataScope" :disabled="mode === 'view'">
                                 <el-option v-for="(item, i) in this.$GLOBAL.enums.dataScopes" :key="i" :label="item[1]" :value="i"></el-option>
@@ -66,7 +66,7 @@
                     </el-form>
                 </el-tab-pane>
                 <el-tab-pane :label="$t('控制台')">
-                    <el-form label-width="100px">
+                    <el-form label-width="10rem">
                         <el-form-item :label="$t('控制台视图')">
                             <el-select v-model="form.displayDashboard" :disabled="mode === 'view'">
                                 <el-option :label="$t('仪表板')" :value="true"></el-option>
@@ -79,10 +79,10 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :expanded="true"
                         :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
                         :value="form"
                         copyable
+                        expanded
                         sort></json-viewer>
                 </el-tab-pane>
             </el-tabs>

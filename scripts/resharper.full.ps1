@@ -1,1 +1,1 @@
-dotnet jb cleanupcode --no-build ../NetAdmin.sln
+jb cleanupcode --no-build ../NetAdmin.sln

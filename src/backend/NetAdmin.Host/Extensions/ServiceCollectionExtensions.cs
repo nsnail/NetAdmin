@@ -159,9 +159,7 @@ public static class ServiceCollectionExtensions
         var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build(initMethods);
         _ = me.AddSingleton(freeSql);
 
-        var sqlAuditor = App.GetService<SqlAuditor>();
-
-        freeSql.Aop.AuditValue += sqlAuditor.DataAuditHandler; // Insert/Update自动值处理
+        freeSql.Aop.AuditValue += SqlAuditor.DataAuditHandler; // Insert/Update自动值处理
         var eventPublisher = App.GetService<IEventPublisher>();
 
         #pragma warning disable VSTHRD110

@@ -181,7 +181,7 @@ export default {
 }
 
 .user-bar .panel-item {
-    padding: 0 10px;
+    padding: 0 0.5rem;
     cursor: pointer;
     height: 100%;
     display: flex;
@@ -189,7 +189,7 @@ export default {
 }
 
 .user-bar .panel-item i {
-    font-size: 16px;
+    font-size: 1.2rem;
 }
 
 .user-bar .panel-item:hover {
@@ -197,15 +197,15 @@ export default {
 }
 
 .user-bar .user-avatar {
-    height: 49px;
+    height: 4rem;
     display: flex;
     align-items: center;
 }
 
 .user-bar .user-avatar label {
     display: inline-block;
-    margin-left: 5px;
-    font-size: 12px;
+    margin-left: 0.4rem;
+    font-size: 0.9rem;
     cursor: pointer;
 }
 </style>
