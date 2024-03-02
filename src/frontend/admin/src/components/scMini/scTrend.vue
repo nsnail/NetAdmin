@@ -61,7 +61,7 @@ export default {
 }
 
 .sc-trend-icon {
-    margin-right: 2px;
+    margin-right: 0.2rem;
 }
 
 .sc-trend em {
@@ -69,11 +69,11 @@ export default {
 }
 
 .sc-trend-prefix {
-    margin-right: 2px;
+    margin-right: 0.2rem;
 }
 
 .sc-trend-suffix {
-    margin-left: 2px;
+    margin-left: 0.2rem;
 }
 
 .sc-trend--P {

@@ -13,6 +13,15 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCache, IToolsService>(cache), IToolsModule
 {
     /// <summary>
+    ///     获取更新日志
+    /// </summary>
+    [AllowAnonymous]
+    public Task<string> GetChangeLogAsync()
+    {
+        return Cache.GetChangeLogAsync();
+    }
+
+    /// <summary>
     ///     获取模块信息
     /// </summary>
     [AllowAnonymous]

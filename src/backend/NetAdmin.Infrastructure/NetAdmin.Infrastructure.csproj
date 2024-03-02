@@ -6,7 +6,7 @@
     <Import Project="$(SolutionDir)/build/copy.pkg.xml.comment.files.targets"/>
     <Import Project="$(SolutionDir)/build/prebuild.targets"/>
     <ItemGroup>
-        <PackageReference Include="Cronos" Version="0.8.3"/>
+        <PackageReference Include="Cronos" Version="0.8.4"/>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.813-preview20240208-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.813-preview20240208-ns1"/>
         <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.1.31"/>
@@ -14,7 +14,7 @@
         <PackageReference Include="Furion.Pure.NS" Version="4.9.1.31-ns2"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-preview.1.24081.5"/>
         <PackageReference Include="Minio" Version="6.0.2"/>
-        <PackageReference Include="NSExt" Version="2.0.11"/>
+        <PackageReference Include="NSExt" Version="2.1.0"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>

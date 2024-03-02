@@ -72,6 +72,16 @@
                             </el-row>
                         </div>
                         <div
+                            :class="{ active: grid.layout.join(',') === '24,12,12' }"
+                            @click="setLayout([24, 12, 12])"
+                            class="selectLayout-item item02">
+                            <el-row :gutter="2">
+                                <el-col :span="24"><span></span></el-col>
+                                <el-col :span="12"><span></span></el-col>
+                                <el-col :span="12"><span></span></el-col>
+                            </el-row>
+                        </div>
+                        <div
                             :class="{ active: grid.layout.join(',') === '24,16,8' }"
                             @click="setLayout([24, 16, 8])"
                             class="selectLayout-item item02">
@@ -111,7 +121,7 @@
                         </div>
                     </div>
                 </el-main>
-                <el-footer style="height: 51px">
+                <el-footer>
                     <el-button @click="backDefault()" size="small">恢复默认</el-button>
                 </el-footer>
             </el-container>
@@ -141,7 +151,7 @@ export default {
         }
     },
     created() {
-        this.grid = this.$TOOL.data.get('grid') || JSON.parse(JSON.stringify(this.defaultGrid))
+        this.loadGrid()
     },
     mounted() {
         this.$emit('on-mounted')
@@ -228,6 +238,10 @@ export default {
         close() {
             this.customizing = false
             this.$refs.widgets.style.removeProperty('transform')
+            this.loadGrid()
+        },
+        loadGrid() {
+            this.grid = this.$TOOL.data.get('grid') || JSON.parse(JSON.stringify(this.defaultGrid))
         },
     },
 }
@@ -248,33 +262,32 @@ export default {
 }
 
 .widgets-aside {
-    width: 360px;
+    width: 25rem;
     background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: auto;
 }
 
 .widgets-aside-title {
-    font-size: 14px;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .widgets-aside-title i {
-    margin-right: 10px;
-    font-size: 18px;
+    margin-right: 0.8rem;
+    font-size: 1.4rem;
 }
 
 .widgets-aside-close {
-    font-size: 18px;
-    width: 30px;
-    height: 30px;
+    font-size: 1.4rem;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 3px;
+    border-radius: 0.3rem;
     cursor: pointer;
 }
 
@@ -290,7 +303,7 @@ export default {
 }
 
 .widgets-top-title {
-    font-size: 18px;
+    font-size: 1.4rem;
     font-weight: bold;
 }
 
@@ -304,7 +317,7 @@ export default {
 }
 
 .customizing .widgets-wrapper {
-    margin-right: -360px;
+    margin-right: -25rem;
 }
 
 .customizing .widgets-wrapper .el-col {
@@ -343,10 +356,10 @@ export default {
 .customize-overlay label {
     background: var(--el-color-primary);
     color: #fff;
-    height: 40px;
-    padding: 0 30px;
-    border-radius: 40px;
-    font-size: 18px;
+    height: 4rem;
+    padding: 0 3rem;
+    border-radius: 3rem;
+    font-size: 1.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -355,7 +368,7 @@ export default {
 
 .customize-overlay label i {
     margin-right: 1rem;
-    font-size: 24px;
+    font-size: 2rem;
 }
 
 .customize-overlay .close {
@@ -377,14 +390,14 @@ export default {
 }
 
 .widgets-list-item .item-logo {
-    width: 40px;
-    height: 40px;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     background: rgba(180, 180, 180, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 1.4rem;
     margin-right: 1rem;
     color: #6a8bad;
 }
@@ -394,13 +407,13 @@ export default {
 }
 
 .widgets-list-item .item-info h2 {
-    font-size: 16px;
+    font-size: 1.2rem;
     font-weight: normal;
     cursor: default;
 }
 
 .widgets-list-item .item-info p {
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #999;
     cursor: default;
 }
@@ -419,10 +432,10 @@ export default {
 }
 
 .selectLayout-item {
-    width: 60px;
-    height: 60px;
-    border: 2px solid var(--el-border-color-light);
-    padding: 5px;
+    width: 5rem;
+    height: 5rem;
+    border: 0.2rem solid var(--el-border-color-light);
+    padding: 0.4rem;
     cursor: pointer;
     margin-right: 1rem;
 }
@@ -430,21 +443,21 @@ export default {
 .selectLayout-item span {
     display: block;
     background: var(--el-border-color-light);
-    height: 46px;
+    height: 3.6rem;
 }
 
 .selectLayout-item.item02 span {
-    height: 30px;
+    height: 2.4rem;
 }
 
 .selectLayout-item.item02 .el-col:nth-child(1) span {
-    height: 14px;
-    margin-bottom: 2px;
+    height: 1.1rem;
+    margin-bottom: 0.2rem;
 }
 
 .selectLayout-item.item03 span {
-    height: 14px;
-    margin-bottom: 2px;
+    height: 1.1rem;
+    margin-bottom: 0.2rem;
 }
 
 .selectLayout-item:hover {
@@ -469,7 +482,7 @@ export default {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 77rem) {
     .customizing .widgets {
         transform: scale(1) !important;
     }

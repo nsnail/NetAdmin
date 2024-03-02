@@ -161,7 +161,7 @@ export default {
     height: 50px;
     line-height: 50px;
     text-align: left;
-    font-size: 16px;
+    font-size: 1.2rem;
     color: #45494c;
     border-bottom: 1px solid #e4e7eb;
     box-sizing: border-box;
@@ -228,10 +228,10 @@ export default {
 /* ---------------------------- */
 /*常规验证码*/
 .verify-code {
-    font-size: 20px;
+    font-size: 1.5rem;
     text-align: center;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 0.4rem;
     border: 1px solid #ddd;
 }
 
@@ -332,7 +332,7 @@ export default {
     width: 25px;
     height: 25px;
     text-align: center;
-    padding: 5px;
+    padding: 0.4rem;
     cursor: pointer;
     position: absolute;
     top: 0;
@@ -341,7 +341,7 @@ export default {
 }
 
 .verify-img-panel .icon-refresh {
-    font-size: 20px;
+    font-size: 1.5rem;
     color: #fff;
 }
 
@@ -360,7 +360,7 @@ export default {
 }
 
 .verify-bar-area .verify-move-block .verify-icon {
-    font-size: 18px;
+    font-size: 1.4rem;
 }
 
 .verify-bar-area .verify-msg {
@@ -378,7 +378,7 @@ export default {
 
 .iconfont {
     font-family: 'iconfont', serif !important;
-    font-size: 16px;
+    font-size: 1.2rem;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

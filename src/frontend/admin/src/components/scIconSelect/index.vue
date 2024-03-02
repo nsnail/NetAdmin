@@ -13,7 +13,7 @@
             <el-input v-model="value" :disabled="disabled" :prefix-icon="value || 'el-icon-plus'" readonly></el-input>
         </div>
         <el-dialog v-model="dialogVisible" :title="$t('图标选择器')" :width="760" append-to-body destroy-on-close>
-            <div class="sc-icon-select__dialog" style="margin: -20px 0 -10px 0">
+            <div class="sc-icon-select__dialog">
                 <el-form :rules="{}">
                     <el-form-item prop="searchText">
                         <el-input
@@ -29,7 +29,7 @@
                     <el-tab-pane v-for="item in data" :key="item.name" lazy>
                         <template #label>
                             {{ item.name }}
-                            <el-tag size="small" type="info">{{ item.icons.length }}</el-tag>
+                            <el-tag size="small" style="margin-left: 0.5rem" type="info">{{ item.icons.length }}</el-tag>
                         </template>
                         <div class="sc-icon-select__list">
                             <el-scrollbar>
@@ -140,7 +140,7 @@ export default {
 
 .sc-icon-select__wrapper:deep(.el-input__icon) {
     margin: 0;
-    font-size: 16px;
+    font-size: 1.2rem;
 }
 
 .sc-icon-select__wrapper.hasValue:deep(.el-input__icon) {
@@ -148,18 +148,18 @@ export default {
 }
 
 .sc-icon-select__list {
-    height: 270px;
+    height: 30rem;
     overflow: auto;
 }
 
 .sc-icon-select__list li {
     display: inline-block;
-    width: 80px;
-    height: 80px;
-    margin: 5px;
+    width: 6rem;
+    height: 6rem;
+    margin: 0.4rem;
     vertical-align: top;
     transition: all 0.1s;
-    border-radius: 4px;
+    border-radius: 0.3rem;
     position: relative;
 }
 
@@ -176,16 +176,16 @@ export default {
 .sc-icon-select__list li i {
     width: 100%;
     height: 100%;
-    font-size: 26px;
+    font-size: 2rem;
     color: #6d7882;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 0.3rem;
 }
 
 .sc-icon-select__list li:hover {
-    box-shadow: 0 0 1px 4px var(--el-color-primary);
+    box-shadow: 0 0 1px 0.3rem var(--el-color-primary);
     background: var(--el-color-primary-light-9);
 }
 

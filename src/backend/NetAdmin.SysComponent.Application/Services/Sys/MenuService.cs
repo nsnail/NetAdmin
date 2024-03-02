@@ -15,12 +15,14 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         req.ThrowIfInvalid();
-        var sum = 0;
+        var ret = 0;
+
+        // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item).ConfigureAwait(false);
+            ret += await DeleteAsync(item).ConfigureAwait(false);
         }
 
-        return sum;
+        return ret;
     }
 
     /// <inheritdoc />
@@ -32,10 +34,15 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
+    public async Task<int> DeleteAsync(DelReq req)
     {
         req.ThrowIfInvalid();
-        return Rpo.DeleteAsync(a => a.Id == req.Id);
+        var effect = await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
+        effect += await Rpo.Orm.Delete<Sys_RoleMenu>()
+                           .Where(a => a.MenuId == req.Id)
+                           .ExecuteAffrowsAsync()
+                           .ConfigureAwait(false);
+        return effect;
     }
 
     /// <inheritdoc />

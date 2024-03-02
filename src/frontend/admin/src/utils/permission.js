@@ -29,6 +29,7 @@ export function judementSameArr(news, old) {
 }
 
 export function rolePermission(data, user) {
+    if (permissionAll(data)) return true
     if (!user || !user.roles) {
         return false
     }

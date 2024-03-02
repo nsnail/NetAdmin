@@ -388,7 +388,7 @@ export default {
 }
 
 .sc-file-select__item__checkbox i {
-    font-size: 14px;
+    font-size: 1.1rem;
     color: #fff;
     font-weight: bold;
     display: none;
@@ -409,7 +409,7 @@ export default {
 }
 
 .sc-file-select__item__select i {
-    font-size: 14px;
+    font-size: 1.1rem;
     color: #fff;
     font-weight: bold;
 }
@@ -436,7 +436,7 @@ export default {
 }
 
 .sc-file-select__item__file .item-file i {
-    font-size: 40px;
+    font-size: 3rem;
 }
 
 .sc-file-select__item__file .item-file.item-file-doc {
@@ -485,14 +485,14 @@ export default {
 }
 
 .sc-file-select__top .tips {
-    font-size: 12px;
+    font-size: 0.9rem;
     margin-left: 10px;
     color: #999;
 }
 
 .sc-file-select__top .tips i {
-    font-size: 14px;
-    margin-right: 5px;
+    font-size: 1.1rem;
+    margin-right: 0.4rem;
     position: relative;
     bottom: -0.125em;
 }

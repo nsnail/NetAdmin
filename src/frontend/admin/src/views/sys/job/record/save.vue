@@ -30,10 +30,10 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :expanded="true"
                         :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
                         :value="form"
                         copyable
+                        expanded
                         sort></json-viewer>
                 </el-tab-pane>
             </el-tabs>

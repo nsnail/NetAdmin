@@ -28,7 +28,6 @@ import scStatusIndicator from '@/components/scMini/scStatusIndicator'
 import scTable from '@/components/scTable'
 import scTableColumn from '@/components/scTable/column.js'
 import scTableSelect from '@/components/scTableSelect'
-import scTitle from '@/components/scTitle'
 import scTrend from '@/components/scMini/scTrend'
 import scUpload from '@/components/scUpload'
 import scUploadFile from '@/components/scUpload/file'
@@ -98,7 +97,6 @@ export default {
         app.component('scTable', scTable)
         app.component('scTableColumn', scTableColumn)
         app.component('scTableSelect', scTableSelect)
-        app.component('scTitle', scTitle)
         app.component('scTrend', scTrend)
         app.component('scUpload', scUpload)
         app.component('scUploadFile', scUploadFile)

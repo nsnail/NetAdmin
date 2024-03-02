@@ -1,4 +1,4 @@
-@media (max-width: 992px) {
+@media (max-width: 77rem) {
     // 移动端样式覆盖
     .el-form-item {
         display: block;
@@ -6,7 +6,7 @@
     .el-form-item__label {
         display: block;
         text-align: left;
-        padding: 0 0 10px;
+        padding: 0 0 1rem;
     }
     .el-dialog {
         width: 90% !important;
@@ -44,7 +44,7 @@
         }
 
         .scTable-page {
-            padding: 0 5px !important;
+            padding: 0 0.4rem !important;
         }
 
         .el-pagination__total,
@@ -135,5 +135,9 @@
     }
     .common-header-title {
         display: none;
+    }
+
+    .user-bar .user-avatar label {
+        display: none !important;
     }
 }

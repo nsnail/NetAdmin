@@ -106,7 +106,7 @@ export default {
 
 .sc-cropper__preview h4 {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #999;
     margin-bottom: 20px;
 }

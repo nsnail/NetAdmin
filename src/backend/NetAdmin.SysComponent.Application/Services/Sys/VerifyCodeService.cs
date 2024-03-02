@@ -14,18 +14,20 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) //
     : RepositoryService<Sys_VerifyCode, IVerifyCodeService>(rpo), IVerifyCodeService
 {
-    private static readonly int[] _randRange = [0, 10000];
+    private static readonly int[] _randRange = 
 
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         req.ThrowIfInvalid();
-        var sum = 0;
+        var ret = 0;
+
+        // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var item in req.Items) {
-            sum += await DeleteAsync(item).ConfigureAwait(false);
+            ret += await DeleteAsync(item).ConfigureAwait(false);
         }
 
-        return sum;
+        return ret;
     }
 
     /// <inheritdoc />
@@ -160,6 +162,8 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
             ? null
             : await GetAsync(new QueryVerifyCodeReq { Id = req.Id }).ConfigureAwait(false);
     }
+
+    [0, 10000];
 
     private Task<Sys_VerifyCode> GetLastSentAsync(string destDevice)
     {

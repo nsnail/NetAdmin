@@ -10,9 +10,14 @@ public sealed record UserUpdatedEvent : DataAbstraction, IEventSourceGeneric<Use
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserUpdatedEvent" /> class.
     /// </summary>
-    public UserUpdatedEvent(UserInfoRsp data)
+    public UserUpdatedEvent(UserInfoRsp data,              DateTime createdTime = default, bool isConsumOnce = false
+                          , object      payload = default, CancellationToken cancellationToken = default)
     {
-        Data = data;
+        Data              = data;
+        CancellationToken = cancellationToken;
+        CreatedTime       = createdTime;
+        IsConsumOnce      = isConsumOnce;
+        Payload           = payload;
     }
 
     /// <inheritdoc />

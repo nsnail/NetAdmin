@@ -8,6 +8,14 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
 {
     /// <inheritdoc />
+    public async Task<string> GetChangeLogAsync()
+    {
+        await using var stream       = Assembly.GetEntryAssembly()!.GetManifestResourceStream("CHANGELOG.md");
+        using var       streamReader = new StreamReader(stream!);
+        return await streamReader.ReadToEndAsync().ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
     {
         return Task.FromResult<IEnumerable<GetModulesRsp>>(AppDomain.CurrentDomain.GetAssemblies()

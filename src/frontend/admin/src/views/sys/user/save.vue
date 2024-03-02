@@ -6,7 +6,7 @@
             :model="form"
             :rules="rules"
             label-position="right"
-            label-width="100px"
+            label-width="10rem"
             ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">

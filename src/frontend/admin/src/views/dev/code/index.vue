@@ -3,10 +3,10 @@
     <el-main>
         <el-row :gutter="15">
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
-                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                <el-card :body-style="{ padding: '0' }" shadow="hover">
                     <div class="code-item">
                         <div :style="{ background: 'blue' }" class="img">
-                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 10rem)`">
                                 <component :is="`sc-icon-js`" />
                             </el-icon>
                         </div>
@@ -20,10 +20,10 @@
                 </el-card>
             </el-col>
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
-                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                <el-card :body-style="{ padding: '0' }" shadow="hover">
                     <div class="code-item">
                         <div :style="{ background: 'orange' }" class="img">
-                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 100px)`">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, blue 10rem)`">
                                 <component :is="`sc-icon-csharp`" />
                             </el-icon>
                         </div>
@@ -46,10 +46,10 @@
                 </el-card>
             </el-col>
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
-                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                <el-card :body-style="{ padding: '0' }" shadow="hover">
                     <div class="code-item">
                         <div :style="{ background: 'green' }" class="img">
-                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 10rem)`">
                                 <component :is="`el-icon-picture`" />
                             </el-icon>
                         </div>
@@ -76,10 +76,10 @@
                 </el-card>
             </el-col>
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
-                <el-card :body-style="{ padding: '0px' }" shadow="hover">
+                <el-card :body-style="{ padding: '0' }" shadow="hover">
                     <div class="code-item">
                         <div :style="{ background: 'gray' }" class="img">
-                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 100px)`">
+                            <el-icon :style="`background-image: -webkit-linear-gradient(top left, #fff, green 10rem)`">
                                 <component :is="`el-icon-picture`" />
                             </el-icon>
                         </div>
@@ -169,7 +169,7 @@ export default {
 
 .code-item .img {
     width: 100%;
-    height: 150px;
+    height: 10rem;
     background: #09f;
     display: flex;
     align-items: center;
@@ -177,9 +177,9 @@ export default {
 }
 
 .code-item .img i {
-    font-size: 100px;
+    font-size: 7.7rem;
     color: #fff;
-    background-image: -webkit-linear-gradient(top left, #fff, #09f 100px);
+    background-image: -webkit-linear-gradient(top left, #fff, #09f 10rem);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -189,14 +189,14 @@ export default {
 }
 
 .code-item .title h2 {
-    font-size: 16px;
+    font-size: 1.2rem;
 }
 
 .code-item .title h4 {
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #999;
     font-weight: normal;
-    margin-top: 5px;
+    margin-top: 0.4rem;
 }
 
 .code-item .title p {

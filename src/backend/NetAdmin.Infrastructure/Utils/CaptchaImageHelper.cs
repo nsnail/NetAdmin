@@ -12,7 +12,7 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public static class CaptchaImageHelper
 {
-    private static readonly int[] _randRange = [70, 100];
+    private static readonly int[] _randRange = 
 
     /// <summary>
     ///     创建一个缺口滑块验证码图片
@@ -96,6 +96,26 @@ public static class CaptchaImageHelper
               , offsetRand);
     }
 
+    private static int BuildPathList(Span<Rgba32> rowSpan, int temp, List<IPath> pathList, int y)
+    {
+        for (var x = 0; x < rowSpan.Length; x++) {
+            ref var pixel = ref rowSpan[x];
+            if (pixel.A != 0) {
+                temp = temp switch { 0 => x, _ => temp };
+            }
+            else {
+                if (temp == 0) {
+                    continue;
+                }
+
+                pathList.Add(new RectangularPolygon(temp, y, x - temp, 1));
+                temp = 0;
+            }
+        }
+
+        return temp;
+    }
+
     private static ComplexPolygon CalcBlockShape(Image<Rgba32> templateDarkImage)
     {
         var temp     = 0;
@@ -103,20 +123,7 @@ public static class CaptchaImageHelper
         templateDarkImage.ProcessPixelRows(accessor => {
             for (var y = 0; y < templateDarkImage.Height; y++) {
                 var rowSpan = accessor.GetRowSpan(y);
-                for (var x = 0; x < rowSpan.Length; x++) {
-                    ref var pixel = ref rowSpan[x];
-                    if (pixel.A != 0) {
-                        temp = temp switch { 0 => x, _ => temp };
-                    }
-                    else {
-                        if (temp == 0) {
-                            continue;
-                        }
-
-                        pathList.Add(new RectangularPolygon(temp, y, x - temp, 1));
-                        temp = 0;
-                    }
-                }
+                temp = BuildPathList(rowSpan, temp, pathList, y);
             }
         });
 
@@ -175,4 +182,6 @@ public static class CaptchaImageHelper
     {
         return (endNum > startNum ? new[] { 0, endNum - startNum }.Rand() : 0) + startNum;
     }
+
+    [70, 100];
 }

@@ -6,9 +6,9 @@
         <div class="router-err__content">
             <h2>无权限或找不到页面</h2>
             <p>当前页面无权限访问或者打开了一个不存在的链接，请检查当前账户权限和链接的可访问性。</p>
-            <el-button @click="gohome" plain round type="primary">返回首页</el-button>
-            <el-button @click="gologin" plain round type="primary">重新登录</el-button>
-            <el-button @click="goback" round type="primary">返回上一页</el-button>
+            <el-button @click="goHome" plain round type="primary">返回首页</el-button>
+            <el-button @click="goLogin" plain round type="primary">重新登录</el-button>
+            <el-button @click="goBack" round type="primary">返回上一页</el-button>
         </div>
     </div>
 </template>
@@ -16,13 +16,13 @@
 <script>
 export default {
     methods: {
-        gohome() {
+        goHome() {
             location.href = '/'
         },
-        goback() {
+        goBack() {
             this.$router.go(-1)
         },
-        gologin() {
+        goLogin() {
             this.$router.push('/guest/login')
         },
     },
@@ -32,13 +32,13 @@ export default {
 <style scoped>
 .router-err {
     display: flex;
-    width: 900px;
-    margin: 50px auto;
+    width: 70rem;
+    margin: 4rem auto;
     align-items: center;
 }
 
 .router-err__icon {
-    width: 400px;
+    width: 30rem;
 }
 
 .router-err__icon img {
@@ -47,30 +47,30 @@ export default {
 
 .router-err__content {
     flex: 1;
-    padding: 40px;
+    padding: 3rem;
 }
 
 .router-err__content h2 {
-    font-size: 26px;
+    font-size: 2rem;
 }
 
 .router-err__content p {
-    font-size: 14px;
+    font-size: 1.1rem;
     color: #999;
-    margin: 1rem 0 30px 0;
+    margin: 1rem 0 2.5rem 0;
     line-height: 1.5;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 77rem) {
     .router-err {
         display: block;
         width: 100%;
-        margin-top: 10px;
+        margin-top: 1rem;
         text-align: center;
     }
 
     .router-err__icon {
-        width: 280px;
+        width: 22rem;
         margin: 0 auto;
     }
 }

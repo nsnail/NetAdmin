@@ -150,7 +150,7 @@ export default {
 
 .sc-form-table .move {
     text-align: center;
-    font-size: 14px;
-    margin-top: 3px;
+    font-size: 1.1rem;
+    margin-top: 0.2rem;
 }
 </style>

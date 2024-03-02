@@ -1,13 +1,7 @@
 <template>
-    <el-main>
-        <el-row :gutter="15">
-            <el-col :lg="24">
-                <el-card :header="$t('我的常用')" shadow="never">
-                    <myapp></myapp>
-                </el-card>
-            </el-col>
-        </el-row>
-    </el-main>
+    <el-card :header="$t('我的常用')" shadow="never">
+        <myapp></myapp>
+    </el-card>
 </template>
 
 <script>

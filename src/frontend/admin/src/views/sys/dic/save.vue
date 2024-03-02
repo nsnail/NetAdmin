@@ -1,6 +1,6 @@
 <template>
     <sc-dialog v-model="visible" :title="titleMap[mode]" :width="400" @closed="$emit('closed')" destroy-on-close>
-        <el-form v-loading="loading" :model="form" :rules="rules" label-width="100px" ref="dialogForm">
+        <el-form v-loading="loading" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
             <el-form-item :label="$t('字典名称')" prop="name">
                 <el-input v-model="form.name" :placeholder="$t('字典显示名称')" clearable></el-input>
             </el-form-item>

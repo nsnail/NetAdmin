@@ -266,7 +266,7 @@ public sealed class UserAgentParser
     /// <summary>
     ///     平台
     /// </summary>
-    public string Platform { get; set; } = string.Empty;
+    public string Platform { get; private set; } = string.Empty;
 
     /// <summary>
     ///     机器人
@@ -301,49 +301,43 @@ public sealed class UserAgentParser
 
     private bool SetMobile()
     {
-        #pragma warning disable S3267
-        foreach (var item in _mobiles) {
-            #pragma warning restore S3267
-            if (_agent.Contains(item.Key, StringComparison.OrdinalIgnoreCase)) {
-                IsMobile = true;
-                Mobile   = item.Value;
-                return true;
-            }
+        var kv = _mobiles.FirstOrDefault(x => //
+                                             _agent.Contains(x.Key, StringComparison.OrdinalIgnoreCase));
+
+        if (kv.Key == null) {
+            return false;
         }
 
+        IsMobile = true;
+        Mobile   = kv.Value;
         return false;
     }
 
     private bool SetPlatform()
     {
-        #pragma warning disable S3267
-        foreach (var item in _platforms) {
-            #pragma warning restore S3267
-            if (!Regex.IsMatch(_agent, $"{Regex.Escape(item.Key)}", RegexOptions.IgnoreCase)) {
-                continue;
-            }
+        var kv = _platforms.First(x => //
+                                      Regex.IsMatch(_agent, $"{Regex.Escape(x.Key)}", RegexOptions.IgnoreCase));
 
-            Platform = item.Value;
-            return true;
+        if (kv.Key == null) {
+            Platform = "Unknown Platform";
+            return false;
         }
 
-        Platform = "Unknown Platform";
-        return false;
+        Platform = kv.Value;
+        return true;
     }
 
     private bool SetRobot()
     {
-        #pragma warning disable S3267
-        foreach (var item in _robots) {
-            #pragma warning restore S3267
-            if (Regex.IsMatch(_agent, $"{Regex.Escape(item.Key)}", RegexOptions.IgnoreCase)) {
-                IsRobot = true;
-                Robot   = item.Value;
-                _       = SetMobile();
-                return true;
-            }
+        var kv = _robots.FirstOrDefault(x => //
+                                            Regex.IsMatch(_agent, $"{Regex.Escape(x.Key)}", RegexOptions.IgnoreCase));
+        if (kv.Key == null) {
+            return false;
         }
 
-        return false;
+        IsRobot = true;
+        Robot   = kv.Value;
+        _       = SetMobile();
+        return true;
     }
 }

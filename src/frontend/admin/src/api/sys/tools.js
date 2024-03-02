@@ -6,6 +6,17 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
+     * 获取更新日志
+     */
+    getChangeLog: {
+        url: `${config.API_URL}/api/sys/tools/get.change.log`,
+        name: `获取更新日志`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取模块信息
      */
     getModules: {

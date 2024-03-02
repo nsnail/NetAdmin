@@ -89,34 +89,34 @@ export default {
 .sc-contextmenu {
     position: fixed;
     z-index: 3000;
-    font-size: 12px;
+    font-size: 0.9rem;
 }
 
 .sc-contextmenu__menu {
     display: inline-block;
-    min-width: 120px;
-    border: 1px solid #e4e7ed;
-    background: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    min-width: 10rem;
+    border: 1px solid var(--el-border-color-light);
+    background: var(--el-bg-color-overlay);
+    box-shadow: 0 0.2rem 1rem 0 rgba(0, 0, 0, 0.1);
     z-index: 3000;
     list-style-type: none;
-    padding: 10px 0;
+    padding: 0 0;
 }
 
 .sc-contextmenu__menu > hr {
-    margin: 5px 0;
+    margin: 0.4rem 0;
     border: none;
     height: 1px;
     font-size: 0;
-    background-color: #ebeef5;
+    background-color: var(--el-border-color-light);
 }
 
 .sc-contextmenu__menu > li {
     margin: 0;
     cursor: pointer;
-    line-height: 30px;
-    padding: 0 17px 0 10px;
-    color: #606266;
+    line-height: 2.5rem;
+    padding: 0 1.3rem 0 0.8rem;
+    color: var(--el-text-color-primary);
     display: flex;
     justify-content: space-between;
     white-space: nowrap;
@@ -125,8 +125,8 @@ export default {
 }
 
 .sc-contextmenu__menu > li:hover {
-    background-color: #ecf5ff;
-    color: #66b1ff;
+    background-color: var(--el-color-primary-light-9);
+    color: var(--el-color-primary-light-2);
 }
 
 .sc-contextmenu__menu > li.disabled {
@@ -137,13 +137,13 @@ export default {
 
 .sc-contextmenu__icon {
     display: inline-block;
-    width: 14px;
-    font-size: 14px;
-    margin-right: 10px;
+    width: 1rem;
+    font-size: 1.1rem;
+    margin-right: 0.8rem;
 }
 
 .sc-contextmenu__suffix {
-    margin-left: 40px;
+    margin-left: 3rem;
     color: #999;
 }
 
@@ -152,6 +152,6 @@ export default {
     top: 0;
     left: 100%;
     display: none;
-    margin: -11px 0;
+    margin: -0.8rem 0;
 }
 </style>

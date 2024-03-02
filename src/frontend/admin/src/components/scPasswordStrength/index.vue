@@ -103,7 +103,7 @@ export default {
     display: block;
     width: 20%;
     height: inherit;
-    border: 5px solid var(--el-bg-color-overlay);
+    border: 0.4rem solid var(--el-bg-color-overlay);
     border-top: 0;
     border-bottom: 0;
     z-index: 1;

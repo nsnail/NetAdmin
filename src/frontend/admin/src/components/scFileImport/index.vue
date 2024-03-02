@@ -43,7 +43,7 @@
                     </div>
                 </template>
             </el-upload>
-            <el-form v-if="$slots.form" inline label-position="left" label-width="100px" style="margin-top: 18px">
+            <el-form v-if="$slots.form" inline label-position="left" label-width="10rem" style="margin-top: 18px">
                 <slot :formData="formData" name="form"></slot>
             </el-form>
         </div>

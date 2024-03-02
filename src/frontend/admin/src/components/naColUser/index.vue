@@ -2,7 +2,7 @@
     <el-table-column v-bind="$attrs">
         <template #default="scope">
             <div @click="click(tool.getNestedProperty(scope.row, $attrs.prop))" class="avatar" style="cursor: pointer">
-                <el-avatar :src="getAvatar(scope)" size="small"></el-avatar>
+                <el-avatar v-if="tool.getNestedProperty(scope.row, $attrs.nestProp)" :src="getAvatar(scope)" size="small"></el-avatar>
                 <el-text tag="ins">{{ tool.getNestedProperty(scope.row, $attrs.nestProp) }}</el-text>
             </div>
             <save-dialog v-if="dialog.save" @closed="dialog.save = false" ref="saveDialog"></save-dialog>

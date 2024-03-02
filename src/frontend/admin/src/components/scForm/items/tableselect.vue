@@ -4,7 +4,7 @@
         :apiObj="apiObj"
         :multiple="item.options.multiple"
         :props="item.options.props"
-        :table-width="600"
+        :table-width="60"
         style="width: 100%">
         <el-table-column
             v-for="(_item, _index) in item.options.column"

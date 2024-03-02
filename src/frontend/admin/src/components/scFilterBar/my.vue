@@ -110,7 +110,7 @@ export default {
 }
 
 .sc-filter-my-list h2 {
-    font-size: 12px;
+    font-size: 0.9rem;
     color: #999;
     font-weight: normal;
     padding: 20px;
@@ -130,7 +130,7 @@ export default {
 
 .sc-filter-my-list li label {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 1.1rem;
     line-height: 1.8;
 }
 

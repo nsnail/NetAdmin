@@ -68,8 +68,8 @@ const scCropper = defineAsyncComponent(() => import('@/components/scCropper'))
 export default {
     props: {
         modelValue: { type: String, default: '' },
-        height: { type: Number, default: 148 },
-        width: { type: Number, default: 148 },
+        height: { type: Number, default: 10 },
+        width: { type: Number, default: 10 },
         title: { type: String, default: '' },
         icon: { type: String, default: 'el-icon-plus' },
         action: { type: String, default: '' },
@@ -108,8 +108,8 @@ export default {
             value: '',
             file: null,
             style: {
-                width: this.width + 'px',
-                height: this.height + 'px',
+                width: this.width + 'rem',
+                height: this.height + 'rem',
             },
             cropperDialogVisible: false,
             cropperFile: null,
@@ -309,14 +309,14 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25px;
-    height: 25px;
+    width: 1.9rem;
+    height: 1.9rem;
     cursor: pointer;
     color: #fff;
 }
 
 .sc-upload__img-actions span i {
-    font-size: 12px;
+    font-size: 0.9rem;
 }
 
 .sc-upload__img-actions .del {
@@ -333,7 +333,7 @@ export default {
     align-items: center;
     width: 100%;
     height: 100%;
-    font-size: 12px;
+    font-size: 0.9rem;
     background-color: var(--el-fill-color-lighter);
 }
 
@@ -352,7 +352,7 @@ export default {
     align-items: center;
     background-color: var(--el-overlay-color-lighter);
     z-index: 1;
-    padding: 10px;
+    padding: 1rem;
 }
 
 .sc-upload__progress .el-progress {
@@ -374,14 +374,14 @@ export default {
 }
 
 .sc-upload .file-empty i {
-    font-size: 28px;
+    font-size: 2rem;
 }
 
 .sc-upload .file-empty h4 {
-    font-size: 12px;
+    font-size: 0.9rem;
     font-weight: normal;
     color: #8c939d;
-    margin-top: 8px;
+    margin-top: 1rem;
 }
 
 .sc-upload.sc-upload-round {

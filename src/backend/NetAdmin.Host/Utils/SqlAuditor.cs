@@ -34,7 +34,7 @@ public sealed class SqlAuditor : ISingleton
     ///     对Insert/Update的数据加工
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">e</exception>
-    public void DataAuditHandler(object sender, AuditValueEventArgs e)
+    public static void DataAuditHandler(object sender, AuditValueEventArgs e)
     {
         // SetServerTime(e);
         SetSnowflake(e);
@@ -56,6 +56,48 @@ public sealed class SqlAuditor : ISingleton
         }
     }
 
+    private static void SetCreatedClientIp(AuditValueEventArgs e)
+    {
+        if (e.Value is null or 0) {
+            e.Value = App.HttpContext?.GetRemoteIpAddressToIPv4().IpV4ToInt32();
+        }
+    }
+
+    private static void SetCreatedReferer(AuditValueEventArgs e)
+    {
+        if (e.Value is null or "") {
+            e.Value = App.HttpContext?.Request.GetRefererUrlAddress();
+        }
+    }
+
+    private static void SetCreatedTime(AuditValueEventArgs e)
+    {
+        if (e.Value == null || (e.Value is DateTime val && val == default)) {
+            e.Value = DateTime.Now;
+        }
+    }
+
+    private static void SetCreatedUserAgent(AuditValueEventArgs e)
+    {
+        if (e.Value is null or "") {
+            e.Value = App.HttpContext?.Request.Headers[Chars.FLG_HTTP_HEADER_USER_AGENT].ToString();
+        }
+    }
+
+    private static void SetCreatedUserId(AuditValueEventArgs e, ContextUserInfo userInfo)
+    {
+        if (userInfo != null && e.Value is null or (long and 0)) {
+            e.Value = userInfo.Id;
+        }
+    }
+
+    private static void SetCreatedUserName(AuditValueEventArgs e, ContextUserInfo userInfo)
+    {
+        if (userInfo != null && e.Value is null or "") {
+            e.Value = userInfo.UserName;
+        }
+    }
+
     /// <summary>
     ///     设置创建者
     /// </summary>
@@ -63,41 +105,22 @@ public sealed class SqlAuditor : ISingleton
     {
         switch (e.Property.Name) {
             case nameof(IFieldCreatedTime.CreatedTime):
-                if (e.Value == null || (e.Value is DateTime val && val == default)) {
-                    e.Value = DateTime.Now;
-                }
-
+                SetCreatedTime(e);
                 break;
             case nameof(IFieldCreatedUser.CreatedUserId):
-                if (userInfo != null && e.Value is null or (long and 0)) {
-                    e.Value = userInfo.Id;
-                }
-
+                SetCreatedUserId(e, userInfo);
                 break;
-
             case nameof(IFieldCreatedUser.CreatedUserName):
-                if (userInfo != null && e.Value is null or "") {
-                    e.Value = userInfo.UserName;
-                }
-
+                SetCreatedUserName(e, userInfo);
                 break;
             case nameof(IFieldCreatedClient.CreatedClientIp):
-                if (e.Value is null or 0) {
-                    e.Value = App.HttpContext?.GetRemoteIpAddressToIPv4().IpV4ToInt32();
-                }
-
+                SetCreatedClientIp(e);
                 break;
             case nameof(IFieldCreatedClient.CreatedUserAgent):
-                if (e.Value is null or "") {
-                    e.Value = App.HttpContext?.Request.Headers[Chars.FLG_HTTP_HEADER_USER_AGENT].ToString();
-                }
-
+                SetCreatedUserAgent(e);
                 break;
             case nameof(IFieldCreatedClient.CreatedReferer):
-                if (e.Value is null or "") {
-                    e.Value = App.HttpContext?.Request.GetRefererUrlAddress();
-                }
-
+                SetCreatedReferer(e);
                 break;
             default:
                 return;

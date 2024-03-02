@@ -24,7 +24,7 @@
         <div class="sc-search-result">
             <div v-if="result.length <= 0" class="sc-search-no-result">暂无搜索结果</div>
             <ul v-else>
-                <el-scrollbar max-height="366px">
+                <el-scrollbar max-height="30rem">
                     <li v-for="item in result" :key="item.path" @click="to(item)">
                         <el-icon>
                             <component :is="item.icon || 'el-icon-menu'" />
@@ -147,12 +147,12 @@ export default {
 <style scoped>
 .sc-search-no-result {
     text-align: center;
-    margin: 40px 0;
+    margin: 3rem 0;
     color: #999;
 }
 
 .sc-search-history {
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 
 .sc-search-history .el-tag {
@@ -164,21 +164,21 @@ export default {
 }
 
 .sc-search-result li {
-    height: 56px;
+    height: 4rem;
     padding: 0 1rem;
     background: var(--el-bg-color-overlay);
     border: 1px solid var(--el-border-color-light);
     list-style: none;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    font-size: 14px;
+    border-radius: 0.4rem;
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
 .sc-search-result li i {
-    font-size: 20px;
+    font-size: 1.5rem;
     margin-right: 1rem;
 }
 

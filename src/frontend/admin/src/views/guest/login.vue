@@ -46,24 +46,9 @@
                         <phone-form></phone-form>
                     </el-tab-pane>
                 </el-tabs>
-                <template v-if="$CONFIG.MY_SHOW_LOGIN_OAUTH">
-                    <el-divider>{{ $t('其他登录方式') }}</el-divider>
-                    <div class="login-oauth">
-                        <el-button @click="wechatLogin" circle icon="sc-icon-wechat" type="success"></el-button>
-                    </div>
-                </template>
             </div>
         </div>
     </div>
-    <el-dialog v-model="showWechatLogin" :title="$t('二维码登录')" :width="400" destroy-on-close>
-        <div class="qrCodeLogin">
-            <sc-qr-code :size="200" :text="WechatLoginCode" class="qrCode"></sc-qr-code>
-            <p class="msg">{{ $t('请使用微信扫一扫登录') }}<br />{{ $t('模拟3秒后自动扫描') }}</p>
-            <div v-if="isWechatLoginResult" class="qrCodeLogin-result">
-                <el-result :sub-title="$t('请在设备中点击授权登录')" :title="$t('已扫描')" icon="success"></el-result>
-            </div>
-        </div>
-    </el-dialog>
 </template>
 
 <script>
@@ -97,9 +82,6 @@ export default {
                     value: 'en',
                 },
             ],
-            WechatLoginCode: '',
-            showWechatLogin: false,
-            isWechatLoginResult: false,
         }
     },
     watch: {
@@ -135,14 +117,6 @@ export default {
         configLang(command) {
             this.config.lang = command.value
         },
-        wechatLogin() {
-            this.showWechatLogin = true
-            this.WechatLoginCode = 'NetAdmin-823677237287236-' + new Date().getTime()
-            this.isWechatLoginResult = false
-            setTimeout(() => {
-                this.isWechatLoginResult = true
-            }, 3000)
-        },
     },
 }
 </script>
@@ -155,82 +129,6 @@ export default {
     display: flex;
 }
 
-.login_adv {
-    width: 33.33333%;
-    background-color: #555;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    position: relative;
-}
-
-.login_adv__title {
-    color: #fff;
-    padding: 40px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
-}
-
-.login_adv__title h2 {
-    font-size: 40px;
-}
-
-.login_adv__title h4 {
-    font-size: 18px;
-    margin-top: 10px;
-    font-weight: normal;
-}
-
-.login_adv__title p {
-    font-size: 14px;
-    margin-top: 10px;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.login_adv__title div {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.login_adv__title div span {
-    margin-right: 1rem;
-}
-
-.login_adv__title div i {
-    font-size: 40px;
-}
-
-.login_adv__title div i.add {
-    font-size: 20px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.login_adv__bottom {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    color: #fff;
-    padding: 40px;
-    background-image: linear-gradient(transparent, #000);
-    z-index: 3;
-}
-
-.login_adv__mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-}
-
 .login_main {
     flex: 1;
     overflow: auto;
@@ -238,13 +136,12 @@ export default {
 }
 
 .login-form {
-    width: 400px;
+    width: 30rem;
     margin: auto;
-    padding: 20px 0;
 }
 
 .login-header {
-    margin-bottom: 40px;
+    margin-bottom: 3rem;
 }
 
 .login-header .logo {
@@ -253,32 +150,15 @@ export default {
 }
 
 .login-header .logo img {
-    width: 40px;
-    height: 40px;
+    width: 3rem;
+    height: 3rem;
     vertical-align: bottom;
-    margin-right: 10px;
+    margin-right: 1rem;
 }
 
 .login-header .logo label {
-    font-size: 26px;
+    font-size: 2rem;
     font-weight: bold;
-}
-
-.login-oauth {
-    display: flex;
-    justify-content: space-around;
-}
-
-.login-form .el-divider {
-    margin-top: 40px;
-}
-
-.login-form:deep(.el-tabs) .el-tabs__header {
-    margin-bottom: 25px;
-}
-
-.login-form:deep(.el-tabs) .el-tabs__header .el-tabs__item {
-    font-size: 14px;
 }
 
 .login-form:deep(.login-forgot) {
@@ -294,7 +174,7 @@ export default {
 }
 
 .login-form:deep(.login-reg) {
-    font-size: 14px;
+    font-size: 1.1rem;
     color: var(--el-text-color-primary);
 }
 
@@ -308,60 +188,24 @@ export default {
 
 .login_config {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 1.5rem;
+    right: 1.5rem;
 }
 
-.qrCodeLogin {
-    text-align: center;
-    position: relative;
-    padding: 20px 0;
-}
-
-.qrCodeLogin img.qrCode {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.qrCodeLogin p.msg {
-    margin-top: 1rem;
-}
-
-.qrCodeLogin .qrCodeLogin-result {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    text-align: center;
-    background: var(--el-mask-color);
-}
-
-@media (max-width: 1200px) {
-    .login-form {
-        width: 340px;
-    }
-}
-
-@media (max-width: 1000px) {
+@media (max-width: 77rem) {
     .login_main {
         display: block;
     }
 
     .login_main .login_config {
         position: static;
-        padding: 20px 20px 0 20px;
+        padding: 1.5rem 1.5rem 0 1.5rem;
         text-align: right;
     }
 
     .login-form {
         width: 100%;
-        padding: 20px 40px;
-    }
-
-    .login_adv {
-        display: none;
+        padding: 1.5rem 3rem;
     }
 }
 </style>
