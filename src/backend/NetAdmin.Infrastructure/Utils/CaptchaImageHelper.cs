@@ -12,7 +12,7 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public static class CaptchaImageHelper
 {
-    private static readonly int[] _randRange = 
+    private static readonly int[] _randRange = [70, 100];
 
     /// <summary>
     ///     创建一个缺口滑块验证码图片
@@ -182,6 +182,4 @@ public static class CaptchaImageHelper
     {
         return (endNum > startNum ? new[] { 0, endNum - startNum }.Rand() : 0) + startNum;
     }
-
-    [70, 100];
 }
