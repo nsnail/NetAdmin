@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside v-loading="loading" width="300px">
+        <el-aside v-loading="loading" width="30rem">
             <el-container>
                 <el-header>
                     <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable></el-input>

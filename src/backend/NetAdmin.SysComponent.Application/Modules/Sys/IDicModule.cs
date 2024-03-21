@@ -50,6 +50,11 @@ public interface IDicModule
     Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req);
 
     /// <summary>
+    ///     获取字典值
+    /// </summary>
+    public Task<string> GetDicValueAsync(GetDicValueReq req);
+
+    /// <summary>
     ///     分页查询字典目录
     /// </summary>
     Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req);

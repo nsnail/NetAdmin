@@ -278,7 +278,7 @@ public sealed class UserAgentParser
     /// </summary>
     public static UserAgentParser Create(string userAgentString)
     {
-        return new UserAgentParser(userAgentString);
+        return userAgentString == null ? null : new UserAgentParser(userAgentString);
     }
 
     private bool SetBrowser()

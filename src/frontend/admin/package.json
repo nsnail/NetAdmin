@@ -1,5 +1,5 @@
 {
-    "name": "NetAdmin",
+    "name": "net-admin",
     "private": true,
     "scripts": {
         "dev": "vite",
@@ -17,7 +17,7 @@
         "cropperjs": "^1.6.1",
         "crypto-js": "^4.2.0",
         "echarts": "^5.5.0",
-        "element-plus": "^2.5.6",
+        "element-plus": "^2.6.1",
         "json-bigint": "^1.0.0",
         "json5-to-table": "^0.1.8",
         "markdown-it": "^14.0.0",
@@ -27,22 +27,22 @@
         "qrcodejs2": "^0.0.2",
         "sortablejs": "^1.15.2",
         "tinymce": "^6.8.3",
-        "vue": "^3.4.20",
-        "vue-i18n": "^9.9.1",
+        "vue": "^3.4.21",
+        "vue-i18n": "^9.10.1",
         "vue-router": "^4.3.0",
         "vue3-json-viewer": "^2.2.2",
         "vuedraggable": "^4.0.3",
         "vuex": "^4.1.0",
-        "xgplayer": "^3.0.13",
-        "xgplayer-hls": "^3.0.13"
+        "xgplayer": "^3.0.14",
+        "xgplayer-hls": "^3.0.14"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.0.4",
         "prettier": "^3.2.5",
         "prettier-plugin-organize-attributes": "^1.0.0",
         "sass": "^1.71.1",
-        "terser": "^5.28.1",
-        "vite": "^5.1.4"
+        "terser": "^5.29.1",
+        "vite": "^5.1.5"
     },
     "browserslist": [
         "> 1%",

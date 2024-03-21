@@ -42,7 +42,7 @@ export default {
             text.font = 'bold 20px SimHei'
             text.textAlign = 'center'
             text.fillText(this.text, canvas.width / 2, canvas.height / 2)
-            text.font = '14px Microsoft YaHei'
+            text.font = '1rem Microsoft YaHei'
             text.fillText(this.subtext, canvas.width / 2, canvas.height / 2 + 20)
             //创建水印容器
             const watermark = document.createElement('div')

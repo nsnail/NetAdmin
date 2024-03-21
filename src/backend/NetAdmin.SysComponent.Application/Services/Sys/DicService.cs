@@ -67,6 +67,28 @@ public sealed class DicService(IDicCatalogService catalogService, IDicContentSer
     }
 
     /// <inheritdoc />
+    public async Task<string> GetDicValueAsync(GetDicValueReq req)
+    {
+        req.ThrowIfInvalid();
+        var df = new DynamicFilterInfo {
+                                           Filters = [
+                                               new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryDicContentReq.CatalogId)
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                       , Value    = req.CatalogId
+                                                                     }
+                                             , new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryDicContentReq.Key)
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                       , Value    = req.Key
+                                                                     }
+                                           ]
+                                       };
+        var queryParam = new QueryReq<QueryDicContentReq> { Count = 1, DynamicFilter = df };
+        return (await QueryContentAsync(queryParam).ConfigureAwait(false)).FirstOrDefault()?.Value;
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();

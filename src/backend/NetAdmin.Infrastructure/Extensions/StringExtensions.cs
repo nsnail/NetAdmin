@@ -41,4 +41,12 @@ public static class StringExtensions
     {
         return _regex.Replace(me, string.Empty);
     }
+
+    /// <summary>
+    ///     去掉前部字符串
+    /// </summary>
+    public static string TrimStart(this string me, string clearStr)
+    {
+        return Regex.Replace(me, $"^{clearStr}", string.Empty);
+    }
 }

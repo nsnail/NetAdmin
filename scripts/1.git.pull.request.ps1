@@ -1,6 +1,10 @@
 $branch = $( git branch --show-current )
 git add ../
-./code.clean.ps1
+$skipFormat = Read-Host "输入 n 跳过代码整理"
+if ($skipFormat -ne "n")
+{
+    ./code.clean.ps1
+}
 git add ../
 ../node_modules/.bin/git-cz.ps1
 git pull
