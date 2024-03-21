@@ -24,7 +24,7 @@
         @visible-change="visibleChange"
         ref="select">
         <template #empty>
-            <div v-loading="loading" :style="{ width: tableWidth + 'px' }" class="sc-table-select__table">
+            <div v-loading="loading" :style="{ width: tableWidth + 'rem' }" class="sc-table-select__table">
                 <div class="sc-table-select__header">
                     <slot :form="formData" :submit="formSubmit" name="header"></slot>
                 </div>
@@ -81,7 +81,7 @@ export default {
         collapseTags: { type: Boolean, default: false },
         collapseTagsTooltip: { type: Boolean, default: false },
         disabled: { type: Boolean, default: false },
-        tableWidth: { type: Number, default: 400 },
+        tableWidth: { type: Number, default: 40 },
         mode: { type: String, default: 'popover' },
         props: {
             type: Object,
@@ -273,10 +273,10 @@ export default {
 
 <style scoped>
 .sc-table-select__table {
-    padding: 12px;
+    padding: 1rem;
 }
 
 .sc-table-select__page {
-    padding-top: 12px;
+    padding-top: 1rem;
 }
 </style>

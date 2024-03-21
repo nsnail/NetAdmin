@@ -130,7 +130,6 @@ export default {
                     filters: [],
                 },
                 filter: {},
-                prop: 'lastExecTime',
             },
             dialog: {
                 save: false,

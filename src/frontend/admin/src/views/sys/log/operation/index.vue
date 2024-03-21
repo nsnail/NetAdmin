@@ -63,17 +63,25 @@
                         remoteSort
                         row-key="id"
                         stripe>
-                        <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150"></el-table-column>
-                        <el-table-column :label="$t('日志时间')" prop="createdTime" sortable="custom" width="170"></el-table-column>
-                        <el-table-column :label="$t('响应码')" prop="httpStatusCode" sortable="custom" width="90"></el-table-column>
+                        <el-table-column :label="$t('日志编号')" align="center" prop="id" sortable="custom" width="150"></el-table-column>
+                        <el-table-column :label="$t('日志时间')" align="center" prop="createdTime" sortable="custom" width="170"></el-table-column>
+                        <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="90"></el-table-column>
                         <el-table-column :label="$t('请求服务')">
-                            <el-table-column :label="$t('路径')" min-width="150" prop="apiId" sortable="custom"></el-table-column>
+                            <el-table-column
+                                :label="$t('路径')"
+                                min-width="150"
+                                prop="apiId"
+                                show-overflow-tooltip
+                                sortable="custom"></el-table-column>
                             <el-table-column :label="$t('描述')" prop="apiSummary"></el-table-column>
-                            <el-table-column :label="$t('方法')" prop="method" sortable="custom" width="100"></el-table-column>
-                            <el-table-column :label="$t('耗时(毫秒)')" align="right" prop="duration" sortable="custom" width="120">
-                                <template #default="scope">
-                                    {{ (scope.row.duration / 1000).toFixed(2) }}
-                                </template>
+                            <el-table-column :label="$t('方法')" align="center" prop="method" sortable="custom" width="100"></el-table-column>
+                            <el-table-column
+                                :formatter="(row) => tool.groupSeparator((row.duration / 1000).toFixed(0))"
+                                :label="$t('耗时(毫秒)')"
+                                align="right"
+                                prop="duration"
+                                sortable="custom"
+                                width="120">
                             </el-table-column>
                         </el-table-column>
                         <el-table-column :label="$t('用户')" prop="createdUserName" sortable="custom">
@@ -82,7 +90,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column :label="$t('客户端IP')" prop="createdClientIp" sortable="custom" width="150"></el-table-column>
-                        <el-table-column :label="$t('操作系统')" prop="os" sortable="custom"></el-table-column>
+                        <el-table-column :label="$t('操作系统')" align="center" prop="os" sortable="custom"></el-table-column>
                     </sc-table>
                 </el-main>
             </el-container>
@@ -98,6 +106,11 @@ import tool from '@/utils/tool'
 import ScTable from '@/components/scTable/index.vue'
 
 export default {
+    computed: {
+        tool() {
+            return tool
+        },
+    },
     components: {
         ScTable,
         naInfo,

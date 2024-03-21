@@ -16,7 +16,7 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     /// <summary>
     ///     操作系统
     /// </summary>
-    public string Os => UserAgentParser.Create(CreatedUserAgent).Platform;
+    public string Os => UserAgentParser.Create(CreatedUserAgent)?.Platform;
 
     /// <inheritdoc cref="Sys_RequestLog.ApiId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

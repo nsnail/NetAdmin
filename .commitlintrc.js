@@ -64,7 +64,7 @@ module.exports = {
     maxSubjectLength: Infinity,
     minSubjectLength: 0,
     scopeOverrides: undefined,
-    defaultBody: '',
+    defaultBody: '[skip ci]',
     defaultIssues: '',
     defaultScope: '',
     defaultSubject: ''

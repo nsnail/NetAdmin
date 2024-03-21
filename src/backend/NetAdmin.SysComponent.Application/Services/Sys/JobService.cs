@@ -79,6 +79,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     /// <inheritdoc />
     public async Task FinishJobAsync(UpdateJobReq req)
     {
+        req.ThrowIfInvalid();
         var nextExecTime = GetNextExecTime(req.ExecutionCron);
         _ = await UpdateAsync(req with {
                                            Status = JobStatues.Idle
@@ -100,22 +101,24 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public async Task<QueryJobRsp> GetNextJobAsync()
     {
         var df = new DynamicFilterInfo {
-                                           Filters =  [ new DynamicFilterInfo { Field = nameof(QueryJobReq.NextExecTime)
-                                         , Value = DateTime.UtcNow
-                                         , Operator = DynamicFilterOperators.LessThan
-                                       }
-          ,  new DynamicFilterInfo {
-                                       Field    = nameof(QueryJobReq.Status)
-                                     , Value    = JobStatues.Idle
-                                     , Operator = DynamicFilterOperators.Eq
-                                   }
-          , new DynamicFilterInfo {
-                                      Field    = nameof(QueryJobReq.Enabled)
-                                    , Value    = true
-                                    , Operator = DynamicFilterOperators.Eq
-                                  }
-            ]
-        };
+                                           Filters = [
+                                               new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.NextExecTime)
+                                                                       , Value    = DateTime.UtcNow
+                                                                       , Operator = DynamicFilterOperators.LessThan
+                                                                     }
+                                             , new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.Status)
+                                                                       , Value    = JobStatues.Idle
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                     }
+                                             , new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.Enabled)
+                                                                       , Value    = true
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                     }
+                                           ]
+                                       };
         var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Count = 1 }, true)
                         .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
                                         .As("b")
@@ -163,6 +166,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     /// <inheritdoc />
     public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
     {
+        req.ThrowIfInvalid();
         return jobRecordService.PagedQueryAsync(req);
     }
 
@@ -217,7 +221,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                        , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords))
                      .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         return !orderByRandom && (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true)
-            ? ret.OrderByDescending(a => a.Id)
+            ? ret.OrderByDescending(a => a.LastExecTime)
             : ret.OrderByRandom();
     }
 }

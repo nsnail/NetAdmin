@@ -21,7 +21,7 @@
                 </div>
                 <el-tabs>
                     <el-tab-pane :label="$t('常规')" lazy>
-                        <el-form label-position="left" label-width="100px" style="margin: 10px 0 20px 0">
+                        <el-form label-position="left" label-width="10rem" style="margin: 10px 0 20px 0">
                             <el-form-item :label="$t('文件名')">
                                 <el-input v-model="formData.fileName" :placeholder="$t('请输入文件名')" />
                             </el-form-item>

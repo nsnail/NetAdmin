@@ -11,6 +11,7 @@
                     <slot :row="scope.row" :text="item.text"></slot>
                 </div>
             </template>
+            <slot :row="scope.row" name="info"></slot>
         </template>
     </el-table-column>
 </template>

@@ -60,6 +60,18 @@ public sealed class DicCache(IDistributedCache cache, IDicService service) //
     }
 
     /// <inheritdoc />
+    public Task<string> GetDicValueAsync(GetDicValueReq req)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(                                                  //
+            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+          , () => Service.GetDicValueAsync(req), TimeSpan.FromMinutes(1));
+        #else
+        return Service.GetDicValueAsync(req);
+        #endif
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
         return Service.PagedQueryCatalogAsync(req);

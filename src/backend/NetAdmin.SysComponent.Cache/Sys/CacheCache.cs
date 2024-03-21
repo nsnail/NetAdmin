@@ -13,8 +13,12 @@ public sealed class CacheCache(IDistributedCache cache, ICacheService service) /
     /// <inheritdoc />
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
+        #if !DEBUG
         return GetOrCreateAsync( //
             GetCacheKey(string.Empty), Service.CacheStatisticsAsync, TimeSpan.FromMinutes(1));
+        #else
+        return Service.CacheStatisticsAsync();
+        #endif
     }
 
     /// <inheritdoc />

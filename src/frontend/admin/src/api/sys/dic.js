@@ -94,6 +94,17 @@ export default {
     },
 
     /**
+     * 获取字典值
+     */
+    getDicValue: {
+        url: `${config.API_URL}/api/sys/dic/get.dic.value`,
+        name: `获取字典值`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询字典目录
      */
     pagedQueryCatalog: {
