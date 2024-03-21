@@ -105,8 +105,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
     {
         return me.AddConsoleFormatter(options => {
-            var logLevels = Enum.GetValues(typeof(LogLevels))
-                                .Cast<LogLevels>()
+            var logLevels = Enum.GetValues<LogLevels>()
                                 .ToDictionary(x => x, x => x.GetDisplay());
 
             #if DEBUG
