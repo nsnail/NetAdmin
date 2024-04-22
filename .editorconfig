@@ -1,56 +1,58 @@
+# 此文件为 EditorConfig 配置文件，用于设置跨编辑器的代码格式化规则。
+# root = true 表示此文件是根配置文件。
 root = true
 
 [*]
-charset = utf-8
-end_of_line = lf
-ij_xml_attribute_wrap = off
-ij_xml_text_wrap = off
-indent_size = 4
-indent_style = space
-insert_final_newline = false
-trim_trailing_whitespace = true
+charset = utf-8 # 文件字符集为 UTF-8
+end_of_line = lf # 行结束符为 LF
+ij_xml_attribute_wrap = off # IntelliJ IDEA 中 XML 属性不换行
+ij_xml_text_wrap = off # IntelliJ IDEA 中 XML 文本不换行
+indent_size = 4 # 缩进大小为 4 个空格
+indent_style = space # 使用空格进行缩进
+insert_final_newline = false # 不在文件末尾插入空行
+trim_trailing_whitespace = true # 删除行尾的空格
 
 [{*.json,*.yml}]
-indent_size = 2
+indent_size = 2 # 对于 JSON 和 YAML 文件，缩进大小为 2 个空格
 
 [*.cs]
-dotnet_analyzer_diagnostic.severity = warning
+dotnet_analyzer_diagnostic.severity = warning # 设置 C# 文件中所有 dotnet_analyzer_diagnostic 的严重性级别为 warning
 
 # ReSharper properties
-resharper_align_linq_query = true
-resharper_align_multiline_argument = true
-resharper_align_multiline_array_and_object_initializer = true
-resharper_align_multiline_binary_patterns = true
-resharper_align_multiline_calls_chain = true
-resharper_align_multiline_extends_list = true
-resharper_align_multiline_parameter = true
-resharper_align_multiline_property_pattern = true
-resharper_align_multiline_switch_expression = true
-resharper_align_multiple_declaration = true
-resharper_align_multline_type_parameter_constrains = true
-resharper_align_multline_type_parameter_list = true
-resharper_align_tuple_components = true
-resharper_allow_comment_after_lbrace = true
-resharper_blank_lines_before_single_line_comment = 1
-resharper_csharp_empty_block_style = together_same_line
-resharper_csharp_outdent_commas = true
-resharper_csharp_place_type_constraints_on_same_line = false
-resharper_csharp_stick_comment = false
-resharper_csharp_wrap_before_comma = true
-resharper_indent_nested_for_stmt = true
-resharper_indent_nested_foreach_stmt = true
-resharper_indent_nested_while_stmt = true
-resharper_indent_preprocessor_if = usual_indent
-resharper_indent_preprocessor_other = usual_indent
-resharper_int_align = true
-resharper_keep_existing_arrangement = false
-resharper_place_linq_into_on_new_line = false
-resharper_place_simple_embedded_statement_on_same_line = false
-resharper_place_simple_switch_expression_on_single_line = true
-resharper_wrap_before_eq = true
-resharper_wrap_chained_method_calls = chop_if_long
-resharper_wrap_switch_expression = chop_if_long
+resharper_align_linq_query = true # 启用对LINQ查询的对齐
+resharper_align_multiline_argument = true # 启用多行参数的对齐
+resharper_align_multiline_array_and_object_initializer = true # 启用多行数组和对象初始化器的对齐
+resharper_align_multiline_binary_patterns = true # 启用多行二元模式的对齐
+resharper_align_multiline_calls_chain = true # 启用多行调用链的对齐
+resharper_align_multiline_extends_list = true # 启用多行扩展列表的对齐
+resharper_align_multiline_parameter = true # 启用多行参数的对齐
+resharper_align_multiline_property_pattern = true # 启用多行属性模式的对齐
+resharper_align_multiline_switch_expression = true # 启用多行切换表达式的对齐
+resharper_align_multiple_declaration = true # 启用多个声明的对齐
+resharper_align_multline_type_parameter_constrains = true # 启用多行类型参数约束的对齐
+resharper_align_multline_type_parameter_list = true # 启用多行类型参数列表的对齐
+resharper_align_tuple_components = true # 启用元组组件的对齐
+resharper_allow_comment_after_lbrace = true # 允许在大括号前添加注释
+resharper_blank_lines_before_single_line_comment = 1 # 在单行注释前添加空行
+resharper_csharp_empty_block_style = together_same_line # 设置空块的样式为“在一起，在同一行”
+resharper_csharp_outdent_commas = true # 是否将逗号后的代码退缩
+resharper_csharp_place_type_constraints_on_same_line = false # 在类型约束上是否保持在同一行
+resharper_csharp_stick_comment = false # 是否将注释粘贴在代码行的末尾
+resharper_csharp_wrap_before_comma = true # 在逗号前是否添加换行
+resharper_indent_nested_for_stmt = true # 是否对嵌套的for语句进行缩进
+resharper_indent_nested_foreach_stmt = true # 是否对嵌套的foreach语句进行缩进
+resharper_indent_nested_while_stmt = true # 是否对嵌套的while语句进行缩进
+resharper_indent_preprocessor_if = usual_indent # 设置预处理器指令`if`的缩进方式
+resharper_indent_preprocessor_other = usual_indent # 设置其他预处理器指令的缩进方式
+resharper_int_align = true # 启用整数对齐
+resharper_keep_existing_arrangement = false # 在重新排列时是否保留现有的布局
+resharper_place_linq_into_on_new_line = false # 是否将LINQ表达式放在新行
+resharper_place_simple_embedded_statement_on_same_line = false # 是否将简单的嵌入式语句放在同一行
+resharper_place_simple_switch_expression_on_single_line = true # 是否将简单的切换表达式放在单行
+resharper_wrap_before_eq = true # 在等号前是否添加换行
+resharper_wrap_chained_method_calls = chop_if_long # 是否拆分链式方法调用
+resharper_wrap_switch_expression = chop_if_long # 是否拆分切换表达式
 
 # Microsoft .NET properties
-csharp_indent_braces = false
-csharp_new_line_before_open_brace = local_functions, methods, types
+csharp_indent_braces = false # 设置为false表示花括号不跟随代码行缩进
+csharp_new_line_before_open_brace = local_functions, methods, types # 这里设置为local_functions, methods, types，表示在局部函数、方法和类型定义的开放花括号前应换行

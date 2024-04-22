@@ -18,7 +18,16 @@
                 stripe>
                 <el-table-column :label="$t('接口路径')" prop="id"></el-table-column>
                 <el-table-column :label="$t('接口名称')" prop="name"></el-table-column>
-                <el-table-column :label="$t('请求方式')" prop="method"></el-table-column>
+                <na-col-indicator
+                    :label="$t('请求方式')"
+                    :options="
+                        Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
+                            return { value: x[0].toUpperCase(), text: x[1][1] }
+                        })
+                    "
+                    prop="method"
+                    width="100">
+                </na-col-indicator>
                 <el-table-column :label="$t('接口描述')" prop="summary"></el-table-column>
             </sc-table>
         </el-main>

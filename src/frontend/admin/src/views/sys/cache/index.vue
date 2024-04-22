@@ -1,7 +1,7 @@
 <template>
     <el-container>
-        <el-main>
-            <el-card :header="$t('缓存统计')" shadow="never">
+        <el-header style="flex-direction: column; height: auto">
+            <div v-loading="statistics.version === ''" class="w100p">
                 <el-row :gutter="15">
                     <el-col :lg="4">
                         <el-card shadow="never">
@@ -50,30 +50,16 @@
                         </el-card>
                     </el-col>
                 </el-row>
-            </el-card>
+            </div>
+        </el-header>
 
-            <el-card :header="$t('缓存管理')" shadow="never">
-                <el-container>
-                    <el-aside>
-                        <el-menu :default-active="query.filter.dbIndex" class="el-menu-vertical-demo">
-                            <el-menu-item v-for="(i, index) in 16" :index="index" :key="index" @click="this.query.filter.dbIndex = index">
-                                <el-icon>
-                                    <el-icon-notebook></el-icon-notebook>
-                                </el-icon>
-                                <span slot="title">DB{{ index }}</span>
-                            </el-menu-item>
-                        </el-menu>
-                    </el-aside>
-                    <el-main>
-                        <sc-table :apiObj="$API.sys_cache.getAllEntries" :params="query" @row-click="rowClick" ref="table" row-key="key" stripe>
-                            <el-table-column :label="$t('键名')" :min-width="300" prop="key" show-overflow-tooltip />
-                            <el-table-column :label="$t('键值')" prop="data" show-overflow-tooltip />
-                            <el-table-column :label="$t('滑动过期')" align="right" prop="sldExp" />
-                            <el-table-column :label="$t('绝对过期')" align="right" prop="absExp" />
-                        </sc-table>
-                    </el-main>
-                </el-container>
-            </el-card>
+        <el-main class="nopadding">
+            <sc-table :apiObj="$API.sys_cache.getAllEntries" :params="query" @row-click="rowClick" ref="table" row-key="key" stripe>
+                <el-table-column :label="$t('键名')" prop="key" show-overflow-tooltip />
+                <el-table-column :label="$t('键值')" prop="data" show-overflow-tooltip />
+                <el-table-column :label="$t('滑动过期')" align="right" prop="sldExpTime" width="200" />
+                <el-table-column :label="$t('绝对过期')" align="right" prop="absExpTime" width="200" />
+            </sc-table>
         </el-main>
     </el-container>
     <na-info v-if="dialog.info" ref="info"></na-info>
@@ -93,7 +79,7 @@ export default {
         return {
             query: {
                 filter: {
-                    dbIndex: 0,
+                    dbIndex: 1,
                 },
             },
             dialog: {
@@ -144,5 +130,8 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+.el-card {
+    overflow: unset;
 }
 </style>

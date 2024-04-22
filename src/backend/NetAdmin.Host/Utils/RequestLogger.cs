@@ -36,10 +36,12 @@ public sealed class RequestLogger(
                                                         _textContentTypes
                                                       , x => context.Request.ContentType?.Contains(
                                                             x, StringComparison.OrdinalIgnoreCase) ?? false)
-                                                        ? await context.ReadBodyContentAsync().ConfigureAwait(false)
+                                                        ? (await context.ReadBodyContentAsync().ConfigureAwait(false))
+                                                        ?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT)
                                                         : string.Empty
                                                   , RequestUrl = context.Request.GetRequestUrlAddress()
-                                                  , ResponseBody = responseBody
+                                                  , ResponseBody
+                                                        = responseBody?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT)
                                                   , ServerIp = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
                                                   , ApiId = context.Request.Path.Value?.TrimStart('/')
                                                   , RequestHeaders = context.Request.Headers.Json()
@@ -51,7 +53,10 @@ public sealed class RequestLogger(
                                                   , CreatedUserId = associatedUser?.UserId
                                                   , CreatedUserName = associatedUser?.UserName
                                                   , CreatedUserAgent = context.Request.Headers.UserAgent.ToString()
-                                                  , CreatedClientIp = context.GetRemoteIpAddressToIPv4()?.IpV4ToInt32()
+                                                  , CreatedClientIp = context.GetRealIpAddress()
+                                                                             ?.MapToIPv4()
+                                                                             .ToString()
+                                                                             .IpV4ToInt32()
                                                 };
 
         // 打印日志

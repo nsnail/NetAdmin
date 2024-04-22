@@ -24,6 +24,14 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     }
 
     /// <summary>
+    ///     菜单计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryMenuReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建菜单
     /// </summary>
     [Transaction]

@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信标记表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgFlag))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgFlag))]
 [Index($"idx_{{tablename}}_{nameof(SiteMsgId)}_{nameof(UserId)}", $"{nameof(SiteMsgId)},{nameof(UserId)}", true)]
 public record Sys_SiteMsgFlag : MutableEntity
 {

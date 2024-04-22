@@ -13,6 +13,9 @@
                     <el-form-item prop="avatar">
                         <sc-upload v-model="form.avatar" :title="$t('上传头像')"></sc-upload>
                     </el-form-item>
+                    <el-form-item v-if="mode === 'view'" :label="$t('唯一编码')" prop="id">
+                        <el-input v-model="form.id" clearable></el-input>
+                    </el-form-item>
                     <el-form-item :label="$t('登录账号')" prop="userName">
                         <el-input v-model="form.userName" :placeholder="$t('用于登录系统')" clearable></el-input>
                     </el-form-item>
@@ -216,10 +219,10 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :expanded="true"
                         :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
                         :value="form"
                         copyable
+                        expanded
                         sort></json-viewer>
                 </el-tab-pane>
             </el-tabs>

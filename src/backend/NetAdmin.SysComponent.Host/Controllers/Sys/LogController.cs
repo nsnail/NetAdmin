@@ -26,6 +26,14 @@ public sealed class LogController(IRequestLogCache cache) : ControllerBase<IRequ
     }
 
     /// <summary>
+    ///     请求日志计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建请求日志
     /// </summary>
     [NonAction]

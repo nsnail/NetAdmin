@@ -109,11 +109,14 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         var headers = new Dictionary<string, string>();
 
         if (!_accessToken.NullOrEmpty()) {
-            headers.Add(Chars.FLG_ACCESS_TOKEN_HEADER_KEY, $"{Chars.FLG_AUTH_SCHEMA} {_accessToken}");
+            headers.Add( //
+                Chars.FLG_HTTP_HEADER_KEY_AUTHORIZATION, $"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} {_accessToken}");
         }
 
         if (!_refreshToken.NullOrEmpty()) {
-            headers.Add(Chars.FLG_X_ACCESS_TOKEN_HEADER_KEY, $"{Chars.FLG_AUTH_SCHEMA} {_refreshToken}");
+            headers.Add( //
+                Chars.FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN_HEADER_KEY
+              , $"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} {_refreshToken}");
         }
 
         if (!job.RequestHeader.NullOrEmpty()) {

@@ -28,6 +28,13 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryUserProfileRsp> CreateAsync(CreateUserProfileReq req)
     {
         req.ThrowIfInvalid();
@@ -146,18 +153,21 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
         QueryReq<QueryUserProfileReq> req)
     {
         #pragma warning disable CA1305
-        return Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()
-                  .LeftJoin((a, b, _, __, ___) =>
-                                a.NationArea.ToString() == b.Value && b.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA)
-                  .LeftJoin((a, _, c, __, ___) =>
-                                a.CompanyArea.ToString() == c.Value && c.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA)
-                  .LeftJoin((a, _, __, d, ___) =>
-                                a.HomeArea.ToString() == d.Value && d.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA)
-                  .LeftJoin((a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value &&
-                                                  e.CatalogId == Numbers.DIC_CATALOG_ID_GEO_AREA)
-                  .WhereDynamicFilter(req.DynamicFilter)
-                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                  .OrderByDescending((a, _, __, ___, ____) => a.Id);
+        var ret = Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()
+                     .LeftJoin((a, b, _, __, ___) =>
+                                   a.NationArea.ToString() == b.Value && b.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, c, __, ___) =>
+                                   a.CompanyArea.ToString() == c.Value &&
+                                   c.CatalogId              == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, __, d, ___) =>
+                                   a.HomeArea.ToString() == d.Value && d.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value &&
+                                                     e.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .WhereDynamicFilter(req.DynamicFilter);
+        return req.Order == Orders.Random
+            ? ret.OrderByRandom()
+            : ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
+                 .OrderByDescending((a, _, __, ___, ____) => a.Id);
         #pragma warning restore CA1305
     }
 }

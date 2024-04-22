@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     部门表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_Dept))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Dept))]
 public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
 {
     /// <summary>

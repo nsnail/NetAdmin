@@ -17,6 +17,12 @@ public sealed class ExampleCache(IDistributedCache cache, IExampleService servic
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryExampleReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
         return Service.CreateAsync(req);

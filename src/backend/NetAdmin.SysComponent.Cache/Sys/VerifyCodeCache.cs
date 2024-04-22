@@ -18,6 +18,12 @@ public sealed class VerifyCodeCache(IDistributedCache cache, IVerifyCodeService 
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
         return Service.CreateAsync(req);

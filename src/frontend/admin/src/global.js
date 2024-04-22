@@ -16,6 +16,13 @@ import time from '@/directives/time'
 import 'vue3-json-viewer/dist/index.css'
 import JsonViewer from 'vue3-json-viewer'
 
+// VAceEditor
+import ace from 'ace-builds'
+import 'ace-builds/src-noconflict/mode-json' // Load the language definition file used below
+import 'ace-builds/src-noconflict/theme-github' // Load the theme definition file used below
+import 'ace-builds/src-noconflict/theme-github_dark' // Load the theme definition file used below
+import { VAceEditor } from 'vue3-ace-editor'
+
 // sc组件
 import scCron from '@/components/scCron/index.vue'
 import scDialog from '@/components/scDialog'
@@ -43,6 +50,7 @@ import naColIndicator from '@/components/naColIndicator/index.vue'
 import naColOperation from '@/components/naColOperation'
 import naColTags from '@/components/naColTags/index.vue'
 import naColTime from '@/components/naColTime/index.vue'
+import naColUser from '@/components/naColUser/index.vue'
 import naDept from '@/components/naDept/index.vue'
 import naDicCatalog from '@/components/naDicCatalog/index.vue'
 import naFormEmail from '@/components/naFormEmail/index.vue'
@@ -70,6 +78,8 @@ export default {
 
         app.use(JsonViewer)
 
+        app.component('VAceEditor', VAceEditor)
+
         // net-admin组件
         app.component('naArea', naArea)
         app.component('naButtonAdd', naButtonAdd)
@@ -79,6 +89,7 @@ export default {
         app.component('naColOperation', naColOperation)
         app.component('naColTags', naColTags)
         app.component('naColTime', naColTime)
+        app.component('naColUser', naColUser)
         app.component('naDept', naDept)
         app.component('naDicCatalog', naDicCatalog)
         app.component('naFormEmail', naFormEmail)

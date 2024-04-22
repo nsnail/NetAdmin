@@ -14,8 +14,8 @@ public sealed record CaptchaOptions : OptionAbstraction
     {
         var rtn = new char[32];
         for (var i = 0; i != 32; i++) {
-            rtn[i] = Chars.FLG_VISIBLE_ASCIIS[
-                (int)(Math.Abs(Math.Sin(_seed * (i + 1))) * Chars.FLG_VISIBLE_ASCIIS.Length)];
+            rtn[i] = Chars.FLGL_VISIBLE_ASCIIS[
+                (int)(Math.Abs(Math.Sin(_seed * (i + 1))) * Chars.FLGL_VISIBLE_ASCIIS.Length)];
         }
 
         SecretKey = new string(rtn);

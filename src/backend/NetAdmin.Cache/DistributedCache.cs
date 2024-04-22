@@ -41,7 +41,12 @@ public abstract class DistributedCache<TService>(IDistributedCache cache, TServi
     protected async Task<T> GetAsync<T>(string key)
     {
         var cacheRead = await Cache.GetStringAsync(key).ConfigureAwait(false);
-        return cacheRead != null ? cacheRead.ToObject<T>() : default;
+        try {
+            return cacheRead != null ? cacheRead.ToObject<T>() : default;
+        }
+        catch (JsonException) {
+            return default;
+        }
     }
 
     /// <summary>

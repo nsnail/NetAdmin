@@ -21,6 +21,10 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
+    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string CreatedUserName { get; init; }
+
     /// <inheritdoc cref="Sys_SiteMsg.Depts" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new IEnumerable<QueryDeptRsp> Depts { get; init; }

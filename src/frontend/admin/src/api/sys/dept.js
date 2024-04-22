@@ -17,6 +17,17 @@ export default {
     },
 
     /**
+     * 部门计数
+     */
+    count: {
+        url: `${config.API_URL}/api/sys/dept/count`,
+        name: `部门计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建部门
      */
     create: {

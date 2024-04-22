@@ -6,6 +6,17 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
+     * 请求日志计数
+     */
+    count: {
+        url: `${config.API_URL}/api/sys/log/count`,
+        name: `请求日志计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个请求日志
      */
     get: {

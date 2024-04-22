@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     角色-菜单映射表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_RoleMenu))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RoleMenu))]
 [Index($"idx_{{tablename}}_{nameof(RoleId)}_{nameof(MenuId)}", $"{nameof(RoleId)},{nameof(MenuId)}", true)]
 public record Sys_RoleMenu : ImmutableEntity
 {

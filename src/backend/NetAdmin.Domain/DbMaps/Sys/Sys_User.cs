@@ -7,7 +7,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     用户基本信息表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_User))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_User))]
 [Index($"idx_{{tablename}}_{nameof(UserName)}", nameof(UserName), true)]
 [Index($"idx_{{tablename}}_{nameof(Mobile)}",   nameof(Mobile),   true)]
 [Index($"idx_{{tablename}}_{nameof(Email)}",    nameof(Email),    true)]

@@ -6,6 +6,17 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
+     * 验证码计数
+     */
+    count: {
+        url: `${config.API_URL}/api/sys/verify.code/count`,
+        name: `验证码计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 发送验证码
      */
     sendVerifyCode: {

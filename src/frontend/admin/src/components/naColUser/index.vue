@@ -1,16 +1,28 @@
 <template>
     <el-table-column v-bind="$attrs">
         <template #default="scope">
-            <div @click="click(tool.getNestedProperty(scope.row, $attrs.prop))" class="avatar" style="cursor: pointer">
+            <div @click="click(tool.getNestedProperty(scope.row, $attrs.prop))" class="avatar">
                 <el-avatar v-if="tool.getNestedProperty(scope.row, $attrs.nestProp)" :src="getAvatar(scope)" size="small"></el-avatar>
-                <el-text tag="ins">{{ tool.getNestedProperty(scope.row, $attrs.nestProp) }}</el-text>
+                <div>
+                    <p>{{ tool.getNestedProperty(scope.row, $attrs.nestProp) }}</p>
+                    <p v-if="$attrs.nestProp2">{{ tool.getNestedProperty(scope.row, $attrs.nestProp2) }}</p>
+                </div>
             </div>
             <save-dialog v-if="dialog.save" @closed="dialog.save = false" ref="saveDialog"></save-dialog>
         </template>
     </el-table-column>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .avatar {
+    div:last-child {
+        line-height: 1rem;
+        p:last-child {
+            color: var(--el-color-info-light-3);
+        }
+    }
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
     display: flex;
     gap: 0.5rem;
 }

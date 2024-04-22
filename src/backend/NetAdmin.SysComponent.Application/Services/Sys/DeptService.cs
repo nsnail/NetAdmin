@@ -26,6 +26,13 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryDeptReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Parent_department_does_not_exist</exception>
     public async Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
     {
@@ -88,12 +95,11 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     }
 
     /// <inheritdoc />
-    /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
     {
         req.ThrowIfInvalid();
         return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? throw new NetAdminUnexpectedException()
+            ? null
             : (await QueryInternal(new QueryReq<QueryDeptReq> { Filter = new QueryDeptReq { Id = req.Id } }, true)
                      .ToTreeListAsync()
                      .ConfigureAwait(false))[0]
@@ -116,6 +122,10 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
                               a.Summary.Contains(req.Keywords));
         if (asTreeCte) {
             ret = ret.AsTreeCte();
+        }
+
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);

@@ -14,7 +14,7 @@ public sealed class CaptchaCache(IDistributedCache cache, ICaptchaService servic
     {
         var captchaRsp = await Service.GetCaptchaImageAsync().ConfigureAwait(false);
         await CreateAsync(GetCacheKey(captchaRsp.Id, nameof(CaptchaCache)), captchaRsp.SawOffsetX
-,                                                                           TimeSpan.FromMinutes(1))
+                        , TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT))
             .ConfigureAwait(false);
         return captchaRsp;
     }

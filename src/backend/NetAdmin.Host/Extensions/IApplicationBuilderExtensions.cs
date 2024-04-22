@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.HttpOverrides;
 #if DEBUG
 using IGeekFan.AspNetCore.Knife4jUI;
 
@@ -42,16 +41,4 @@ public static class IApplicationBuilderExtensions
         });
     }
     #endif
-
-    /// <summary>
-    ///     获取客户端真实Ip
-    /// </summary>
-    public static IApplicationBuilder UseRealIp(this IApplicationBuilder me)
-    {
-        return me.UseForwardedHeaders(new ForwardedHeadersOptions //
-                                      {
-                                          ForwardedHeaders = ForwardedHeaders.XForwardedFor |
-                                                             ForwardedHeaders.XForwardedProto
-                                      });
-    }
 }

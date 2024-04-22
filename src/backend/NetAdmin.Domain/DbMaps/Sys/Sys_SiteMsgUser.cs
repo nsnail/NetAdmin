@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信-用户映射表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgUser))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgUser))]
 [Index($"idx_{{tablename}}_{nameof(UserId)}_{nameof(SiteMsgId)}", $"{nameof(UserId)},{nameof(SiteMsgId)}", true)]
 public record Sys_SiteMsgUser : ImmutableEntity
 {

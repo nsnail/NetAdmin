@@ -5,9 +5,6 @@ namespace NetAdmin.Host.Middlewares;
 /// <summary>
 ///     请求审计中间件
 /// </summary>
-/// <remarks>
-///     放在所有中间件最前面
-/// </remarks>
 public sealed class RequestAuditMiddleware(
     RequestDelegate                               next
   , IOptions<DynamicApiControllerSettingsOptions> dynamicApiControllerSettingsOptions
@@ -17,7 +14,7 @@ public sealed class RequestAuditMiddleware(
         = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
 
     private readonly PathString _healthCheckRoutePrefix
-        = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}/health/check");
+        = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}/probe/health.check");
 
     /// <summary>
     ///     主函数

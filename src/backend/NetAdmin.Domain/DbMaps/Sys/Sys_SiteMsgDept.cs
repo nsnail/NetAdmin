@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信-部门映射表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgDept))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgDept))]
 [Index($"idx_{{tablename}}_{nameof(DeptId)}_{nameof(SiteMsgId)}", $"{nameof(DeptId)},{nameof(SiteMsgId)}", true)]
 public record Sys_SiteMsgDept : ImmutableEntity
 {

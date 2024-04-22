@@ -18,17 +18,28 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
     /// <inheritdoc />
     public IDictionary<string, Dictionary<string, string[]>> GetEnums()
     {
-        return App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) != null)
-                  .ToDictionary(x => x.Name, x => //
-                                    x.GetEnumValues()
-                                     .Cast<Enum>()
-                                     .ToDictionary( //
-                                         y => y.ToString()
-                                       , y => new[] {
-                                                        Convert.ToInt64(y, CultureInfo.InvariantCulture)
-                                                               .ToString(CultureInfo.InvariantCulture)
-                                                      , y.ResDesc<Ln>()
-                                                    }));
+        var ret = App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) != null)
+                     .ToDictionary(x => x.Name, x => //
+                                       x.GetEnumValues()
+                                        .Cast<Enum>()
+                                        .ToDictionary( //
+                                            y => y.ToString()
+                                          , y => new[] {
+                                                           Convert.ToInt64(y, CultureInfo.InvariantCulture)
+                                                                  .ToString(CultureInfo.InvariantCulture)
+                                                         , y.ResDesc<Ln>()
+                                                       }));
+
+        ret.Add($"{nameof(HttpStatusCode)}s", Enum.GetNames<HttpStatusCode>()
+                                                  .ToDictionary( //
+                                                      x => x, x => new[] {
+                                                                             Convert.ToInt64( //
+                                                                                     Enum.Parse<HttpStatusCode>(x)
+                                                                                   , CultureInfo.InvariantCulture)
+                                                                                 .ToString(CultureInfo.InvariantCulture)
+                                                                           , x
+                                                                         }));
+        return ret;
     }
 
     /// <inheritdoc />

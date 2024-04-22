@@ -17,6 +17,12 @@ public sealed class DicContentCache(IDistributedCache cache, IDicContentService 
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDicContentRsp> CreateAsync(CreateDicContentReq req)
     {
         return Service.CreateAsync(req);

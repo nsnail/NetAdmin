@@ -28,6 +28,11 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, in
     Task<int> BulkDeleteAsync(BulkReq<TDelReq> req);
 
     /// <summary>
+    ///     实体计数
+    /// </summary>
+    Task<long> CountAsync(QueryReq<TQueryReq> req);
+
+    /// <summary>
     ///     创建实体
     /// </summary>
     Task<TCreateRsp> CreateAsync(TCreateReq req);

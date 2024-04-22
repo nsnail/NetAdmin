@@ -9,8 +9,8 @@ public record QueryReq<T> : DataAbstraction
     /// <summary>
     ///     取前n条
     /// </summary>
-    [Range(1, Numbers.QUERY_LIMIT)]
-    public int Count { get; init; } = Numbers.QUERY_LIMIT;
+    [Range(1, Numbers.MAX_LIMIT_QUERY)]
+    public int Count { get; init; } = Numbers.MAX_LIMIT_QUERY;
 
     /// <summary>
     ///     动态查询条件

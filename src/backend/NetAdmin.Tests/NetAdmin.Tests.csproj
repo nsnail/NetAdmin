@@ -3,9 +3,9 @@
         <ProjectReference Include="../NetAdmin.Host/NetAdmin.Host.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="xunit" Version="2.7.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0-preview.1.24081.5"/>
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
+        <PackageReference Include="xunit" Version="2.7.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.8">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>

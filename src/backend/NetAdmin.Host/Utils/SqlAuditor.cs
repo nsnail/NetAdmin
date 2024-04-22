@@ -59,7 +59,7 @@ public sealed class SqlAuditor : ISingleton
     private static void SetCreatedClientIp(AuditValueEventArgs e)
     {
         if (e.Value is null or 0) {
-            e.Value = App.HttpContext?.GetRemoteIpAddressToIPv4().IpV4ToInt32();
+            e.Value = App.HttpContext?.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32();
         }
     }
 
@@ -80,7 +80,7 @@ public sealed class SqlAuditor : ISingleton
     private static void SetCreatedUserAgent(AuditValueEventArgs e)
     {
         if (e.Value is null or "") {
-            e.Value = App.HttpContext?.Request.Headers[Chars.FLG_HTTP_HEADER_USER_AGENT].ToString();
+            e.Value = App.HttpContext?.Request.Headers[Chars.FLG_HTTP_HEADER_KEY_USER_AGENT].ToString();
         }
     }
 

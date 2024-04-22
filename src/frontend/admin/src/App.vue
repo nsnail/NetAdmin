@@ -1,6 +1,6 @@
 <template>
     <el-config-provider :button="config.button" :locale="locale" :size="config.size" :zIndex="config.zIndex">
-        <router-view></router-view>
+        <router-view v-if="isRouterAlive"></router-view>
     </el-config-provider>
 </template>
 
@@ -9,8 +9,14 @@ import colorTool from '@/utils/color'
 
 export default {
     name: 'App',
+    provide() {
+        return {
+            reload: this.reload,
+        }
+    },
     data() {
         return {
+            isRouterAlive: true,
             config: {
                 size: 'default',
                 zIndex: 2000,
@@ -23,6 +29,14 @@ export default {
     computed: {
         locale() {
             return this.$i18n.messages[this.$i18n.locale].el
+        },
+    },
+    methods: {
+        reload() {
+            this.isRouterAlive = false
+            this.$nextTick(function () {
+                this.isRouterAlive = true
+            })
         },
     },
     async created() {

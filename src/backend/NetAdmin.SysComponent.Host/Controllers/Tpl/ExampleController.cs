@@ -25,6 +25,14 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     }
 
     /// <summary>
+    ///     示例计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryExampleReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建示例
     /// </summary>
     [Transaction]

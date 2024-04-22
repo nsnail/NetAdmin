@@ -11,6 +11,6 @@ public sealed record BulkReq<T> : DataAbstraction
     /// </summary>
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.请求对象不能为空))]
     [MinLength(1)]
-    [MaxLength(Numbers.BULK_REQ_LIMIT)]
+    [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
     public IEnumerable<T> Items { get; init; }
 }

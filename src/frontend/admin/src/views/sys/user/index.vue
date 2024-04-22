@@ -48,8 +48,11 @@
             <sc-table
                 v-loading="loading"
                 :apiObj="$API.sys_user.pagedQuery"
+                :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime']"
+                :context-opers="['view', 'edit']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
+                :vue="this"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -63,16 +66,16 @@
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" width="150"></el-table-column>
                 <na-col-avatar :label="$t('用户名')" prop="userName" />
-                <el-table-column :label="$t('手机号')" prop="mobile" sortable="custom" width="120"></el-table-column>
+                <el-table-column :label="$t('手机号')" align="center" prop="mobile" sortable="custom" width="120"></el-table-column>
                 <el-table-column :label="$t('邮箱')" prop="email" sortable="custom"></el-table-column>
                 <na-col-tags :label="$t('所属角色')" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" field="name" prop="roles" />
                 <na-col-tags :label="$t('所属部门')" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" field="name" prop="dept" />
-                <el-table-column :label="$t('启用')" prop="enabled" sortable="custom" width="100">
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom"></el-table-column>
                 <na-col-operation :vue="this"></na-col-operation>
             </sc-table>
         </el-main>
@@ -99,6 +102,7 @@ export default {
         roleSaveDialog,
         deptSaveDialog,
     },
+    inject: ['reload'],
     data() {
         return {
             loading: false,

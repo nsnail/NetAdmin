@@ -23,6 +23,7 @@
                 :summary-method="remoteSummary ? remoteSummaryMethod : summaryMethod"
                 @cell-click="cellClickMethod"
                 @filter-change="filterChange"
+                @row-contextmenu="rowContextmenu"
                 @sort-change="sortChange"
                 ref="scTable">
                 <slot></slot>
@@ -108,17 +109,63 @@
             </div>
         </div>
     </div>
+    <sc-contextmenu @command="contextMenuCommand" @visible-change="contextMenuVisibleChange" ref="contextmenu">
+        <sc-contextmenu-item
+            v-for="(menu, index) in contextMenus"
+            :command="menu"
+            :disabled="menu !== current.column.property"
+            :key="index"
+            :title="`${menu}`">
+            <sc-contextmenu-item :command="`${menu}^|^Equal^|^${current.row[menu]}`" title="="></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^NotEqual^|^${current.row[menu]}`" title="≠"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^GreaterThan^|^${current.row[menu]}`" divided title="＞"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^GreaterThanOrEqual^|^${current.row[menu]}`" title="≥"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^LessThan^|^${current.row[menu]}`" title="＜"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^LessThanOrEqual^|^${current.row[menu]}`" title="≤"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^Contains^|^${current.row[menu]}`" divided title="包含"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^NotContains^|^${current.row[menu]}`" title="不含"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^StartsWith^|^${current.row[menu]}`" divided title="以 x 开始"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^NotStartsWith^|^${current.row[menu]}`" title="非 x 开始"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^EndsWith^|^${current.row[menu]}`" title="以 x 结束"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^NotEndsWith^|^${current.row[menu]}`" title="非 x 结束"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^Range^|^${current.row[menu]}`" divided title="数值范围"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^DateRange^|^${current.row[menu]}`" title="日期范围"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^Any^|^${current.row[menu]}`" divided title="为其一"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^NotAny^|^${current.row[menu]}`" title="非其一"></sc-contextmenu-item>
+        </sc-contextmenu-item>
+        <sc-contextmenu-item v-if="contextOpers.includes('view')" command="view" divided icon="el-icon-view" title="查看"></sc-contextmenu-item>
+        <sc-contextmenu-item v-if="contextOpers.includes('edit')" command="edit" icon="el-icon-edit" title="编辑"></sc-contextmenu-item>
+        <sc-contextmenu-item v-if="contextOpers.includes('del')" command="del" icon="el-icon-delete" title="删除"></sc-contextmenu-item>
+        <sc-contextmenu-item
+            v-for="(adv, index) in contextAdvs"
+            :command="adv"
+            :divided="adv.divided"
+            :icon="adv.icon"
+            :key="index"
+            :title="adv.label">
+        </sc-contextmenu-item>
+        <sc-contextmenu-item command="refresh" divided icon="el-icon-refresh" suffix="Ctrl+R" title="重新加载"></sc-contextmenu-item>
+    </sc-contextmenu>
 </template>
 <script>
 import config from '@/config/table'
 import columnSetting from './columnSetting'
+import scContextmenuItem from '@/components/scContextmenu/item.vue'
+import scContextmenu from '@/components/scContextmenu/index.vue'
+import { h } from 'vue'
 
 export default {
     name: 'scTable',
     components: {
+        scContextmenu,
+        scContextmenuItem,
         columnSetting,
     },
     props: {
+        vue: { type: Object },
+        contextMenus: { type: Array },
+        contextOpers: { type: Array, default: ['view', 'edit', 'del'] },
+        contextAdvs: { type: Array, default: [] },
         tableName: { type: String, default: '' },
         beforePost: {
             type: Function,
@@ -184,6 +231,10 @@ export default {
     },
     data() {
         return {
+            current: {
+                row: null,
+                column: null,
+            },
             scPageSize: this.pageSize,
             isActivate: true,
             emptyText: '暂无数据',
@@ -231,6 +282,71 @@ export default {
         this.isActivate = false
     },
     methods: {
+        async contextMenuCommand(command) {
+            if (typeof command === 'object') {
+                return command.action()
+            }
+            if (command === 'refresh') {
+                this.vue.reload()
+                return
+            }
+            if (command === 'view') {
+                this.vue.dialog.save = true
+                await this.$nextTick()
+                await this.vue.$refs.saveDialog.open('view', { id: this.current.row.id })
+                return
+            }
+            if (command === 'edit') {
+                this.vue.dialog.save = true
+                await this.$nextTick()
+                await this.vue.$refs.saveDialog.open('edit', { id: this.current.row.id })
+                return
+            }
+            if (command === 'del') {
+                try {
+                    await this.$confirm(h('div', [h('p', '是否确认删除？'), h('p', this.current.row.id)]), '提示', {
+                        type: 'warning',
+                    })
+                } catch {
+                    return
+                }
+                await this.vue.deleteRow(this.current.row)
+                return
+            }
+
+            const kv = command.split('^|^')
+            let value
+            try {
+                value = await this.$prompt(`仅显示 ${kv[0]} ${kv[1]}：`, '高级筛选', {
+                    inputPlaceholder: '一行一个',
+                    inputPattern: /.+/,
+                    inputType: 'textarea',
+                    inputValue: command.split('^|^')[2],
+                })
+            } catch {
+                return
+            }
+            value = value.value?.split('\n') ?? ['']
+            this.vue.query.dynamicFilter.filters.push({
+                field: kv[0],
+                operator: kv[1],
+                value: value.length === 1 ? value[0] : value,
+            })
+            this.upData()
+        },
+        contextMenuVisibleChange(visible) {
+            if (!visible) {
+                this.setCurrentRow()
+            }
+        },
+        rowContextmenu(row, column, event) {
+            if (!this.contextMenus) return
+            this.current.row = row
+            this.current.column = column
+            this.setCurrentRow(row)
+            this.$refs.contextmenu.openMenu(event)
+        },
+
         //获取列
         async getCustomColumn() {
             this.userColumn = await config.columnSettingGet(this.tableName, this.column)

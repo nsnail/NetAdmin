@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     字典目录表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_DicCatalog))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_DicCatalog))]
 [Index($"idx_{{tablename}}_{nameof(Code)}", nameof(Code), true)]
 public record Sys_DicCatalog : VersionEntity
 {

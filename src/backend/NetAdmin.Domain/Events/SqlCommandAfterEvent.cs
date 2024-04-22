@@ -24,6 +24,7 @@ public sealed record SqlCommandAfterEvent : SqlCommandBeforeEvent
     /// <inheritdoc />
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {2} ms {1}", Id, Sql, ElapsedMicroseconds / 1000);
+        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {2} ms {1}", Id
+                           , Sql?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_SQL), ElapsedMicroseconds / 1000);
     }
 }

@@ -27,6 +27,13 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryJobRecordRsp> CreateAsync(CreateJobRecordReq req)
     {
         req.ThrowIfInvalid();
@@ -106,8 +113,12 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.JobId == req.Keywords.Int64Try(0) || a.Id == req.Keywords.Int64Try(0))
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+                       , a => a.JobId == req.Keywords.Int64Try(0) || a.Id == req.Keywords.Int64Try(0));
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
         }

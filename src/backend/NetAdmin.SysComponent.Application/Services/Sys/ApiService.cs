@@ -22,6 +22,13 @@ public sealed class ApiService(
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryApiReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
         req.ThrowIfInvalid();
@@ -140,9 +147,12 @@ public sealed class ApiService(
 
     private ISelect<Sys_Api> QueryInternal(QueryReq<QueryApiReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.CreatedTime);

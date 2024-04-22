@@ -17,6 +17,12 @@ public sealed class UserProfileCache(IDistributedCache cache, IUserProfileServic
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryUserProfileRsp> CreateAsync(CreateUserProfileReq req)
     {
         return Service.CreateAsync(req);

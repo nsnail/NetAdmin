@@ -8,7 +8,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     角色表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_Role))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Role))]
 [Index("idx_{tablename}_01", nameof(Name), true)]
 public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary, IRegister
 {

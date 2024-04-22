@@ -26,6 +26,13 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryMenuReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
         req.ThrowIfInvalid();
@@ -37,12 +44,12 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     public async Task<int> DeleteAsync(DelReq req)
     {
         req.ThrowIfInvalid();
-        var effect = await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
-        effect += await Rpo.Orm.Delete<Sys_RoleMenu>()
-                           .Where(a => a.MenuId == req.Id)
-                           .ExecuteAffrowsAsync()
-                           .ConfigureAwait(false);
-        return effect;
+        var ret = await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
+        _ = await Rpo.Orm.Delete<Sys_RoleMenu>()
+                     .Where(a => a.MenuId == req.Id)
+                     .ExecuteAffrowsAsync()
+                     .ConfigureAwait(false);
+        return ret;
     }
 
     /// <inheritdoc />
@@ -76,12 +83,11 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     }
 
     /// <inheritdoc />
-    /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
     {
         req.ThrowIfInvalid();
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
-            throw new NetAdminUnexpectedException();
+            return null;
         }
 
         var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
@@ -124,11 +130,12 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
 
     private ISelect<Sys_Menu> QueryInternal(QueryReq<QueryMenuReq> req)
     {
-        return Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                  .WhereDynamic(req.Filter)
-                  .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                  .OrderByDescending(a => a.Sort)
-                  .OrderBy(a => a.Name)
-                  .OrderBy(a => a.Id);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        return req.Order == Orders.Random
+            ? ret.OrderByRandom()
+            : ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
+                 .OrderByDescending(a => a.Sort)
+                 .OrderBy(a => a.Name)
+                 .OrderBy(a => a.Id);
     }
 }

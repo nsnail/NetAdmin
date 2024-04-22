@@ -31,6 +31,13 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
         req.ThrowIfInvalid();
@@ -180,9 +187,12 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
 
     private ISelect<Sys_VerifyCode> QueryInternal(QueryReq<QueryVerifyCodeReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
         }

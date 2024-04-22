@@ -315,8 +315,9 @@ public sealed class UserAgentParser
 
     private bool SetPlatform()
     {
-        var kv = _platforms.First(x => //
-                                      Regex.IsMatch(_agent, $"{Regex.Escape(x.Key)}", RegexOptions.IgnoreCase));
+        var kv = _platforms.FirstOrDefault(x => //
+                                               Regex.IsMatch(_agent, $"{Regex.Escape(x.Key)}"
+                                                           , RegexOptions.IgnoreCase));
 
         if (kv.Key == null) {
             Platform = "Unknown Platform";

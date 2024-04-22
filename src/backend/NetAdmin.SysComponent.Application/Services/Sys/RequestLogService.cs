@@ -26,6 +26,13 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
         req.ThrowIfInvalid();
@@ -106,10 +113,12 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
 
     private ISelect<Sys_RequestLog> QueryInternal(QueryReq<QueryRequestLogReq> req)
     {
-        var ret = Rpo.Select.Include(a => a.Api)
-                     .WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        var ret = Rpo.Select.Include(a => a.Api).WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.CreatedTime);
