@@ -43,7 +43,7 @@ public abstract record CreateUpdateUserReq : Sys_User
     /// </summary>
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号列表不能为空))]
     [MinLength(1)]
-    [MaxLength(Numbers.BULK_REQ_LIMIT)]
+    [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="Sys_User.Summary" />

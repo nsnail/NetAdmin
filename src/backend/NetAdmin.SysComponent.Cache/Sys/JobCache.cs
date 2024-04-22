@@ -18,6 +18,12 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryJobReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryJobRsp> CreateAsync(CreateJobReq req)
     {
         return Service.CreateAsync(req);

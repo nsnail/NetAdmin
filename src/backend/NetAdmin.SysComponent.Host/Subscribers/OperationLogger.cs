@@ -21,7 +21,7 @@ public sealed class OperationLogger : IEventSubscriber
         }
 
         // 跳过心跳请求
-        if (operationEvent.Data.ApiId.Equals("api/health/check", StringComparison.OrdinalIgnoreCase)) {
+        if (operationEvent.Data.ApiId.Equals("api/probe/health.check", StringComparison.OrdinalIgnoreCase)) {
             return;
         }
 

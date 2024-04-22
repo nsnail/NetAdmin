@@ -32,8 +32,10 @@
         <el-main class="nopadding">
             <sc-table
                 :apiObj="$API.sys_dept.query"
+                :context-menus="['id', 'name', 'sort', 'enabled', 'createdTime', 'summary']"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :params="query"
+                :vue="this"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -49,7 +51,7 @@
                 <el-table-column type="selection" width="50"></el-table-column>
                 <el-table-column :label="$t('部门编号')" prop="id" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('部门名称')" prop="name" sortable="custom"></el-table-column>
-                <el-table-column :label="$t('排序')" prop="sort" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom"></el-table-column>
                 <na-col-indicator
                     :label="$t('状态')"
                     :options="[
@@ -57,7 +59,7 @@
                         { text: '禁用', type: 'danger', value: false, pulse: true },
                     ]"
                     prop="enabled"></na-col-indicator>
-                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('备注')" prop="summary"></el-table-column>
                 <na-col-operation
                     :buttons="
@@ -66,6 +68,7 @@
                             confirm: true,
                             title: '删除部门',
                             click: rowDel,
+                            type: 'danger',
                         })
                     "
                     :vue="this" />
@@ -97,6 +100,7 @@ export default {
     components: {
         saveDialog,
     },
+    inject: ['reload'],
     data() {
         return {
             query: {

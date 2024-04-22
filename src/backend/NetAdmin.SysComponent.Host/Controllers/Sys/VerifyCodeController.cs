@@ -15,49 +15,71 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache captchaCache)
     : ControllerBase<IVerifyCodeCache, IVerifyCodeService>(cache), IVerifyCodeModule
 {
-    /// <inheritdoc />
+    /// <summary>
+    ///     批量删除验证码
+    /// </summary>
     [NonAction]
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         return Cache.BulkDeleteAsync(req);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     验证码计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
+    ///     创建验证码
+    /// </summary>
     [NonAction]
     public Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
         return Cache.CreateAsync(req);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     删除验证码
+    /// </summary>
     [NonAction]
     public Task<int> DeleteAsync(DelReq req)
     {
         return Cache.DeleteAsync(req);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     判断验证码是否存在
+    /// </summary>
     [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         return Cache.ExistAsync(req);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     获取单个验证码
+    /// </summary>
     [NonAction]
     public Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
         return Cache.GetAsync(req);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     分页查询验证码
+    /// </summary>
     [NonAction]
     public Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
     {
         return Cache.PagedQueryAsync(req);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     查询验证码
+    /// </summary>
     [NonAction]
     public Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
@@ -75,7 +97,9 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
         return await Cache.SendVerifyCodeAsync(req).ConfigureAwait(false);
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     更新验证码
+    /// </summary>
     [NonAction]
     public Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
     {

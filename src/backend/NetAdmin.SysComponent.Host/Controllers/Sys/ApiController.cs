@@ -25,6 +25,14 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     }
 
     /// <summary>
+    ///     接口计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryApiReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建接口
     /// </summary>
     [NonAction]

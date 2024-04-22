@@ -10,7 +10,7 @@
                                     type: 'input',
                                     field: ['filter', 'id'],
                                     placeholder: '日志编号',
-                                    style: 'width:15rem',
+                                    style: 'width:12rem',
                                 },
                                 {
                                     multiple: true,
@@ -24,7 +24,7 @@
                                         { label: '90x', value: '900,999' },
                                     ],
                                     placeholder: '状态码',
-                                    style: 'width:20rem',
+                                    style: 'width:15rem',
                                 },
                                 {
                                     type: 'cascader',
@@ -37,14 +37,14 @@
                                 {
                                     type: 'input',
                                     field: ['dy', 'createdUserName'],
-                                    placeholder: '用户',
-                                    style: 'width:15rem',
+                                    placeholder: '用户名',
+                                    style: 'width:12rem',
                                 },
                                 {
                                     type: 'input',
                                     field: ['dy', 'createdClientIp'],
                                     placeholder: '客户端IP',
-                                    style: 'width:15rem',
+                                    style: 'width:12rem',
                                 },
                             ]"
                             :vue="this"
@@ -55,8 +55,21 @@
                 <el-main class="nopadding">
                     <sc-table
                         :apiObj="$API.sys_log.pagedQuery"
+                        :context-menus="[
+                            'id',
+                            'httpStatusCode',
+                            'apiId',
+                            'createdUserName',
+                            'method',
+                            'duration',
+                            'createdClientIp',
+                            'os',
+                            'createdTime',
+                        ]"
+                        :context-opers="[]"
                         :default-sort="{ prop: 'createdTime', order: 'descending' }"
                         :params="query"
+                        :vue="this"
                         @row-click="rowClick"
                         ref="table"
                         remoteFilter
@@ -64,33 +77,52 @@
                         row-key="id"
                         stripe>
                         <el-table-column :label="$t('日志编号')" align="center" prop="id" sortable="custom" width="150"></el-table-column>
-                        <el-table-column :label="$t('日志时间')" align="center" prop="createdTime" sortable="custom" width="170"></el-table-column>
-                        <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="90"></el-table-column>
-                        <el-table-column :label="$t('请求服务')">
+                        <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="100">
+                            <template #default="scope">
+                                <div class="indicator">
+                                    <sc-status-indicator
+                                        :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(scope.row.httpStatusCode)).toString(16).substring(0, 6)}`" />
+                                    <span> {{ scope.row.httpStatusCode }}</span>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('请求服务')" align="center">
+                            <el-table-column :label="$t('路径')" prop="apiId" show-overflow-tooltip sortable="custom">
+                                <template #default="scope">
+                                    <p>{{ scope.row.apiId }}</p>
+                                    <p>{{ scope.row.apiSummary }}</p>
+                                </template>
+                            </el-table-column>
+                            <el-table-column :label="$t('方法')" align="center" prop="method" sortable="custom" width="100">
+                                <template #default="scope">
+                                    <div class="indicator">
+                                        <sc-status-indicator
+                                            :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(scope.row.method)).toString(16).substring(0, 6)}`" />
+                                        <span> {{ scope.row.method }}</span>
+                                    </div>
+                                </template>
+                            </el-table-column>
                             <el-table-column
-                                :label="$t('路径')"
-                                min-width="150"
-                                prop="apiId"
-                                show-overflow-tooltip
-                                sortable="custom"></el-table-column>
-                            <el-table-column :label="$t('描述')" prop="apiSummary"></el-table-column>
-                            <el-table-column :label="$t('方法')" align="center" prop="method" sortable="custom" width="100"></el-table-column>
-                            <el-table-column
-                                :formatter="(row) => tool.groupSeparator((row.duration / 1000).toFixed(0))"
-                                :label="$t('耗时(毫秒)')"
+                                :formatter="(row) => `${tool.groupSeparator((row.duration / 1000).toFixed(0))} ms`"
+                                :label="$t('耗时')"
                                 align="right"
                                 prop="duration"
                                 sortable="custom"
                                 width="120">
                             </el-table-column>
                         </el-table-column>
-                        <el-table-column :label="$t('用户')" prop="createdUserName" sortable="custom">
+                        <el-table-column :label="$t('用户名')" prop="createdUserName" sortable="custom" width="150">
                             <template #default="scope">
                                 {{ scope.row.apiId === 'api/sys/user/pwd.login' ? scope.row.extraData : scope.row.createdUserName }}
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('客户端IP')" prop="createdClientIp" sortable="custom" width="150"></el-table-column>
-                        <el-table-column :label="$t('操作系统')" align="center" prop="os" sortable="custom"></el-table-column>
+                        <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
+                            <template #default="scope">
+                                <na-ip :ip="scope.row.createdClientIp"></na-ip>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150"></el-table-column>
+                        <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170"></el-table-column>
                     </sc-table>
                 </el-main>
             </el-container>
@@ -106,6 +138,7 @@ import tool from '@/utils/tool'
 import ScTable from '@/components/scTable/index.vue'
 
 export default {
+    inject: ['reload'],
     computed: {
         tool() {
             return tool

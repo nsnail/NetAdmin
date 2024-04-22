@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     用户-角色映射表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_UserRole))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_UserRole))]
 public record Sys_UserRole : VersionEntity
 {
     /// <summary>

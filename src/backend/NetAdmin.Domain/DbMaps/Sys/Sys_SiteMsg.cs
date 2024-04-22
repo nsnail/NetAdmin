@@ -8,7 +8,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_SiteMsg))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsg))]
 public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
 {
     /// <summary>

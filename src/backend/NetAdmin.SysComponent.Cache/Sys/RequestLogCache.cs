@@ -17,6 +17,12 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
         return Service.CreateAsync(req);

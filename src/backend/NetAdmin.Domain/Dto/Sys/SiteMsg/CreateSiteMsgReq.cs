@@ -17,7 +17,7 @@ public record CreateSiteMsgReq : Sys_SiteMsg
     ///     部门编号列表
     /// </summary>
     [MinLength(1)]
-    [MaxLength(Numbers.BULK_REQ_LIMIT)]
+    [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
     public IReadOnlyCollection<long> DeptIds { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.MsgType" />
@@ -30,7 +30,7 @@ public record CreateSiteMsgReq : Sys_SiteMsg
     ///     角色编号列表
     /// </summary>
     [MinLength(1)]
-    [MaxLength(Numbers.BULK_REQ_LIMIT)]
+    [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Title" />
@@ -42,6 +42,6 @@ public record CreateSiteMsgReq : Sys_SiteMsg
     ///     用户编号列表
     /// </summary>
     [MinLength(1)]
-    [MaxLength(Numbers.BULK_REQ_LIMIT)]
+    [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
     public IReadOnlyCollection<long> UserIds { get; init; }
 }

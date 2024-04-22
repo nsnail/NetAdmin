@@ -17,6 +17,12 @@ public sealed class DeptCache(IDistributedCache cache, IDeptService service) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryDeptReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
     {
         return Service.CreateAsync(req);

@@ -19,4 +19,12 @@ public enum Orders
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.倒序排序))]
     Descending = 2
+
+   ,
+
+    /// <summary>
+    ///     随机排序
+    /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.随机排序))]
+    Random = 3
 }

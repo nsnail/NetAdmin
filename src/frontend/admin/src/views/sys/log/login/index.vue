@@ -25,7 +25,7 @@
                                 {
                                     type: 'input',
                                     field: ['dy', 'createdClientIp'],
-                                    placeholder: 'IP地址',
+                                    placeholder: '客户端IP',
                                     style: 'width:15rem',
                                 },
                             ]"
@@ -38,31 +38,33 @@
                 <el-main class="nopadding">
                     <sc-table
                         :apiObj="$API.sys_log.pagedQuery"
+                        :context-menus="['id', 'httpStatusCode', 'extraData', 'createdClientIp', 'os', 'createdUserAgent', 'createdTime']"
+                        :context-opers="['view']"
                         :default-sort="{ prop: 'createdTime', order: 'descending' }"
                         :params="query"
+                        :vue="this"
                         @row-click="rowClick"
                         ref="table"
                         remoteFilter
                         remoteSort
                         row-key="id"
                         stripe>
-                        <el-table-column :label="$t('日志编号')" prop="id" sortable="custom"></el-table-column>
-                        <el-table-column :label="$t('日志时间')" prop="createdTime" sortable="custom"></el-table-column>
-                        <el-table-column :label="$t('结果')" prop="httpStatusCode" sortable="custom">
+                        <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150"></el-table-column>
+                        <el-table-column :label="$t('结果')" align="center" prop="httpStatusCode" sortable="custom" width="80">
                             <template #default="scope">
                                 <sc-status-indicator :type="scope.row.httpStatusCode === 200 ? 'success' : 'danger'" />
                                 {{ scope.row.httpStatusCode === 200 ? '成功' : '失败' }}
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('登录名')" prop="extraData" sortable="custom"></el-table-column>
-                        <el-table-column :label="$t('IP地址')" prop="createdClientIp" sortable="custom"></el-table-column>
-                        <el-table-column :label="$t('操作系统')" prop="os" sortable="custom"></el-table-column>
-                        <el-table-column
-                            :label="$t('用户代理')"
-                            min-width="200"
-                            prop="createdUserAgent"
-                            show-overflow-tooltip
-                            sortable="custom"></el-table-column>
+                        <el-table-column :label="$t('登录名')" prop="extraData" sortable="custom" width="200"></el-table-column>
+                        <el-table-column :label="$t('客户端IP')" prop="createdClientIp" sortable="custom" width="200">
+                            <template #default="scope">
+                                <na-ip :ip="scope.row.createdClientIp"></na-ip>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('操作系统')" prop="os" width="150"></el-table-column>
+                        <el-table-column :label="$t('用户代理')" prop="createdUserAgent" show-overflow-tooltip sortable="custom"></el-table-column>
+                        <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170"></el-table-column>
                     </sc-table>
                 </el-main>
             </el-container>
@@ -83,6 +85,7 @@ export default {
         naInfo,
     },
     watch: {},
+    inject: ['reload'],
     data() {
         return {
             query: {

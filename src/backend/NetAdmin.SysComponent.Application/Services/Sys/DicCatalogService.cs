@@ -26,6 +26,13 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryDicCatalogReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
     public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
@@ -88,7 +95,6 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
-    /// <exception cref="NetAdminUnexpectedException">NetAdminUnexpectedException</exception>
     public async Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
     {
         req.ThrowIfInvalid();
@@ -98,7 +104,7 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
         }
 
         if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
-            throw new NetAdminUnexpectedException();
+            return null;
         }
 
         var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
@@ -113,9 +119,12 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
 
     private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
         }

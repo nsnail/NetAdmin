@@ -11,7 +11,9 @@ public static class HttpResponseMessageExtensions
     public static async Task LogAsync<T>(this HttpResponseMessage me, ILogger<T> logger
                                        , Func<string, string>     bodyPreHandle = null)
     {
-        logger.Info(await me.BuildJsonAsync(bodyPreHandle).ConfigureAwait(false));
+        logger.Info(
+            (await me.BuildJsonAsync(bodyPreHandle).ConfigureAwait(false))?.Sub(
+                0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT));
     }
 
     /// <summary>
@@ -20,7 +22,8 @@ public static class HttpResponseMessageExtensions
     public static async Task LogExceptionAsync<T>(this HttpResponseMessage me, string errors, ILogger<T> logger
                                                 , Func<string, string>     bodyHandle = null)
     {
-        logger.Warn($"{errors}: {await me.BuildJsonAsync(bodyHandle).ConfigureAwait(false)}");
+        logger.Warn(
+            $"{errors}: {(await me.BuildJsonAsync(bodyHandle).ConfigureAwait(false))?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT)}");
     }
 
     /// <summary>

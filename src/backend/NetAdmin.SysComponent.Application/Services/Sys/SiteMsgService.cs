@@ -12,8 +12,10 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ISiteMsgService" />
-public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUserInfo contextUserInfo
-                                 , ISiteMsgFlagService            siteMsgFlagService) //
+public sealed class SiteMsgService(
+    DefaultRepository<Sys_SiteMsg> rpo
+  , ContextUserInfo                contextUserInfo
+  , ISiteMsgFlagService            siteMsgFlagService) //
     : RepositoryService<Sys_SiteMsg, ISiteMsgService>(rpo), ISiteMsgService
 {
     /// <inheritdoc />
@@ -28,6 +30,13 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
         }
 
         return ret;
+    }
+
+    /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
     }
 
     /// <inheritdoc />
@@ -109,7 +118,7 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
                          .Count(out var total)
                          .ToListAsync(a => new {
                                                    a.CreatedTime
-                                                 , a.Creator
+                                                 , a.CreatedUserName
                                                  , a.Id
                                                  , a.MsgType
                                                  , a.Summary
@@ -275,8 +284,12 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
                      .WhereIf( //
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.Title.Contains(req.Keywords) ||
-                              a.Summary.Contains(req.Keywords))
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+                              a.Summary.Contains(req.Keywords));
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
         }
@@ -300,9 +313,9 @@ public sealed class SiteMsgService(DefaultRepository<Sys_SiteMsg> rpo, ContextUs
                   .WhereDynamicFilter(req.DynamicFilter)
                   .Where((a, _, c, d, e, f) =>
                              (SqlExt.EqualIsNull(f.UserSiteMsgStatus) ||
-                              f.UserSiteMsgStatus != UserSiteMsgStatues.Deleted) && (a.MsgType == SiteMsgTypes.Public ||
-                                 c.DeptId == contextUserInfo.DeptId || roleIds.Contains(d.RoleId) ||
-                                 e.UserId == contextUserInfo.Id))
+                              f.UserSiteMsgStatus != UserSiteMsgStatues.Deleted) &&
+                             (a.MsgType == SiteMsgTypes.Public || c.DeptId == contextUserInfo.DeptId ||
+                              roleIds.Contains(d.RoleId)       || e.UserId == contextUserInfo.Id))
                   .GroupBy((a, _, _, _, _, _) => a.Id);
     }
 }

@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
             (Startup.Args.InsertSeedData ? FreeSqlInitMethods.InsertSeedData : FreeSqlInitMethods.None), freeSql => {
                 // 数据权限过滤器
                 _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
-                    Chars.FLG_GLOBAL_FILTER_DATA
+                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA
                   , () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.Self) ?? false
                   , a => a.OwnerId == ContextUserInfo.Create().Id);
             });

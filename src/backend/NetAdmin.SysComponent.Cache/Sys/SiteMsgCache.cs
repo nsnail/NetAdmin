@@ -18,6 +18,12 @@ public sealed class SiteMsgCache(IDistributedCache cache, ISiteMsgService servic
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req)
     {
         return Service.CreateAsync(req);

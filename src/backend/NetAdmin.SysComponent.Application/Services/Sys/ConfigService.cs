@@ -27,6 +27,13 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryConfigReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
         req.ThrowIfInvalid();
@@ -113,8 +120,12 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
                      .Include(a => a.UserRegisterRole)
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereIf( //
-                         req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+                         req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value);
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
         }

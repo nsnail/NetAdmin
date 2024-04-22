@@ -8,7 +8,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     计划作业表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_Job))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Job))]
 public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
 {
     /// <inheritdoc cref="IFieldEnabled.Enabled" />

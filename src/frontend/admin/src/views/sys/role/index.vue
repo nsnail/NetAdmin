@@ -52,8 +52,10 @@
         <el-main class="nopadding">
             <sc-table
                 :apiObj="$API.sys_role.pagedQuery"
+                :context-menus="['id', 'name', 'sort', 'enabled', 'ignorePermissionControl', 'dataScope', 'displayDashboard', 'createdTime']"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :params="query"
+                :vue="this"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -67,7 +69,7 @@
                 <el-table-column type="selection" width="50"></el-table-column>
                 <el-table-column :label="$t('角色编号')" prop="id" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('角色名称')" prop="name" sortable="custom"></el-table-column>
-                <el-table-column :label="$t('排序')" prop="sort" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom"></el-table-column>
                 <na-col-indicator
                     :label="$t('状态')"
                     :options="[
@@ -82,12 +84,17 @@
                         { text: '否', type: 'danger', value: false },
                     ]"
                     prop="ignorePermissionControl"></na-col-indicator>
-
-                <el-table-column :label="$t('数据范围')" prop="dataScope" sortable="custom">
-                    <template #default="scope">
-                        {{ this.$GLOBAL.enums.dataScopes[scope.row.dataScope][1] }}
-                    </template>
-                </el-table-column>
+                <na-col-indicator
+                    :label="$t('数据范围')"
+                    :options="
+                        Object.entries(this.$GLOBAL.enums.dataScopes).map((x) => {
+                            return { value: x[0], text: x[1][1] }
+                        })
+                    "
+                    prop="dataScope"
+                    sortable="custom"
+                    width="100">
+                </na-col-indicator>
 
                 <na-col-indicator
                     :label="$t('显示仪表板')"
@@ -97,7 +104,7 @@
                     ]"
                     prop="displayDashboard"></na-col-indicator>
 
-                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom"></el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -105,6 +112,7 @@
                             confirm: true,
                             title: '删除角色',
                             click: rowDel,
+                            type: 'danger',
                         })
                     "
                     :vue="this"></na-col-operation>
@@ -136,6 +144,7 @@ export default {
     components: {
         saveDialog,
     },
+    inject: ['reload'],
     data() {
         return {
             query: {

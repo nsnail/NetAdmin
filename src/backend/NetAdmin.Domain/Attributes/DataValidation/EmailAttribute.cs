@@ -10,7 +10,7 @@ public sealed class EmailAttribute : RegexAttribute
     ///     Initializes a new instance of the <see cref="EmailAttribute" /> class.
     /// </summary>
     public EmailAttribute() //
-        : base(Chars.RGX_EMAIL)
+        : base(Chars.RGXL_EMAIL)
     {
         ErrorMessageResourceName = nameof(Ln.电子邮箱);
         ErrorMessageResourceType = typeof(Ln);

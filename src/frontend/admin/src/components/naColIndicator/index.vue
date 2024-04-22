@@ -15,14 +15,6 @@
         </template>
     </el-table-column>
 </template>
-<style scoped>
-.indicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-</style>
 <script>
 import tool from '@/utils/tool'
 

@@ -30,6 +30,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryUserReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
         return Service.CreateAsync(req);
@@ -77,7 +83,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
         #if !DEBUG
         return GetOrCreateAsync(                                                  //
             GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.QueryAsync(req), TimeSpan.FromMinutes(1));
+          , () => Service.QueryAsync(req), TimeSpan.FromSeconds(Numbers.CACHE_SECS_DEFAULT));
         #else
         return Service.QueryAsync(req);
         #endif
@@ -194,7 +200,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
         #if !DEBUG
         return GetOrCreateAsync( //
             GetCacheKey(Service.UserToken.Id.ToString(CultureInfo.InvariantCulture)), Service.UserInfoAsync
-,                                                                                     TimeSpan.FromMinutes(1));
+          , TimeSpan.FromSeconds(Numbers.CACHE_SECS_DEFAULT));
         #else
         return Service.UserInfoAsync();
         #endif

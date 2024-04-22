@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "devDependencies": {
-    "cz-git": "^1.8.0",
+    "cz-git": "^1.9.1",
     "commitizen": "^4.3.0",
     "prettier": "^3.2.5",
     "standard-version": "^9.5.0"

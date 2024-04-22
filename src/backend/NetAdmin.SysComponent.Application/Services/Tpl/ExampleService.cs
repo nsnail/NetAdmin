@@ -27,6 +27,13 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryExampleReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
         req.ThrowIfInvalid();
@@ -102,9 +109,12 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
 
     private ISelect<Tpl_Example> QueryInternal(QueryReq<QueryExampleReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
         }

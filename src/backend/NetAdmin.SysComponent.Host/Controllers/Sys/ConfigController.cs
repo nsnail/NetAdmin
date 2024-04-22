@@ -25,6 +25,14 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     }
 
     /// <summary>
+    ///     配置计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryConfigReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建配置
     /// </summary>
     [Transaction]

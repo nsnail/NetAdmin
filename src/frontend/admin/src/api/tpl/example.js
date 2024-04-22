@@ -17,6 +17,17 @@ export default {
     },
 
     /**
+     * 示例计数
+     */
+    count: {
+        url: `${config.API_URL}/api/tpl/example/count`,
+        name: `示例计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建示例
      */
     create: {

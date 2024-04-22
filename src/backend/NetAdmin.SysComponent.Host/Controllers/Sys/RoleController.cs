@@ -24,6 +24,14 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     }
 
     /// <summary>
+    ///     角色计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryRoleReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建角色
     /// </summary>
     [Transaction]

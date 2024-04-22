@@ -17,6 +17,12 @@ public sealed class SiteMsgRoleCache(IDistributedCache cache, ISiteMsgRoleServic
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QuerySiteMsgRoleReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgRoleRsp> CreateAsync(CreateSiteMsgRoleReq req)
     {
         return Service.CreateAsync(req);

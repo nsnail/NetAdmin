@@ -17,6 +17,12 @@ public sealed class SiteMsgFlagCache(IDistributedCache cache, ISiteMsgFlagServic
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgFlagRsp> CreateAsync(CreateSiteMsgFlagReq req)
     {
         return Service.CreateAsync(req);

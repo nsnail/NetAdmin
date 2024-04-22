@@ -25,6 +25,14 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     }
 
     /// <summary>
+    ///     计划作业计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryJobReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建计划作业
     /// </summary>
     [Transaction]

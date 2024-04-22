@@ -24,8 +24,10 @@
             <sc-table
                 :apiObj="$API.sys_dic.pagedQueryContent"
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
+                :context-menus="['key', 'value', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
+                :vue="this"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -38,7 +40,7 @@
                 <el-table-column type="selection" width="50"></el-table-column>
                 <el-table-column :label="$t('项名')" prop="key" sortable="custom"></el-table-column>
                 <el-table-column :label="$t('项值')" prop="value" sortable="custom"></el-table-column>
-                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom"></el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -46,6 +48,7 @@
                             confirm: true,
                             title: '删除字典项',
                             click: rowDel,
+                            type: 'danger',
                         })
                     "
                     :vue="this"></na-col-operation>
@@ -74,6 +77,7 @@ export default {
     },
     components: { saveDialog },
     props: { catalogId: Number },
+    inject: ['reload'],
     data() {
         return {
             dialog: {

@@ -26,6 +26,13 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryRoleReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
     {
         req.ThrowIfInvalid();
@@ -116,8 +123,12 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
                      .WhereIf( //
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
-                              a.Summary.Contains(req.Keywords))
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+                              a.Summary.Contains(req.Keywords));
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.Sort), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Sort);

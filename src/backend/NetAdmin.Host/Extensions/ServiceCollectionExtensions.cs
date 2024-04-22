@@ -105,8 +105,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConsoleFormatter(this IServiceCollection me)
     {
         return me.AddConsoleFormatter(options => {
-            var logLevels = Enum.GetValues<LogLevels>()
-                                .ToDictionary(x => x, x => x.GetDisplay());
+            var logLevels = Enum.GetValues<LogLevels>().ToDictionary(x => x, x => x.GetDisplay());
 
             #if DEBUG
             options.WriteHandler = (message, _, _, _, _) => {
@@ -242,11 +241,6 @@ public static class ServiceCollectionExtensions
       , LogMessage                              message //
       , Dictionary<LogLevels, DisplayAttribute> logLevels)
     {
-        // 日志过长
-        if (msg.Length > Numbers.CONSOLE_LINE_LEN_LIMIT) {
-            msg = $"{Ln.日志长度超过限制} {Numbers.CONSOLE_LINE_LEN_LIMIT}";
-        }
-
         msg = _consoleColors.Aggregate( //
             msg, (current, regex) => regex.Key.Replace(current, regex.Value));
         msg = msg.ReplaceLineEndings(string.Empty);

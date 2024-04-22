@@ -13,7 +13,7 @@ public static class HttpContextExtensions
     public static async Task RemoveJsonNodeWithNullValueAsync(this HttpContext me)
     {
         // 非json格式，退出
-        if (!(me.Response.ContentType?.Contains(Chars.FLG_APPLICATION_JSON) ?? false)) {
+        if (!(me.Response.ContentType?.Contains(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON) ?? false)) {
             return;
         }
 

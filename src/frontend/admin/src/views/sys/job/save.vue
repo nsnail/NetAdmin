@@ -34,10 +34,18 @@
                         <el-input v-model="form.nextTimeId" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求头')" prop="requestHeader">
-                        <el-input v-model="form.requestHeader" clearable rows="5" type="textarea" />
+                        <v-ace-editor
+                            v-model:value="form.requestHeader"
+                            :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
+                            lang="json"
+                            style="height: 5rem; width: 100%" />
                     </el-form-item>
                     <el-form-item :label="$t('请求体')" prop="requestBody">
-                        <el-input v-model="form.requestBody" clearable rows="5" type="textarea" />
+                        <v-ace-editor
+                            v-model:value="form.requestBody"
+                            :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
+                            lang="json"
+                            style="height: 10rem; width: 100%" />
                     </el-form-item>
                     <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
                         <el-input v-model="form.requestUrl" clearable />

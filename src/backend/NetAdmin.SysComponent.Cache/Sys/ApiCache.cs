@@ -17,6 +17,12 @@ public sealed class ApiCache(IDistributedCache cache, IApiService service) //
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryApiReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
         return Service.CreateAsync(req);

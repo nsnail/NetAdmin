@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     配置表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_Config))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Config))]
 public record Sys_Config : VersionEntity, IFieldEnabled
 {
     /// <summary>

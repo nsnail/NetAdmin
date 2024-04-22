@@ -30,6 +30,13 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryJobReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req).CountAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<QueryJobRsp> CreateAsync(CreateJobReq req)
     {
         req.ThrowIfInvalid();
@@ -119,13 +126,14 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                                                                      }
                                            ]
                                        };
-        var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Count = 1 }, true)
-                        .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
-                                        .As("b")
-                                        .Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId)
-                                        .Any())
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var job
+            = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Count = 1, Order = Orders.Random })
+                    .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
+                                    .As("b")
+                                    .Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId)
+                                    .Any())
+                    .ToOneAsync()
+                    .ConfigureAwait(false);
         return job == null
             ? null
             : await UpdateAsync(job.Adapt<UpdateJobReq>() with {
@@ -175,7 +183,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     {
         return Rpo.UpdateDiy.Set(a => a.Status == JobStatues.Idle)
                   .Where(a => a.Status       == JobStatues.Running &&
-                              a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.TIMEOUT_SECS_JOB))
+                              a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB))
                   .ExecuteAffrowsAsync();
     }
 
@@ -211,17 +219,23 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                              .GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Utc);
     }
 
-    private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req, bool orderByRandom = false)
+    private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req)
     {
         var ret = Rpo.Select.Include(a => a.User)
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords))
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
-        return !orderByRandom && (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true)
-            ? ret.OrderByDescending(a => a.LastExecTime)
-            : ret.OrderByRandom();
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords));
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        if (!req.Prop?.Equals(nameof(req.Filter.LastExecTime), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.LastExecTime);
+        }
+
+        return ret;
     }
 }

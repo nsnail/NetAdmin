@@ -63,7 +63,7 @@
                     <el-form-item :label="$t('是否隐藏')" prop="meta.hidden">
                         <el-checkbox v-model="form.meta.hidden">隐藏菜单</el-checkbox>
                         <el-checkbox v-model="form.meta.hiddenBreadCrumb">隐藏面包屑</el-checkbox>
-                        <div class="el-form-item-msg">菜单不显示在导航中，但用户依然可以访问，例如详情页</div>
+                        <div class="el-form-item-msg" style="margin-left: 1rem">菜单不显示在导航中，但用户依然可以访问，例如详情页</div>
                     </el-form-item>
                     <el-form-item :label="$t('整页路由')" prop="fullPage">
                         <el-switch v-model="form.meta.fullPage" />
@@ -149,7 +149,7 @@ export default {
         },
         //表单注入数据
         setData(data, pid) {
-            Object.assign(this.form, data, { parentId: pid })
+            this.form = Object.assign({}, data, { parentId: pid })
         },
     },
 }

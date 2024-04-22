@@ -10,6 +10,10 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 /// </summary>
 public sealed record QueryConfigRsp : Sys_Config
 {
+    /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override DateTime CreatedTime { get; init; }
+
     /// <inheritdoc cref="IFieldEnabled.Enabled" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override bool Enabled { get; init; }

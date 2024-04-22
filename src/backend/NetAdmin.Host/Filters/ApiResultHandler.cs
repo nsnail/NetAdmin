@@ -23,12 +23,12 @@ public abstract class ApiResultHandler<T>
     /// </summary>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        var lineException = context.Exception switch { NetAdminException ex => ex, _ => null };
-        var errorCode     = lineException?.Code ?? ErrorCodes.Unhandled;
+        var naException = context.Exception switch { NetAdminException ex => ex, _ => null };
+        var errorCode   = naException?.Code ?? ErrorCodes.Unhandled;
         var result = RestfulResult(errorCode, metadata.Data
-                      ,                       lineException is NetAdminValidateException vEx
+                      ,                       naException is NetAdminValidateException vEx
                                        ? vEx.ValidateResults
-                                       : lineException?.Message ?? errorCode.ResDesc<ErrorCodes>());
+                                       : naException?.Message ?? errorCode.ResDesc<ErrorCodes>());
 
         SetErrorCodeToHeader(context.HttpContext, errorCode);
 

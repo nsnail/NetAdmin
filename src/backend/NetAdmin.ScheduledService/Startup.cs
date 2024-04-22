@@ -24,12 +24,12 @@ public sealed class Startup : Host.Startup
     /// <summary>
     ///     配置应用程序中间件
     /// </summary>
-    public void Configure(IApplicationBuilder app)
+    public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifeTime)
     {
-        _ = app                                      //
-            .UseRealIp()                             // 使用RealIp中间件，用于获取真实客户端IP地址
-            .EnableBuffering()                       // 启用请求体缓冲，允许多次读取请求体
-            .UseMiddleware<RequestAuditMiddleware>() // 使用RequestAuditMiddleware中间件，执行请求审计
+        _ = app                                        //
+            .UseMiddleware<SafetyShopHostMiddleware>() // 安全停机中间件
+            .EnableBuffering()                         // 启用请求体缓冲，允许多次读取请求体
+            .UseMiddleware<RequestAuditMiddleware>()   // 使用RequestAuditMiddleware中间件，执行请求审计
             #if DEBUG
             .UseOpenApiSkin() // 使用OpenApiSkin中间件（仅在调试模式下），提供Swagger UI皮肤
             #else
@@ -41,6 +41,7 @@ public sealed class Startup : Host.Startup
             .UseRouting()                              // 使用Routing中间件，配置路由映射
             .UseMiddleware<RemoveNullNodeMiddleware>() // 使用RemoveNullNodeMiddleware中间件，删除JSON中的空节点
             .UseEndpoints();                           // 配置端点以处理请求
+        _ = lifeTime.ApplicationStopping.Register(SafetyShopHostMiddleware.OnStopping);
     }
 
     /// <summary>

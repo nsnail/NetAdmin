@@ -13,10 +13,11 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserService" />
-public sealed class UserService(DefaultRepository<Sys_User> rpo                //
-                              , IUserProfileService         userProfileService //
-                              , IVerifyCodeService          verifyCodeService  //
-                              , IEventPublisher             eventPublisher)    //
+public sealed class UserService(
+    DefaultRepository<Sys_User> rpo                //
+  , IUserProfileService         userProfileService //
+  , IVerifyCodeService          verifyCodeService  //
+  , IEventPublisher             eventPublisher)    //
     : RepositoryService<Sys_User, IUserService>(rpo), IUserService
 {
     private readonly Expression<Func<Sys_User, Sys_User>> _selectUserFields = a => new Sys_User {
@@ -64,6 +65,15 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryUserReq> req)
+    {
+        req.ThrowIfInvalid();
+        #pragma warning disable VSTHRD103
+        return QueryInternal(req).CountAsync();
+        #pragma warning restore VSTHRD103
+    }
+
+    /// <inheritdoc />
     public async Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
         req.ThrowIfInvalid();
@@ -88,20 +98,17 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
     public async Task<int> DeleteAsync(DelReq req)
     {
         req.ThrowIfInvalid();
-        var effect = 0;
 
         // 删除主表
-        effect += await Rpo.DeleteAsync(req.Id).ConfigureAwait(false);
+        var ret = await Rpo.DeleteAsync(req.Id).ConfigureAwait(false);
 
         // 删除分表
-        effect += await Rpo.Orm.Delete<Sys_UserRole>(new { UserId = req.Id })
-                           .ExecuteAffrowsAsync()
-                           .ConfigureAwait(false);
+        _ = await Rpo.Orm.Delete<Sys_UserRole>(new { UserId = req.Id }).ExecuteAffrowsAsync().ConfigureAwait(false);
 
         // 删除档案表
-        effect += await userProfileService.DeleteAsync(req).ConfigureAwait(false);
+        _ = await userProfileService.DeleteAsync(req).ConfigureAwait(false);
 
-        return effect;
+        return ret;
     }
 
     /// <inheritdoc />
@@ -255,7 +262,7 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
                      .UpdateColumns(a => a.Avatar)
                      .ExecuteAffrowsAsync()
                      .ConfigureAwait(false) <= 0) {
-            throw new NetAdminUnexpectedException();
+            return null;
         }
 
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } })
@@ -289,7 +296,7 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
                      .UpdateColumns(a => a.Email)
                      .ExecuteAffrowsAsync()
                      .ConfigureAwait(false) <= 0) {
-            throw new NetAdminUnexpectedException();
+            return null;
         }
 
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } })
@@ -341,7 +348,7 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
                      .UpdateColumns(a => a.Mobile)
                      .ExecuteAffrowsAsync()
                      .ConfigureAwait(false) <= 0) {
-            throw new NetAdminUnexpectedException();
+            return null;
         }
 
         var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } })
@@ -370,7 +377,7 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
                            .UpdateColumns(a => a.Password)
                            .ExecuteAffrowsAsync()
                            .ConfigureAwait(false);
-        return ret <= 0 ? throw new NetAdminUnexpectedException() : (uint)ret;
+        return (uint)ret;
     }
 
     /// <inheritdoc />
@@ -478,9 +485,12 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
 
     private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
         if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.Id);
         }
@@ -511,8 +521,12 @@ public sealed class UserService(DefaultRepository<Sys_User> rpo                /
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.UserName.Contains(req.Keywords) ||
                               a.Mobile.Contains(req.Keywords)  || a.Email.Contains(req.Keywords)    ||
-                              a.Summary.Contains(req.Keywords))
-                     .OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+                              a.Summary.Contains(req.Keywords));
+        if (req.Order == Orders.Random) {
+            return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
         if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
             ret = ret.OrderByDescending(a => a.CreatedTime);

@@ -17,6 +17,12 @@ public sealed class ConfigCache(IDistributedCache cache, IConfigService service)
     }
 
     /// <inheritdoc />
+    public Task<long> CountAsync(QueryReq<QueryConfigReq> req)
+    {
+        return Service.CountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
         return Service.CreateAsync(req);

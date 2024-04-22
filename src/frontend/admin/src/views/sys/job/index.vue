@@ -40,7 +40,8 @@
                         },
                     ]"
                     :vue="this"
-                    @search="onSearch" />
+                    @search="onSearch"
+                    ref="search" />
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
@@ -51,8 +52,22 @@
             <sc-table
                 v-loading="loading"
                 :apiObj="$API.sys_job.pagedQuery"
+                :context-menus="[
+                    'id',
+                    'jobName',
+                    'executionCron',
+                    'status',
+                    'httpMethod',
+                    'lastExecTime',
+                    'lastStatusCode',
+                    'nextExecTime',
+                    'enabled',
+                    'createdTime',
+                ]"
                 :default-sort="{ prop: 'lastExecTime', order: 'descending' }"
+                :page-size="100"
                 :params="query"
+                :vue="this"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -64,8 +79,9 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection"></el-table-column>
-                <el-table-column :label="$t('作业编号')" prop="id" width="150" />
-                <el-table-column :label="$t('作业名称')" prop="jobName" />
+                <el-table-column :label="$t('作业编号')" prop="id" sortable="custom" width="150" />
+                <el-table-column :label="$t('作业名称')" prop="jobName" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('执行计划')" align="center" prop="executionCron" sortable="custom" width="150" />
                 <na-col-indicator
                     :label="$t('作业状态')"
                     :options="[
@@ -83,20 +99,38 @@
                     "
                     prop="httpMethod"
                     width="100" />
-                <el-table-column :label="$t('上次执行时间')" prop="lastExecTime" sortable="custom" width="170" />
-                <el-table-column :label="$t('上次执行状态')" prop="lastStatusCode" sortable="custom" width="150" />
-                <el-table-column :label="$t('下次执行时间')" prop="nextExecTime" sortable="custom" width="170" />
-                <el-table-column :label="$t('启用')" prop="enabled" sortable="custom" width="100">
+                <el-table-column :label="$t('上次执行时间')" align="right" prop="lastExecTime" sortable="custom" width="120">
+                    <template #default="scope">
+                        <span v-if="scope.row.lastExecTime" v-time.tip="scope.row.lastExecTime"></span>
+                    </template>
+                </el-table-column>
+                <na-col-indicator
+                    :label="$t('上次执行状态')"
+                    :options="
+                        Object.entries(this.$GLOBAL.enums.httpStatusCodes).map((x) => {
+                            return { value: x[0], text: x[1][1], type: x[0] === 'ok' ? 'success' : null }
+                        })
+                    "
+                    prop="lastStatusCode"
+                    width="120" />
+
+                <el-table-column :label="$t('下次执行时间')" align="right" prop="nextExecTime" sortable="custom" width="170" />
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom" width="170" />
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="100">
+                    <template #default="scope">
+                        <span v-if="scope.row.createdTime" v-time.tip="scope.row.createdTime"></span>
+                    </template>
+                </el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
                             icon: 'el-icon-delete',
                             confirm: true,
+                            type: 'danger',
                             title: $t('删除作业'),
                             click: rowDel,
                         })
@@ -122,12 +156,19 @@ export default {
     components: {
         saveDialog,
     },
+    inject: ['reload'],
     data() {
         return {
             loading: false,
             query: {
                 dynamicFilter: {
-                    filters: [],
+                    filters: [
+                        {
+                            field: 'enabled',
+                            operator: 'eq',
+                            value: true,
+                        },
+                    ],
                 },
                 filter: {},
             },
@@ -146,7 +187,9 @@ export default {
             return table
         },
     },
-    mounted() {},
+    mounted() {
+        this.$refs.search.form.dy.enabled = true
+    },
     created() {},
     methods: {
         //表格内开关事件

@@ -45,6 +45,14 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
+    ///     用户计数
+    /// </summary>
+    public Task<long> CountAsync(QueryReq<QueryUserReq> req)
+    {
+        return Cache.CountAsync(req);
+    }
+
+    /// <summary>
     ///     创建用户
     /// </summary>
     [Transaction]

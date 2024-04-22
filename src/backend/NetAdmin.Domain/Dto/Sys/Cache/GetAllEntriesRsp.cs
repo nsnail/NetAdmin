@@ -24,6 +24,16 @@ public sealed record GetAllEntriesRsp : DataAbstraction
     /// <summary>
     ///     绝对过期时间
     /// </summary>
+    public DateTime? AbsExpTime => AbsExp == -1 ? null : DateTime.FromBinary(AbsExp).ToLocalTime();
+
+    /// <summary>
+    ///     滑动过期时间
+    /// </summary>
+    public DateTime? SldExpTime => SldExp == -1 ? null : DateTime.FromBinary(SldExp).ToLocalTime();
+
+    /// <summary>
+    ///     绝对过期时间
+    /// </summary>
     public long AbsExp { get; init; }
 
     /// <summary>

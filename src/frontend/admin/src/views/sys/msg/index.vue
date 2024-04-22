@@ -32,8 +32,10 @@
             <sc-table
                 v-loading="loading"
                 :apiObj="$API.sys_sitemsg.pagedQuery"
+                :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
+                :vue="this"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -45,8 +47,8 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection"></el-table-column>
-                <el-table-column :label="$t('消息编号')" prop="id" width="150" />
-                <na-col-avatar :label="$t('用户名')" prop="creator.userName" />
+                <el-table-column :label="$t('消息编号')" prop="id" sortable="custom" width="150" />
+                <na-col-avatar :label="$t('用户名')" prop="createdUserName" />
                 <na-col-indicator
                     :label="$t('消息类型')"
                     :options="[
@@ -56,9 +58,9 @@
                     prop="msgType"
                     width="100"></na-col-indicator>
 
-                <el-table-column :label="$t('消息主题')" min-width="150" prop="title" show-overflow-tooltip />
-                <el-table-column :label="$t('消息摘要')" min-width="200" prop="summary" show-overflow-tooltip />
-                <el-table-column :label="$t('创建时间')" prop="createdTime" />
+                <el-table-column :label="$t('消息主题')" prop="title" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('消息摘要')" prop="summary" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -66,6 +68,7 @@
                             confirm: true,
                             title: $t('删除消息'),
                             click: rowDel,
+                            type: 'danger',
                         })
                     "
                     :vue="this" />
@@ -89,6 +92,7 @@ export default {
     components: {
         saveDialog,
     },
+    inject: ['reload'],
     data() {
         return {
             loading: false,

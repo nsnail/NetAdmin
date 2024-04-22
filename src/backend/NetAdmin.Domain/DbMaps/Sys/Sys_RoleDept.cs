@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     角色-部门映射表
 /// </summary>
-[Table(Name = Chars.FLG_TABLE_NAME_PREFIX + nameof(Sys_RoleDept))]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RoleDept))]
 [Index($"idx_{{tablename}}_{nameof(RoleId)}_{nameof(DeptId)}", $"{nameof(RoleId)},{nameof(DeptId)}", true)]
 public record Sys_RoleDept : ImmutableEntity
 {
