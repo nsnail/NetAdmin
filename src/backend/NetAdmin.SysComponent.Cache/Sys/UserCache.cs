@@ -83,7 +83,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
         #if !DEBUG
         return GetOrCreateAsync(                                                  //
             GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.QueryAsync(req), TimeSpan.FromSeconds(Numbers.CACHE_SECS_DEFAULT));
+          , () => Service.QueryAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
         return Service.QueryAsync(req);
         #endif
@@ -200,7 +200,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
         #if !DEBUG
         return GetOrCreateAsync( //
             GetCacheKey(Service.UserToken.Id.ToString(CultureInfo.InvariantCulture)), Service.UserInfoAsync
-          , TimeSpan.FromSeconds(Numbers.CACHE_SECS_DEFAULT));
+          , TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
         return Service.UserInfoAsync();
         #endif

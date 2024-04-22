@@ -15,7 +15,7 @@ public sealed class CacheCache(IDistributedCache cache, ICacheService service) /
     {
         #if !DEBUG
         return GetOrCreateAsync( //
-            GetCacheKey(string.Empty), Service.CacheStatisticsAsync, TimeSpan.FromSeconds(Numbers.CACHE_SECS_DEFAULT));
+            GetCacheKey(string.Empty), Service.CacheStatisticsAsync, TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
         return Service.CacheStatisticsAsync();
         #endif
