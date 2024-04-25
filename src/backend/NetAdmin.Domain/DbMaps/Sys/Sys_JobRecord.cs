@@ -6,8 +6,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     计划作业执行记录表
 /// </summary>
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_JobRecord))]
 [Index($"idx_{{tablename}}_{nameof(JobId)}_{nameof(TimeId)}", $"{nameof(JobId)},{nameof(TimeId)}", true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_JobRecord))]
 public record Sys_JobRecord : LiteImmutableEntity
 {
     /// <summary>
@@ -20,8 +20,8 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// <summary>
     ///     请求方法
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual HttpMethods HttpMethod { get; init; }
 
     /// <summary>
@@ -34,8 +34,8 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// <summary>
     ///     拥有者信息
     /// </summary>
-    [Navigate(nameof(JobId))]
     [JsonIgnore]
+    [Navigate(nameof(JobId))]
     public Sys_Job Job { get; init; }
 
     /// <summary>

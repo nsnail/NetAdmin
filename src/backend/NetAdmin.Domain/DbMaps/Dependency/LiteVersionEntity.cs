@@ -7,8 +7,8 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 public abstract record LiteVersionEntity : LiteVersionEntity<long>
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
-    [Snowflake]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [Snowflake]
     public override long Id { get; init; }
 }
 
@@ -22,7 +22,7 @@ public abstract record LiteVersionEntity<T> : LiteMutableEntity<T>, IFieldVersio
     public override T Id { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
-    [JsonIgnore]
     [Column(IsVersion = true, Position = -1)]
+    [JsonIgnore]
     public virtual long Version { get; init; }
 }

@@ -9,8 +9,8 @@ namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 public abstract record VerifyCodeReq : Sys_VerifyCode
 {
     /// <inheritdoc cref="Sys_VerifyCode.Code" />
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码不能为空))]
     [VerifyCode]
     public override string Code { get; init; }
 

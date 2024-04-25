@@ -7,8 +7,8 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 public abstract record VersionEntity : VersionEntity<long>
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
-    [Snowflake]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [Snowflake]
     public override long Id { get; init; }
 }
 
@@ -18,13 +18,13 @@ public abstract record VersionEntity : VersionEntity<long>
 public abstract record VersionEntity<T> : LiteVersionEntity<T>, IFieldModifiedUser, IFieldCreatedUser
 {
     /// <inheritdoc />
-    [JsonIgnore]
     [Column(CanUpdate = false, Position = -1)]
+    [JsonIgnore]
     public virtual long? CreatedUserId { get; init; }
 
     /// <inheritdoc />
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
+    [JsonIgnore]
     public virtual string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
@@ -32,12 +32,12 @@ public abstract record VersionEntity<T> : LiteVersionEntity<T>, IFieldModifiedUs
     public override T Id { get; init; }
 
     /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserId" />
-    [JsonIgnore]
     [Column(CanInsert = false, Position = -1)]
+    [JsonIgnore]
     public virtual long? ModifiedUserId { get; init; }
 
     /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserName" />
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanInsert = false, Position = -1)]
+    [JsonIgnore]
     public virtual string ModifiedUserName { get; init; }
 }

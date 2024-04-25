@@ -5,8 +5,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信-用户映射表
 /// </summary>
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgUser))]
 [Index($"idx_{{tablename}}_{nameof(UserId)}_{nameof(SiteMsgId)}", $"{nameof(UserId)},{nameof(SiteMsgId)}", true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgUser))]
 public record Sys_SiteMsgUser : ImmutableEntity
 {
     /// <summary>
@@ -18,8 +18,8 @@ public record Sys_SiteMsgUser : ImmutableEntity
     /// <summary>
     ///     站内信编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public long SiteMsgId { get; init; }
 
     /// <summary>
@@ -31,7 +31,7 @@ public record Sys_SiteMsgUser : ImmutableEntity
     /// <summary>
     ///     用户编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public long UserId { get; init; }
 }

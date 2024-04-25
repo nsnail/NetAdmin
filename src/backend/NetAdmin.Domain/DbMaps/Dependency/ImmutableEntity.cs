@@ -7,8 +7,8 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 public abstract record ImmutableEntity : ImmutableEntity<long>
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
-    [Snowflake]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [Snowflake]
     public override long Id { get; init; }
 }
 
@@ -19,13 +19,13 @@ public abstract record ImmutableEntity : ImmutableEntity<long>
 public abstract record ImmutableEntity<T> : LiteImmutableEntity<T>, IFieldCreatedUser
 {
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserId" />
-    [JsonIgnore]
     [Column(CanUpdate = false, Position = -1)]
+    [JsonIgnore]
     public long? CreatedUserId { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
+    [JsonIgnore]
     public virtual string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />

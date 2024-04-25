@@ -5,8 +5,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信-部门映射表
 /// </summary>
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgDept))]
 [Index($"idx_{{tablename}}_{nameof(DeptId)}_{nameof(SiteMsgId)}", $"{nameof(DeptId)},{nameof(SiteMsgId)}", true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgDept))]
 public record Sys_SiteMsgDept : ImmutableEntity
 {
     /// <summary>
@@ -18,8 +18,8 @@ public record Sys_SiteMsgDept : ImmutableEntity
     /// <summary>
     ///     部门编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public long DeptId { get; init; }
 
     /// <summary>
@@ -31,7 +31,7 @@ public record Sys_SiteMsgDept : ImmutableEntity
     /// <summary>
     ///     站内信编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public long SiteMsgId { get; init; }
 }

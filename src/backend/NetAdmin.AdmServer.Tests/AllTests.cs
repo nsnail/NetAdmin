@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
-using NetAdmin.Application.Modules;
 using NetAdmin.AdmServer.Host;
+using NetAdmin.Application.Modules;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Dto.Sys.Cache;
@@ -81,8 +81,8 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     }
 
     /// <inheritdoc />
-    [Theory]
     [InlineData(default)]
+    [Theory]
     public async Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
     {
         var rsp = await PostAsync("/api/sys/cache/get.all.entries"

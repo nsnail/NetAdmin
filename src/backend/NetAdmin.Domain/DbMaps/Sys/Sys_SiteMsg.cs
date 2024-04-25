@@ -14,8 +14,8 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// <summary>
     ///     消息内容
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [JsonIgnore]
     public virtual string Content { get; init; }
 
     /// <summary>
@@ -55,15 +55,15 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// <summary>
     ///     消息摘要
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [JsonIgnore]
     public virtual string Summary { get; init; }
 
     /// <summary>
     ///     消息主题
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [JsonIgnore]
     public virtual string Title { get; init; }
 
     /// <summary>

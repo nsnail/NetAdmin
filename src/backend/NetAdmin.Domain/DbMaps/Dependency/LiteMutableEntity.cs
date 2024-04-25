@@ -7,8 +7,8 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 public abstract record LiteMutableEntity : LiteMutableEntity<long>
 {
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
-    [Snowflake]
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [Snowflake]
     public override long Id { get; init; }
 }
 
@@ -22,7 +22,7 @@ public abstract record LiteMutableEntity<T> : LiteImmutableEntity<T>, IFieldModi
     public override T Id { get; init; }
 
     /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
-    [JsonIgnore]
     [Column(ServerTime = DateTimeKind.Utc, CanInsert = false, Position = -1)]
+    [JsonIgnore]
     public virtual DateTime? ModifiedTime { get; init; }
 }

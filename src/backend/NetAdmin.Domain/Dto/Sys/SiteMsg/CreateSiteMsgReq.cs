@@ -16,21 +16,21 @@ public record CreateSiteMsgReq : Sys_SiteMsg
     /// <summary>
     ///     部门编号列表
     /// </summary>
-    [MinLength(1)]
     [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
+    [MinLength(1)]
     public IReadOnlyCollection<long> DeptIds { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.MsgType" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(SiteMsgTypes), ErrorMessageResourceType = typeof(Ln)
                 , ErrorMessageResourceName = nameof(Ln.站内信类型不正确))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override SiteMsgTypes MsgType { get; init; }
 
     /// <summary>
     ///     角色编号列表
     /// </summary>
-    [MinLength(1)]
     [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
+    [MinLength(1)]
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Title" />
@@ -41,7 +41,7 @@ public record CreateSiteMsgReq : Sys_SiteMsg
     /// <summary>
     ///     用户编号列表
     /// </summary>
-    [MinLength(1)]
     [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
+    [MinLength(1)]
     public IReadOnlyCollection<long> UserIds { get; init; }
 }

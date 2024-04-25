@@ -17,8 +17,8 @@ public record Sys_RoleApi : ImmutableEntity
     /// <summary>
     ///     接口编号
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [JsonIgnore]
     public string ApiId { get; init; }
 
     /// <summary>
@@ -30,7 +30,7 @@ public record Sys_RoleApi : ImmutableEntity
     /// <summary>
     ///     角色编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public long RoleId { get; init; }
 }

@@ -89,8 +89,8 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     /// <summary>
     ///     发送验证码
     /// </summary>
-    [Transaction]
     [AllowAnonymous]
+    [Transaction]
     public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
     {
         await captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq).ConfigureAwait(false);
@@ -109,8 +109,8 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     /// <summary>
     ///     完成验证
     /// </summary>
-    [Transaction]
     [AllowAnonymous]
+    [Transaction]
     public Task<bool> VerifyAsync(VerifyCodeReq req)
     {
         return Cache.VerifyAsync(req);

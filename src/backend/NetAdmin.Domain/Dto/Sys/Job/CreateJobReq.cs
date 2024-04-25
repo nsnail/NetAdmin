@@ -16,15 +16,15 @@ public record CreateJobReq : Sys_Job
     public override bool Enabled { get; init; } = true;
 
     /// <inheritdoc cref="Sys_Job.ExecutionCron" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Cron]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.时间计划不能为空))]
     public override string ExecutionCron { get; init; }
 
     /// <inheritdoc cref="Sys_Job.HttpMethod" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(HttpMethods), ErrorMessageResourceType = typeof(Ln)
                 , ErrorMessageResourceName = nameof(Ln.请求方法不正确))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override HttpMethods HttpMethod { get; init; }
 
     /// <inheritdoc cref="Sys_Job.JobName" />

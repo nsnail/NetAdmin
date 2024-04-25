@@ -11,8 +11,8 @@ public sealed record ResetPasswordReq : DataAbstraction
     /// <summary>
     ///     密码
     /// </summary>
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
     [Password]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
     public string PasswordText { get; init; }
 
     /// <summary>

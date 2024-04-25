@@ -8,8 +8,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     角色表
 /// </summary>
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Role))]
 [Index("idx_{tablename}_01", nameof(Name), true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Role))]
 public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary, IRegister
 {
     /// <summary>
@@ -22,8 +22,8 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     数据范围
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual DataScopes DataScope { get; init; }
 
     /// <summary>
@@ -36,22 +36,22 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     是否显示仪表板
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual bool DisplayDashboard { get; init; }
 
     /// <summary>
     ///     是否启用
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
     /// <summary>
     ///     是否忽略权限控制
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual bool IgnorePermissionControl { get; init; }
 
     /// <summary>
@@ -64,8 +64,8 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     角色名称
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string Name { get; init; }
 
     /// <summary>
@@ -78,15 +78,15 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     排序值，越大越前
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual long Sort { get; init; }
 
     /// <summary>
     ///     备注
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [JsonIgnore]
     public virtual string Summary { get; init; }
 
     /// <summary>

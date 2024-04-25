@@ -12,170 +12,170 @@ public record Sys_UserProfile : VersionEntity, IRegister
     /// <summary>
     ///     出生日期
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual DateTime? BornDate { get; init; }
 
     /// <summary>
     ///     证件号码
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [JsonIgnore]
     public virtual string CertificateNumber { get; init; }
 
     /// <summary>
     ///     证件类型
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual CertificateTypes? CertificateType { get; init; }
 
     /// <summary>
     ///     工作地址
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [JsonIgnore]
     public virtual string CompanyAddress { get; init; }
 
     /// <summary>
     ///     工作地区
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public int? CompanyArea { get; init; }
 
     /// <summary>
     ///     工作单位
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string CompanyName { get; init; }
 
     /// <summary>
     ///     工作电话
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string CompanyTelephone { get; init; }
 
     /// <summary>
     ///     文化程度
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual Educations? Education { get; init; }
 
     /// <summary>
     ///     紧急联系地址
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [JsonIgnore]
     public virtual string EmergencyContactAddress { get; init; }
 
     /// <summary>
     ///     紧急联系地区
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public int? EmergencyContactArea { get; init; }
 
     /// <summary>
     ///     紧急联系人手机号
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
+    [JsonIgnore]
     public virtual string EmergencyContactMobile { get; init; }
 
     /// <summary>
     ///     紧急联系人
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string EmergencyContactName { get; init; }
 
     /// <summary>
     ///     毕业学校
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string GraduateSchool { get; init; }
 
     /// <summary>
     ///     身高
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual int? Height { get; init; }
 
     /// <summary>
     ///     住宅地址
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [JsonIgnore]
     public virtual string HomeAddress { get; init; }
 
     /// <summary>
     ///     住宅地区
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public int? HomeArea { get; init; }
 
     /// <summary>
     ///     住宅电话
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string HomeTelephone { get; init; }
 
     /// <summary>
     ///     婚姻状况
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual MarriageStatues? MarriageStatus { get; init; }
 
     /// <summary>
     ///     民族
     /// </summary>
     /// 7
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual Nations? Nation { get; init; }
 
     /// <summary>
     ///     籍贯
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public int? NationArea { get; init; }
 
     /// <summary>
     ///     政治面貌
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual PoliticalStatues? PoliticalStatus { get; init; }
 
     /// <summary>
     ///     职业
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string Profession { get; init; }
 
     /// <summary>
     ///     真实姓名
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string RealName { get; init; }
 
     /// <summary>
     ///     性别
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual Sexes? Sex { get; init; }
 
     /// <summary>
