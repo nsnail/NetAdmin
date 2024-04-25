@@ -2,7 +2,7 @@
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Host/NetAdmin.Host.csproj"/>
-        <ProjectReference Include="../NetAdmin.BizServer.Cache/NetAdmin.BizServer.Cache.csproj"/>
+        <ProjectReference Include="../NetAdmin.AdmServer.Cache/NetAdmin.AdmServer.Cache.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <None Update="*.json">

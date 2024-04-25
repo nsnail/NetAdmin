@@ -6,7 +6,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.SysComponent.Host/NetAdmin.SysComponent.Host.csproj"/>
-        <ProjectReference Include="../NetAdmin.BizServer.Cache/NetAdmin.BizServer.Cache.csproj"/>
+        <ProjectReference Include="../NetAdmin.AdmServer.Cache/NetAdmin.AdmServer.Cache.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <None Update="*.json">

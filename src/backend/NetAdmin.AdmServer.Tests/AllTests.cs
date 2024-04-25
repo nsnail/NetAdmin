@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using NetAdmin.Application.Modules;
-using NetAdmin.BizServer.Host;
+using NetAdmin.AdmServer.Host;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Dto.Sys.Cache;
@@ -13,7 +13,7 @@ using NetAdmin.Tests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NetAdmin.BizServer.Tests;
+namespace NetAdmin.AdmServer.Tests;
 
 /// <summary>
 ///     所有测试

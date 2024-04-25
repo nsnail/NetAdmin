@@ -15,8 +15,8 @@ public enum ModuleTypes
    ,
 
     /// <summary>
-    ///     业务模块
+    ///     管理模块
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.业务模块))]
-    BizServer = 2
+    [ResourceDescription<Ln>(nameof(Ln.管理模块))]
+    AdmServer = 2
 }

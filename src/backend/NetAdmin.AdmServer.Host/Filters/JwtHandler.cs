@@ -1,7 +1,7 @@
 using NetAdmin.Domain.Contexts;
 using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
-namespace NetAdmin.BizServer.Host.Filters;
+namespace NetAdmin.AdmServer.Host.Filters;
 
 /// <inheritdoc />
 [SuppressSniffer]

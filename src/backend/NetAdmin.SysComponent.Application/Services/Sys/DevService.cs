@@ -24,7 +24,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     {
         req.ThrowIfInvalid();
 
-        // 模块类型（Sys、Biz、等）
+        // 模块类型（Sys、Adm、等）
         var moduleType = Enum.GetName(req.Type)!;
 
         // 模板层目录

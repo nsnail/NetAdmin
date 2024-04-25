@@ -57,9 +57,9 @@
     "XmlComments": [
       "FreeSql.xml",
       "NetAdmin.Application.xml",
-      "NetAdmin.BizServer.Application.xml",
-      "NetAdmin.BizServer.Cache.xml",
-      "NetAdmin.BizServer.Host.xml",
+      "NetAdmin.AdmServer.Application.xml",
+      "NetAdmin.AdmServer.Cache.xml",
+      "NetAdmin.AdmServer.Host.xml",
       "NetAdmin.Cache.xml",
       "NetAdmin.Domain.xml",
       "NetAdmin.Host.xml",

@@ -1,6 +1,6 @@
 using Spectre.Console.Cli;
 
-namespace NetAdmin.BizServer.Host;
+namespace NetAdmin.AdmServer.Host;
 
 /// <summary>
 ///     命令行参数

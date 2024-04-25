@@ -1,5 +1,5 @@
-using NetAdmin.BizServer.Host;
-using NetAdmin.BizServer.Host.Extensions;
+using NetAdmin.AdmServer.Host;
+using NetAdmin.AdmServer.Host.Extensions;
 using NetAdmin.Host.Extensions;
 using NetAdmin.Host.Middlewares;
 using NetAdmin.SysComponent.Host.Extensions;
@@ -11,7 +11,7 @@ using Prometheus;
 
 NetAdmin.Host.Startup.Entry<Startup>(args);
 
-namespace NetAdmin.BizServer.Host
+namespace NetAdmin.AdmServer.Host
 {
     /// <summary>
     ///     启动类

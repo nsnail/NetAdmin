@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Tests/NetAdmin.Tests.csproj"/>
-        <ProjectReference Include="../NetAdmin.BizServer.Host/NetAdmin.BizServer.Host.csproj"/>
+        <ProjectReference Include="../NetAdmin.AdmServer.Host/NetAdmin.AdmServer.Host.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0-release-24177-07"/>
