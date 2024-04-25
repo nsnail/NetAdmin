@@ -1,58 +1,58 @@
-# ´ËÎÄ¼şÎª EditorConfig ÅäÖÃÎÄ¼ş£¬ÓÃÓÚÉèÖÃ¿ç±à¼­Æ÷µÄ´úÂë¸ñÊ½»¯¹æÔò¡£
-# root = true ±íÊ¾´ËÎÄ¼şÊÇ¸ùÅäÖÃÎÄ¼ş¡£
+# æ­¤æ–‡ä»¶ä¸º EditorConfig é…ç½®æ–‡ä»¶ï¼Œç”¨äºè®¾ç½®è·¨ç¼–è¾‘å™¨çš„ä»£ç æ ¼å¼åŒ–è§„åˆ™ã€‚
+# root = true è¡¨ç¤ºæ­¤æ–‡ä»¶æ˜¯æ ¹é…ç½®æ–‡ä»¶ã€‚
 root = true
 
 [*]
-charset = utf-8 # ÎÄ¼ş×Ö·û¼¯Îª UTF-8
-end_of_line = lf # ĞĞ½áÊø·ûÎª LF
-ij_xml_attribute_wrap = off # IntelliJ IDEA ÖĞ XML ÊôĞÔ²»»»ĞĞ
-ij_xml_text_wrap = off # IntelliJ IDEA ÖĞ XML ÎÄ±¾²»»»ĞĞ
-indent_size = 4 # Ëõ½ø´óĞ¡Îª 4 ¸ö¿Õ¸ñ
-indent_style = space # Ê¹ÓÃ¿Õ¸ñ½øĞĞËõ½ø
-insert_final_newline = false # ²»ÔÚÎÄ¼şÄ©Î²²åÈë¿ÕĞĞ
-trim_trailing_whitespace = true # É¾³ıĞĞÎ²µÄ¿Õ¸ñ
+charset = utf-8 # æ–‡ä»¶å­—ç¬¦é›†ä¸º UTF-8
+end_of_line = lf # è¡Œç»“æŸç¬¦ä¸º LF
+ij_xml_attribute_wrap = off # IntelliJ IDEA ä¸­ XML å±æ€§ä¸æ¢è¡Œ
+ij_xml_text_wrap = off # IntelliJ IDEA ä¸­ XML æ–‡æœ¬ä¸æ¢è¡Œ
+indent_size = 4 # ç¼©è¿›å¤§å°ä¸º 4 ä¸ªç©ºæ ¼
+indent_style = space # ä½¿ç”¨ç©ºæ ¼è¿›è¡Œç¼©è¿›
+insert_final_newline = false # ä¸åœ¨æ–‡ä»¶æœ«å°¾æ’å…¥ç©ºè¡Œ
+trim_trailing_whitespace = true # åˆ é™¤è¡Œå°¾çš„ç©ºæ ¼
 
 [{*.json,*.yml}]
-indent_size = 2 # ¶ÔÓÚ JSON ºÍ YAML ÎÄ¼ş£¬Ëõ½ø´óĞ¡Îª 2 ¸ö¿Õ¸ñ
+indent_size = 2 # å¯¹äº JSON å’Œ YAML æ–‡ä»¶ï¼Œç¼©è¿›å¤§å°ä¸º 2 ä¸ªç©ºæ ¼
 
 [*.cs]
-dotnet_analyzer_diagnostic.severity = warning # ÉèÖÃ C# ÎÄ¼şÖĞËùÓĞ dotnet_analyzer_diagnostic µÄÑÏÖØĞÔ¼¶±ğÎª warning
+dotnet_analyzer_diagnostic.severity = warning # è®¾ç½® C# æ–‡ä»¶ä¸­æ‰€æœ‰ dotnet_analyzer_diagnostic çš„ä¸¥é‡æ€§çº§åˆ«ä¸º warning
 
 # ReSharper properties
-resharper_align_linq_query = true # ÆôÓÃ¶ÔLINQ²éÑ¯µÄ¶ÔÆë
-resharper_align_multiline_argument = true # ÆôÓÃ¶àĞĞ²ÎÊıµÄ¶ÔÆë
-resharper_align_multiline_array_and_object_initializer = true # ÆôÓÃ¶àĞĞÊı×éºÍ¶ÔÏó³õÊ¼»¯Æ÷µÄ¶ÔÆë
-resharper_align_multiline_binary_patterns = true # ÆôÓÃ¶àĞĞ¶şÔªÄ£Ê½µÄ¶ÔÆë
-resharper_align_multiline_calls_chain = true # ÆôÓÃ¶àĞĞµ÷ÓÃÁ´µÄ¶ÔÆë
-resharper_align_multiline_extends_list = true # ÆôÓÃ¶àĞĞÀ©Õ¹ÁĞ±íµÄ¶ÔÆë
-resharper_align_multiline_parameter = true # ÆôÓÃ¶àĞĞ²ÎÊıµÄ¶ÔÆë
-resharper_align_multiline_property_pattern = true # ÆôÓÃ¶àĞĞÊôĞÔÄ£Ê½µÄ¶ÔÆë
-resharper_align_multiline_switch_expression = true # ÆôÓÃ¶àĞĞÇĞ»»±í´ïÊ½µÄ¶ÔÆë
-resharper_align_multiple_declaration = true # ÆôÓÃ¶à¸öÉùÃ÷µÄ¶ÔÆë
-resharper_align_multline_type_parameter_constrains = true # ÆôÓÃ¶àĞĞÀàĞÍ²ÎÊıÔ¼ÊøµÄ¶ÔÆë
-resharper_align_multline_type_parameter_list = true # ÆôÓÃ¶àĞĞÀàĞÍ²ÎÊıÁĞ±íµÄ¶ÔÆë
-resharper_align_tuple_components = true # ÆôÓÃÔª×é×é¼şµÄ¶ÔÆë
-resharper_allow_comment_after_lbrace = true # ÔÊĞíÔÚ´óÀ¨ºÅÇ°Ìí¼Ó×¢ÊÍ
-resharper_blank_lines_before_single_line_comment = 1 # ÔÚµ¥ĞĞ×¢ÊÍÇ°Ìí¼Ó¿ÕĞĞ
-resharper_csharp_empty_block_style = together_same_line # ÉèÖÃ¿Õ¿éµÄÑùÊ½Îª¡°ÔÚÒ»Æğ£¬ÔÚÍ¬Ò»ĞĞ¡±
-resharper_csharp_outdent_commas = true # ÊÇ·ñ½«¶ººÅºóµÄ´úÂëÍËËõ
-resharper_csharp_place_type_constraints_on_same_line = false # ÔÚÀàĞÍÔ¼ÊøÉÏÊÇ·ñ±£³ÖÔÚÍ¬Ò»ĞĞ
-resharper_csharp_stick_comment = false # ÊÇ·ñ½«×¢ÊÍÕ³ÌùÔÚ´úÂëĞĞµÄÄ©Î²
-resharper_csharp_wrap_before_comma = true # ÔÚ¶ººÅÇ°ÊÇ·ñÌí¼Ó»»ĞĞ
-resharper_indent_nested_for_stmt = true # ÊÇ·ñ¶ÔÇ¶Ì×µÄforÓï¾ä½øĞĞËõ½ø
-resharper_indent_nested_foreach_stmt = true # ÊÇ·ñ¶ÔÇ¶Ì×µÄforeachÓï¾ä½øĞĞËõ½ø
-resharper_indent_nested_while_stmt = true # ÊÇ·ñ¶ÔÇ¶Ì×µÄwhileÓï¾ä½øĞĞËõ½ø
-resharper_indent_preprocessor_if = usual_indent # ÉèÖÃÔ¤´¦ÀíÆ÷Ö¸Áî`if`µÄËõ½ø·½Ê½
-resharper_indent_preprocessor_other = usual_indent # ÉèÖÃÆäËûÔ¤´¦ÀíÆ÷Ö¸ÁîµÄËõ½ø·½Ê½
-resharper_int_align = true # ÆôÓÃÕûÊı¶ÔÆë
-resharper_keep_existing_arrangement = false # ÔÚÖØĞÂÅÅÁĞÊ±ÊÇ·ñ±£ÁôÏÖÓĞµÄ²¼¾Ö
-resharper_place_linq_into_on_new_line = false # ÊÇ·ñ½«LINQ±í´ïÊ½·ÅÔÚĞÂĞĞ
-resharper_place_simple_embedded_statement_on_same_line = false # ÊÇ·ñ½«¼òµ¥µÄÇ¶ÈëÊ½Óï¾ä·ÅÔÚÍ¬Ò»ĞĞ
-resharper_place_simple_switch_expression_on_single_line = true # ÊÇ·ñ½«¼òµ¥µÄÇĞ»»±í´ïÊ½·ÅÔÚµ¥ĞĞ
-resharper_wrap_before_eq = true # ÔÚµÈºÅÇ°ÊÇ·ñÌí¼Ó»»ĞĞ
-resharper_wrap_chained_method_calls = chop_if_long # ÊÇ·ñ²ğ·ÖÁ´Ê½·½·¨µ÷ÓÃ
-resharper_wrap_switch_expression = chop_if_long # ÊÇ·ñ²ğ·ÖÇĞ»»±í´ïÊ½
+resharper_align_linq_query = true # å¯ç”¨å¯¹LINQæŸ¥è¯¢çš„å¯¹é½
+resharper_align_multiline_argument = true # å¯ç”¨å¤šè¡Œå‚æ•°çš„å¯¹é½
+resharper_align_multiline_array_and_object_initializer = true # å¯ç”¨å¤šè¡Œæ•°ç»„å’Œå¯¹è±¡åˆå§‹åŒ–å™¨çš„å¯¹é½
+resharper_align_multiline_binary_patterns = true # å¯ç”¨å¤šè¡ŒäºŒå…ƒæ¨¡å¼çš„å¯¹é½
+resharper_align_multiline_calls_chain = true # å¯ç”¨å¤šè¡Œè°ƒç”¨é“¾çš„å¯¹é½
+resharper_align_multiline_extends_list = true # å¯ç”¨å¤šè¡Œæ‰©å±•åˆ—è¡¨çš„å¯¹é½
+resharper_align_multiline_parameter = true # å¯ç”¨å¤šè¡Œå‚æ•°çš„å¯¹é½
+resharper_align_multiline_property_pattern = true # å¯ç”¨å¤šè¡Œå±æ€§æ¨¡å¼çš„å¯¹é½
+resharper_align_multiline_switch_expression = true # å¯ç”¨å¤šè¡Œåˆ‡æ¢è¡¨è¾¾å¼çš„å¯¹é½
+resharper_align_multiple_declaration = true # å¯ç”¨å¤šä¸ªå£°æ˜çš„å¯¹é½
+resharper_align_multline_type_parameter_constrains = true # å¯ç”¨å¤šè¡Œç±»å‹å‚æ•°çº¦æŸçš„å¯¹é½
+resharper_align_multline_type_parameter_list = true # å¯ç”¨å¤šè¡Œç±»å‹å‚æ•°åˆ—è¡¨çš„å¯¹é½
+resharper_align_tuple_components = true # å¯ç”¨å…ƒç»„ç»„ä»¶çš„å¯¹é½
+resharper_allow_comment_after_lbrace = true # å…è®¸åœ¨å¤§æ‹¬å·å‰æ·»åŠ æ³¨é‡Š
+resharper_blank_lines_before_single_line_comment = 1 # åœ¨å•è¡Œæ³¨é‡Šå‰æ·»åŠ ç©ºè¡Œ
+resharper_csharp_empty_block_style = together_same_line # è®¾ç½®ç©ºå—çš„æ ·å¼ä¸ºâ€œåœ¨ä¸€èµ·ï¼Œåœ¨åŒä¸€è¡Œâ€
+resharper_csharp_outdent_commas = true # æ˜¯å¦å°†é€—å·åçš„ä»£ç é€€ç¼©
+resharper_csharp_place_type_constraints_on_same_line = false # åœ¨ç±»å‹çº¦æŸä¸Šæ˜¯å¦ä¿æŒåœ¨åŒä¸€è¡Œ
+resharper_csharp_stick_comment = false # æ˜¯å¦å°†æ³¨é‡Šç²˜è´´åœ¨ä»£ç è¡Œçš„æœ«å°¾
+resharper_csharp_wrap_before_comma = true # åœ¨é€—å·å‰æ˜¯å¦æ·»åŠ æ¢è¡Œ
+resharper_indent_nested_for_stmt = true # æ˜¯å¦å¯¹åµŒå¥—çš„forè¯­å¥è¿›è¡Œç¼©è¿›
+resharper_indent_nested_foreach_stmt = true # æ˜¯å¦å¯¹åµŒå¥—çš„foreachè¯­å¥è¿›è¡Œç¼©è¿›
+resharper_indent_nested_while_stmt = true # æ˜¯å¦å¯¹åµŒå¥—çš„whileè¯­å¥è¿›è¡Œç¼©è¿›
+resharper_indent_preprocessor_if = usual_indent # è®¾ç½®é¢„å¤„ç†å™¨æŒ‡ä»¤`if`çš„ç¼©è¿›æ–¹å¼
+resharper_indent_preprocessor_other = usual_indent # è®¾ç½®å…¶ä»–é¢„å¤„ç†å™¨æŒ‡ä»¤çš„ç¼©è¿›æ–¹å¼
+resharper_int_align = true # å¯ç”¨æ•´æ•°å¯¹é½
+resharper_keep_existing_arrangement = false # åœ¨é‡æ–°æ’åˆ—æ—¶æ˜¯å¦ä¿ç•™ç°æœ‰çš„å¸ƒå±€
+resharper_place_linq_into_on_new_line = false # æ˜¯å¦å°†LINQè¡¨è¾¾å¼æ”¾åœ¨æ–°è¡Œ
+resharper_place_simple_embedded_statement_on_same_line = false # æ˜¯å¦å°†ç®€å•çš„åµŒå…¥å¼è¯­å¥æ”¾åœ¨åŒä¸€è¡Œ
+resharper_place_simple_switch_expression_on_single_line = true # æ˜¯å¦å°†ç®€å•çš„åˆ‡æ¢è¡¨è¾¾å¼æ”¾åœ¨å•è¡Œ
+resharper_wrap_before_eq = true # åœ¨ç­‰å·å‰æ˜¯å¦æ·»åŠ æ¢è¡Œ
+resharper_wrap_chained_method_calls = chop_if_long # æ˜¯å¦æ‹†åˆ†é“¾å¼æ–¹æ³•è°ƒç”¨
+resharper_wrap_switch_expression = chop_if_long # æ˜¯å¦æ‹†åˆ†åˆ‡æ¢è¡¨è¾¾å¼
 
 # Microsoft .NET properties
-csharp_indent_braces = false # ÉèÖÃÎªfalse±íÊ¾»¨À¨ºÅ²»¸úËæ´úÂëĞĞËõ½ø
-csharp_new_line_before_open_brace = local_functions, methods, types # ÕâÀïÉèÖÃÎªlocal_functions, methods, types£¬±íÊ¾ÔÚ¾Ö²¿º¯Êı¡¢·½·¨ºÍÀàĞÍ¶¨ÒåµÄ¿ª·Å»¨À¨ºÅÇ°Ó¦»»ĞĞ
+csharp_indent_braces = false # è®¾ç½®ä¸ºfalseè¡¨ç¤ºèŠ±æ‹¬å·ä¸è·Ÿéšä»£ç è¡Œç¼©è¿›
+csharp_new_line_before_open_brace = local_functions, methods, types # è¿™é‡Œè®¾ç½®ä¸ºlocal_functions, methods, typesï¼Œè¡¨ç¤ºåœ¨å±€éƒ¨å‡½æ•°ã€æ–¹æ³•å’Œç±»å‹å®šä¹‰çš„å¼€æ”¾èŠ±æ‹¬å·å‰åº”æ¢è¡Œ
