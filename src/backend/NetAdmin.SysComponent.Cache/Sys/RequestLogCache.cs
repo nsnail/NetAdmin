@@ -1,5 +1,6 @@
 using NetAdmin.Cache;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using NetAdmin.SysComponent.Cache.Sys.Dependency;
@@ -44,6 +45,42 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
         return Service.GetAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(                                                  //
+            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+          , () => Service.GetBarChartAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
+        #else
+        return Service.GetBarChartAsync(req);
+        #endif
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(                                                  //
+            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+          , () => Service.GetPieChartByApiSummaryAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
+        #else
+        return Service.GetPieChartByApiSummaryAsync(req);
+        #endif
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(                                                  //
+            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+          , () => Service.GetPieChartByHttpStatusCodeAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
+        #else
+        return Service.GetPieChartByHttpStatusCodeAsync(req);
+        #endif
     }
 
     /// <inheritdoc />

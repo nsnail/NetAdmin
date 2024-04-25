@@ -111,9 +111,8 @@
     </div>
     <sc-contextmenu @command="contextMenuCommand" @visible-change="contextMenuVisibleChange" ref="contextmenu">
         <sc-contextmenu-item
-            v-for="(menu, index) in contextMenus"
+            v-for="(menu, index) in contextMenus.filter((x) => x === current.column.property)"
             :command="menu"
-            :disabled="menu !== current.column.property"
             :key="index"
             :title="`${menu}`">
             <sc-contextmenu-item :command="`${menu}^|^Equal^|^${current.row[menu]}`" title="="></sc-contextmenu-item>

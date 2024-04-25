@@ -1,10 +1,6 @@
 <template>
-    <el-card header="changelog" shadow="never">
-        <el-skeleton :loading="loading" :rows="10" animated>
-            <template #default>
-                <div v-html="changeLog" class="change-log"></div>
-            </template>
-        </el-skeleton>
+    <el-card v-loading="loading" header="更新日志" shadow="never">
+        <div v-html="changeLog" class="change-log"></div>
     </el-card>
 </template>
 
@@ -39,6 +35,7 @@ export default {
 <style scoped></style>
 <style lang="scss">
 .change-log {
+    min-height: 30rem;
     line-height: 3rem;
     li {
         margin: 0 0 0 2rem;

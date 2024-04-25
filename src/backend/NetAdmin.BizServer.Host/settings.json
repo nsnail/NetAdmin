@@ -14,13 +14,11 @@
       },
       {
         "Group": "Tpl",
-        "Title": "示例服务",
-        "Description": "NetAdmin - 示例服务",
-        "Visible": false
+        "Visible": false,
       },
       {
-        "Group": "Health",
-        "Visible": false
+        "Group": "Probe",
+        "Visible": false,
       }
     ],
     "SecurityDefinitions": [

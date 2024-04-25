@@ -1,5 +1,6 @@
 using NetAdmin.Cache;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
@@ -51,6 +52,44 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     public Task<QueryJobRsp> GetAsync(QueryJobReq req)
     {
         return Service.GetAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(                                                  //
+            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+          , () => Service.GetRecordBarChartAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
+        #else
+        return Service.GetRecordBarChartAsync(req);
+        #endif
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(
+        QueryReq<QueryJobRecordReq> req)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(                                                  //
+            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+          , () => Service.GetRecordPieChartByHttpStatusCodeAsync(req)
+          , TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
+        #else
+        return Service.GetRecordPieChartByHttpStatusCodeAsync(req);
+        #endif
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(                                                  //
+            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+          , () => Service.GetRecordPieChartByNameAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
+        #else
+        return Service.GetRecordPieChartByNameAsync(req);
+        #endif
     }
 
     /// <inheritdoc />

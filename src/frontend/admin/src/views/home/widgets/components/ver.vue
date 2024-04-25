@@ -1,14 +1,10 @@
 <template>
-    <el-card :class="loading ? '' : 'aboutTop'" shadow="never">
-        <el-skeleton :loading="loading" :rows="5" animated>
-            <template #default>
-                <div class="aboutTop-info">
-                    <img alt="" src="@/assets/img/logo.png" />
-                    <h2>{{ packageJson.name }}</h2>
-                    <p>{{ ver }}</p>
-                </div>
-            </template>
-        </el-skeleton>
+    <el-card v-loading="loading" class="main" shadow="never">
+        <div class="wrap">
+            <img alt="" src="@/assets/img/logo.png" />
+            <h2>{{ packageJson.name }}</h2>
+            <p>{{ ver }}</p>
+        </div>
     </el-card>
 </template>
 
@@ -40,22 +36,18 @@ export default {
 </script>
 
 <style scoped>
-.aboutTop {
-    border: 0;
-    background: linear-gradient(to right, rgb(66, 76, 80), #ccc);
-    color: #fff;
-}
-.aboutTop-info {
+.main,
+.wrap {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.aboutTop-info img {
-    width: 10rem;
+.main {
+    height: 25rem;
 }
-.aboutTop-info h2 {
-    font-size: 2rem;
-    margin-top: 1rem;
-}
-.aboutTop-info p {
-    margin-top: 1rem;
+.wrap {
+    gap: 1rem;
 }
 </style>

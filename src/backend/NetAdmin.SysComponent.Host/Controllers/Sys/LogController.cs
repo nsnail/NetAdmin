@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Host.Attributes;
 using NetAdmin.Host.Controllers;
@@ -68,6 +69,30 @@ public sealed class LogController(IRequestLogCache cache) : ControllerBase<IRequ
     public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
         return Cache.GetAsync(req);
+    }
+
+    /// <summary>
+    ///     获取条形图数据
+    /// </summary>
+    public Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Cache.GetBarChartAsync(req);
+    }
+
+    /// <summary>
+    ///     描述分组饼图数据
+    /// </summary>
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Cache.GetPieChartByApiSummaryAsync(req);
+    }
+
+    /// <summary>
+    ///     状态码分组饼图数据
+    /// </summary>
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Cache.GetPieChartByHttpStatusCodeAsync(req);
     }
 
     /// <summary>

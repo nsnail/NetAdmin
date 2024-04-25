@@ -1,5 +1,23 @@
 <template>
     <el-container>
+        <el-header style="height: auto; padding: 0 1rem">
+            <sc-select-filter
+                :data="[
+                    {
+                        title: $t('消息类型'),
+                        key: 'msgType',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...Object.entries(this.$GLOBAL.enums.siteMsgTypes).map((x) => {
+                                return { value: x[0], label: x[1][1] }
+                            }),
+                        ],
+                    },
+                ]"
+                :label-width="6"
+                @on-change="filterChange"
+                ref="selectFilter"></sc-select-filter>
+        </el-header>
         <el-header>
             <div class="left-panel">
                 <na-search
@@ -10,18 +28,11 @@
                             placeholder: $t('消息编号 / 消息主题 / 消息内容'),
                             style: 'width:20rem',
                         },
-                        {
-                            type: 'select',
-                            field: ['dy', 'msgType'],
-                            options: Object.entries(this.$GLOBAL.enums.siteMsgTypes).map((x) => {
-                                return { value: x[0], label: x[1][1] }
-                            }),
-                            placeholder: $t('消息类型'),
-                            style: 'width:15rem',
-                        },
                     ]"
                     :vue="this"
-                    @search="onSearch" />
+                    @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
+                    @search="onSearch"
+                    ref="search" />
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
@@ -51,13 +62,14 @@
                 <na-col-avatar :label="$t('用户名')" prop="createdUserName" />
                 <na-col-indicator
                     :label="$t('消息类型')"
-                    :options="[
-                        { text: '私信', type: 'success', value: 'private' },
-                        { text: '公告', type: 'warning', value: 'public' },
-                    ]"
+                    :options="
+                        Object.entries(this.$GLOBAL.enums.siteMsgTypes).map((x) => {
+                            return { value: x[0], text: x[1][1] }
+                        })
+                    "
                     prop="msgType"
-                    width="100"></na-col-indicator>
-
+                    width="100">
+                </na-col-indicator>
                 <el-table-column :label="$t('消息主题')" prop="title" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('消息摘要')" prop="summary" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
@@ -120,6 +132,12 @@ export default {
     mounted() {},
     created() {},
     methods: {
+        filterChange(data) {
+            Object.entries(data).forEach(([key, value]) => {
+                this.$refs.search.form.dy[key] = value
+            })
+            this.$refs.search.search()
+        },
         //删除
         async rowDel(row) {
             try {

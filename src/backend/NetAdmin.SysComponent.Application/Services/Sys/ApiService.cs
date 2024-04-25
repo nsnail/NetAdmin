@@ -148,8 +148,11 @@ public sealed class ApiService(
     private ISelect<Sys_Api> QueryInternal(QueryReq<QueryApiReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);

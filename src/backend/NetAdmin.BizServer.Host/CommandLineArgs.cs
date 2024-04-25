@@ -11,11 +11,11 @@ public sealed class CommandLineArgs : CommandSettings
     ///     插入种子数据
     /// </summary>
     [CommandOption("-i|--insert-seed-data")]
-    public bool InsertSeedData { get; set; }
+    public bool InsertSeedData { get; init; }
 
     /// <summary>
     ///     同步数据库结构
     /// </summary>
     [CommandOption("-s|--sync-structure")]
-    public bool SyncStructure { get; set; }
+    public bool SyncStructure { get; init; }
 }

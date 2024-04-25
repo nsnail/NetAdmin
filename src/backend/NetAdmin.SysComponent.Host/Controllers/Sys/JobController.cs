@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.Attributes;
@@ -73,6 +74,31 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     public Task<QueryJobRsp> GetAsync(QueryJobReq req)
     {
         return Cache.GetAsync(req);
+    }
+
+    /// <summary>
+    ///     获取作业记录条形图数据
+    /// </summary>
+    public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.GetRecordBarChartAsync(req);
+    }
+
+    /// <summary>
+    ///     状态码分组作业记录饼图数据
+    /// </summary>
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(
+        QueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.GetRecordPieChartByHttpStatusCodeAsync(req);
+    }
+
+    /// <summary>
+    ///     名称分组作业记录饼图数据
+    /// </summary>
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.GetRecordPieChartByNameAsync(req);
     }
 
     /// <summary>

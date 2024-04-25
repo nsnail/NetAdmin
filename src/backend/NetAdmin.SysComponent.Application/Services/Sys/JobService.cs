@@ -3,6 +3,7 @@ using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Domain.Enums.Sys;
@@ -144,6 +145,28 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.GetBarChartAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(
+        QueryReq<QueryJobRecordReq> req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.GetPieChartByHttpStatusCodeAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.GetPieChartByNameAsync(req);
+    }
+
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryJobRsp>> PagedQueryAsync(PagedQueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
@@ -227,8 +250,11 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                      .WhereIf( //
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords));
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);

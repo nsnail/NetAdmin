@@ -1,5 +1,23 @@
 <template>
     <el-container>
+        <el-header style="height: auto; padding: 0 1rem">
+            <sc-select-filter
+                :data="[
+                    {
+                        title: $t('作业状态'),
+                        key: 'status',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...Object.entries(this.$GLOBAL.enums.jobStatues).map((x) => {
+                                return { value: x[0], label: x[1][1] }
+                            }),
+                        ],
+                    },
+                ]"
+                :label-width="6"
+                @on-change="filterChange"
+                ref="selectFilter"></sc-select-filter>
+        </el-header>
         <el-header>
             <div class="left-panel">
                 <na-search
@@ -9,15 +27,6 @@
                             field: ['root', 'keywords'],
                             placeholder: $t('作业编号 / 作业名称'),
                             style: 'width:20rem',
-                        },
-                        {
-                            type: 'select',
-                            field: ['dy', 'status'],
-                            options: Object.entries(this.$GLOBAL.enums.jobStatues).map((x) => {
-                                return { value: x[0], label: x[1][1] }
-                            }),
-                            placeholder: $t('作业状态'),
-                            style: 'width:10rem',
                         },
                         {
                             type: 'select',
@@ -40,6 +49,7 @@
                         },
                     ]"
                     :vue="this"
+                    @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
                     @search="onSearch"
                     ref="search" />
             </div>
@@ -151,9 +161,11 @@
 import saveDialog from './save'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
+import ScSelectFilter from '@/components/scSelectFilter/index.vue'
 
 export default {
     components: {
+        ScSelectFilter,
         saveDialog,
     },
     inject: ['reload'],
@@ -192,6 +204,12 @@ export default {
     },
     created() {},
     methods: {
+        filterChange(data) {
+            Object.entries(data).forEach(([key, value]) => {
+                this.$refs.search.form.dy[key] = value
+            })
+            this.$refs.search.search()
+        },
         //表格内开关事件
         async changeSwitch(event, row) {
             try {

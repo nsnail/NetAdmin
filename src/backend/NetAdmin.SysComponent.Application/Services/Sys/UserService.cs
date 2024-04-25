@@ -486,8 +486,11 @@ public sealed class UserService(
     private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
@@ -522,8 +525,11 @@ public sealed class UserService(
                        , a => a.Id == req.Keywords.Int64Try(0) || a.UserName.Contains(req.Keywords) ||
                               a.Mobile.Contains(req.Keywords)  || a.Email.Contains(req.Keywords)    ||
                               a.Summary.Contains(req.Keywords));
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
