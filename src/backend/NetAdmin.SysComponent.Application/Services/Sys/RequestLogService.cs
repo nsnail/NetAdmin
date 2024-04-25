@@ -2,6 +2,7 @@ using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
@@ -65,6 +66,54 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        req.ThrowIfInvalid();
+
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .GroupBy(a => new {
+                                              a.CreatedTime.Year
+                                            , a.CreatedTime.Month
+                                            , a.CreatedTime.Day
+                                            , a.CreatedTime.Hour
+                                          })
+                        .ToListAsync(a => new GetBarChartRsp {
+                                                                 Timestamp = new DateTime(
+                                                                     a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0
+                                                                   , 0, DateTimeKind.Unspecified)
+                                                               , Value = a.Count()
+                                                             })
+                        .ConfigureAwait(false);
+        return ret.OrderBy(x => x.Timestamp);
+    }
+
+    /// <inheritdoc />
+    public async Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .GroupBy(a => a.Api.Summary)
+                        .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key })
+                        .ConfigureAwait(false);
+        return ret.OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
+    public async Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(
+        QueryReq<QueryRequestLogReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .GroupBy(a => a.HttpStatusCode)
+                        #pragma warning disable CA1305
+                        .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key.ToString() })
+                        #pragma warning restore CA1305
+                        .ConfigureAwait(false);
+        return ret.Select(x => x with { Key = Enum.Parse<HttpStatusCode>(x.Key).ToString() })
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
@@ -114,8 +163,11 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     private ISelect<Sys_RequestLog> QueryInternal(QueryReq<QueryRequestLogReq> req)
     {
         var ret = Rpo.Select.Include(a => a.Api).WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);

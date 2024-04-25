@@ -110,8 +110,11 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     private ISelect<Sys_SiteMsgDept> QueryInternal(QueryReq<QuerySiteMsgDeptReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);

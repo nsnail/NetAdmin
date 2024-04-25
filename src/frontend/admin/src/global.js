@@ -40,6 +40,7 @@ import scUpload from '@/components/scUpload'
 import scUploadFile from '@/components/scUpload/file'
 import scUploadMultiple from '@/components/scUpload/multiple'
 import scWaterMark from '@/components/scWaterMark'
+import scSelectFilter from '@/components/scSelectFilter'
 
 // net-admin组件
 import naArea from '@/components/naArea/index.vue'
@@ -113,6 +114,7 @@ export default {
         app.component('scUploadFile', scUploadFile)
         app.component('scUploadMultiple', scUploadMultiple)
         app.component('scWaterMark', scWaterMark)
+        app.component('scSelectFilter', scSelectFilter)
 
         //注册全局指令
         app.directive('auth', auth)

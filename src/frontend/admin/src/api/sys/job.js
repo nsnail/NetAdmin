@@ -83,6 +83,39 @@ export default {
     },
 
     /**
+     * 获取作业记录条形图数据
+     */
+    getRecordBarChart: {
+        url: `${config.API_URL}/api/sys/job/get.record.bar.chart`,
+        name: `获取作业记录条形图数据`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 状态码分组作业记录饼图数据
+     */
+    getRecordPieChartByHttpStatusCode: {
+        url: `${config.API_URL}/api/sys/job/get.record.pie.chart.by.http.status.code`,
+        name: `状态码分组作业记录饼图数据`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 名称分组作业记录饼图数据
+     */
+    getRecordPieChartByName: {
+        url: `${config.API_URL}/api/sys/job/get.record.pie.chart.by.name`,
+        name: `名称分组作业记录饼图数据`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询计划作业
      */
     pagedQuery: {

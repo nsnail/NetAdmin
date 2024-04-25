@@ -12,7 +12,7 @@
         <div v-if="data.length <= 0" class="sc-select-filter__no-data">暂无数据</div>
         <div v-for="item in data" :key="item.key" class="sc-select-filter__item">
             <div :style="{ width: labelWidth + 'rem' }" class="sc-select-filter__item-title">
-                <label>{{ item.title }}：</label>
+                <label>{{ item.title }}</label>
             </div>
             <div class="sc-select-filter__item-options">
                 <ul>
@@ -134,6 +134,7 @@ export default {
 
 .sc-select-filter__item {
     display: flex;
+    align-items: baseline;
 }
 
 .sc-select-filter__item-title {

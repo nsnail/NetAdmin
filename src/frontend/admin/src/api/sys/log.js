@@ -28,6 +28,39 @@ export default {
     },
 
     /**
+     * 获取条形图数据
+     */
+    getBarChart: {
+        url: `${config.API_URL}/api/sys/log/get.bar.chart`,
+        name: `获取条形图数据`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 描述分组饼图数据
+     */
+    getPieChartByApiSummary: {
+        url: `${config.API_URL}/api/sys/log/get.pie.chart.by.api.summary`,
+        name: `描述分组饼图数据`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 状态码分组饼图数据
+     */
+    getPieChartByHttpStatusCode: {
+        url: `${config.API_URL}/api/sys/log/get.pie.chart.by.http.status.code`,
+        name: `状态码分组饼图数据`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询请求日志
      */
     pagedQuery: {

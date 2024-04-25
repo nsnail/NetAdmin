@@ -23,6 +23,7 @@ public static class Numbers
     public const int MAX_LIMIT_QUERY_PAGE_NO     = 10000; // 最大限制：分页查询页码
     public const int MAX_LIMIT_QUERY_PAGE_SIZE   = 100;   // 最大限制：分页查询页容量
 
+    public const int SECS_CACHE_CHART     = 300; // 秒：缓存时间-仪表
     public const int SECS_CACHE_DEFAULT   = 60;  // 秒：缓存时间-默认
     public const int SECS_RED_LOCK_EXPIRY = 30;  // 秒：RedLock-锁过期时间，锁区域内的逻辑执行如果超过过期时间，锁将被释放
     public const int SECS_RED_LOCK_RETRY  = 1;   // 秒：RedLock-锁等待时间内，多久尝试获取一次

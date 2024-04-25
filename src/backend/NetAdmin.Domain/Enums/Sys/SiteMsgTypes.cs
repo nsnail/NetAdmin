@@ -7,9 +7,9 @@ namespace NetAdmin.Domain.Enums.Sys;
 public enum SiteMsgTypes
 {
     /// <summary>
-    ///     私信
+    ///     通知
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.私信))]
+    [ResourceDescription<Ln>(nameof(Ln.通知))]
     Private = 1
 
    ,

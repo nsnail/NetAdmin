@@ -1,5 +1,6 @@
 using NetAdmin.Application.Modules;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 
@@ -18,6 +19,21 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
     ///     编辑作业
     /// </summary>
     Task<QueryJobRsp> EditAsync(UpdateJobReq req);
+
+    /// <summary>
+    ///     获取作业记录条形图数据
+    /// </summary>
+    Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req);
+
+    /// <summary>
+    ///     状态码分组作业记录饼图数据
+    /// </summary>
+    Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req);
+
+    /// <summary>
+    ///     名称分组作业记录饼图数据
+    /// </summary>
+    Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req);
 
     /// <summary>
     ///     获取单个作业记录

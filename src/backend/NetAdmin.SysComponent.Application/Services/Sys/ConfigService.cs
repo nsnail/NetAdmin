@@ -121,8 +121,11 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereIf( //
                          req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value);
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);

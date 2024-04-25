@@ -81,7 +81,7 @@ import tool from '@/utils/tool'
 import vkbeautify from 'vkbeautify/index'
 
 export default {
-    emits: ['search'],
+    emits: ['search', 'reset'],
     props: {
         hasDate: { type: Boolean, default: true },
         dateType: { type: String, default: 'daterange' },
@@ -252,10 +252,10 @@ export default {
                     extend: {
                         remote: true,
                         request: async (query) => {
-                            var data = {
+                            const data = {
                                 keyword: query,
                             }
-                            var list = await this.$API.system.dic.get.get(data)
+                            const list = await this.$API.system.dic.get.get(data)
                             return list.data.map((item) => {
                                 return {
                                     label: item.label,
@@ -322,6 +322,7 @@ export default {
             ],
             casLoaded: false,
             keepKeywords: null,
+            keepCreatedTime: null,
             form: {
                 root: {},
                 filter: {},
@@ -400,6 +401,10 @@ export default {
             if (this.keepKeywords) {
                 this.form.root.keywords = this.keepKeywords
             }
+            if (this.keepCreatedTime) {
+                this.form.dy.createdTime = this.keepCreatedTime
+            }
+            this.$emit('reset')
             this.search()
         },
     },

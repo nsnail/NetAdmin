@@ -27,4 +27,12 @@ public enum Orders
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.随机排序))]
     Random = 3
+
+   ,
+
+    /// <summary>
+    ///     不排序
+    /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.不排序))]
+    None = 4
 }
