@@ -1,10 +1,10 @@
-using NetAdmin.BizServer.Host.Filters;
+using NetAdmin.AdmServer.Host.Filters;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Host.Extensions;
 
-namespace NetAdmin.BizServer.Host.Extensions;
+namespace NetAdmin.AdmServer.Host.Extensions;
 
 /// <summary>
 ///     ServiceCollection 扩展方法

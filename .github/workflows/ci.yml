@@ -42,8 +42,8 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: ${{ runner.os }}-nuget
       - name: Publish backend
-        working-directory: ./src/backend/NetAdmin.BizServer.Host
-        run: dotnet publish NetAdmin.BizServer.Host.csproj -c Release
+        working-directory: ./src/backend/NetAdmin.AdmServer.Host
+        run: dotnet publish NetAdmin.AdmServer.Host.csproj -c Release
       - name: Build docker images
         run: docker build -t nsnail/netadmin .
       - name: Docker login

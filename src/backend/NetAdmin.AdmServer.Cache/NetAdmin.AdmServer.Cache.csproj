@@ -2,6 +2,6 @@
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.SysComponent.Cache/NetAdmin.SysComponent.Cache.csproj"/>
-        <ProjectReference Include="../NetAdmin.BizServer.Application/NetAdmin.BizServer.Application.csproj"/>
+        <ProjectReference Include="../NetAdmin.AdmServer.Application/NetAdmin.AdmServer.Application.csproj"/>
     </ItemGroup>
 </Project>
