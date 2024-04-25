@@ -8,8 +8,8 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public sealed record SetAvatarReq : Sys_User
 {
     /// <inheritdoc cref="Sys_User.Avatar" />
-    [Url(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.网络地址不正确))]
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户头像不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户头像不能为空))]
+    [Url(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.网络地址不正确))]
     public override string Avatar { get; init; }
 }

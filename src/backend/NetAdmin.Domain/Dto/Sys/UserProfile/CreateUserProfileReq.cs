@@ -36,8 +36,8 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override string CompanyName { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.CompanyTelephone" />
-    [Telephone]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Telephone]
     public override string CompanyTelephone { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Education" />
@@ -54,8 +54,8 @@ public record CreateUserProfileReq : Sys_UserProfile
     public new QueryDicContentRsp EmergencyContactArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.EmergencyContactMobile" />
-    [Mobile]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Mobile]
     public override string EmergencyContactMobile { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.EmergencyContactName" />
@@ -79,8 +79,8 @@ public record CreateUserProfileReq : Sys_UserProfile
     public new QueryDicContentRsp HomeArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.HomeTelephone" />
-    [Telephone]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Telephone]
     public override string HomeTelephone { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.MarriageStatus" />
@@ -98,9 +98,9 @@ public record CreateUserProfileReq : Sys_UserProfile
     public new CreateDicContentReq NationArea { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.PoliticalStatus" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(PoliticalStatues), ErrorMessageResourceType = typeof(Ln)
                 , ErrorMessageResourceName = nameof(Ln.政治面貌不正确))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override PoliticalStatues? PoliticalStatus { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Profession" />

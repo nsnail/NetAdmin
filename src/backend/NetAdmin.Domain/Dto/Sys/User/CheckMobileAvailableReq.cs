@@ -9,8 +9,8 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public sealed record CheckMobileAvailableReq : Sys_User
 {
     /// <inheritdoc cref="Sys_User.Mobile" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Mobile]
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.手机号码不能为空))]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Mobile { get; init; }
 }

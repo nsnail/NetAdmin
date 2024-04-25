@@ -12,9 +12,9 @@ public sealed record RegisterUserReq : Sys_User
     /// <summary>
     ///     密码
     /// </summary>
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
-    [Password]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [Password]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
     public string PasswordText { get; init; }
 
     /// <summary>
@@ -24,9 +24,9 @@ public sealed record RegisterUserReq : Sys_User
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="Sys_User.UserName" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名不能为空))]
     [UserName]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string UserName { get; init; }
 
     /// <summary>

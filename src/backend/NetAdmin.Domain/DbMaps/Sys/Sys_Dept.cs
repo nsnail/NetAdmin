@@ -19,22 +19,22 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     /// <summary>
     ///     是否启用
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
     /// <summary>
     ///     部门名称
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string Name { get; init; }
 
     /// <summary>
     ///     父编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual long ParentId { get; init; }
 
     /// <summary>
@@ -54,14 +54,14 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     /// <summary>
     ///     排序值，越大越前
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual long Sort { get; init; }
 
     /// <summary>
     ///     部门描述
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [JsonIgnore]
     public virtual string Summary { get; init; }
 }

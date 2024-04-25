@@ -8,8 +8,8 @@ public enum LogLevels
     /// <summary>
     ///     跟踪
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.跟踪))]
     [Display(Name = "[gray]TCE[/]", ShortName = "TCE")]
+    [ResourceDescription<Ln>(nameof(Ln.跟踪))]
     Trace = 0
 
    ,
@@ -17,8 +17,8 @@ public enum LogLevels
     /// <summary>
     ///     调试
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.调试))]
     [Display(Name = "[gray]DBG[/]", ShortName = "DBG")]
+    [ResourceDescription<Ln>(nameof(Ln.调试))]
     Debug = 1
 
    ,
@@ -26,8 +26,8 @@ public enum LogLevels
     /// <summary>
     ///     信息
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.信息))]
     [Display(Name = "[green]INF[/]", ShortName = "INF")]
+    [ResourceDescription<Ln>(nameof(Ln.信息))]
     Information = 2
 
    ,
@@ -35,8 +35,8 @@ public enum LogLevels
     /// <summary>
     ///     警告
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.警告))]
     [Display(Name = "[yellow]WRN[/]", ShortName = "WRN")]
+    [ResourceDescription<Ln>(nameof(Ln.警告))]
     Warning = 3
 
    ,
@@ -44,8 +44,8 @@ public enum LogLevels
     /// <summary>
     ///     错误
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.错误))]
     [Display(Name = "[red]ERR[/]", ShortName = "ERR")]
+    [ResourceDescription<Ln>(nameof(Ln.错误))]
     Error = 4
 
    ,
@@ -53,7 +53,7 @@ public enum LogLevels
     /// <summary>
     ///     宕机
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.宕机))]
     [Display(Name = "[red]CTL[/]", ShortName = "CTL")]
+    [ResourceDescription<Ln>(nameof(Ln.宕机))]
     Critical = 5
 }

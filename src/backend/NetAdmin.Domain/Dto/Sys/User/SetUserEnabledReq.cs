@@ -13,7 +13,7 @@ public sealed record SetUserEnabledReq : Sys_User
     public override bool Enabled { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户编号不能为空))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户编号不能为空))]
     public override long Id { get; init; }
 }

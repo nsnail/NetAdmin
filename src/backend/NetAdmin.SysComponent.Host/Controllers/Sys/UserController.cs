@@ -138,8 +138,8 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     /// <summary>
     ///     注册用户
     /// </summary>
-    [Transaction]
     [AllowAnonymous]
+    [Transaction]
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
         var config = await configCache.GetLatestConfigAsync().ConfigureAwait(false);

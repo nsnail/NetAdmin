@@ -10,8 +10,8 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public abstract record CreateUpdateUserReq : Sys_User
 {
     /// <inheritdoc cref="Sys_User.Avatar" />
-    [Url(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.网络地址不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Url(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.网络地址不正确))]
     public override string Avatar { get; init; }
 
     /// <inheritdoc cref="Sys_User.DeptId" />
@@ -28,8 +28,8 @@ public abstract record CreateUpdateUserReq : Sys_User
     public override bool Enabled { get; init; }
 
     /// <inheritdoc cref="Sys_User.Mobile" />
-    [Mobile]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Mobile]
     public override string Mobile { get; init; }
 
     /// <summary>
@@ -41,9 +41,9 @@ public abstract record CreateUpdateUserReq : Sys_User
     /// <summary>
     ///     角色编号列表
     /// </summary>
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号列表不能为空))]
-    [MinLength(1)]
     [MaxLength(Numbers.MAX_LIMIT_BULK_REQ)]
+    [MinLength(1)]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色编号列表不能为空))]
     public IReadOnlyCollection<long> RoleIds { get; init; }
 
     /// <inheritdoc cref="Sys_User.Summary" />
@@ -51,8 +51,8 @@ public abstract record CreateUpdateUserReq : Sys_User
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="Sys_User.UserName" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.用户名不能为空))]
     [UserName]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string UserName { get; init; }
 }

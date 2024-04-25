@@ -17,8 +17,8 @@ public record Sys_UserRole : VersionEntity
     /// <summary>
     ///     角色编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public long RoleId { get; init; }
 
     /// <summary>
@@ -30,7 +30,7 @@ public record Sys_UserRole : VersionEntity
     /// <summary>
     ///     用户编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public long UserId { get; init; }
 }

@@ -7,17 +7,17 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     用户基本信息表
 /// </summary>
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_User))]
-[Index($"idx_{{tablename}}_{nameof(UserName)}", nameof(UserName), true)]
-[Index($"idx_{{tablename}}_{nameof(Mobile)}",   nameof(Mobile),   true)]
 [Index($"idx_{{tablename}}_{nameof(Email)}",    nameof(Email),    true)]
+[Index($"idx_{{tablename}}_{nameof(Mobile)}",   nameof(Mobile),   true)]
+[Index($"idx_{{tablename}}_{nameof(UserName)}", nameof(UserName), true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_User))]
 public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
 {
     /// <summary>
     ///     头像链接
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [JsonIgnore]
     public virtual string Avatar { get; init; }
 
     /// <summary>
@@ -30,36 +30,36 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     /// <summary>
     ///     部门编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual long DeptId { get; init; }
 
     /// <summary>
     ///     邮箱
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [JsonIgnore]
     public virtual string Email { get; init; }
 
     /// <summary>
     ///     是否启用
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
     /// <summary>
     ///     手机号
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
+    [JsonIgnore]
     public virtual string Mobile { get; init; }
 
     /// <summary>
     ///     密码
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public Guid Password { get; init; }
 
     /// <summary>
@@ -85,22 +85,22 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     /// <summary>
     ///     描述
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [JsonIgnore]
     public virtual string Summary { get; init; }
 
     /// <summary>
     ///     授权验证Token，全局唯一，可以随时重置（强制下线）
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public Guid Token { get; init; }
 
     /// <summary>
     ///     用户名
     /// </summary>
-    [JsonIgnore]
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [JsonIgnore]
     public virtual string UserName { get; init; }
 
     /// <inheritdoc />

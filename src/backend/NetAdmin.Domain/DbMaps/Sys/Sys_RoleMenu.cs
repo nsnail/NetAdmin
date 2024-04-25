@@ -5,8 +5,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     角色-菜单映射表
 /// </summary>
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RoleMenu))]
 [Index($"idx_{{tablename}}_{nameof(RoleId)}_{nameof(MenuId)}", $"{nameof(RoleId)},{nameof(MenuId)}", true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RoleMenu))]
 public record Sys_RoleMenu : ImmutableEntity
 {
     /// <summary>
@@ -18,8 +18,8 @@ public record Sys_RoleMenu : ImmutableEntity
     /// <summary>
     ///     菜单编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual long MenuId { get; init; }
 
     /// <summary>
@@ -31,7 +31,7 @@ public record Sys_RoleMenu : ImmutableEntity
     /// <summary>
     ///     角色编号
     /// </summary>
-    [JsonIgnore]
     [Column]
+    [JsonIgnore]
     public virtual long RoleId { get; init; }
 }
