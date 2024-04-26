@@ -6,6 +6,7 @@ using NetAdmin.Host.Utils;
 using StackExchange.Redis;
 using Yitter.IdGenerator;
 using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
+
 #if DEBUG
 using Spectre.Console;
 #endif

@@ -107,7 +107,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
 
         #if !DEBUG
         // 有发送记录，且小于1分钟，不允许
-        if (lastSent != null && (DateTime.UtcNow - lastSent.CreatedTime).TotalMinutes < 1) {
+        if (lastSent != null && (DateTime.Now - lastSent.CreatedTime).TotalMinutes < 1) {
             throw new NetAdminInvalidOperationException(Ln._1分钟内只能发送1次);
         }
         #endif
@@ -152,7 +152,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
         var lastSent = await GetLastSentAsync(req.DestDevice).ConfigureAwait(false);
 
         if (lastSent is not { Status: VerifyCodeStatues.Sent } || req.Code != lastSent.Code ||
-            (DateTime.UtcNow - lastSent.CreatedTime).TotalMinutes          > 10) {
+            (DateTime.Now - lastSent.CreatedTime).TotalMinutes             > 10) {
             return false;
         }
 
@@ -188,8 +188,11 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     private ISelect<Sys_VerifyCode> QueryInternal(QueryReq<QueryVerifyCodeReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
