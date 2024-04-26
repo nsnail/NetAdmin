@@ -39,6 +39,7 @@ public static class Chars
     public const string FLG_DB_FIELD_TYPE_VARCHAR_63                  = "varchar(63)";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_7                   = "varchar(7)";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_MAX                 = "varchar(max)";
+    public const string FLG_DB_INDEX_PREFIX                           = "idx_{tablename}_";
     public const string FLG_DB_TABLE_NAME_PREFIX                      = "";
     public const string FLG_FREE_SQL_GLOBAL_FILTER_DATA               = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DATA);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_DELETE             = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DELETE);
