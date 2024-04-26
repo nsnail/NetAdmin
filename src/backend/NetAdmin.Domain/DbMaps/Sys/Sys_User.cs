@@ -7,9 +7,9 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     用户基本信息表
 /// </summary>
-[Index($"idx_{{tablename}}_{nameof(Email)}",    nameof(Email),    true)]
-[Index($"idx_{{tablename}}_{nameof(Mobile)}",   nameof(Mobile),   true)]
-[Index($"idx_{{tablename}}_{nameof(UserName)}", nameof(UserName), true)]
+[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(Email),    nameof(Email),    true)]
+[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(Mobile),   nameof(Mobile),   true)]
+[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(UserName), nameof(UserName), true)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_User))]
 public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
 {

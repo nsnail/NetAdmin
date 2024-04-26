@@ -6,8 +6,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     请求日志表
 /// </summary>
-[Index($"idx_{{tablename}}_{nameof(ApiId)}",       nameof(ApiId),       false)]
-[Index($"idx_{{tablename}}_{nameof(CreatedTime)}", nameof(CreatedTime), false)]
+[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(ApiId),       nameof(ApiId),       false)]
+[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(CreatedTime), nameof(CreatedTime), false)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RequestLog))]
 public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
 {

@@ -67,8 +67,8 @@ public record CreateUserProfileReq : Sys_UserProfile
     public override string GraduateSchool { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.Height" />
-    [Range(100, 250)]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    [Range(100, 250)]
     public override int? Height { get; init; }
 
     /// <inheritdoc cref="Sys_UserProfile.HomeAddress" />

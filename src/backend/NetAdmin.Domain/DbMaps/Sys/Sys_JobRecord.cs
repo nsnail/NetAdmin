@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     计划作业执行记录表
 /// </summary>
-[Index($"idx_{{tablename}}_{nameof(JobId)}_{nameof(TimeId)}", $"{nameof(JobId)},{nameof(TimeId)}", true)]
+[Index($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(JobId)}_{nameof(TimeId)}", $"{nameof(JobId)},{nameof(TimeId)}", true)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_JobRecord))]
 public record Sys_JobRecord : LiteImmutableEntity
 {
