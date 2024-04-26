@@ -25,7 +25,7 @@ public sealed class SqlAuditor : ISingleton
     public SqlAuditor(ILogger<SqlAuditor> logger)
     {
         // 设置服务器时间偏差
-        _timeOffset = DateTime.UtcNow.Subtract(App.GetService<IFreeSql>().Ado.QuerySingle(() => DateTime.UtcNow));
+        _timeOffset = DateTime.Now.Subtract(App.GetService<IFreeSql>().Ado.QuerySingle(() => DateTime.Now));
 
         logger.Info($"{Ln.数据库服务器时钟偏移} {_timeOffset}");
     }

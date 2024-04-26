@@ -32,7 +32,7 @@ public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
     /// <inheritdoc />
     public Task<DateTime> GetServerUtcTimeAsync()
     {
-        return Task.FromResult(DateTime.UtcNow);
+        return Task.FromResult(DateTime.Now);
     }
 
     /// <inheritdoc />

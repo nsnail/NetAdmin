@@ -22,7 +22,7 @@ public abstract record LiteMutableEntity<T> : LiteImmutableEntity<T>, IFieldModi
     public override T Id { get; init; }
 
     /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
-    [Column(ServerTime = DateTimeKind.Utc, CanInsert = false, Position = -1)]
+    [Column(ServerTime = DateTimeKind.Local, CanInsert = false, Position = -1)]
     [JsonIgnore]
     public virtual DateTime? ModifiedTime { get; init; }
 }

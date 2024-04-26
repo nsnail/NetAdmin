@@ -56,10 +56,10 @@
     "RoutePrefix": "swagger",
     "XmlComments": [
       "FreeSql.xml",
-      "NetAdmin.Application.xml",
       "NetAdmin.AdmServer.Application.xml",
       "NetAdmin.AdmServer.Cache.xml",
       "NetAdmin.AdmServer.Host.xml",
+      "NetAdmin.Application.xml",
       "NetAdmin.Cache.xml",
       "NetAdmin.Domain.xml",
       "NetAdmin.Host.xml",

@@ -19,7 +19,7 @@ public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 public abstract record LiteImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IFieldCreatedTime
 {
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
-    [Column(ServerTime = DateTimeKind.Utc, CanUpdate = false, Position = -1)]
+    [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 

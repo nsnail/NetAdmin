@@ -112,7 +112,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                                            Filters = [
                                                new DynamicFilterInfo {
                                                                          Field    = nameof(QueryJobReq.NextExecTime)
-                                                                       , Value    = DateTime.UtcNow
+                                                                       , Value    = DateTime.Now
                                                                        , Operator = DynamicFilterOperators.LessThan
                                                                      }
                                              , new DynamicFilterInfo {
@@ -139,7 +139,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
             ? null
             : await UpdateAsync(job.Adapt<UpdateJobReq>() with {
                                                                    Status = JobStatues.Running
-                                                                 , LastExecTime = DateTime.UtcNow
+                                                                 , LastExecTime = DateTime.Now
                                                                })
                 .ConfigureAwait(false);
     }
@@ -239,7 +239,8 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     private static DateTime? GetNextExecTime(string cron)
     {
         return CronExpression.Parse(cron, CronFormat.IncludeSeconds)
-                             .GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Utc);
+                             .GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Local)
+                             ?.ToLocalTime();
     }
 
     private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req)

@@ -8,9 +8,9 @@
         "Description": "NetAdmin - 系统组件",
       },
       {
-        "Group": "Biz",
-        "Title": "业务服务",
-        "Description": "NetAdmin - 业务服务",
+        "Group": "Adm",
+        "Title": "管理服务",
+        "Description": "NetAdmin - 管理服务",
       },
       {
         "Group": "Tpl",
