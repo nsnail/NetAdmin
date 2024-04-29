@@ -49,9 +49,10 @@ jobs:
           prerelease: false
       - id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
-      - run: docker build -t nsnail/netadmin:${{steps.get_version.outputs.VERSION}} .
+      - run: docker build -t nsnail/netadmin -t nsnail/netadmin:${{steps.get_version.outputs.VERSION}} .
       - uses: docker/login-action@v3
         with:
           username: "nsnail"
           password: "${{secrets.DOCKER_PASSWORD}}"
+      - run: docker push nsnail/netadmin
       - run: docker push nsnail/netadmin:${{steps.get_version.outputs.VERSION}}
