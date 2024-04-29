@@ -1,3 +1,5 @@
+// noinspection ES6UnusedImports
+
 import * as elIcons from '@element-plus/icons-vue'
 import * as scIcons from '@/assets/icons'
 import api from '@/api'
@@ -31,6 +33,7 @@ import scForm from '@/components/scForm'
 import scFormTable from '@/components/scFormTable'
 import scPageHeader from '@/components/scPageHeader'
 import scSelect from '@/components/scSelect'
+import scSelectFilter from '@/components/scSelectFilter'
 import scStatusIndicator from '@/components/scMini/scStatusIndicator'
 import scTable from '@/components/scTable'
 import scTableColumn from '@/components/scTable/column.js'
@@ -40,7 +43,6 @@ import scUpload from '@/components/scUpload'
 import scUploadFile from '@/components/scUpload/file'
 import scUploadMultiple from '@/components/scUpload/multiple'
 import scWaterMark from '@/components/scWaterMark'
-import scSelectFilter from '@/components/scSelectFilter'
 
 // net-admin组件
 import naArea from '@/components/naArea/index.vue'
@@ -55,6 +57,7 @@ import naColUser from '@/components/naColUser/index.vue'
 import naDept from '@/components/naDept/index.vue'
 import naDicCatalog from '@/components/naDicCatalog/index.vue'
 import naFormEmail from '@/components/naFormEmail/index.vue'
+import naIp from '@/components/naIp/index.vue'
 import naSearch from '@/components/naSearch'
 import naUserSelect from '@/components/naUserSelect/index.vue'
 
@@ -94,6 +97,7 @@ export default {
         app.component('naDept', naDept)
         app.component('naDicCatalog', naDicCatalog)
         app.component('naFormEmail', naFormEmail)
+        app.component('naIp', naIp)
         app.component('naSearch', naSearch)
         app.component('naUserSelect', naUserSelect)
 
@@ -105,6 +109,7 @@ export default {
         app.component('scFormTable', scFormTable)
         app.component('scPageHeader', scPageHeader)
         app.component('scSelect', scSelect)
+        app.component('scSelectFilter', scSelectFilter)
         app.component('scStatusIndicator', scStatusIndicator)
         app.component('scTable', scTable)
         app.component('scTableColumn', scTableColumn)
@@ -114,7 +119,6 @@ export default {
         app.component('scUploadFile', scUploadFile)
         app.component('scUploadMultiple', scUploadMultiple)
         app.component('scWaterMark', scWaterMark)
-        app.component('scSelectFilter', scSelectFilter)
 
         //注册全局指令
         app.directive('auth', auth)
