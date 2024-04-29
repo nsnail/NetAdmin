@@ -28,8 +28,7 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('./src/frontend/admin/package.json') }}
           restore-keys: ${{ runner.os }}-npm
       - working-directory: ./src/frontend/admin
-        run:
-          npm install && npm run build
+        run: npm install && npm run build
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.x
