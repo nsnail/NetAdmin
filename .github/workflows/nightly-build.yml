@@ -18,8 +18,7 @@ jobs:
         with:
           fetch-depth: 0
           filter: tree:0
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       # https://docs.github.com/zh/actions/using-workflows/caching-dependencies-to-speed-up-workflows#matching-a-cache-key
@@ -28,12 +27,9 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('./src/frontend/admin/package.json') }}
           restore-keys: ${{ runner.os }}-npm
-      - name: Publish frontend
-        working-directory: ./src/frontend/admin
-        run:
-          npm install && npm run build
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+      - working-directory: ./src/frontend/admin
+        run: npm install && npm run build
+      - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.x
       - uses: actions/cache@v3
@@ -41,15 +37,11 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: ${{ runner.os }}-nuget
-      - name: Publish backend
-        working-directory: ./src/backend/NetAdmin.AdmServer.Host
+      - working-directory: ./src/backend/NetAdmin.AdmServer.Host
         run: dotnet publish NetAdmin.AdmServer.Host.csproj -c Release
-      - name: Build docker images
-        run: docker build -t nsnail/netadmin .
-      - name: Docker login
-        uses: docker/login-action@v3
+      - run: docker build -t nsnail/netadmin .
+      - uses: docker/login-action@v3
         with:
           username: "nsnail"
           password: "${{secrets.DOCKER_PASSWORD}}"
-      - name: Push docker images
-        run: docker push nsnail/netadmin
+      - run: docker push nsnail/netadmin
