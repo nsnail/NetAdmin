@@ -127,14 +127,14 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                                                                      }
                                            ]
                                        };
-        var job
-            = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Count = 1, Order = Orders.Random })
-                    .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
-                                    .As("b")
-                                    .Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId)
-                                    .Any())
-                    .ToOneAsync()
-                    .ConfigureAwait(false);
+        var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Order = Orders.Random })
+                        .Take(1)
+                        .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
+                                        .As("b")
+                                        .Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId)
+                                        .Any())
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return job == null
             ? null
             : await UpdateAsync(job.Adapt<UpdateJobReq>() with {

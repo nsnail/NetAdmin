@@ -131,11 +131,15 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     private ISelect<Sys_Menu> QueryInternal(QueryReq<QueryMenuReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        return req.Order == Orders.Random
-            ? ret.OrderByRandom()
-            : ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                 .OrderByDescending(a => a.Sort)
-                 .OrderBy(a => a.Name)
-                 .OrderBy(a => a.Id);
+        #pragma warning disable IDE0072
+        return req.Order switch {
+                   Orders.None   => ret
+                 , Orders.Random => ret.OrderByRandom()
+                 , _ => ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
+                           .OrderByDescending(a => a.Sort)
+                           .OrderBy(a => a.Name)
+                           .OrderBy(a => a.Id)
+               };
+        #pragma warning restore IDE0072
     }
 }

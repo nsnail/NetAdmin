@@ -124,8 +124,11 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
                               a.Summary.Contains(req.Keywords));
-        if (req.Order == Orders.Random) {
-            return ret.OrderByRandom();
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
