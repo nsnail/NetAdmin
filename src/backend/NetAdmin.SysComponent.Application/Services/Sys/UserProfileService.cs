@@ -152,7 +152,7 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(
         QueryReq<QueryUserProfileReq> req)
     {
-        #pragma warning disable CA1305
+        #pragma warning disable CA1305,IDE0072
         var ret = Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()
                      .LeftJoin((a, b, _, __, ___) =>
                                    a.NationArea.ToString() == b.Value && b.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
@@ -164,10 +164,13 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
                      .LeftJoin((a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value &&
                                                      e.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
                      .WhereDynamicFilter(req.DynamicFilter);
-        return req.Order == Orders.Random
-            ? ret.OrderByRandom()
-            : ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                 .OrderByDescending((a, _, __, ___, ____) => a.Id);
-        #pragma warning restore CA1305
+
+        return req.Order switch {
+                   Orders.None   => ret
+                 , Orders.Random => ret.OrderByRandom()
+                 , _ => ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
+                           .OrderByDescending((a, _, __, ___, ____) => a.Id)
+               };
+        #pragma warning restore CA1305,IDE0072
     }
 }

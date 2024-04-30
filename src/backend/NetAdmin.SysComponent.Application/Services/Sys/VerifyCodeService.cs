@@ -173,8 +173,7 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     private Task<Sys_VerifyCode> GetLastSentAsync(string destDevice)
     {
         return QueryInternal(new QueryReq<QueryVerifyCodeReq> {
-                                                                  Count = 1
-                                                                , DynamicFilter
+                                                                  DynamicFilter
                                                                       = new DynamicFilterInfo {
                                                                             Field = nameof(
                                                                                 Sys_VerifyCode.DestDevice)
@@ -182,7 +181,8 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
                                                                           , Value    = destDevice
                                                                         }
                                                               })
-            .ToOneAsync();
+               .Take(1)
+               .ToOneAsync();
     }
 
     private ISelect<Sys_VerifyCode> QueryInternal(QueryReq<QueryVerifyCodeReq> req)
