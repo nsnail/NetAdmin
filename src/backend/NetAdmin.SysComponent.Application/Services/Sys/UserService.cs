@@ -134,9 +134,9 @@ public sealed class UserService(
         req.ThrowIfInvalid();
 
         // ReSharper disable once MethodHasAsyncOverload
-        #pragma warning disable VSTHRD103
+        #pragma warning disable VSTHRD103,S6966
         return (await QueryInternal(new QueryReq<QueryUserReq> { Filter = req })
-                      #pragma warning restore VSTHRD103
+                      #pragma warning restore S6966, VSTHRD103
                       .ForUpdate()
                       .ToOneAsync()
                       .ConfigureAwait(false)).Adapt<QueryUserRsp>();
@@ -257,7 +257,9 @@ public sealed class UserService(
         if (await Rpo.UpdateDiy
                      .SetSource(req with {
                                              Id = UserToken.Id
-                                           , Version = Rpo.Where(a => a.Id == UserToken.Id).ToOne(a => a.Version)
+                                           , Version = await Rpo.Where(a => a.Id == UserToken.Id)
+                                                                .ToOneAsync(a => a.Version)
+                                                                .ConfigureAwait(false)
                                          })
                      .UpdateColumns(a => a.Avatar)
                      .ExecuteAffrowsAsync()
@@ -278,7 +280,9 @@ public sealed class UserService(
     public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
         req.ThrowIfInvalid();
-        var user = Rpo.Where(a => a.Id == UserToken.Id).ToOne(a => new { a.Mobile, a.Version, a.Email });
+        var user = await Rpo.Where(a => a.Id == UserToken.Id)
+                            .ToOneAsync(a => new { a.Mobile, a.Version, a.Email })
+                            .ConfigureAwait(false);
 
         // 如果已绑定手机号、需要手机安全验证
         if (!user.Mobile.NullOrEmpty()) {
