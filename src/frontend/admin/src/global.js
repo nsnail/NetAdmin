@@ -49,6 +49,7 @@ import naArea from '@/components/naArea/index.vue'
 import naButtonAdd from '@/components/naButtonAdd/index.vue'
 import naButtonBatchDel from '@/components/naButtonBatchDel/index.vue'
 import naColAvatar from '@/components/naColAvatar'
+import naColId from '@/components/naColId/index.vue'
 import naColIndicator from '@/components/naColIndicator/index.vue'
 import naColOperation from '@/components/naColOperation'
 import naColTags from '@/components/naColTags/index.vue'
@@ -89,6 +90,7 @@ export default {
         app.component('naButtonAdd', naButtonAdd)
         app.component('naButtonBatchDel', naButtonBatchDel)
         app.component('naColAvatar', naColAvatar)
+        app.component('naColId', naColId)
         app.component('naColIndicator', naColIndicator)
         app.component('naColOperation', naColOperation)
         app.component('naColTags', naColTags)
