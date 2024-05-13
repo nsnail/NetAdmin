@@ -2,7 +2,7 @@
 
 通用后台权限管理系统、快速开发框架（基于C#12/.NET9、Vue3/Vite、Element Plus等现代技术构建，具有十分整洁、优雅的编码规范）
 
-[![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml)
+[![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/nightly-build.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![Furion](https://img.shields.io/badge/Furion-4.x-blueviolet.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![FreeSql](https://img.shields.io/badge/FreeSql-3.x-orange.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
