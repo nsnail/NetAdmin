@@ -39,23 +39,22 @@
                 row-key="id"
                 stripe>
                 <el-table-column align="center" type="selection"></el-table-column>
-                <el-table-column :label="$t('配置编号')" align="center" prop="id"></el-table-column>
+                <el-table-column :label="$t('配置编号')" align="center" prop="id" width="170"></el-table-column>
                 <el-table-column :label="$t('用户注册')" align="center">
-                    <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name"></el-table-column>
-                    <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name"></el-table-column>
-                    <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm">
+                    <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150"></el-table-column>
+                    <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150"></el-table-column>
+                    <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="100">
                         <template #default="scope">
                             <el-switch v-model="scope.row.userRegisterConfirm" @change="changeSwitch($event, scope.row)"></el-switch>
                         </template>
                     </el-table-column>
                 </el-table-column>
-
-                <el-table-column :label="$t('启用')" align="center" prop="enabled">
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" width="100">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" align="center" prop="createdTime"></el-table-column>
+                <el-table-column :label="$t('创建时间')" align="center" prop="createdTime" width="170"></el-table-column>
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -66,7 +65,8 @@
                             type: 'danger',
                         })
                     "
-                    :vue="this" />
+                    :vue="this"
+                    width="170" />
             </sc-table>
         </el-main>
     </el-container>
