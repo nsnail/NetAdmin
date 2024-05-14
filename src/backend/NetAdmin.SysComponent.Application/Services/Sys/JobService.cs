@@ -63,18 +63,25 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public async Task<QueryJobRsp> EditAsync(UpdateJobReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await Rpo.UpdateDiy.Set(a => a.ExecutionCron == req.ExecutionCron)
-                           .Set(a => a.HttpMethod              == req.HttpMethod)
-                           .Set(a => a.JobName                 == req.JobName)
-                           .SetIf(req.RequestHeaders == null, a => a.RequestHeader, null)
-                           .SetIf(req.RequestHeaders != null, a => a.RequestHeader, req.RequestHeaders.Json())
-                           .Set(a => a.RequestBody == req.RequestBody)
-                           .Set(a => a.RequestUrl  == req.RequestUrl)
-                           .Set(a => a.UserId      == req.UserId)
-                           .Where(a => a.Id        == req.Id)
-                           .ExecuteUpdatedAsync()
-                           .ConfigureAwait(false);
-        return ret[0].Adapt<QueryJobRsp>();
+        var update = Rpo.UpdateDiy.Set(a => a.ExecutionCron == req.ExecutionCron)
+                        .Set(a => a.HttpMethod              == req.HttpMethod)
+                        .Set(a => a.JobName                 == req.JobName)
+                        .SetIf(req.RequestHeaders == null, a => a.RequestHeader, null)
+                        .SetIf(req.RequestHeaders != null, a => a.RequestHeader, req.RequestHeaders.Json())
+                        .Set(a => a.RequestBody == req.RequestBody)
+                        .Set(a => a.RequestUrl  == req.RequestUrl)
+                        .Set(a => a.UserId      == req.UserId)
+                        .Where(a => a.Id        == req.Id);
+
+        #pragma warning disable IDE0046
+        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
+            #pragma warning restore IDE0046
+            return await update.ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
+                ? null
+                : await GetAsync(new QueryJobReq { Id = req.Id }).ConfigureAwait(false);
+        }
+
+        return (await update.ExecuteUpdatedAsync().ConfigureAwait(false))[0].Adapt<QueryJobRsp>();
     }
 
     /// <inheritdoc />
