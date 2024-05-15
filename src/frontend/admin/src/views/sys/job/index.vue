@@ -137,13 +137,19 @@
                 </el-table-column>
                 <na-col-operation
                     :buttons="
-                        naColOperation.buttons.concat({
-                            icon: 'el-icon-delete',
-                            confirm: true,
-                            type: 'danger',
-                            title: $t('删除作业'),
-                            click: rowDel,
-                        })
+                        naColOperation.buttons.concat(
+                            {
+                                icon: 'el-icon-video-play',
+                                click: execute,
+                            },
+                            {
+                                icon: 'el-icon-delete',
+                                confirm: true,
+                                type: 'danger',
+                                title: $t('删除作业'),
+                                click: rowDel,
+                            },
+                        )
                     "
                     :vue="this" />
             </sc-table>
@@ -171,6 +177,7 @@ export default {
     inject: ['reload'],
     data() {
         return {
+            timer: null,
             loading: false,
             query: {
                 dynamicFilter: {
@@ -219,6 +226,31 @@ export default {
                 //
             }
             this.$refs.table.refresh()
+        },
+        async execute(row) {
+            try {
+                await this.$API.sys_job.execute.post({ id: row.id })
+                this.$refs.table.refresh()
+                this.$notify.success({
+                    dangerouslyUseHTMLString: true,
+                    message: `<div id="countdown">已发起执行请求，5 秒后弹出执行结果</div>`,
+                    onClose: async () => {
+                        clearInterval(this.timer)
+                        this.loading = true
+                        this.dialog.save = true
+                        await this.$nextTick()
+                        await this.$refs.saveDialog.open('view', row, 1)
+                        this.loading = false
+                    },
+                })
+
+                this.timer = setInterval(() => {
+                    const countdown = new RegExp('\\d+').exec(document.getElementById('countdown').innerText)[0]
+                    document.getElementById('countdown').innerText = document
+                        .getElementById('countdown')
+                        .innerText.replace(countdown, `${parseInt(countdown) - 1}`)
+                }, 1000)
+            } catch {}
         },
         //删除
         async rowDel(row) {

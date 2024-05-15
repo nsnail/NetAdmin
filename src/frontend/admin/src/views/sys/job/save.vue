@@ -189,7 +189,7 @@ export default {
     mounted() {},
     methods: {
         //显示
-        async open(mode = 'add', data) {
+        async open(mode = 'add', data, tabIndex = 0) {
             this.visible = true
             this.loading = true
             this.mode = mode
@@ -198,6 +198,7 @@ export default {
                 Object.assign(this.form, res.data)
             }
             this.loading = false
+            this.tabIndex = tabIndex
             return this
         },
 

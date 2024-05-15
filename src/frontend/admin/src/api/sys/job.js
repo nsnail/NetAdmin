@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 执行作业
+     */
+    execute: {
+        url: `${config.API_URL}/api/sys/job/execute`,
+        name: `执行作业`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 计划作业是否存在
      */
     exist: {

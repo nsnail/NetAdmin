@@ -1,4 +1,5 @@
 using Cronos;
+using FreeSql.Internal;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Sys;
@@ -82,6 +83,41 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
         }
 
         return (await update.ExecuteUpdatedAsync().ConfigureAwait(false))[0].Adapt<QueryJobRsp>();
+    }
+
+    /// <inheritdoc />
+    public async Task ExecuteAsync(QueryJobReq req)
+    {
+        req.ThrowIfInvalid();
+        var df = new DynamicFilterInfo {
+                                           Filters = [
+                                               new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.Enabled)
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                       , Value    = true
+                                                                     }
+                                             , new DynamicFilterInfo {
+                                                                         Field    = nameof(QueryJobReq.Status)
+                                                                       , Operator = DynamicFilterOperators.Eq
+                                                                       , Value    = JobStatues.Idle
+                                                                     }
+                                           ]
+                                       };
+        var job = await QueryInternal(new QueryReq<QueryJobReq> { Count = 1, Filter = req, DynamicFilter = df })
+                        .ToOneAsync()
+                        .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException(Ln.未获取到待执行任务);
+
+        var nextExecTime = GetNextExecTime(Chars.FLG_CRON_PER_SECS);
+        try {
+            _ = await UpdateAsync(job.Adapt<UpdateJobReq>() with {
+                                                                     NextExecTime = nextExecTime
+                                                                   , NextTimeId = nextExecTime?.TimeUnixUtc()
+                                                                 })
+                .ConfigureAwait(false);
+        }
+        catch (DbUpdateVersionException) {
+            throw new NetAdminInvalidOperationException(Ln.并发冲突请稍后重试);
+        }
     }
 
     /// <inheritdoc />
