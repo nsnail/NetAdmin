@@ -21,6 +21,11 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
     Task<QueryJobRsp> EditAsync(UpdateJobReq req);
 
     /// <summary>
+    ///     执行作业
+    /// </summary>
+    Task ExecuteAsync(QueryJobReq req);
+
+    /// <summary>
     ///     获取作业记录条形图数据
     /// </summary>
     Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req);
