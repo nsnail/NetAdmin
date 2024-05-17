@@ -25,6 +25,10 @@
     --el-menu-horizontal-height: 4rem;
 }
 
+.el-menu--inline {
+    --el-menu-active-color: var(--el-color-primary) !important;
+}
+
 .el-form-item--default {
     --font-size: 1rem;
 }

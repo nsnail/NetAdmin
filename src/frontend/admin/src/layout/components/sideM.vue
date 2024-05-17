@@ -132,14 +132,13 @@ export default {
 <style scoped>
 .mobile-nav-button {
     position: fixed;
-    bottom: 1rem;
-    left: 1rem;
+    top: 0;
+    left: 0;
     z-index: 10;
     width: 4rem;
     height: 4rem;
-    background: #409eff;
-    box-shadow: 0 0.2rem 1rem 0 rgba(64, 158, 255, 1);
-    border-radius: 50%;
+    background: var(--el-color-primary);
+    box-shadow: 0 0.2rem 1rem 0 var(--el-color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
