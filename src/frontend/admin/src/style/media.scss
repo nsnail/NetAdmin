@@ -47,10 +47,20 @@
             padding: 0 0.4rem !important;
         }
 
+        .el-pagination__jump {
+            display: none;
+        }
+
         .el-pagination__total,
         .el-pagination__jump,
         .el-pagination__sizes {
-            display: none !important;
+            .el-select {
+                display: none;
+            }
+        }
+
+        .scTable-do {
+            display: none;
         }
     }
 

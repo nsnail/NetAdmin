@@ -60,6 +60,7 @@
                     :layout="paginationLayout"
                     :page-size="scPageSize"
                     :page-sizes="pageSizes"
+                    :pager-count="pagerCount"
                     :small="true"
                     :total="total"
                     @current-change="paginationChange"
@@ -230,6 +231,7 @@ export default {
     },
     data() {
         return {
+            pagerCount: 10,
             current: {
                 row: null,
                 column: null,
@@ -258,6 +260,7 @@ export default {
         }
     },
     mounted() {
+        this.pagerCount = document.body.clientWidth < 1000 ? 3 : 10
         //判断是否开启自定义列
         if (this.column) {
             this.getCustomColumn()
