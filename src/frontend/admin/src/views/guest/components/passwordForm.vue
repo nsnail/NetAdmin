@@ -15,7 +15,9 @@
             </el-col>
         </el-form-item>
         <el-form-item>
-            <el-button :loading="isLoading" @click="login" round style="width: 100%" type="primary">{{ $t('登录') }}</el-button>
+            <el-button :loading="isLoading" @click="login" round style="width: 100%" type="primary"
+                >{{ starred ? $t('登录') : $t('Star 后可登录') }}
+            </el-button>
         </el-form-item>
         <div class="login-reg">
             {{ $t('还没有账号?') }}
@@ -28,6 +30,7 @@
 export default {
     data() {
         return {
+            starred: false,
             autoLogin: false,
             form: {
                 account: 'root',
@@ -50,6 +53,12 @@ export default {
     },
     methods: {
         async login() {
+            if (!this.starred) {
+                window.open('https://github.com/nsnail/NetAdmin')
+                this.starred = true
+                return
+            }
+
             const validate = await this.$refs.loginForm.validate().catch(() => {})
             if (!validate) {
                 return false
