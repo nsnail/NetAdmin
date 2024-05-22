@@ -19,54 +19,35 @@ docker run -p 8080:8080 nsnail/netadmin
 
 ## 构建步骤
 
-- 后端
-    1. 检查dotnet-sdk版本>=9.0.0
-   ``` shell
-   dotnet --list-sdks
+```shell
+# 1. 克隆代码仓库
+# 下载 git https://git-scm.com/downloads
+git clone https://github.com/nsnail/NetAdmin.git && cd ./NetAdmin
 
-   # 下载 dotnet https://dotnet.microsoft.com/zh-cn/download/dotnet
-   ```
-    2. 克隆代码仓库
-   ``` shell
-   git clone https://github.com/nsnail/NetAdmin.git
-   cd ./NetAdmin
+# 2. 检查dotnet-sdk版本>=9.0.0
+# 下载 dotnet https://dotnet.microsoft.com/zh-cn/download/dotnet
+dotnet --list-sdks
 
-   # 下载 git https://git-scm.com/downloads
-   ```
-    3. 确保本机redis处于运行状态
-   ``` shell
-   redis-cli
+# 3. 确保本机redis处于运行状态
+# 下载 redis for windows https://github.com/redis-windows/redis-windows/releases
+# 下载 redis for linux/mac https://redis.io/download
+redis-cli
 
-   # 下载 redis for windows https://github.com/redis-windows/redis-windows/releases
-   # 下载 redis for linux/mac https://redis.io/download
-   ```
-    4. 运行后端WebApi
-   ``` shell
-   dotnet run --project ./src/backend/NetAdmin.AdmServer.Host/NetAdmin.AdmServer.Host.csproj --urls http://[::]:5010 -is
-   ```
-    5. 体验WebApi程序
-        - 浏览器打开 http://localhost:5010 ，将看到Swagger（Knife4jUI）界面
+# 4. 运行后端WebApi
+# 浏览器打开 http://localhost:5010 ，将看到Swagger（Knife4jUI）界面
+dotnet run --project ./src/backend/NetAdmin.AdmServer.Host/NetAdmin.AdmServer.Host.csproj --urls http://[::]:5010 -is
 
----
+# 5. 检查nodejs版本>=20
+# 下载 nodejs https://nodejs.org/en/download
+node -v
 
-- 前端
-    1. 检查nodejs版本>=20
-   ``` shell
-   node -v
+# 6. 安装npm依赖包
+cd ./src/frontend/admin && npm install
 
-   # 下载 nodejs https://nodejs.org/en/download
-   ```
-    2. 安装npm依赖包
-   ``` shell
-   cd ./src/frontend/admin
-   npm install
-   ```
-    3. 运行前端项目
-   ``` shell
-   npm run dev
-   ```
-    4. 体验前端程序
-        - 浏览器打开 http://localhost:5020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
+# 7. 运行前端项目
+# 浏览器打开 http://localhost:5020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
+npm run dev
+```
 
 ## 文件目录树
 
