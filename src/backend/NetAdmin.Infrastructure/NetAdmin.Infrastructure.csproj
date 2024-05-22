@@ -12,7 +12,7 @@
         <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.3"/>
         <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.3-ns1"/>
         <PackageReference Include="Furion.Pure.NS" Version="4.9.3-ns1"/>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-preview.3.24172.13"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-preview.4.24267.6"/>
         <PackageReference Include="Minio" Version="6.0.2"/>
         <PackageReference Include="NSExt" Version="2.1.0"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>
