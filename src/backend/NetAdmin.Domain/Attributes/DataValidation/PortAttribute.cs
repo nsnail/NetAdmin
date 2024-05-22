@@ -10,7 +10,7 @@ public sealed class PortAttribute : RangeAttribute
     ///     Initializes a new instance of the <see cref="PortAttribute" /> class.
     /// </summary>
     public PortAttribute() //
-        : base(1, 65535)
+        : base(1, ushort.MaxValue)
     {
         ErrorMessageResourceName = nameof(Ln.无效端口号);
         ErrorMessageResourceType = typeof(Ln);

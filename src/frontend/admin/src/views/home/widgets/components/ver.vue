@@ -4,6 +4,7 @@
             <img alt="" src="@/assets/img/logo.png" />
             <h2>{{ packageJson.name }}</h2>
             <p>{{ ver }}</p>
+            <el-link href="https://github.com/nsnail/NetAdmin" target="_blank">喜欢就点个 Star⭐️ 吧！</el-link>
         </div>
     </el-card>
 </template>
@@ -44,9 +45,11 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .main {
     height: 25rem;
 }
+
 .wrap {
     gap: 1rem;
 }
