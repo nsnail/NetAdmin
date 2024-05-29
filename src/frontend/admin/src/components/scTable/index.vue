@@ -312,7 +312,7 @@ export default {
                 } catch {
                     return
                 }
-                await this.vue.deleteRow(this.current.row)
+                await this.vue.rowDel(this.current.row)
                 return
             }
 

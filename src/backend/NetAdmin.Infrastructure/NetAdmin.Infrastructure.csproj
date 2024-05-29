@@ -8,6 +8,7 @@
     <ItemGroup>
         <PackageReference Include="Cronos" Version="0.8.4"/>
         <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.821-ns1"/>
+        <PackageReference Include="FreeSql.Provider.SqlServer.NS" Version="3.2.821-ns1"/>
         <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.821-ns1"/>
         <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.9.3"/>
         <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.3-ns1"/>

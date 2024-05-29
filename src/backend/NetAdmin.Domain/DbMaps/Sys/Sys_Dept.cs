@@ -61,7 +61,11 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     /// <summary>
     ///     部门描述
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string Summary { get; init; }
 }

@@ -45,11 +45,9 @@ export default {
     justify-content: center;
     align-items: center;
 }
-
 .main {
     height: 25rem;
 }
-
 .wrap {
     gap: 1rem;
 }

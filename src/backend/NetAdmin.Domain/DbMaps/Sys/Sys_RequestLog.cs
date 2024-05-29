@@ -35,14 +35,22 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     /// <summary>
     ///     创建者来源地址
     /// </summary>
-    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #if DBTYPE_SQLITE
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public string CreatedReferer { get; init; }
 
     /// <summary>
     ///     创建者客户端用户代理
     /// </summary>
-    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #if DBTYPE_SQLITE
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string CreatedUserAgent { get; init; }
 
@@ -63,14 +71,22 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     /// <summary>
     ///     异常信息
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string Exception { get; init; }
 
     /// <summary>
     ///     附加数据
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string ExtraData { get; init; }
 
@@ -91,14 +107,22 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     /// <summary>
     ///     来源地址
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string ReferUrl { get; init; }
 
     /// <summary>
     ///     请求内容
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
 
@@ -112,7 +136,11 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     /// <summary>
     ///     请求头信息
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string RequestHeaders { get; init; }
 
@@ -126,7 +154,11 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     /// <summary>
     ///     响应内容
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string ResponseBody { get; init; }
 
@@ -140,7 +172,11 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     /// <summary>
     ///     响应头
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string ResponseHeaders { get; init; }
 

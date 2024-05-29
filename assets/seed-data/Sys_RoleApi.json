@@ -14,5 +14,25 @@
   {
     "ApiId": "api/sys/user",
     "RoleId": 371729946431493
+  },
+  {
+    "ApiId": "api/sys/site.msg/unread.count",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/site.msg",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/site.msg/get.mine",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/site.msg/paged.query.mine",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/site.msg/set.site.msg.status",
+    "RoleId": 371729946431493,
   }
 ]

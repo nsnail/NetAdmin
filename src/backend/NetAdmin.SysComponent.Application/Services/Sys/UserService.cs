@@ -291,7 +291,7 @@ public sealed class UserService(
             }
 
             if (user.Mobile != req.VerifySmsCodeReq.DestDevice) {
-                throw new NetAdminInvalidOperationException($"{Ln.手机号码不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.手机号不正确}");
             }
         }
 
@@ -330,17 +330,17 @@ public sealed class UserService(
         if (!user.Mobile.NullOrEmpty()) {
             // 已有手机号，需验证旧手机
             if (!await verifyCodeService.VerifyAsync(req.OriginVerifySmsCodeReq).ConfigureAwait(false)) {
-                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码验证码不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机号验证码不正确}");
             }
 
             if (user.Mobile != req.OriginVerifySmsCodeReq.DestDevice) {
-                throw new NetAdminInvalidOperationException($"{Ln.旧手机号码不正确}");
+                throw new NetAdminInvalidOperationException($"{Ln.旧手机号不正确}");
             }
         }
 
         // 验证新手机号
         if (!await verifyCodeService.VerifyAsync(req.NewVerifySmsCodeReq).ConfigureAwait(false)) {
-            throw new NetAdminInvalidOperationException($"{Ln.新手机号码验证码不正确}");
+            throw new NetAdminInvalidOperationException($"{Ln.新手机号验证码不正确}");
         }
 
         if (await Rpo.UpdateDiy
