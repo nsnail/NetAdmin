@@ -3,7 +3,7 @@ using NetAdmin.Domain.Dto.Sys.VerifyCode;
 namespace NetAdmin.Domain.Dto.Sys.User;
 
 /// <summary>
-///     请求：设置手机号
+///     请求：设置手机号码
 /// </summary>
 public sealed record SetMobileReq : DataAbstraction
 {
