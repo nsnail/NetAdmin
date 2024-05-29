@@ -80,7 +80,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     public int? EmergencyContactArea { get; init; }
 
     /// <summary>
-    ///     紧急联系人手机号
+    ///     紧急联系人手机号码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
     [JsonIgnore]

@@ -27,8 +27,8 @@ public sealed class UserNameAttribute : RegexAttribute
             return true;
         }
 
-        // 不能是手机号
-        ErrorMessageResourceName = nameof(Ln.用户名不能是手机号);
+        // 不能是手机号码
+        ErrorMessageResourceName = nameof(Ln.用户名不能是手机号码);
         return false;
     }
 }

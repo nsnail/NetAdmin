@@ -1,7 +1,7 @@
 namespace NetAdmin.Domain.Attributes.DataValidation;
 
 /// <summary>
-///     手机号验证器
+///     手机号码验证器
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class MobileAttribute : RegexAttribute
@@ -12,7 +12,7 @@ public sealed class MobileAttribute : RegexAttribute
     public MobileAttribute() //
         : base(Chars.RGX_MOBILE)
     {
-        ErrorMessageResourceName = nameof(Ln.手机号不正确);
+        ErrorMessageResourceName = nameof(Ln.手机号码不正确);
         ErrorMessageResourceType = typeof(Ln);
     }
 }

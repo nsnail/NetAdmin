@@ -7,9 +7,9 @@ namespace NetAdmin.Domain.Enums.Sys;
 public enum VerifyCodeTypes
 {
     /// <summary>
-    ///     绑定手机号
+    ///     绑定手机号码
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.绑定手机号))]
+    [ResourceDescription<Ln>(nameof(Ln.绑定手机号码))]
     LinkMobile = 1
 
    ,
@@ -23,9 +23,9 @@ public enum VerifyCodeTypes
    ,
 
     /// <summary>
-    ///     解绑手机号
+    ///     解绑手机号码
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.解绑手机号))]
+    [ResourceDescription<Ln>(nameof(Ln.解绑手机号码))]
     UnlinkMobile = 3
 
    ,

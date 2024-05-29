@@ -27,7 +27,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
-    ///     检查手机号是否可用
+    ///     检查手机号码是否可用
     /// </summary>
     [AllowAnonymous]
     public Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req)
@@ -192,7 +192,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
-    ///     设置手机号
+    ///     设置手机号码
     /// </summary>
     [Transaction]
     public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)

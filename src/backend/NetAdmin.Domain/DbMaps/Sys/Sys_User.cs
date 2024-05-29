@@ -49,7 +49,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     public virtual bool Enabled { get; init; }
 
     /// <summary>
-    ///     手机号
+    ///     手机号码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
     [JsonIgnore]

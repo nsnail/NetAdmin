@@ -15,7 +15,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
 >
 {
     /// <summary>
-    ///     检查手机号是否可用
+    ///     检查手机号码是否可用
     /// </summary>
     Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req);
 
@@ -65,7 +65,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     Task SetEnabledAsync(SetUserEnabledReq req);
 
     /// <summary>
-    ///     设置手机号
+    ///     设置手机号码
     /// </summary>
     Task<UserInfoRsp> SetMobileAsync(SetMobileReq req);
 
