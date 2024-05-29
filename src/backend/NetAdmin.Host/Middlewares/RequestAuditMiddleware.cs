@@ -24,7 +24,12 @@ public sealed class RequestAuditMiddleware(
         // 跳过处理的情况：
         if (!context.Request.Path.StartsWithSegments(_defaultRoutePrefix)       // 非api请求
             || context.Request.Path.StartsWithSegments(_healthCheckRoutePrefix) // 健康检查
-            || context.Request.Method == Chars.FLG_HTTP_METHOD_OPTIONS) {       // is options 请求
+            || context.Request.Method == Chars.FLG_HTTP_METHOD_OPTIONS          // is options 请求
+            || (context.Request.ContentType?.StartsWith("multipart/form-data", true, CultureInfo.InvariantCulture) ??
+                false) // 文件上传
+            #pragma warning disable SA1009
+           ) {
+            #pragma warning restore SA1009
             await next(context).ConfigureAwait(false);
             return;
         }

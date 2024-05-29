@@ -6,7 +6,7 @@
     "Id": 373837717815301,
     "Name": "home",
     "Path": "/home",
-    "Sort": 100,
+    "Sort": 999,
     "Title": "主控面板",
     "Type": 1
   },

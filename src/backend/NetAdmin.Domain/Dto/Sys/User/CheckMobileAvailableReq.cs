@@ -11,6 +11,6 @@ public sealed record CheckMobileAvailableReq : Sys_User
     /// <inheritdoc cref="Sys_User.Mobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Mobile]
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.手机号码不能为空))]
+    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.手机号不能为空))]
     public override string Mobile { get; init; }
 }

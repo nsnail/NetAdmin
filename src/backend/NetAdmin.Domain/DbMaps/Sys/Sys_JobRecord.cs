@@ -48,14 +48,22 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// <summary>
     ///     请求体
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
 
     /// <summary>
     ///     请求头
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string RequestHeader { get; init; }
 
@@ -69,14 +77,22 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// <summary>
     ///     响应体
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string ResponseBody { get; init; }
 
     /// <summary>
     ///     响应头
     /// </summary>
+    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #endif
     [JsonIgnore]
     public virtual string ResponseHeader { get; init; }
 
