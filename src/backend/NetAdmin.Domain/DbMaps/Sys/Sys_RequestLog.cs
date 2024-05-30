@@ -36,7 +36,7 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     ///     创建者来源地址
     /// </summary>
     #if DBTYPE_SQLITE
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
     #endif
@@ -47,7 +47,7 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     ///     创建者客户端用户代理
     /// </summary>
     #if DBTYPE_SQLITE
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
     #endif
