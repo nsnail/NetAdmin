@@ -39,7 +39,20 @@
         </div>
         <el-dropdown @command="handleUser" class="user panel-item" trigger="click">
             <div class="user-avatar">
-                <el-avatar :size="30" :src="user.avatar ? user.avatar : $CONFIG.DEFAULT_AVATAR"></el-avatar>
+                <el-avatar
+                    :size="30"
+                    :src="
+                        user.avatar
+                            ? user.avatar
+                            : 'data:image/svg+xml,' +
+                              encodeURIComponent(
+                                  avatar.createSVG(
+                                      `#${Math.abs(this.$TOOL.crypto.hashCode(user.userName)).toString(16).substring(0, 6)}`,
+                                      user.userName.slice(0, 1).toUpperCase(),
+                                  ).outerHTML,
+                              )
+                    "></el-avatar>
+
                 <label>{{ user.userName }}</label>
                 <el-icon class="el-icon--right">
                     <el-icon-arrow-down />
@@ -68,7 +81,14 @@
 import search from './search.vue'
 import tasks from './tasks.vue'
 import message from '@/views/profile/message/components/list.vue'
+import avatar from '../../utils/avatar'
+
 export default {
+    computed: {
+        avatar() {
+            return avatar
+        },
+    },
     components: {
         search,
         tasks,

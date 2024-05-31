@@ -1,5 +1,7 @@
 import MY_CONFIG from './myConfig'
 import APP_CONFIG from './appConfig'
+import avatar from '@/utils/avatar'
+import tool from '@/utils/tool'
 
 const DEFAULT_CONFIG = {
     //标题
@@ -74,8 +76,14 @@ const DEFAULT_CONFIG = {
     },
 
     //默认头像
-    DEFAULT_AVATAR:
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAflJREFUeNqs1u1P2kAYAHB6B+21UmZbatEAki2+MKIR42TGaHRLjBr/Yj/7wWRb3If5gjHbfIlBjIqCUCq0PmaJLqG9IwdP+qV3vV+v1/Z5Ttg/Ke39tm+q7VD/wlBx/j0J7xzWbccL9TVgosCivrv/Atgw8yI9JuZGVXNQjCkROL2tOpc39q8/D7bj0gcy6NSQvDoTR4LwdidVhOPDyMD29/Jd9YkyFlH6pAhanjb+d19DFvHSlOHX0x09kYpGcOAFMPf0kMxJJ02ZvlyWRjhpWcJ0moiIk240Gf9Rw2lz0o92i04/Nnhpl/Hhhtqux0mnLcZrzCQUTrrV9lh/M++CFM9rtOXyvL+lOif98+T++r4Z1Ht0Vju9anDSEKXbQBqSFH0sgz6+qMGDd7Y/1J96pav1FuTPzvZvxYrrej3REOWK09l4XWkyB7Jp30RBRNwH2jf/MZMimzZi/kk5l1HFMOKnFYK/zMaDqsxqPo6QwENDtd2YtwakwOI5rJO1OZOS0/3p8VR0s2CpMqMoJzSytWAldKmrig7cQk4fMUiX+w14rPVPVvGi9qNYcVpuIP1xVM2PvaOU2sACnYwmTbJ7cHdefssqSJFeXkUYCysz8flJjcN9nf7XvFnIahi/gMCiwphMROFzVstYSu/7sWxaXczpAAL7LMAA6FWV/DBrhrIAAAAASUVORK5CYII=',
+    DEFAULT_AVATAR(name) {
+        return (
+            'data:image/svg+xml,' +
+            encodeURIComponent(
+                avatar.createSVG(`#${Math.abs(tool.crypto.hashCode(name)).toString(16).substring(0, 6)}`, name.slice(0, 1).toUpperCase()).outerHTML,
+            )
+        )
+    },
 }
 
 //合并业务配置
