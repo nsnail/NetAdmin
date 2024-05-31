@@ -1,5 +1,7 @@
 <template>
-    <el-skeleton v-if="loading" :rows="5" animated />
+    <div v-if="loading" style="padding: 1rem">
+        <el-skeleton :rows="5" animated />
+    </div>
     <template v-else>
         <el-container v-if="msgList.length > 0" class="nopadding">
             <el-header style="border: none">
@@ -30,9 +32,12 @@
                                 <div class="msg-title">
                                     <div>
                                         <el-badge v-if="msg.myFlags.userSiteMsgStatus === 0" is-dot type="primary">
-                                            <el-avatar :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR"></el-avatar>
+                                            <el-avatar :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR(msg.sender.userName)"></el-avatar>
                                         </el-badge>
-                                        <el-avatar v-else :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR"></el-avatar>
+                                        <el-avatar
+                                            v-else
+                                            :size="40"
+                                            :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR(msg.sender.userName)"></el-avatar>
                                     </div>
                                     <div>
                                         <h2>{{ msg.title }}</h2>

@@ -4,7 +4,7 @@
             <el-container>
                 <el-header>
                     <div class="user-info-top">
-                        <el-avatar :size="70" :src="user.avatar ? user.avatar : $CONFIG.DEFAULT_AVATAR"></el-avatar>
+                        <el-avatar :size="70" :src="user.avatar ? user.avatar : $CONFIG.DEFAULT_AVATAR(user.userName)"></el-avatar>
                         <h2>{{ user.userName }}</h2>
                         <p>
                             <el-tag v-for="(item, i) in user.roles" :key="i" effect="dark" round size="large">{{ item.name }}</el-tag>

@@ -2,7 +2,10 @@
     <el-table-column v-bind="$attrs">
         <template #default="scope">
             <div @click="click(tool.getNestedProperty(scope.row, $attrs.prop))" class="avatar">
-                <el-avatar v-if="tool.getNestedProperty(scope.row, $attrs.nestProp)" :src="getAvatar(scope)" size="small"></el-avatar>
+                <el-avatar
+                    v-if="tool.getNestedProperty(scope.row, $attrs.nestProp)"
+                    :src="getAvatar(scope, $attrs.nestProp)"
+                    size="small"></el-avatar>
                 <div>
                     <p>{{ tool.getNestedProperty(scope.row, $attrs.nestProp) }}</p>
                     <p v-if="$attrs.nestProp2">{{ tool.getNestedProperty(scope.row, $attrs.nestProp2) }}</p>
@@ -54,8 +57,8 @@ export default {
             await this.$refs.saveDialog.open('view', { id: id })
         },
         //获取头像
-        getAvatar(scope) {
-            return scope.row.avatar ? scope.row.avatar : this.$CONFIG.DEFAULT_AVATAR
+        getAvatar(scope, prop) {
+            return scope.row.avatar ? scope.row.avatar : this.$CONFIG.DEFAULT_AVATAR(tool.getNestedProperty(scope.row, prop))
         },
     },
 }
