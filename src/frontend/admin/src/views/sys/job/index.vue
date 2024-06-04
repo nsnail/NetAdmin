@@ -109,20 +109,33 @@
                     "
                     prop="httpMethod"
                     width="100" />
-                <el-table-column :label="$t('上次执行时间')" align="right" prop="lastExecTime" sortable="custom" width="120">
-                    <template #default="scope">
-                        <span v-if="scope.row.lastExecTime" v-time.tip="scope.row.lastExecTime"></span>
-                    </template>
+                <el-table-column :label="$t('上次执行')" align="center">
+                    <el-table-column :label="$t('状态')" align="center" prop="lastExecTime" sortable="custom" width="150">
+                        <template #default="scope">
+                            <div class="indicator">
+                                <sc-status-indicator :type="scope.row.lastStatusCode === 'ok' ? 'success' : 'danger'" />
+                                <span>{{
+                                    this.$GLOBAL.enums.httpStatusCodes[scope.row.lastStatusCode]
+                                        ? this.$GLOBAL.enums.httpStatusCodes[scope.row.lastStatusCode][1]
+                                        : scope.row.lastStatusCode
+                                }}</span>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('时间')" align="right" prop="lastExecTime" sortable="custom" width="100">
+                        <template #default="scope">
+                            <span v-if="scope.row.lastExecTime" v-time.tip="scope.row.lastExecTime"></span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        :formatter="(row) => `${tool.groupSeparator(row.lastDuration.toFixed(0))} ms`"
+                        :label="$t('耗时')"
+                        align="right"
+                        prop="lastDuration"
+                        sortable="custom"
+                        width="100">
+                    </el-table-column>
                 </el-table-column>
-                <na-col-indicator
-                    :label="$t('上次执行状态')"
-                    :options="
-                        Object.entries(this.$GLOBAL.enums.httpStatusCodes).map((x) => {
-                            return { value: x[0], text: x[1][1], type: x[0] === 'ok' ? 'success' : null }
-                        })
-                    "
-                    prop="lastStatusCode"
-                    width="120" />
 
                 <el-table-column :label="$t('下次执行时间')" align="right" prop="nextExecTime" sortable="custom" width="170" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
@@ -151,7 +164,8 @@
                             },
                         )
                     "
-                    :vue="this" />
+                    :vue="this"
+                    width="180" />
             </sc-table>
         </el-main>
     </el-container>
@@ -168,6 +182,7 @@ import saveDialog from './save'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
 import ScSelectFilter from '@/components/scSelectFilter/index.vue'
+import tool from '@/utils/tool'
 
 export default {
     components: {
@@ -199,6 +214,9 @@ export default {
     },
     watch: {},
     computed: {
+        tool() {
+            return tool
+        },
         naColOperation() {
             return naColOperation
         },

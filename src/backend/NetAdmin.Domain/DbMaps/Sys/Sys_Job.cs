@@ -38,6 +38,13 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     public virtual string JobName { get; init; }
 
     /// <summary>
+    ///     上次执行耗时
+    /// </summary>
+    [Column]
+    [JsonIgnore]
+    public virtual long? LastDuration { get; init; }
+
+    /// <summary>
     ///     上次执行时间
     /// </summary>
     [Column]
