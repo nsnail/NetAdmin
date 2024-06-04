@@ -9,6 +9,10 @@ namespace NetAdmin.Domain.Dto.Sys.JobRecord;
 /// </summary>
 public sealed record QueryJobRecordRsp : Sys_JobRecord
 {
+    /// <inheritdoc cref="Sys_JobRecord.HttpStatusCode" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public new HttpStatusCode HttpStatusCode => (HttpStatusCode)base.HttpStatusCode;
+
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
@@ -20,10 +24,6 @@ public sealed record QueryJobRecordRsp : Sys_JobRecord
     /// <inheritdoc cref="Sys_JobRecord.HttpMethod" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override HttpMethods HttpMethod { get; init; }
-
-    /// <inheritdoc cref="Sys_JobRecord.HttpStatusCode" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override int HttpStatusCode { get; init; }
 
     /// <inheritdoc cref="IFieldPrimary{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

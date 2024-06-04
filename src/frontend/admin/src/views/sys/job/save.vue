@@ -27,7 +27,7 @@
                     <el-form-item v-if="mode === 'view'" :label="$t('上次执行时间')" prop="lastExecTime">
                         <el-input v-model="form.lastExecTime" clearable />
                     </el-form-item>
-                    <el-form-item v-if="mode === 'view'" :label="$t('上次执行耗时（ms）')" prop="lastExecTime">
+                    <el-form-item v-if="mode === 'view'" :label="$t('上次执行耗时（毫秒）')" prop="lastExecTime">
                         <el-input v-model="form.lastDuration" clearable />
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('下次执行时间')" prop="nextExecTime">
