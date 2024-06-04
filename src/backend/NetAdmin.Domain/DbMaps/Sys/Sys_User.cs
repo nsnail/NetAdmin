@@ -88,7 +88,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
     [JsonIgnore]
     public virtual string Summary { get; init; }

@@ -132,7 +132,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
             ret = ret.SetBody(job.RequestBody);
         }
 
-        return ret.OnResponsing(GetRequestHeader).OnException(GetRequestHeader);
+        return ret.SetLog(_logger).OnResponsing(GetRequestHeader).OnException(GetRequestHeader);
     }
 
     private void GetRequestHeader(HttpClient _, HttpResponseMessage rsp, string __)

@@ -21,7 +21,7 @@ public sealed record LoginRsp : DataAbstraction
     public void SetToRspHeader()
     {
         // 设置响应报文头
-        App.HttpContext.Response.Headers[Chars.FLG_HTTP_HEADER_VALUE_ACCESS_TOKEN] = AccessToken;
+        App.HttpContext.Response.Headers[Chars.FLG_HTTP_HEADER_KEY_ACCESS_TOKEN]   = AccessToken;
         App.HttpContext.Response.Headers[Chars.FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN] = RefreshToken;
     }
 }

@@ -38,7 +38,7 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     #if DBTYPE_SQLITE
     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
     [JsonIgnore]
     public string CreatedReferer { get; init; }
@@ -49,7 +49,7 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     #if DBTYPE_SQLITE
     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_1022)]
     #endif
     [JsonIgnore]
     public virtual string CreatedUserAgent { get; init; }
@@ -110,7 +110,7 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
     [JsonIgnore]
     public virtual string ReferUrl { get; init; }

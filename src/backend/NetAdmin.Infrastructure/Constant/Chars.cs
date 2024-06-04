@@ -47,6 +47,7 @@ public static class Chars
     public const string FLG_FREE_SQL_GLOBAL_FILTER_MEMBER             = nameof(FLG_FREE_SQL_GLOBAL_FILTER_MEMBER);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_SELF               = nameof(FLG_FREE_SQL_GLOBAL_FILTER_SELF);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_TENANT             = nameof(FLG_FREE_SQL_GLOBAL_FILTER_TENANT);
+    public const string FLG_HTTP_HEADER_KEY_ACCESS_TOKEN              = "ACCESS-TOKEN";
     public const string FLG_HTTP_HEADER_KEY_AUTHORIZATION             = "Authorization";
     public const string FLG_HTTP_HEADER_KEY_REFERER                   = "Referer";
     public const string FLG_HTTP_HEADER_KEY_USER_AGENT                = "User-Agent";
@@ -54,7 +55,6 @@ public static class Chars
     public const string FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN_HEADER_KEY = "X-Authorization";
     public const string FLG_HTTP_HEADER_KEY_X_FORWARDED_FOR           = "X-Forwarded-For";
     public const string FLG_HTTP_HEADER_KEY_X_REAL_IP                 = "X-Real-IP";
-    public const string FLG_HTTP_HEADER_VALUE_ACCESS_TOKEN            = "ACCESS-TOKEN";
     public const string FLG_HTTP_HEADER_VALUE_APPLICATION_JSON        = "application/json";
     public const string FLG_HTTP_HEADER_VALUE_APPLICATION_URLENCODED  = "application/x-www-form-urlencoded";
     public const string FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA             = "Bearer";
