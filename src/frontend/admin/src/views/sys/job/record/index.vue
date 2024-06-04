@@ -57,11 +57,36 @@
                 row-key="id"
                 stripe>
                 <el-table-column :label="$t('唯一编码')" prop="id" sortable="custom" width="150" />
-                <el-table-column :label="$t('执行耗时（毫秒）')" align="right" prop="duration" sortable="custom" width="150" />
-                <el-table-column :label="$t('请求方法')" prop="httpMethod" sortable="custom" width="100" />
-                <el-table-column :label="$t('HTTP 状态码')" align="right" prop="httpStatusCode" sortable="custom" width="150" />
+                <el-table-column
+                    :formatter="(row) => `${tool.groupSeparator(row.duration.toFixed(0))} ms`"
+                    :label="$t('执行耗时')"
+                    align="right"
+                    prop="duration"
+                    sortable="custom"
+                    width="150" />
+                <na-col-indicator
+                    :label="$t('请求方式')"
+                    :options="
+                        Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
+                            return { value: x[0], text: x[1][1] }
+                        })
+                    "
+                    prop="httpMethod"
+                    width="100" />
+                <el-table-column :label="$t('响应状态码')" align="center" prop="httpStatusCode" sortable="custom" width="200">
+                    <template #default="scope">
+                        <div class="indicator">
+                            <sc-status-indicator :type="scope.row.httpStatusCode === 'ok' ? 'success' : 'danger'" />
+                            <span>{{
+                                this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode]
+                                    ? this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode][1]
+                                    : scope.row.httpStatusCode
+                            }}</span>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column :label="$t('请求的网络地址')" prop="requestUrl" sortable="custom" />
-                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom" width="170" />
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
                 <na-col-operation :buttons="[naColOperation.buttons[0]]" :vue="this" width="100" />
             </sc-table>
         </el-main>
@@ -78,6 +103,7 @@
 import saveDialog from './save'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
+import tool from '@/utils/tool'
 
 export default {
     props: ['keywords'],
@@ -101,6 +127,9 @@ export default {
     },
     watch: {},
     computed: {
+        tool() {
+            return tool
+        },
         naColOperation() {
             return naColOperation
         },

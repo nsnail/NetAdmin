@@ -128,7 +128,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        :formatter="(row) => `${tool.groupSeparator(row.lastDuration.toFixed(0))} ms`"
+                        :formatter="(row) => (row.lastDuration ? `${tool.groupSeparator(row.lastDuration.toFixed(0))} ms` : `-`)"
                         :label="$t('耗时')"
                         align="right"
                         prop="lastDuration"

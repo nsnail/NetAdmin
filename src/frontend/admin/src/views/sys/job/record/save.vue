@@ -13,7 +13,7 @@
                     <el-form-item :label="$t('唯一编码')" prop="id"><el-input v-model="form.id" clearable /></el-form-item
                     ><el-form-item :label="$t('执行耗时（毫秒）')" prop="duration"><el-input v-model="form.duration" clearable /></el-form-item
                     ><el-form-item :label="$t('请求方法')" prop="httpMethod"><el-input v-model="form.httpMethod" clearable /></el-form-item
-                    ><el-form-item :label="$t('HTTP 状态码')" prop="httpStatusCode"><el-input v-model="form.httpStatusCode" clearable /></el-form-item
+                    ><el-form-item :label="$t('响应状态码')" prop="httpStatusCode"><el-input v-model="form.httpStatusCode" clearable /></el-form-item
                     ><el-form-item :label="$t('作业编号')" prop="jobId"><el-input v-model="form.jobId" clearable /></el-form-item
                     ><el-form-item :label="$t('请求体')" prop="requestBody"
                         ><el-input v-model="form.requestBody" clearable rows="5" type="textarea" /></el-form-item
