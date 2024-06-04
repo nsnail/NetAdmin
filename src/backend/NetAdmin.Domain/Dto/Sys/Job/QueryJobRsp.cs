@@ -43,6 +43,10 @@ public sealed record QueryJobRsp : Sys_Job
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string JobName { get; init; }
 
+    /// <inheritdoc cref="Sys_Job.LastDuration" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override long? LastDuration { get; init; }
+
     /// <inheritdoc cref="Sys_Job.LastExecTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override DateTime? LastExecTime { get; init; }

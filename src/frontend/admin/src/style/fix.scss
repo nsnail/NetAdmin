@@ -209,16 +209,12 @@
     border-left: 0;
 }
 
-.el-table.el-table--large {
+.el-table * {
+    font-size: 0.9rem;
+}
+
+.el-table.el-table--large * {
     font-size: 1rem;
-}
-
-.el-table.el-table--small {
-    font-size: 0.9rem;
-}
-
-.el-table {
-    font-size: 0.9rem;
 }
 
 .el-radio-button__inner {

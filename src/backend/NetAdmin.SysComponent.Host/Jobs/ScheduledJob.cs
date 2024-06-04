@@ -68,7 +68,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         var request = BuildRequest(job);
         var sw      = new Stopwatch();
         sw.Start();
-        var rsp = await request.SendAsync(cancelToken).ConfigureAwait(false);
+        var rsp = await request.SendAsync(CancellationToken.None).ConfigureAwait(false);
         if (rsp.StatusCode == HttpStatusCode.Unauthorized) {
             var loginRsp = await _userService.LoginByUserIdAsync(job.UserId).ConfigureAwait(false);
             #pragma warning disable S2696
@@ -76,12 +76,13 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
             _refreshToken = loginRsp.RefreshToken;
             #pragma warning restore S2696
             request = BuildRequest(job);
-            rsp     = await request.SendAsync(cancelToken).ConfigureAwait(false);
+            rsp     = await request.SendAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         sw.Stop();
         await UowManager.AtomicOperateAsync(async () => {
-                            var rspBody = await rsp.Content.ReadAsStringAsync(cancelToken).ConfigureAwait(false);
+                            var rspBody = await rsp.Content.ReadAsStringAsync(CancellationToken.None)
+                                                   .ConfigureAwait(false);
                             var jobRecord = new CreateJobRecordReq //
                                             {
                                                 Duration       = sw.ElapsedMilliseconds
@@ -97,7 +98,10 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
                                             };
                             _ = await _jobRecordService.CreateAsync(jobRecord).ConfigureAwait(false);
                             await _jobService
-                                  .FinishJobAsync(job.Adapt<UpdateJobReq>() with { LastStatusCode = rsp.StatusCode })
+                                  .FinishJobAsync(job.Adapt<UpdateJobReq>() with {
+                                                      LastStatusCode = rsp.StatusCode
+                                                    , LastDuration = jobRecord.Duration
+                                                  })
                                   .ConfigureAwait(false);
                         })
                         .ConfigureAwait(false);
