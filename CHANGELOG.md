@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/nsnail/NetAdmin/compare/v1.1.1...v1.2.0) (2024-06-06)
+
+
+### Features
+
+* ✨ 计划作业-上次执行耗时 ([#133](https://github.com/nsnail/NetAdmin/issues/133)) ([57b71e1](https://github.com/nsnail/NetAdmin/commit/57b71e1354ab8b0be995b5f563dd8c3fb7965d5f))
+* ✨ 框架代码同步 ([#129](https://github.com/nsnail/NetAdmin/issues/129)) ([b01b8b2](https://github.com/nsnail/NetAdmin/commit/b01b8b24ba574c08ba5605e103ff2ccf15e5830a))
+* ✨ 框架代码同步 ([#130](https://github.com/nsnail/NetAdmin/issues/130)) ([5edcf63](https://github.com/nsnail/NetAdmin/commit/5edcf63e24f6b13f5515e01ee8cf120b1a814d40))
+* ✨ 默认头像根据用户名绘制svg ([#132](https://github.com/nsnail/NetAdmin/issues/132)) ([127f6e9](https://github.com/nsnail/NetAdmin/commit/127f6e9f6c8c12974e5340e9697281250737bed3))
+* ✨ 手动执行计划作业 ([#122](https://github.com/nsnail/NetAdmin/issues/122)) ([3b83361](https://github.com/nsnail/NetAdmin/commit/3b8336105a908ba6bc300bec6ac4f49747ea66e9))
+* ✨ 增强作业执行记录页面 ([#135](https://github.com/nsnail/NetAdmin/issues/135)) ([7ae473d](https://github.com/nsnail/NetAdmin/commit/7ae473d492b9ba60cbb1c355894917d14f5ffa8f))
+* ✨ naColId组件 ([#118](https://github.com/nsnail/NetAdmin/issues/118)) ([47e67dd](https://github.com/nsnail/NetAdmin/commit/47e67dd503dd0ba6818e8b798e41c62420363f58))
+* **frontend:** ✨ 手机端分页控件显示总条数 ([#124](https://github.com/nsnail/NetAdmin/issues/124)) ([e0d15f8](https://github.com/nsnail/NetAdmin/commit/e0d15f8039a74a9826a0395983960ab620308899))
+
+
+### Bug Fixes
+
+* 🐛 字段顺序 ([#131](https://github.com/nsnail/NetAdmin/issues/131)) ([d1951db](https://github.com/nsnail/NetAdmin/commit/d1951dbcb5fa50a7ff308f6b6d554da5f791bcf2))
+* 🐛 字段长度 ([#134](https://github.com/nsnail/NetAdmin/issues/134)) ([c20a6c3](https://github.com/nsnail/NetAdmin/commit/c20a6c369d7b6d6dcfd07b3f3eaeab0fa309e766))
+* 🐛 take count ([c08ea62](https://github.com/nsnail/NetAdmin/commit/c08ea62064cc522d7cca9c90a5f15f23d833b6e3))
+* **backend:** 🐛 更新计划作业在sqlite数据库环境报错 ([#120](https://github.com/nsnail/NetAdmin/issues/120)) ([3152a8d](https://github.com/nsnail/NetAdmin/commit/3152a8d3e8054524470883c336fb6e93903a8426))
+
 ### [1.1.1](https://github.com/nsnail/NetAdmin/compare/v1.1.0...v1.1.1) (2024-04-29)
 
 ## [1.1.0](https://github.com/nsnail/NetAdmin/compare/v1.0.0...v1.1.0) (2024-04-29)
