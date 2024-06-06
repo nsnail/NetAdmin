@@ -85,11 +85,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     /// <summary>
     ///     描述
     /// </summary>
-    #if DBTYPE_SQLITE
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
     [JsonIgnore]
     public virtual string Summary { get; init; }
 
@@ -119,7 +115,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
                           ? Array.Empty<Sys_Role>()
                           : s.RoleIds.Select(x => new Sys_Role { Id = x }));
 
-        _ = config.ForType<UpdateUserReq, Sys_User>()
+        _ = config.ForType<EditSingleUserReq, Sys_User>()
                   .Map( //
                       d => d.Password, s => s.PasswordText.NullOrEmpty() ? Guid.Empty : s.PasswordText.Pwd().Guid())
                   .Map( //

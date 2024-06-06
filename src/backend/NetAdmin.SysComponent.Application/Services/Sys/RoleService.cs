@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IRoleService" />
-public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
-    : RepositoryService<Sys_Role, IRoleService>(rpo), IRoleService
+public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
+    : RepositoryService<Sys_Role, long, IRoleService>(rpo), IRoleService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -29,7 +29,11 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     public Task<long> CountAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -58,10 +62,28 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<QueryRoleRsp> EditAsync(EditRoleReq req)
+    {
+        req.ThrowIfInvalid();
+        var entity = req.Adapt<Sys_Role>();
+        _ = await Rpo.UpdateAsync(entity).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Menus)).ConfigureAwait(false);
+        await Rpo.SaveManyAsync(entity, nameof(entity.Apis)).ConfigureAwait(false);
+
+        return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } })
+            .ConfigureAwait(false)).First();
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -78,6 +100,9 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -89,28 +114,13 @@ public sealed class RoleService(DefaultRepository<Sys_Role> rpo) //
     public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRoleRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
-    {
-        req.ThrowIfInvalid();
-        var entity = req.Adapt<Sys_Role>();
-        _ = await Rpo.UpdateAsync(entity).ConfigureAwait(false);
-        await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
-        await Rpo.SaveManyAsync(entity, nameof(entity.Menus)).ConfigureAwait(false);
-        await Rpo.SaveManyAsync(entity, nameof(entity.Apis)).ConfigureAwait(false);
-
-        return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } })
-            .ConfigureAwait(false)).First();
-    }
-
-    /// <inheritdoc />
-    protected override Task<Sys_Role> UpdateForSqliteAsync(Sys_Role req)
-    {
-        throw new NotImplementedException();
     }
 
     private ISelect<Sys_Role> QueryInternal(QueryReq<QueryRoleReq> req)

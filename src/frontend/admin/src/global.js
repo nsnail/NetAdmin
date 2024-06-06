@@ -34,6 +34,7 @@ import scFormTable from '@/components/scFormTable'
 import scPageHeader from '@/components/scPageHeader'
 import scSelect from '@/components/scSelect'
 import scSelectFilter from '@/components/scSelectFilter'
+import scStatistic from '@/components/scStatistic/index.vue'
 import scStatusIndicator from '@/components/scMini/scStatusIndicator'
 import scTable from '@/components/scTable'
 import scTableColumn from '@/components/scTable/column.js'
@@ -112,6 +113,7 @@ export default {
         app.component('scPageHeader', scPageHeader)
         app.component('scSelect', scSelect)
         app.component('scSelectFilter', scSelectFilter)
+        app.component('scStatistic', scStatistic)
         app.component('scStatusIndicator', scStatusIndicator)
         app.component('scTable', scTable)
         app.component('scTableColumn', scTableColumn)

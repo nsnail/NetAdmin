@@ -50,6 +50,17 @@ export default {
     },
 
     /**
+     * 编辑角色
+     */
+    edit: {
+        url: `${config.API_URL}/api/sys/role/edit`,
+        name: `编辑角色`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个角色
      */
     get: {
@@ -77,17 +88,6 @@ export default {
     query: {
         url: `${config.API_URL}/api/sys/role/query`,
         name: `查询角色`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新角色
-     */
-    update: {
-        url: `${config.API_URL}/api/sys/role/update`,
-        name: `更新角色`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

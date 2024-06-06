@@ -219,9 +219,13 @@ export default {
                     Object.assign({}, this.form, { userId: this.form.user.id, requestHeaders: JSON.parse(this.form.requestHeader) }),
                 )
                 this.loading = false
-                this.$emit('success', res.data, this.mode)
+                if (res.data) {
+                    this.$emit('success', res.data, this.mode)
+                    this.$message.success('操作成功')
+                } else {
+                    this.$message.error('操作失败')
+                }
                 this.visible = false
-                this.$message.success('操作成功')
             } catch {
                 //
                 this.loading = false

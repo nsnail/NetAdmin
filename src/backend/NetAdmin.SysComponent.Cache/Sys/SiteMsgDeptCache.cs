@@ -57,10 +57,4 @@ public sealed class SiteMsgDeptCache(IDistributedCache cache, ISiteMsgDeptServic
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QuerySiteMsgDeptRsp> UpdateAsync(UpdateSiteMsgDeptReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

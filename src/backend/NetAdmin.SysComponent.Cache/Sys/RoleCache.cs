@@ -35,6 +35,12 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     }
 
     /// <inheritdoc />
+    public Task<QueryRoleRsp> EditAsync(EditRoleReq req)
+    {
+        return Service.EditAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
         return Service.ExistAsync(req);
@@ -56,11 +62,5 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     public Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
         return Service.QueryAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
-    {
-        return Service.UpdateAsync(req);
     }
 }

@@ -1,11 +1,12 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
+using NetAdmin.Domain.Dto.Sys.SiteMsg;
 
-namespace NetAdmin.Domain.Dto.Sys.SiteMsg;
+namespace NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 
 /// <summary>
-///     请求：更新站内信
+///     请求：编辑站内信
 /// </summary>
-public sealed record UpdateSiteMsgReq : CreateSiteMsgReq
+public sealed record EditSiteMsgReq : CreateSiteMsgReq
 {
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

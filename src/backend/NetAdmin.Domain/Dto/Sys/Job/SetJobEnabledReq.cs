@@ -1,15 +1,16 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
+using NetAdmin.Domain.DbMaps.Sys;
 
-namespace NetAdmin.Domain.Dto.Sys.Dept;
+namespace NetAdmin.Domain.Dto.Sys.Job;
 
 /// <summary>
-///     请求：更新部门
+///     请求：设置计划作业启用状态
 /// </summary>
-public sealed record UpdateDeptReq : CreateDeptReq
+public sealed record SetJobEnabledReq : Sys_Job
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="IFieldEnabled.Enabled" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; init; }
+    public override bool Enabled { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

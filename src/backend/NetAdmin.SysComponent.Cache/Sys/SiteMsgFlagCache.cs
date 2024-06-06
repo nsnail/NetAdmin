@@ -57,10 +57,4 @@ public sealed class SiteMsgFlagCache(IDistributedCache cache, ISiteMsgFlagServic
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QuerySiteMsgFlagRsp> UpdateAsync(UpdateSiteMsgFlagReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

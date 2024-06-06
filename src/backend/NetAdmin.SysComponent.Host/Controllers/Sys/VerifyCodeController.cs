@@ -98,15 +98,6 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     }
 
     /// <summary>
-    ///     更新验证码
-    /// </summary>
-    [NonAction]
-    public Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
-    {
-        return Cache.UpdateAsync(req);
-    }
-
-    /// <summary>
     ///     完成验证
     /// </summary>
     [AllowAnonymous]

@@ -11,14 +11,13 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类型
   , QueryJobReq, QueryJobRsp                                        // 查询类型
-  , UpdateJobReq, QueryJobRsp                                       // 修改类型
   , DelReq                                                          // 删除类型
 >
 {
     /// <summary>
     ///     编辑作业
     /// </summary>
-    Task<QueryJobRsp> EditAsync(UpdateJobReq req);
+    Task<QueryJobRsp> EditAsync(EditJobReq req);
 
     /// <summary>
     ///     执行作业
@@ -51,7 +50,7 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
     Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req);
 
     /// <summary>
-    ///     启用/禁用作业
+    ///     设置计划作业启用状态
     /// </summary>
-    Task SetEnabledAsync(UpdateJobReq req);
+    Task SetEnabledAsync(SetJobEnabledReq req);
 }

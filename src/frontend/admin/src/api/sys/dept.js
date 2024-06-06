@@ -50,6 +50,17 @@ export default {
     },
 
     /**
+     * 编辑部门
+     */
+    edit: {
+        url: `${config.API_URL}/api/sys/dept/edit`,
+        name: `编辑部门`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个部门
      */
     get: {
@@ -66,17 +77,6 @@ export default {
     query: {
         url: `${config.API_URL}/api/sys/dept/query`,
         name: `查询部门`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新部门
-     */
-    update: {
-        url: `${config.API_URL}/api/sys/dept/update`,
-        name: `更新部门`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

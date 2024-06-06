@@ -108,7 +108,7 @@ export default {
                 if (valid) {
                     this.loading = true
                     try {
-                        const method = this.mode === 'add' ? this.$API.sys_dept.create : this.$API.sys_dept.update
+                        const method = this.mode === 'add' ? this.$API.sys_dept.create : this.$API.sys_dept.edit
                         const res = await method.post(this.form)
                         this.$emit('success', res.data, this.mode)
                         this.visible = false

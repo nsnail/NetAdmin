@@ -9,8 +9,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IRequestLogService" />
-public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
-    : RepositoryService<Sys_RequestLog, IRequestLogService>(rpo), IRequestLogService
+public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo) //
+    : RepositoryService<Sys_RequestLog, long, IRequestLogService>(rpo), IRequestLogService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -30,7 +30,11 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -52,7 +56,11 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -71,6 +79,9 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
         req.ThrowIfInvalid();
 
         var ret = await QueryInternal(req with { Order = Orders.None })
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .GroupBy(a => new {
                                               a.CreatedTime.Year
                                             , a.CreatedTime.Month
@@ -92,6 +103,9 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .GroupBy(a => a.Api.Summary)
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key })
                         .ConfigureAwait(false);
@@ -104,6 +118,9 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .GroupBy(a => a.HttpStatusCode)
                         #pragma warning disable CA1305
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key.ToString() })
@@ -119,6 +136,9 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync(a => new {
                                                    a.ApiId
@@ -143,21 +163,14 @@ public sealed class RequestLogService(DefaultRepository<Sys_RequestLog> rpo) //
     public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
-    }
-
-    /// <inheritdoc />
-    public Task<NopReq> UpdateAsync(NopReq req)
-    {
-        req.ThrowIfInvalid();
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    protected override Task<Sys_RequestLog> UpdateForSqliteAsync(Sys_RequestLog req)
-    {
-        throw new NotImplementedException();
     }
 
     private ISelect<Sys_RequestLog> QueryInternal(QueryReq<QueryRequestLogReq> req)

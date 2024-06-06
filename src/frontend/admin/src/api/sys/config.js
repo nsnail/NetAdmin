@@ -50,6 +50,17 @@ export default {
     },
 
     /**
+     * 编辑配置
+     */
+    edit: {
+        url: `${config.API_URL}/api/sys/config/edit`,
+        name: `编辑配置`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个配置
      */
     get: {
@@ -88,17 +99,6 @@ export default {
     query: {
         url: `${config.API_URL}/api/sys/config/query`,
         name: `查询配置`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新配置
-     */
-    update: {
-        url: `${config.API_URL}/api/sys/config/update`,
-        name: `更新配置`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

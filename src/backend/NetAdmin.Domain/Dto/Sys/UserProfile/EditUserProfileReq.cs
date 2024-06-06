@@ -1,11 +1,11 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 
-namespace NetAdmin.Domain.Dto.Sys.Job;
+namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 
 /// <summary>
-///     请求：更新计划作业
+///     请求：编辑用户档案
 /// </summary>
-public sealed record UpdateJobReq : CreateJobReq
+public sealed record EditUserProfileReq : CreateUserProfileReq
 {
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

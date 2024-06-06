@@ -37,7 +37,7 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
-    public Task<QueryJobRsp> EditAsync(UpdateJobReq req)
+    public Task<QueryJobRsp> EditAsync(EditJobReq req)
     {
         return Service.EditAsync(req);
     }
@@ -123,14 +123,8 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(UpdateJobReq req)
+    public Task SetEnabledAsync(SetJobEnabledReq req)
     {
         return Service.SetEnabledAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryJobRsp> UpdateAsync(UpdateJobReq req)
-    {
-        return Service.UpdateAsync(req);
     }
 }

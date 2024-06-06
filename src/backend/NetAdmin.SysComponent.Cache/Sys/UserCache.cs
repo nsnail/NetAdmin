@@ -48,6 +48,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<QueryUserRsp> EditAsync(EditUserReq req)
+    {
+        return Service.EditAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryUserReq> req)
     {
         return Service.ExistAsync(req);
@@ -186,12 +192,6 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     public Task<uint> SetPasswordAsync(SetPasswordReq req)
     {
         return Service.SetPasswordAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
-    {
-        return Service.UpdateAsync(req);
     }
 
     /// <inheritdoc />

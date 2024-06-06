@@ -50,6 +50,15 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     }
 
     /// <summary>
+    ///     编辑部门
+    /// </summary>
+    [Transaction]
+    public Task<QueryDeptRsp> EditAsync(EditDeptReq req)
+    {
+        return Cache.EditAsync(req);
+    }
+
+    /// <summary>
     ///     部门是否存在
     /// </summary>
     [NonAction]
@@ -81,14 +90,5 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     public Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
         return Cache.QueryAsync(req);
-    }
-
-    /// <summary>
-    ///     更新部门
-    /// </summary>
-    [Transaction]
-    public Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
-    {
-        return Cache.UpdateAsync(req);
     }
 }

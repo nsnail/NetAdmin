@@ -6,11 +6,11 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
-     * 检查手机号是否可用
+     * 检查手机号码是否可用
      */
     checkMobileAvailable: {
         url: `${config.API_URL}/api/sys/user/check.mobile.available`,
-        name: `检查手机号是否可用`,
+        name: `检查手机号码是否可用`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },
@@ -55,6 +55,17 @@ export default {
     delete: {
         url: `${config.API_URL}/api/sys/user/delete`,
         name: `删除用户`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 编辑用户
+     */
+    edit: {
+        url: `${config.API_URL}/api/sys/user/edit`,
+        name: `编辑用户`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },
@@ -149,11 +160,11 @@ export default {
     },
 
     /**
-     * 更新用户头像
+     * 设置用户头像
      */
     setAvatar: {
         url: `${config.API_URL}/api/sys/user/set.avatar`,
-        name: `更新用户头像`,
+        name: `设置用户头像`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },
@@ -182,11 +193,11 @@ export default {
     },
 
     /**
-     * 设置手机号
+     * 设置手机号码
      */
     setMobile: {
         url: `${config.API_URL}/api/sys/user/set.mobile`,
-        name: `设置手机号`,
+        name: `设置手机号码`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },
@@ -198,17 +209,6 @@ export default {
     setPassword: {
         url: `${config.API_URL}/api/sys/user/set.password`,
         name: `设置密码`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新用户
-     */
-    update: {
-        url: `${config.API_URL}/api/sys/user/update`,
-        name: `更新用户`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

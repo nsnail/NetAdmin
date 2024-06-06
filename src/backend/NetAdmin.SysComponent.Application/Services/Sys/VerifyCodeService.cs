@@ -6,13 +6,12 @@ using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IVerifyCodeService" />
-public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEventPublisher eventPublisher) //
-    : RepositoryService<Sys_VerifyCode, IVerifyCodeService>(rpo), IVerifyCodeService
+public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo, IEventPublisher eventPublisher) //
+    : RepositoryService<Sys_VerifyCode, long, IVerifyCodeService>(rpo), IVerifyCodeService
 {
     private static readonly int[] _randRange = [0, 10000];
 
@@ -34,7 +33,11 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     public Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -62,7 +65,11 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -81,6 +88,9 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -93,7 +103,13 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryVerifyCodeRsp>>();
     }
 
@@ -125,15 +141,9 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
     }
 
     /// <inheritdoc />
-    public async Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
+    public Task<int> SetVerifyCodeStatusAsync(SetVerifyCodeStatusReq req)
     {
-        req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryVerifyCodeRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QueryVerifyCodeRsp>();
+        return UpdateAsync(req, [nameof(req.Status)]);
     }
 
     /// <inheritdoc />
@@ -156,18 +166,10 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
             return false;
         }
 
-        _ = await UpdateAsync((lastSent with { Status = VerifyCodeStatues.Verified }).Adapt<UpdateVerifyCodeReq>())
+        _ = await UpdateAsync(lastSent with { Status = VerifyCodeStatues.Verified }, [nameof(lastSent.Status)])
             .ConfigureAwait(false);
 
         return true;
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_VerifyCode> UpdateForSqliteAsync(Sys_VerifyCode req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QueryVerifyCodeReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private Task<Sys_VerifyCode> GetLastSentAsync(string destDevice)
@@ -181,6 +183,9 @@ public sealed class VerifyCodeService(DefaultRepository<Sys_VerifyCode> rpo, IEv
                                                                           , Value    = destDevice
                                                                         }
                                                               })
+               #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+               #endif
                .Take(1)
                .ToOneAsync();
     }

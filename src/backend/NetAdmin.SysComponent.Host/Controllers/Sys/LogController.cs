@@ -110,14 +110,4 @@ public sealed class LogController(IRequestLogCache cache) : ControllerBase<IRequ
     {
         return Cache.QueryAsync(req);
     }
-
-    /// <summary>
-    ///     更新请求日志
-    /// </summary>
-    [NonAction]
-    [Transaction]
-    public Task<NopReq> UpdateAsync(NopReq req)
-    {
-        return Cache.UpdateAsync(req);
-    }
 }

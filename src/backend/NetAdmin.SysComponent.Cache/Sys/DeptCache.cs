@@ -35,6 +35,12 @@ public sealed class DeptCache(IDistributedCache cache, IDeptService service) //
     }
 
     /// <inheritdoc />
+    public Task<QueryDeptRsp> EditAsync(EditDeptReq req)
+    {
+        return Service.EditAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
         return Service.ExistAsync(req);
@@ -56,11 +62,5 @@ public sealed class DeptCache(IDistributedCache cache, IDeptService service) //
     public Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
         return Service.QueryAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
-    {
-        return Service.UpdateAsync(req);
     }
 }

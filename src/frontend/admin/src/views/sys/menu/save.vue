@@ -139,7 +139,7 @@ export default {
 
             this.loading = true
             try {
-                const res = await this.$API.sys_menu.update.post(this.form)
+                const res = await this.$API.sys_menu.edit.post(this.form)
                 this.$message.success('保存成功')
                 this.$emit('success', res.data)
             } catch {

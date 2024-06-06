@@ -60,7 +60,7 @@ export default {
 
             this.loading = true
             try {
-                const method = this.mode === 'add' ? this.$API.sys_dic.createCatalog : this.$API.sys_dic.updateCatalog
+                const method = this.mode === 'add' ? this.$API.sys_dic.createCatalog : this.$API.sys_dic.editCatalog
                 const res = await method.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false

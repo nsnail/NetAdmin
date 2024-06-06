@@ -35,6 +35,12 @@ public sealed class MenuCache(IDistributedCache cache, IMenuService service) //
     }
 
     /// <inheritdoc />
+    public Task<QueryMenuRsp> EditAsync(EditMenuReq req)
+    {
+        return Service.EditAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
         return Service.ExistAsync(req);
@@ -56,12 +62,6 @@ public sealed class MenuCache(IDistributedCache cache, IMenuService service) //
     public Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         return Service.QueryAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
-    {
-        return Service.UpdateAsync(req);
     }
 
     /// <inheritdoc />

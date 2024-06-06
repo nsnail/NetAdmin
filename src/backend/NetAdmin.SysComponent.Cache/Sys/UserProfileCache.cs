@@ -57,10 +57,4 @@ public sealed class UserProfileCache(IDistributedCache cache, IUserProfileServic
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QueryUserProfileRsp> UpdateAsync(UpdateUserProfileReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

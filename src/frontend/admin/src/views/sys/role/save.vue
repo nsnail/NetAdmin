@@ -161,7 +161,7 @@ export default {
             }
 
             this.loading = true
-            const method = this.mode === 'add' ? this.$API.sys_role.create : this.$API.sys_role.update
+            const method = this.mode === 'add' ? this.$API.sys_role.create : this.$API.sys_role.edit
             const postData = Object.assign({}, this.form, {
                 deptIds: this.$refs.dept.getCheckedKeys().concat(this.$refs.dept.getHalfCheckedKeys()),
                 menuIds: this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys()),

@@ -4,13 +4,12 @@ using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Config;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IConfigService" />
-public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
-    : RepositoryService<Sys_Config, IConfigService>(rpo), IConfigService
+public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
+    : RepositoryService<Sys_Config, long, IConfigService>(rpo), IConfigService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -30,7 +29,11 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     public Task<long> CountAsync(QueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -49,10 +52,26 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<QueryConfigRsp> EditAsync(EditConfigReq req)
+    {
+        #if DBTYPE_SQLSERVER
+        return (await UpdateEntityAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryConfigRsp>();
+        #else
+        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
+            ? await GetAsync(new QueryConfigReq { Id = req.Id }).ConfigureAwait(false)
+            : null;
+        #endif
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -78,6 +97,9 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -90,28 +112,14 @@ public sealed class ConfigService(DefaultRepository<Sys_Config> rpo) //
     public async Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryConfigRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
-    {
-        req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryConfigRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QueryConfigRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_Config> UpdateForSqliteAsync(Sys_Config req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QueryConfigReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_Config> QueryInternal(QueryReq<QueryConfigReq> req)

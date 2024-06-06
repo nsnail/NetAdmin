@@ -57,10 +57,4 @@ public sealed class JobRecordCache(IDistributedCache cache, IJobRecordService se
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QueryJobRecordRsp> UpdateAsync(UpdateJobRecordReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

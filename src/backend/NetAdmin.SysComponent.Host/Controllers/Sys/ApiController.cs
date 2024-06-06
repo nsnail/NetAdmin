@@ -95,13 +95,4 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     {
         return Cache.SyncAsync();
     }
-
-    /// <summary>
-    ///     更新接口
-    /// </summary>
-    [NonAction]
-    public Task<NopReq> UpdateAsync(NopReq req)
-    {
-        return Cache.UpdateAsync(req);
-    }
 }

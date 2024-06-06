@@ -5,13 +5,12 @@ using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IJobRecordService" />
-public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
-    : RepositoryService<Sys_JobRecord, IJobRecordService>(rpo), IJobRecordService
+public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) //
+    : RepositoryService<Sys_JobRecord, long, IJobRecordService>(rpo), IJobRecordService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -31,7 +30,11 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
     public Task<long> CountAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -53,7 +56,11 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
     public Task<bool> ExistAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -72,6 +79,9 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
         req.ThrowIfInvalid();
 
         var ret = await QueryInternal(req with { Order = Orders.None })
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .GroupBy(a => new {
                                               a.CreatedTime.Year
                                             , a.CreatedTime.Month
@@ -94,6 +104,9 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .Include(a => a.Job)
                         .GroupBy(a => a.HttpStatusCode)
                         #pragma warning disable CA1305
@@ -109,6 +122,9 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .Include(a => a.Job)
                         .GroupBy(a => a.Job.JobName)
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key })
@@ -122,6 +138,9 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -134,28 +153,14 @@ public sealed class JobRecordService(DefaultRepository<Sys_JobRecord> rpo) //
     public async Task<IEnumerable<QueryJobRecordRsp>> QueryAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRecordRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryJobRecordRsp> UpdateAsync(UpdateJobRecordReq req)
-    {
-        req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryJobRecordRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QueryJobRecordRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_JobRecord> UpdateForSqliteAsync(Sys_JobRecord req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QueryJobRecordReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_JobRecord> QueryInternal(QueryReq<QueryJobRecordReq> req)

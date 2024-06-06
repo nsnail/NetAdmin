@@ -142,7 +142,7 @@ export default {
             }
 
             try {
-                const method = this.mode === 'add' ? this.$API.sys_sitemsg.create : this.$API.sys_sitemsg.update
+                const method = this.mode === 'add' ? this.$API.sys_sitemsg.create : this.$API.sys_sitemsg.edit
                 this.loading = true
                 const res = await method.post(Object.assign({}, this.form, { userIds: this.form.userIds.map((x) => x.id) }))
                 this.loading = false

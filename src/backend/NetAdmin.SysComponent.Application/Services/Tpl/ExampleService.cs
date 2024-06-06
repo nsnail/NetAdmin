@@ -4,13 +4,12 @@ using NetAdmin.Domain.DbMaps.Tpl;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Tpl.Example;
 using NetAdmin.SysComponent.Application.Services.Tpl.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Tpl;
 
 /// <inheritdoc cref="IExampleService" />
-public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
-    : RepositoryService<Tpl_Example, IExampleService>(rpo), IExampleService
+public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
+    : RepositoryService<Tpl_Example, long, IExampleService>(rpo), IExampleService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -30,7 +29,11 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     public Task<long> CountAsync(QueryReq<QueryExampleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -52,7 +55,11 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -71,6 +78,9 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -83,28 +93,14 @@ public sealed class ExampleService(DefaultRepository<Tpl_Example> rpo) //
     public async Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryExampleRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryExampleRsp> UpdateAsync(UpdateExampleReq req)
-    {
-        req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QueryExampleRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QueryExampleRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Tpl_Example> UpdateForSqliteAsync(Tpl_Example req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QueryExampleReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Tpl_Example> QueryInternal(QueryReq<QueryExampleReq> req)

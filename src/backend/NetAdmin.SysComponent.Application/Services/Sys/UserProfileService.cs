@@ -5,13 +5,12 @@ using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserProfileService" />
-public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) //
-    : RepositoryService<Sys_UserProfile, IUserProfileService>(rpo), IUserProfileService
+public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rpo) //
+    : RepositoryService<Sys_UserProfile, long, IUserProfileService>(rpo), IUserProfileService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -31,7 +30,11 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     public Task<long> CountAsync(QueryReq<QueryUserProfileReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -51,10 +54,20 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     }
 
     /// <inheritdoc />
+    public Task<int> EditAsync(EditUserProfileReq req)
+    {
+        return UpdateAsync(req, null);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -73,6 +86,9 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync((a, b, c, d, e) => new {
                                                                  a
@@ -99,6 +115,9 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .Take(req.Count)
                         .ToListAsync((a, b, c, d, e) => new {
                                                                 a
@@ -126,27 +145,6 @@ public sealed class UserProfileService(DefaultRepository<Sys_UserProfile> rpo) /
                                                                                  ? null
                                                                                  : x.e.Adapt<QueryDicContentRsp>()
                                                                          });
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryUserProfileRsp> UpdateAsync(UpdateUserProfileReq req)
-    {
-        req.ThrowIfInvalid();
-        var entity = req.Adapt<Sys_UserProfile>();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(entity).ConfigureAwait(false) as QueryUserProfileRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.SetSource(entity).ExecuteUpdatedAsync().ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_UserProfile> UpdateForSqliteAsync(Sys_UserProfile req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QueryUserProfileReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(

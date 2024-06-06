@@ -47,7 +47,7 @@ public sealed class SqlAuditor : ISingleton
                 SetOwner(e, user);
                 break;
             case AuditValueType.Update:
-                SetUpdater(e, user);
+                SetModificator(e, user);
                 break;
             case AuditValueType.InsertOrUpdate:
                 break;
@@ -128,6 +128,31 @@ public sealed class SqlAuditor : ISingleton
     }
 
     /// <summary>
+    ///     设置更新人
+    /// </summary>
+    private static void SetModificator(AuditValueEventArgs e, ContextUserInfo userInfo)
+    {
+        switch (e.Property.Name) {
+            // case nameof(IFieldModifiedTime.ModifiedTime):
+            //     e.Value = DateTime.Now;
+            //     break;
+            case nameof(IFieldModifiedUser.ModifiedUserId):
+                if (userInfo != null && e.Value is null or (long and 0)) {
+                    e.Value = userInfo.Id;
+                }
+
+                break;
+
+            case nameof(IFieldModifiedUser.ModifiedUserName):
+                if (userInfo != null && e.Value is null or "") {
+                    e.Value = userInfo.UserName;
+                }
+
+                break;
+        }
+    }
+
+    /// <summary>
     ///     设置拥有者
     /// </summary>
     private static void SetOwner(AuditValueEventArgs e, ContextUserInfo userInfo)
@@ -160,31 +185,6 @@ public sealed class SqlAuditor : ISingleton
         var isNoValue   = e.Value is null or (long and 0);
         if (isSnowflake && isLongType && isNoValue) {
             e.Value = YitIdHelper.NextId();
-        }
-    }
-
-    /// <summary>
-    ///     设置更新人
-    /// </summary>
-    private static void SetUpdater(AuditValueEventArgs e, ContextUserInfo userInfo)
-    {
-        switch (e.Property.Name) {
-            // case nameof(IFieldModifiedTime.ModifiedTime):
-            //     e.Value = DateTime.Now;
-            //     break;
-            case nameof(IFieldModifiedUser.ModifiedUserId):
-                if (userInfo != null && e.Value is null or (long and 0)) {
-                    e.Value = userInfo.Id;
-                }
-
-                break;
-
-            case nameof(IFieldModifiedUser.ModifiedUserName):
-                if (userInfo != null && e.Value is null or "") {
-                    e.Value = userInfo.UserName;
-                }
-
-                break;
         }
     }
 

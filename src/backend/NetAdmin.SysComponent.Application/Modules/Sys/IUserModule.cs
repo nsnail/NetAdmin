@@ -10,7 +10,6 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建类型
   , QueryUserReq, QueryUserRsp                                         // 查询类型
-  , UpdateUserReq, QueryUserRsp                                        // 修改类型
   , DelReq                                                             // 删除类型
 >
 {
@@ -23,6 +22,11 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     ///     检查用户名是否可用
     /// </summary>
     Task<bool> CheckUserNameAvailableAsync(CheckUserNameAvailableReq req);
+
+    /// <summary>
+    ///     编辑用户
+    /// </summary>
+    Task<QueryUserRsp> EditAsync(EditUserReq req);
 
     /// <summary>
     ///     密码登录

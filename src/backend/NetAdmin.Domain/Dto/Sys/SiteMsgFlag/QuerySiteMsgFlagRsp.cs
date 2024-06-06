@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Enums.Sys;
 
@@ -9,7 +9,7 @@ namespace NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 /// </summary>
 public sealed record QuerySiteMsgFlagRsp : Sys_SiteMsgFlag
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 

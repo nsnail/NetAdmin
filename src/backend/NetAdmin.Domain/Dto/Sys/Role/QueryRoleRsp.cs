@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Enums.Sys;
@@ -37,7 +38,7 @@ public sealed record QueryRoleRsp : Sys_Role, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override bool Enabled { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 

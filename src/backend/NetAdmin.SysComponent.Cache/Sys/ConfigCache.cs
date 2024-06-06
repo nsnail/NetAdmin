@@ -35,6 +35,12 @@ public sealed class ConfigCache(IDistributedCache cache, IConfigService service)
     }
 
     /// <inheritdoc />
+    public Task<QueryConfigRsp> EditAsync(EditConfigReq req)
+    {
+        return Service.EditAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
     {
         return Service.ExistAsync(req);
@@ -62,11 +68,5 @@ public sealed class ConfigCache(IDistributedCache cache, IConfigService service)
     public Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
         return Service.QueryAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
-    {
-        return Service.UpdateAsync(req);
     }
 }

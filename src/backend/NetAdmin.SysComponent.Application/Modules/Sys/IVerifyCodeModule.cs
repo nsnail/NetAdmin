@@ -9,7 +9,6 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface IVerifyCodeModule : ICrudModule<CreateVerifyCodeReq, QueryVerifyCodeRsp // 创建类型
   , QueryVerifyCodeReq, QueryVerifyCodeRsp                                               // 查询类型
-  , UpdateVerifyCodeReq, QueryVerifyCodeRsp                                              // 修改类型
   , DelReq                                                                               // 删除类型
 >
 {

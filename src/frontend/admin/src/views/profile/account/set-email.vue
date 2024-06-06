@@ -6,12 +6,12 @@
                     <na-form-phone
                         v-model="form.verifySmsCodeReq"
                         :code-field="['verifySmsCodeReq.code', 'code']"
+                        :code-label="$t('手机验证码')"
                         :phone-field="['verifySmsCodeReq.destDevice', 'destDevice']"
+                        :phone-label="$t('手机号码')"
                         :phone-place-holder="$GLOBAL.user.mobile"
                         :vue="this"
-                        code-label="$t('手机验证码')"
-                        form-name="form"
-                        phone-label="$t('手机号码')" />
+                        form-name="form" />
                 </el-col>
                 <el-col :lg="10">
                     <na-form-email

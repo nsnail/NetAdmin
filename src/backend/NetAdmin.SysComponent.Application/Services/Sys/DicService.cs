@@ -53,6 +53,20 @@ public sealed class DicService(IDicCatalogService catalogService, IDicContentSer
     }
 
     /// <inheritdoc />
+    public Task<int> EditCatalogAsync(EditDicCatalogReq req)
+    {
+        req.ThrowIfInvalid();
+        return catalogService.EditAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req)
+    {
+        req.ThrowIfInvalid();
+        return contentService.EditAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
     {
         req.ThrowIfInvalid();
@@ -114,19 +128,5 @@ public sealed class DicService(IDicCatalogService catalogService, IDicContentSer
     {
         req.ThrowIfInvalid();
         return contentService.QueryAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req)
-    {
-        req.ThrowIfInvalid();
-        return catalogService.UpdateAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req)
-    {
-        req.ThrowIfInvalid();
-        return contentService.UpdateAsync(req);
     }
 }
