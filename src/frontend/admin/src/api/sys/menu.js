@@ -50,6 +50,17 @@ export default {
     },
 
     /**
+     * 编辑菜单
+     */
+    edit: {
+        url: `${config.API_URL}/api/sys/menu/edit`,
+        name: `编辑菜单`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个菜单
      */
     get: {
@@ -66,17 +77,6 @@ export default {
     query: {
         url: `${config.API_URL}/api/sys/menu/query`,
         name: `查询菜单`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新菜单
-     */
-    update: {
-        url: `${config.API_URL}/api/sys/menu/update`,
-        name: `更新菜单`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

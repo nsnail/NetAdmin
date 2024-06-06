@@ -65,12 +65,6 @@ public sealed class VerifyCodeCache(IDistributedCache cache, IVerifyCodeService 
         return Service.SendVerifyCodeAsync(req);
     }
 
-    /// <inheritdoc />
-    public Task<QueryVerifyCodeRsp> UpdateAsync(UpdateVerifyCodeReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
-
     /// <inheritdoc cref="IVerifyCodeModule.VerifyAsync" />
     public Task<bool> VerifyAsync(VerifyCodeReq req)
     {

@@ -1,13 +1,12 @@
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Tpl;
 
-namespace NetAdmin.Domain.Dto.Tpl.Example;
+namespace NetAdmin.Domain.Dto.Sys.Menu;
 
 /// <summary>
-///     响应：查询示例
+///     请求：更新菜单
 /// </summary>
-public sealed record QueryExampleRsp : Tpl_Example
+public sealed record EditMenuReq : CreateMenuReq
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

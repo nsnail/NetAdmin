@@ -5,9 +5,9 @@ using NetAdmin.Domain.DbMaps.Sys;
 namespace NetAdmin.Domain.Dto.Sys.User;
 
 /// <summary>
-///     请求：创建更新用户
+///     请求：创建编辑用户
 /// </summary>
-public abstract record CreateUpdateUserReq : Sys_User
+public abstract record CreateEditUserReq : Sys_User
 {
     /// <inheritdoc cref="Sys_User.Avatar" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

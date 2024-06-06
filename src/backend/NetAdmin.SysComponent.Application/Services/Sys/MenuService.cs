@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IMenuService" />
-public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService userService) //
-    : RepositoryService<Sys_Menu, IMenuService>(rpo), IMenuService
+public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserService userService) //
+    : RepositoryService<Sys_Menu, long, IMenuService>(rpo), IMenuService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -29,7 +29,11 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     public Task<long> CountAsync(QueryReq<QueryMenuReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -53,10 +57,26 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     }
 
     /// <inheritdoc />
+    public async Task<QueryMenuRsp> EditAsync(EditMenuReq req)
+    {
+        #if DBTYPE_SQLSERVER
+        return (await UpdateEntityAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryMenuRsp>();
+        #else
+        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
+            ? await GetAsync(new QueryMenuReq { Id = req.Id }).ConfigureAwait(false)
+            : null;
+        #endif
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -78,20 +98,13 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
     public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .ToTreeListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryMenuRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
-    {
-        req.ThrowIfInvalid();
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
-            return null;
-        }
-
-        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
-        return ret.Adapt<QueryMenuRsp>();
     }
 
     /// <inheritdoc />
@@ -120,12 +133,6 @@ public sealed class MenuService(DefaultRepository<Sys_Menu> rpo, IUserService us
         }
 
         return await ret.ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    protected override Task<Sys_Menu> UpdateForSqliteAsync(Sys_Menu req)
-    {
-        throw new NotImplementedException();
     }
 
     private ISelect<Sys_Menu> QueryInternal(QueryReq<QueryMenuReq> req)

@@ -25,7 +25,7 @@ public static class Numbers
 
     public const int SECS_CACHE_CHART     = 300; // 秒：缓存时间-仪表
     public const int SECS_CACHE_DEFAULT   = 60;  // 秒：缓存时间-默认
-    public const int SECS_RED_LOCK_EXPIRY = 30;  // 秒：RedLock-锁过期时间，锁区域内的逻辑执行如果超过过期时间，锁将被释放
+    public const int SECS_RED_LOCK_EXPIRY = 30;  // 秒：RedLock-锁过期时间，假如持有锁的进程挂掉，最多在此时间内锁将被释放（如持有锁的进程正常，此值不会生效）
     public const int SECS_RED_LOCK_RETRY  = 1;   // 秒：RedLock-锁等待时间内，多久尝试获取一次
     public const int SECS_RED_LOCK_WAIT   = 10;  // 秒：RedLock-锁等待时间，相同的 resource 如果当前的锁被其他线程占用，最多等待时间
     public const int SECS_TIMEOUT_JOB     = 600; // 秒：超时时间-作业

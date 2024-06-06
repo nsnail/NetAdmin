@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
@@ -11,7 +12,7 @@ public sealed record QueryApiRsp : Sys_Api
     /// <inheritdoc cref="Sys_Api.Children" />
     public new IEnumerable<QueryApiRsp> Children { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     public override string Id { get; init; }
 
     /// <inheritdoc cref="Sys_Api.Method" />

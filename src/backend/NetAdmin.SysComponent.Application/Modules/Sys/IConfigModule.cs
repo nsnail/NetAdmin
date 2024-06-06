@@ -9,10 +9,14 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface IConfigModule : ICrudModule<CreateConfigReq, QueryConfigRsp // 创建类型
   , QueryConfigReq, QueryConfigRsp                                           // 查询类型
-  , UpdateConfigReq, QueryConfigRsp                                          // 修改类型
   , DelReq                                                                   // 删除类型
 >
 {
+    /// <summary>
+    ///     编辑配置
+    /// </summary>
+    Task<QueryConfigRsp> EditAsync(EditConfigReq req);
+
     /// <summary>
     ///     获取最新有效配置
     /// </summary>

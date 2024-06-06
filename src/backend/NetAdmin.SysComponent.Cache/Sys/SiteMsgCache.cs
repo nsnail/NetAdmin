@@ -36,6 +36,12 @@ public sealed class SiteMsgCache(IDistributedCache cache, ISiteMsgService servic
     }
 
     /// <inheritdoc />
+    public Task<QuerySiteMsgRsp> EditAsync(EditSiteMsgReq req)
+    {
+        return Service.EditAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QuerySiteMsgReq> req)
     {
         return Service.ExistAsync(req);
@@ -72,7 +78,7 @@ public sealed class SiteMsgCache(IDistributedCache cache, ISiteMsgService servic
     }
 
     /// <inheritdoc />
-    public Task SetSiteMsgStatusAsync(UpdateSiteMsgFlagReq req)
+    public Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
         return Service.SetSiteMsgStatusAsync(req);
     }
@@ -81,11 +87,5 @@ public sealed class SiteMsgCache(IDistributedCache cache, ISiteMsgService servic
     public Task<long> UnreadCountAsync()
     {
         return Service.UnreadCountAsync();
-    }
-
-    /// <inheritdoc />
-    public Task<QuerySiteMsgRsp> UpdateAsync(UpdateSiteMsgReq req)
-    {
-        return Service.UpdateAsync(req);
     }
 }

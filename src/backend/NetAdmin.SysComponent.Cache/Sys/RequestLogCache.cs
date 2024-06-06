@@ -94,10 +94,4 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<NopReq> UpdateAsync(NopReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

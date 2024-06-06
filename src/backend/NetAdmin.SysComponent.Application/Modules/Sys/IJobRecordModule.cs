@@ -9,6 +9,5 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface IJobRecordModule : ICrudModule<CreateJobRecordReq, QueryJobRecordRsp // 创建类型
   , QueryJobRecordReq, QueryJobRecordRsp                                              // 查询类型
-  , UpdateJobRecordReq, QueryJobRecordRsp                                             // 修改类型
   , DelReq                                                                            // 删除类型
 >;

@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 /// <inheritdoc />
 public abstract record MutableEntity : MutableEntity<long>
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [Snowflake]
     public override long Id { get; init; }
@@ -16,8 +16,9 @@ public abstract record MutableEntity : MutableEntity<long>
 ///     可变实体
 /// </summary>
 public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldModifiedUser
+    where T : IEquatable<T>
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     public override T Id { get; init; }
 

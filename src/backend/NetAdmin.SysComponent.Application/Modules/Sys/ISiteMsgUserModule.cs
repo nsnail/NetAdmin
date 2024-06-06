@@ -9,6 +9,5 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface ISiteMsgUserModule : ICrudModule<CreateSiteMsgUserReq, QuerySiteMsgUserRsp // 创建类型
   , QuerySiteMsgUserReq, QuerySiteMsgUserRsp                                                // 查询类型
-  , UpdateSiteMsgUserReq, QuerySiteMsgUserRsp                                               // 修改类型
   , DelReq                                                                                  // 删除类型
 >;

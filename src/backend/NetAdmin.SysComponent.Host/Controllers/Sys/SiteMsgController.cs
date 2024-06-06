@@ -52,6 +52,15 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     }
 
     /// <summary>
+    ///     编辑站内信
+    /// </summary>
+    [Transaction]
+    public Task<QuerySiteMsgRsp> EditAsync(EditSiteMsgReq req)
+    {
+        return Cache.EditAsync(req);
+    }
+
+    /// <summary>
     ///     站内信是否存在
     /// </summary>
     public Task<bool> ExistAsync(QueryReq<QuerySiteMsgReq> req)
@@ -102,7 +111,7 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     /// <summary>
     ///     设置站内信状态
     /// </summary>
-    public Task SetSiteMsgStatusAsync(UpdateSiteMsgFlagReq req)
+    public Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
         return Cache.SetSiteMsgStatusAsync(req);
     }
@@ -113,14 +122,5 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     public Task<long> UnreadCountAsync()
     {
         return Cache.UnreadCountAsync();
-    }
-
-    /// <summary>
-    ///     更新站内信
-    /// </summary>
-    [Transaction]
-    public Task<QuerySiteMsgRsp> UpdateAsync(UpdateSiteMsgReq req)
-    {
-        return Cache.UpdateAsync(req);
     }
 }

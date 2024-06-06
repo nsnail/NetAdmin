@@ -7,9 +7,11 @@ namespace NetAdmin.Application.Services;
 /// <summary>
 ///     RedLocker Service Base
 /// </summary>
-public abstract class RedLockerService<T1, T2>(DefaultRepository<T1> rpo, RedLocker redLocker)
-    : RepositoryService<T1, T2>(rpo)
-    where T1 : EntityBase
+public abstract class RedLockerService<TEntity, TPrimary, TLogger>(
+    BasicRepository<TEntity, TPrimary> rpo
+  , RedLocker                          redLocker) : RepositoryService<TEntity, TPrimary, TLogger>(rpo)
+    where TEntity : EntityBase<TPrimary> //
+    where TPrimary : IEquatable<TPrimary>
 {
     /// <summary>
     ///     获取锁

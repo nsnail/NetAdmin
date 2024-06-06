@@ -1,11 +1,11 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 
-namespace NetAdmin.Domain.Dto.Sys.Dic.Content;
+namespace NetAdmin.Domain.Dto.Sys.Config;
 
 /// <summary>
-///     请求：更新字典内容
+///     请求：编辑配置
 /// </summary>
-public sealed record UpdateDicContentReq : CreateDicContentReq
+public sealed record EditConfigReq : CreateConfigReq
 {
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

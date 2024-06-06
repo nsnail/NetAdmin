@@ -70,6 +70,24 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     }
 
     /// <summary>
+    ///     编辑字典目录
+    /// </summary>
+    [Transaction]
+    public Task<int> EditCatalogAsync(EditDicCatalogReq req)
+    {
+        return Cache.EditCatalogAsync(req);
+    }
+
+    /// <summary>
+    ///     编辑字典内容
+    /// </summary>
+    [Transaction]
+    public Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req)
+    {
+        return Cache.EditContentAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个字典目录
     /// </summary>
     public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
@@ -123,23 +141,5 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
     {
         return Cache.QueryContentAsync(req);
-    }
-
-    /// <summary>
-    ///     更新字典目录
-    /// </summary>
-    [Transaction]
-    public Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req)
-    {
-        return Cache.UpdateCatalogAsync(req);
-    }
-
-    /// <summary>
-    ///     更新字典内容
-    /// </summary>
-    [Transaction]
-    public Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req)
-    {
-        return Cache.UpdateContentAsync(req);
     }
 }

@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicCatalogService" />
-public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
-    : RepositoryService<Sys_DicCatalog, IDicCatalogService>(rpo), IDicCatalogService
+public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo) //
+    : RepositoryService<Sys_DicCatalog, long, IDicCatalogService>(rpo), IDicCatalogService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -29,7 +29,11 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     public Task<long> CountAsync(QueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -55,10 +59,25 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     }
 
     /// <inheritdoc />
+    /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
+    public async Task<int> EditAsync(EditDicCatalogReq req)
+    {
+        req.ThrowIfInvalid();
+        return req.ParentId == 0 ||
+               await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)
+            ? await UpdateAsync(req, null).ConfigureAwait(false)
+            : throw new NetAdminInvalidOperationException(Ln.父节点不存在);
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -77,6 +96,9 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -89,32 +111,13 @@ public sealed class DicCatalogService(DefaultRepository<Sys_DicCatalog> rpo) //
     public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .ToTreeListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
-    }
-
-    /// <inheritdoc />
-    /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
-    public async Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
-    {
-        req.ThrowIfInvalid();
-        if (req.ParentId != 0 &&
-            !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)) {
-            throw new NetAdminInvalidOperationException(Ln.父节点不存在);
-        }
-
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
-            return null;
-        }
-
-        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
-        return ret.Adapt<QueryDicCatalogRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override Task<Sys_DicCatalog> UpdateForSqliteAsync(Sys_DicCatalog req)
-    {
-        throw new NotImplementedException();
     }
 
     private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)

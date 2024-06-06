@@ -57,10 +57,4 @@ public sealed class SiteMsgRoleCache(IDistributedCache cache, ISiteMsgRoleServic
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QuerySiteMsgRoleRsp> UpdateAsync(UpdateSiteMsgRoleReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

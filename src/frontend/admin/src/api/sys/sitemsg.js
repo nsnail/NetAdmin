@@ -50,6 +50,17 @@ export default {
     },
 
     /**
+     * 编辑站内信
+     */
+    edit: {
+        url: `${config.API_URL}/api/sys/site.msg/edit`,
+        name: `编辑站内信`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 站内信是否存在
      */
     exist: {
@@ -132,17 +143,6 @@ export default {
     unreadCount: {
         url: `${config.API_URL}/api/sys/site.msg/unread.count`,
         name: `未读数量`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新站内信
-     */
-    update: {
-        url: `${config.API_URL}/api/sys/site.msg/update`,
-        name: `更新站内信`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

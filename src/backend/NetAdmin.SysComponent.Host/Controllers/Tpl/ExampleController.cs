@@ -81,13 +81,4 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     {
         return Cache.QueryAsync(req);
     }
-
-    /// <summary>
-    ///     更新示例
-    /// </summary>
-    [Transaction]
-    public Task<QueryExampleRsp> UpdateAsync(UpdateExampleReq req)
-    {
-        return Cache.UpdateAsync(req);
-    }
 }

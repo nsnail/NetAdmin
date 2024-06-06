@@ -9,13 +9,12 @@ using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IJobService" />
-public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService jobRecordService) //
-    : RepositoryService<Sys_Job, IJobService>(rpo), IJobService
+public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordService jobRecordService) //
+    : RepositoryService<Sys_Job, long, IJobService>(rpo), IJobService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -35,7 +34,11 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public Task<long> CountAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -61,7 +64,7 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     }
 
     /// <inheritdoc />
-    public async Task<QueryJobRsp> EditAsync(UpdateJobReq req)
+    public async Task<QueryJobRsp> EditAsync(EditJobReq req)
     {
         req.ThrowIfInvalid();
         var update = Rpo.UpdateDiy.Set(a => a.ExecutionCron == req.ExecutionCron)
@@ -72,17 +75,16 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                         .Set(a => a.RequestBody == req.RequestBody)
                         .Set(a => a.RequestUrl  == req.RequestUrl)
                         .Set(a => a.UserId      == req.UserId)
-                        .Where(a => a.Id        == req.Id);
+                        .Where(a => a.Id        == req.Id)
+                        .Where(a => a.Version   == req.Version);
 
-        #pragma warning disable IDE0046
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            #pragma warning restore IDE0046
-            return await update.ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-                ? null
-                : await GetAsync(new QueryJobReq { Id = req.Id }).ConfigureAwait(false);
-        }
-
-        return (await update.ExecuteUpdatedAsync().ConfigureAwait(false))[0].Adapt<QueryJobRsp>();
+        #if DBTYPE_SQLSERVER
+        return (await update.ExecuteUpdatedAsync().ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryJobRsp>();
+        #else
+        return await update.ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
+            ? null
+            : await GetAsync(new QueryJobReq { Id = req.Id }).ConfigureAwait(false);
+        #endif
     }
 
     /// <inheritdoc />
@@ -109,14 +111,13 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
 
         var nextExecTime = GetNextExecTime(Chars.FLG_CRON_PER_SECS);
         try {
-            _ = await UpdateAsync(job.Adapt<UpdateJobReq>() with {
-                                                                     NextExecTime = nextExecTime
-                                                                   , NextTimeId = nextExecTime?.TimeUnixUtc()
-                                                                 })
+            _ = await UpdateAsync( //
+                    job with { NextExecTime = nextExecTime, NextTimeId = nextExecTime?.TimeUnixUtc() }
+                  , [nameof(job.NextExecTime), nameof(job.NextTimeId)])
                 .ConfigureAwait(false);
         }
         catch (DbUpdateVersionException) {
-            throw new NetAdminInvalidOperationException(Ln.并发冲突请稍后重试);
+            throw new NetAdminInvalidOperationException(Ln.并发冲突_请稍后重试);
         }
     }
 
@@ -124,19 +125,28 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
-    public async Task FinishJobAsync(UpdateJobReq req)
+    public async Task FinishJobAsync(FinishJobReq req)
     {
         req.ThrowIfInvalid();
         var nextExecTime = GetNextExecTime(req.ExecutionCron);
-        _ = await UpdateAsync(req with {
-                                           Status = JobStatues.Idle
-                                         , NextExecTime = nextExecTime
-                                         , NextTimeId = nextExecTime?.TimeUnixUtc()
-                                       })
+        _ = await UpdateAsync(
+                req with {
+                             Status = JobStatues.Idle
+                           , NextExecTime = nextExecTime
+                           , NextTimeId = nextExecTime?.TimeUnixUtc()
+                         }
+              , [
+                    nameof(req.Status), nameof(req.NextExecTime), nameof(req.NextTimeId), nameof(req.LastDuration)
+                  , nameof(req.LastStatusCode)
+                ])
             .ConfigureAwait(false);
     }
 
@@ -178,13 +188,25 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
                                         .Any())
                         .ToOneAsync()
                         .ConfigureAwait(false);
-        return job == null
-            ? null
-            : await UpdateAsync(job.Adapt<UpdateJobReq>() with {
-                                                                   Status = JobStatues.Running
-                                                                 , LastExecTime = DateTime.Now
-                                                               })
-                .ConfigureAwait(false);
+        if (job == null) {
+            return null;
+        }
+
+        #if DBTYPE_SQLSERVER
+        var ret = await UpdateEntityAsync( //
+                job with { Status = JobStatues.Running, LastExecTime = DateTime.Now }
+              , [nameof(job.Status), nameof(job.LastExecTime)])
+            .ConfigureAwait(false);
+
+        return ret.FirstOrDefault()?.Adapt<QueryJobRsp>();
+        #else
+        return await UpdateAsync( //
+                job with { Status = JobStatues.Running, LastExecTime = DateTime.Now }
+              , [nameof(job.Status), nameof(job.LastExecTime)])
+            .ConfigureAwait(false) > 0
+            ? await GetAsync(new QueryJobReq { Id = job.Id }).ConfigureAwait(false)
+            : null;
+        #endif
     }
 
     /// <inheritdoc />
@@ -215,6 +237,9 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -226,7 +251,13 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     public async Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRsp>>();
     }
 
@@ -247,36 +278,16 @@ public sealed class JobService(DefaultRepository<Sys_Job> rpo, IJobRecordService
     /// <inheritdoc />
     public Task<int> ReleaseStuckTaskAsync()
     {
-        return Rpo.UpdateDiy.Set(a => a.Status == JobStatues.Idle)
-                  .Where(a => a.Status       == JobStatues.Running &&
-                              a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB))
-                  .ExecuteAffrowsAsync();
+        return UpdateAsync( //
+            new Sys_Job { Status = JobStatues.Idle }, [nameof(Sys_Job.Status)], null
+          , a => a.Status == JobStatues.Running && a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB));
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(UpdateJobReq req)
+    public Task SetEnabledAsync(SetJobEnabledReq req)
     {
         req.ThrowIfInvalid();
-        return Rpo.UpdateDiy.Set(a => a.Enabled == req.Enabled).Where(a => a.Id == req.Id).ExecuteAffrowsAsync();
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryJobRsp> UpdateAsync(UpdateJobReq req)
-    {
-        req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return (await UpdateForSqliteAsync(req).ConfigureAwait(false)).Adapt<QueryJobRsp>();
-        }
-
-        _ = await Rpo.UpdateAsync(req).ConfigureAwait(false);
-        return req.Adapt<QueryJobRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_Job> UpdateForSqliteAsync(Sys_Job req)
-    {
-        _ = await Rpo.UpdateAsync(req).ConfigureAwait(false);
-        return req;
+        return UpdateAsync(req, [nameof(Sys_Job.Enabled)]);
     }
 
     private static DateTime? GetNextExecTime(string cron)

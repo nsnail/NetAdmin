@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Tpl;
 
 namespace NetAdmin.Domain.Dto.Tpl.Example;
@@ -8,7 +8,7 @@ namespace NetAdmin.Domain.Dto.Tpl.Example;
 /// </summary>
 public sealed record QueryExampleReq : Tpl_Example
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 }

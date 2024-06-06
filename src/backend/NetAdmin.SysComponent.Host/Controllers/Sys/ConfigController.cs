@@ -51,6 +51,15 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     }
 
     /// <summary>
+    ///     编辑配置
+    /// </summary>
+    [Transaction]
+    public Task<QueryConfigRsp> EditAsync(EditConfigReq req)
+    {
+        return Cache.EditAsync(req);
+    }
+
+    /// <summary>
     ///     配置是否存在
     /// </summary>
     [NonAction]
@@ -89,14 +98,5 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     public Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
         return Cache.QueryAsync(req);
-    }
-
-    /// <summary>
-    ///     更新配置
-    /// </summary>
-    [Transaction]
-    public Task<QueryConfigRsp> UpdateAsync(UpdateConfigReq req)
-    {
-        return Cache.UpdateAsync(req);
     }
 }

@@ -50,6 +50,15 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     }
 
     /// <summary>
+    ///     编辑角色
+    /// </summary>
+    [Transaction]
+    public Task<QueryRoleRsp> EditAsync(EditRoleReq req)
+    {
+        return Cache.EditAsync(req);
+    }
+
+    /// <summary>
     ///     角色是否存在
     /// </summary>
     [NonAction]
@@ -80,14 +89,5 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     public Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
         return Cache.QueryAsync(req);
-    }
-
-    /// <summary>
-    ///     更新角色
-    /// </summary>
-    [Transaction]
-    public Task<QueryRoleRsp> UpdateAsync(UpdateRoleReq req)
-    {
-        return Cache.UpdateAsync(req);
     }
 }

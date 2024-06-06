@@ -48,6 +48,18 @@ public sealed class DicCache(IDistributedCache cache, IDicService service) //
     }
 
     /// <inheritdoc />
+    public Task<int> EditCatalogAsync(EditDicCatalogReq req)
+    {
+        return Service.EditCatalogAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req)
+    {
+        return Service.EditContentAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
     {
         return Service.GetCatalogAsync(req);
@@ -93,17 +105,5 @@ public sealed class DicCache(IDistributedCache cache, IDicService service) //
     public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
     {
         return Service.QueryContentAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req)
-    {
-        return Service.UpdateCatalogAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req)
-    {
-        return Service.UpdateContentAsync(req);
     }
 }

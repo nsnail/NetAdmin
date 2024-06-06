@@ -337,7 +337,7 @@ export default {
             }
 
             try {
-                const method = this.mode === 'add' ? this.$API.sys_user.create : this.$API.sys_user.update
+                const method = this.mode === 'add' ? this.$API.sys_user.create : this.$API.sys_user.edit
                 this.loading = true
                 const res = await method.post(Object.assign({}, this.form))
                 this.loading = false

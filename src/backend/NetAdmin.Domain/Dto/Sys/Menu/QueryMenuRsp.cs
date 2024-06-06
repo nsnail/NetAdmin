@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
@@ -36,7 +37,7 @@ public sealed record QueryMenuRsp : Sys_Menu, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override bool HiddenBreadCrumb { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 

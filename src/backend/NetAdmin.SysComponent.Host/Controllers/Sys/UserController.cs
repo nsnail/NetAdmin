@@ -71,6 +71,15 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
+    ///     编辑用户
+    /// </summary>
+    [Transaction]
+    public Task<QueryUserRsp> EditAsync(EditUserReq req)
+    {
+        return Cache.EditAsync(req);
+    }
+
+    /// <summary>
     ///     用户是否存在
     /// </summary>
     [NonAction]
@@ -165,7 +174,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
-    ///     更新用户头像
+    ///     设置用户头像
     /// </summary>
     [Transaction]
     public Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req)
@@ -207,15 +216,6 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     public Task<uint> SetPasswordAsync(SetPasswordReq req)
     {
         return Cache.SetPasswordAsync(req);
-    }
-
-    /// <summary>
-    ///     更新用户
-    /// </summary>
-    [Transaction]
-    public Task<QueryUserRsp> UpdateAsync(UpdateUserReq req)
-    {
-        return Cache.UpdateAsync(req);
     }
 
     /// <summary>

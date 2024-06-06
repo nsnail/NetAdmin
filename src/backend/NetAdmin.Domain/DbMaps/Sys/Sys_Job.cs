@@ -75,10 +75,10 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     请求体
     /// </summary>
-    #if DBTYPE_SQLITE
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #else
+    #if DBTYPE_SQLSERVER
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
@@ -86,10 +86,10 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     请求头
     /// </summary>
-    #if DBTYPE_SQLITE
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #else
+    #if DBTYPE_SQLSERVER
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
     [JsonIgnore]
     public virtual string RequestHeader { get; init; }
@@ -97,10 +97,10 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     请求的网络地址
     /// </summary>
-    #if DBTYPE_SQLITE
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #else
+    #if DBTYPE_SQLSERVER
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
     [JsonIgnore]
     public virtual string RequestUrl { get; init; }
@@ -113,10 +113,10 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     public virtual JobStatues Status { get; init; }
 
     /// <inheritdoc cref="IFieldSummary.Summary" />
-    #if DBTYPE_SQLITE
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #else
+    #if DBTYPE_SQLSERVER
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
     [JsonIgnore]
     public virtual string Summary { get; init; }

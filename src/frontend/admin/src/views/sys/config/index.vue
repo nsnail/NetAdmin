@@ -143,7 +143,7 @@ export default {
         //表格内开关事件
         async changeSwitch(event, row) {
             try {
-                await this.$API.sys_config.update.post(row)
+                await this.$API.sys_config.edit.post(row)
                 this.$message.success(`操作成功`)
             } catch {
                 //

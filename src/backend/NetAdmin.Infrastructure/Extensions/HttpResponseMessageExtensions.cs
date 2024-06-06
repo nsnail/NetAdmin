@@ -33,6 +33,10 @@ public static class HttpResponseMessageExtensions
         this HttpResponseMessage me, Func<string, string> bodyHandle = null)
     {
         var body = me?.Content is null ? null : await me.Content!.ReadAsStringAsync().ConfigureAwait(false);
-        return new { Header = me?.ToString(), Body = bodyHandle is null ? body : bodyHandle(body) }.ToJson();
+        return new {
+                       Header        = me?.ToString()
+                     , RequestHeader = me?.RequestMessage?.Headers
+                     , Body          = bodyHandle is null ? body : bodyHandle(body)
+                   }.ToJson();
     }
 }

@@ -1,11 +1,11 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 
-namespace NetAdmin.Domain.Dto.Sys.Config;
+namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 
 /// <summary>
-///     请求：更新配置
+///     请求：设置验证码状态
 /// </summary>
-public sealed record UpdateConfigReq : CreateConfigReq
+public sealed record SetVerifyCodeStatusReq : CreateVerifyCodeReq
 {
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

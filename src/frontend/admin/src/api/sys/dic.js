@@ -72,6 +72,28 @@ export default {
     },
 
     /**
+     * 编辑字典目录
+     */
+    editCatalog: {
+        url: `${config.API_URL}/api/sys/dic/edit.catalog`,
+        name: `编辑字典目录`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 编辑字典内容
+     */
+    editContent: {
+        url: `${config.API_URL}/api/sys/dic/edit.content`,
+        name: `编辑字典内容`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个字典目录
      */
     getCatalog: {
@@ -143,28 +165,6 @@ export default {
     queryContent: {
         url: `${config.API_URL}/api/sys/dic/query.content`,
         name: `查询字典内容`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新字典目录
-     */
-    updateCatalog: {
-        url: `${config.API_URL}/api/sys/dic/update.catalog`,
-        name: `更新字典目录`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 更新字典内容
-     */
-    updateContent: {
-        url: `${config.API_URL}/api/sys/dic/update.content`,
-        name: `更新字典内容`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

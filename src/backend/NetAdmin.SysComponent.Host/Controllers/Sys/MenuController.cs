@@ -50,6 +50,15 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     }
 
     /// <summary>
+    ///     编辑菜单
+    /// </summary>
+    [Transaction]
+    public Task<QueryMenuRsp> EditAsync(EditMenuReq req)
+    {
+        return Cache.EditAsync(req);
+    }
+
+    /// <summary>
     ///     菜单是否存在
     /// </summary>
     [NonAction]
@@ -81,15 +90,6 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     public Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         return Cache.QueryAsync(req);
-    }
-
-    /// <summary>
-    ///     更新菜单
-    /// </summary>
-    [Transaction]
-    public Task<QueryMenuRsp> UpdateAsync(UpdateMenuReq req)
-    {
-        return Cache.UpdateAsync(req);
     }
 
     /// <summary>

@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDeptService" />
-public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
-    : RepositoryService<Sys_Dept, IDeptService>(rpo), IDeptService
+public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
+    : RepositoryService<Sys_Dept, long, IDeptService>(rpo), IDeptService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -29,7 +29,11 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     public Task<long> CountAsync(QueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -66,10 +70,26 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<QueryDeptRsp> EditAsync(EditDeptReq req)
+    {
+        #if DBTYPE_SQLSERVER
+        return (await UpdateEntityAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDeptRsp>();
+        #else
+        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
+            ? await GetAsync(new QueryDeptReq { Id = req.Id }).ConfigureAwait(false)
+            : null;
+        #endif
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -91,25 +111,12 @@ public sealed class DeptService(DefaultRepository<Sys_Dept> rpo) //
     public async Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return (await QueryInternal(req).ToTreeListAsync().ConfigureAwait(false)).Adapt<IEnumerable<QueryDeptRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QueryDeptRsp> UpdateAsync(UpdateDeptReq req)
-    {
-        req.ThrowIfInvalid();
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : (await QueryInternal(new QueryReq<QueryDeptReq> { Filter = new QueryDeptReq { Id = req.Id } }, true)
-                     .ToTreeListAsync()
-                     .ConfigureAwait(false))[0]
-            .Adapt<QueryDeptRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override Task<Sys_Dept> UpdateForSqliteAsync(Sys_Dept req)
-    {
-        throw new NotImplementedException();
+        return (await QueryInternal(req)
+                      #if DBTYPE_SQLSERVER
+                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                      #endif
+                      .ToTreeListAsync()
+                      .ConfigureAwait(false)).Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
     private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req, bool asTreeCte = false)

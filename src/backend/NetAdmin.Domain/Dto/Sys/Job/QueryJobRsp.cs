@@ -1,3 +1,4 @@
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.User;
@@ -35,7 +36,7 @@ public sealed record QueryJobRsp : Sys_Job
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override HttpMethods HttpMethod { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 

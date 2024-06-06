@@ -9,6 +9,5 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface ISiteMsgRoleModule : ICrudModule<CreateSiteMsgRoleReq, QuerySiteMsgRoleRsp // 创建类型
   , QuerySiteMsgRoleReq, QuerySiteMsgRoleRsp                                                // 查询类型
-  , UpdateSiteMsgRoleReq, QuerySiteMsgRoleRsp                                               // 修改类型
   , DelReq                                                                                  // 删除类型
 >;

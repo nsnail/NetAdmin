@@ -57,10 +57,4 @@ public sealed class ExampleCache(IDistributedCache cache, IExampleService servic
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QueryExampleRsp> UpdateAsync(UpdateExampleReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

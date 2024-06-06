@@ -4,13 +4,12 @@ using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ISiteMsgFlagService" />
-public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) //
-    : RepositoryService<Sys_SiteMsgFlag, ISiteMsgFlagService>(rpo), ISiteMsgFlagService
+public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rpo) //
+    : RepositoryService<Sys_SiteMsgFlag, long, ISiteMsgFlagService>(rpo), ISiteMsgFlagService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -30,7 +29,11 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     public Task<long> CountAsync(QueryReq<QuerySiteMsgFlagReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -52,7 +55,11 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     public Task<bool> ExistAsync(QueryReq<QuerySiteMsgFlagReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -71,6 +78,9 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -83,34 +93,22 @@ public sealed class SiteMsgFlagService(DefaultRepository<Sys_SiteMsgFlag> rpo) /
     public async Task<IEnumerable<QuerySiteMsgFlagRsp>> QueryAsync(QueryReq<QuerySiteMsgFlagReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgFlagRsp>>();
     }
 
     /// <inheritdoc />
-    public async Task<QuerySiteMsgFlagRsp> UpdateAsync(UpdateSiteMsgFlagReq req)
+    public Task SetUserSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
         req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QuerySiteMsgFlagRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.Set(a => a.UserSiteMsgStatus == req.UserSiteMsgStatus)
-                           .Where(a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId)
-                           .ExecuteUpdatedAsync()
-                           .ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QuerySiteMsgFlagRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_SiteMsgFlag> UpdateForSqliteAsync(Sys_SiteMsgFlag req)
-    {
-        return await Rpo.UpdateDiy.Set(a => a.UserSiteMsgStatus == req.UserSiteMsgStatus)
-                        .Where(a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId)
-                        .ExecuteAffrowsAsync()
-                        .ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QuerySiteMsgFlagReq { Id = req.Id }).ConfigureAwait(false);
+        return UpdateAsync(req, [nameof(req.UserSiteMsgStatus)], null
+                    ,           a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId);
     }
 
     private ISelect<Sys_SiteMsgFlag> QueryInternal(QueryReq<QuerySiteMsgFlagReq> req)

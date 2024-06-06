@@ -9,10 +9,10 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IApiService" />
 public sealed class ApiService(
-    DefaultRepository<Sys_Api>          rpo                                 //
+    BasicRepository<Sys_Api, string>    rpo                                 //
   , XmlCommentReader                    xmlCommentReader                    //
   , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
-    : RepositoryService<Sys_Api, IApiService>(rpo), IApiService
+    : RepositoryService<Sys_Api, string, IApiService>(rpo), IApiService
 {
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -25,7 +25,11 @@ public sealed class ApiService(
     public Task<long> CountAsync(QueryReq<QueryApiReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -46,7 +50,11 @@ public sealed class ApiService(
     public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -117,19 +125,6 @@ public sealed class ApiService(
             var entity = item.Adapt<Sys_Api>();
             _ = await Rpo.InsertAsync(entity).ConfigureAwait(false);
         }
-    }
-
-    /// <inheritdoc />
-    public Task<NopReq> UpdateAsync(NopReq req)
-    {
-        req.ThrowIfInvalid();
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    protected override Task<Sys_Api> UpdateForSqliteAsync(Sys_Api req)
-    {
-        throw new NotImplementedException();
     }
 
     private IEnumerable<QueryApiRsp> GetChildren(IEnumerable<ControllerActionDescriptor> actionDescriptors)

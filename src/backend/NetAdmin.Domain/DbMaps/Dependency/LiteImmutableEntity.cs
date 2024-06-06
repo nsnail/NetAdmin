@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 /// <inheritdoc />
 public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [Snowflake]
     public override long Id { get; init; }
@@ -16,15 +16,16 @@ public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 ///     轻型不可变实体
 /// </summary>
 /// <typeparam name="T">主键类型</typeparam>
-public abstract record LiteImmutableEntity<T> : EntityBase, IFieldPrimary<T>, IFieldCreatedTime
+public abstract record LiteImmutableEntity<T> : EntityBase<T>, IFieldCreatedTime
+    where T : IEquatable<T>
 {
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [JsonIgnore]
-    public virtual T Id { get; init; }
+    public override T Id { get; init; }
 }

@@ -40,6 +40,16 @@ public interface IDicModule
     Task<int> DeleteContentAsync(DelReq req);
 
     /// <summary>
+    ///     编辑字典目录
+    /// </summary>
+    Task<int> EditCatalogAsync(EditDicCatalogReq req);
+
+    /// <summary>
+    ///     编辑字典内容
+    /// </summary>
+    Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req);
+
+    /// <summary>
     ///     获取单个字典目录
     /// </summary>
     Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req);
@@ -73,14 +83,4 @@ public interface IDicModule
     ///     查询字典内容
     /// </summary>
     Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req);
-
-    /// <summary>
-    ///     更新字典目录
-    /// </summary>
-    Task<QueryDicCatalogRsp> UpdateCatalogAsync(UpdateDicCatalogReq req);
-
-    /// <summary>
-    ///     更新字典内容
-    /// </summary>
-    Task<QueryDicContentRsp> UpdateContentAsync(UpdateDicContentReq req);
 }

@@ -4,13 +4,12 @@ using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.SiteMsgRole;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ISiteMsgRoleService" />
-public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) //
-    : RepositoryService<Sys_SiteMsgRole, ISiteMsgRoleService>(rpo), ISiteMsgRoleService
+public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rpo) //
+    : RepositoryService<Sys_SiteMsgRole, long, ISiteMsgRoleService>(rpo), ISiteMsgRoleService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -30,7 +29,11 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     public Task<long> CountAsync(QueryReq<QuerySiteMsgRoleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -52,7 +55,11 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     public Task<bool> ExistAsync(QueryReq<QuerySiteMsgRoleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -71,6 +78,9 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -83,28 +93,14 @@ public sealed class SiteMsgRoleService(DefaultRepository<Sys_SiteMsgRole> rpo) /
     public async Task<IEnumerable<QuerySiteMsgRoleRsp>> QueryAsync(QueryReq<QuerySiteMsgRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QuerySiteMsgRoleRsp> UpdateAsync(UpdateSiteMsgRoleReq req)
-    {
-        req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QuerySiteMsgRoleRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QuerySiteMsgRoleRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_SiteMsgRole> UpdateForSqliteAsync(Sys_SiteMsgRole req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QuerySiteMsgRoleReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_SiteMsgRole> QueryInternal(QueryReq<QuerySiteMsgRoleReq> req)

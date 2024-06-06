@@ -57,10 +57,4 @@ public sealed class DicCatalogCache(IDistributedCache cache, IDicCatalogService 
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QueryDicCatalogRsp> UpdateAsync(UpdateDicCatalogReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

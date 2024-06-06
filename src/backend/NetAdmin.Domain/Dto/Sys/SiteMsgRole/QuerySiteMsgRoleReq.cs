@@ -1,4 +1,4 @@
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
+using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.SiteMsgRole;
@@ -8,7 +8,7 @@ namespace NetAdmin.Domain.Dto.Sys.SiteMsgRole;
 /// </summary>
 public sealed record QuerySiteMsgRoleReq : Sys_SiteMsgRole
 {
-    /// <inheritdoc cref="IFieldPrimary{T}.Id" />
+    /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 }

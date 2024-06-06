@@ -9,6 +9,11 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface IDeptModule : ICrudModule<CreateDeptReq, QueryDeptRsp // 创建类型
   , QueryDeptReq, QueryDeptRsp                                         // 查询类型
-  , UpdateDeptReq, QueryDeptRsp                                        // 修改类型
   , DelReq                                                             // 删除类型
->;
+>
+{
+    /// <summary>
+    ///     编辑部门
+    /// </summary>
+    Task<QueryDeptRsp> EditAsync(EditDeptReq req);
+}

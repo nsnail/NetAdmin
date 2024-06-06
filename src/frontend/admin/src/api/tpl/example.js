@@ -92,15 +92,4 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
-
-    /**
-     * 更新示例
-     */
-    update: {
-        url: `${config.API_URL}/api/tpl/example/update`,
-        name: `更新示例`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
 }

@@ -63,10 +63,4 @@ public sealed class ApiCache(IDistributedCache cache, IApiService service) //
     {
         return Service.SyncAsync();
     }
-
-    /// <inheritdoc />
-    public Task<NopReq> UpdateAsync(NopReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

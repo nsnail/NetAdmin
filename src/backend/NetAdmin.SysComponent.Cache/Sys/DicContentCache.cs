@@ -57,10 +57,4 @@ public sealed class DicContentCache(IDistributedCache cache, IDicContentService 
     {
         return Service.QueryAsync(req);
     }
-
-    /// <inheritdoc />
-    public Task<QueryDicContentRsp> UpdateAsync(UpdateDicContentReq req)
-    {
-        return Service.UpdateAsync(req);
-    }
 }

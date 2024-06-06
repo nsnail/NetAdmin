@@ -8,8 +8,8 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicContentService" />
-public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
-    : RepositoryService<Sys_DicContent, IDicContentService>(rpo), IDicContentService
+public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo) //
+    : RepositoryService<Sys_DicContent, long, IDicContentService>(rpo), IDicContentService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -29,7 +29,11 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     public Task<long> CountAsync(QueryReq<QueryDicContentReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -57,10 +61,36 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     }
 
     /// <inheritdoc />
+    /// <exception cref="NetAdminInvalidOperationException">Dictionary_directory_does_not_exist</exception>
+    public async Task<QueryDicContentRsp> EditAsync(EditDicContentReq req)
+    {
+        req.ThrowIfInvalid();
+        if (!await Rpo.Orm.Select<Sys_DicCatalog>()
+                      .Where(a => a.Id == req.CatalogId)
+                      .ForUpdate()
+                      .AnyAsync()
+                      .ConfigureAwait(false)) {
+            throw new NetAdminInvalidOperationException(Ln.字典目录不存在);
+        }
+
+        #if DBTYPE_SQLSERVER
+        return (await UpdateEntityAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDicContentRsp>();
+        #else
+        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
+            ? await GetAsync(new QueryDicContentReq { Id = req.Id }).ConfigureAwait(false)
+            : null;
+        #endif
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryDicContentReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -79,6 +109,9 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -91,35 +124,14 @@ public sealed class DicContentService(DefaultRepository<Sys_DicContent> rpo) //
     public async Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
-    }
-
-    /// <inheritdoc />
-    /// <exception cref="NetAdminInvalidOperationException">Dictionary_directory_does_not_exist</exception>
-    public async Task<QueryDicContentRsp> UpdateAsync(UpdateDicContentReq req)
-    {
-        req.ThrowIfInvalid();
-        if (!await Rpo.Orm.Select<Sys_DicCatalog>()
-                      .Where(a => a.Id == req.CatalogId)
-                      .ForUpdate()
-                      .AnyAsync()
-                      .ConfigureAwait(false)) {
-            throw new NetAdminInvalidOperationException(Ln.字典目录不存在);
-        }
-
-        if (await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0) {
-            return null;
-        }
-
-        var ret = await Rpo.Where(a => a.Id == req.Id).ToOneAsync().ConfigureAwait(false);
-        return ret.Adapt<QueryDicContentRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override Task<Sys_DicContent> UpdateForSqliteAsync(Sys_DicContent req)
-    {
-        throw new NotImplementedException();
     }
 
     private ISelect<Sys_DicContent> QueryInternal(QueryReq<QueryDicContentReq> req)

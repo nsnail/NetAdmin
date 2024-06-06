@@ -9,6 +9,5 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// </summary>
 public interface IUserProfileModule : ICrudModule<CreateUserProfileReq, QueryUserProfileRsp // 创建类型
   , QueryUserProfileReq, QueryUserProfileRsp                                                // 查询类型
-  , UpdateUserProfileReq, QueryUserProfileRsp                                               // 修改类型
   , DelReq                                                                                  // 删除类型
 >;

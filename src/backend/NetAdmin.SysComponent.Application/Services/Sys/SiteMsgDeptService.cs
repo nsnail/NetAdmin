@@ -4,13 +4,12 @@ using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.SiteMsgDept;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using DataType = FreeSql.DataType;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ISiteMsgDeptService" />
-public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) //
-    : RepositoryService<Sys_SiteMsgDept, ISiteMsgDeptService>(rpo), ISiteMsgDeptService
+public sealed class SiteMsgDeptService(BasicRepository<Sys_SiteMsgDept, long> rpo) //
+    : RepositoryService<Sys_SiteMsgDept, long, ISiteMsgDeptService>(rpo), ISiteMsgDeptService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -30,7 +29,11 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     public Task<long> CountAsync(QueryReq<QuerySiteMsgDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).CountAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .CountAsync();
     }
 
     /// <inheritdoc />
@@ -52,7 +55,11 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     public Task<bool> ExistAsync(QueryReq<QuerySiteMsgDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).AnyAsync();
+        return QueryInternal(req)
+            #if DBTYPE_SQLSERVER
+               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+            #endif
+            .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -71,6 +78,9 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
                          .Count(out var total)
                          .ToListAsync()
                          .ConfigureAwait(false);
@@ -83,28 +93,14 @@ public sealed class SiteMsgDeptService(DefaultRepository<Sys_SiteMsgDept> rpo) /
     public async Task<IEnumerable<QuerySiteMsgDeptRsp>> QueryAsync(QueryReq<QuerySiteMsgDeptReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .Take(req.Count)
+                        .ToListAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgDeptRsp>>();
-    }
-
-    /// <inheritdoc />
-    public async Task<QuerySiteMsgDeptRsp> UpdateAsync(UpdateSiteMsgDeptReq req)
-    {
-        req.ThrowIfInvalid();
-        if (Rpo.Orm.Ado.DataType == DataType.Sqlite) {
-            return await UpdateForSqliteAsync(req).ConfigureAwait(false) as QuerySiteMsgDeptRsp;
-        }
-
-        var ret = await Rpo.UpdateDiy.SetSource(req).ExecuteUpdatedAsync().ConfigureAwait(false);
-        return ret.FirstOrDefault()?.Adapt<QuerySiteMsgDeptRsp>();
-    }
-
-    /// <inheritdoc />
-    protected override async Task<Sys_SiteMsgDept> UpdateForSqliteAsync(Sys_SiteMsgDept req)
-    {
-        return await Rpo.UpdateDiy.SetSource(req).ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
-            ? null
-            : await GetAsync(new QuerySiteMsgDeptReq { Id = req.Id }).ConfigureAwait(false);
     }
 
     private ISelect<Sys_SiteMsgDept> QueryInternal(QueryReq<QuerySiteMsgDeptReq> req)
