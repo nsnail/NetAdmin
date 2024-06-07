@@ -60,7 +60,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     public async Task<QueryMenuRsp> EditAsync(EditMenuReq req)
     {
         #if DBTYPE_SQLSERVER
-        return (await UpdateEntityAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryMenuRsp>();
+        return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryMenuRsp>();
         #else
         return await UpdateAsync(req, null).ConfigureAwait(false) > 0
             ? await GetAsync(new QueryMenuReq { Id = req.Id }).ConfigureAwait(false)

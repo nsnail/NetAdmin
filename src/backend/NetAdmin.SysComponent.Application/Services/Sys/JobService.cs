@@ -193,7 +193,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
         }
 
         #if DBTYPE_SQLSERVER
-        var ret = await UpdateEntityAsync( //
+        var ret = await UpdateReturnListAsync( //
                 job with { Status = JobStatues.Running, LastExecTime = DateTime.Now }
               , [nameof(job.Status), nameof(job.LastExecTime)])
             .ConfigureAwait(false);

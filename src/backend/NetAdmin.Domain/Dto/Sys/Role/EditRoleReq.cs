@@ -10,11 +10,9 @@ public sealed record EditRoleReq : CreateRoleReq
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.唯一编码不能为空))]
     public override long Id { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.数据版本不能为空))]
     public override long Version { get; init; }
 }
