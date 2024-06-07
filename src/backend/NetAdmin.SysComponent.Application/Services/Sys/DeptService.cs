@@ -73,7 +73,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     public async Task<QueryDeptRsp> EditAsync(EditDeptReq req)
     {
         #if DBTYPE_SQLSERVER
-        return (await UpdateEntityAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDeptRsp>();
+        return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDeptRsp>();
         #else
         return await UpdateAsync(req, null).ConfigureAwait(false) > 0
             ? await GetAsync(new QueryDeptReq { Id = req.Id }).ConfigureAwait(false)

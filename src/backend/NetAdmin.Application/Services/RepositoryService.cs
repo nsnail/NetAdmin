@@ -31,43 +31,68 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <summary>
     ///     更新实体
     /// </summary>
-    protected Task<int> UpdateAsync(TEntity dto, IEnumerable<string> includeFields, string[] excludeFields = null
-                                  , Expression<Func<TEntity, bool>> whereExp = null)
+    /// <param name="newValue">新的值</param>
+    /// <param name="includeFields">包含的属性</param>
+    /// <param name="excludeFields">排除的属性</param>
+    /// <param name="whereExp">查询表达式</param>
+    /// <param name="ignoreVersion">是否忽略版本锁</param>
+    /// <returns>更新行数</returns>
+    protected Task<int> UpdateAsync(                         //
+        TEntity                         newValue             //
+      , IEnumerable<string>             includeFields        //
+      , string[]                        excludeFields = null //
+      , Expression<Func<TEntity, bool>> whereExp      = null //
+      , bool                            ignoreVersion = false)
     {
-        whereExp ??= a => a.Id.Equals(dto.Id);
-        var update = BuildUpdate(dto, includeFields, excludeFields).Where(whereExp);
-
+        // 默认匹配主键
+        whereExp ??= a => a.Id.Equals(newValue.Id);
+        var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp);
         return update.ExecuteAffrowsAsync();
     }
+
     #if DBTYPE_SQLSERVER
     /// <summary>
     ///     更新实体
     /// </summary>
-    protected Task<List<TEntity>> UpdateEntityAsync(TEntity dto, IEnumerable<string> includeFields
-                                                  , string[] excludeFields = null
-                                                  , Expression<Func<TEntity, bool>> whereExp = null)
+    /// <param name="newValue">新的值</param>
+    /// <param name="includeFields">包含的属性</param>
+    /// <param name="excludeFields">排除的属性</param>
+    /// <param name="whereExp">查询表达式</param>
+    /// <param name="ignoreVersion">是否忽略版本锁</param>
+    /// <returns>更新后的实体列表</returns>
+    protected Task<List<TEntity>> UpdateReturnListAsync(     //
+        TEntity                         newValue             //
+      , IEnumerable<string>             includeFields        //
+      , string[]                        excludeFields = null //
+      , Expression<Func<TEntity, bool>> whereExp = null //
+      , bool                            ignoreVersion = false)
     {
-        whereExp ??= a => a.Id.Equals(dto.Id);
-        return BuildUpdate(dto, includeFields, excludeFields).Where(whereExp).ExecuteUpdatedAsync();
+        // 默认匹配主键
+        whereExp ??= a => a.Id.Equals(newValue.Id);
+        return BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).ExecuteUpdatedAsync();
     }
     #endif
 
-    private IUpdate<TEntity> BuildUpdate(TEntity dto, IEnumerable<string> includeFields, string[] excludeFields = null)
+    private IUpdate<TEntity> BuildUpdate(        //
+        TEntity             entity               //
+      , IEnumerable<string> includeFields        //
+      , string[]            excludeFields = null //
+      , bool                ignoreVersion = false)
     {
-        var ret = includeFields == null
-            ? Rpo.UpdateDiy.SetSource(dto)
+        var updateExp = includeFields == null
+            ? Rpo.UpdateDiy.SetSource(entity)
             : Rpo.UpdateDiy.SetDto(includeFields!.ToDictionary(
                                        x => x
                                      , x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!
-                                                           .GetValue(dto)));
+                                                           .GetValue(entity)));
         if (excludeFields != null) {
-            ret = ret.IgnoreColumns(excludeFields);
+            updateExp = updateExp.IgnoreColumns(excludeFields);
         }
 
-        if (dto is IFieldVersion version) {
-            ret = ret.Where($"{nameof(IFieldVersion.Version)} = @version", new { version = version.Version });
+        if (!ignoreVersion && entity is IFieldVersion ver) {
+            updateExp = updateExp.Where($"{nameof(IFieldVersion.Version)} = @version", new { version = ver.Version });
         }
 
-        return ret;
+        return updateExp;
     }
 }

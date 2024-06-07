@@ -74,7 +74,8 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
         }
 
         #if DBTYPE_SQLSERVER
-        return (await UpdateEntityAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDicContentRsp>();
+        return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()
+                                                                             ?.Adapt<QueryDicContentRsp>();
         #else
         return await UpdateAsync(req, null).ConfigureAwait(false) > 0
             ? await GetAsync(new QueryDicContentReq { Id = req.Id }).ConfigureAwait(false)
