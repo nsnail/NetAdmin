@@ -8,6 +8,5 @@ namespace NetAdmin.Infrastructure.Exceptions;
 /// </remarks>
 #pragma warning disable RCS1194
 public sealed class NetAdminInvalidInputException(string message = null, Exception innerException = null)
-    : NetAdminException(ErrorCodes.InvalidInput, message, innerException)
-#pragma warning restore RCS1194
-{ }
+    #pragma warning restore RCS1194
+    : NetAdminException(ErrorCodes.InvalidInput, message, innerException) { }

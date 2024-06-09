@@ -5,7 +5,7 @@
                 <el-row :gutter="15">
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic :value="statistics.version" groupSeparator title="Redis 版本"></sc-statistic>
+                            <sc-statistic :value="statistics.version" group-separator title="Redis 版本"></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
@@ -13,7 +13,7 @@
                             <sc-statistic
                                 :suffix="$t('天')"
                                 :value="parseInt(statistics.upTime / 86400)"
-                                groupSeparator
+                                group-separator
                                 title="Redis 运行时间"></sc-statistic>
                         </el-card>
                     </el-col>
@@ -21,7 +21,7 @@
                         <el-card shadow="never">
                             <sc-statistic
                                 :value="statistics.upTime ? (statistics.usedCpu / statistics.upTime).toFixed(2) : 0"
-                                groupSeparator
+                                group-separator
                                 suffix="%"
                                 title="CPU 使用率"></sc-statistic>
                         </el-card>
@@ -31,13 +31,13 @@
                             <sc-statistic
                                 :title="$t('内存使用量')"
                                 :value="(statistics.usedMemory / 1024 / 1024).toFixed(2)"
-                                groupSeparator
+                                group-separator
                                 suffix="MiB"></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic :title="$t('缓存数量')" :value="statistics.dbSize" groupSeparator></sc-statistic>
+                            <sc-statistic :title="$t('缓存数量')" :value="statistics.dbSize" group-separator></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
@@ -45,7 +45,7 @@
                             <sc-statistic
                                 :title="$t('缓存命中率')"
                                 :value="((statistics.keyspaceHits / (statistics.keyspaceMisses + statistics.keyspaceHits)) * 100).toFixed(2)"
-                                groupSeparator
+                                group-separator
                                 suffix="%"></sc-statistic>
                         </el-card>
                     </el-col>

@@ -13,6 +13,15 @@
                             }),
                         ],
                     },
+                    {
+                        title: $t('启用状态'),
+                        key: 'enabled',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            { label: $t('启用'), value: true },
+                            { label: $t('禁用'), value: false },
+                        ],
+                    },
                 ]"
                 :label-width="6"
                 @on-change="filterChange"
@@ -35,16 +44,6 @@
                                 return { value: x[0], label: x[1][1] }
                             }),
                             placeholder: $t('请求方式'),
-                            style: 'width:10rem',
-                        },
-                        {
-                            type: 'select',
-                            field: ['dy', 'enabled'],
-                            options: [
-                                { label: '启用', value: true },
-                                { label: '禁用', value: false },
-                            ],
-                            placeholder: '状态',
                             style: 'width:10rem',
                         },
                     ]"
@@ -88,7 +87,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection"></el-table-column>
+                <el-table-column type="selection" />
                 <el-table-column :label="$t('作业编号')" prop="id" sortable="custom" width="150" />
                 <el-table-column :label="$t('作业名称')" prop="jobName" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('执行计划')" align="center" prop="executionCron" sortable="custom" width="150" />
@@ -98,8 +97,10 @@
                         { text: '空闲', type: 'success', value: 'idle' },
                         { text: '运行', type: 'warning', value: 'running' },
                     ]"
+                    align="center"
                     prop="status"
-                    width="100"></na-col-indicator>
+                    sortable="custom"
+                    width="100" />
                 <na-col-indicator
                     :label="$t('请求方式')"
                     :options="
@@ -107,19 +108,19 @@
                             return { value: x[0], text: x[1][1] }
                         })
                     "
+                    align="center"
                     prop="httpMethod"
+                    sortable="custom"
                     width="100" />
                 <el-table-column :label="$t('上次执行')" align="center">
                     <el-table-column :label="$t('状态')" align="center" prop="lastExecTime" sortable="custom" width="150">
                         <template #default="scope">
-                            <div class="indicator">
-                                <sc-status-indicator :type="scope.row.lastStatusCode === 'ok' ? 'success' : 'danger'" />
-                                <span>{{
-                                    this.$GLOBAL.enums.httpStatusCodes[scope.row.lastStatusCode]
-                                        ? this.$GLOBAL.enums.httpStatusCodes[scope.row.lastStatusCode][1]
-                                        : scope.row.lastStatusCode
-                                }}</span>
-                            </div>
+                            <sc-status-indicator :type="scope.row.lastStatusCode === 'ok' ? 'success' : 'danger'" />
+                            {{
+                                this.$GLOBAL.enums.httpStatusCodes[scope.row.lastStatusCode]
+                                    ? this.$GLOBAL.enums.httpStatusCodes[scope.row.lastStatusCode][1]
+                                    : scope.row.lastStatusCode
+                            }}
                         </template>
                     </el-table-column>
                     <el-table-column :label="$t('时间')" align="right" prop="lastExecTime" sortable="custom" width="100">
@@ -231,7 +232,7 @@ export default {
     methods: {
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
-                this.$refs.search.form.dy[key] = value
+                this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
             })
             this.$refs.search.search()
         },
@@ -240,10 +241,10 @@ export default {
             try {
                 await this.$API.sys_job.setEnabled.post(row)
                 this.$message.success(`操作成功`)
+                this.$refs.table.refresh()
             } catch {
                 //
             }
-            this.$refs.table.refresh()
         },
         async execute(row) {
             try {

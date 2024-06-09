@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="400" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" :width="800" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
@@ -41,9 +41,9 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                view: '查看字典',
-                add: '新增字典',
-                edit: '编辑字典',
+                view: '查看字典项',
+                add: '新增字典项',
+                edit: '编辑字典项',
             },
             visible: false,
             loading: false,

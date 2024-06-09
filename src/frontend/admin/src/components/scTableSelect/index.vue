@@ -36,7 +36,7 @@
                     @select-all="selectAll"
                     max-height="30rem"
                     ref="table">
-                    <el-table-column v-if="multiple" type="selection" width="45"></el-table-column>
+                    <el-table-column v-if="multiple" type="selection" width="45" />
                     <el-table-column v-else type="index" width="45">
                         <template #default="scope"
                             ><span>{{ scope.$index + (currentPage - 1) * pageSize + 1 }}</span></template

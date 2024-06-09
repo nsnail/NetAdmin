@@ -36,6 +36,9 @@
                     ]"
                     :vue="this"
                     @search="onSearch"
+                    dateFormat="YYYY-MM-DD HH:mm:ss"
+                    dateType="datetimerange"
+                    dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel"></div>
@@ -44,13 +47,10 @@
             <sc-table
                 v-loading="loading"
                 :apiObj="$API.sys_job.recordPagedQuery"
+                :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
-                @selection-change="
-                    (items) => {
-                        selection = items
-                    }
-                "
+                :vue="this"
                 ref="table"
                 remote-filter
                 remote-sort
@@ -71,18 +71,18 @@
                             return { value: x[0], text: x[1][1] }
                         })
                     "
+                    align="center"
                     prop="httpMethod"
+                    sortable="custom"
                     width="100" />
                 <el-table-column :label="$t('响应状态码')" align="center" prop="httpStatusCode" sortable="custom" width="200">
                     <template #default="scope">
-                        <div class="indicator">
-                            <sc-status-indicator :type="scope.row.httpStatusCode === 'ok' ? 'success' : 'danger'" />
-                            <span>{{
-                                this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode]
-                                    ? this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode][1]
-                                    : scope.row.httpStatusCode
-                            }}</span>
-                        </div>
+                        <sc-status-indicator :type="scope.row.httpStatusCode === 'ok' ? 'success' : 'danger'" />
+                        {{
+                            this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode]
+                                ? this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode][1]
+                                : scope.row.httpStatusCode
+                        }}
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('请求的网络地址')" prop="requestUrl" sortable="custom" />
@@ -110,19 +110,25 @@ export default {
     components: {
         saveDialog,
     },
+    inject: ['reload'],
     data() {
         return {
             loading: false,
             query: {
                 dynamicFilter: {
-                    filters: [],
+                    filters: [
+                        {
+                            field: 'createdTime',
+                            operator: 'dateRange',
+                            value: [tool.dateFormat(new Date(), 'yyyy-MM-dd'), tool.dateFormat(new Date(), 'yyyy-MM-dd')],
+                        },
+                    ],
                 },
                 filter: {},
             },
             dialog: {
                 save: false,
             },
-            selection: [],
         }
     },
     watch: {},
@@ -142,6 +148,10 @@ export default {
             this.$refs.search.form.root.keywords = this.keywords
             this.$refs.search.keepKeywords = this.keywords
         }
+        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
+            `${tool.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
+            `${tool.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
+        ]
     },
     created() {
         if (this.keywords) {
@@ -149,52 +159,13 @@ export default {
         }
     },
     methods: {
-        //表格内开关事件
-        async changeSwitch(event, row) {
-            try {
-                await this.$API.sys_job.setEnabled.post(row)
-                this.$message.success(`操作成功`)
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
-        },
-        //删除
-        async rowDel(row) {
-            try {
-                const res = await this.$API.sys_job.delete.post({ id: row.id })
-                this.$refs.table.refresh()
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-        },
-        //批量删除
-        async batchDel() {
-            let loading
-            try {
-                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-                    type: 'warning',
-                })
-                loading = this.$loading()
-                const res = await this.$API.sys_job.bulkDelete.post({
-                    items: this.selection,
-                })
-                this.$refs.table.refresh()
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-            loading?.close()
-        },
-
         //搜索
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
                     operator: 'dateRange',
-                    value: form.dy.createdTime,
+                    value: form.dy.createdTime.map((x) => x.replace(/ 00:00:00$/, '')),
                 })
             }
 
@@ -218,6 +189,13 @@ export default {
                 this.query.dynamicFilter.filters.push({
                     logic: 'or',
                     filters: filters,
+                })
+            }
+            if (typeof form.dy.httpMethod === 'string' && form.dy.httpMethod.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'httpMethod',
+                    operator: 'eq',
+                    value: form.dy.httpMethod,
                 })
             }
 

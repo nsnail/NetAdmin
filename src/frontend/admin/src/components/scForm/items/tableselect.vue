@@ -6,12 +6,7 @@
         :props="item.options.props"
         :table-width="60"
         style="width: 100%">
-        <el-table-column
-            v-for="(_item, _index) in item.options.column"
-            :key="_index"
-            :label="_item.label"
-            :prop="_item.prop"
-            :width="_item.width"></el-table-column>
+        <el-table-column v-for="(_item, _index) in item.options.column" :key="_index" :label="_item.label" :prop="_item.prop" :width="_item.width" />
     </sc-table-select>
 </template>
 

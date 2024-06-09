@@ -2,12 +2,12 @@ using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 
-namespace NetAdmin.Domain.Dto.Sys.User;
+namespace NetAdmin.Domain.Dto.Sys.Dept;
 
 /// <summary>
-///     请求：启用/禁用用户
+///     请求：启用/禁用部门
 /// </summary>
-public sealed record SetUserEnabledReq : Sys_User
+public sealed record SetDeptEnabledReq : Sys_Dept
 {
     /// <inheritdoc cref="IFieldEnabled.Enabled" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

@@ -37,10 +37,10 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection" width="50"></el-table-column>
-                <el-table-column :label="$t('项名')" prop="key" sortable="custom"></el-table-column>
-                <el-table-column :label="$t('项值')" prop="value" sortable="custom"></el-table-column>
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom"></el-table-column>
+                <el-table-column type="selection" width="50" />
+                <el-table-column :label="$t('项名')" prop="key" sortable="custom" />
+                <el-table-column :label="$t('项值')" prop="value" sortable="custom" />
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -51,7 +51,7 @@
                             type: 'danger',
                         })
                     "
-                    :vue="this"></na-col-operation>
+                    :vue="this" />
             </sc-table>
         </el-main>
     </el-container>

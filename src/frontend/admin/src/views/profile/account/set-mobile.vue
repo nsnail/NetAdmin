@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" destroy-on-close>
+    <el-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" :width="800" @closed="$emit('closed')" destroy-on-close>
         <el-form :model="form" :rules="rules" label-position="top" ref="form">
             <el-row class="items-center justify-content-center">
                 <el-col v-if="mode === 'edit'" :lg="10">

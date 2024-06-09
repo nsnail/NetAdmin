@@ -165,6 +165,18 @@
     height: 1px;
 }
 
+.el-table {
+    .el-link:after {
+        border-bottom: 1px solid var(--el-link-text-color);
+        bottom: 0;
+        content: '';
+        height: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+    }
+}
+
 .el-table th.is-sortable {
     transition: 0.1s;
 }

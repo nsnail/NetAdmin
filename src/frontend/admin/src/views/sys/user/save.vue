@@ -1,5 +1,11 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" append-to-body destroy-on-close>
+    <sc-dialog
+        v-model="visible"
+        :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
+        :width="800"
+        @closed="$emit('closed')"
+        append-to-body
+        destroy-on-close>
         <el-form
             v-loading="loading"
             :disabled="mode === 'view'"

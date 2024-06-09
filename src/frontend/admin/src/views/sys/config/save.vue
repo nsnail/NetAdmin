@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs v-if="!loading" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
@@ -112,4 +112,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.el-collapse {
+    border-top: none;
+}
+</style>

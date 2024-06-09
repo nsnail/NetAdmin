@@ -63,4 +63,10 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    {
+        return Service.SetEnabledAsync(req);
+    }
 }

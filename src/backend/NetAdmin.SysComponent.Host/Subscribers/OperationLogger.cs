@@ -20,8 +20,10 @@ public sealed class OperationLogger : IEventSubscriber
             return;
         }
 
-        // 跳过心跳请求
-        if (operationEvent.Data.ApiId.Equals("api/probe/health.check", StringComparison.OrdinalIgnoreCase)) {
+        // 跳过指定的请求
+        if (Array.Exists( //
+                GlobalStatic.LogSavingSkipApiIds
+              , x => x.Equals(operationEvent.Data.ApiId, StringComparison.OrdinalIgnoreCase))) {
             return;
         }
 

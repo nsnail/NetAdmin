@@ -14,8 +14,8 @@
                 </el-form-item>
             </el-form>
         </template>
-        <el-table-column :label="$t('地区')" prop="key" width="400"></el-table-column>
-        <el-table-column :label="$t('代码')" prop="value"></el-table-column>
+        <el-table-column :label="$t('地区')" prop="key" width="400" />
+        <el-table-column :label="$t('代码')" prop="value" />
     </sc-table-select>
 </template>
 <style scoped></style>

@@ -18,9 +18,9 @@
                 </el-form-item>
             </el-form>
         </template>
-        <el-table-column :label="$t('用户编号')" prop="id"></el-table-column>
-        <el-table-column :label="$t('用户名')" prop="userName"></el-table-column>
-        <el-table-column :label="$t('手机号')" prop="mobile"></el-table-column>
+        <el-table-column :label="$t('用户编号')" prop="id" />
+        <el-table-column :label="$t('用户名')" prop="userName" />
+        <el-table-column :label="$t('手机号')" prop="mobile" />
     </sc-table-select>
 </template>
 <style scoped></style>

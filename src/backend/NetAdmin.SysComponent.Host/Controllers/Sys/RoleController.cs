@@ -90,4 +90,12 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     {
         return Cache.QueryAsync(req);
     }
+
+    /// <summary>
+    ///     启用/禁用角色
+    /// </summary>
+    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    {
+        return Cache.SetEnabledAsync(req);
+    }
 }

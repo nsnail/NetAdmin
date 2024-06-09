@@ -3,6 +3,7 @@ namespace NetAdmin.Infrastructure.Enums;
 /// <summary>
 ///     日志等级
 /// </summary>
+[Export]
 public enum LogLevels
 {
     /// <summary>

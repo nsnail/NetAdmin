@@ -123,6 +123,13 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
         return ret.Adapt<IEnumerable<QueryRoleRsp>>();
     }
 
+    /// <inheritdoc />
+    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(req.Enabled)]);
+    }
+
     private ISelect<Sys_Role> QueryInternal(QueryReq<QueryRoleReq> req)
     {
         var ret = Rpo.Select.IncludeMany(a => a.Depts.Select(b => new Sys_Dept { Id = b.Id }))

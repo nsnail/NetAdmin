@@ -68,14 +68,12 @@
                 remoteSort
                 row-key="id"
                 stripe>
-                <el-table-column :label="$t('日志编号')" align="center" prop="id" sortable="custom" width="150"></el-table-column>
+                <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150"> </el-table-column
+                ><el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom" width="170" />
                 <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="100">
-                    <template #default="scope">
-                        <div class="indicator">
-                            <sc-status-indicator
-                                :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(scope.row.httpStatusCode)).toString(16).substring(0, 6)}`" />
-                            <span> {{ scope.row.httpStatusCode }}</span>
-                        </div>
+                    <template #default="{ row }">
+                        <sc-status-indicator :type="row.httpStatusCode >= 200 && row.httpStatusCode < 300 ? 'success' : 'danger'" />
+                        {{ row.httpStatusCode }}
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('请求服务')" align="center">
@@ -87,11 +85,9 @@
                     </el-table-column>
                     <el-table-column :label="$t('方法')" align="center" prop="method" sortable="custom" width="100">
                         <template #default="scope">
-                            <div class="indicator">
-                                <sc-status-indicator
-                                    :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(scope.row.method)).toString(16).substring(0, 6)}`" />
-                                <span> {{ scope.row.method }}</span>
-                            </div>
+                            <sc-status-indicator
+                                :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(scope.row.method)).toString(16).substring(0, 6)}`" />
+                            {{ scope.row.method }}
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -113,8 +109,7 @@
                         <na-ip :ip="scope.row.createdClientIp"></na-ip>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150"></el-table-column>
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170"></el-table-column>
+                <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
             </sc-table>
         </el-main>
     </el-container>
@@ -126,6 +121,7 @@
 import naInfo from '@/components/naInfo/index.vue'
 import tool from '@/utils/tool'
 import ScTable from '@/components/scTable/index.vue'
+import ScStatusIndicator from '@/components/scMini/scStatusIndicator.vue'
 
 export default {
     inject: ['reload'],
@@ -135,6 +131,7 @@ export default {
         },
     },
     components: {
+        ScStatusIndicator,
         ScTable,
         naInfo,
     },

@@ -81,4 +81,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 启用/禁用部门
+     */
+    setEnabled: {
+        url: `${config.API_URL}/api/sys/dept/set.enabled`,
+        name: `启用/禁用部门`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }
