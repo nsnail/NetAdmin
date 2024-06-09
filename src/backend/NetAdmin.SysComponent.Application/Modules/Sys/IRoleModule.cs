@@ -16,4 +16,9 @@ public interface IRoleModule : ICrudModule<CreateRoleReq, QueryRoleRsp // 创建
     ///     编辑角色
     /// </summary>
     Task<QueryRoleRsp> EditAsync(EditRoleReq req);
+
+    /// <summary>
+    ///     启用/禁用角色
+    /// </summary>
+    Task SetEnabledAsync(SetRoleEnabledReq req);
 }

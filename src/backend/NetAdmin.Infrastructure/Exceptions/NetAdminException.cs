@@ -4,14 +4,9 @@ namespace NetAdmin.Infrastructure.Exceptions;
 ///     NetAdmin异常基类
 /// </summary>
 #pragma warning disable RCS1194
-public abstract class NetAdminException : Exception
+public abstract class NetAdminException(string message, Exception innerException) : Exception(message, innerException)
 #pragma warning restore RCS1194
 {
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="NetAdminException" /> class.
-    /// </summary>
-    protected NetAdminException() { }
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="NetAdminException" /> class.
     /// </summary>
@@ -20,12 +15,6 @@ public abstract class NetAdminException : Exception
     {
         Code = code;
     }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="NetAdminException" /> class.
-    /// </summary>
-    protected NetAdminException(string message, Exception innerException) //
-        : base(message, innerException) { }
 
     /// <summary>
     ///     错误码

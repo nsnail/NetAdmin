@@ -15,9 +15,9 @@ public enum ErrorCodes
    ,
 
     /// <summary>
-    ///     意外错误
+    ///     未处理异常
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.意外错误))]
+    [ResourceDescription<Ln>(nameof(Ln.未处理异常))]
     Unhandled = 9000
 
    ,
@@ -43,4 +43,12 @@ public enum ErrorCodes
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.无效操作))]
     InvalidOperation = 9300
+
+   ,
+
+    /// <summary>
+    ///     外部错误
+    /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.外部错误))]
+    ExternalError = 9400
 }

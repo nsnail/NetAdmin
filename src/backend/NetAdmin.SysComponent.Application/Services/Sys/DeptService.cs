@@ -119,6 +119,13 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
                       .ConfigureAwait(false)).Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
+    /// <inheritdoc />
+    public Task SetEnabledAsync(SetDeptEnabledReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(req.Enabled)]);
+    }
+
     private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req, bool asTreeCte = false)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)

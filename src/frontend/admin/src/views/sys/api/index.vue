@@ -16,8 +16,8 @@
                 row-key="id"
                 show-summary
                 stripe>
-                <el-table-column :label="$t('接口路径')" prop="id"></el-table-column>
-                <el-table-column :label="$t('接口名称')" prop="name"></el-table-column>
+                <el-table-column :label="$t('接口路径')" prop="id" />
+                <el-table-column :label="$t('接口名称')" prop="name" />
                 <na-col-indicator
                     :label="$t('请求方式')"
                     :options="
@@ -25,10 +25,11 @@
                             return { value: x[0].toUpperCase(), text: x[1][1] }
                         })
                     "
+                    align="center"
                     prop="method"
-                    width="100">
-                </na-col-indicator>
-                <el-table-column :label="$t('接口描述')" prop="summary"></el-table-column>
+                    sortable="custom"
+                    width="100" />
+                <el-table-column :label="$t('接口描述')" prop="summary" />
             </sc-table>
         </el-main>
     </el-container>

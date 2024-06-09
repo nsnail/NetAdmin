@@ -37,6 +37,6 @@ public static class HttpResponseMessageExtensions
                        Header        = me?.ToString()
                      , RequestHeader = me?.RequestMessage?.Headers
                      , Body          = bodyHandle is null ? body : bodyHandle(body)
-                   }.ToJson();
+                   }.Json();
     }
 }

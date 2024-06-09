@@ -1,5 +1,11 @@
 <template>
-    <sc-dialog v-model="visible" :title="titleMap[mode]" :width="800" @closed="$emit('closed')" destroy-on-close full-screen>
+    <sc-dialog
+        v-model="visible"
+        :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
+        :width="800"
+        @closed="$emit('closed')"
+        destroy-on-close
+        full-screen>
         <el-tabs v-model="tabIndex" tab-position="top">
             <el-tab-pane :label="$t('基本信息')" :name="0">
                 <el-form
@@ -24,6 +30,9 @@
                     <el-form-item :label="$t('作业名称')" prop="jobName">
                         <el-input v-model="form.jobName" clearable />
                     </el-form-item>
+                    <el-form-item :label="$t('备注')" prop="summary">
+                        <el-input v-model="form.summary" clearable type="textarea" />
+                    </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('上次执行时间')" prop="lastExecTime">
                         <el-input v-model="form.lastExecTime" clearable />
                     </el-form-item>
@@ -42,6 +51,7 @@
                             :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 5rem; width: 100%" />
+                        <el-button @click="form.requestHeader = jsonFormat(form.requestHeader)" type="text">JSON格式化</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求体')" prop="requestBody">
                         <v-ace-editor
@@ -49,6 +59,7 @@
                             :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 10rem; width: 100%" />
+                        <el-button @click="form.requestBody = jsonFormat(form.requestBody)" type="text">JSON格式化</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
                         <el-input v-model="form.requestUrl" clearable />
@@ -109,6 +120,7 @@
 <script>
 import scEditor from '@/components/scEditor/index.vue'
 import Record from '@/views/sys/job/record/index.vue'
+import vkbeautify from 'vkbeautify/index'
 
 export default {
     components: {
@@ -191,6 +203,17 @@ export default {
     },
     mounted() {},
     methods: {
+        jsonFormat(obj) {
+            try {
+                obj = this.vkbeautify().json(obj, 2)
+            } catch {
+                this.$message.error(this.$t('非JSON格式'))
+            }
+            return obj
+        },
+        vkbeautify() {
+            return vkbeautify
+        },
         //显示
         async open(mode = 'add', data, tabIndex = 0) {
             this.visible = true

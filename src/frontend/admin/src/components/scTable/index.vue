@@ -46,7 +46,7 @@
                         </template>
                     </el-table-column>
                 </template>
-                <el-table-column min-width="1"></el-table-column>
+                <el-table-column min-width="1" />
                 <template #empty>
                     <el-empty :description="emptyText" :image-size="100"></el-empty>
                 </template>

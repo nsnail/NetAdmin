@@ -57,7 +57,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection"></el-table-column>
+                <el-table-column type="selection" />
                 <el-table-column :label="$t('消息编号')" prop="id" sortable="custom" width="150" />
                 <na-col-avatar :label="$t('用户名')" prop="createdUserName" />
                 <na-col-indicator
@@ -67,9 +67,10 @@
                             return { value: x[0], text: x[1][1] }
                         })
                     "
+                    align="center"
                     prop="msgType"
-                    width="100">
-                </na-col-indicator>
+                    sortable="custom"
+                    width="100" />
                 <el-table-column :label="$t('消息主题')" prop="title" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('消息摘要')" prop="summary" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />

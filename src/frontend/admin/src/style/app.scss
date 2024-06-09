@@ -484,6 +484,15 @@ textarea {
 .mt-4 {
     margin-top: 1rem;
 }
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.mr-4 {
+    margin-right: 1rem;
+}
+
 .mt-8 {
     margin-top: 2rem;
 }
@@ -510,11 +519,4 @@ textarea {
 
 .justify-content-center {
     justify-content: center;
-}
-
-.indicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
 }

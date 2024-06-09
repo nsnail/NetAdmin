@@ -1374,6 +1374,22 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public Task SetEnabledAsync(SetDeptEnabledReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public Task SetEnabledAsync(SetJobEnabledReq req)
     {
         return default;

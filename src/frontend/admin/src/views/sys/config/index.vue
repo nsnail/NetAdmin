@@ -1,31 +1,39 @@
 <template>
     <el-container>
+        <el-header style="height: auto; padding: 0 1rem">
+            <sc-select-filter
+                :data="[
+                    {
+                        title: $t('启用状态'),
+                        key: 'enabled',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            { label: $t('启用'), value: true },
+                            { label: $t('禁用'), value: false },
+                        ],
+                    },
+                ]"
+                :label-width="6"
+                @on-change="filterChange"
+                ref="selectFilter"></sc-select-filter>
+        </el-header>
         <el-header>
             <div class="left-panel">
                 <na-search
-                    :controls="[
-                        {
-                            type: 'select',
-                            field: ['dy', 'enabled'],
-                            options: [
-                                { label: '启用', value: true },
-                                { label: '禁用', value: false },
-                            ],
-                            placeholder: '是否启用',
-                            style: 'width:10rem',
-                        },
-                    ]"
+                    :controls="[]"
                     :vue="this"
+                    @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
                     @search="onSearch"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <na-button-add :vue="this"></na-button-add>
+                <na-button-add :vue="this" />
                 <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
+                v-loading="loading"
                 :apiObj="$API.sys_config.pagedQuery"
                 :context-menus="['id', 'userRegisterConfirm', 'enabled', 'createdTime']"
                 :params="query"
@@ -38,11 +46,11 @@
                 ref="table"
                 row-key="id"
                 stripe>
-                <el-table-column align="center" type="selection"></el-table-column>
-                <el-table-column :label="$t('配置编号')" align="center" prop="id" width="170"></el-table-column>
+                <el-table-column type="selection" />
+                <el-table-column :label="$t('配置编号')" align="center" prop="id" width="170" />
                 <el-table-column :label="$t('用户注册')" align="center">
-                    <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150"></el-table-column>
-                    <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150"></el-table-column>
+                    <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150" />
+                    <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150" />
                     <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="100">
                         <template #default="scope">
                             <el-switch v-model="scope.row.userRegisterConfirm" @change="changeSwitch($event, scope.row)"></el-switch>
@@ -54,7 +62,7 @@
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" align="center" prop="createdTime" width="170"></el-table-column>
+                <el-table-column :label="$t('创建时间')" align="center" prop="createdTime" width="170" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -85,47 +93,84 @@ import table from '@/config/table'
 import tool from '@/utils/tool'
 
 export default {
-    inject: ['reload'],
-    computed: {
-        table() {
-            return table
-        },
-        naColOperation() {
-            return naColOperation
-        },
-    },
     components: {
         saveDialog,
     },
+    computed: {
+        naColOperation() {
+            return naColOperation
+        },
+        table() {
+            return table
+        },
+    },
+    created() {},
     data() {
         return {
             dialog: {
-                save: false,
                 info: false,
+                save: false,
             },
-            selection: [],
+            loading: false,
             query: {
                 dynamicFilter: {
                     filters: [],
                 },
                 filter: {},
             },
+            selection: [],
         }
     },
-    mounted() {},
+    inject: ['reload'],
     methods: {
-        //搜索
+        async batchDel() {
+            let loading
+            try {
+                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+                    type: 'warning',
+                })
+                loading = this.$loading()
+                const res = await this.$API.sys_config.bulkDelete.post({
+                    items: this.selection,
+                })
+                this.$refs.table.refresh()
+                this.$message.success(`删除 ${res.data} 项`)
+            } catch {
+                //
+            }
+            loading?.close()
+        },
+        async changeSwitch(event, row) {
+            try {
+                await this.$API.sys_config.edit.post(row)
+                this.$refs.table.refresh()
+                this.$message.success(`操作成功`)
+            } catch {
+                //
+            }
+        },
+        filterChange(data) {
+            Object.entries(data).forEach(([key, value]) => {
+                this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
+                this.$refs.search.search()
+            })
+        },
+
+        async rowDel(row) {
+            try {
+                const res = await this.$API.sys_config.delete.post({ id: row.id })
+                this.$message.success(`删除 ${res.data} 项`)
+                this.$refs.table.refresh()
+            } catch {
+                //
+            }
+        },
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
-                const start = new Date(form.dy.createdTime[0])
-                const end = new Date(form.dy.createdTime[1])
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
                     operator: 'dateRange',
-                    value: [
-                        tool.dateFormat(start.setDate(start.getDate() + 1)).substring(0, 10),
-                        tool.dateFormat(end.setDate(end.getDate() + 1)).substring(0, 10),
-                    ],
+                    value: form.dy.createdTime,
                 })
             }
 
@@ -139,51 +184,9 @@ export default {
 
             this.$refs.table.upData()
         },
-
-        //表格内开关事件
-        async changeSwitch(event, row) {
-            try {
-                await this.$API.sys_config.edit.post(row)
-                this.$message.success(`操作成功`)
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
-        },
-        //删除明细
-        async rowDel(row) {
-            try {
-                const res = await this.$API.sys_config.delete.post({ id: row.id })
-                this.$refs.table.refresh()
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-        },
-        //批量删除
-        async batchDel() {
-            const confirmRes = await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-                type: 'warning',
-                confirmButtonText: '删除',
-                confirmButtonClass: 'el-button--danger',
-            }).catch(() => {})
-
-            if (!confirmRes) {
-                return false
-            }
-
-            try {
-                await this.$API.sys_config.bulkDelete.post({
-                    items: this.selection,
-                })
-                this.$refs.table.removeKeys(this.selection.map((x) => x.id))
-                this.$message.success('操作成功')
-            } catch {
-                //
-            }
-        },
     },
+    mounted() {},
 }
 </script>
 
-<style></style>
+<style scoped></style>

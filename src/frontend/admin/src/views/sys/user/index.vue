@@ -1,5 +1,22 @@
 <template>
     <el-container>
+        <el-header style="height: auto; padding: 0 1rem">
+            <sc-select-filter
+                :data="[
+                    {
+                        title: $t('启用状态'),
+                        key: 'enabled',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            { label: $t('启用'), value: true },
+                            { label: $t('禁用'), value: false },
+                        ],
+                    },
+                ]"
+                :label-width="6"
+                @on-change="filterChange"
+                ref="selectFilter"></sc-select-filter>
+        </el-header>
         <el-header>
             <div class="left-panel">
                 <na-search
@@ -26,19 +43,11 @@
                             placeholder: '所属部门',
                             style: 'width:15rem',
                         },
-                        {
-                            type: 'select',
-                            field: ['dy', 'enabled'],
-                            options: [
-                                { label: '启用', value: true },
-                                { label: '禁用', value: false },
-                            ],
-                            placeholder: '是否启用',
-                            style: 'width:10rem',
-                        },
                     ]"
                     :vue="this"
-                    @search="onSearch" />
+                    @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
+                    @search="onSearch"
+                    ref="search" />
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
@@ -63,11 +72,11 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection"></el-table-column>
-                <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" width="150"></el-table-column>
+                <el-table-column type="selection" />
+                <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" width="150" />
                 <na-col-avatar :label="$t('用户名')" prop="userName" />
-                <el-table-column :label="$t('手机号')" align="center" prop="mobile" sortable="custom" width="120"></el-table-column>
-                <el-table-column :label="$t('邮箱')" prop="email" sortable="custom"></el-table-column>
+                <el-table-column :label="$t('手机号')" align="center" prop="mobile" sortable="custom" width="120" />
+                <el-table-column :label="$t('邮箱')" prop="email" sortable="custom" />
                 <na-col-tags :label="$t('所属角色')" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" field="name" prop="roles" />
                 <na-col-tags :label="$t('所属部门')" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" field="name" prop="dept" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
@@ -75,8 +84,8 @@
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom"></el-table-column>
-                <na-col-operation :vue="this"></na-col-operation>
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" />
+                <na-col-operation :vue="this" />
             </sc-table>
         </el-main>
     </el-container>
@@ -98,13 +107,23 @@ import table from '@/config/table'
 
 export default {
     components: {
-        saveDialog,
-        roleSaveDialog,
         deptSaveDialog,
+        roleSaveDialog,
+        saveDialog,
     },
-    inject: ['reload'],
+    computed: {
+        table() {
+            return table
+        },
+    },
+    created() {},
     data() {
         return {
+            dialog: {
+                deptSave: false,
+                roleSave: false,
+                save: false,
+            },
             loading: false,
             query: {
                 dynamicFilter: {
@@ -112,32 +131,25 @@ export default {
                 },
                 filter: {},
             },
-            dialog: {
-                roleSave: false,
-                deptSave: false,
-                save: false,
-            },
             selection: [],
         }
     },
-    watch: {},
-    computed: {
-        table() {
-            return table
-        },
-    },
-    mounted() {},
-    created() {},
+    inject: ['reload'],
     methods: {
-        //表格内开关事件
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_user.setEnabled.post(row)
+                this.$refs.table.refresh()
                 this.$message.success(`操作成功`)
             } catch {
                 //
             }
-            this.$refs.table.refresh()
+        },
+        filterChange(data) {
+            Object.entries(data).forEach(([key, value]) => {
+                this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
+                this.$refs.search.search()
+            })
         },
         async openDialog(api, id, dialog) {
             this.loading = true
@@ -149,8 +161,6 @@ export default {
             await this.$nextTick()
             this.$refs[`${dialog}Dialog`].open('view', res.data[0])
         },
-
-        //搜索
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
@@ -171,6 +181,8 @@ export default {
             this.$refs.table.upData()
         },
     },
+    mounted() {},
+    watch: {},
 }
 </script>
 
