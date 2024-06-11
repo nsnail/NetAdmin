@@ -139,11 +139,11 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_dic.deleteContent.post({ id: row.id })
-                this.$refs.table.refresh()
                 this.$message.success(`删除 ${res.data} 项`)
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
     },
 }

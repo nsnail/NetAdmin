@@ -177,11 +177,11 @@ export default {
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_role.setEnabled.post(row)
-                this.$refs.table.refresh()
                 this.$message.success(`操作成功`)
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         async batchDel() {
             let loading
@@ -193,12 +193,12 @@ export default {
                 const res = await this.$API.sys_role.bulkDelete.post({
                     items: this.selection,
                 })
-                this.$refs.table.refresh()
                 this.$message.success(`删除 ${res.data} 项`)
             } catch {
                 //
             }
             loading?.close()
+            this.$refs.table.refresh()
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -210,10 +210,10 @@ export default {
             try {
                 const res = await this.$API.sys_role.delete.post({ id: row.id })
                 this.$message.success(`删除 ${res.data} 项`)
-                this.$refs.table.refresh()
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
