@@ -67,11 +67,11 @@ export default {
             this.loading = true
             try {
                 await this.$API.sys_api.sync.post()
-                this.$refs.table.refresh()
                 this.$message.success('同步成功')
             } catch {
                 //
             }
+            this.$refs.table.refresh()
             this.loading = false
         },
     },

@@ -139,11 +139,11 @@ export default {
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_user.setEnabled.post(row)
-                this.$refs.table.refresh()
                 this.$message.success(`操作成功`)
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {

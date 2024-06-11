@@ -143,11 +143,11 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_sitemsg.delete.post({ id: row.id })
-                this.$refs.table.refresh()
                 this.$message.success(`删除 ${res.data} 项`)
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         //批量删除
         async batchDel() {
@@ -160,12 +160,12 @@ export default {
                 const res = await this.$API.sys_sitemsg.bulkDelete.post({
                     items: this.selection,
                 })
-                this.$refs.table.refresh()
                 this.$message.success(`删除 ${res.data} 项`)
             } catch {
                 //
             }
             loading?.close()
+            this.$refs.table.refresh()
         },
 
         //搜索

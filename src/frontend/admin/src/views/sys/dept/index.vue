@@ -129,11 +129,11 @@ export default {
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_dept.setEnabled.post(row)
-                this.$refs.table.refresh()
                 this.$message.success(`操作成功`)
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         async batchDel() {
             let loading
@@ -145,11 +145,11 @@ export default {
                 const res = await this.$API.sys_dept.bulkDelete.post({
                     items: this.selection,
                 })
-                this.$refs.table.refresh()
                 this.$message.success(`删除 ${res.data} 项`)
             } catch {
                 //
             }
+            this.$refs.table.refresh()
             loading?.close()
         },
         filterChange(data) {
@@ -162,10 +162,10 @@ export default {
             try {
                 const res = await this.$API.sys_dept.delete.post({ id: row.id })
                 this.$message.success(`删除 ${res.data} 项`)
-                this.$refs.table.refresh()
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {

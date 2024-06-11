@@ -241,15 +241,14 @@ export default {
             try {
                 await this.$API.sys_job.setEnabled.post(row)
                 this.$message.success(`操作成功`)
-                this.$refs.table.refresh()
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         async execute(row) {
             try {
                 await this.$API.sys_job.execute.post({ id: row.id })
-                this.$refs.table.refresh()
                 this.$notify.success({
                     dangerouslyUseHTMLString: true,
                     message: `<div id="countdown">已发起执行请求，5 秒后弹出执行结果</div>`,
@@ -270,16 +269,17 @@ export default {
                         .innerText.replace(countdown, `${parseInt(countdown) - 1}`)
                 }, 1000)
             } catch {}
+            this.$refs.table.refresh()
         },
         //删除
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_job.delete.post({ id: row.id })
-                this.$refs.table.refresh()
                 this.$message.success(`删除 ${res.data} 项`)
             } catch {
                 //
             }
+            this.$refs.table.refresh()
         },
         //批量删除
         async batchDel() {
@@ -292,12 +292,12 @@ export default {
                 const res = await this.$API.sys_job.bulkDelete.post({
                     items: this.selection,
                 })
-                this.$refs.table.refresh()
                 this.$message.success(`删除 ${res.data} 项`)
             } catch {
                 //
             }
             loading?.close()
+            this.$refs.table.refresh()
         },
 
         //搜索

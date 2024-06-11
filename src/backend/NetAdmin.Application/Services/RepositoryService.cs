@@ -35,6 +35,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <param name="includeFields">包含的属性</param>
     /// <param name="excludeFields">排除的属性</param>
     /// <param name="whereExp">查询表达式</param>
+    /// <param name="whereSql">查询sql</param>
     /// <param name="ignoreVersion">是否忽略版本锁</param>
     /// <returns>更新行数</returns>
     protected Task<int> UpdateAsync(                         //
@@ -42,11 +43,12 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
       , IEnumerable<string>             includeFields        //
       , string[]                        excludeFields = null //
       , Expression<Func<TEntity, bool>> whereExp      = null //
+      , string                          whereSql      = null //
       , bool                            ignoreVersion = false)
     {
         // 默认匹配主键
         whereExp ??= a => a.Id.Equals(newValue.Id);
-        var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp);
+        var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql);
         return update.ExecuteAffrowsAsync();
     }
 
