@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.User;
 
 namespace NetAdmin.Domain.Dto.Sys.RequestLog;
 
@@ -12,6 +13,11 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     ///     创建者客户端IP
     /// </summary>
     public new string CreatedClientIp => base.CreatedClientIp?.ToIpV4();
+
+    /// <summary>
+    ///     登录名
+    /// </summary>
+    public string LoginName => RequestBody?.ToObject<LoginByPwdReq>()?.Account;
 
     /// <summary>
     ///     操作系统
@@ -35,10 +41,6 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CreatedUserAgent { get; init; }
 
-    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string CreatedUserName { get; init; }
-
     /// <inheritdoc cref="Sys_RequestLog.Duration" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Duration { get; init; }
@@ -51,10 +53,6 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Exception { get; init; }
 
-    /// <inheritdoc cref="Sys_RequestLog.ExtraData" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string ExtraData { get; init; }
-
     /// <inheritdoc cref="Sys_RequestLog.HttpStatusCode" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override int HttpStatusCode { get; init; }
@@ -62,10 +60,6 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     /// <inheritdoc cref="Sys_RequestLog.Method" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Method { get; init; }
-
-    /// <inheritdoc cref="Sys_RequestLog.ReferUrl" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string ReferUrl { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.RequestBody" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -98,6 +92,13 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     /// <inheritdoc cref="Sys_RequestLog.ServerIp" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override int? ServerIp { get; init; }
+
+    /// <inheritdoc cref="Sys_RequestLog.User" />
+    public new QueryUserRsp User { get; init; }
+
+    /// <inheritdoc cref="Sys_RequestLog.UserId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override long? UserId { get; init; }
 
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)

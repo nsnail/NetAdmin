@@ -7,16 +7,9 @@ namespace NetAdmin.Host.Utils;
 /// <summary>
 ///     请求日志记录器
 /// </summary>
-public sealed class RequestLogger(
-    ILogger<RequestLogger>                         logger
-  , IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettingsOptions
-  , IEventPublisher                                eventPublisher) : ISingleton
+public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher eventPublisher) : ISingleton
 {
     private static readonly string[] _textContentTypes = ["text", "json", "xml", "urlencoded"];
-
-    private readonly int _tokenPrefixLength
-        = specificationDocumentSettingsOptions?.Value.SecurityDefinitions?[0]?.Scheme?.Length + 1 ??
-          0; // eg. "Bearer ";
 
     /// <summary>
     ///     生成审计数据
@@ -30,7 +23,6 @@ public sealed class RequestLogger(
         var auditData = new CreateRequestLogReq {
                                                     Duration           = duration
                                                   , Method             = context.Request.Method
-                                                  , ReferUrl           = context.Request.GetRefererUrlAddress()
                                                   , RequestContentType = context.Request.ContentType
                                                   , RequestBody = Array.Exists( //
                                                         _textContentTypes
@@ -50,8 +42,7 @@ public sealed class RequestLogger(
                                                   , HttpStatusCode = context.Response.StatusCode
                                                   , ErrorCode = errorCode
                                                   , Exception = exception?.Error.ToString()
-                                                  , CreatedUserId = associatedUser?.UserId
-                                                  , CreatedUserName = associatedUser?.UserName
+                                                  , UserId = associatedUser?.UserId
                                                   , CreatedUserAgent = context.Request.Headers.UserAgent.ToString()
                                                   , CreatedClientIp = context.GetRealIpAddress()
                                                                              ?.MapToIPv4()
@@ -77,8 +68,9 @@ public sealed class RequestLogger(
 
         ContextUserToken userToken = null;
         try {
-            var jsonWebToken = JWTEncryption.ReadJwtToken(token[_tokenPrefixLength..]);
-            var claim        = jsonWebToken?.Claims.FirstOrDefault(y => y.Type == nameof(ContextUserToken));
+            var jsonWebToken
+                = JWTEncryption.ReadJwtToken(token.TrimStart($"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} "));
+            var claim = jsonWebToken?.Claims.FirstOrDefault(y => y.Type == nameof(ContextUserToken));
             userToken = claim?.Value.ToObject<ContextUserToken>();
         }
         catch (Exception ex) {

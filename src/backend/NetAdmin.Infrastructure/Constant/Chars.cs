@@ -67,6 +67,7 @@ public static class Chars
     public const string FLG_HTTP_METHOD_POST                          = "POST";
     public const string FLG_HTTP_METHOD_PUT                           = "PUT";
     public const string FLG_HTTP_METHOD_TRACE                         = "TRACE";
+    public const string FLG_PATH_API_SYS_USER_LOGIN_BY_PWD            = "api/sys/user/login.by.pwd";
     public const string FLG_PATH_PREFIX_HEALTH_CHECK                  = "probe/health.check";
     public const string FLG_RANDOM_UNAME_PWD                          = "VcXlp7WY";
     public const string FLG_REDIS_INSTANCE_DATA_CACHE                 = "DataCache";

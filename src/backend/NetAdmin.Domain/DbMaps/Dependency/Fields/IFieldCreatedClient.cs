@@ -11,11 +11,6 @@ public interface IFieldCreatedClient
     int? CreatedClientIp { get; init; }
 
     /// <summary>
-    ///     创建者来源地址
-    /// </summary>
-    string CreatedReferer { get; init; }
-
-    /// <summary>
     ///     创建者客户端用户代理
     /// </summary>
     string CreatedUserAgent { get; init; }

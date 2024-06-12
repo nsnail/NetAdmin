@@ -63,13 +63,6 @@ public sealed class SqlAuditor : ISingleton
         }
     }
 
-    private static void SetCreatedReferer(AuditValueEventArgs e)
-    {
-        if (e.Value is null or "") {
-            e.Value = App.HttpContext?.Request.GetRefererUrlAddress();
-        }
-    }
-
     private static void SetCreatedTime(AuditValueEventArgs e)
     {
         if (e.Value == null || (e.Value is DateTime val && val == default)) {
@@ -118,9 +111,6 @@ public sealed class SqlAuditor : ISingleton
                 break;
             case nameof(IFieldCreatedClient.CreatedUserAgent):
                 SetCreatedUserAgent(e);
-                break;
-            case nameof(IFieldCreatedClient.CreatedReferer):
-                SetCreatedReferer(e);
                 break;
             default:
                 return;

@@ -15,7 +15,7 @@
                 <el-icon-full-screen />
             </el-icon>
         </div>
-        <div @click="tasks" class="tasks panel-item">
+        <div v-auth="'sys/job/userbar'" @click="tasks" class="tasks panel-item">
             <el-icon>
                 <sc-icon-ScheduledJob />
             </el-icon>

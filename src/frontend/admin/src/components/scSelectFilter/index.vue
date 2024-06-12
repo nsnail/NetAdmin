@@ -130,11 +130,14 @@ export default {
 <style scoped>
 .sc-select-filter {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .sc-select-filter__item {
     display: flex;
     align-items: baseline;
+    width: 50%;
 }
 
 .sc-select-filter__item-title {

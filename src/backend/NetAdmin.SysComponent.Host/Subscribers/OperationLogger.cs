@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Dto.Sys.RequestLog;
-using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
@@ -27,22 +25,7 @@ public sealed class OperationLogger : IEventSubscriber
             return;
         }
 
-        CreateRequestLogReq logReq = null;
-
-        // 登录日志特殊处理
-        if (operationEvent.Data.ApiId.Equals("api/sys/user/login.by.pwd", StringComparison.OrdinalIgnoreCase)) {
-            try {
-                var loginReq = operationEvent.Data.RequestBody.ToObject<LoginByPwdReq>();
-                logReq = operationEvent.Data with { ExtraData = loginReq.Account };
-            }
-            catch {
-                // ignored
-            }
-        }
-
-        logReq ??= operationEvent.Data;
-        var logService = App.GetService<IRequestLogService>();
-        logReq.TruncateStrings();
-        _ = await logService.CreateAsync(logReq).ConfigureAwait(false);
+        operationEvent.Data.TruncateStrings();
+        _ = await App.GetService<IRequestLogService>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
     }
 }

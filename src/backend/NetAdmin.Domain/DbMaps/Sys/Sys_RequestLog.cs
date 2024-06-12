@@ -8,9 +8,10 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// </summary>
 [Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(ApiId),          nameof(ApiId),          false)]
 [Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(CreatedTime),    nameof(CreatedTime),    false)]
+[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(UserId),         nameof(UserId),         false)]
 [Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(HttpStatusCode), nameof(HttpStatusCode), false)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RequestLog))]
-public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
+public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedClient
 {
     /// <summary>
     ///     接口
@@ -26,23 +27,17 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     [JsonIgnore]
     public virtual string ApiId { get; init; }
 
-    /// <summary>
-    ///     创建者客户端IP
-    /// </summary>
+    /// <inheritdoc />
     [Column(Position = -1)]
     [JsonIgnore]
     public int? CreatedClientIp { get; init; }
 
-    /// <summary>
-    ///     创建者来源地址
-    /// </summary>
-    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    /// <inheritdoc />
+    [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
     [JsonIgnore]
-    public string CreatedReferer { get; init; }
+    public virtual DateTime CreatedTime { get; init; }
 
-    /// <summary>
-    ///     创建者客户端用户代理
-    /// </summary>
+    /// <inheritdoc />
     #if DBTYPE_SQLSERVER
     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_1022)]
     #else
@@ -77,17 +72,6 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     public virtual string Exception { get; init; }
 
     /// <summary>
-    ///     附加数据
-    /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
-    [JsonIgnore]
-    public virtual string ExtraData { get; init; }
-
-    /// <summary>
     ///     HTTP状态码
     /// </summary>
     [Column]
@@ -100,13 +84,6 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
     [JsonIgnore]
     public virtual string Method { get; init; }
-
-    /// <summary>
-    ///     来源地址
-    /// </summary>
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [JsonIgnore]
-    public virtual string ReferUrl { get; init; }
 
     /// <summary>
     ///     请求内容
@@ -179,4 +156,18 @@ public record Sys_RequestLog : ImmutableEntity, IFieldCreatedClient
     [Column]
     [JsonIgnore]
     public virtual int? ServerIp { get; init; }
+
+    /// <summary>
+    ///     用户
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(nameof(UserId))]
+    public Sys_User User { get; init; }
+
+    /// <summary>
+    ///     用户编号
+    /// </summary>
+    [Column]
+    [JsonIgnore]
+    public virtual long? UserId { get; init; }
 }

@@ -47,6 +47,9 @@ export default {
         global.enums = preloads[2]?.data
         global.numbers = preloads[3]?.data
         global.chars = preloads[4]?.data
-        global.permissions = tool.recursiveFindProperty(preloads[0]?.data, 'type', 'button').map((x) => x.tag)
+        global.permissions =
+            global.user?.roles.findIndex((x) => x.ignorePermissionControl) >= 0
+                ? ['*/*/*']
+                : tool.recursiveFindProperty(preloads[0]?.data, 'type', 'button').map((x) => x.tag)
     },
 }
