@@ -12,6 +12,8 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo) //
     : RepositoryService<Sys_RequestLog, long, IRequestLogService>(rpo), IRequestLogService
 {
+    private static readonly Regex _regex = new(Chars.RGXL_IP_V4);
+
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
@@ -134,26 +136,45 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
     public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync(a => new {
-                                                   a.ApiId
-                                                 , ApiSummary = a.Api.Summary
-                                                 , a.ExtraData
-                                                 , a.CreatedClientIp
-                                                 , a.CreatedTime
-                                                 , a.CreatedUserName
-                                                 , a.Duration
-                                                 , a.Method
-                                                 , a.CreatedUserAgent
-                                                 , a.HttpStatusCode
-                                                 , a.Id
-                                               })
-                         .ConfigureAwait(false);
+        var select = QueryInternal(req)
+                     .Page(req.Page, req.PageSize)
+                     #if DBTYPE_SQLSERVER
+                     .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                     #endif
+                     .Count(out var total);
+        object list = req.DynamicFilter?.Filters?.Exists(
+            x => nameof(QueryRequestLogReq.ApiId).Equals(x.Field, StringComparison.OrdinalIgnoreCase) &&
+                 Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD.Equals( //
+                     x.Value.ToString(), StringComparison.OrdinalIgnoreCase)) ?? false
+            ? await select.ToListAsync(a => new {
+                                                    a.ApiId
+                                                  , ApiSummary = a.Api.Summary
+                                                  , a.CreatedClientIp
+                                                  , a.CreatedTime
+                                                  , a.Duration
+                                                  , a.Method
+                                                  , a.CreatedUserAgent
+                                                  , a.HttpStatusCode
+                                                  , a.Id
+                                                  , a.UserId
+                                                  , a.User
+                                                  , a.RequestBody
+                                                })
+                          .ConfigureAwait(false)
+            : await select.ToListAsync(a => new {
+                                                    a.ApiId
+                                                  , ApiSummary = a.Api.Summary
+                                                  , a.CreatedClientIp
+                                                  , a.CreatedTime
+                                                  , a.Duration
+                                                  , a.Method
+                                                  , a.CreatedUserAgent
+                                                  , a.HttpStatusCode
+                                                  , a.Id
+                                                  , a.UserId
+                                                  , a.User
+                                                })
+                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryRequestLogRsp>(req.Page, req.PageSize, total
                                                    , list.Adapt<IEnumerable<QueryRequestLogRsp>>());
@@ -175,7 +196,18 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
 
     private ISelect<Sys_RequestLog> QueryInternal(QueryReq<QueryRequestLogReq> req)
     {
-        var ret = Rpo.Select.Include(a => a.Api).WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        var ret = Rpo.Select.Include(a => a.Api).Include(a => a.User).WhereDynamicFilter(req.DynamicFilter);
+        if (req.Filter?.Id is not 0) {
+            ret = ret.WhereDynamic(req.Filter);
+        }
+
+        if (req.Keywords?.Length > 0) {
+            ret = _regex.IsMatch(req.Keywords)
+                ? ret.Where(a => a.CreatedClientIp == req.Keywords.IpV4ToInt32())
+                : ret.Where(a => a.Id            == req.Keywords.Int64Try(0) || a.UserId == req.Keywords.Int64Try(0) ||
+                                 a.User.UserName == req.Keywords             || a.RequestBody.Contains(req.Keywords));
+        }
+
         switch (req.Order) {
             case Orders.None:
                 return ret;

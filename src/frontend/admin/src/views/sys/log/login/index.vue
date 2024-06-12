@@ -23,21 +23,9 @@
                     :controls="[
                         {
                             type: 'input',
-                            field: ['dy', 'id'],
-                            placeholder: '日志编号',
-                            style: 'width:15rem',
-                        },
-                        {
-                            type: 'input',
-                            field: ['dy', 'extraData'],
-                            placeholder: '登录名',
-                            style: 'width:15rem',
-                        },
-                        {
-                            type: 'input',
-                            field: ['dy', 'createdClientIp'],
-                            placeholder: '客户端IP',
-                            style: 'width:15rem',
+                            field: ['root', 'keywords'],
+                            placeholder: '日志编号 / 登录名 / 客户端IP',
+                            style: 'width:25rem',
                         },
                     ]"
                     :vue="this"
@@ -54,7 +42,7 @@
             <sc-table
                 v-loading="loading"
                 :apiObj="$API.sys_log.pagedQuery"
-                :context-menus="['id', 'httpStatusCode', 'extraData', 'createdClientIp', 'os', 'createdUserAgent', 'createdTime']"
+                :context-menus="['id', 'httpStatusCode', 'createdClientIp', 'createdUserAgent', 'createdTime']"
                 :context-opers="['view']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
@@ -73,13 +61,13 @@
                         {{ scope.row.httpStatusCode === 200 ? '成功' : '失败' }}
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('登录名')" prop="extraData" sortable="custom" width="200" />
-                <el-table-column :label="$t('客户端IP')" prop="createdClientIp" sortable="custom" width="200">
+                <el-table-column :label="$t('登录名')" prop="loginName" width="150" />
+                <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="scope">
                         <na-ip :ip="scope.row.createdClientIp"></na-ip>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('操作系统')" prop="os" width="150" />
+                <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
                 <el-table-column :label="$t('用户代理')" prop="createdUserAgent" show-overflow-tooltip sortable="custom" />
             </sc-table>
         </el-main>
@@ -120,7 +108,11 @@ export default {
             },
         }
     },
-    mounted() {
+    async mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
         this.$refs.search.form.dy.apiId = 'api/sys/user/login.by.pwd'
         this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
             `${tool.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
@@ -128,6 +120,9 @@ export default {
         ]
     },
     created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
         this.query.dynamicFilter.filters.push({
             field: 'apiId',
             operator: 'eq',
@@ -157,41 +152,6 @@ export default {
                     value: form.dy.createdTime.map((x) => x.replace(/ 00:00:00$/, '')),
                 })
             }
-            if (form.dy.httpStatusCode) {
-                this.query.dynamicFilter.filters.push({
-                    field: 'httpStatusCode',
-                    operator: 'range',
-                    value: form.dy.httpStatusCode,
-                })
-            }
-            if (form.dy.apiId) {
-                this.query.dynamicFilter.filters.push({
-                    field: 'apiId',
-                    operator: 'contains',
-                    value: form.dy.apiId,
-                })
-            }
-            if (form.dy.id) {
-                this.query.dynamicFilter.filters.push({
-                    field: 'id',
-                    operator: 'eq',
-                    value: form.dy.id,
-                })
-            }
-            if (form.dy.extraData) {
-                this.query.dynamicFilter.filters.push({
-                    field: 'extraData',
-                    operator: 'contains',
-                    value: form.dy.extraData,
-                })
-            }
-            if (form.dy.createdClientIp) {
-                this.query.dynamicFilter.filters.push({
-                    field: 'createdClientIp',
-                    operator: 'contains',
-                    value: form.dy.createdClientIp,
-                })
-            }
             if (typeof form.dy.loginResult === 'boolean') {
                 this.query.dynamicFilter.filters.push(
                     form.dy.loginResult
@@ -207,7 +167,6 @@ export default {
                           },
                 )
             }
-
             this.$refs.table.upData()
         },
 

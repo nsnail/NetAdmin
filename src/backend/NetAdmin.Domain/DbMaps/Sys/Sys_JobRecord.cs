@@ -31,7 +31,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     /// </summary>
     [Column]
     [JsonIgnore]
-    public virtual int HttpStatusCode { get; init; }
+    public int HttpStatusCode { get; init; }
 
     /// <summary>
     ///     拥有者信息
