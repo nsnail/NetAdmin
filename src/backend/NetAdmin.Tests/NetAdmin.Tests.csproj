@@ -4,7 +4,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="xunit" Version="2.8.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0-preview.4.24267.6"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0-preview.5.24306.11"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
