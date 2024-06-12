@@ -20,33 +20,32 @@ docker run -p 8080:8080 nsnail/netadmin
 ## 构建步骤
 
 ```shell
-# 1. 克隆代码仓库
-# 下载 git https://git-scm.com/downloads
+# 1. 检查 dotnet sdk 版本 >=9.0.0
+dotnet --list-sdks
+# 下载 dotnet：https://dotnet.microsoft.com/zh-cn/download/dotnet
+
+# 2. 克隆代码仓库
 git clone https://github.com/nsnail/NetAdmin.git && cd ./NetAdmin
 
-# 2. 检查dotnet-sdk版本>=9.0.0
-# 下载 dotnet https://dotnet.microsoft.com/zh-cn/download/dotnet
-dotnet --list-sdks
+# 3. 检查本机 redis 运行状态
+redis-cli dbsize
+# 下载 redis for windows：https://github.com/redis-windows/redis-windows/releases
+# 下载 redis for linux/mac：https://redis.io/download
 
-# 3. 确保本机redis处于运行状态
-# 下载 redis for windows https://github.com/redis-windows/redis-windows/releases
-# 下载 redis for linux/mac https://redis.io/download
-redis-cli
-
-# 4. 运行后端WebApi
-# 浏览器打开 http://localhost:5010 ，将看到Swagger（Knife4jUI）界面
+# 4. 运行后端 WebApi
 dotnet run --project ./src/backend/NetAdmin.AdmServer.Host/NetAdmin.AdmServer.Host.csproj --urls http://[::]:5010 -is
+# 浏览器打开 http://localhost:5010 ，将看到Swagger（Knife4jUI）界面
 
-# 5. 检查nodejs版本>=20
-# 下载 nodejs https://nodejs.org/en/download
+# 5. 检查 nodejs 版本 >=20
 node -v
+# 下载 nodejs：https://nodejs.org/en/download
 
-# 6. 安装npm依赖包
+# 6. 安装 npm 依赖包
 cd ./src/frontend/admin && npm install
 
 # 7. 运行前端项目
-# 浏览器打开 http://localhost:5020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
 npm run dev
+# 浏览器打开 http://localhost:5020 ，将看到管理界面（默认用户名：root，密码：1234qwer）
 ```
 
 ## 文件目录树
