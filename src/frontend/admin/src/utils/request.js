@@ -85,6 +85,35 @@ axios.interceptors.response.use(
         if (response.headers['x-access-token']) {
             setCookie('X-ACCESS-TOKEN', response.headers['x-access-token'])
         }
+        //此处判断是否下载请求
+        if (response.headers['content-type'] === 'application/octet-stream') {
+            //根据响应头获取文件名称
+            console.error(response.headers['content-disposition'])
+            let fileName = response.headers['content-disposition'].match(/filename\*=UTF-8''([^;]+)/)[1]
+            if (fileName) {
+                fileName = decodeURI(fileName)
+            } else {
+                //此处表示后台没有设置响应头 content-disposition,请根据业务场景自行处理
+                fileName = Date.now() + 'download.txt'
+            }
+            const blob = new Blob([response.data], { type: 'application/octet-stream' })
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                window.navigator.msSaveBlob(blob, fileName)
+            } else {
+                const blobURL = window.URL.createObjectURL(blob)
+                const tempLink = document.createElement('a')
+                tempLink.style.display = 'none'
+                tempLink.href = blobURL
+                tempLink.setAttribute('download', fileName)
+                if (typeof tempLink.download === 'undefined') {
+                    tempLink.setAttribute('target', '_blank')
+                }
+                document.body.appendChild(tempLink)
+                tempLink.click()
+                document.body.removeChild(tempLink)
+                window.URL.revokeObjectURL(blobURL)
+            }
+        }
         return response
     },
     async (error) => {

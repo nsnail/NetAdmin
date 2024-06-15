@@ -254,7 +254,7 @@ public static class ServiceCollectionExtensions
     #endif
     private static (string Date, string LogName, string LogFormat) ParseMessage(LogMessage message, bool showColor)
     {
-        var date    = message.LogDateTime.ToString(Chars.TPL_DATE_HH_MM_SS_FFFFFF, CultureInfo.InvariantCulture);
+        var date    = $"{message.LogDateTime:HH:mm:ss.ffffff}";
         var logName = message.LogName.PadRight(64, ' ')[^64..];
         var format = showColor
             ? $"[{nameof(ConsoleColor.Gray)}][[{{0}} {{1}} {{2,-{64}}} #{{3,4}}]][/] {{4}}"

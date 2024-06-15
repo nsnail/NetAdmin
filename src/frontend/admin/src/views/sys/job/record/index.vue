@@ -68,7 +68,7 @@
                     :label="$t('请求方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
-                            return { value: x[0], text: x[1][1] }
+                            return { value: x[0], text: x[1][1], type: x[1][2] }
                         })
                     "
                     align="center"

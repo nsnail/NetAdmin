@@ -64,7 +64,7 @@
                     :label="$t('消息类型')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.siteMsgTypes).map((x) => {
-                            return { value: x[0], text: x[1][1] }
+                            return { value: x[0], text: x[1][1], type: x[1][2] }
                         })
                     "
                     align="center"

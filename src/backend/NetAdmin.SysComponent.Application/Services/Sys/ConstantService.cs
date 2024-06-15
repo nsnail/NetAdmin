@@ -1,4 +1,6 @@
+using Microsoft.OpenApi.Extensions;
 using NetAdmin.Application.Services;
+using NetAdmin.Domain.Attributes;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -20,26 +22,29 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
     {
         var ret = App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) != null)
                      .ToDictionary(x => x.Name, x => //
-                                       x.GetEnumValues()
-                                        .Cast<Enum>()
-                                        .ToDictionary( //
-                                            y => y.ToString()
-                                          , y => new[] {
-                                                           Convert.ToInt64(y, CultureInfo.InvariantCulture)
-                                                                  .ToString(CultureInfo.InvariantCulture)
-                                                         , y.ResDesc<Ln>()
-                                                       }));
+                                       x.GetEnumValues().Cast<Enum>().ToDictionary(y => y.ToString(), GetDicValue));
 
-        ret.Add($"{nameof(HttpStatusCode)}s", Enum.GetNames<HttpStatusCode>()
-                                                  .ToDictionary( //
-                                                      x => x, x => new[] {
-                                                                             Convert.ToInt64( //
-                                                                                     Enum.Parse<HttpStatusCode>(x)
-                                                                                   , CultureInfo.InvariantCulture)
-                                                                                 .ToString(CultureInfo.InvariantCulture)
-                                                                           , x
-                                                                         }));
+        ret.Add(                         //
+            $"{nameof(HttpStatusCode)}s" //
+          , Enum.GetNames<HttpStatusCode>()
+                .ToDictionary(
+                    x => x
+                  , x => new[] {
+                                   Convert.ToInt64(Enum.Parse<HttpStatusCode>(x), CultureInfo.InvariantCulture)
+                                          .ToString(CultureInfo.InvariantCulture)
+                                 , x
+                               }));
         return ret;
+
+        static string[] GetDicValue(Enum y)
+        {
+            var ret = new[] {
+                                Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture)
+                              , y.ResDesc<Ln>()
+                            };
+            var indicate = y.GetAttributeOfType<IndicatorAttribute>()?.Indicate.ToLowerInvariant();
+            return indicate.NullOrEmpty() ? ret : [..ret, indicate];
+        }
     }
 
     /// <inheritdoc />
