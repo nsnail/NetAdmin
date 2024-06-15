@@ -93,10 +93,11 @@
                 <el-table-column :label="$t('执行计划')" align="center" prop="executionCron" sortable="custom" width="150" />
                 <na-col-indicator
                     :label="$t('作业状态')"
-                    :options="[
-                        { text: '空闲', type: 'success', value: 'idle' },
-                        { text: '运行', type: 'warning', value: 'running' },
-                    ]"
+                    :options="
+                        Object.entries(this.$GLOBAL.enums.jobStatues).map((x) => {
+                            return { value: x[0], text: x[1][1], type: x[1][2] }
+                        })
+                    "
                     align="center"
                     prop="status"
                     sortable="custom"
@@ -105,7 +106,7 @@
                     :label="$t('请求方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
-                            return { value: x[0], text: x[1][1] }
+                            return { value: x[0], text: x[1][1], type: x[1][2] }
                         })
                     "
                     align="center"

@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Attributes;
+
 namespace NetAdmin.Domain.Enums.Sys;
 
 /// <summary>
@@ -9,6 +11,7 @@ public enum JobStatues
     /// <summary>
     ///     空闲
     /// </summary>
+    [Indicator(nameof(Indicates.Success))]
     [ResourceDescription<Ln>(nameof(Ln.空闲))]
     Idle = 1
 
@@ -17,6 +20,7 @@ public enum JobStatues
     /// <summary>
     ///     运行
     /// </summary>
+    [Indicator(nameof(Indicates.Warning))]
     [ResourceDescription<Ln>(nameof(Ln.运行))]
     Running = 2
 }

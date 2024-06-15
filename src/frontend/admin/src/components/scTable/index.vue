@@ -116,22 +116,55 @@
             :command="menu"
             :key="index"
             :title="`${menu}`">
-            <sc-contextmenu-item :command="`${menu}^|^Equal^|^${current.row[menu]}`" title="="></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^NotEqual^|^${current.row[menu]}`" title="≠"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^GreaterThan^|^${current.row[menu]}`" divided title="＞"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^GreaterThanOrEqual^|^${current.row[menu]}`" title="≥"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^LessThan^|^${current.row[menu]}`" title="＜"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^LessThanOrEqual^|^${current.row[menu]}`" title="≤"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^Contains^|^${current.row[menu]}`" divided title="包含"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^NotContains^|^${current.row[menu]}`" title="不含"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^StartsWith^|^${current.row[menu]}`" divided title="以 x 开始"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^NotStartsWith^|^${current.row[menu]}`" title="非 x 开始"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^EndsWith^|^${current.row[menu]}`" title="以 x 结束"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^NotEndsWith^|^${current.row[menu]}`" title="非 x 结束"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^Range^|^${current.row[menu]}`" divided title="数值范围"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^DateRange^|^${current.row[menu]}`" title="日期范围"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^Any^|^${current.row[menu]}`" divided title="为其一"></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^NotAny^|^${current.row[menu]}`" title="非其一"></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^Equal^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="="></sc-contextmenu-item>
+            <sc-contextmenu-item :command="`${menu}^|^NotEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="≠"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^GreaterThan^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                divided
+                title="＞"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^GreaterThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="≥"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^LessThan^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="＜"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^LessThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="≤"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^Contains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                divided
+                title="包含"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^NotContains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="不含"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^StartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                divided
+                title="以 x 开始"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^NotStartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="非 x 开始"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^EndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="以 x 结束"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^NotEndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="非 x 结束"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^Range^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                divided
+                title="数值范围"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^DateRange^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="日期范围"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^Any^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                divided
+                title="为其一"></sc-contextmenu-item>
+            <sc-contextmenu-item
+                :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                title="非其一"></sc-contextmenu-item>
         </sc-contextmenu-item>
         <sc-contextmenu-item v-if="contextOpers.includes('view')" command="view" divided icon="el-icon-view" title="查看"></sc-contextmenu-item>
         <sc-contextmenu-item v-if="contextOpers.includes('edit')" command="edit" icon="el-icon-edit" title="编辑"></sc-contextmenu-item>
@@ -153,6 +186,7 @@ import columnSetting from './columnSetting'
 import scContextmenuItem from '@/components/scContextmenu/item.vue'
 import scContextmenu from '@/components/scContextmenu/index.vue'
 import { h } from 'vue'
+import tool from '@/utils/tool'
 
 export default {
     name: 'scTable',
@@ -222,6 +256,9 @@ export default {
         },
     },
     computed: {
+        tool() {
+            return tool
+        },
         _height() {
             return Number(this.height) ? Number(this.height) + 'px' : this.height
         },
@@ -321,9 +358,9 @@ export default {
             try {
                 value = await this.$prompt(`仅显示 ${kv[0]} ${kv[1]}：`, '高级筛选', {
                     inputPlaceholder: '一行一个',
-                    inputPattern: /.+/,
+                    inputPattern: /.*/,
                     inputType: 'textarea',
-                    inputValue: command.split('^|^')[2],
+                    inputValue: kv[2],
                 })
             } catch {
                 return

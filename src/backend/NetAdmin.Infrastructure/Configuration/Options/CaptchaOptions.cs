@@ -5,8 +5,7 @@ namespace NetAdmin.Infrastructure.Configuration.Options;
 /// </summary>
 public sealed record CaptchaOptions : OptionAbstraction
 {
-    private static readonly double _seed
-        = BitConverter.ToInt32(Chars.TPL_DATE_YYYYMMDD[..4].Select(x => (byte)x).ToArray());
+    private static readonly double _seed = BitConverter.ToInt32("yyyyMMdd"[..4].Select(x => (byte)x).ToArray());
 
     #pragma warning disable S3963
     static CaptchaOptions()

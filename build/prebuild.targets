@@ -16,8 +16,8 @@
         <None Include="$(SolutionDir)/assets/res/Nations.ln">
             <Link>Languages/Nations.ln</Link>
         </None>
-        <None Include="$(SolutionDir)/assets/res/Enums.ln">
-            <Link>Languages/Enums.ln</Link>
+        <None Include="$(SolutionDir)/assets/res/Fields.ln">
+            <Link>Languages/Fields.ln</Link>
         </None>
         <EmbeddedResource Include="$(SolutionDir)/assets/res/Ln.resx">
             <Link>Languages/Ln.resx</Link>
