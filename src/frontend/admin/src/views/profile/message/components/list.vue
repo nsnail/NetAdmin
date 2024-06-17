@@ -1,15 +1,18 @@
 <template>
-    <div v-if="loading" style="padding: 1rem">
-        <el-skeleton :rows="5" animated />
-    </div>
-    <template v-else>
+    <div v-loading="loading">
         <el-container v-if="msgList.length > 0" class="nopadding">
             <el-header style="border: none">
                 <div class="right-panel">
-                    <el-button @click="batchRead" icon="el-icon-message" plain type="success"></el-button>
+                    <el-button
+                        v-loading="readLoading"
+                        :disabled="readLoading"
+                        @click="batchRead"
+                        icon="el-icon-message"
+                        plain
+                        type="success"></el-button>
                     <el-popconfirm :title="`确定清空本页消息吗？`" @confirm="batchDel" width="15rem">
                         <template #reference>
-                            <el-button v-loading="delLoading" icon="el-icon-delete" plain type="danger"></el-button>
+                            <el-button v-loading="delLoading" :disabled="delLoading" icon="el-icon-delete" plain type="danger"></el-button>
                         </template>
                     </el-popconfirm>
                 </div>
@@ -23,13 +26,9 @@
                         @change="change"
                         accordion
                         infinite-scroll-distance="200">
-                        <el-collapse-item
-                            v-for="(msg, i) in msgList"
-                            :class="msg.myFlags.userSiteMsgStatus === 'read' ? 'msg-wrapper-read' : ''"
-                            :key="i"
-                            :name="msg.id">
+                        <el-collapse-item v-for="(msg, i) in msgList" :key="i" :name="msg.id">
                             <template #title>
-                                <div class="msg-title">
+                                <div :class="`msg-title ${msg.myFlags.userSiteMsgStatus === 'read' ? 'msg-wrapper-read' : ''}`">
                                     <div>
                                         <el-badge v-if="msg.myFlags.userSiteMsgStatus === 0" is-dot type="primary">
                                             <el-avatar :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR(msg.sender.userName)"></el-avatar>
@@ -54,14 +53,14 @@
                                     </div>
                                 </div>
                             </template>
-                            <div v-html="msg.content" class="msg-content"></div>
+                            <div :ref="`msg-content-${msg.id}`"></div>
                         </el-collapse-item>
                     </el-collapse>
                 </div>
             </el-main>
         </el-container>
         <el-empty v-else></el-empty>
-    </template>
+    </div>
 </template>
 
 <script>
@@ -75,6 +74,7 @@ export default {
             page: 1,
             delLoading: false,
             msgLoading: false,
+            readLoading: false,
         }
     },
     watch: {},
@@ -96,11 +96,14 @@ export default {
             this.msgLoading = true
             const res = await this.$API.sys_sitemsg.getMine.post({ id: id })
             this.msgLoading = false
-            this.msgList.find((x) => x.id === id).content = res.data.content
+            try {
+                this.$refs[`msg-content-${id}`][0].attachShadow({ mode: 'open' }).innerHTML = res.data.content
+            } catch {}
             await this.$API.sys_sitemsg.setSiteMsgStatus.post({ siteMsgId: id, userSiteMsgStatus: 'read' })
         },
         //批量已读
         async batchRead() {
+            this.readLoading = true
             try {
                 for (const msg of this.msgList) {
                     await this.$API.sys_sitemsg.setSiteMsgStatus.post({ siteMsgId: msg.id, userSiteMsgStatus: 'read' })
@@ -109,6 +112,7 @@ export default {
             } catch {
                 //
             }
+            this.readLoading = false
             this.$message.success(this.$t(`本页消息已标记为已读`))
         },
         //批量删除
@@ -147,11 +151,6 @@ export default {
 
 .msg-wrapper-read {
     filter: grayscale(1) opacity(0.6);
-}
-
-.msg-content {
-    text-indent: 4rem;
-    padding: 0 1rem;
 }
 
 .msg-title {

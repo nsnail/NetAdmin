@@ -325,7 +325,7 @@ public sealed class SiteMsgService(
                .LeftJoin((a, _, c, _, _, _) => a.Id            == c.SiteMsgId)
                .LeftJoin((a, _, _, d, _, _) => a.Id            == d.SiteMsgId)
                .LeftJoin((a, _, _, _, e, _) => a.Id            == e.SiteMsgId)
-               .LeftJoin((a, _, _, _, _, f) => a.Id            == f.SiteMsgId)
+               .LeftJoin((a, b, _, _, _, f) => a.Id == f.SiteMsgId && f.UserId == b.Id)
                .WhereDynamicFilter(req.DynamicFilter)
                .Where((a, _, c, d, e, f) =>
                           (SqlExt.EqualIsNull(f.UserSiteMsgStatus) ||

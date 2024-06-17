@@ -118,14 +118,12 @@
 </template>
 
 <script>
-import scEditor from '@/components/scEditor/index.vue'
 import Record from '@/views/sys/job/record/index.vue'
 import vkbeautify from 'vkbeautify/index'
 
 export default {
     components: {
         Record,
-        scEditor,
     },
     emits: ['success', 'closed'],
     data() {

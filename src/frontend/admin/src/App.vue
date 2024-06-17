@@ -1,14 +1,17 @@
 <template>
     <el-config-provider :button="config.button" :locale="locale" :size="config.size" :zIndex="config.zIndex">
         <router-view v-if="isRouterAlive"></router-view>
+        <na-version-updater />
     </el-config-provider>
 </template>
 
 <script>
 import colorTool from '@/utils/color'
+import naVersionUpdater from '@/components/naVersionUpdater/index.vue'
 
 export default {
     name: 'App',
+    components: { naVersionUpdater },
     provide() {
         return {
             reload: this.reload,

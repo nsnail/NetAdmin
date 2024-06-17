@@ -47,7 +47,7 @@
                 <Tags v-if="!ismobile && layoutTags"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
-                        <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+                        <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
@@ -92,7 +92,7 @@
                 <Tags v-if="!ismobile && layoutTags"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
-                        <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+                        <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
@@ -132,7 +132,7 @@
                 <Tags v-if="!ismobile && layoutTags"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
-                        <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+                        <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
@@ -192,7 +192,7 @@
                 <Tags v-if="!ismobile && layoutTags"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
-                        <keep-alive :include="this.$store.state.keepAlive.keepLiveRoute">
+                        <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>

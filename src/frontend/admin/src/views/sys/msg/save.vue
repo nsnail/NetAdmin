@@ -28,7 +28,10 @@
                         <el-input v-model="form.title" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('消息内容')" prop="content">
-                        <sc-editor v-model="form.content" :placeholder="$t('请输入')" class="w100p" height="800"></sc-editor>
+                        <div
+                            :class="this.$TOOL.data.get('APP_DARK') ? 'aie-theme-dark' : 'aie-theme-light'"
+                            ref="editor"
+                            style="width: 100%; height: 30rem"></div>
                     </el-form-item>
 
                     <el-form-item :label="$t('送至角色')" prop="roleIds">
@@ -75,12 +78,11 @@
 </template>
 
 <script>
-import scEditor from '@/components/scEditor/index.vue'
+import { AiEditor } from 'aieditor'
+import 'aieditor/dist/style.css'
 
 export default {
-    components: {
-        scEditor,
-    },
+    components: {},
     emits: ['success', 'closed'],
     data() {
         return {
@@ -137,6 +139,16 @@ export default {
                 })
             }
             this.loading = false
+
+            await this.$nextTick()
+            new AiEditor({
+                element: this.$refs.editor,
+                placeholder: '请输入消息内容...',
+                content: this.form.content,
+                onChange: (content) => {
+                    this.form.content = content.getHtml()
+                },
+            })
             return this
         },
 

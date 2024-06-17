@@ -51,12 +51,8 @@
 </template>
 
 <script>
-import scEditor from '@/components/scEditor/index.vue'
-
 export default {
-    components: {
-        scEditor,
-    },
+    components: {},
     emits: ['success', 'closed'],
     data() {
         return {
