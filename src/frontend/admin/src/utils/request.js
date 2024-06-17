@@ -88,7 +88,6 @@ axios.interceptors.response.use(
         //此处判断是否下载请求
         if (response.headers['content-type'] === 'application/octet-stream') {
             //根据响应头获取文件名称
-            console.error(response.headers['content-disposition'])
             let fileName = response.headers['content-disposition'].match(/filename\*=UTF-8''([^;]+)/)[1]
             if (fileName) {
                 fileName = decodeURI(fileName)
