@@ -14,7 +14,7 @@
                     :model="form"
                     :rules="rules"
                     label-position="right"
-                    label-width="150px"
+                    label-width="20rem"
                     ref="dialogForm">
                     <el-form-item v-if="mode === 'view'" :label="$t('作业编号')" prop="id">
                         <el-input v-model="form.id" clearable />
@@ -51,7 +51,7 @@
                             :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 5rem; width: 100%" />
-                        <el-button @click="form.requestHeader = jsonFormat(form.requestHeader)" type="text">JSON格式化</el-button>
+                        <el-button @click="form.requestHeader = jsonFormat(form.requestHeader)" type="text">{{ $t('JSON格式化') }}</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求体')" prop="requestBody">
                         <v-ace-editor
@@ -59,7 +59,7 @@
                             :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 10rem; width: 100%" />
-                        <el-button @click="form.requestBody = jsonFormat(form.requestBody)" type="text">JSON格式化</el-button>
+                        <el-button @click="form.requestBody = jsonFormat(form.requestBody)" type="text">{{ $t('JSON格式化') }}</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
                         <el-input v-model="form.requestUrl" clearable />
@@ -111,8 +111,8 @@
         </el-tabs>
 
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -242,9 +242,9 @@ export default {
                 this.loading = false
                 if (res.data) {
                     this.$emit('success', res.data, this.mode)
-                    this.$message.success('操作成功')
+                    this.$message.success(this.$t('操作成功'))
                 } else {
-                    this.$message.error('操作失败')
+                    this.$message.error(this.$t('操作失败'))
                 }
                 this.visible = false
             } catch {

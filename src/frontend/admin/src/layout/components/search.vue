@@ -22,7 +22,7 @@
             </el-tag>
         </div>
         <div class="sc-search-result">
-            <div v-if="result.length <= 0" class="sc-search-no-result">暂无搜索结果</div>
+            <div v-if="result.length <= 0" class="sc-search-no-result">{{ $t('暂无搜索结果') }}</div>
             <ul v-else>
                 <el-scrollbar max-height="30rem">
                     <li v-for="item in result" :key="item.path" @click="to(item)">

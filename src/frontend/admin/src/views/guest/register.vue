@@ -5,7 +5,7 @@
             <el-step :title="$t('验证手机')" />
             <el-step :title="$t('注册成功')" />
         </el-steps>
-        <el-form v-if="stepActive === 0" :model="form" :rules="rules" @keyup.enter="next" label-width="120" ref="stepForm_0" size="large">
+        <el-form v-if="stepActive === 0" :model="form" :rules="rules" @keyup.enter="next" label-width="15rem" ref="stepForm_0" size="large">
             <el-form-item :label="$t('登录账号')" prop="userName">
                 <el-input v-model="form.userName" :placeholder="$t('请输入登录账号')" clearable maxlength="16"></el-input>
             </el-form-item>
@@ -18,7 +18,7 @@
                     show-password
                     type="password"></el-input>
                 <sc-password-strength v-model="form.passwordText"></sc-password-strength>
-                <div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
+                <div class="el-form-item-msg">{{ $t('请输入包含英文、数字的8位以上密码') }}</div>
             </el-form-item>
             <el-form-item :label="$t('确认密码')" prop="passwordText2">
                 <el-input
@@ -30,8 +30,8 @@
                     type="password"></el-input>
             </el-form-item>
             <el-form-item label="" prop="agree">
-                <el-checkbox v-model="form.agree" label="">已阅读并同意</el-checkbox>
-                <span @click="showAgree = true" class="link">《平台服务协议》</span>
+                <el-checkbox v-model="form.agree" label="">{{ $t('我已阅读并同意') }}</el-checkbox>
+                <span @click="showAgree = true" class="link">《{{ $t('平台服务协议') }}》</span>
             </el-form-item>
         </el-form>
         <el-form v-if="stepActive === 1" :model="form" :rules="rules" ref="stepForm_1" size="large">
@@ -39,25 +39,25 @@
                 v-model="form.verifySmsCodeReq"
                 :code-field="['verifySmsCodeReq.code', 'code']"
                 :phone-field="['verifySmsCodeReq.destDevice', 'destDevice']"
+                :phone-place-holder="$t('手机号码')"
                 :vue="this"
                 form-name="stepForm_1"></na-form-phone>
         </el-form>
         <div v-if="stepActive >= 2">
             <el-result :sub-title="$t('可以使用登录账号以及手机号登录系统')" :title="$t('注册成功')" icon="success">
                 <template #extra>
-                    <el-button @click="goLogin" size="large" type="primary">前去登录</el-button>
+                    <el-button @click="goLogin" size="large" type="primary">{{ $t('前去登录') }}</el-button>
                 </template>
             </el-result>
         </div>
         <el-form size="large" style="text-align: center">
-            <el-button v-if="stepActive > 0 && stepActive < 2" @click="pre" size="large">上一步</el-button>
-            <el-button v-if="stepActive < 1" @click="next" size="large" type="primary">下一步</el-button>
-            <el-button v-if="stepActive === 1" :loading="loading" @click="save" size="large" type="primary">提 交</el-button>
+            <el-button v-if="stepActive > 0 && stepActive < 2" @click="pre" size="large">{{ $t('上一步') }}</el-button>
+            <el-button v-if="stepActive < 1" @click="next" size="large" type="primary">{{ $t('下一步') }}</el-button>
+            <el-button v-if="stepActive === 1" :loading="loading" @click="save" size="large" type="primary">{{ $t('提交') }}</el-button>
         </el-form>
         <el-dialog v-model="showAgree" :title="$t('平台服务协议')" destroy-on-close>
-            平台服务协议
             <template #footer>
-                <el-button @click="showAgree = false">取消</el-button>
+                <el-button @click="showAgree = false">{{ $t('取消') }}</el-button>
                 <el-button
                     @click="
                         () => {
@@ -65,8 +65,8 @@
                             form.agree = true
                         }
                     "
-                    type="primary"
-                    >我已阅读并同意
+                    type="primary">
+                    {{ $t('我已阅读并同意') }}
                 </el-button>
             </template>
         </el-dialog>
@@ -102,7 +102,7 @@ export default {
                     {
                         validator: (rule, value, callback) => {
                             if (!value) {
-                                callback(new Error('请阅读并同意协议'))
+                                callback(new Error(this.$t('请阅读并同意协议')))
                             } else {
                                 callback()
                             }
@@ -120,7 +120,7 @@ export default {
                                     userName: valueEquals,
                                     id: this.form.id,
                                 })
-                                return res.data ? callback() : callback(new Error('用户名已被使用'))
+                                return res.data ? callback() : callback(new Error(this.$t('用户名已被使用')))
                             } catch (ex) {
                                 return callback(new Error(ex.data.msg.userName[0].children))
                             }

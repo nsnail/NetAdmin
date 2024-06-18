@@ -18,6 +18,7 @@
                         v-model="form"
                         :code-label="$t('邮箱验证码')"
                         :email-label="$t('邮箱地址')"
+                        :email-place-holder="$t('邮箱地址')"
                         :vue="this"
                         code-field="code"
                         email-field="destDevice"
@@ -27,8 +28,8 @@
         </el-form>
 
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </el-dialog>
 </template>
@@ -58,7 +59,7 @@ export default {
                 const res = await this.$API.sys_user.setEmail.post(this.form)
                 this.$emit('success', res.data)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {}
             this.loading = false
         },

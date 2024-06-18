@@ -11,9 +11,9 @@
                             </el-icon>
                         </div>
                         <div class="title">
-                            <h2>生成前端代码</h2>
+                            <h2>{{ $t('生成前端代码') }}</h2>
                             <p>
-                                <el-button @click="generateJsCode()">生成</el-button>
+                                <el-button @click="generateJsCode()">{{ $t('生成') }}</el-button>
                             </p>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                             </el-icon>
                         </div>
                         <div class="title">
-                            <h2>生成后端代码</h2>
+                            <h2>{{ $t('生成后端代码') }}</h2>
                             <p>
                                 <el-input v-model="formCs.type" :placeholder="$t('模块类型')"></el-input>
                             </p>
@@ -39,7 +39,7 @@
                                 <el-input v-model="formCs.moduleRemark" :placeholder="$t('模块说明')"></el-input>
                             </p>
                             <p>
-                                <el-button @click="generateCsCode()">生成</el-button>
+                                <el-button @click="generateCsCode()">{{ $t('生成') }}</el-button>
                             </p>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             </el-icon>
                         </div>
                         <div class="title">
-                            <h2>生成图标代码</h2>
+                            <h2>{{ $t('生成图标代码') }}</h2>
                             <p>
                                 <el-input v-model="form.iconName" :placeholder="$t('图标名称')"></el-input>
                             </p>
@@ -64,7 +64,7 @@
                             <p>
                                 <el-row align="middle">
                                     <el-col :span="12">
-                                        <el-button @click="generateIconCode()">生成</el-button>
+                                        <el-button @click="generateIconCode()">{{ $t('生成') }}</el-button>
                                     </el-col>
                                     <el-col :span="12">
                                         <el-link href="https://www.iconfont.cn/" target="_blank">Iconfont</el-link>
@@ -84,7 +84,7 @@
                             </el-icon>
                         </div>
                         <div class="title">
-                            <h2>生成表格代码</h2>
+                            <h2>{{ $t('生成表格代码') }}</h2>
                             <p>
                                 <el-input v-model="form.summaryInfo" :placeholder="$t('注释信息')" type="textarea"></el-input>
                             </p>
@@ -95,7 +95,7 @@
                                 <el-input v-model="form.formCode" :placeholder="$t('表单代码')" type="textarea"></el-input>
                             </p>
                             <p>
-                                <el-button @click="generateTableCode()">生成</el-button>
+                                <el-button @click="generateTableCode()">{{ $t('生成') }}</el-button>
                             </p>
                         </div>
                     </div>

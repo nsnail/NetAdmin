@@ -9,7 +9,7 @@
 
 <template>
     <slot :open="open">
-        <el-button @click="open" plain type="primary">导出</el-button>
+        <el-button @click="open" plain type="primary">{{ $t('导出') }}</el-button>
     </slot>
     <el-drawer v-model="dialog" :size="400" :title="$t('导出')" append-to-body destroy-on-close direction="rtl">
         <el-main style="padding: 0 20px 20px 20px">
@@ -42,7 +42,9 @@
                             type="primary"
                             >发起导出任务
                         </el-button>
-                        <el-button v-else @click="download" icon="el-icon-download" size="large" style="width: 100%" type="primary">下 载</el-button>
+                        <el-button v-else @click="download" icon="el-icon-download" size="large" style="width: 100%" type="primary">{{
+                            $t('下 载')
+                        }}</el-button>
                     </el-tab-pane>
                     <el-tab-pane v-if="columnData.length > 0" :label="$t('列设置')" lazy>
                         <columnSet :column="columnData"></columnSet>
@@ -188,7 +190,7 @@ export default {
                         this.dialog = false
                         this.$msgbox({
                             title: '成功发起任务',
-                            message: `<p>已成功发起导出任务，您可以操作其他事务</p><p>稍后可在 <b>任务中心</b> 查看执行结果</p>`,
+                            message: `<p>{{ $t('已成功发起导出任务，您可以操作其他事务') }}</p><p>{{ $t('稍后可在 ') }}<b>{{ $t('任务中心') }}</b> 查看执行结果</p>`,
                             type: 'success',
                             confirmButtonText: '知道了',
                             dangerouslyUseHTMLString: true,

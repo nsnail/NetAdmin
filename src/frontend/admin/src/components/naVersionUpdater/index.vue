@@ -11,8 +11,8 @@ export default {
         setInterval(async () => {
             // 检查版本
             const res = await this.$API.sys_tools.getVersion.post({})
-            if (res.data !== this.$TOOL.data.get('VERSION')) {
-                this.$TOOL.data.set('VERSION', res.data)
+            if (res.data !== this.$TOOL.data.get('APP_VERSION')) {
+                this.$TOOL.data.set('APP_VERSION', res.data)
                 this.showTip(res.data.slice(0, res.data.indexOf('+')))
             }
         }, 10000)
@@ -24,8 +24,8 @@ export default {
         showTip(version) {
             const contents = []
             const msg = h('p', { style: 'width:230px;display:flex;justify-content:space-between' }, [
-                h('span', {}, '即将开始更新……'),
-                h('a', { style: 'color:#409eff', href: 'javascript:window.location.reload()' }, '立即更新'),
+                h('span', {}, this.$t('即将开始更新……')),
+                h('a', { style: 'color:#409eff', href: 'javascript:window.location.reload()' }, this.$t('立即更新')),
             ])
             const task = h('p', { style: 'font-weight:bold' }, version)
             const progress = h(
@@ -68,7 +68,7 @@ export default {
 
             // 实例化通知
             const notifyInstance = this.$notify({
-                title: '发现新版本',
+                title: this.$t('发现新版本'),
                 type: 'success',
                 customClass: className,
                 message: h('div', {}, contents),

@@ -3,7 +3,7 @@
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
+                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
                         <el-form-item :label="$t('角色名称')" prop="name">
                             <el-input v-model="form.name" clearable></el-input>
                         </el-form-item>
@@ -72,7 +72,7 @@
                                 <el-option :label="$t('仪表板')" :value="true"></el-option>
                                 <el-option :label="$t('工作台')" :value="false"></el-option>
                             </el-select>
-                            <div class="el-form-item-msg">用于控制角色登录后控制台的视图</div>
+                            <div class="el-form-item-msg">{{ $t('用于控制角色登录后控制台的视图') }}</div>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -88,8 +88,8 @@
             </el-tabs>
         </div>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -102,9 +102,9 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                add: '新增角色',
-                edit: '编辑角色',
-                view: '查看角色',
+                add: this.$t('新增角色'),
+                edit: this.$t('编辑角色'),
+                view: this.$t('查看角色'),
             },
             visible: false,
             loading: false,
@@ -171,7 +171,7 @@ export default {
                 const res = await method.post(postData)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }

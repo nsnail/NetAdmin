@@ -5,25 +5,25 @@
                 <el-row :gutter="15">
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic :value="statistics.version" group-separator title="Redis 版本"></sc-statistic>
+                            <sc-statistic :title="$t('Redis 版本')" :value="statistics.version" group-separator></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
                             <sc-statistic
                                 :suffix="$t('天')"
+                                :title="$t('Redis 运行时间')"
                                 :value="parseInt(statistics.upTime / 86400)"
-                                group-separator
-                                title="Redis 运行时间"></sc-statistic>
+                                group-separator></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
                             <sc-statistic
+                                :title="$t('CPU 使用率')"
                                 :value="statistics.upTime ? (statistics.usedCpu / statistics.upTime).toFixed(2) : 0"
                                 group-separator
-                                suffix="%"
-                                title="CPU 使用率"></sc-statistic>
+                                suffix="%"></sc-statistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">

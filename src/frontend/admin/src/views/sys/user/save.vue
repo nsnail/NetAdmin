@@ -12,7 +12,7 @@
             :model="form"
             :rules="rules"
             label-position="right"
-            label-width="10rem"
+            label-width="12rem"
             ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
@@ -46,7 +46,7 @@
                                 maxlength="16"
                                 oninput="value=value.replace(/[^\w]/g,'')"
                                 placeholder="8位以上数字字母组合"></el-input>
-                            <el-button @click="form.passwordText = '1234qwer'">初始密码</el-button>
+                            <el-button @click="form.passwordText = '1234qwer'">{{ $t('初始密码') }}</el-button>
                         </div>
                     </el-form-item>
 
@@ -234,8 +234,8 @@
             </el-tabs>
         </el-form>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -248,9 +248,9 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                view: '查看用户',
-                add: '新增用户',
-                edit: '编辑用户',
+                view: this.$t('查看用户'),
+                add: this.$t('新增用户'),
+                edit: this.$t('编辑用户'),
             },
             visible: false,
             loading: false,
@@ -349,7 +349,7 @@ export default {
                 this.loading = false
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 this.loading = false
             }

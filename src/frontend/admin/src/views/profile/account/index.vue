@@ -1,6 +1,6 @@
 <template>
     <el-card :header="$t('账号信息')" shadow="never">
-        <el-form :model="form" label-width="10rem" ref="form">
+        <el-form :model="form" label-width="15rem" ref="form">
             <el-form-item :label="$t('头像')">
                 <sc-upload v-model="form.avatar" :onSuccess="updateUser" :title="$t('上传头像')"></sc-upload>
             </el-form-item>
@@ -13,7 +13,7 @@
             <el-form-item :label="$t('密码')">
                 <div class="flex w100p gap05">
                     <el-input readonly value="******"></el-input>
-                    <el-button @click="setPasswordClick">设置密码</el-button>
+                    <el-button @click="setPasswordClick">{{ $t('设置密码') }}</el-button>
                 </div>
             </el-form-item>
             <el-form-item :label="$t('注册时间')">
@@ -28,7 +28,7 @@
             <el-form-item :label="$t('电子邮箱')">
                 <div class="flex w100p gap05">
                     <el-input v-model="form.email" readonly></el-input>
-                    <el-button @click="setEmailClick">设置邮箱</el-button>
+                    <el-button @click="setEmailClick">{{ $t('设置邮箱') }}</el-button>
                 </div>
             </el-form-item>
         </el-form>

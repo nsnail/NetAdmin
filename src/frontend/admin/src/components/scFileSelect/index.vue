@@ -46,10 +46,10 @@
                         action=""
                         class="sc-file-select__upload"
                         multiple>
-                        <el-button icon="el-icon-upload" type="primary">本地上传</el-button>
+                        <el-button icon="el-icon-upload" type="primary">{{ $t('本地上传') }}</el-button>
                     </el-upload>
                     <span class="tips"
-                        ><el-icon><el-icon-warning /></el-icon>大小不超过{{ maxSize }}MB</span
+                        ><el-icon><el-icon-warning /></el-icon>{{ $t('大小不超过{{ maxSize }}MB') }}</span
                     >
                 </div>
                 <div class="keyword">
@@ -117,7 +117,7 @@
             </div>
             <div class="sc-file-select__do">
                 <slot name="do"></slot>
-                <el-button :disabled="value.length <= 0" @click="submit" type="primary">确 定</el-button>
+                <el-button :disabled="value.length <= 0" @click="submit" type="primary">{{ $t('确 定') }}</el-button>
             </div>
         </div>
     </div>

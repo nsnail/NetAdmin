@@ -96,9 +96,9 @@
                     <el-form label-position="left" label-width="10rem">
                         <el-form-item :label="$t('表格尺寸')">
                             <el-radio-group v-model="config.size" @change="configSizeChange" size="small">
-                                <el-radio-button label="large">大</el-radio-button>
-                                <el-radio-button label="default">正常</el-radio-button>
-                                <el-radio-button label="small">小</el-radio-button>
+                                <el-radio-button label="large">{{ $t('大') }}</el-radio-button>
+                                <el-radio-button label="default">{{ $t('正常') }}</el-radio-button>
+                                <el-radio-button label="small">{{ $t('小') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item :label="$t('样式')">
@@ -133,42 +133,47 @@
                 title="≤"></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^Contains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                divided
-                title="包含"></sc-contextmenu-item>
+                :title="$t('包含')"
+                divided></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^NotContains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="不含"></sc-contextmenu-item>
+                :title="$t('不含')"></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^StartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                divided
-                title="以 x 开始"></sc-contextmenu-item>
+                :title="$t('以 x 开始')"
+                divided></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^NotStartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="非 x 开始"></sc-contextmenu-item>
+                :title="$t('非 x 开始')"></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^EndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="以 x 结束"></sc-contextmenu-item>
+                :title="$t('以 x 结束')"></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^NotEndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="非 x 结束"></sc-contextmenu-item>
+                :title="$t('非 x 结束')"></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^Range^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                divided
-                title="数值范围"></sc-contextmenu-item>
+                :title="$t('数值范围')"
+                divided></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^DateRange^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="日期范围"></sc-contextmenu-item>
+                :title="$t('日期范围')"></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^Any^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                divided
-                title="为其一"></sc-contextmenu-item>
+                :title="$t('为其一')"
+                divided></sc-contextmenu-item>
             <sc-contextmenu-item
                 :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="非其一"></sc-contextmenu-item>
+                :title="$t('非其一')"></sc-contextmenu-item>
         </sc-contextmenu-item>
-        <sc-contextmenu-item v-if="contextOpers.includes('view')" command="view" divided icon="el-icon-view" title="查看"></sc-contextmenu-item>
-        <sc-contextmenu-item v-if="contextOpers.includes('edit')" command="edit" icon="el-icon-edit" title="编辑"></sc-contextmenu-item>
-        <sc-contextmenu-item v-if="contextOpers.includes('del')" command="del" icon="el-icon-delete" title="删除"></sc-contextmenu-item>
+        <sc-contextmenu-item
+            v-if="contextOpers.includes('view')"
+            :title="$t('查看')"
+            command="view"
+            divided
+            icon="el-icon-view"></sc-contextmenu-item>
+        <sc-contextmenu-item v-if="contextOpers.includes('edit')" :title="$t('编辑')" command="edit" icon="el-icon-edit"></sc-contextmenu-item>
+        <sc-contextmenu-item v-if="contextOpers.includes('del')" :title="$t('删除')" command="del" icon="el-icon-delete"></sc-contextmenu-item>
         <sc-contextmenu-item
             v-for="(adv, index) in contextAdvs"
             :command="adv"
@@ -177,7 +182,7 @@
             :key="index"
             :title="adv.label">
         </sc-contextmenu-item>
-        <sc-contextmenu-item command="refresh" divided icon="el-icon-refresh" suffix="Ctrl+R" title="重新加载"></sc-contextmenu-item>
+        <sc-contextmenu-item :title="$t('重新加载')" command="refresh" divided icon="el-icon-refresh" suffix="Ctrl+R"></sc-contextmenu-item>
     </sc-contextmenu>
 </template>
 <script>
@@ -343,7 +348,7 @@ export default {
             }
             if (command === 'del') {
                 try {
-                    await this.$confirm(h('div', [h('p', '是否确认删除？'), h('p', this.current.row.id)]), '提示', {
+                    await this.$confirm(h('div', [h('p', this.$t('是否确认删除？')), h('p', this.current.row.id)]), this.$t('提示'), {
                         type: 'warning',
                     })
                 } catch {
@@ -356,8 +361,8 @@ export default {
             const kv = command.split('^|^')
             let value
             try {
-                value = await this.$prompt(`仅显示 ${kv[0]} ${kv[1]}：`, '高级筛选', {
-                    inputPlaceholder: '一行一个',
+                value = await this.$prompt(this.$t('仅显示 {field} {operator}：', { field: kv[0], operator: kv[1] }), this.$t('高级筛选'), {
+                    inputplaceholder: this.$t('一行一个'),
                     inputPattern: /.*/,
                     inputType: 'textarea',
                     inputValue: kv[2],

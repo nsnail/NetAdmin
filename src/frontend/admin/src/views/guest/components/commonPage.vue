@@ -9,7 +9,7 @@
                 <div class="common-header-title">{{ title }}</div>
             </div>
             <div class="common-header-right">
-                <router-link to="/guest/login">返回登录</router-link>
+                <router-link to="/guest/login">{{ $t('返回登录') }}</router-link>
             </div>
         </el-header>
         <el-main>

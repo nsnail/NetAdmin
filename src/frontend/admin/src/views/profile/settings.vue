@@ -1,6 +1,6 @@
 <template>
     <el-card :header="$t('主题样式')" shadow="never">
-        <el-form class="mt-4" label-width="10rem">
+        <el-form class="mt-4" label-width="15rem">
             <el-form-item :label="$t('黑夜模式')">
                 <el-switch v-model="config.dark" active-icon="el-icon-moon" inactive-icon="el-icon-sunny" inline-prompt />
             </el-form-item>
@@ -27,7 +27,7 @@
         </el-form>
     </el-card>
     <el-card :header="$t('个人设置')" class="mt-4" shadow="never">
-        <el-form class="mt-4" label-width="10rem">
+        <el-form class="mt-4" label-width="15rem">
             <el-form-item :label="$t('界面语言')">
                 <el-select v-model="config.lang">
                     <el-option :label="$t('简体中文')" value="zh-cn" />

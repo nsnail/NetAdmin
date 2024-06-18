@@ -13,8 +13,8 @@
                         ],
                     },
                 ]"
-                :label-width="6"
                 @on-change="filterChange"
+                label-width="10"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
         <el-header>
@@ -28,7 +28,7 @@
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
-                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+                <na-button-bulk-del :api="$API.sys_config.bulkDelete" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -51,7 +51,7 @@
                 <el-table-column :label="$t('用户注册')" align="center">
                     <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150" />
                     <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150" />
-                    <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="100">
+                    <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="120">
                         <template #default="scope">
                             <el-switch v-model="scope.row.userRegisterConfirm" @change="changeSwitch($event, scope.row)"></el-switch>
                         </template>
@@ -123,27 +123,10 @@ export default {
     },
     inject: ['reload'],
     methods: {
-        async batchDel() {
-            let loading
-            try {
-                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-                    type: 'warning',
-                })
-                loading = this.$loading()
-                const res = await this.$API.sys_config.bulkDelete.post({
-                    items: this.selection,
-                })
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
-            loading?.close()
-        },
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_config.edit.post(row)
-                this.$message.success(`操作成功`)
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }
@@ -159,7 +142,7 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_config.delete.post({ id: row.id })
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }

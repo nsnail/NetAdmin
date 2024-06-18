@@ -29,7 +29,10 @@
                                 <span class="btn">
                                     <el-button-group size="small">
                                         <el-button @click.stop="add(node, data)" icon="el-icon-plus"></el-button>
-                                        <el-popconfirm :title="`确定删除 ${data.meta.title} 吗？`" @confirm="del(node, data)">
+                                        <el-popconfirm
+                                            :title="this.$t('确定删除 {item} 吗？', { item: data.meta.title })"
+                                            @confirm="del(node, data)"
+                                            width="20rem">
                                             <template #reference>
                                                 <el-button @click.stop="() => {}" icon="el-icon-delete"></el-button>
                                             </template>
@@ -57,6 +60,7 @@
 import save from './save'
 
 export default {
+    inject: ['reload'],
     components: {
         save,
     },
@@ -117,7 +121,7 @@ export default {
             this.loading = true
             try {
                 const res = await this.$API.sys_menu.delete.post({ id: data.id })
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }
@@ -160,7 +164,7 @@ export default {
             this.loading = false
         },
         async handleSuccess() {
-            this.$TOOL.refreshTab(this)
+            this.reload()
         },
     },
 }

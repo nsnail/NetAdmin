@@ -2,9 +2,9 @@
     <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" :width="800" @closed="$emit('closed')" destroy-on-close>
         <el-form v-loading="loading" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
             <el-form-item :label="$t('字典名称')" prop="name">
-                <el-input v-model="form.name" :placeholder="$t('字典显示名称')" clearable></el-input>
+                <el-input v-model="form.name" :placeholder="$t('字典名称')" clearable></el-input>
             </el-form-item>
-            <el-form-item :label="$t('编码')" prop="code">
+            <el-form-item :label="$t('字典编码')" prop="code">
                 <el-input v-model="form.code" :placeholder="$t('字典编码')" clearable></el-input>
             </el-form-item>
             <el-form-item :label="$t('父路径')" prop="parentId">
@@ -12,8 +12,8 @@
             </el-form-item>
         </el-form>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -25,8 +25,8 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                add: '新增字典',
-                edit: '编辑字典',
+                add: this.$t('新增字典'),
+                edit: this.$t('编辑字典'),
             },
             visible: false,
             loading: false,
@@ -64,7 +64,7 @@ export default {
                 const res = await method.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }

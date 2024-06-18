@@ -51,8 +51,8 @@
         <el-dialog v-model="cropperDialogVisible" :title="$t('剪裁')" :width="580" @closed="cropperClosed" destroy-on-close draggable>
             <sc-cropper :aspectRatio="aspectRatio" :compress="compress" :src="cropperFile.tempCropperFile" ref="cropper"></sc-cropper>
             <template #footer>
-                <el-button @click="cropperDialogVisible = false">取 消</el-button>
-                <el-button @click="cropperSave" type="primary">确 定</el-button>
+                <el-button @click="cropperDialogVisible = false">{{ $t('取消') }}</el-button>
+                <el-button @click="cropperSave" type="primary">{{ $t('确 定') }}</el-button>
             </template>
         </el-dialog>
     </div>

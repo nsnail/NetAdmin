@@ -11,7 +11,7 @@
                 <el-checkbox v-model="autoLogin" :label="$t('24小时免登录')"></el-checkbox>
             </el-col>
             <el-col :span="12" class="login-forgot">
-                <router-link to="/guest/reset-password">{{ $t('忘记密码') }}？</router-link>
+                <router-link to="/guest/reset-password">{{ $t('忘记密码？') }}</router-link>
             </el-col>
         </el-form-item>
         <el-form-item>
@@ -20,7 +20,7 @@
             </el-button>
         </el-form-item>
         <div class="login-reg">
-            {{ $t('还没有账号?') }}
+            {{ $t('还没有账号？') }}
             <router-link to="/guest/register">{{ $t('创建新账号') }}</router-link>
         </div>
     </el-form>

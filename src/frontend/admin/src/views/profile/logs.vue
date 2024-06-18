@@ -5,7 +5,7 @@
             <sc-table-column :label="$t('业务名称')" min-width="240" prop="title"></sc-table-column>
             <sc-table-column label="IP" prop="ip" width="150"></sc-table-column>
             <sc-table-column :label="$t('结果')" prop="code" width="150">
-                <el-tag type="success">成功</el-tag>
+                <el-tag type="success">{{ $t('成功') }}</el-tag>
             </sc-table-column>
             <sc-table-column :label="$t('操作时间')" prop="time" width="150"></sc-table-column>
         </scTable>

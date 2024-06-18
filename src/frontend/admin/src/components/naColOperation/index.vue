@@ -3,7 +3,11 @@
         <template #default="scope">
             <el-button-group>
                 <template v-for="(item, i) in buttons?.filter((x) => !x.condition || x.condition(scope))" :key="i">
-                    <el-popconfirm v-if="item.confirm" :title="`确定${item.title}？`" @confirm="item.click(scope.row, vue)" width="200">
+                    <el-popconfirm
+                        v-if="item.confirm"
+                        :title="this.$t(`确定 {title}？`, { title: item.title })"
+                        @confirm="item.click(scope.row, vue)"
+                        width="20rem">
                         <template #reference>
                             <el-button :icon="item.icon" :title="item.title" :type="item.type" @click.native.stop size="small"></el-button>
                         </template>

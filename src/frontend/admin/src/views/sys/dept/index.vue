@@ -13,7 +13,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="10"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -24,7 +24,7 @@
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: '部门编号 / 部门名称 / 备注',
+                            placeholder: $t('部门编号 / 部门名称 / 备注'),
                             style: 'width:25rem',
                         },
                     ]"
@@ -35,7 +35,7 @@
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
-                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+                <na-button-bulk-del :api="$API.sys_dept.bulkDelete" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -62,7 +62,7 @@
                 <el-table-column :label="$t('部门编号')" prop="id" sortable="custom" />
                 <el-table-column :label="$t('部门名称')" prop="name" sortable="custom" />
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" />
-                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
@@ -129,28 +129,11 @@ export default {
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_dept.setEnabled.post(row)
-                this.$message.success(`操作成功`)
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }
             this.$refs.table.refresh()
-        },
-        async batchDel() {
-            let loading
-            try {
-                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-                    type: 'warning',
-                })
-                loading = this.$loading()
-                const res = await this.$API.sys_dept.bulkDelete.post({
-                    items: this.selection,
-                })
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
-            loading?.close()
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -161,7 +144,7 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_dept.delete.post({ id: row.id })
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }

@@ -73,7 +73,7 @@ export default {
             type: Object,
             default: () => {},
         },
-        placeholder: { type: String, default: '请选择' },
+        placeholder: { type: String },
         size: { type: String, default: 'default' },
         clearable: { type: Boolean, default: false },
         multiple: { type: Boolean, default: false },

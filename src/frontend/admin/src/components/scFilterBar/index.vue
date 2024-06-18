@@ -21,12 +21,12 @@
                     <el-tabs class="root">
                         <el-tab-pane lazy>
                             <template #label>
-                                <div class="tabs-label">过滤项</div>
+                                <div class="tabs-label">{{ $t('过滤项') }}</div>
                             </template>
                             <el-scrollbar>
                                 <div class="sc-filter-main">
-                                    <h2>设置过滤条件</h2>
-                                    <div v-if="filter.length <= 0" class="nodata">没有默认过滤条件，请点击增加过滤项</div>
+                                    <h2>{{ $t('设置过滤条件') }}</h2>
+                                    <div v-if="filter.length <= 0" class="nodata">{{ $t('没有默认过滤条件，请点击增加过滤项') }}</div>
                                     <table v-else>
                                         <colgroup>
                                             <col width="50" />
@@ -158,13 +158,13 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <el-button @click="addFilter" icon="el-icon-plus" text type="primary">增加过滤项</el-button>
+                                    <el-button @click="addFilter" icon="el-icon-plus" text type="primary">{{ $t('增加过滤项') }}</el-button>
                                 </div>
                             </el-scrollbar>
                         </el-tab-pane>
                         <el-tab-pane lazy>
                             <template #label>
-                                <div class="tabs-label">常用</div>
+                                <div class="tabs-label">{{ $t('常用') }}</div>
                             </template>
                             <el-scrollbar>
                                 <my :data="myFilter" :filterName="filterName" @selectMyfilter="selectMyfilter" ref="my"></my>
@@ -173,9 +173,9 @@
                     </el-tabs>
                 </el-main>
                 <el-footer>
-                    <el-button :disabled="filter.length <= 0" @click="ok" type="primary">立即过滤</el-button>
-                    <el-button :disabled="filter.length <= 0" @click="saveMy" plain type="primary">另存为常用</el-button>
-                    <el-button @click="clear">清空过滤</el-button>
+                    <el-button :disabled="filter.length <= 0" @click="ok" type="primary">{{ $t('立即过滤') }}</el-button>
+                    <el-button :disabled="filter.length <= 0" @click="saveMy" plain type="primary">{{ $t('另存为常用') }}</el-button>
+                    <el-button @click="clear">{{ $t('清空过滤') }}</el-button>
                 </el-footer>
             </el-container>
         </el-drawer>
@@ -333,7 +333,7 @@ export default {
         //保存常用
         saveMy() {
             this.$prompt('常用过滤名称', '另存为常用', {
-                inputPlaceholder: '请输入识别度较高的常用过滤名称',
+                inputplaceholder: $t('请输入识别度较高的常用过滤名称'),
                 inputPattern: /\S/,
                 inputErrorMessage: '名称不能为空',
             })

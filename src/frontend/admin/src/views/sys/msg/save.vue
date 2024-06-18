@@ -71,8 +71,8 @@
             </el-tabs>
         </el-form>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -80,6 +80,7 @@
 <script>
 import { AiEditor } from 'aieditor'
 import 'aieditor/dist/style.css'
+import sysConfig from '../../../config'
 
 export default {
     components: {},
@@ -88,9 +89,9 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                view: '查看消息',
-                add: '新增消息',
-                edit: '编辑消息',
+                view: this.$t('查看消息'),
+                add: this.$t('新增消息'),
+                edit: this.$t('编辑消息'),
             },
             visible: false,
             loading: false,
@@ -141,14 +142,15 @@ export default {
             this.loading = false
 
             await this.$nextTick()
-            new AiEditor({
+            const aiEditor = new AiEditor({
                 element: this.$refs.editor,
-                placeholder: '请输入消息内容...',
+                placeholder: this.$t('请输入消息内容...'),
                 content: this.form.content,
                 onChange: (content) => {
                     this.form.content = content.getHtml()
                 },
             })
+            aiEditor.changeLang(this.$TOOL.data.get('APP_LANG') || sysConfig.LANG)
             return this
         },
 
@@ -166,7 +168,7 @@ export default {
                 this.loading = false
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
                 this.loading = false

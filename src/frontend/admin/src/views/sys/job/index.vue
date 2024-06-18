@@ -23,7 +23,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="10"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -44,7 +44,7 @@
                                 return { value: x[0], label: x[1][1] }
                             }),
                             placeholder: $t('请求方式'),
-                            style: 'width:10rem',
+                            style: 'width:15rem',
                         },
                     ]"
                     :vue="this"
@@ -54,7 +54,7 @@
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
-                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+                <na-button-bulk-del :api="$API.sys_job.bulkDelete" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -112,9 +112,9 @@
                     align="center"
                     prop="httpMethod"
                     sortable="custom"
-                    width="100" />
+                    width="150" />
                 <el-table-column :label="$t('上次执行')" align="center">
-                    <el-table-column :label="$t('状态')" align="center" prop="lastExecTime" sortable="custom" width="150">
+                    <el-table-column :label="$t('状态')" align="center" prop="lastExecTime" sortable="custom" width="100">
                         <template #default="scope">
                             <sc-status-indicator :type="scope.row.lastStatusCode === 'ok' ? 'success' : 'danger'" />
                             {{
@@ -140,12 +140,12 @@
                 </el-table-column>
 
                 <el-table-column :label="$t('下次执行时间')" align="right" prop="nextExecTime" sortable="custom" width="170" />
-                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="100">
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="130">
                     <template #default="scope">
                         <span v-if="scope.row.createdTime" v-time.tip="scope.row.createdTime"></span>
                     </template>
@@ -241,7 +241,7 @@ export default {
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_job.setEnabled.post(row)
-                this.$message.success(`操作成功`)
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }
@@ -252,7 +252,7 @@ export default {
                 await this.$API.sys_job.execute.post({ id: row.id })
                 this.$notify.success({
                     dangerouslyUseHTMLString: true,
-                    message: `<div id="countdown">已发起执行请求，5 秒后弹出执行结果</div>`,
+                    message: `<div id="countdown">${this.$t('已发起执行请求，5 秒后弹出执行结果')}</div>`,
                     onClose: async () => {
                         clearInterval(this.timer)
                         this.loading = true
@@ -276,28 +276,10 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_job.delete.post({ id: row.id })
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }
-            this.$refs.table.refresh()
-        },
-        //批量删除
-        async batchDel() {
-            let loading
-            try {
-                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-                    type: 'warning',
-                })
-                loading = this.$loading()
-                const res = await this.$API.sys_job.bulkDelete.post({
-                    items: this.selection,
-                })
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-            loading?.close()
             this.$refs.table.refresh()
         },
 

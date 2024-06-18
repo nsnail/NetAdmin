@@ -19,11 +19,17 @@
                 oninput="value=value.replace(/\D/g,'')"
                 prefix-icon="el-icon-message"></el-input>
             <el-button :disabled="sendDisabled" @click="getYzm"
-                >获取验证码<span v-if="sendDisabled"> ({{ waitSecs }})</span></el-button
+                >{{ $t('获取验证码') }}<span v-if="sendDisabled"> ({{ waitSecs }})</span></el-button
             >
         </div>
     </el-form-item>
-    <na-verify :imgSize="{ width: '310px', height: '155px' }" @success="captchaSuccess" captchaType="blockPuzzle" mode="pop" ref="verify"></na-verify>
+    <na-verify
+        :explain="$t('向右滑动完成验证')"
+        :imgSize="{ width: '310px', height: '155px' }"
+        @success="captchaSuccess"
+        captchaType="blockPuzzle"
+        mode="pop"
+        ref="verify"></na-verify>
 </template>
 
 <script>
@@ -35,7 +41,7 @@ export default {
         modelValue: { type: Object },
         vue: { type: Object },
         formName: { type: String },
-        emailPlaceHolder: { type: String, default: '邮箱地址' },
+        emailPlaceHolder: { type: String },
         emailField: { type: Object },
         codeField: { type: Object },
         emailLabel: { type: String },
@@ -80,7 +86,7 @@ export default {
                     deviceType: 'email',
                     verifyCaptchaReq: obj,
                 })
-                this.$message.success('发送成功')
+                this.$message.success(this.$t('发送成功'))
                 this.waitSecs = 60
                 const t = setInterval(() => {
                     this.waitSecs -= 1

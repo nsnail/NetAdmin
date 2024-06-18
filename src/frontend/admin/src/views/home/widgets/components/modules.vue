@@ -1,11 +1,11 @@
 <template>
     <div v-loading="loading">
-        <el-card header="开发依赖" shadow="never">
+        <el-card :header="$t('开发依赖')" shadow="never">
             <el-descriptions :column="2" border>
                 <el-descriptions-item v-for="(value, key) in packageJson.devDependencies" :key="key" :label="key">{{ value }}</el-descriptions-item>
             </el-descriptions>
         </el-card>
-        <el-card header="运行依赖" shadow="never">
+        <el-card :header="$t('运行依赖')" shadow="never">
             <el-descriptions :column="2" border>
                 <el-descriptions-item v-for="(value, key) in packageJson.dependencies" :key="key" :label="key">{{ value }}</el-descriptions-item>
             </el-descriptions>
@@ -20,9 +20,9 @@
 import packageJson from '/package.json'
 
 export default {
-    title: '模块信息',
+    title: null,
     icon: 'el-icon-monitor',
-    description: '当前项目模块信息',
+    description: null,
     data() {
         return {
             loading: true,
@@ -31,6 +31,8 @@ export default {
         }
     },
     created() {
+        this.title = this.$t('模块信息')
+        this.description = this.$t('当前项目模块信息')
         this.getModules()
     },
     methods: {

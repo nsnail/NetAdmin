@@ -14,7 +14,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="10"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -26,7 +26,7 @@
                             type: 'input',
                             field: ['root', 'keywords'],
                             placeholder: $t('消息编号 / 消息主题 / 消息内容'),
-                            style: 'width:20rem',
+                            style: 'width:25rem',
                         },
                     ]"
                     :vue="this"
@@ -36,7 +36,7 @@
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
-                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+                <na-button-bulk-del :api="$API.sys_sitemsg.bulkDelete" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -70,7 +70,7 @@
                     align="center"
                     prop="msgType"
                     sortable="custom"
-                    width="100" />
+                    width="150" />
                 <el-table-column :label="$t('消息主题')" prop="title" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('消息摘要')" prop="summary" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
@@ -143,28 +143,10 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_sitemsg.delete.post({ id: row.id })
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }
-            this.$refs.table.refresh()
-        },
-        //批量删除
-        async batchDel() {
-            let loading
-            try {
-                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-                    type: 'warning',
-                })
-                loading = this.$loading()
-                const res = await this.$API.sys_sitemsg.bulkDelete.post({
-                    items: this.selection,
-                })
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-            loading?.close()
             this.$refs.table.refresh()
         },
 

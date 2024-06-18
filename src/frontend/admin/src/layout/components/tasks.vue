@@ -3,7 +3,7 @@
         <el-main>
             <el-empty v-if="jobs.length === 0" :image-size="120">
                 <template #description>
-                    <h2>没有正在执行的作业</h2>
+                    <h2>{{ $t('没有正在执行的作业') }}</h2>
                 </template>
                 <p style="color: #999; line-height: 1.5; margin: 0 3rem">
                     在处理耗时过久的作业时为了不阻碍正在处理的工作，可在作业中心进行异步执行。
@@ -17,15 +17,17 @@
                     <div class="jobMain">
                         <div class="title">
                             <h2>{{ job.jobName }}</h2>
-                            <p>上次执行：<span v-time.tip="job.lastExecTime"></span></p>
+                            <p>{{ $t('上次执行：') }}<span v-time.tip="job.lastExecTime"></span></p>
                             <p>
                                 下次执行：<span>{{ job.nextExecTime }}</span>
                             </p>
                         </div>
                         <div class="bottom">
                             <div class="status">
-                                <el-tag v-if="job.status === 'running'" type="warning">执行中</el-tag>
-                                <el-tag v-if="job.status === 'idle'" :type="job.lastStatusCode === 'ok' ? 'primary' : 'danger'">空闲</el-tag>
+                                <el-tag v-if="job.status === 'running'" type="warning">{{ $t('执行中') }}</el-tag>
+                                <el-tag v-if="job.status === 'idle'" :type="job.lastStatusCode === 'ok' ? 'primary' : 'danger'">{{
+                                    $t('空闲')
+                                }}</el-tag>
                             </div>
                             <div class="handler">
                                 <el-button
