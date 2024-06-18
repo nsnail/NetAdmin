@@ -60,10 +60,10 @@
 
         <el-badge :hidden="vue.query.dynamicFilter.filters.length === 0" :value="vue.query.dynamicFilter.filters.length">
             <el-button-group>
-                <el-button @click="search" icon="el-icon-search" type="primary">查询</el-button>
+                <el-button @click="search" icon="el-icon-search" type="primary">{{ $t('查询') }}</el-button>
                 <el-popover :title="$t('已应用的查询条件')" placement="bottom-end" trigger="hover" width="40rem">
                     <template #reference>
-                        <el-button @click="reset" icon="el-icon-refresh-left">重置</el-button>
+                        <el-button @click="reset" icon="el-icon-refresh-left">{{ $t('重置') }}</el-button>
                     </template>
                     <v-ace-editor
                         :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
@@ -94,7 +94,7 @@ export default {
         return {
             dateShortCuts: [
                 {
-                    text: '今天',
+                    text: this.$t('今天'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -102,7 +102,7 @@ export default {
                     },
                 },
                 {
-                    text: '昨天',
+                    text: this.$t('昨天'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -111,7 +111,7 @@ export default {
                     },
                 },
                 {
-                    text: '最近三天',
+                    text: this.$t('最近三天'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -122,7 +122,7 @@ export default {
                     },
                 },
                 {
-                    text: '最近一周',
+                    text: this.$t('最近一周'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -133,7 +133,7 @@ export default {
                     },
                 },
                 {
-                    text: '最近一月',
+                    text: this.$t('最近一月'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -144,7 +144,7 @@ export default {
                     },
                 },
                 {
-                    text: '最近三月',
+                    text: this.$t('最近三月'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -155,7 +155,7 @@ export default {
                     },
                 },
                 {
-                    text: '最近六月',
+                    text: this.$t('最近六月'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -166,7 +166,7 @@ export default {
                     },
                 },
                 {
-                    text: '最近一年',
+                    text: this.$t('最近一年'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -183,7 +183,7 @@ export default {
                     value: 'id',
                     type: 'text',
                     selected: true,
-                    placeholder: '请输入订单号',
+                    placeholder: this.$t('请输入订单号'),
                 },
                 {
                     label: '类型',
@@ -191,7 +191,7 @@ export default {
                     type: 'select',
                     operator: '=',
                     selected: true,
-                    placeholder: '请选择类型',
+                    placeholder: this.$t('请选择类型'),
                     extend: {
                         data: [
                             {
@@ -210,7 +210,7 @@ export default {
                     value: 'type2',
                     type: 'select',
                     operator: '=',
-                    placeholder: '请选择类型',
+                    placeholder: this.$t('请选择类型'),
                     extend: {
                         multiple: true,
                         data: [
@@ -230,7 +230,7 @@ export default {
                     value: 'noticeType',
                     type: 'select',
                     operator: '=',
-                    placeholder: '请选择通知类型',
+                    placeholder: this.$t('请选择通知类型'),
                     extend: {
                         request: async () => {
                             const list = await this.$API.system.dic.get.get()
@@ -248,7 +248,7 @@ export default {
                     value: 'noticeType2',
                     type: 'select',
                     operator: '=',
-                    placeholder: '请输入关键词后检索',
+                    placeholder: this.$t('请输入关键词后检索'),
                     extend: {
                         remote: true,
                         request: async (query) => {
@@ -313,7 +313,7 @@ export default {
                     label: '自定义日期',
                     value: 'date3',
                     type: 'customDate',
-                    placeholder: '请选择月份',
+                    placeholder: this.$t('请选择月份'),
                     extend: {
                         dateType: 'month',
                         valueFormat: 'YYYY-MM',
@@ -335,7 +335,7 @@ export default {
         if (this.dateType === 'datetimerange') {
             this.dateShortCuts.unshift(
                 {
-                    text: '最近一时',
+                    text: this.$t('最近一时'),
                     value: () => {
                         const start = new Date()
                         const end = new Date()
@@ -344,7 +344,7 @@ export default {
                     },
                 },
                 {
-                    text: '昨日此时',
+                    text: this.$t('昨日此时'),
                     value: () => {
                         return [
                             new Date(new Date(new Date().getTime() - 86400 * 1000).setHours(0, 0, 0, 0)),

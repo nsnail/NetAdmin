@@ -2,7 +2,7 @@
     <div v-show="showBox" :class="mode === 'pop' ? 'mask' : ''">
         <div :class="mode === 'pop' ? 'verifybox' : ''" :style="{ 'max-width': parseInt(imgSize.width) + 30 + 'px' }">
             <div v-if="mode === 'pop'" class="verifybox-top">
-                请完成安全验证
+                {{ $t('请完成安全验证') }}
                 <span @click="closeBox" class="verifybox-close">
                     <i class="iconfont icon-close"></i>
                 </span>
@@ -43,7 +43,7 @@ export default {
         }
     },
     created() {
-        this.tpl = this.$GLOBAL.chars.TPL_DATE_YYYYMMDD
+        this.tpl = 'yyyyMMdd'
     },
     components: {
         slide,

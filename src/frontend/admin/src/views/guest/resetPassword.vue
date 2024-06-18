@@ -4,30 +4,31 @@
             <el-step :title="$t('填写新密码')" />
             <el-step :title="$t('完成重置')" />
         </el-steps>
-        <el-form v-if="stepActive === 0" :label-width="120" :model="form" :rules="rules" @keyup.enter="save" ref="form" size="large">
+        <el-form v-if="stepActive === 0" :model="form" :rules="rules" @keyup.enter="save" label-width="15rem" ref="form" size="large">
             <na-form-phone
                 v-model="form.verifySmsCodeReq"
                 :code-field="['verifySmsCodeReq.code', 'code']"
                 :code-label="$t('短信验证码')"
                 :phone-field="['verifySmsCodeReq.destDevice', 'destDevice']"
                 :phone-label="$t('手机号码')"
+                :phone-place-holder="$t('手机号码')"
                 :vue="this"
                 form-name="form"></na-form-phone>
             <el-form-item :label="$t('新密码')" prop="passwordText">
                 <el-input v-model="form.passwordText" :placeholder="$t('请输入新密码')" show-password></el-input>
                 <sc-password-strength v-model="form.passwordText"></sc-password-strength>
-                <div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
+                <div class="el-form-item-msg">{{ $t('请输入包含英文、数字的8位以上密码') }}</div>
             </el-form-item>
             <el-form-item :label="$t('确认新密码')" prop="passwordText2">
                 <el-input v-model="form.passwordText2" :placeholder="$t('请再一次输入新密码')" show-password></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button :loading="loading" @click="save" type="primary">提交</el-button>
+                <el-button :loading="loading" @click="save" type="primary">{{ $t('提交') }}</el-button>
             </el-form-item>
         </el-form>
-        <el-result v-if="stepActive >= 1" :sub-title="$t('请牢记自己的新密码,返回登录后使用新密码登录')" :title="$t('密码重置成功')" icon="success">
+        <el-result v-if="stepActive >= 1" :sub-title="$t('请牢记自己的新密码，返回登录后使用新密码登录')" :title="$t('密码重置成功')" icon="success">
             <template #extra>
-                <el-button @click="backLogin" size="large" type="primary">返回登录</el-button>
+                <el-button @click="backLogin" size="large" type="primary">{{ $t('返回登录') }}</el-button>
             </template>
         </el-result>
     </common-page>

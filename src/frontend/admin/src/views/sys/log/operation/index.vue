@@ -13,7 +13,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="10"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -32,7 +32,7 @@
                                 { label: '50x', value: '500,599' },
                                 { label: '90x', value: '900,999' },
                             ],
-                            placeholder: '状态码',
+                            placeholder: $t('状态码'),
                             style: 'width:15rem',
                         },
                         {
@@ -40,13 +40,13 @@
                             field: ['dy', 'apiId'],
                             api: $API.sys_api.query,
                             props: { label: 'summary', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
-                            placeholder: '请求服务',
+                            placeholder: $t('请求服务'),
                             style: 'width:20rem',
                         },
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: '日志编号 / 用户 / 客户端IP',
+                            placeholder: $t('日志编号 / 用户 / 客户端IP'),
                             style: 'width:25rem',
                         },
                     ]"
@@ -75,7 +75,7 @@
                 stripe>
                 <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150" />
                 <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom" width="170" />
-                <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="100">
+                <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="150">
                     <template #default="{ row }">
                         <sc-status-indicator :type="row.httpStatusCode >= 200 && row.httpStatusCode < 300 ? 'success' : 'danger'" />
                         {{ row.httpStatusCode }}
@@ -106,8 +106,8 @@
                 </el-table-column>
                 <na-col-user
                     v-auth="'sys/log/operation/user'"
+                    :label="$t('用户')"
                     header-align="center"
-                    label="用户"
                     nestProp="user.userName"
                     nestProp2="user.id"
                     prop="userId"
@@ -243,7 +243,7 @@ export default {
             const res = await this.$API.sys_log.query.post({
                 filter: { id: row.id },
             })
-            this.$refs.info.open(tool.sortProperties(res.data[0]), `日志详情：${row.id}`)
+            this.$refs.info.open(tool.sortProperties(res.data[0]), this.$t('日志详情：{id}', { id: row.id }))
         },
     },
 }

@@ -13,7 +13,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="10"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -24,7 +24,7 @@
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: '角色编号 / 角色名称 / 备注',
+                            placeholder: $t('角色编号 / 角色名称 / 备注'),
                             style: 'width:20rem',
                         },
                         {
@@ -34,7 +34,7 @@
                                 { label: '是', value: true },
                                 { label: '否', value: false },
                             ],
-                            placeholder: '无限权限',
+                            placeholder: $t('无限权限'),
                             style: 'width:15rem',
                         },
                         {
@@ -44,7 +44,7 @@
                                 { label: '是', value: true },
                                 { label: '否', value: false },
                             ],
-                            placeholder: '显示仪表板',
+                            placeholder: $t('显示仪表板'),
                             style: 'width:15rem',
                         },
                     ]"
@@ -55,7 +55,7 @@
             </div>
             <div class="right-panel">
                 <na-button-add :vue="this" />
-                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+                <na-button-bulk-del :api="$API.sys_role.bulkDelete" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -80,7 +80,7 @@
                 <el-table-column :label="$t('角色编号')" prop="id" sortable="custom" />
                 <el-table-column :label="$t('角色名称')" prop="name" sortable="custom" />
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" />
-                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
@@ -101,9 +101,10 @@
                             return { value: x[0], text: x[1][1], type: x[1][2] }
                         })
                     "
+                    align="center"
                     prop="dataScope"
                     sortable="custom"
-                    width="100">
+                    width="120">
                 </na-col-indicator>
 
                 <na-col-indicator
@@ -177,27 +178,10 @@ export default {
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_role.setEnabled.post(row)
-                this.$message.success(`操作成功`)
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }
-            this.$refs.table.refresh()
-        },
-        async batchDel() {
-            let loading
-            try {
-                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
-                    type: 'warning',
-                })
-                loading = this.$loading()
-                const res = await this.$API.sys_role.bulkDelete.post({
-                    items: this.selection,
-                })
-                this.$message.success(`删除 ${res.data} 项`)
-            } catch {
-                //
-            }
-            loading?.close()
             this.$refs.table.refresh()
         },
         filterChange(data) {
@@ -209,7 +193,7 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_role.delete.post({ id: row.id })
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }

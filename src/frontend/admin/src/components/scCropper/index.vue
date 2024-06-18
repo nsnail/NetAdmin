@@ -14,7 +14,7 @@
             <img :src="src" ref="img" />
         </div>
         <div class="sc-cropper__preview">
-            <h4>图像预览</h4>
+            <h4>{{ $t('图像预览') }}</h4>
             <div class="sc-cropper__preview__img" ref="preview"></div>
         </div>
     </div>

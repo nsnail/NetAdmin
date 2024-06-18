@@ -13,7 +13,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="10"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -24,7 +24,7 @@
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: '日志编号 / 登录名 / 客户端IP',
+                            placeholder: $t('日志编号 / 登录名 / 客户端IP'),
                             style: 'width:25rem',
                         },
                     ]"
@@ -55,7 +55,7 @@
                 stripe>
                 <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150" />
                 <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom" width="170" />
-                <el-table-column :label="$t('结果')" align="center" prop="httpStatusCode" sortable="custom" width="80">
+                <el-table-column :label="$t('结果')" align="center" prop="httpStatusCode" sortable="custom" width="100">
                     <template #default="scope">
                         <sc-status-indicator :type="scope.row.httpStatusCode === 200 ? 'success' : 'danger'" />
                         {{ scope.row.httpStatusCode === 200 ? '成功' : '失败' }}
@@ -176,7 +176,7 @@ export default {
             const res = await this.$API.sys_log.query.post({
                 filter: { id: row.id },
             })
-            this.$refs.info.open(tool.sortProperties(res.data[0]), `日志详情：${row.id}`)
+            this.$refs.info.open(tool.sortProperties(res.data[0]), this.$t('日志详情：{id}', { id: row.id }))
         },
     },
 }

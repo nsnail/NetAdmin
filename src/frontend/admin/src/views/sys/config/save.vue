@@ -3,7 +3,7 @@
         <div v-loading="loading">
             <el-tabs v-if="!loading" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
+                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
                         <el-collapse>
                             <el-collapse-item :title="$t('用户注册设置')" name="1">
                                 <div style="margin: 1rem">
@@ -44,8 +44,8 @@
             </el-tabs>
         </div>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -58,9 +58,9 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                add: '新增配置',
-                edit: '编辑配置',
-                view: '查看配置',
+                add: this.$t('新增配置'),
+                edit: this.$t('编辑配置'),
+                view: this.$t('查看配置'),
             },
             visible: false,
             loading: false,
@@ -102,7 +102,7 @@ export default {
                 const res = await method.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 ///
             }

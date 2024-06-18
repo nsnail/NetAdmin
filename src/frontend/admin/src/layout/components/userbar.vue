@@ -141,7 +141,7 @@ export default {
                 this.$router.push({ path: '/cmd' })
             }
             if (command === 'clearCache') {
-                this.$confirm('清除缓存会将系统初始化，包括登录状态、主题、语言设置等，是否继续？', '提示', {
+                this.$confirm(this.$t('清除缓存会将系统初始化，包括登录状态、主题、语言设置等，是否继续？'), this.$t('提示'), {
                     type: 'info',
                 })
                     .then(() => {
@@ -159,9 +159,9 @@ export default {
                     })
             }
             if (command === 'outLogin') {
-                this.$confirm('确认是否退出当前用户？', '提示', {
+                this.$confirm(this.$t('确认是否退出当前用户？'), this.$t('提示'), {
                     type: 'warning',
-                    confirmButtonText: '退出',
+                    confirmButtonText: this.$t('退出'),
                     confirmButtonClass: 'el-button--danger',
                 })
                     .then(() => {

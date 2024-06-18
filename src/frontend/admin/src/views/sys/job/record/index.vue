@@ -30,7 +30,7 @@
                                 { label: '50x', value: '500,599' },
                                 { label: '90x', value: '900,999' },
                             ],
-                            placeholder: '状态码',
+                            placeholder: $t('状态码'),
                             style: 'width:20rem',
                         },
                     ]"
@@ -74,7 +74,7 @@
                     align="center"
                     prop="httpMethod"
                     sortable="custom"
-                    width="100" />
+                    width="150" />
                 <el-table-column :label="$t('响应状态码')" align="center" prop="httpStatusCode" sortable="custom" width="200">
                     <template #default="scope">
                         <sc-status-indicator :type="scope.row.httpStatusCode === 'ok' ? 'success' : 'danger'" />

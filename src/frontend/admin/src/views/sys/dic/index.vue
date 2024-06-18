@@ -24,7 +24,7 @@
                                 <span class="btn">
                                     <el-button-group size="small">
                                         <el-button @click.stop="edit(data)" icon="el-icon-edit"></el-button>
-                                        <el-popconfirm :title="`确定删除 ${data.name} 吗？`" @confirm="del(data)">
+                                        <el-popconfirm :title="$t('确定删除 {item} 吗？', { item: data.name })" @confirm="del(data)" width="20rem">
                                             <template #reference>
                                                 <el-button @click.stop="() => {}" icon="el-icon-delete"></el-button>
                                             </template>
@@ -36,7 +36,7 @@
                     </el-tree>
                 </el-main>
                 <el-footer>
-                    <el-button @click="add" icon="el-icon-plus" size="small" style="width: 100%" type="primary">字典分类</el-button>
+                    <el-button @click="add" icon="el-icon-plus" size="small" style="width: 100%" type="primary">{{ $t('字典分类') }}</el-button>
                 </el-footer>
             </el-container>
         </el-aside>
@@ -123,7 +123,7 @@ export default {
                 await this.$API.sys_dic.deleteCatalog.post({
                     id: data.id,
                 })
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }

@@ -25,6 +25,7 @@
                         :code-label="$t('新手机验证码')"
                         :phone-field="['newverifySmsCodeReq.destDevice', 'destDevice']"
                         :phone-label="$t('新手机号码')"
+                        :phone-place-holder="$t('新手机号码')"
                         :vue="this"
                         form-name="form" />
                 </el-col>
@@ -32,8 +33,8 @@
         </el-form>
 
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </el-dialog>
 </template>
@@ -63,7 +64,7 @@ export default {
                 const res = await this.$API.sys_user.setMobile.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success($t('操作成功'))
+                this.$message.success(this.$t('操作成功'))
             } catch {}
             this.loading = false
         },

@@ -2,11 +2,11 @@
     <div v-if="usercolumn.length > 0" v-loading="isSave" class="setting-column">
         <div class="setting-column__title">
             <span class="move_b"></span>
-            <span class="show_b">显示</span>
-            <span class="name_b">名称</span>
-            <span class="width_b">宽度</span>
-            <span class="sortable_b">排序</span>
-            <span class="fixed_b">固定</span>
+            <span class="show_b">{{ $t('显示') }}</span>
+            <span class="name_b">{{ $t('名称') }}</span>
+            <span class="width_b">{{ $t('宽度') }}</span>
+            <span class="sortable_b">{{ $t('排序') }}</span>
+            <span class="fixed_b">{{ $t('固定') }}</span>
         </div>
         <div class="setting-column__list" ref="list">
             <ul>
@@ -31,8 +31,8 @@
             </ul>
         </div>
         <div class="setting-column__bottom">
-            <el-button :disabled="isSave" @click="backDefaul">重置</el-button>
-            <el-button @click="save" type="primary">保存</el-button>
+            <el-button :disabled="isSave" @click="backDefaul">{{ $t('重置') }}</el-button>
+            <el-button @click="save" type="primary">{{ $t('保存') }}</el-button>
         </div>
     </div>
     <el-empty v-else :description="$t('暂无可配置的列')" :image-size="80"></el-empty>

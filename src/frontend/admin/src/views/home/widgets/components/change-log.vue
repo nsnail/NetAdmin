@@ -1,5 +1,5 @@
 <template>
-    <el-card v-loading="loading" header="更新日志" shadow="never">
+    <el-card v-loading="loading" :header="$t('更新日志')" shadow="never">
         <div v-html="changeLog" class="change-log"></div>
     </el-card>
 </template>

@@ -27,8 +27,8 @@
             </el-tabs>
         </div>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -41,9 +41,9 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                view: '查看字典项',
-                add: '新增字典项',
-                edit: '编辑字典项',
+                view: this.$t('查看字典项'),
+                add: this.$t('新增字典项'),
+                edit: this.$t('编辑字典项'),
             },
             visible: false,
             loading: false,
@@ -81,7 +81,7 @@ export default {
                 const res = await method.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }

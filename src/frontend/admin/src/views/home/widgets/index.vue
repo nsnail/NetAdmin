@@ -54,7 +54,7 @@
                         添加部件
                     </div>
                     <div>
-                        <el-button v-if="customizing" @click="save" icon="el-icon-check" round type="primary">完成</el-button>
+                        <el-button v-if="customizing" @click="save" icon="el-icon-check" round type="primary">{{ $t('完成') }}</el-button>
                     </div>
                     <div @click="close()" class="widgets-aside-close">
                         <el-icon>
@@ -122,7 +122,7 @@
                     </div>
                 </el-main>
                 <el-footer>
-                    <el-button @click="backDefault()" size="small">恢复默认</el-button>
+                    <el-button @click="backDefault()" size="small">{{ $t('恢复默认') }}</el-button>
                 </el-footer>
             </el-container>
         </div>

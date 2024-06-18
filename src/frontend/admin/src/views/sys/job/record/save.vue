@@ -12,7 +12,7 @@
             :model="form"
             :rules="rules"
             label-position="right"
-            label-width="150px"
+            label-width="15rem"
             ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
@@ -45,7 +45,7 @@
             </el-tabs>
         </el-form>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
         </template>
     </sc-dialog>
 </template>

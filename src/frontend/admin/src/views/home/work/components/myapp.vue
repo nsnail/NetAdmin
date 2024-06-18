@@ -26,7 +26,7 @@
 
         <el-drawer v-model="modsDrawer" :size="570" :title="$t('添加应用')" destroy-on-close>
             <div class="setMods">
-                <h4>我的常用 ( {{ myMods.length }} )</h4>
+                <h4>{{ $t('我的常用') }} ( {{ myMods.length }} )</h4>
                 <draggable v-model="myMods" animation="200" group="people" item-key="path" tag="ul">
                     <template #item="{ element }">
                         <li :style="{ background: element.meta.color || '#909399' }">
@@ -39,7 +39,7 @@
                 </draggable>
             </div>
             <div class="setMods">
-                <h4>全部应用 ( {{ filterMods.length }} )</h4>
+                <h4>{{ $t('全部应用') }} ( {{ filterMods.length }} )</h4>
                 <draggable v-model="filterMods" :sort="false" animation="200" group="people" item-key="path" tag="ul">
                     <template #item="{ element }">
                         <li :style="{ background: element.meta.color || '#909399' }">
@@ -52,8 +52,8 @@
                 </draggable>
             </div>
             <template #footer>
-                <el-button @click="modsDrawer = false">取消</el-button>
-                <el-button @click="saveMods" type="primary">保存</el-button>
+                <el-button @click="modsDrawer = false">{{ $t('取消') }}</el-button>
+                <el-button @click="saveMods" type="primary">{{ $t('保存') }}</el-button>
             </template>
         </el-drawer>
     </div>
@@ -113,7 +113,7 @@ export default {
                 'MY_MODS',
                 this.myMods.map((v) => v.name),
             )
-            this.$message.success('设置常用成功')
+            this.$message.success(this.$t('设置常用成功'))
             this.modsDrawer = false
         },
     },

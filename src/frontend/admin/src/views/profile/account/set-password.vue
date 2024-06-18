@@ -1,6 +1,6 @@
 <template>
     <el-dialog v-model="visible" :title="$t('修改密码')" :width="800" @closed="$emit('closed')" destroy-on-close>
-        <el-form :model="form" :rules="rules" label-width="120" ref="form">
+        <el-form :model="form" :rules="rules" label-width="15rem" ref="form">
             <el-form-item :label="$t('旧密码')" prop="oldPassword">
                 <el-input
                     v-model="form.oldPassword"
@@ -9,7 +9,7 @@
                     maxlength="16"
                     show-password
                     type="password"></el-input>
-                <div class="el-form-item-msg">必须提供当前登录用户密码才能进行更改</div>
+                <div class="el-form-item-msg">{{ $t('必须提供当前登录用户密码才能进行更改') }}</div>
             </el-form-item>
             <el-form-item :label="$t('新密码')" prop="newPassword">
                 <el-input
@@ -20,7 +20,7 @@
                     show-password
                     type="password"></el-input>
                 <sc-password-strength v-model="form.newPassword"></sc-password-strength>
-                <div class="el-form-item-msg">请输入包含英文、数字的8位以上密码</div>
+                <div class="el-form-item-msg">{{ $t('请输入包含英文、数字的8位以上密码') }}</div>
             </el-form-item>
             <el-form-item :label="$t('确认新密码')" prop="confirmNewPassword">
                 <el-input
@@ -33,8 +33,8 @@
             </el-form-item>
         </el-form>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </el-dialog>
 </template>
@@ -63,7 +63,7 @@ export default {
                 const res = await this.$API.sys_user.setPassword.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
-                this.$message.success('操作成功')
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }

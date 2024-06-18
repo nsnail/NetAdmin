@@ -1,9 +1,9 @@
 <template>
-    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" :width="500" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" :width="800" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
+                    <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
                         <el-form-item :label="$t('上级部门')" prop="parentId">
                             <el-cascader
                                 v-model="form.parentId"
@@ -39,8 +39,8 @@
             </el-tabs>
         </div>
         <template #footer>
-            <el-button @click="visible = false">取 消</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">保 存</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -53,9 +53,9 @@ export default {
         return {
             mode: 'add',
             titleMap: {
-                add: '新增部门',
-                edit: '编辑部门',
-                view: '查看部门',
+                add: this.$t('新增部门'),
+                edit: this.$t('编辑部门'),
+                view: this.$t('查看部门'),
             },
             visible: false,
             loading: false,
@@ -112,7 +112,7 @@ export default {
                         const res = await method.post(this.form)
                         this.$emit('success', res.data, this.mode)
                         this.visible = false
-                        this.$message.success('操作成功')
+                        this.$message.success(this.$t('操作成功'))
                     } catch {
                         //
                     }

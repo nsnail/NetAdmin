@@ -14,39 +14,39 @@
                 <el-button icon="el-icon-arrow-down"></el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item command="0 * * * * ?">每分钟</el-dropdown-item>
-                        <el-dropdown-item command="0 0 * * * ?">每小时</el-dropdown-item>
-                        <el-dropdown-item command="0 0 0 * * ?">每天零点</el-dropdown-item>
-                        <el-dropdown-item command="0 0 0 1 * ?">每月一号零点</el-dropdown-item>
-                        <el-dropdown-item command="0 0 0 L * ?">每月最后一天零点</el-dropdown-item>
-                        <el-dropdown-item command="0 0 0 ? * 1">每周星期日零点</el-dropdown-item>
+                        <el-dropdown-item command="0 * * * * ?">{{ $t('每分钟') }}</el-dropdown-item>
+                        <el-dropdown-item command="0 0 * * * ?">{{ $t('每小时') }}</el-dropdown-item>
+                        <el-dropdown-item command="0 0 0 * * ?">{{ $t('每天零点') }}</el-dropdown-item>
+                        <el-dropdown-item command="0 0 0 1 * ?">{{ $t('每月一号零点') }}</el-dropdown-item>
+                        <el-dropdown-item command="0 0 0 L * ?">{{ $t('每月最后一天零点') }}</el-dropdown-item>
+                        <el-dropdown-item command="0 0 0 ? * 1">{{ $t('每周星期日零点') }}</el-dropdown-item>
                         <el-dropdown-item v-for="(item, index) in shortcuts" :command="item.value" :divided="index === 0" :key="item.value"
                             >{{ item.text }}
                         </el-dropdown-item>
-                        <el-dropdown-item command="custom" divided icon="el-icon-plus">自定义</el-dropdown-item>
+                        <el-dropdown-item command="custom" divided icon="el-icon-plus">{{ $t('自定义') }}</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
         </template>
     </el-input>
 
-    <el-dialog v-model="dialogVisible" :width="800" append-to-body destroy-on-close title="Cron 规则生成器">
+    <el-dialog v-model="dialogVisible" :title="$t('Cron 规则生成器')" :width="800" append-to-body destroy-on-close>
         <div class="sc-cron">
             <el-tabs>
                 <el-tab-pane>
                     <template #label>
                         <div class="sc-cron-num">
-                            <h2>秒</h2>
+                            <h2>{{ $t('秒') }}</h2>
                             <h4>{{ value_second }}</h4>
                         </div>
                     </template>
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.second.type">
-                                <el-radio-button :label="0">任意值</el-radio-button>
-                                <el-radio-button :label="1">范围</el-radio-button>
-                                <el-radio-button :label="2">间隔</el-radio-button>
-                                <el-radio-button :label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">{{ $t('任意值') }}</el-radio-button>
+                                <el-radio-button :label="1">{{ $t('范围') }}</el-radio-button>
+                                <el-radio-button :label="2">{{ $t('间隔') }}</el-radio-button>
+                                <el-radio-button :label="3">{{ $t('指定') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.second.type === 1" :label="$t('范围')">
@@ -56,9 +56,9 @@
                         </el-form-item>
                         <el-form-item v-if="value.second.type === 2" :label="$t('间隔')">
                             <el-input-number v-model="value.second.loop.start" :max="59" :min="0" controls-position="right"></el-input-number>
-                            秒开始，每
+                            {{ $t('频率') }}
                             <el-input-number v-model="value.second.loop.end" :max="59" :min="0" controls-position="right"></el-input-number>
-                            秒执行一次
+                            {{ $t('秒') }}
                         </el-form-item>
                         <el-form-item v-if="value.second.type === 3" :label="$t('指定')">
                             <el-select v-model="value.second.appoint" multiple style="width: 100%">
@@ -70,17 +70,17 @@
                 <el-tab-pane>
                     <template #label>
                         <div class="sc-cron-num">
-                            <h2>分钟</h2>
+                            <h2>{{ $t('分钟') }}</h2>
                             <h4>{{ value_minute }}</h4>
                         </div>
                     </template>
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.minute.type">
-                                <el-radio-button :label="0">任意值</el-radio-button>
-                                <el-radio-button :label="1">范围</el-radio-button>
-                                <el-radio-button :label="2">间隔</el-radio-button>
-                                <el-radio-button :label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">{{ $t('任意值') }}</el-radio-button>
+                                <el-radio-button :label="1">{{ $t('范围') }}</el-radio-button>
+                                <el-radio-button :label="2">{{ $t('间隔') }}</el-radio-button>
+                                <el-radio-button :label="3">{{ $t('指定') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.minute.type === 1" :label="$t('范围')">
@@ -90,9 +90,9 @@
                         </el-form-item>
                         <el-form-item v-if="value.minute.type === 2" :label="$t('间隔')">
                             <el-input-number v-model="value.minute.loop.start" :max="59" :min="0" controls-position="right"></el-input-number>
-                            分钟开始，每
+                            {{ $t('频率') }}
                             <el-input-number v-model="value.minute.loop.end" :max="59" :min="0" controls-position="right"></el-input-number>
-                            分钟执行一次
+                            {{ $t('分钟') }}
                         </el-form-item>
                         <el-form-item v-if="value.minute.type === 3" :label="$t('指定')">
                             <el-select v-model="value.minute.appoint" multiple style="width: 100%">
@@ -104,17 +104,17 @@
                 <el-tab-pane>
                     <template #label>
                         <div class="sc-cron-num">
-                            <h2>小时</h2>
+                            <h2>{{ $t('小时') }}</h2>
                             <h4>{{ value_hour }}</h4>
                         </div>
                     </template>
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.hour.type">
-                                <el-radio-button :label="0">任意值</el-radio-button>
-                                <el-radio-button :label="1">范围</el-radio-button>
-                                <el-radio-button :label="2">间隔</el-radio-button>
-                                <el-radio-button :label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">{{ $t('任意值') }}</el-radio-button>
+                                <el-radio-button :label="1">{{ $t('范围') }}</el-radio-button>
+                                <el-radio-button :label="2">{{ $t('间隔') }}</el-radio-button>
+                                <el-radio-button :label="3">{{ $t('指定') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.hour.type === 1" :label="$t('范围')">
@@ -124,9 +124,9 @@
                         </el-form-item>
                         <el-form-item v-if="value.hour.type === 2" :label="$t('间隔')">
                             <el-input-number v-model="value.hour.loop.start" :max="23" :min="0" controls-position="right"></el-input-number>
-                            小时开始，每
+                            {{ $t('频率') }}
                             <el-input-number v-model="value.hour.loop.end" :max="23" :min="0" controls-position="right"></el-input-number>
-                            小时执行一次
+                            {{ $t('小时') }}
                         </el-form-item>
                         <el-form-item v-if="value.hour.type === 3" :label="$t('指定')">
                             <el-select v-model="value.hour.appoint" multiple style="width: 100%">
@@ -138,19 +138,19 @@
                 <el-tab-pane>
                     <template #label>
                         <div class="sc-cron-num">
-                            <h2>日</h2>
+                            <h2>{{ $t('日') }}</h2>
                             <h4>{{ value_day }}</h4>
                         </div>
                     </template>
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.day.type">
-                                <el-radio-button :label="0">任意值</el-radio-button>
-                                <el-radio-button :label="1">范围</el-radio-button>
-                                <el-radio-button :label="2">间隔</el-radio-button>
-                                <el-radio-button :label="3">指定</el-radio-button>
-                                <el-radio-button :label="4">本月最后一天</el-radio-button>
-                                <el-radio-button :label="5">不指定</el-radio-button>
+                                <el-radio-button :label="0">{{ $t('任意值') }}</el-radio-button>
+                                <el-radio-button :label="1">{{ $t('范围') }}</el-radio-button>
+                                <el-radio-button :label="2">{{ $t('间隔') }}</el-radio-button>
+                                <el-radio-button :label="3">{{ $t('指定') }}</el-radio-button>
+                                <el-radio-button :label="4">{{ $t('本月最后一天') }}</el-radio-button>
+                                <el-radio-button :label="5">{{ $t('不指定') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.day.type === 1" :label="$t('范围')">
@@ -160,9 +160,9 @@
                         </el-form-item>
                         <el-form-item v-if="value.day.type === 2" :label="$t('间隔')">
                             <el-input-number v-model="value.day.loop.start" :max="31" :min="1" controls-position="right"></el-input-number>
-                            号开始，每
+                            {{ $t('频率') }}
                             <el-input-number v-model="value.day.loop.end" :max="31" :min="1" controls-position="right"></el-input-number>
-                            天执行一次
+                            {{ $t('天') }}
                         </el-form-item>
                         <el-form-item v-if="value.day.type === 3" :label="$t('指定')">
                             <el-select v-model="value.day.appoint" multiple style="width: 100%">
@@ -174,17 +174,17 @@
                 <el-tab-pane>
                     <template #label>
                         <div class="sc-cron-num">
-                            <h2>月</h2>
+                            <h2>{{ $t('月') }}</h2>
                             <h4>{{ value_month }}</h4>
                         </div>
                     </template>
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.month.type">
-                                <el-radio-button :label="0">任意值</el-radio-button>
-                                <el-radio-button :label="1">范围</el-radio-button>
-                                <el-radio-button :label="2">间隔</el-radio-button>
-                                <el-radio-button :label="3">指定</el-radio-button>
+                                <el-radio-button :label="0">{{ $t('任意值') }}</el-radio-button>
+                                <el-radio-button :label="1">{{ $t('范围') }}</el-radio-button>
+                                <el-radio-button :label="2">{{ $t('间隔') }}</el-radio-button>
+                                <el-radio-button :label="3">{{ $t('指定') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.month.type === 1" :label="$t('范围')">
@@ -194,9 +194,9 @@
                         </el-form-item>
                         <el-form-item v-if="value.month.type === 2" :label="$t('间隔')">
                             <el-input-number v-model="value.month.loop.start" :max="12" :min="1" controls-position="right"></el-input-number>
-                            月开始，每
+                            {{ $t('频率') }}
                             <el-input-number v-model="value.month.loop.end" :max="12" :min="1" controls-position="right"></el-input-number>
-                            月执行一次
+                            {{ $t('月') }}
                         </el-form-item>
                         <el-form-item v-if="value.month.type === 3" :label="$t('指定')">
                             <el-select v-model="value.month.appoint" multiple style="width: 100%">
@@ -208,7 +208,7 @@
                 <el-tab-pane>
                     <template #label>
                         <div class="sc-cron-num">
-                            <h2>周</h2>
+                            <h2>{{ $t('周') }}</h2>
                             <h4>{{ value_week }}</h4>
                         </div>
                     </template>
@@ -216,12 +216,12 @@
                         <el-form>
                             <el-form-item :label="$t('类型')">
                                 <el-radio-group v-model="value.week.type">
-                                    <el-radio-button :label="0">任意值</el-radio-button>
-                                    <el-radio-button :label="1">范围</el-radio-button>
-                                    <el-radio-button :label="2">间隔</el-radio-button>
-                                    <el-radio-button :label="3">指定</el-radio-button>
-                                    <el-radio-button :label="4">本月最后一周</el-radio-button>
-                                    <el-radio-button :label="5">不指定</el-radio-button>
+                                    <el-radio-button :label="0">{{ $t('任意值') }}</el-radio-button>
+                                    <el-radio-button :label="1">{{ $t('范围') }}</el-radio-button>
+                                    <el-radio-button :label="2">{{ $t('间隔') }}</el-radio-button>
+                                    <el-radio-button :label="3">{{ $t('指定') }}</el-radio-button>
+                                    <el-radio-button :label="4">{{ $t('本月最后一周') }}</el-radio-button>
+                                    <el-radio-button :label="5">{{ $t('不指定') }}</el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item v-if="value.week.type === 1" :label="$t('范围')">
@@ -234,13 +234,12 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item v-if="value.week.type === 2" :label="$t('间隔')">
-                                第
                                 <el-input-number v-model="value.week.loop.start" :max="4" :min="1" controls-position="right"></el-input-number>
-                                周的星期
+                                {{ $t('频率') }}
                                 <el-select v-model="value.week.loop.end" style="width: 10rem">
                                     <el-option v-for="(item, index) in data.week" :key="index" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
-                                执行一次
+                                {{ $t('执行一次') }}
                             </el-form-item>
                             <el-form-item v-if="value.week.type === 3" :label="$t('指定')">
                                 <el-select v-model="value.week.appoint" multiple style="width: 100%">
@@ -258,18 +257,18 @@
                 <el-tab-pane>
                     <template #label>
                         <div class="sc-cron-num">
-                            <h2>年</h2>
+                            <h2>{{ $t('年') }}</h2>
                             <h4>{{ value_year }}</h4>
                         </div>
                     </template>
                     <el-form>
                         <el-form-item :label="$t('类型')">
                             <el-radio-group v-model="value.year.type">
-                                <el-radio-button :label="-1">忽略</el-radio-button>
-                                <el-radio-button :label="0">任意值</el-radio-button>
-                                <el-radio-button :label="1">范围</el-radio-button>
-                                <el-radio-button :label="2">间隔</el-radio-button>
-                                <el-radio-button :label="3">指定</el-radio-button>
+                                <el-radio-button :label="-1">{{ $t('忽略') }}</el-radio-button>
+                                <el-radio-button :label="0">{{ $t('任意值') }}</el-radio-button>
+                                <el-radio-button :label="1">{{ $t('范围') }}</el-radio-button>
+                                <el-radio-button :label="2">{{ $t('间隔') }}</el-radio-button>
+                                <el-radio-button :label="3">{{ $t('指定') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="value.year.type === 1" :label="$t('范围')">
@@ -279,9 +278,9 @@
                         </el-form-item>
                         <el-form-item v-if="value.year.type === 2" :label="$t('间隔')">
                             <el-input-number v-model="value.year.loop.start" controls-position="right"></el-input-number>
-                            年开始，每
+                            {{ $t('频率') }}
                             <el-input-number v-model="value.year.loop.end" :min="1" controls-position="right"></el-input-number>
-                            年执行一次
+                            {{ $t('年') }}
                         </el-form-item>
                         <el-form-item v-if="value.year.type === 3" :label="$t('指定')">
                             <el-select v-model="value.year.appoint" multiple style="width: 100%">
@@ -294,8 +293,8 @@
         </div>
 
         <template #footer>
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button @click="submit()" type="primary">确 认</el-button>
+            <el-button @click="dialogVisible = false">{{ $t('取消') }}</el-button>
+            <el-button @click="submit()" type="primary">{{ $t('确认') }}</el-button>
         </template>
     </el-dialog>
 </template>
@@ -465,31 +464,31 @@ export default {
                 week: [
                     {
                         value: '1',
-                        label: '周日',
+                        label: this.$t('周日'),
                     },
                     {
                         value: '2',
-                        label: '周一',
+                        label: this.$t('周一'),
                     },
                     {
                         value: '3',
-                        label: '周二',
+                        label: this.$t('周二'),
                     },
                     {
                         value: '4',
-                        label: '周三',
+                        label: this.$t('周三'),
                     },
                     {
                         value: '5',
-                        label: '周四',
+                        label: this.$t('周四'),
                     },
                     {
                         value: '6',
-                        label: '周五',
+                        label: this.$t('周五'),
                     },
                     {
                         value: '7',
-                        label: '周六',
+                        label: this.$t('周六'),
                     },
                 ],
                 year: this.getYear(),

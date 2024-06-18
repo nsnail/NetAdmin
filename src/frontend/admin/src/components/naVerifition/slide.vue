@@ -89,7 +89,6 @@ export default {
         },
         explain: {
             type: String,
-            default: '向右滑动完成验证',
         },
         imgSize: {
             type: Object,
@@ -320,7 +319,7 @@ export default {
                             }, 1500)
                         }
                         passFlag.value = true
-                        tipWords.value = `${((endMoveTime.value - startMoveTime.value) / 1000).toFixed(2)}秒 验证成功`
+                        tipWords.value = proxy.$t('{secs} 秒 验证成功', { secs: ((endMoveTime.value - startMoveTime.value) / 1000).toFixed(2) })
                         setTimeout(() => {
                             tipWords.value = ''
                             proxy.$parent.closeBox()
@@ -336,7 +335,7 @@ export default {
                             refresh()
                         }, 1000)
                         proxy.$parent.$emit('error', proxy)
-                        tipWords.value = '验证失败'
+                        tipWords.value = proxy.$t('验证失败')
                         setTimeout(() => {
                             tipWords.value = ''
                         }, 1000)

@@ -3,7 +3,7 @@
         <el-header>
             <div class="left-panel"></div>
             <div class="right-panel">
-                <el-button :loading="loading" @click="sync" icon="sc-icon-sync" type="primary">同步接口</el-button>
+                <el-button :loading="loading" @click="sync" icon="sc-icon-sync" type="primary">{{ $t('同步接口') }}</el-button>
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -28,7 +28,7 @@
                     align="center"
                     prop="method"
                     sortable="custom"
-                    width="100" />
+                    width="150" />
                 <el-table-column :label="$t('接口描述')" prop="summary" />
             </sc-table>
         </el-main>

@@ -13,7 +13,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="10"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -24,7 +24,7 @@
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: '用户编号 / 用户名 / 手机号 / 邮箱 / 备注',
+                            placeholder: $t('用户编号 / 用户名 / 手机号 / 邮箱 / 备注'),
                             style: 'width:25rem',
                         },
                         {
@@ -32,7 +32,7 @@
                             field: ['filter', 'roleId'],
                             api: $API.sys_role.query,
                             config: { props: { label: 'name', value: 'id' } },
-                            placeholder: '所属角色',
+                            placeholder: $t('所属角色'),
                             style: 'width:15rem',
                         },
                         {
@@ -40,7 +40,7 @@
                             field: ['filter', 'deptId'],
                             api: $API.sys_dept.query,
                             props: { label: 'name', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
-                            placeholder: '所属部门',
+                            placeholder: $t('所属部门'),
                             style: 'width:15rem',
                         },
                     ]"
@@ -79,7 +79,7 @@
                 <el-table-column :label="$t('邮箱')" prop="email" sortable="custom" />
                 <na-col-tags :label="$t('所属角色')" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" field="name" prop="roles" />
                 <na-col-tags :label="$t('所属部门')" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" field="name" prop="dept" />
-                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="80">
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="scope">
                         <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
                     </template>
@@ -139,7 +139,7 @@ export default {
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_user.setEnabled.post(row)
-                this.$message.success(`操作成功`)
+                this.$message.success(this.$t('操作成功'))
             } catch {
                 //
             }

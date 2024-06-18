@@ -7,7 +7,7 @@
                         {
                             type: 'input',
                             field: ['dy', 'keywords'],
-                            placeholder: '项名 / 项值',
+                            placeholder: $t('项名 / 项值'),
                             style: 'width:20rem',
                         },
                     ]"
@@ -17,7 +17,7 @@
             </div>
             <div class="right-panel">
                 <na-button-add :data="{ catalogId: this.catalogId }" :vue="this" />
-                <na-button-batch-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
+                <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
@@ -139,7 +139,7 @@ export default {
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_dic.deleteContent.post({ id: row.id })
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }

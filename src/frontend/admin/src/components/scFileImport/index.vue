@@ -9,7 +9,7 @@
 
 <template>
     <slot :open="open">
-        <el-button @click="open" plain type="primary">导入</el-button>
+        <el-button @click="open" plain type="primary">{{ $t('导入') }}</el-button>
     </slot>
     <el-dialog v-model="dialog" :close-on-click-modal="false" :title="$t('导入')" :width="550" append-to-body destroy-on-close>
         <el-progress v-if="loading" :percentage="percentage" :stroke-width="20" :text-inside="true" style="margin-bottom: 1rem" />
@@ -31,14 +31,16 @@
                     <el-icon class="el-icon--upload">
                         <el-icon-upload-filled />
                     </el-icon>
-                    <div class="el-upload__text">将文件拖到此处或 <em>点击选择文件上传</em></div>
+                    <div class="el-upload__text">
+                        {{ $t('将文件拖到此处或 ') }}<em>{{ $t('点击选择文件上传') }}</em>
+                    </div>
                 </slot>
                 <template #tip>
                     <div class="el-upload__tip">
                         <template v-if="tip">{{ tip }}</template>
-                        <template v-else>请上传小于或等于 {{ maxSize }}M 的 {{ accept }} 格式文件</template>
+                        <template v-else>{{ $t('请上传小于或等于 {{ maxSize }}M 的 {{ accept }} 格式文件') }}</template>
                         <p v-if="templateUrl" style="margin-top: 7px">
-                            <el-link :href="templateUrl" :underline="false" target="_blank" type="primary">下载导入模板</el-link>
+                            <el-link :href="templateUrl" :underline="false" target="_blank" type="primary">{{ $t('下载导入模板') }}</el-link>
                         </p>
                     </div>
                 </template>

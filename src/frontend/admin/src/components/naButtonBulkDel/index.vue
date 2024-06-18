@@ -1,5 +1,11 @@
 <template>
-    <el-button :disabled="vue.selection.length === 0" :loading="loading" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+    <el-button
+        :disabled="vue.selection.length === 0 || loading"
+        :loading="loading"
+        @click="bulkDel"
+        icon="el-icon-delete"
+        plain
+        type="danger"></el-button>
 </template>
 <style scoped></style>
 <script>
@@ -17,17 +23,17 @@ export default {
     computed: {},
     methods: {
         //批量删除
-        async batchDel() {
+        async bulkDel() {
             this.loading = true
             try {
-                await this.$confirm(`确定删除选中的 ${this.vue.selection.length} 项吗？`, '提示', {
+                await this.$confirm(this.$t('确定删除选中的 {count} 项吗？', { count: this.vue.selection.length }), this.$t('提示'), {
                     type: 'warning',
                 })
                 const res = await this.api.post({
                     items: this.vue.selection,
                 })
                 this.vue.$refs.table.refresh()
-                this.$message.success(`删除 ${res.data} 项`)
+                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
             } catch {
                 //
             }

@@ -166,6 +166,10 @@
 }
 
 .el-table {
+    td {
+        font-family: 'Lucida Console', 'Microsoft YaHei', 'monospace';
+    }
+
     .el-link:after {
         border-bottom: 1px solid var(--el-link-text-color);
         bottom: 0;
