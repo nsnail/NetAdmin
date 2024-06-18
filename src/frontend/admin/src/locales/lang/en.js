@@ -441,4 +441,11 @@ export default {
     周五: 'Friday',
     周六: 'Saturday',
     JSON格式化: 'JSON formatting',
+    确定: 'Confirm',
+    无权限或找不到页面: 'No permission or page not found',
+    '当前页面无权限访问或者打开了一个不存在的链接，请检查当前账户权限和链接的可访问性。':
+        'The current page does not have permission to access or an invalid link is opened, please check the current account permission and the link accessibility.',
+    返回首页: 'Return to homepage',
+    重新登录: 'Re-login',
+    返回上一页: 'Return to previous page',
 }

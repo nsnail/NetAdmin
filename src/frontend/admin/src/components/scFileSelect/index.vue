@@ -117,7 +117,7 @@
             </div>
             <div class="sc-file-select__do">
                 <slot name="do"></slot>
-                <el-button :disabled="value.length <= 0" @click="submit" type="primary">{{ $t('确 定') }}</el-button>
+                <el-button :disabled="value.length <= 0" @click="submit" type="primary">{{ $t('确定') }}</el-button>
             </div>
         </div>
     </div>
