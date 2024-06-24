@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/nsnail/NetAdmin/compare/v1.2.0...v1.3.0) (2024-06-24)
+
+
+### Features
+
+* ✨ 补充多语种文件 ([#146](https://github.com/nsnail/NetAdmin/issues/146)) ([1442e0a](https://github.com/nsnail/NetAdmin/commit/1442e0a37cb2f27d8ba7b77bed91feaa5d7b1fdd))
+* ✨ 更新实体增加sql过滤参数 ([#140](https://github.com/nsnail/NetAdmin/issues/140)) ([a3ab970](https://github.com/nsnail/NetAdmin/commit/a3ab97019dd1fc2267db987ade80fa6749e24e4d))
+* ✨ 框架代码同步 ([#139](https://github.com/nsnail/NetAdmin/issues/139)) ([608a1de](https://github.com/nsnail/NetAdmin/commit/608a1ded5c0e9987161444efd48597a687c693e1))
+* ✨ 框架代码同步 ([#144](https://github.com/nsnail/NetAdmin/issues/144)) ([ae2d1c4](https://github.com/nsnail/NetAdmin/commit/ae2d1c4932bf1229ea36d28d486beaee8de16d53))
+* ✨ 框架代码同步 ([#148](https://github.com/nsnail/NetAdmin/issues/148)) ([8bc8aa9](https://github.com/nsnail/NetAdmin/commit/8bc8aa960cdd1ed5036927bd508fce4c218618c7))
+* ✨ 前端版本更新器 ([#145](https://github.com/nsnail/NetAdmin/issues/145)) ([6100e9e](https://github.com/nsnail/NetAdmin/commit/6100e9e9c88005d6a2f3c2706ca750a6ad62d2c7))
+
+
+### Bug Fixes
+
+* 🐛 补充多语种文件 ([#147](https://github.com/nsnail/NetAdmin/issues/147)) ([d00f0d2](https://github.com/nsnail/NetAdmin/commit/d00f0d2d9cc2243908a8b6979b9c4a5811b2a57e))
+* 🐛 操作日志不显示userName ([#141](https://github.com/nsnail/NetAdmin/issues/141)) ([705d027](https://github.com/nsnail/NetAdmin/commit/705d027da44af159d29db9c93e47b549317c793e))
+
 ## [1.2.0](https://github.com/nsnail/NetAdmin/compare/v1.1.1...v1.2.0) (2024-06-06)
 
 
