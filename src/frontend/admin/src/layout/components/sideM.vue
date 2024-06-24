@@ -17,7 +17,7 @@
                     <el-menu
                         :default-active="$route.meta.active || $route.fullPath"
                         @select="select"
-                        active-text-color="#409EFF"
+                        active-text-color="#21A675"
                         background-color="#424c50"
                         router
                         text-color="#fff">

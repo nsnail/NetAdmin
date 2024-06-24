@@ -1,6 +1,7 @@
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.Job;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Domain.Dto.Sys.JobRecord;
@@ -11,8 +12,10 @@ namespace NetAdmin.Domain.Dto.Sys.JobRecord;
 public sealed record QueryJobRecordRsp : Sys_JobRecord
 {
     /// <inheritdoc cref="Sys_JobRecord.HttpStatusCode" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public new HttpStatusCode HttpStatusCode => (HttpStatusCode)base.HttpStatusCode;
+    public new string HttpStatusCode =>
+        base.HttpStatusCode == Numbers.HTTP_STATUS_BIZ_FAIL
+            ? nameof(ErrorCodes.Unhandled).ToLowerCamelCase()
+            : ((HttpStatusCode)base.HttpStatusCode).ToString().ToLowerCamelCase();
 
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -29,6 +32,11 @@ public sealed record QueryJobRecordRsp : Sys_JobRecord
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
+
+    /// <summary>
+    ///     作业信息
+    /// </summary>
+    public new QueryJobRsp Job { get; init; }
 
     /// <inheritdoc cref="Sys_JobRecord.JobId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

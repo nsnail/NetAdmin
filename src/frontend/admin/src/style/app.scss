@@ -6,7 +6,7 @@ html {
     height: 100%;
     background-color: #f6f8f9;
     font-size: var(--el-font-size-base);
-    font-family: 'Arial', 'Microsoft YaHei', 'monospace';
+    font-family: 'Microsoft YaHei', sans-serif;
 }
 
 a {
@@ -92,7 +92,7 @@ textarea {
     bottom: 10rem;
     right: 0;
     z-index: 100;
-    background: #409eff;
+    background: #21a675;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -235,7 +235,7 @@ textarea {
 }
 
 .aminui-side-split li.active {
-    background: #409eff;
+    background: #21a675;
 }
 
 .adminui-side-split-scroll::-webkit-scrollbar-thumb {
@@ -410,7 +410,7 @@ textarea {
 }
 
 .adminui-tags li.active {
-    background: #409eff;
+    background: #21a675;
 }
 
 .adminui-tags li.active a {

@@ -52,5 +52,5 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
     /// <summary>
     ///     设置计划作业启用状态
     /// </summary>
-    Task SetEnabledAsync(SetJobEnabledReq req);
+    Task<int> SetEnabledAsync(SetJobEnabledReq req);
 }

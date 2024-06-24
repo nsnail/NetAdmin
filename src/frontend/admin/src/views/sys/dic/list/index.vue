@@ -16,7 +16,7 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <na-button-add :data="{ catalogId: this.catalogId }" :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
             </div>
         </el-header>
@@ -55,18 +55,25 @@
             </sc-table>
         </el-main>
     </el-container>
+
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = false"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
 </template>
+
 <script>
-import saveDialog from './save'
+import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
 
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
+    components: {
+        saveDialog,
+    },
     computed: {
         naColOperation() {
             return naColOperation
@@ -75,28 +82,25 @@ export default {
             return table
         },
     },
-    components: { saveDialog },
-    props: { catalogId: Number },
-    inject: ['reload'],
+    created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
+    },
     data() {
         return {
-            dialog: {
-                save: false,
-            },
-            selection: [],
+            dialog: {},
+            loading: false,
             query: {
                 dynamicFilter: {
                     filters: [],
                 },
                 filter: {},
             },
+            selection: [],
         }
     },
-    watch: {
-        catalogId() {
-            this.$refs.search.reset()
-        },
-    },
+    inject: ['reload'],
     methods: {
         //搜索
         onSearch(form) {
@@ -146,5 +150,19 @@ export default {
             this.$refs.table.refresh()
         },
     },
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+    },
+    props: { catalogId: Number, keywords: String },
+    watch: {
+        catalogId() {
+            this.$refs.search.reset()
+        },
+    },
 }
 </script>
+
+<style scoped></style>

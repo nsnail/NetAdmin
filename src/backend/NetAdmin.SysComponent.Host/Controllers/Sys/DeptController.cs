@@ -95,7 +95,7 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     /// <summary>
     ///     启用/禁用部门
     /// </summary>
-    public Task SetEnabledAsync(SetDeptEnabledReq req)
+    public Task<int> SetEnabledAsync(SetDeptEnabledReq req)
     {
         return Cache.SetEnabledAsync(req);
     }

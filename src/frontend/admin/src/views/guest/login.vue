@@ -69,8 +69,8 @@ export default {
     data() {
         return {
             config: {
-                lang: this.$TOOL.data.get('APP_LANG') || this.$CONFIG.LANG,
-                dark: this.$TOOL.data.get('APP_DARK') || false,
+                lang: this.$TOOL.data.get('APP_SET_LANG') || this.$CONFIG.APP_SET_LANG,
+                dark: this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK,
             },
             lang: [
                 {
@@ -88,15 +88,15 @@ export default {
         'config.dark'(val) {
             if (val) {
                 document.documentElement.classList.add('dark')
-                this.$TOOL.data.set('APP_DARK', val)
+                this.$TOOL.data.set('APP_SET_DARK', val)
             } else {
                 document.documentElement.classList.remove('dark')
-                this.$TOOL.data.remove('APP_DARK')
+                this.$TOOL.data.remove('APP_SET_DARK')
             }
         },
         'config.lang'(val) {
             this.$i18n.locale = val
-            this.$TOOL.data.set('APP_LANG', val)
+            this.$TOOL.data.set('APP_SET_LANG', val)
         },
     },
     created: function () {
@@ -105,7 +105,7 @@ export default {
         this.$TOOL.data.remove('MENU')
         this.$TOOL.data.remove('PERMISSIONS')
         this.$TOOL.data.remove('DASHBOARD_GRID')
-        this.$TOOL.data.remove('grid')
+        this.$TOOL.data.remove('APP_SET_HOME_GRID')
         this.$store.commit('clearViewTags')
         this.$store.commit('clearKeepLive')
         this.$store.commit('clearIframeList')

@@ -60,10 +60,7 @@
 import save from './save'
 
 export default {
-    inject: ['reload'],
-    components: {
-        save,
-    },
+    components: { save },
     data() {
         return {
             loading: false,
@@ -71,14 +68,7 @@ export default {
             filterText: '',
         }
     },
-    watch: {
-        filterText(val) {
-            this.$refs.tree.filter(val)
-        },
-    },
-    mounted() {
-        this.getTree()
-    },
+    inject: ['reload'],
     methods: {
         //加载树数据
         async getTree() {
@@ -165,6 +155,14 @@ export default {
         },
         async handleSuccess() {
             this.reload()
+        },
+    },
+    mounted() {
+        this.getTree()
+    },
+    watch: {
+        filterText(val) {
+            this.$refs.tree.filter(val)
         },
     },
 }

@@ -66,7 +66,7 @@
                         <el-button @click="reset" icon="el-icon-refresh-left">{{ $t('重置') }}</el-button>
                     </template>
                     <v-ace-editor
-                        :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
+                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                         :value="vkbeautify().json(vue.query, 2)"
                         lang="json"
                         style="height: 20rem; width: 100%" />
@@ -323,6 +323,7 @@ export default {
             casLoaded: false,
             keepKeywords: null,
             keepCreatedTime: null,
+            keepHttpStatusCode: null,
             form: {
                 root: {},
                 filter: {},
@@ -403,6 +404,9 @@ export default {
             }
             if (this.keepCreatedTime) {
                 this.form.dy.createdTime = this.keepCreatedTime
+            }
+            if (this.keepHttpStatusCode) {
+                this.form.dy.httpStatusCode = this.keepHttpStatusCode
             }
             this.$emit('reset')
             this.search()

@@ -42,27 +42,38 @@
         </el-aside>
         <list :catalogId="form.catalogId" />
     </el-container>
-    <save-dialog v-if="dialog.save" @closed="dialog.save = false" @success="getData" ref="saveDialog"></save-dialog>
+
+    <save-dialog
+        v-if="dialog.save"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
+        @success="(data, mode) => getData()"
+        ref="saveDialog"></save-dialog>
 </template>
 
 <script>
-import saveDialog from './save'
+import { defineAsyncComponent } from 'vue'
 import list from './list'
 
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
     components: {
         list,
         saveDialog,
     },
+    computed: {},
+    created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
+    },
     data() {
         return {
-            form: {},
-            dialog: {
-                save: false,
-            },
-            loading: false,
             data: [],
+            dialog: {},
             filterText: '',
+            form: {},
+            loading: false,
             query: {
                 dynamicFilter: {
                     filters: [],
@@ -71,14 +82,7 @@ export default {
             },
         }
     },
-    watch: {
-        filterText(val) {
-            this.$refs.dic.filter(val)
-        },
-    },
-    mounted() {
-        this.getData()
-    },
+    inject: ['reload'],
     methods: {
         // 获取字典目录
         async getData() {
@@ -102,15 +106,11 @@ export default {
         },
         //字典目录增加
         async add() {
-            this.dialog.save = true
-            await this.$nextTick()
-            await this.$refs.saveDialog.open()
+            this.dialog.save = { mode: 'add' }
         },
         //字典目录编辑
         async edit(data) {
-            this.dialog.save = true
-            await this.$nextTick()
-            await this.$refs.saveDialog.open('edit', data)
+            this.dialog.save = { mode: 'edit', row: data }
         },
         //字典目录点击
         click(data) {
@@ -129,6 +129,15 @@ export default {
             }
             this.loading = false
             await this.getData()
+        },
+    },
+    mounted() {
+        this.getData()
+    },
+    props: ['keywords'],
+    watch: {
+        filterText(val) {
+            this.$refs.dic.filter(val)
         },
     },
 }

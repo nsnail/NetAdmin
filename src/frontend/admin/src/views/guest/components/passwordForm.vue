@@ -49,7 +49,7 @@ export default {
         },
     },
     mounted() {
-        this.autoLogin = this.$TOOL.data.get('AUTO_LOGIN')
+        this.autoLogin = this.$TOOL.data.get('AUTO_LOGIN') || false
     },
     methods: {
         async login() {

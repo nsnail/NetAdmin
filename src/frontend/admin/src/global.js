@@ -46,7 +46,6 @@ import scWaterMark from '@/components/scWaterMark'
 
 // net-admin组件
 import naArea from '@/components/naArea/index.vue'
-import naButtonAdd from '@/components/naButtonAdd/index.vue'
 import naButtonBulkDel from '@/components/naButtonBulkDel/index.vue'
 import naColAvatar from '@/components/naColAvatar'
 import naColId from '@/components/naColId/index.vue'
@@ -87,7 +86,6 @@ export default {
 
         // net-admin组件
         app.component('naArea', naArea)
-        app.component('naButtonAdd', naButtonAdd)
         app.component('naButtonBulkDel', naButtonBulkDel)
         app.component('naColAvatar', naColAvatar)
         app.component('naColId', naColId)

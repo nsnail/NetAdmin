@@ -1,7 +1,7 @@
 <template>
     <el-card v-loading="loading" class="main" shadow="never">
         <div class="wrap">
-            <img alt="" src="@/assets/img/logo.png" />
+            <img alt="" src="@/assets/img/logo.png" width="200" />
             <h2>{{ packageJson.name }}</h2>
             <p>{{ ver }}</p>
             <el-link href="https://github.com/nsnail/NetAdmin" target="_blank">{{ $t('喜欢就点个 Star⭐️ 吧！') }}</el-link>

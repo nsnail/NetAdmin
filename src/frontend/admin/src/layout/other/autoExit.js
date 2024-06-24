@@ -2,7 +2,7 @@ export default {
     render() {},
     data() {
         return {
-            logoutCount: this.$TOOL.data.get('AUTO_EXIT'),
+            logoutCount: this.$TOOL.data.get('APP_SET_AUTO_EXIT') || this.$CONFIG.APP_SET_AUTO_EXIT,
         }
     },
     mounted() {

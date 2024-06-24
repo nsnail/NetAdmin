@@ -84,7 +84,7 @@ export default {
         },
         getMods() {
             //这里可用改为读取远程数据
-            this.myModsName = this.$TOOL.data.get('MY_MODS') || []
+            this.myModsName = this.$TOOL.data.get('APP_SET_MY_MODS') || []
             this.filterMenu(this.$GLOBAL.menu)
             this.myMods = this.mods.filter((item) => {
                 return this.myModsName.includes(item.name)
@@ -110,7 +110,7 @@ export default {
         },
         saveMods() {
             this.$TOOL.data.set(
-                'MY_MODS',
+                'APP_SET_MY_MODS',
                 this.myMods.map((v) => v.name),
             )
             this.$message.success(this.$t('设置常用成功'))
@@ -178,8 +178,8 @@ export default {
 
 .modItem-add:hover,
 .modItem-add:hover i {
-    border-color: #409eff;
-    color: #409eff !important;
+    border-color: #21a675;
+    color: #21a675 !important;
 }
 
 .setMods {

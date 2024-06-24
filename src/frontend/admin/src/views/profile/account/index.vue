@@ -34,18 +34,42 @@
         </el-form>
     </el-card>
 
-    <set-mobile-dialog v-if="dialog.setMobile" @closed="dialog.setMobile = false" @success="setSuccess" ref="setMobileDialog"></set-mobile-dialog>
-    <set-password-dialog v-if="dialog.setPassword" @closed="dialog.setPassword = false" ref="setPasswordDialog"></set-password-dialog>
-    <set-email-dialog v-if="dialog.setEmail" @closed="dialog.setEmail = false" @success="setSuccess" ref="setEmailDialog"></set-email-dialog>
+    <set-mobile-dialog
+        v-if="dialog.setMobile"
+        @closed="dialog.setMobile = null"
+        @mounted="$refs.setMobileDialog.open(dialog.setMobile)"
+        @success="setSuccess"
+        ref="setMobileDialog"></set-mobile-dialog>
+    <set-password-dialog
+        v-if="dialog.setPassword"
+        @closed="dialog.setPassword = null"
+        @mounted="$refs.setPasswordDialog.open(dialog.setPassword)"
+        ref="setPasswordDialog"></set-password-dialog>
+    <set-email-dialog
+        v-if="dialog.setEmail"
+        @closed="dialog.setEmail = null"
+        @mounted="$refs.setEmailDialog.open(dialog.setEmail)"
+        @success="setSuccess"
+        ref="setEmailDialog"></set-email-dialog>
 </template>
 
 <script>
-import setMobileDialog from '@/views/profile/account/set-mobile.vue'
-import setPasswordDialog from '@/views/profile/account/set-password.vue'
-import setEmailDialog from '@/views/profile/account/set-email.vue'
+import { defineAsyncComponent } from 'vue'
+const setMobileDialog = defineAsyncComponent(() => import('@/views/profile/account/set-mobile.vue'))
+const setPasswordDialog = defineAsyncComponent(() => import('@/views/profile/account/set-password.vue'))
+const setEmailDialog = defineAsyncComponent(() => import('@/views/profile/account/set-email.vue'))
 
 export default {
     components: { setMobileDialog, setPasswordDialog, setEmailDialog },
+    created() {
+        this.form = this.$GLOBAL.user
+    },
+    data() {
+        return {
+            dialog: {},
+            form: {},
+        }
+    },
     methods: {
         updateUser(res) {
             try {
@@ -59,34 +83,17 @@ export default {
             this.form = this.$GLOBAL.user = data
         },
         async setPasswordClick() {
-            this.dialog.setPassword = true
-            await this.$nextTick()
-            this.$refs.setPasswordDialog.open()
+            this.dialog.setPassword = {}
         },
         async setEmailClick() {
-            this.dialog.setEmail = true
-            await this.$nextTick()
-            this.$refs.setEmailDialog.open()
+            this.dialog.setEmail = {}
         },
         async setMobileClick() {
-            this.dialog.setMobile = true
-            await this.$nextTick()
-            this.$refs.setMobileDialog.open(this.form.mobile ? 'edit' : 'add')
+            this.dialog.setMobile = { mode: this.form.mobile ? 'edit' : 'add' }
         },
     },
-
-    created() {
-        this.form = this.$GLOBAL.user
-    },
-    data() {
-        return {
-            dialog: {
-                setPassword: false,
-                setMobile: false,
-            },
-            form: {},
-        }
-    },
+    props: [],
+    watch: {},
 }
 </script>
 

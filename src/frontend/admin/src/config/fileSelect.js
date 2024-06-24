@@ -43,11 +43,11 @@ export default {
     files: {
         doc: {
             icon: 'sc-icon-file-word-2-fill',
-            color: '#409eff',
+            color: '#21A675',
         },
         docx: {
             icon: 'sc-icon-file-word-2-fill',
-            color: '#409eff',
+            color: '#21A675',
         },
         xls: {
             icon: 'sc-icon-file-excel-2-fill',

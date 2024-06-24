@@ -3,21 +3,13 @@ export default {
         {
             icon: 'el-icon-view',
             click: async (row, vue) => {
-                vue.loading = true
-                vue.dialog.save = true
-                await vue.$nextTick()
-                await vue.$refs.saveDialog.open('view', row)
-                vue.loading = false
+                vue.dialog.save = { row, mode: 'view' }
             },
         },
         {
             icon: 'el-icon-edit',
             click: async (row, vue) => {
-                vue.loading = true
-                vue.dialog.save = true
-                await vue.$nextTick()
-                await vue.$refs.saveDialog.open('edit', row)
-                vue.loading = false
+                vue.dialog.save = { row, mode: 'edit' }
             },
         },
     ],

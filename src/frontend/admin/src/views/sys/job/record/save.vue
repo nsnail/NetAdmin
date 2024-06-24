@@ -1,11 +1,5 @@
 <template>
-    <sc-dialog
-        v-model="visible"
-        :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
-        :width="800"
-        @closed="$emit('closed')"
-        destroy-on-close
-        full-screen>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-form
             v-loading="loading"
             :disabled="mode === 'view'"
@@ -36,7 +30,7 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
@@ -53,37 +47,41 @@
 <script>
 export default {
     components: {},
-    emits: ['success', 'closed'],
     data() {
         return {
-            mode: 'add',
-            titleMap: {
-                view: this.$t('查看作业记录'),
-                add: this.$t('新增作业记录'),
-                edit: this.$t('编辑作业记录'),
-            },
-            visible: false,
-            loading: false,
             //表单数据
             form: {},
+            loading: false,
+            mode: 'add',
             //验证规则
             rules: {},
+            titleMap: {
+                add: this.$t('新增作业记录'),
+                edit: this.$t('编辑作业记录'),
+                view: this.$t('查看作业记录'),
+            },
+            visible: false,
         }
     },
-    mounted() {},
+    emits: ['success', 'closed', 'mounted'],
     methods: {
         //显示
-        async open(mode = 'add', data) {
+        async open(data) {
             this.visible = true
             this.loading = true
-            this.mode = mode
-            if (data) {
-                const res = await this.$API.sys_job.recordGet.post({ id: data.id })
+            this.mode = data.mode
+            if (data.row?.id) {
+                const res = await this.$API.sys_job.recordGet.post({ id: data.row.id })
                 Object.assign(this.form, res.data)
             }
             this.loading = false
             return this
         },
     },
+    mounted() {
+        this.$emit('mounted')
+    },
 }
 </script>
+
+<style scoped></style>

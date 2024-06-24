@@ -122,6 +122,13 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
         return ret.Adapt<IEnumerable<QueryConfigRsp>>();
     }
 
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetConfigEnabledReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(req.Enabled)]);
+    }
+
     private ISelect<Sys_Config> QueryInternal(QueryReq<QueryConfigReq> req)
     {
         var ret = Rpo.Select.Include(a => a.UserRegisterDept)

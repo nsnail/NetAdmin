@@ -25,7 +25,7 @@ export default {
             const contents = []
             const msg = h('p', { style: 'width:230px;display:flex;justify-content:space-between' }, [
                 h('span', {}, this.$t('即将开始更新……')),
-                h('a', { style: 'color:#409eff', href: 'javascript:window.location.reload()' }, this.$t('立即更新')),
+                h('a', { style: 'color:#21A675', href: 'javascript:window.location.reload()' }, this.$t('立即更新')),
             ])
             const task = h('p', { style: 'font-weight:bold' }, version)
             const progress = h(
@@ -37,7 +37,7 @@ export default {
                     style: {
                         width: '230px',
                         height: '6px',
-                        'background-color': '#409eff',
+                        'background-color': '#21A675',
                         'margin-top': '6px',
                         'border-radius': '6px',
                     },

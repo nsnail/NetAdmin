@@ -2,6 +2,7 @@
     <el-table-column v-bind:="$attrs">
         <template #default="{ row }">
             <na-indicator :data="row" :options="options" :prop="$attrs.prop" />
+            <slot :data="row" name="info"></slot>
         </template>
     </el-table-column>
 </template>

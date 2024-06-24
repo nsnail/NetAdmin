@@ -99,4 +99,12 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     {
         return Cache.QueryAsync(req);
     }
+
+    /// <summary>
+    ///     设置配置启用状态
+    /// </summary>
+    public Task<int> SetEnabledAsync(SetConfigEnabledReq req)
+    {
+        return Cache.SetEnabledAsync(req);
+    }
 }

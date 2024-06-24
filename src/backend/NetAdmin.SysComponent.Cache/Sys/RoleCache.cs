@@ -65,8 +65,20 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    public Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req)
+    {
+        return Service.SetDisplayDashboardAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetRoleEnabledReq req)
     {
         return Service.SetEnabledAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
+    {
+        return Service.SetIgnorePermissionControlAsync(req);
     }
 }

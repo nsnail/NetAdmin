@@ -94,11 +94,33 @@ export default {
     },
 
     /**
+     * 设置是否显示仪表板
+     */
+    setDisplayDashboard: {
+        url: `${config.API_URL}/api/sys/role/set.display.dashboard`,
+        name: `设置是否显示仪表板`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 启用/禁用角色
      */
     setEnabled: {
         url: `${config.API_URL}/api/sys/role/set.enabled`,
         name: `启用/禁用角色`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 设置是否忽略权限控制
+     */
+    setIgnorePermissionControl: {
+        url: `${config.API_URL}/api/sys/role/set.ignore.permission.control`,
+        name: `设置是否忽略权限控制`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

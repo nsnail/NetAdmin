@@ -20,5 +20,5 @@ public interface IDeptModule : ICrudModule<CreateDeptReq, QueryDeptRsp // 创建
     /// <summary>
     ///     启用/禁用部门
     /// </summary>
-    Task SetEnabledAsync(SetDeptEnabledReq req);
+    Task<int> SetEnabledAsync(SetDeptEnabledReq req);
 }

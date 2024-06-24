@@ -18,7 +18,17 @@ public interface IRoleModule : ICrudModule<CreateRoleReq, QueryRoleRsp // 创建
     Task<QueryRoleRsp> EditAsync(EditRoleReq req);
 
     /// <summary>
+    ///     设置是否显示仪表板
+    /// </summary>
+    Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req);
+
+    /// <summary>
     ///     启用/禁用角色
     /// </summary>
-    Task SetEnabledAsync(SetRoleEnabledReq req);
+    Task<int> SetEnabledAsync(SetRoleEnabledReq req);
+
+    /// <summary>
+    ///     设置是否忽略权限控制
+    /// </summary>
+    Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req);
 }

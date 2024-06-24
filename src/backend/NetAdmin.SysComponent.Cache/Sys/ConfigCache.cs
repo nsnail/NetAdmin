@@ -69,4 +69,10 @@ public sealed class ConfigCache(IDistributedCache cache, IConfigService service)
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetConfigEnabledReq req)
+    {
+        return Service.SetEnabledAsync(req);
+    }
 }

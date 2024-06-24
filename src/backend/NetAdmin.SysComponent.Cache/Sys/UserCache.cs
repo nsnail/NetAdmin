@@ -66,6 +66,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync()
+    {
+        return Service.GetSessionUserAppConfigAsync();
+    }
+
+    /// <inheritdoc />
     public Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
         return Service.LoginByPwdAsync(req);
@@ -157,7 +163,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
-    public Task<uint> ResetPasswordAsync(ResetPasswordReq req)
+    public Task<int> ResetPasswordAsync(ResetPasswordReq req)
     {
         return Service.ResetPasswordAsync(req);
     }
@@ -177,7 +183,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetUserEnabledReq req)
+    public Task<int> SetEnabledAsync(SetUserEnabledReq req)
     {
         return Service.SetEnabledAsync(req);
     }
@@ -189,9 +195,15 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
-    public Task<uint> SetPasswordAsync(SetPasswordReq req)
+    public Task<int> SetPasswordAsync(SetPasswordReq req)
     {
         return Service.SetPasswordAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
+    {
+        return Service.SetSessionUserAppConfigAsync(req);
     }
 
     /// <inheritdoc />

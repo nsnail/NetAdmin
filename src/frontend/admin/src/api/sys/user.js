@@ -83,6 +83,17 @@ export default {
     },
 
     /**
+     * 获取当前用户应用配置
+     */
+    getSessionUserAppConfig: {
+        url: `${config.API_URL}/api/sys/user/get.session.user.app.config`,
+        name: `获取当前用户应用配置`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 密码登录
      */
     loginByPwd: {
@@ -209,6 +220,17 @@ export default {
     setPassword: {
         url: `${config.API_URL}/api/sys/user/set.password`,
         name: `设置密码`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 设置当前用户应用配置
+     */
+    setSessionUserAppConfig: {
+        url: `${config.API_URL}/api/sys/user/set.session.user.app.config`,
+        name: `设置当前用户应用配置`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

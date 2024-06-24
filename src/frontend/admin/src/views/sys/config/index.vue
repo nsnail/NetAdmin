@@ -13,8 +13,8 @@
                         ],
                     },
                 ]"
+                :label-width="10"
                 @on-change="filterChange"
-                label-width="10"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
         <el-header>
@@ -27,13 +27,26 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <na-button-add :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_config.bulkDelete" :vue="this" />
+                <el-dropdown v-show="this.selection.length > 0">
+                    <el-button type="primary">
+                        {{ $t('批量操作') }}
+                        <el-icon>
+                            <el-icon-arrow-down />
+                        </el-icon>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click="setEnabled(true)">{{ $t('启用配置') }}</el-dropdown-item>
+                            <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用配置') }}</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                v-loading="loading"
                 :apiObj="$API.sys_config.pagedQuery"
                 :context-menus="['id', 'userRegisterConfirm', 'enabled', 'createdTime']"
                 :params="query"
@@ -47,22 +60,21 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" />
-                <el-table-column :label="$t('配置编号')" align="center" prop="id" width="170" />
+                <na-col-id :label="$t('配置编号')" prop="id" width="170" />
                 <el-table-column :label="$t('用户注册')" align="center">
                     <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150" />
                     <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150" />
                     <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="120">
-                        <template #default="scope">
-                            <el-switch v-model="scope.row.userRegisterConfirm" @change="changeSwitch($event, scope.row)"></el-switch>
+                        <template #default="{ row }">
+                            <el-switch v-model="row.userRegisterConfirm" @change="changeSwitch($event, row)"></el-switch>
                         </template>
                     </el-table-column>
                 </el-table-column>
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" width="100">
-                    <template #default="scope">
-                        <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
+                    <template #default="{ row }">
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" align="center" prop="createdTime" width="170" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -73,25 +85,25 @@
                             type: 'danger',
                         })
                     "
-                    :vue="this"
-                    width="170" />
+                    :vue="this" />
             </sc-table>
         </el-main>
     </el-container>
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = false"
-        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
+        @success="(data, mode) => $refs.table.upData()"
         ref="saveDialog"></save-dialog>
 </template>
 
 <script>
-import saveDialog from './save'
-import naColOperation from '@/config/naColOperation'
+import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import tool from '@/utils/tool'
+import naColOperation from '@/config/naColOperation'
 
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
     components: {
         saveDialog,
@@ -104,13 +116,14 @@ export default {
             return table
         },
     },
-    created() {},
+    created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
+    },
     data() {
         return {
-            dialog: {
-                info: false,
-                save: false,
-            },
+            dialog: {},
             loading: false,
             query: {
                 dynamicFilter: {
@@ -123,6 +136,33 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async setEnabled(enabled) {
+            let loading
+            try {
+                await this.$confirm(
+                    this.$t('确定要 {operator} 选中的 {count} 项吗？', {
+                        operator: enabled ? this.$t('启用') : this.$t('禁用'),
+                        count: this.selection.length,
+                    }),
+                    this.$t('提示'),
+                    {
+                        type: 'warning',
+                    },
+                )
+                loading = this.$loading()
+                const res = await Promise.all(this.selection.map((x) => this.$API.sys_config.setEnabled.post(Object.assign(x, { enabled: enabled }))))
+                this.$message.success(
+                    this.$t('操作成功 {count}/{total} 项', {
+                        count: res.map((x) => x.data ?? 0).reduce((a, b) => a + b, 0),
+                        total: this.selection.length,
+                    }),
+                )
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+            loading?.close()
+        },
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_config.edit.post(row)
@@ -135,10 +175,9 @@ export default {
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
-                this.$refs.search.search()
             })
+            this.$refs.search.search()
         },
-
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_config.delete.post({ id: row.id })
@@ -168,7 +207,14 @@ export default {
             this.$refs.table.upData()
         },
     },
-    mounted() {},
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+    },
+    props: ['keywords'],
+    watch: {},
 }
 </script>
 

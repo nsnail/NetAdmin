@@ -8,9 +8,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 /// <summary>
 ///     用户模块
 /// </summary>
-public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建类型
-  , QueryUserReq, QueryUserRsp                                         // 查询类型
-  , DelReq                                                             // 删除类型
+public partial interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建类型
+  , QueryUserReq, QueryUserRsp                                                 // 查询类型
+  , DelReq                                                                     // 删除类型
 >
 {
     /// <summary>
@@ -51,7 +51,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     重设密码
     /// </summary>
-    Task<uint> ResetPasswordAsync(ResetPasswordReq req);
+    Task<int> ResetPasswordAsync(ResetPasswordReq req);
 
     /// <summary>
     ///     设置用户头像
@@ -66,7 +66,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     启用/禁用用户
     /// </summary>
-    Task SetEnabledAsync(SetUserEnabledReq req);
+    Task<int> SetEnabledAsync(SetUserEnabledReq req);
 
     /// <summary>
     ///     设置手机号码
@@ -76,7 +76,7 @@ public interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建
     /// <summary>
     ///     设置密码
     /// </summary>
-    Task<uint> SetPasswordAsync(SetPasswordReq req);
+    Task<int> SetPasswordAsync(SetPasswordReq req);
 
     /// <summary>
     ///     当前用户信息

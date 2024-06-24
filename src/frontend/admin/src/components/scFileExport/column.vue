@@ -8,15 +8,13 @@
             </el-tag>
         </el-table-column>
         <el-table-column :label="$t('列名')" prop="label">
-            <template #default="scope">
-                <el-tag :effect="scope.row.hide ? 'light' : 'dark'" :type="scope.row.hide ? 'info' : ''" disable-transitions round
-                    >{{ scope.row.label }}
-                </el-tag>
+            <template #default="{ row }">
+                <el-tag :effect="row.hide ? 'light' : 'dark'" :type="row.hide ? 'info' : ''" disable-transitions round>{{ row.label }} </el-tag>
             </template>
         </el-table-column>
         <el-table-column :label="$t('显示')" prop="hide" width="60">
-            <template #default="scope">
-                <el-switch v-model="scope.row.hide" :active-value="false" :inactive-value="true" size="small" />
+            <template #default="{ row }">
+                <el-switch v-model="row.hide" :active-value="false" :inactive-value="true" size="small" />
             </template>
         </el-table-column>
     </el-table>

@@ -120,7 +120,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetDeptEnabledReq req)
+    public Task<int> SetEnabledAsync(SetDeptEnabledReq req)
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.Enabled)]);

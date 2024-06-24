@@ -1,9 +1,9 @@
 <template>
     <el-table-column :label="label" :prop="prop" sortable="custom">
-        <template #default="scope">
+        <template #default="{ row }">
             <div class="avatar">
-                <el-avatar :src="getAvatar(scope, prop)" size="small"></el-avatar>
-                <span>{{ tool.getNestedProperty(scope.row, prop) }}</span>
+                <el-avatar :src="getAvatar(row, prop)" size="small"></el-avatar>
+                <span>{{ tool.getNestedProperty(row, prop) }}</span>
             </div>
         </template>
     </el-table-column>
@@ -36,8 +36,8 @@ export default {
     },
     methods: {
         //获取头像
-        getAvatar(scope, prop) {
-            return scope.row.avatar ? scope.row.avatar : this.$CONFIG.DEFAULT_AVATAR(tool.getNestedProperty(scope.row, prop))
+        getAvatar(row, prop) {
+            return row.avatar ? row.avatar : this.$CONFIG.DEFAULT_AVATAR(tool.getNestedProperty(row, prop))
         },
     },
 }

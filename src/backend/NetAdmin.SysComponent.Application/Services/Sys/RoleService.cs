@@ -124,10 +124,24 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    public Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(req.DisplayDashboard)]);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetRoleEnabledReq req)
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.Enabled)]);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(req.IgnorePermissionControl)]);
     }
 
     private ISelect<Sys_Role> QueryInternal(QueryReq<QueryRoleReq> req)

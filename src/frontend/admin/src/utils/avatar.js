@@ -26,7 +26,6 @@ export default {
         text.setAttribute('text-anchor', 'middle')
         text.setAttribute('font-size', '16')
         text.setAttribute('font-weight', '900')
-        text.setAttribute('font-family', 'monospace')
 
         // IE/Edge don't support alignment-baseline
         // @see https://msdn.microsoft.com/en-us/library/gg558060(v=vs.85).aspx

@@ -35,13 +35,12 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <na-button-add :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_sitemsg.bulkDelete" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                v-loading="loading"
                 :apiObj="$API.sys_sitemsg.pagedQuery"
                 :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
@@ -58,7 +57,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" />
-                <el-table-column :label="$t('消息编号')" prop="id" sortable="custom" width="150" />
+                <na-col-id :label="$t('消息编号')" prop="id" sortable="custom" width="170" />
                 <na-col-avatar :label="$t('用户名')" prop="createdUserName" />
                 <na-col-indicator
                     :label="$t('消息类型')"
@@ -73,7 +72,7 @@
                     width="150" />
                 <el-table-column :label="$t('消息主题')" prop="title" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('消息摘要')" prop="summary" show-overflow-tooltip sortable="custom" />
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
+
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -91,37 +90,22 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = false"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
 </template>
 
 <script>
-import saveDialog from './save'
+import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
 
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
     components: {
         saveDialog,
     },
-    inject: ['reload'],
-    data() {
-        return {
-            loading: false,
-            query: {
-                dynamicFilter: {
-                    filters: [],
-                },
-                filter: {},
-            },
-            dialog: {
-                save: false,
-            },
-            selection: [],
-        }
-    },
-    watch: {},
     computed: {
         naColOperation() {
             return naColOperation
@@ -130,16 +114,32 @@ export default {
             return table
         },
     },
-    mounted() {},
-    created() {},
+    created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
+    },
+    data() {
+        return {
+            dialog: {},
+            loading: false,
+            query: {
+                dynamicFilter: {
+                    filters: [],
+                },
+                filter: {},
+            },
+            selection: [],
+        }
+    },
+    inject: ['reload'],
     methods: {
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
-                this.$refs.search.form.dy[key] = value
+                this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
             })
             this.$refs.search.search()
         },
-        //删除
         async rowDel(row) {
             try {
                 const res = await this.$API.sys_sitemsg.delete.post({ id: row.id })
@@ -149,8 +149,6 @@ export default {
             }
             this.$refs.table.refresh()
         },
-
-        //搜索
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
@@ -171,6 +169,14 @@ export default {
             this.$refs.table.upData()
         },
     },
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+    },
+    props: ['keywords'],
+    watch: {},
 }
 </script>
 

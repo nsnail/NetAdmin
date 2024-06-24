@@ -1,13 +1,7 @@
 <template>
-    <sc-dialog
-        v-model="visible"
-        :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
-        :width="800"
-        @closed="$emit('closed')"
-        destroy-on-close
-        full-screen>
-        <el-tabs v-model="tabIndex" tab-position="top">
-            <el-tab-pane :label="$t('基本信息')" :name="0">
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+        <el-tabs v-model="tabId" tab-position="top">
+            <el-tab-pane :label="$t('基本信息')">
                 <el-form
                     v-loading="loading"
                     :disabled="mode === 'view'"
@@ -48,7 +42,7 @@
                     <el-form-item :label="$t('请求头')" prop="requestHeader">
                         <v-ace-editor
                             v-model:value="form.requestHeader"
-                            :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
+                            :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 5rem; width: 100%" />
                         <el-button @click="form.requestHeader = jsonFormat(form.requestHeader)" type="text">{{ $t('JSON格式化') }}</el-button>
@@ -56,7 +50,7 @@
                     <el-form-item :label="$t('请求体')" prop="requestBody">
                         <v-ace-editor
                             v-model:value="form.requestBody"
-                            :theme="this.$TOOL.data.get('APP_DARK') ? 'github_dark' : 'github'"
+                            :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 10rem; width: 100%" />
                         <el-button @click="form.requestBody = jsonFormat(form.requestBody)" type="text">{{ $t('JSON格式化') }}</el-button>
@@ -96,13 +90,13 @@
                     </el-form-item>
                 </el-form>
             </el-tab-pane>
-            <el-tab-pane v-if="mode === 'view'" :label="$t('执行记录')" :name="1">
-                <record v-if="tabIndex === 1" :keywords="form.id" />
+            <el-tab-pane v-if="mode === 'view'" :label="$t('执行记录')" name="record">
+                <record v-if="tabId === 'record'" :keywords="form.id" />
             </el-tab-pane>
-            <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')" :name="2">
+            <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                 <json-viewer
                     :expand-depth="5"
-                    :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                     :value="form"
                     copyable
                     expanded
@@ -112,31 +106,20 @@
 
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
 
 <script>
-import Record from '@/views/sys/job/record/index.vue'
+import { defineAsyncComponent } from 'vue'
 import vkbeautify from 'vkbeautify/index'
 
+const Record = defineAsyncComponent(() => import('@/views/sys/job/record/index.vue'))
 export default {
-    components: {
-        Record,
-    },
-    emits: ['success', 'closed'],
+    components: { Record },
     data() {
         return {
-            tabIndex: 0,
-            mode: 'add',
-            titleMap: {
-                view: this.$t('查看作业'),
-                add: this.$t('新增作业'),
-                edit: this.$t('编辑作业'),
-            },
-            visible: false,
-            loading: false,
             //表单数据
             form: {
                 executionCron: '0 * * * * ?',
@@ -144,6 +127,8 @@ export default {
                 requestHeader: `{ "Content-Type": "application/json" }`,
                 requestBody: '{}',
             },
+            loading: false,
+            mode: 'add',
             //验证规则
             rules: {
                 executionCron: [
@@ -197,9 +182,16 @@ export default {
                     },
                 ],
             },
+            tabId: '0',
+            titleMap: {
+                add: this.$t('新增作业'),
+                edit: this.$t('编辑作业'),
+                view: this.$t('查看作业'),
+            },
+            visible: false,
         }
     },
-    mounted() {},
+    emits: ['success', 'closed', 'mounted'],
     methods: {
         jsonFormat(obj) {
             try {
@@ -213,16 +205,16 @@ export default {
             return vkbeautify
         },
         //显示
-        async open(mode = 'add', data, tabIndex = 0) {
+        async open(data) {
             this.visible = true
             this.loading = true
-            this.mode = mode
-            if (data) {
-                const res = await this.$API.sys_job.get.post({ id: data.id })
+            this.mode = data.mode
+            if (data.row?.id) {
+                const res = await this.$API.sys_job.get.post({ id: data.row.id })
                 Object.assign(this.form, res.data)
             }
             this.loading = false
-            this.tabIndex = tabIndex
+            this.tabId = data.tabId ?? '0'
             return this
         },
 
@@ -232,14 +224,12 @@ export default {
             if (!valid) {
                 return false
             }
-
+            this.loading = true
+            const method = this.mode === 'add' ? this.$API.sys_job.create : this.$API.sys_job.edit
             try {
-                const method = this.mode === 'add' ? this.$API.sys_job.create : this.$API.sys_job.edit
-                this.loading = true
                 const res = await method.post(
                     Object.assign({}, this.form, { userId: this.form.user.id, requestHeaders: JSON.parse(this.form.requestHeader) }),
                 )
-                this.loading = false
                 if (res.data) {
                     this.$emit('success', res.data, this.mode)
                     this.$message.success(this.$t('操作成功'))
@@ -247,11 +237,14 @@ export default {
                     this.$message.error(this.$t('操作失败'))
                 }
                 this.visible = false
-            } catch {
-                //
-                this.loading = false
-            }
+            } catch {}
+            this.loading = false
         },
+    },
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>
+
+<style scoped></style>

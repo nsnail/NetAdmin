@@ -34,13 +34,26 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <na-button-add :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_dept.bulkDelete" :vue="this" />
+                <el-dropdown v-show="this.selection.length > 0">
+                    <el-button type="primary">
+                        {{ $t('批量操作') }}
+                        <el-icon>
+                            <el-icon-arrow-down />
+                        </el-icon>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click="setEnabled(true)">{{ $t('启用部门') }}</el-dropdown-item>
+                            <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用部门') }}</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                v-loading="loading"
                 :apiObj="$API.sys_dept.query"
                 :context-menus="['id', 'name', 'sort', 'enabled', 'createdTime', 'summary']"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
@@ -58,17 +71,16 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection" width="50" />
-                <el-table-column :label="$t('部门编号')" prop="id" sortable="custom" />
+                <el-table-column type="selection" />
+                <na-col-id :label="$t('部门编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('部门名称')" prop="name" sortable="custom" />
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" />
+                <el-table-column :label="$t('备注')" prop="summary" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
-                    <template #default="scope">
-                        <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
+                    <template #default="{ row }">
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('备注')" prop="summary" />
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -86,16 +98,18 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = false"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
 </template>
 
 <script>
-import saveDialog from './save'
-import naColOperation from '@/config/naColOperation'
+import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
+import naColOperation from '@/config/naColOperation'
 
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
     components: {
         saveDialog,
@@ -108,12 +122,14 @@ export default {
             return table
         },
     },
-    created() {},
+    created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
+    },
     data() {
         return {
-            dialog: {
-                save: false,
-            },
+            dialog: {},
             loading: false,
             query: {
                 dynamicFilter: {
@@ -126,6 +142,33 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async setEnabled(enabled) {
+            let loading
+            try {
+                await this.$confirm(
+                    this.$t('确定要 {operator} 选中的 {count} 项吗？', {
+                        operator: enabled ? this.$t('启用') : this.$t('禁用'),
+                        count: this.selection.length,
+                    }),
+                    this.$t('提示'),
+                    {
+                        type: 'warning',
+                    },
+                )
+                loading = this.$loading()
+                const res = await Promise.all(this.selection.map((x) => this.$API.sys_dept.setEnabled.post(Object.assign(x, { enabled: enabled }))))
+                this.$message.success(
+                    this.$t('操作成功 {count}/{total} 项', {
+                        count: res.map((x) => x.data ?? 0).reduce((a, b) => a + b, 0),
+                        total: this.selection.length,
+                    }),
+                )
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+            loading?.close()
+        },
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_dept.setEnabled.post(row)
@@ -138,8 +181,8 @@ export default {
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
-                this.$refs.search.search()
             })
+            this.$refs.search.search()
         },
         async rowDel(row) {
             try {
@@ -170,7 +213,13 @@ export default {
             this.$refs.table.upData()
         },
     },
-    mounted() {},
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+    },
+    props: ['keywords'],
     watch: {},
 }
 </script>

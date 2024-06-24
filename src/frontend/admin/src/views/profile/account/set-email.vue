@@ -29,7 +29,7 @@
 
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </el-dialog>
 </template>
@@ -40,17 +40,42 @@ import phoneConfig from '@/config/naFormPhone'
 import emailConfig from '@/config/naFormEmail'
 
 export default {
-    created() {},
     components: {
         naFormPhone,
     },
+    created() {},
+
+    data() {
+        return {
+            //表单数据
+            form: {
+                verifySmsCodeReq: {},
+            },
+            loading: false,
+            //验证规则
+            rules: {
+                verifySmsCodeReq: {
+                    destDevice: phoneConfig.mobile(this),
+                    code: phoneConfig.code(this),
+                },
+
+                destDevice: [emailConfig.email(this)],
+                code: emailConfig.code(),
+            },
+            visible: false,
+        }
+    },
+    emits: ['success', 'closed', 'mounted'],
     methods: {
+        //显示
         open() {
             this.visible = true
             return this
         },
+        //表单提交方法
         async submit() {
-            if (!(await this.$refs.form.validate().catch(() => {}))) {
+            const valid = await this.$refs.form.validate().catch(() => {})
+            if (!valid) {
                 return false
             }
 
@@ -64,23 +89,8 @@ export default {
             this.loading = false
         },
     },
-    data() {
-        return {
-            visible: false,
-            loading: false,
-            form: {
-                verifySmsCodeReq: {},
-            },
-            rules: {
-                verifySmsCodeReq: {
-                    destDevice: phoneConfig.mobile(this),
-                    code: phoneConfig.code(this),
-                },
-
-                destDevice: [emailConfig.email(this)],
-                code: emailConfig.code(),
-            },
-        }
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>

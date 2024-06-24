@@ -19,7 +19,7 @@ const messages = {
 }
 
 const i18n = createI18n({
-    locale: tool.data.get('APP_LANG') || sysConfig.LANG,
+    locale: tool.data.get('APP_SET_LANG') || sysConfig.APP_SET_LANG,
     fallbackLocale: 'zh-cn',
     globalInjection: true,
     messages,
