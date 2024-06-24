@@ -165,7 +165,8 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
 
     private ISelect<Sys_JobRecord> QueryInternal(QueryReq<QueryJobRecordReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+        var ret = Rpo.Select.Include(a => a.Job)
+                     .WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0

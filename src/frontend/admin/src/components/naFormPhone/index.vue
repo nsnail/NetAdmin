@@ -82,13 +82,16 @@ export default {
         async captchaSuccess(obj) {
             this.sendDisabled = true
             try {
-                await this.$API.sys_verifycode.sendVerifyCode.post({
+                const res = await this.$API.sys_verifycode.sendVerifyCode.post({
                     destDevice: this.form[Array.isArray(this.phoneField) ? this.phoneField[1] : this.phoneField],
                     type: 'login',
                     deviceType: 'mobile',
                     verifyCaptchaReq: obj,
                 })
                 this.$message.success(this.$t('发送成功'))
+                if (res.data?.code) {
+                    this.$message.success(res.data.code.toString())
+                }
                 this.waitSecs = 60
                 const t = setInterval(() => {
                     this.waitSecs -= 1

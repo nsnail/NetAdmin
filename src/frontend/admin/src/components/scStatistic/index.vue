@@ -76,6 +76,7 @@ export default {
 }
 
 .sc-statistic-content-value {
+    font-family: 'Lucida Console', 'Microsoft YaHei', monospace;
     font-weight: bold;
 }
 

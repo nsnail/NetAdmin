@@ -56,7 +56,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     /// <inheritdoc />
     public Task<int> EditAsync(EditUserProfileReq req)
     {
-        return UpdateAsync(req, null);
+        return UpdateAsync(req.Adapt<Sys_UserProfile>(), null);
     }
 
     /// <inheritdoc />
@@ -78,6 +78,13 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryUserProfileRsp>();
+    }
+
+    /// <inheritdoc />
+    public async Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync()
+    {
+        var ret = await Rpo.Select.Where(a => a.Id == UserToken.Id).ToOneAsync().ConfigureAwait(false);
+        return ret.Adapt<GetSessionUserAppConfigRsp>();
     }
 
     /// <inheritdoc />
@@ -145,6 +152,13 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                                                                                  ? null
                                                                                  : x.e.Adapt<QueryDicContentRsp>()
                                                                          });
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id, null, true);
     }
 
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(

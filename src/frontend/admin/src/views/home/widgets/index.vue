@@ -146,7 +146,7 @@ export default {
             customizing: false,
             allComps: allComps,
             selectLayout: [],
-            defaultGrid: this.$CONFIG.DEFAULT_GRID,
+            defaultGrid: this.$CONFIG.APP_SET_HOME_GRID,
             grid: [],
         }
     },
@@ -225,14 +225,14 @@ export default {
         save() {
             this.customizing = false
             this.$refs.widgets.style.removeProperty('transform')
-            this.$TOOL.data.set('grid', this.grid)
+            this.$TOOL.data.set('APP_SET_HOME_GRID', this.grid)
         },
         //恢复默认
         backDefault() {
             this.customizing = false
             this.$refs.widgets.style.removeProperty('transform')
             this.grid = JSON.parse(JSON.stringify(this.defaultGrid))
-            this.$TOOL.data.remove('grid')
+            this.$TOOL.data.remove('APP_SET_HOME_GRID')
         },
         //关闭
         close() {
@@ -241,7 +241,7 @@ export default {
             this.loadGrid()
         },
         loadGrid() {
-            this.grid = this.$TOOL.data.get('grid') || JSON.parse(JSON.stringify(this.defaultGrid))
+            this.grid = this.$TOOL.data.get('APP_SET_HOME_GRID') || JSON.parse(JSON.stringify(this.defaultGrid))
         },
     },
 }
@@ -259,6 +259,7 @@ export default {
     flex: 1;
     overflow: auto;
     overflow-x: hidden;
+    font-family: 'Lucida Console', 'Microsoft YaHei', monospace;
 }
 
 .widgets-aside {

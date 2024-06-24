@@ -1,15 +1,16 @@
 <template>
     <el-table-column :label="label" :prop="`${prop}.${field}`">
-        <template #default="scope">
-            <template v-for="(item, i) in Array.isArray(scope.row[prop]) ? scope.row[prop] : [scope.row[prop]]" :key="i">
-                <el-tag v-if="item" @click="$emit('click', item)">
-                    {{ item ? item[field] : '' }}
-                </el-tag>
-            </template>
+        <template #default="{ row }">
+            <div class="flex">
+                <template v-for="(item, i) in Array.isArray(row[prop]) ? row[prop] : [row[prop]]" :key="i">
+                    <el-tag v-if="item" @click="$emit('click', item)">
+                        {{ item ? item[field] : '' }}
+                    </el-tag>
+                </template>
+            </div>
         </template>
     </el-table-column>
 </template>
-<style scoped></style>
 <script>
 export default {
     emits: ['click'],
@@ -28,3 +29,8 @@ export default {
     methods: {},
 }
 </script>
+<style scoped>
+.el-tag {
+    cursor: pointer;
+}
+</style>

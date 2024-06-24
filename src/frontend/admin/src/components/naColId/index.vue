@@ -1,33 +1,33 @@
 <template>
     <el-table-column v-bind="$attrs">
-        <template #default="scope">
-            <el-text @click="click(scope.row)" style="cursor: pointer" tag="ins">
-                {{ tool.getNestedProperty(scope.row, $attrs.prop) }}
-            </el-text>
+        <template #default="{ row }">
+            <p>{{ row.id }}</p>
+            <p v-if="showTime" class="time">{{ row.createdTime }}</p>
+            <slot :data="row"></slot>
         </template>
     </el-table-column>
 </template>
 <script>
-import tool from '@/utils/tool'
 export default {
-    emits: ['click'],
-    props: {},
+    emits: [],
+    props: {
+        showTime: {
+            type: Boolean,
+            default: true,
+        },
+    },
     data() {
         return {}
     },
     mounted() {},
     created() {},
     components: {},
-    computed: {
-        tool() {
-            return tool
-        },
-    },
-    methods: {
-        async click(row) {
-            this.$emit('click', row)
-        },
-    },
+    computed: {},
+    methods: {},
 }
 </script>
-<style scoped></style>
+<style scoped>
+.time {
+    color: var(--el-text-color-secondary);
+}
+</style>

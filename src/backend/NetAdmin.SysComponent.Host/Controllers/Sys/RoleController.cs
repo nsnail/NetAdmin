@@ -92,10 +92,26 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     }
 
     /// <summary>
+    ///     设置是否显示仪表板
+    /// </summary>
+    public Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req)
+    {
+        return Cache.SetDisplayDashboardAsync(req);
+    }
+
+    /// <summary>
     ///     启用/禁用角色
     /// </summary>
-    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    public Task<int> SetEnabledAsync(SetRoleEnabledReq req)
     {
         return Cache.SetEnabledAsync(req);
+    }
+
+    /// <summary>
+    ///     设置是否忽略权限控制
+    /// </summary>
+    public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
+    {
+        return Cache.SetIgnorePermissionControlAsync(req);
     }
 }

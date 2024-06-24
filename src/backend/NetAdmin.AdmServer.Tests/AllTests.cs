@@ -956,6 +956,13 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
 
     /// <inheritdoc />
     [Fact]
+    public Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync()
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [Fact]
     public async Task<string> GetVersionAsync()
     {
         var response = await PostAsync("/api/sys/tools/version", null).ConfigureAwait(true);
@@ -1342,7 +1349,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<uint> ResetPasswordAsync(ResetPasswordReq req)
+    public Task<int> ResetPasswordAsync(ResetPasswordReq req)
     {
         return default;
     }
@@ -1366,6 +1373,14 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
         return default;
@@ -1374,7 +1389,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task SetEnabledAsync(SetDeptEnabledReq req)
+    public Task<int> SetEnabledAsync(SetDeptEnabledReq req)
     {
         return default;
     }
@@ -1382,7 +1397,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task SetEnabledAsync(SetRoleEnabledReq req)
+    public Task<int> SetEnabledAsync(SetConfigEnabledReq req)
     {
         return default;
     }
@@ -1390,7 +1405,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task SetEnabledAsync(SetJobEnabledReq req)
+    public Task<int> SetEnabledAsync(SetRoleEnabledReq req)
     {
         return default;
     }
@@ -1398,7 +1413,23 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task SetEnabledAsync(SetUserEnabledReq req)
+    public Task<int> SetEnabledAsync(SetJobEnabledReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<int> SetEnabledAsync(SetUserEnabledReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
     {
         return default;
     }
@@ -1414,7 +1445,15 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<uint> SetPasswordAsync(SetPasswordReq req)
+    public Task<int> SetPasswordAsync(SetPasswordReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
     {
         return default;
     }

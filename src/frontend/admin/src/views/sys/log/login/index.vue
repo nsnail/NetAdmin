@@ -40,7 +40,6 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                v-loading="loading"
                 :apiObj="$API.sys_log.pagedQuery"
                 :context-menus="['id', 'httpStatusCode', 'createdClientIp', 'createdUserAgent', 'createdTime']"
                 :context-opers="['view']"
@@ -53,18 +52,17 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column :label="$t('日志编号')" prop="id" sortable="custom" width="150" />
-                <el-table-column :label="$t('创建时间')" prop="createdTime" sortable="custom" width="170" />
+                <na-col-id label="日志编号" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('结果')" align="center" prop="httpStatusCode" sortable="custom" width="100">
-                    <template #default="scope">
-                        <sc-status-indicator :type="scope.row.httpStatusCode === 200 ? 'success' : 'danger'" />
-                        {{ scope.row.httpStatusCode === 200 ? '成功' : '失败' }}
+                    <template #default="{ row }">
+                        <sc-status-indicator :type="row.httpStatusCode === 200 ? 'success' : 'danger'" />
+                        {{ row.httpStatusCode === 200 ? '成功' : '失败' }}
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('登录名')" prop="loginName" width="150" />
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
-                    <template #default="scope">
-                        <na-ip :ip="scope.row.createdClientIp"></na-ip>
+                    <template #default="{ row }">
+                        <na-ip :ip="row.createdClientIp"></na-ip>
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
@@ -78,47 +76,12 @@
 
 <script>
 import naInfo from '@/components/naInfo/index.vue'
-import tool from '@/utils/tool'
-import ScTable from '@/components/scTable/index.vue'
 
 export default {
     components: {
-        ScTable,
         naInfo,
     },
-    watch: {},
-    inject: ['reload'],
-    data() {
-        return {
-            loading: false,
-            query: {
-                dynamicFilter: {
-                    filters: [
-                        {
-                            field: 'createdTime',
-                            operator: 'dateRange',
-                            value: [tool.dateFormat(new Date(), 'yyyy-MM-dd'), tool.dateFormat(new Date(), 'yyyy-MM-dd')],
-                        },
-                    ],
-                },
-                filter: {},
-            },
-            dialog: {
-                info: false,
-            },
-        }
-    },
-    async mounted() {
-        if (this.keywords) {
-            this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
-        }
-        this.$refs.search.form.dy.apiId = 'api/sys/user/login.by.pwd'
-        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
-            `${tool.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
-            `${tool.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
-        ]
-    },
+    computed: {},
     created() {
         if (this.keywords) {
             this.query.keywords = this.keywords
@@ -129,6 +92,28 @@ export default {
             value: 'api/sys/user/login.by.pwd',
         })
     },
+    data() {
+        return {
+            dialog: {
+                info: false,
+            },
+            loading: false,
+            query: {
+                dynamicFilter: {
+                    filters: [
+                        {
+                            field: 'createdTime',
+                            operator: 'dateRange',
+                            value: [this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'), this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')],
+                        },
+                    ],
+                },
+                filter: {},
+            },
+            selection: [],
+        }
+    },
+    inject: ['reload'],
     methods: {
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -176,9 +161,22 @@ export default {
             const res = await this.$API.sys_log.query.post({
                 filter: { id: row.id },
             })
-            this.$refs.info.open(tool.sortProperties(res.data[0]), this.$t('日志详情：{id}', { id: row.id }))
+            this.$refs.info.open(this.$TOOL.sortProperties(res.data[0]), this.$t('日志详情：{id}', { id: row.id }))
         },
     },
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+        this.$refs.search.form.dy.apiId = 'api/sys/user/login.by.pwd'
+        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
+            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
+            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
+        ]
+    },
+    props: ['keywords'],
+    watch: {},
 }
 </script>
 

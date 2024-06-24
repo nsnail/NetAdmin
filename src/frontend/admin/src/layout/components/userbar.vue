@@ -78,37 +78,31 @@
 </template>
 
 <script>
-import search from './search.vue'
-import tasks from './tasks.vue'
-import message from '@/views/profile/message/components/list.vue'
+import { defineAsyncComponent } from 'vue'
 import avatar from '../../utils/avatar'
-
+const search = defineAsyncComponent(() => import('./search.vue'))
+const tasks = defineAsyncComponent(() => import('./tasks.vue'))
+const message = defineAsyncComponent(() => import('@/views/profile/message/components/list.vue'))
 export default {
-    computed: {
-        avatar() {
-            return avatar
-        },
-    },
     components: {
         search,
         tasks,
         message,
     },
-    watch: {
-        'config.dark'(val) {
-            if (val) {
-                document.documentElement.classList.add('dark')
-                this.$TOOL.data.set('APP_DARK', val)
-            } else {
-                document.documentElement.classList.remove('dark')
-                this.$TOOL.data.remove('APP_DARK')
-            }
+    computed: {
+        avatar() {
+            return avatar
         },
+    },
+    async created() {
+        this.user = this.$GLOBAL.user
+        const res = await this.$API.sys_sitemsg.unreadCount.post()
+        this.unreadCnt = res.data
     },
     data() {
         return {
             config: {
-                dark: this.$TOOL.data.get('APP_DARK') || false,
+                dark: this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK,
             },
             user: {},
             userName: '',
@@ -119,12 +113,21 @@ export default {
             unreadCnt: 0,
         }
     },
-    async created() {
-        this.user = this.$GLOBAL.user
-        const res = await this.$API.sys_sitemsg.unreadCount.post()
-        this.unreadCnt = res.data
-    },
     methods: {
+        clearData(fullClear) {
+            const loading = this.$loading()
+            this.$TOOL.cookie.clear()
+            if (fullClear) {
+                this.$TOOL.data.clear()
+            } else {
+                this.$TOOL.data.clearAppSet()
+            }
+            this.$router.replace({ path: '/guest/login' })
+            setTimeout(() => {
+                loading.close()
+                location.reload()
+            }, 1000)
+        },
         configDark() {
             this.config.dark = !this.config.dark
         },
@@ -133,7 +136,7 @@ export default {
             this.msg = false
         },
         //个人信息
-        handleUser(command) {
+        async handleUser(command) {
             if (command === 'uc') {
                 this.$router.push({ path: '/profile/account' })
             }
@@ -141,36 +144,22 @@ export default {
                 this.$router.push({ path: '/cmd' })
             }
             if (command === 'clearCache') {
-                this.$confirm(this.$t('清除缓存会将系统初始化，包括登录状态、主题、语言设置等，是否继续？'), this.$t('提示'), {
-                    type: 'info',
-                })
-                    .then(() => {
-                        const loading = this.$loading()
-                        this.$TOOL.data.clear()
-                        this.$TOOL.cookie.clear()
-                        this.$router.replace({ path: '/guest/login' })
-                        setTimeout(() => {
-                            loading.close()
-                            location.reload()
-                        }, 1000)
+                try {
+                    await this.$confirm(this.$t('清除缓存会将系统初始化，包括登录状态、主题、语言设置等，是否继续？'), this.$t('提示'), {
+                        type: 'info',
                     })
-                    .catch(() => {
-                        //取消
-                    })
+                    this.clearData(true)
+                } catch {}
             }
             if (command === 'outLogin') {
-                this.$confirm(this.$t('确认是否退出当前用户？'), this.$t('提示'), {
-                    type: 'warning',
-                    confirmButtonText: this.$t('退出'),
-                    confirmButtonClass: 'el-button--danger',
-                })
-                    .then(() => {
-                        this.$TOOL.cookie.clear()
-                        this.$router.replace({ path: '/guest/login' })
+                try {
+                    await this.$confirm(this.$t('确认是否退出当前用户？'), this.$t('提示'), {
+                        type: 'warning',
+                        confirmButtonText: this.$t('退出'),
+                        confirmButtonClass: 'el-button--danger',
                     })
-                    .catch(() => {
-                        //取消退出
-                    })
+                    this.clearData(false)
+                } catch {}
             }
         },
         //全屏
@@ -188,6 +177,18 @@ export default {
         //任务
         tasks() {
             this.tasksVisible = true
+        },
+    },
+    props: [],
+    watch: {
+        'config.dark'(val) {
+            if (val) {
+                document.documentElement.classList.add('dark')
+                this.$TOOL.data.set('APP_SET_DARK', val)
+            } else {
+                document.documentElement.classList.remove('dark')
+                this.$TOOL.data.remove('APP_SET_DARK')
+            }
         },
     },
 }

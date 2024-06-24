@@ -45,27 +45,25 @@
             <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
         </el-footer>
     </el-container>
-    <save-dialog v-if="dialog.save" @closed="dialog.save = false" ref="saveDialog"></save-dialog>
+
+    <save-dialog v-if="dialog.save" @closed="dialog.save = null" @mounted="$refs.saveDialog.open(dialog.save)" ref="saveDialog"></save-dialog>
 </template>
 
 <script>
-import saveDialog from '@/views/sys/job/save.vue'
+import { defineAsyncComponent } from 'vue'
+const saveDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save.vue'))
 export default {
     components: {
         saveDialog,
     },
     data() {
         return {
-            dialog: {
-                save: false,
-            },
+            dialog: {},
             loading: false,
             jobs: [],
         }
     },
-    mounted() {
-        this.getData()
-    },
+    inject: ['reload'],
     methods: {
         async getData() {
             this.loading = true
@@ -77,11 +75,14 @@ export default {
             this.getData()
         },
         async view(job) {
-            this.dialog.save = true
-            await this.$nextTick()
-            await this.$refs.saveDialog.open('view', { id: job.id })
+            this.dialog.save = { mode: 'view', row: { id: job.id }, tabId: 'record' }
         },
     },
+    mounted() {
+        this.getData()
+    },
+    props: [],
+    watch: {},
 }
 </script>
 

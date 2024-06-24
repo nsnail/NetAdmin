@@ -65,7 +65,7 @@ public sealed class DeptCache(IDistributedCache cache, IDeptService service) //
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetDeptEnabledReq req)
+    public Task<int> SetEnabledAsync(SetDeptEnabledReq req)
     {
         return Service.SetEnabledAsync(req);
     }

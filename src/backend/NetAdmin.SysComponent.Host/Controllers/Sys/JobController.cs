@@ -144,7 +144,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     /// <summary>
     ///     启用/禁用作业
     /// </summary>
-    public Task SetEnabledAsync(SetJobEnabledReq req)
+    public Task<int> SetEnabledAsync(SetJobEnabledReq req)
     {
         return Cache.SetEnabledAsync(req);
     }

@@ -164,6 +164,12 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
+    public Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync()
+    {
+        return userProfileService.GetSessionUserAppConfigAsync();
+    }
+
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">用户名或密码错误</exception>
     public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
@@ -259,7 +265,7 @@ public sealed class UserService(
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">验证码不正确</exception>
     /// <exception cref="NetAdminInvalidOperationException">用户不存在</exception>
-    public async Task<uint> ResetPasswordAsync(ResetPasswordReq req)
+    public async Task<int> ResetPasswordAsync(ResetPasswordReq req)
     {
         req.ThrowIfInvalid();
         if (await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq).ConfigureAwait(false)) {
@@ -269,7 +275,7 @@ public sealed class UserService(
                                                                                    Password = req.PasswordText.Pwd()
                                                                                        .Guid()
                                                                                };
-            return (uint)await UpdateAsync(dto, [nameof(Sys_User.Password)]).ConfigureAwait(false);
+            return await UpdateAsync(dto, [nameof(Sys_User.Password)]).ConfigureAwait(false);
         }
 
         throw new NetAdminInvalidOperationException(Ln.验证码不正确);
@@ -335,7 +341,7 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetUserEnabledReq req)
+    public Task<int> SetEnabledAsync(SetUserEnabledReq req)
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.Enabled)]);
@@ -386,18 +392,23 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
-    public async Task<uint> SetPasswordAsync(SetPasswordReq req)
+    public async Task<int> SetPasswordAsync(SetPasswordReq req)
     {
         req.ThrowIfInvalid();
         var version = await Rpo.Where(a => a.Id == UserToken.Id && a.Password == req.OldPassword.Pwd().Guid())
                                .ToOneAsync(a => new long?(a.Version))
                                .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException($"{Ln.旧密码不正确}");
 
-        var ret = await UpdateAsync(
+        return await UpdateAsync(
                 new Sys_User { Id = UserToken.Id, Password = req.NewPassword.Pwd().Guid(), Version = version }
               , [nameof(Sys_User.Password)])
             .ConfigureAwait(false);
-        return (uint)ret;
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
+    {
+        return userProfileService.SetSessionUserAppConfigAsync(req);
     }
 
     /// <inheritdoc />
@@ -495,9 +506,9 @@ public sealed class UserService(
                          req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Id == req.Keywords.Int64Try(0) || a.UserName.Contains(req.Keywords) ||
-                              a.Mobile.Contains(req.Keywords)  || a.Email.Contains(req.Keywords)    ||
-                              a.Summary.Contains(req.Keywords));
+                       , a => a.Id     == req.Keywords.Int64Try(0) || a.UserName == req.Keywords ||
+                              a.Mobile == req.Keywords             ||
+                              a.Email  == req.Keywords             || a.Summary.Contains(req.Keywords));
         switch (req.Order) {
             case Orders.None:
                 return ret;

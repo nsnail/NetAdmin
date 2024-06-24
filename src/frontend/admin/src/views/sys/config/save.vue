@@ -35,7 +35,7 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
@@ -45,7 +45,7 @@
         </div>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -53,37 +53,37 @@
 <script>
 export default {
     components: {},
-    emits: ['success', 'closed'],
     data() {
         return {
+            //表单数据
+            form: {
+                enabled: true,
+            },
+            loading: false,
             mode: 'add',
+            //验证规则
+            rules: {
+                userRegisterDeptId: [{ required: true, message: '请选择默认部门' }],
+                userRegisterRoleId: [{ required: true, message: '请选择默认角色' }],
+            },
             titleMap: {
                 add: this.$t('新增配置'),
                 edit: this.$t('编辑配置'),
                 view: this.$t('查看配置'),
             },
             visible: false,
-            loading: false,
-            //表单数据
-            form: {
-                enabled: true,
-            },
-            //验证规则
-            rules: {
-                userRegisterDeptId: [{ required: true, message: '请选择默认部门' }],
-                userRegisterRoleId: [{ required: true, message: '请选择默认角色' }],
-            },
         }
     },
-    mounted() {},
+    emits: ['success', 'closed', 'mounted'],
     methods: {
         //显示
-        async open(mode = 'add', data) {
+        async open(data) {
             this.visible = true
             this.loading = true
-            this.mode = mode
-            if (data) {
-                Object.assign(this.form, (await this.$API.sys_config.get.post({ id: data.id })).data)
+            this.mode = data.mode
+            if (data.row?.id) {
+                const res = await this.$API.sys_config.get.post({ id: data.row.id })
+                Object.assign(this.form, res.data)
             }
             this.loading = false
             return this
@@ -95,19 +95,20 @@ export default {
             if (!valid) {
                 return false
             }
-
             this.loading = true
+
+            const method = this.mode === 'add' ? this.$API.sys_config.create : this.$API.sys_config.edit
             try {
-                const method = this.mode === 'add' ? this.$API.sys_config.create : this.$API.sys_config.edit
                 const res = await method.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
                 this.$message.success(this.$t('操作成功'))
-            } catch {
-                ///
-            }
+            } catch {}
             this.loading = false
         },
+    },
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>

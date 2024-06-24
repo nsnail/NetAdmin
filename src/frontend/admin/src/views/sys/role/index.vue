@@ -12,8 +12,26 @@
                             { label: $t('禁用'), value: false },
                         ],
                     },
+                    {
+                        title: $t('无限权限'),
+                        key: 'ignorePermissionControl',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            { label: $t('是'), value: true },
+                            { label: $t('否'), value: false },
+                        ],
+                    },
+                    {
+                        title: $t('显示仪表板'),
+                        key: 'displayDashboard',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            { label: $t('是'), value: true },
+                            { label: $t('否'), value: false },
+                        ],
+                    },
                 ]"
-                :label-width="10"
+                :label-width="15"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -27,26 +45,6 @@
                             placeholder: $t('角色编号 / 角色名称 / 备注'),
                             style: 'width:20rem',
                         },
-                        {
-                            type: 'select',
-                            field: ['dy', 'ignorePermissionControl'],
-                            options: [
-                                { label: '是', value: true },
-                                { label: '否', value: false },
-                            ],
-                            placeholder: $t('无限权限'),
-                            style: 'width:15rem',
-                        },
-                        {
-                            type: 'select',
-                            field: ['dy', 'displayDashboard'],
-                            options: [
-                                { label: '是', value: true },
-                                { label: '否', value: false },
-                            ],
-                            placeholder: $t('显示仪表板'),
-                            style: 'width:15rem',
-                        },
                     ]"
                     :vue="this"
                     @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
@@ -54,13 +52,26 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <na-button-add :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_role.bulkDelete" :vue="this" />
+                <el-dropdown v-show="this.selection.length > 0">
+                    <el-button type="primary">
+                        {{ $t('批量操作') }}
+                        <el-icon>
+                            <el-icon-arrow-down />
+                        </el-icon>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click="setEnabled(true)">{{ $t('启用角色') }}</el-dropdown-item>
+                            <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用角色') }}</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                v-loading="loading"
                 :apiObj="$API.sys_role.pagedQuery"
                 :context-menus="['id', 'name', 'sort', 'enabled', 'ignorePermissionControl', 'dataScope', 'displayDashboard', 'createdTime']"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
@@ -77,23 +88,14 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" />
-                <el-table-column :label="$t('角色编号')" prop="id" sortable="custom" />
+                <na-col-id :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('角色名称')" prop="name" sortable="custom" />
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" />
-                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
-                    <template #default="scope">
-                        <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
+                <el-table-column :label="$t('无限权限')" align="center" prop="ignorePermissionControl" sortable="custom">
+                    <template #default="{ row }">
+                        <el-switch v-model="row.ignorePermissionControl" @change="changeIgnorePermissionControl($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <na-col-indicator
-                    :label="$t('无限权限')"
-                    :options="[
-                        { text: '是', type: 'success', value: true, pulse: true },
-                        { text: '否', type: 'danger', value: false },
-                    ]"
-                    align="center"
-                    prop="ignorePermissionControl"
-                    sortable="custom"></na-col-indicator>
                 <na-col-indicator
                     :label="$t('数据范围')"
                     :options="
@@ -107,26 +109,33 @@
                     width="120">
                 </na-col-indicator>
 
-                <na-col-indicator
-                    :label="$t('显示仪表板')"
-                    :options="[
-                        { text: '是', type: 'success', value: true },
-                        { text: '否', type: 'danger', value: false },
-                    ]"
-                    align="center"
-                    prop="displayDashboard"
-                    sortable="custom" />
-
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" />
+                <el-table-column :label="$t('显示仪表板')" align="center" prop="displayDashboard" sortable="custom">
+                    <template #default="{ row }">
+                        <el-switch v-model="row.displayDashboard" @change="changeDisplayDashboard($event, row)"></el-switch>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
+                    <template #default="{ row }">
+                        <el-switch v-model="row.enabled" @change="changeEnabled($event, row)"></el-switch>
+                    </template>
+                </el-table-column>
                 <na-col-operation
                     :buttons="
-                        naColOperation.buttons.concat({
-                            icon: 'el-icon-delete',
-                            confirm: true,
-                            title: '删除角色',
-                            click: rowDel,
-                            type: 'danger',
-                        })
+                        naColOperation.buttons.concat(
+                            {
+                                icon: 'el-icon-document-copy',
+                                confirm: true,
+                                title: '复制角色',
+                                click: copyRole,
+                            },
+                            {
+                                icon: 'el-icon-delete',
+                                confirm: true,
+                                title: '删除角色',
+                                click: rowDel,
+                                type: 'danger',
+                            },
+                        )
                     "
                     :vue="this" />
             </sc-table>
@@ -135,16 +144,18 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = false"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
 </template>
 
 <script>
-import saveDialog from './save'
-import naColOperation from '@/config/naColOperation'
+import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
+import naColOperation from '@/config/naColOperation'
 
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
     components: {
         saveDialog,
@@ -157,12 +168,14 @@ export default {
             return table
         },
     },
-    created() {},
+    created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
+    },
     data() {
         return {
-            dialog: {
-                save: false,
-            },
+            dialog: {},
             loading: false,
             query: {
                 dynamicFilter: {
@@ -175,7 +188,58 @@ export default {
     },
     inject: ['reload'],
     methods: {
-        async changeSwitch(event, row) {
+        async copyRole(row) {
+            const loading = this.$loading()
+            await this.$API.sys_role.create.post(Object.assign({}, row, { id: null, name: row.name + '-copy' }))
+            this.$refs.table.refresh()
+            loading.close()
+        },
+        async setEnabled(enabled) {
+            let loading
+            try {
+                await this.$confirm(
+                    this.$t('确定要 {operator} 选中的 {count} 项吗？', {
+                        operator: enabled ? this.$t('启用') : this.$t('禁用'),
+                        count: this.selection.length,
+                    }),
+                    this.$t('提示'),
+                    {
+                        type: 'warning',
+                    },
+                )
+                loading = this.$loading()
+                const res = await Promise.all(this.selection.map((x) => this.$API.sys_role.setEnabled.post(Object.assign(x, { enabled: enabled }))))
+                this.$message.success(
+                    this.$t('操作成功 {count}/{total} 项', {
+                        count: res.map((x) => x.data ?? 0).reduce((a, b) => a + b, 0),
+                        total: this.selection.length,
+                    }),
+                )
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+            loading?.close()
+        },
+        async changeIgnorePermissionControl(event, row) {
+            try {
+                await this.$API.sys_role.setIgnorePermissionControl.post(row)
+                this.$message.success(this.$t('操作成功'))
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+        },
+        async changeDisplayDashboard(event, row) {
+            try {
+                await this.$API.sys_role.setDisplayDashboard.post(row)
+                this.$message.success(this.$t('操作成功'))
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+        },
+        async changeEnabled(event, row) {
             try {
                 await this.$API.sys_role.setEnabled.post(row)
                 this.$message.success(this.$t('操作成功'))
@@ -187,8 +251,8 @@ export default {
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
-                this.$refs.search.search()
             })
+            this.$refs.search.search()
         },
         async rowDel(row) {
             try {
@@ -234,7 +298,13 @@ export default {
             this.$refs.table.upData()
         },
     },
-    mounted() {},
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+    },
+    props: ['keywords'],
     watch: {},
 }
 </script>

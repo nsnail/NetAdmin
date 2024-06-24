@@ -32,9 +32,10 @@
                     type="password"></el-input>
             </el-form-item>
         </el-form>
+
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </el-dialog>
 </template>
@@ -44,43 +45,51 @@ import scPasswordStrength from '@/components/scPasswordStrength/index.vue'
 import naFormPassword from '@/config/naFormPassword'
 
 export default {
-    created() {},
     components: {
         scPasswordStrength,
     },
+    created() {},
+
+    data() {
+        return {
+            form: {},
+            loading: false,
+            //验证规则
+            rules: {
+                oldPassword: naFormPassword.passwordText(this),
+                newPassword: naFormPassword.passwordText(this),
+                confirmNewPassword: naFormPassword.passwordText2(() => this.form.newPassword),
+            },
+            visible: false,
+        }
+    },
+    emits: ['success', 'closed', 'mounted'],
     methods: {
+        //显示
         open() {
             this.visible = true
             return this
         },
+        //表单提交方法
         async submit() {
-            if (!(await this.$refs.form.validate().catch(() => {}))) {
+            const valid = await this.$refs.form.validate().catch(() => {})
+            if (!valid) {
                 return false
             }
 
             this.loading = true
             try {
                 const res = await this.$API.sys_user.setPassword.post(this.form)
-                this.$emit('success', res.data, this.mode)
+                this.$emit('success', res.data)
                 this.visible = false
                 this.$message.success(this.$t('操作成功'))
-            } catch {
-                //
-            }
+            } catch {}
             this.loading = false
         },
     },
-    data() {
-        return {
-            visible: false,
-            loading: false,
-            form: {},
-            rules: {
-                oldPassword: naFormPassword.passwordText(this),
-                newPassword: naFormPassword.passwordText(this),
-                confirmNewPassword: naFormPassword.passwordText2(() => this.form.newPassword),
-            },
-        }
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>
+<style scoped></style>

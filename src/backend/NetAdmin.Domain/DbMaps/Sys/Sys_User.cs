@@ -115,7 +115,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
                           ? Array.Empty<Sys_Role>()
                           : s.RoleIds.Select(x => new Sys_Role { Id = x }));
 
-        _ = config.ForType<EditSingleUserReq, Sys_User>()
+        _ = config.ForType<EditUserReq, Sys_User>()
                   .Map( //
                       d => d.Password, s => s.PasswordText.NullOrEmpty() ? Guid.Empty : s.PasswordText.Pwd().Guid())
                   .Map( //

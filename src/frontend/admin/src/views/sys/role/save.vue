@@ -1,7 +1,7 @@
 <template>
     <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <div v-loading="loading">
-            <el-tabs tab-position="top">
+            <el-tabs v-model="tabId" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
                         <el-form-item :label="$t('角色名称')" prop="name">
@@ -76,10 +76,13 @@
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view'" :label="$t('用户列表')" name="user">
+                    <user v-if="tabId === 'user'" :role-id="form.id"></user>
+                </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
@@ -89,32 +92,23 @@
         </div>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
+const User = defineAsyncComponent(() => import('@/views/sys/user/index.vue'))
 export default {
-    components: {},
-    emits: ['success', 'closed'],
+    components: { User },
     data() {
         return {
-            mode: 'add',
-            titleMap: {
-                add: this.$t('新增角色'),
-                edit: this.$t('编辑角色'),
-                view: this.$t('查看角色'),
-            },
-            visible: false,
-            loading: false,
-            trees: {
-                menu: [],
-                api: [],
-                dept: [],
-            },
             //表单数据
             form: { displayDashboard: false, sort: 100, enabled: true },
+            loading: false,
+            mode: 'add',
             //验证规则
             rules: {
                 sort: [
@@ -126,12 +120,25 @@ export default {
                 ],
                 name: [{ required: true, message: '请输入角色名称' }],
             },
+            tabId: '0',
+            titleMap: {
+                add: this.$t('新增角色'),
+                edit: this.$t('编辑角色'),
+                view: this.$t('查看角色'),
+            },
+            trees: {
+                menu: [],
+                api: [],
+                dept: [],
+            },
+            visible: false,
         }
     },
-    mounted() {},
+    emits: ['success', 'closed', 'mounted'],
     methods: {
         async getTrees(name) {
-            this.trees[name] = (await this.$API[`sys_${name}`].query.post()).data
+            const res = await this.$API[`sys_${name}`].query.post()
+            this.trees[name] = res.data
             await this.$nextTick()
             await this.$refs[name].setCheckedKeys(
                 (this.form[`${name}Ids`] || []).filter((key) => this.$refs[name].getNode(key).isLeaf),
@@ -139,12 +146,13 @@ export default {
             )
         },
         //显示
-        async open(mode = 'add', data) {
+        async open(data) {
             this.visible = true
             this.loading = true
-            this.mode = mode
-            if (data) {
-                Object.assign(this.form, (await this.$API.sys_role.get.post({ id: data.id })).data)
+            this.mode = data.mode
+            if (data.row?.id) {
+                const res = await this.$API.sys_role.get.post({ id: data.row.id })
+                Object.assign(this.form, res.data)
             }
             await this.getTrees('menu')
             await this.getTrees('api')
@@ -159,26 +167,26 @@ export default {
             if (!valid) {
                 return false
             }
-
             this.loading = true
-            const method = this.mode === 'add' ? this.$API.sys_role.create : this.$API.sys_role.edit
             const postData = Object.assign({}, this.form, {
                 deptIds: this.$refs.dept.getCheckedKeys().concat(this.$refs.dept.getHalfCheckedKeys()),
                 menuIds: this.$refs.menu.getCheckedKeys().concat(this.$refs.menu.getHalfCheckedKeys()),
                 apiIds: this.$refs.api.getCheckedKeys().concat(this.$refs.api.getHalfCheckedKeys()),
             })
+            const method = this.mode === 'add' ? this.$API.sys_role.create : this.$API.sys_role.edit
             try {
                 const res = await method.post(postData)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
                 this.$message.success(this.$t('操作成功'))
-            } catch {
-                //
-            }
+            } catch {}
             this.loading = false
         },
+    },
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>
 
-<style></style>
+<style scoped></style>

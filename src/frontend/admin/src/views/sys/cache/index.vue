@@ -66,24 +66,21 @@
 </template>
 
 <script>
-import scStatistic from '@/components/scStatistic'
 import naInfo from '@/components/naInfo/index.vue'
-import tool from '@/utils/tool'
 
 export default {
     components: {
-        scStatistic,
         naInfo,
     },
     data() {
         return {
+            dialog: {
+                info: false,
+            },
             query: {
                 filter: {
                     dbIndex: 1,
                 },
-            },
-            dialog: {
-                info: false,
             },
             statistics: {
                 keyspaceHits: 0,
@@ -95,21 +92,11 @@ export default {
             },
         }
     },
-    mounted() {
-        this.cacheStatistics()
-    },
-    watch: {
-        'query.filter.dbIndex': {
-            handler() {
-                this.$refs.table.upData()
-            },
-        },
-    },
     methods: {
         async rowClick(row) {
             this.dialog.info = true
             await this.$nextTick()
-            this.$refs.info.open(tool.sortProperties(row), `缓存详情`)
+            this.$refs.info.open(this.$TOOL.sortProperties(row), this.$t('缓存详情'))
         },
         async cacheStatistics() {
             try {
@@ -120,6 +107,16 @@ export default {
             } catch {
                 //
             }
+        },
+    },
+    mounted() {
+        this.cacheStatistics()
+    },
+    watch: {
+        'query.filter.dbIndex': {
+            handler() {
+                this.$refs.table.upData()
+            },
         },
     },
 }

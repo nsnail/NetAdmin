@@ -97,6 +97,14 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
+    ///     获取当前用户应用配置
+    /// </summary>
+    public Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync()
+    {
+        return Cache.GetSessionUserAppConfigAsync();
+    }
+
+    /// <summary>
     ///     密码登录
     /// </summary>
     [AllowAnonymous]
@@ -168,7 +176,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public Task<uint> ResetPasswordAsync(ResetPasswordReq req)
+    public Task<int> ResetPasswordAsync(ResetPasswordReq req)
     {
         return Cache.ResetPasswordAsync(req);
     }
@@ -195,7 +203,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     ///     启用/禁用用户
     /// </summary>
     [Transaction]
-    public Task SetEnabledAsync(SetUserEnabledReq req)
+    public Task<int> SetEnabledAsync(SetUserEnabledReq req)
     {
         return Cache.SetEnabledAsync(req);
     }
@@ -213,9 +221,17 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     ///     设置密码
     /// </summary>
     [Transaction]
-    public Task<uint> SetPasswordAsync(SetPasswordReq req)
+    public Task<int> SetPasswordAsync(SetPasswordReq req)
     {
         return Cache.SetPasswordAsync(req);
+    }
+
+    /// <summary>
+    ///     设置当前用户应用配置
+    /// </summary>
+    public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
+    {
+        return Cache.SetSessionUserAppConfigAsync(req);
     }
 
     /// <summary>

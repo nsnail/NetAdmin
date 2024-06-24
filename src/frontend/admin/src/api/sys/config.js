@@ -103,4 +103,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 设置配置启用状态
+     */
+    setEnabled: {
+        url: `${config.API_URL}/api/sys/config/set.enabled`,
+        name: `设置配置启用状态`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

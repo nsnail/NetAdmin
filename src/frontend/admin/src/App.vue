@@ -43,8 +43,17 @@ export default {
         },
     },
     async created() {
+        await this.$TOOL.data.downloadConfig()
+
+        //设置深色模式
+        if (this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
         //设置主题颜色
-        const app_color = this.$TOOL.data.get('APP_COLOR') ?? this.$CONFIG.COLOR
+        const app_color = this.$TOOL.data.get('APP_SET_COLOR') || this.$CONFIG.APP_SET_COLOR
         if (app_color) {
             document.documentElement.style.setProperty('--el-color-primary', app_color)
             for (let i = 1; i <= 9; i++) {
@@ -56,28 +65,31 @@ export default {
         }
 
         //设置布局
-        const layout = this.$TOOL.data.get('LAYOUT') ?? this.$CONFIG.LAYOUT
+        const layout = this.$TOOL.data.get('APP_SET_LAYOUT') || this.$CONFIG.APP_SET_LAYOUT
         if (layout) {
             this.$store.commit('SET_layout', layout)
         }
 
         //菜单是否折叠
-        const menuIsCollapse = this.$TOOL.data.get('MENU_IS_COLLAPSE') ?? this.$CONFIG.MENU_IS_COLLAPSE
+        const menuIsCollapse = this.$TOOL.data.get('APP_SET_MENU_IS_COLLAPSE') || this.$CONFIG.APP_SET_MENU_IS_COLLAPSE
         if (menuIsCollapse !== this.$store.state.global.menuIsCollapse) {
             this.$store.commit('TOGGLE_menuIsCollapse')
         }
 
         //是否开启多标签
-        const layoutTags = this.$TOOL.data.get('LAYOUT_TAGS') ?? this.$CONFIG.LAYOUT_TAGS
+        const layoutTags = this.$TOOL.data.get('APP_SET_MULTI_TAGS') || this.$CONFIG.APP_SET_MULTI_TAGS
         if (layoutTags !== this.$store.state.global.layoutTags) {
             this.$store.commit('TOGGLE_layoutTags')
         }
 
         //是否开启手风琴菜单
-        const menuUniqueOpened = this.$TOOL.data.get('MENU_UNIQUE_OPENED') ?? this.$CONFIG.MENU_UNIQUE_OPENED
-        if (menuUniqueOpened !== this.$CONFIG.MENU_UNIQUE_OPENED) {
-            this.$CONFIG.MENU_UNIQUE_OPENED = menuUniqueOpened
+        const menuUniqueOpened = this.$TOOL.data.get('APP_SET_MENU_UNIQUE_OPENED') || this.$CONFIG.APP_SET_MENU_UNIQUE_OPENED
+        if (menuUniqueOpened !== this.$CONFIG.APP_SET_MENU_UNIQUE_OPENED) {
+            this.$CONFIG.APP_SET_MENU_UNIQUE_OPENED = menuUniqueOpened
         }
+
+        // 设置语言
+        this.$i18n.locale = this.$TOOL.data.get('APP_SET_LANG') || this.$CONFIG.APP_SET_LANG
     },
 }
 </script>

@@ -36,7 +36,8 @@ export default {
     },
     mounted() {},
     async created() {
-        this.options = (await this.$API.sys_dept.query.post()).data
+        const res = await this.$API.sys_dept.query.post()
+        this.options = res.data
     },
     components: {},
     computed: {},

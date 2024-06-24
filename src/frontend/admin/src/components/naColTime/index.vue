@@ -1,7 +1,7 @@
 <template>
     <el-table-column :label="label" :prop="prop">
-        <template #default="scope">
-            {{ tool.dateFormat(scope.row[prop]) }}
+        <template #default="{ row }">
+            {{ tool.dateFormat(row[prop]) }}
         </template>
     </el-table-column>
 </template>

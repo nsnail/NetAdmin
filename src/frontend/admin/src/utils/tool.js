@@ -12,7 +12,35 @@ const tool = {}
 
 /* localStorage */
 tool.data = {
-    set(key, data, datetime = 0) {
+    configJson: null,
+    async uploadConfig() {
+        try {
+            const json = JSON.stringify(Object.entries(localStorage).filter((x) => x[0].indexOf('APP_SET_') === 0))
+            if (this.configJson !== json) {
+                this.configJson = json
+                const userApi = await import('@/api/sys/user')
+                await userApi.default.setSessionUserAppConfig.post({
+                    appConfig: this.configJson,
+                })
+            }
+        } catch {}
+    },
+    clearAppSet() {
+        Object.entries(localStorage)
+            .filter((x) => x[0].indexOf('APP_SET_') === 0)
+            .map((x) => localStorage.removeItem(x[0]))
+    },
+    async downloadConfig() {
+        try {
+            const userApi = await import('@/api/sys/user')
+            const res = await userApi.default.getSessionUserAppConfig.post({})
+            this.clearAppSet()
+            for (const item of JSON.parse(res.data.appConfig)) {
+                localStorage.setItem(item[0], item[1])
+            }
+        } catch {}
+    },
+    async set(key, data, datetime = 0) {
         //加密
         if (sysConfig.LS_ENCRYPTION === 'AES') {
             data = tool.crypto.AES.encrypt(JSON.stringify(data), sysConfig.LS_ENCRYPTION_key)
@@ -21,7 +49,9 @@ tool.data = {
             content: data,
             datetime: parseInt(datetime) === 0 ? 0 : new Date().getTime() + parseInt(datetime) * 1000,
         }
-        return localStorage.setItem(key, JSON.stringify(cacheValue))
+        const ret = localStorage.setItem(key, JSON.stringify(cacheValue))
+        await this.uploadConfig()
+        return ret
     },
     get(key) {
         try {
@@ -43,11 +73,15 @@ tool.data = {
             return null
         }
     },
-    remove(key) {
-        return localStorage.removeItem(key)
+    async remove(key) {
+        const ret = localStorage.removeItem(key)
+        await this.uploadConfig()
+        return ret
     },
-    clear() {
-        return localStorage.clear()
+    async clear() {
+        const ret = localStorage.clear()
+        await this.uploadConfig()
+        return ret
     },
 }
 

@@ -18,7 +18,7 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
@@ -28,7 +28,7 @@
         </div>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -36,57 +36,61 @@
 <script>
 export default {
     components: {},
-    emits: ['success', 'closed'],
     data() {
         return {
-            mode: 'add',
-            titleMap: {
-                view: this.$t('查看字典项'),
-                add: this.$t('新增字典项'),
-                edit: this.$t('编辑字典项'),
-            },
-            visible: false,
-            loading: false,
+            //表单数据
             form: {},
+            loading: false,
+            mode: 'add',
+            //验证规则
             rules: {
                 catalogId: [{ required: true, message: '请选择所属字典' }],
                 key: [{ required: true, message: '请输入项名' }],
                 value: [{ required: true, message: '请输入项值' }],
             },
+            titleMap: {
+                add: this.$t('新增字典项'),
+                edit: this.$t('编辑字典项'),
+                view: this.$t('查看字典项'),
+            },
+            visible: false,
         }
     },
-    mounted() {},
+    emits: ['success', 'closed', 'mounted'],
     methods: {
         //显示
-        async open(mode = 'add', data) {
+        async open(data) {
             this.visible = true
             this.loading = true
-            this.mode = mode
-            if (data) {
-                Object.assign(this.form, (await this.$API.sys_dic.getContent.post({ id: data.id })).data)
+            this.mode = data.mode
+            if (data.row?.id) {
+                const res = await this.$API.sys_dic.getContent.post({ id: data.row.id })
+                Object.assign(this.form, res.data)
             }
             this.loading = false
             return this
         },
+
         //表单提交方法
         async submit() {
             const valid = await this.$refs.dialogForm.validate().catch(() => {})
             if (!valid) {
                 return false
             }
-
             this.loading = true
+
+            const method = this.mode === 'add' ? this.$API.sys_dic.createContent : this.$API.sys_dic.editContent
             try {
-                const method = this.mode === 'add' ? this.$API.sys_dic.createContent : this.$API.sys_dic.editContent
                 const res = await method.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
                 this.$message.success(this.$t('操作成功'))
-            } catch {
-                //
-            }
+            } catch {}
             this.loading = false
         },
+    },
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>

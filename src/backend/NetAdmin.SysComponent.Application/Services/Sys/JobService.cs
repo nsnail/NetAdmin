@@ -295,7 +295,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetJobEnabledReq req)
+    public Task<int> SetEnabledAsync(SetJobEnabledReq req)
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(Sys_Job.Enabled)]);

@@ -29,7 +29,7 @@
                 </div>
                 <div class="adminui-side-scroll">
                     <el-scrollbar>
-                        <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED" router>
+                        <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.APP_SET_MENU_UNIQUE_OPENED" router>
                             <NavMenu :navMenus="nextMenu"></NavMenu>
                         </el-menu>
                     </el-scrollbar>
@@ -74,7 +74,7 @@
             <div v-if="!ismobile" :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
                 <div class="adminui-side-scroll">
                     <el-scrollbar>
-                        <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED" router>
+                        <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.APP_SET_MENU_UNIQUE_OPENED" router>
                             <NavMenu :navMenus="menu"></NavMenu>
                         </el-menu>
                     </el-scrollbar>
@@ -172,7 +172,7 @@
                 </div>
                 <div class="adminui-side-scroll">
                     <el-scrollbar>
-                        <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.MENU_UNIQUE_OPENED" router>
+                        <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.APP_SET_MENU_UNIQUE_OPENED" router>
                             <NavMenu :navMenus="nextMenu"></NavMenu>
                         </el-menu>
                     </el-scrollbar>

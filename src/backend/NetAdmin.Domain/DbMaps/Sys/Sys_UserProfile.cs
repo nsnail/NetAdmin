@@ -10,6 +10,17 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 public record Sys_UserProfile : VersionEntity, IRegister
 {
     /// <summary>
+    ///     应用配置
+    /// </summary>
+    #if DBTYPE_SQLSERVER
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
+    #else
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    #endif
+    [JsonIgnore]
+    public virtual string AppConfig { get; init; }
+
+    /// <summary>
     ///     出生日期
     /// </summary>
     [Column]

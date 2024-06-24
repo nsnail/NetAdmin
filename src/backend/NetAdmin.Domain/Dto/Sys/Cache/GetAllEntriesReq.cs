@@ -8,5 +8,5 @@ public sealed record GetAllEntriesReq : DataAbstraction
     /// <summary>
     ///     数据库索引号
     /// </summary>
-    public uint DbIndex { get; init; }
+    public int DbIndex { get; init; }
 }

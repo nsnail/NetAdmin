@@ -13,4 +13,14 @@ public interface IUserProfileService : IService, IUserProfileModule
     ///     编辑用户档案
     /// </summary>
     Task<int> EditAsync(EditUserProfileReq req);
+
+    /// <summary>
+    ///     获取当前用户配置
+    /// </summary>
+    Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync();
+
+    /// <summary>
+    ///     设置当前用户配置
+    /// </summary>
+    Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req);
 }

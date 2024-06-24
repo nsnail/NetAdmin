@@ -41,7 +41,8 @@ export default {
     },
     mounted() {},
     async created() {
-        this.options = (await this.$API.sys_dic.queryCatalog.post()).data
+        const res = await this.$API.sys_dic.queryCatalog.post()
+        this.options = res.data
     },
     components: {},
     computed: {},

@@ -17,7 +17,7 @@
                                 return { value: x[0], label: x[1][1] }
                             }),
                             placeholder: $t('请求方式'),
-                            style: 'width:10rem',
+                            style: 'width:15rem',
                         },
                         {
                             multiple: true,
@@ -45,9 +45,8 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                v-loading="loading"
                 :apiObj="$API.sys_job.recordPagedQuery"
-                :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime']"
+                :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :params="query"
                 :vue="this"
@@ -56,37 +55,51 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column :label="$t('唯一编码')" prop="id" sortable="custom" width="150" />
+                <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
+                <el-table-column :label="$t('响应状态码')" prop="httpStatusCode" sortable="custom" width="200">
+                    <template #default="{ row }">
+                        <p>
+                            <na-indicator
+                                :data="row"
+                                :options="
+                                    Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
+                                        return { value: x[0], text: `${x[1][1]}`, type: x[1][2] }
+                                    })
+                                "
+                                prop="httpMethod" />
+                        </p>
+                        <p>
+                            <na-indicator
+                                :data="row"
+                                :options="
+                                    Object.entries(this.$GLOBAL.enums.httpStatusCodes).map((x) => {
+                                        return { value: x[0], text: `${x[1][1]}`, type: x[1][2] }
+                                    })
+                                "
+                                prop="httpStatusCode" />
+                        </p>
+                    </template>
+                </el-table-column>
                 <el-table-column
-                    :formatter="(row) => `${tool.groupSeparator(row.duration.toFixed(0))} ms`"
+                    :formatter="(row) => `${$TOOL.groupSeparator(row.duration.toFixed(0))} ms`"
                     :label="$t('执行耗时')"
                     align="right"
                     prop="duration"
                     sortable="custom"
                     width="150" />
-                <na-col-indicator
-                    :label="$t('请求方式')"
-                    :options="
-                        Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
-                            return { value: x[0], text: x[1][1], type: x[1][2] }
-                        })
-                    "
-                    align="center"
-                    prop="httpMethod"
-                    sortable="custom"
-                    width="150" />
-                <el-table-column :label="$t('响应状态码')" align="center" prop="httpStatusCode" sortable="custom" width="200">
-                    <template #default="scope">
-                        <sc-status-indicator :type="scope.row.httpStatusCode === 'ok' ? 'success' : 'danger'" />
-                        {{
-                            this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode]
-                                ? this.$GLOBAL.enums.httpStatusCodes[scope.row.httpStatusCode][1]
-                                : scope.row.httpStatusCode
-                        }}
+                <el-table-column :label="$t('作业信息')" prop="jobId" show-overflow-tooltip sortable="custom" width="500">
+                    <template #default="{ row }">
+                        <p>
+                            <el-link :href="`/sys/job?keywords=${row.jobId}`" target="_blank">
+                                {{ row.job.jobName }}
+                            </el-link>
+                        </p>
+                        <p>
+                            {{ row.requestUrl }}
+                        </p>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('请求的网络地址')" prop="requestUrl" sortable="custom" />
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
+                <el-table-column :label="$t('响应体')" prop="responseBody" show-overflow-tooltip sortable="custom" />
                 <na-col-operation :buttons="[naColOperation.buttons[0]]" :vue="this" width="100" />
             </sc-table>
         </el-main>
@@ -94,48 +107,25 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = false"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
 </template>
 
 <script>
-import saveDialog from './save'
+import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
-import tool from '@/utils/tool'
+import naIndicator from '@/components/naIndicator/index.vue'
 
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
-    props: ['keywords'],
     components: {
+        naIndicator,
         saveDialog,
     },
-    inject: ['reload'],
-    data() {
-        return {
-            loading: false,
-            query: {
-                dynamicFilter: {
-                    filters: [
-                        {
-                            field: 'createdTime',
-                            operator: 'dateRange',
-                            value: [tool.dateFormat(new Date(), 'yyyy-MM-dd'), tool.dateFormat(new Date(), 'yyyy-MM-dd')],
-                        },
-                    ],
-                },
-                filter: {},
-            },
-            dialog: {
-                save: false,
-            },
-        }
-    },
-    watch: {},
     computed: {
-        tool() {
-            return tool
-        },
         naColOperation() {
             return naColOperation
         },
@@ -143,21 +133,42 @@ export default {
             return table
         },
     },
-    mounted() {
-        if (this.keywords) {
-            this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
-        }
-        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
-            `${tool.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
-            `${tool.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
-        ]
-    },
     created() {
         if (this.keywords) {
             this.query.keywords = this.keywords
         }
+        if (this.statusCodes) {
+            this.query.dynamicFilter.filters.push({
+                logic: 'or',
+                filters: this.statusCodes.map((x) => {
+                    return {
+                        field: 'httpStatusCode',
+                        operator: 'range',
+                        value: x,
+                    }
+                }),
+            })
+        }
     },
+    data() {
+        return {
+            dialog: {},
+            loading: false,
+            query: {
+                dynamicFilter: {
+                    filters: [
+                        {
+                            field: 'createdTime',
+                            operator: 'dateRange',
+                            value: [this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'), this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')],
+                        },
+                    ],
+                },
+                filter: {},
+            },
+        }
+    },
+    inject: ['reload'],
     methods: {
         //搜索
         onSearch(form) {
@@ -191,6 +202,7 @@ export default {
                     filters: filters,
                 })
             }
+
             if (typeof form.dy.httpMethod === 'string' && form.dy.httpMethod.trim() !== '') {
                 this.query.dynamicFilter.filters.push({
                     field: 'httpMethod',
@@ -198,10 +210,25 @@ export default {
                     value: form.dy.httpMethod,
                 })
             }
-
             this.$refs.table.upData()
         },
     },
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+        if (this.statusCodes) {
+            this.$refs.search.form.dy.httpStatusCode = this.statusCodes
+            this.$refs.search.keepHttpStatusCode = this.statusCodes
+        }
+        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
+            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
+            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
+        ]
+    },
+    props: ['keywords', 'statusCodes'],
+    watch: {},
 }
 </script>
 

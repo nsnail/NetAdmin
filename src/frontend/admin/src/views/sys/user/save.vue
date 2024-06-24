@@ -2,10 +2,10 @@
     <sc-dialog
         v-model="visible"
         :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
-        :width="800"
         @closed="$emit('closed')"
         append-to-body
-        destroy-on-close>
+        destroy-on-close
+        full-screen>
         <el-form
             v-loading="loading"
             :disabled="mode === 'view'"
@@ -225,7 +225,7 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
@@ -235,7 +235,7 @@
         </el-form>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -243,17 +243,8 @@
 <script>
 export default {
     components: {},
-    emits: ['success', 'closed'],
     data() {
         return {
-            mode: 'add',
-            titleMap: {
-                view: this.$t('查看用户'),
-                add: this.$t('新增用户'),
-                edit: this.$t('编辑用户'),
-            },
-            visible: false,
-            loading: false,
             //表单数据
             form: {
                 profile: {
@@ -263,6 +254,8 @@ export default {
                     emergencyContactArea: '',
                 },
             },
+            loading: false,
+            mode: 'add',
             //验证规则
             rules: {
                 userName: [
@@ -300,23 +293,29 @@ export default {
                     },
                 ],
             },
+            titleMap: {
+                add: this.$t('新增用户'),
+                edit: this.$t('编辑用户'),
+                view: this.$t('查看用户'),
+            },
+            visible: false,
         }
     },
-    mounted() {},
+    emits: ['success', 'closed', 'mounted'],
     methods: {
         //显示
-        async open(mode = 'add', data) {
+        async open(data) {
             this.visible = true
             this.loading = true
-            this.mode = mode
-            if (mode === 'add') {
+            this.mode = data.mode
+            if (this.mode === 'add') {
                 this.rules.passwordText[0].required = true
             }
-            if (data) {
-                const user = (await this.$API.sys_user.get.post({ id: data.id })).data
-                Object.assign(this.form, user, {
-                    roleIds: user.roles.map((x) => x.id),
-                    deptId: user.dept.id,
+            if (data.row?.id) {
+                const res = await this.$API.sys_user.get.post({ id: data.row.id })
+                Object.assign(this.form, res.data, {
+                    roleIds: res.data.roles.map((x) => x.id),
+                    deptId: res.data.dept.id,
                 })
                 await this.getProfile()
             }
@@ -341,19 +340,19 @@ export default {
             if (!valid) {
                 return false
             }
-
+            this.loading = true
+            const method = this.mode === 'add' ? this.$API.sys_user.create : this.$API.sys_user.edit
             try {
-                const method = this.mode === 'add' ? this.$API.sys_user.create : this.$API.sys_user.edit
-                this.loading = true
-                const res = await method.post(Object.assign({}, this.form))
-                this.loading = false
+                const res = await method.post(this.form)
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
                 this.$message.success(this.$t('操作成功'))
-            } catch {
-                this.loading = false
-            }
+            } catch {}
+            this.loading = false
         },
+    },
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>

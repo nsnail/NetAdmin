@@ -440,7 +440,7 @@ export default {
 }
 
 .sc-file-select__item__file .item-file.item-file-doc {
-    color: #409eff;
+    color: #21a675;
 }
 
 .sc-file-select__item__upload {

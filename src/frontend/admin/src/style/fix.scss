@@ -1,7 +1,7 @@
 /* 覆盖element-plus样式 */
 
 :root {
-    --el-color-primary: #409eff;
+    --el-color-primary: #21a675;
     --el-color-primary-light-1: #53a7ff;
     --el-color-primary-light-2: #66b1ff;
     --el-color-primary-light-3: #79bbff;
@@ -44,6 +44,7 @@
 
 .el-date-editor {
     --el-date-editor-daterange-width: 20rem;
+    --el-date-editor-datetimerange-width: 30rem;
 }
 
 .el-menu {
@@ -167,7 +168,7 @@
 
 .el-table {
     td {
-        font-family: 'Lucida Console', 'Microsoft YaHei', 'monospace';
+        font-family: 'Lucida Console', 'Microsoft YaHei', monospace;
     }
 
     .el-link:after {

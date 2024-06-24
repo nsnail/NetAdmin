@@ -21,7 +21,8 @@ public static class UnitOfWorkManagerExtensions
             unitOfWork.Commit();
             logger?.Info($"{Ln.事务已提交}: {hashCode}");
         }
-        catch {
+        catch (Exception ex) {
+            logger?.Warn(ex);
             unitOfWork.Rollback();
             logger?.Warn($"{Ln.事务已回滚}: {hashCode}");
             throw;

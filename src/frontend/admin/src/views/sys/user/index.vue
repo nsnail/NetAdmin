@@ -50,12 +50,25 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <na-button-add :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
+                <el-dropdown v-show="this.selection.length > 0">
+                    <el-button type="primary">
+                        {{ $t('批量操作') }}
+                        <el-icon>
+                            <el-icon-arrow-down />
+                        </el-icon>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click="setEnabled(true)">{{ $t('启用用户') }}</el-dropdown-item>
+                            <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用用户') }}</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                v-loading="loading"
                 :apiObj="$API.sys_user.pagedQuery"
                 :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime']"
                 :context-opers="['view', 'edit']"
@@ -73,38 +86,56 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" />
-                <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" width="150" />
-                <na-col-avatar :label="$t('用户名')" prop="userName" />
+                <na-col-id :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
+                <na-col-avatar :label="$t('用户名')" prop="userName" width="170" />
                 <el-table-column :label="$t('手机号')" align="center" prop="mobile" sortable="custom" width="120" />
-                <el-table-column :label="$t('邮箱')" prop="email" sortable="custom" />
-                <na-col-tags :label="$t('所属角色')" @click="(item) => openDialog('sys_role', item.id, 'roleSave')" field="name" prop="roles" />
-                <na-col-tags :label="$t('所属部门')" @click="(item) => openDialog('sys_dept', item.id, 'deptSave')" field="name" prop="dept" />
+                <el-table-column :label="$t('邮箱')" align="right" prop="email" sortable="custom" />
+                <na-col-tags
+                    :label="$t('所属角色')"
+                    @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
+                    field="name"
+                    prop="roles" />
+                <na-col-tags
+                    :label="$t('所属部门')"
+                    @click="(item) => (this.dialog.deptSave = { row: item, mode: 'view' })"
+                    field="name"
+                    prop="dept"
+                    width="200" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
-                    <template #default="scope">
-                        <el-switch v-model="scope.row.enabled" @change="changeSwitch($event, scope.row)"></el-switch>
+                    <template #default="{ row }">
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" />
-                <na-col-operation :vue="this" />
+                <na-col-operation :vue="this" width="120" />
             </sc-table>
         </el-main>
     </el-container>
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = false"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
-    <role-save-dialog v-if="dialog.roleSave" @closed="dialog.roleSave = false" ref="roleSaveDialog"></role-save-dialog>
-    <dept-save-dialog v-if="dialog.deptSave" @closed="dialog.deptSave = false" ref="deptSaveDialog"></dept-save-dialog>
+    <role-save-dialog
+        v-if="dialog.roleSave"
+        @closed="dialog.roleSave = null"
+        @mounted="$refs.roleSaveDialog.open(dialog.roleSave)"
+        ref="roleSaveDialog"></role-save-dialog>
+    <dept-save-dialog
+        v-if="dialog.deptSave"
+        @closed="dialog.deptSave = null"
+        @mounted="$refs.deptSaveDialog.open(dialog.deptSave)"
+        ref="deptSaveDialog"></dept-save-dialog>
 </template>
 
 <script>
-import saveDialog from './save'
-import roleSaveDialog from '@/views/sys/role/save.vue'
-import deptSaveDialog from '@/views/sys/dept/save.vue'
+import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
 
+const roleSaveDialog = defineAsyncComponent(() => import('@/views/sys/role/save.vue'))
+const deptSaveDialog = defineAsyncComponent(() => import('@/views/sys/dept/save.vue'))
+const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
     components: {
         deptSaveDialog,
@@ -116,14 +147,20 @@ export default {
             return table
         },
     },
-    created() {},
+    created() {
+        if (this.keywords) {
+            this.query.keywords = this.keywords
+        }
+        if (this.roleId) {
+            this.query.filter.roleId = this.roleId
+        }
+        if (this.deptId) {
+            this.query.filter.deptId = this.deptId
+        }
+    },
     data() {
         return {
-            dialog: {
-                deptSave: false,
-                roleSave: false,
-                save: false,
-            },
+            dialog: {},
             loading: false,
             query: {
                 dynamicFilter: {
@@ -136,6 +173,33 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async setEnabled(enabled) {
+            let loading
+            try {
+                await this.$confirm(
+                    this.$t('确定要 {operator} 选中的 {count} 项吗？', {
+                        operator: enabled ? this.$t('启用') : this.$t('禁用'),
+                        count: this.selection.length,
+                    }),
+                    this.$t('提示'),
+                    {
+                        type: 'warning',
+                    },
+                )
+                loading = this.$loading()
+                const res = await Promise.all(this.selection.map((x) => this.$API.sys_user.setEnabled.post(Object.assign(x, { enabled: enabled }))))
+                this.$message.success(
+                    this.$t('操作成功 {count}/{total} 项', {
+                        count: res.map((x) => x.data ?? 0).reduce((a, b) => a + b, 0),
+                        total: this.selection.length,
+                    }),
+                )
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+            loading?.close()
+        },
         async changeSwitch(event, row) {
             try {
                 await this.$API.sys_user.setEnabled.post(row)
@@ -148,18 +212,8 @@ export default {
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
-                this.$refs.search.search()
             })
-        },
-        async openDialog(api, id, dialog) {
-            this.loading = true
-            const res = await this.$API[api].query.post({
-                filter: { id: id },
-            })
-            this.loading = false
-            this.dialog[dialog] = true
-            await this.$nextTick()
-            this.$refs[`${dialog}Dialog`].open('view', res.data[0])
+            this.$refs.search.search()
         },
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
@@ -181,7 +235,13 @@ export default {
             this.$refs.table.upData()
         },
     },
-    mounted() {},
+    mounted() {
+        if (this.keywords) {
+            this.$refs.search.form.root.keywords = this.keywords
+            this.$refs.search.keepKeywords = this.keywords
+        }
+    },
+    props: ['keywords', 'roleId', 'deptId'],
     watch: {},
 }
 </script>

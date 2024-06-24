@@ -34,5 +34,13 @@
   {
     "ApiId": "api/sys/site.msg/set.site.msg.status",
     "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/user/get.session.user.app.config",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/user/set.session.user.app.config",
+    "RoleId": 371729946431493,
   }
 ]

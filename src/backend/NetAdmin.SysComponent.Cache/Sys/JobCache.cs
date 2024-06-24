@@ -123,7 +123,7 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
-    public Task SetEnabledAsync(SetJobEnabledReq req)
+    public Task<int> SetEnabledAsync(SetJobEnabledReq req)
     {
         return Service.SetEnabledAsync(req);
     }

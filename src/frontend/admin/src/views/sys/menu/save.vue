@@ -78,38 +78,21 @@
 import scIconSelect from '@/components/scIconSelect'
 
 export default {
-    components: {
-        scIconSelect,
-    },
-    props: {
-        tree: {
-            type: Object,
-            default: () => {},
-        },
-    },
+    components: { scIconSelect },
     data() {
         return {
             form: {
                 meta: {},
             },
+            loading: false,
             treeOptions: [],
             rules: {
                 meta: {
                     title: [{ required: true, message: '请输入显示名称' }],
                 },
             },
-            loading: false,
         }
     },
-    watch: {
-        tree: {
-            handler() {
-                this.treeOptions = this.treeToMap(this.tree)
-            },
-            deep: true,
-        },
-    },
-    mounted() {},
     methods: {
         //简单化菜单
         treeToMap(tree) {
@@ -144,6 +127,21 @@ export default {
         //表单注入数据
         setData(data, pid) {
             this.form = Object.assign({}, data, { parentId: pid })
+        },
+    },
+    mounted() {},
+    props: {
+        tree: {
+            type: Object,
+            default: () => {},
+        },
+    },
+    watch: {
+        tree: {
+            handler() {
+                this.treeOptions = this.treeToMap(this.tree)
+            },
+            deep: true,
         },
     },
 }

@@ -1,11 +1,5 @@
 <template>
-    <sc-dialog
-        v-model="visible"
-        :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
-        :width="800"
-        @closed="$emit('closed')"
-        destroy-on-close
-        full-screen>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-form
             v-loading="loading"
             :disabled="mode === 'view'"
@@ -29,7 +23,7 @@
                     </el-form-item>
                     <el-form-item :label="$t('消息内容')" prop="content">
                         <div
-                            :class="this.$TOOL.data.get('APP_DARK') ? 'aie-theme-dark' : 'aie-theme-light'"
+                            :class="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'aie-theme-dark' : 'aie-theme-light'"
                             ref="editor"
                             style="width: 100%; height: 30rem"></div>
                     </el-form-item>
@@ -62,7 +56,7 @@
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
-                        :theme="this.$TOOL.data.get('APP_DARK') ? 'dark' : 'light'"
+                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
@@ -72,7 +66,7 @@
         </el-form>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
-            <el-button v-if="mode !== 'view'" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
+            <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
@@ -87,20 +81,14 @@ export default {
     emits: ['success', 'closed'],
     data() {
         return {
-            mode: 'add',
-            titleMap: {
-                view: this.$t('查看消息'),
-                add: this.$t('新增消息'),
-                edit: this.$t('编辑消息'),
-            },
-            visible: false,
-            loading: false,
             //表单数据
             form: {
                 userIds: [],
                 roleIds: [],
                 deptIds: [],
             },
+            loading: false,
+            mode: 'add',
             //验证规则
             rules: {
                 title: [
@@ -122,17 +110,23 @@ export default {
                     },
                 ],
             },
+            titleMap: {
+                add: this.$t('新增消息'),
+                edit: this.$t('编辑消息'),
+                view: this.$t('查看消息'),
+            },
+            visible: false,
         }
     },
-    mounted() {},
+    emits: ['success', 'closed', 'mounted'],
     methods: {
         //显示
-        async open(mode = 'add', data) {
+        async open(data) {
             this.visible = true
             this.loading = true
-            this.mode = mode
-            if (data) {
-                const res = await this.$API.sys_sitemsg.get.post({ id: data.id })
+            this.mode = data.mode
+            if (data.row?.id) {
+                const res = await this.$API.sys_sitemsg.get.post({ id: data.row.id })
                 Object.assign(this.form, res.data, {
                     roleIds: res.data.roles?.map((x) => x.id) ?? [],
                     deptIds: res.data.depts?.map((x) => x.id) ?? [],
@@ -150,7 +144,7 @@ export default {
                     this.form.content = content.getHtml()
                 },
             })
-            aiEditor.changeLang(this.$TOOL.data.get('APP_LANG') || sysConfig.LANG)
+            aiEditor.changeLang(this.$TOOL.data.get('APP_SET_LANG') || sysConfig.APP_SET_LANG)
             return this
         },
 
@@ -160,20 +154,21 @@ export default {
             if (!valid) {
                 return false
             }
-
+            this.loading = true
+            const method = this.mode === 'add' ? this.$API.sys_sitemsg.create : this.$API.sys_sitemsg.edit
             try {
-                const method = this.mode === 'add' ? this.$API.sys_sitemsg.create : this.$API.sys_sitemsg.edit
-                this.loading = true
                 const res = await method.post(Object.assign({}, this.form, { userIds: this.form.userIds.map((x) => x.id) }))
-                this.loading = false
                 this.$emit('success', res.data, this.mode)
                 this.visible = false
                 this.$message.success(this.$t('操作成功'))
-            } catch {
-                //
-                this.loading = false
-            }
+            } catch {}
+            this.loading = false
         },
+    },
+    mounted() {
+        this.$emit('mounted')
     },
 }
 </script>
+
+<style scoped></style>
