@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/nsnail/NetAdmin/compare/v1.3.0...v1.4.0) (2024-07-03)
+
+
+### Features
+
+* ✨ 框架代码同步 ([#150](https://github.com/nsnail/NetAdmin/issues/150)) ([e1b0030](https://github.com/nsnail/NetAdmin/commit/e1b0030193556fa0564ea059657b4b43c98085c2))
+
 ## [1.3.0](https://github.com/nsnail/NetAdmin/compare/v1.2.0...v1.3.0) (2024-06-24)
 
 
