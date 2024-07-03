@@ -34,6 +34,14 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     }
 
     /// <summary>
+    ///     作业记录计数
+    /// </summary>
+    public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.CountRecordAsync(req);
+    }
+
+    /// <summary>
     ///     创建计划作业
     /// </summary>
     [Transaction]
@@ -77,11 +85,35 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     }
 
     /// <summary>
+    ///     导出计划作业
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
+    ///     导出作业记录
+    /// </summary>
+    public Task<IActionResult> ExportRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.ExportRecordAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个计划作业
     /// </summary>
     public Task<QueryJobRsp> GetAsync(QueryJobReq req)
     {
         return Cache.GetAsync(req);
+    }
+
+    /// <summary>
+    ///     获取单个作业记录
+    /// </summary>
+    public Task<QueryJobRecordRsp> GetRecordAsync(QueryJobRecordReq req)
+    {
+        return Cache.GetRecordAsync(req);
     }
 
     /// <summary>
@@ -118,27 +150,19 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     }
 
     /// <summary>
+    ///     分页查询作业记录
+    /// </summary>
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.PagedQueryRecordAsync(req);
+    }
+
+    /// <summary>
     ///     查询计划作业
     /// </summary>
     public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         return Cache.QueryAsync(req);
-    }
-
-    /// <summary>
-    ///     获取单个作业记录
-    /// </summary>
-    public Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req)
-    {
-        return Cache.RecordGetAsync(req);
-    }
-
-    /// <summary>
-    ///     分页查询作业记录
-    /// </summary>
-    public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
-    {
-        return Cache.RecordPagedQueryAsync(req);
     }
 
     /// <summary>

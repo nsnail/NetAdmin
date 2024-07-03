@@ -1,6 +1,3 @@
-using NetAdmin.Domain.Attributes;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.DbMaps.Dependency;
 
 /// <inheritdoc />
@@ -21,11 +18,13 @@ public abstract record ImmutableEntity<T> : LiteImmutableEntity<T>, IFieldCreate
 {
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserId" />
     [Column(CanUpdate = false, Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public long? CreatedUserId { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public virtual string CreatedUserName { get; init; }
 

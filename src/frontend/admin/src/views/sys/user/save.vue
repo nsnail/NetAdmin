@@ -8,13 +8,13 @@
         full-screen>
         <el-form
             v-loading="loading"
-            :disabled="mode === 'view'"
+            :disabled="mode === 'view' && tabId !== 'log'"
             :model="form"
             :rules="rules"
             label-position="right"
             label-width="12rem"
             ref="dialogForm">
-            <el-tabs tab-position="top">
+            <el-tabs v-model="tabId" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form-item prop="avatar">
                         <sc-upload v-model="form.avatar" :title="$t('上传头像')"></sc-upload>
@@ -54,8 +54,8 @@
                         <sc-select
                             v-if="!this.loading"
                             v-model="form.roleIds"
-                            :apiObj="$API.sys_role.query"
                             :config="{ props: { label: 'name', value: 'id' } }"
+                            :query-api="$API.sys_role.query"
                             class="w100p"
                             clearable
                             filterable
@@ -220,7 +220,19 @@
                                 </el-input>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="24">
+                            <el-form-item :label="$t('应用配置')" prop="profile.appConfig">
+                                <v-ace-editor
+                                    v-model:value="form.profile.appConfig"
+                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
+                                    lang="json"
+                                    style="height: 10rem; width: 100%" />
+                            </el-form-item>
+                        </el-col>
                     </el-row>
+                </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view'" :label="$t('操作日志')" name="log">
+                    <log v-if="tabId === 'log'" :user-id="form.id"></log>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
@@ -241,13 +253,17 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
+const log = defineAsyncComponent(() => import('@/views/sys/log/operation/index.vue'))
 export default {
-    components: {},
+    components: { log },
     data() {
         return {
             //表单数据
             form: {
                 profile: {
+                    appConfig: '[]',
                     nationArea: '',
                     homeArea: '',
                     companyArea: '',
@@ -293,6 +309,7 @@ export default {
                     },
                 ],
             },
+            tabId: '0',
             titleMap: {
                 add: this.$t('新增用户'),
                 edit: this.$t('编辑用户'),

@@ -13,8 +13,8 @@
         <PackageReference Include="Furion.Extras.ObjectMapper.Mapster.NS" Version="4.9.4-ns1"/>
         <PackageReference Include="Furion.Pure.NS" Version="4.9.4-ns1"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-preview.5.24306.11"/>
-        <PackageReference Include="Minio" Version="6.0.2"/>
-        <PackageReference Include="NSExt" Version="2.1.0"/>
+        <PackageReference Include="Minio" Version="6.0.3"/>
+        <PackageReference Include="NSExt" Version="2.2.0"/>
         <PackageReference Include="RedLock.net" Version="2.3.2"/>
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>

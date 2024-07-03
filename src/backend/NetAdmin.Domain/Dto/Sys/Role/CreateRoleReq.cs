@@ -1,6 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;
@@ -8,12 +5,17 @@ namespace NetAdmin.Domain.Dto.Sys.Role;
 /// <summary>
 ///     请求：创建角色
 /// </summary>
-public record CreateRoleReq : Sys_Role
+public record CreateRoleReq : Sys_Role, IValidatableObject
 {
     /// <summary>
     ///     角色-接口映射
     /// </summary>
     public IReadOnlyCollection<string> ApiIds { get; init; }
+
+    /// <inheritdoc cref="Sys_Role.DashboardLayout" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonString]
+    public override string DashboardLayout { get; set; }
 
     /// <inheritdoc cref="Sys_Role.DataScope" />
     [EnumDataType(typeof(DataScopes), ErrorMessageResourceType = typeof(Ln)
@@ -55,4 +57,14 @@ public record CreateRoleReq : Sys_Role
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }
+
+    /// <inheritdoc />
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (validationContext.MemberName != null) {
+            DashboardLayout = JsonSerializer.Serialize(JsonDocument.Parse(DashboardLayout));
+        }
+
+        yield break;
+    }
 }

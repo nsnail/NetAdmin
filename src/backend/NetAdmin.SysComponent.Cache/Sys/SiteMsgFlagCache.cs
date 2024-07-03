@@ -41,6 +41,12 @@ public sealed class SiteMsgFlagCache(IDistributedCache cache, ISiteMsgFlagServic
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgFlagRsp> GetAsync(QuerySiteMsgFlagReq req)
     {
         return Service.GetAsync(req);

@@ -69,7 +69,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         var sw      = new Stopwatch();
         sw.Start();
         var rsp = await request.SendAsync(CancellationToken.None).ConfigureAwait(false);
-        if (rsp.StatusCode == HttpStatusCode.Unauthorized) {
+        if (rsp.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden) {
             var loginRsp = await _userService.LoginByUserIdAsync(job.UserId).ConfigureAwait(false);
             #pragma warning disable S2696
             _accessToken  = loginRsp.AccessToken;

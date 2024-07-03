@@ -1,6 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
@@ -60,6 +59,12 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             .AnyAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    {
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

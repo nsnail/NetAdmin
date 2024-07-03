@@ -1,21 +1,19 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>
 ///     请求日志表
 /// </summary>
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(ApiId),          nameof(ApiId),          false)]
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(CreatedTime),    nameof(CreatedTime),    false)]
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(UserId),         nameof(UserId),         false)]
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(HttpStatusCode), nameof(HttpStatusCode), false)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RequestLog))]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(ApiId),          nameof(ApiId),          false)]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(CreatedTime),    nameof(CreatedTime),    false)]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(UserId),         nameof(UserId),         false)]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(HttpStatusCode), nameof(HttpStatusCode), false)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX             + nameof(Sys_RequestLog))]
 public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedClient
 {
     /// <summary>
     ///     接口
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(nameof(ApiId))]
     public Sys_Api Api { get; init; }
@@ -24,16 +22,19 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     接口编号
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string ApiId { get; init; }
 
     /// <inheritdoc />
     [Column(Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public int? CreatedClientIp { get; init; }
 
     /// <inheritdoc />
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 
@@ -43,6 +44,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     #else
     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string CreatedUserAgent { get; init; }
 
@@ -50,6 +52,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     执行耗时（微秒）
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual long Duration { get; init; }
 
@@ -57,6 +60,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     程序响应码
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual ErrorCodes ErrorCode { get; init; }
 
@@ -68,6 +72,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string Exception { get; init; }
 
@@ -75,6 +80,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     HTTP状态码
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual int HttpStatusCode { get; init; }
 
@@ -82,6 +88,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     请求方法
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Method { get; init; }
 
@@ -93,6 +100,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
 
@@ -100,6 +108,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     请求content-type
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string RequestContentType { get; init; }
 
@@ -111,6 +120,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string RequestHeaders { get; init; }
 
@@ -118,6 +128,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     请求地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string RequestUrl { get; init; }
 
@@ -129,6 +140,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string ResponseBody { get; init; }
 
@@ -136,6 +148,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     响应content-type
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string ResponseContentType { get; init; }
 
@@ -147,6 +160,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string ResponseHeaders { get; init; }
 
@@ -154,12 +168,14 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     服务器IP
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual int? ServerIp { get; init; }
 
     /// <summary>
     ///     用户
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(nameof(UserId))]
     public Sys_User User { get; init; }
@@ -168,6 +184,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     ///     用户编号
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual long? UserId { get; init; }
 }

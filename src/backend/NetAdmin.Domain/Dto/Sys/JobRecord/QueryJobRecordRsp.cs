@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
@@ -9,10 +6,10 @@ namespace NetAdmin.Domain.Dto.Sys.JobRecord;
 /// <summary>
 ///     响应：查询计划作业执行记录
 /// </summary>
-public sealed record QueryJobRecordRsp : Sys_JobRecord
+public record QueryJobRecordRsp : Sys_JobRecord
 {
     /// <inheritdoc cref="Sys_JobRecord.HttpStatusCode" />
-    public new string HttpStatusCode =>
+    public new virtual string HttpStatusCode =>
         base.HttpStatusCode == Numbers.HTTP_STATUS_BIZ_FAIL
             ? nameof(ErrorCodes.Unhandled).ToLowerCamelCase()
             : ((HttpStatusCode)base.HttpStatusCode).ToString().ToLowerCamelCase();
@@ -36,7 +33,7 @@ public sealed record QueryJobRecordRsp : Sys_JobRecord
     /// <summary>
     ///     作业信息
     /// </summary>
-    public new QueryJobRsp Job { get; init; }
+    public new virtual QueryJobRsp Job { get; init; }
 
     /// <inheritdoc cref="Sys_JobRecord.JobId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

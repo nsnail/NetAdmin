@@ -14,7 +14,7 @@
                         <el-input v-model="form.id" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('执行计划')" prop="executionCron">
-                        <sc-cron v-model="form.executionCron" clearable />
+                        <sc-cron v-model="form.executionCron" class="font-monospace" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求方法')" prop="httpMethod">
                         <el-select v-model="form.httpMethod" clearable filterable>

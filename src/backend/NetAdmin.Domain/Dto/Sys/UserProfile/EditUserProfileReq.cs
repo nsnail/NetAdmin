@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 
 /// <summary>
@@ -7,6 +5,11 @@ namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 /// </summary>
 public sealed record EditUserProfileReq : CreateUserProfileReq
 {
+    /// <inheritdoc cref="Sys_UserProfile.AppConfig" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonString]
+    public override string AppConfig { get; set; }
+
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }

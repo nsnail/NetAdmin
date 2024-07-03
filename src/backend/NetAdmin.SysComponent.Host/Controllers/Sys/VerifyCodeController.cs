@@ -60,6 +60,15 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     }
 
     /// <summary>
+    ///     导出验证码
+    /// </summary>
+    [NonAction]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个验证码
     /// </summary>
     [NonAction]

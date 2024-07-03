@@ -62,11 +62,12 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_log.pagedQuery"
                 :context-menus="['id', 'httpStatusCode', 'apiId', 'userId', 'method', 'duration', 'createdClientIp', 'createdTime']"
                 :context-opers="[]"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :export-api="$API.sys_log.export"
                 :params="query"
+                :query-api="$API.sys_log.pagedQuery"
                 :vue="this"
                 ref="table"
                 remote-filter
@@ -146,6 +147,9 @@ export default {
         if (this.keywords) {
             this.query.keywords = this.keywords
         }
+        if (this.userId) {
+            this.query.dynamicFilter.filters.push({ field: 'userId', operator: 'eq', value: this.userId })
+        }
     },
     data() {
         return {
@@ -200,6 +204,15 @@ export default {
                     value: form.dy.apiId,
                 })
             }
+
+            if (typeof form.dy.userId) {
+                this.query.dynamicFilter.filters.push({
+                    field: 'userId',
+                    operator: 'eq',
+                    value: form.dy.userId,
+                })
+            }
+
             if (typeof form.dy.operationResult === 'boolean') {
                 this.query.dynamicFilter.filters.push(
                     form.dy.operationResult
@@ -230,14 +243,32 @@ export default {
     mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
+            this.$refs.search.keeps.push({
+                field: 'keywords',
+                value: this.keywords,
+                type: 'root',
+            })
         }
-        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
+
+        if (this.userId) {
+            this.$refs.search.keeps.push({
+                field: 'userId',
+                value: this.userId,
+                type: 'dy',
+            })
+        }
+
+        this.$refs.search.form.dy.createdTime = [
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
         ]
+        this.$refs.search.keeps.push({
+            field: 'createdTime',
+            value: this.$refs.search.form.dy.createdTime,
+            type: 'dy',
+        })
     },
-    props: ['keywords'],
+    props: ['keywords', 'userId'],
     watch: {},
 }
 </script>

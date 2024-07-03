@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
@@ -7,20 +5,22 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     菜单表
 /// </summary>
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(Name), nameof(Name), true)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Menu))]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(Name), nameof(Name), true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX             + nameof(Sys_Menu))]
 public record Sys_Menu : VersionEntity, IFieldSort
 {
     /// <summary>
     ///     子节点或详情页需要高亮的上级菜单路由地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Active { get; init; }
 
     /// <summary>
     ///     子节点
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(nameof(ParentId))]
     public IEnumerable<Sys_Menu> Children { get; init; }
@@ -29,6 +29,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     背景颜色
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_7)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Color { get; init; }
 
@@ -36,6 +37,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     组件
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Component { get; init; }
 
@@ -43,6 +45,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     是否整页路由
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual bool FullPageRouting { get; init; }
 
@@ -50,6 +53,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     是否隐藏菜单
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual bool Hidden { get; init; }
 
@@ -57,6 +61,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     是否隐藏面包屑
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual bool HiddenBreadCrumb { get; init; }
 
@@ -64,6 +69,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     图标
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Icon { get; init; }
 
@@ -71,6 +77,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     菜单名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Name { get; init; }
 
@@ -78,6 +85,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     父编号
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual long ParentId { get; init; }
 
@@ -85,6 +93,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     菜单路径
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Path { get; init; }
 
@@ -92,12 +101,14 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     重定向地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Redirect { get; init; }
 
     /// <summary>
     ///     拥有此菜单的角色集合
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleMenu))]
     public ICollection<Sys_Role> Roles { get; init; }
@@ -106,6 +117,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     排序值，越大越前
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual long Sort { get; init; }
 
@@ -113,6 +125,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     标签
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Tag { get; init; }
 
@@ -120,6 +133,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     菜单标题
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Title { get; init; }
 
@@ -127,6 +141,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     ///     菜单类型
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual MenuTypes Type { get; init; }
 }

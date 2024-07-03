@@ -40,11 +40,12 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_log.pagedQuery"
                 :context-menus="['id', 'httpStatusCode', 'createdClientIp', 'createdUserAgent', 'createdTime']"
                 :context-opers="['view']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :export-api="$API.sys_log.export"
                 :params="query"
+                :query-api="$API.sys_log.pagedQuery"
                 :vue="this"
                 @row-click="rowClick"
                 ref="table"
@@ -167,13 +168,22 @@ export default {
     mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
+            this.$refs.search.keeps.push({
+                field: 'keywords',
+                value: this.keywords,
+                type: 'root',
+            })
         }
         this.$refs.search.form.dy.apiId = 'api/sys/user/login.by.pwd'
-        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
+        this.$refs.search.form.dy.createdTime = [
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
         ]
+        this.$refs.search.keeps.push({
+            field: 'createdTime',
+            value: this.$refs.search.form.dy.createdTime,
+            type: 'dy',
+        })
     },
     props: ['keywords'],
     watch: {},

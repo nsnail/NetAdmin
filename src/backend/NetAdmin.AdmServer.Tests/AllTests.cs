@@ -232,6 +232,14 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public Task<QueryJobRsp> CreateAsync(CreateJobReq req)
     {
         return default;
@@ -632,6 +640,166 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgUserReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgRoleReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgDeptReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDicCatalogReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryApiReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public Task<IActionResult> ExportRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
         return default;
@@ -923,6 +1091,14 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public Task<QueryJobRecordRsp> GetRecordAsync(QueryJobRecordReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
     {
         return default;
@@ -1157,6 +1333,14 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         return default;
@@ -1318,22 +1502,6 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [InlineData(default)]
     [Theory]
     public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
-    {
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
-    public Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req)
-    {
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
-    public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
     {
         return default;
     }

@@ -72,6 +72,17 @@ export default {
     },
 
     /**
+     * 导出用户
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/user/export`,
+        name: `导出用户`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个用户
      */
     get: {

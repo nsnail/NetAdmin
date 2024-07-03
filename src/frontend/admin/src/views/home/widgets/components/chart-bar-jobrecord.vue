@@ -1,21 +1,24 @@
 <template>
-    <el-card :header="$t('作业趋势')" shadow="never" style="height: 25rem">
+    <el-card :header="$t('作业趋势(Today)')" shadow="never" style="height: 25rem">
         <chart-bar
             :api="[
                 {
                     file: 'sys_job',
                     name: 'getRecordBarChart',
+                    label: '今日',
                     value: [tool.dateFormat(new Date(), 'yyyy-MM-dd'), tool.dateFormat(new Date(), 'yyyy-MM-dd')],
                 },
                 {
                     file: 'sys_job',
                     name: 'getRecordBarChart',
+                    label: '昨日',
                     value: [
                         tool.dateFormat(new Date().setDate(new Date().getDate() - 1), 'yyyy-MM-dd'),
                         tool.dateFormat(new Date().setDate(new Date().getDate() - 1), 'yyyy-MM-dd'),
                     ],
                 },
-            ]"></chart-bar>
+            ]"
+            height="20rem"></chart-bar>
     </el-card>
 </template>
 
@@ -29,9 +32,9 @@ export default {
             return tool
         },
     },
-    title: '作业趋势',
+    title: '作业趋势(Today)',
     icon: 'el-icon-data-line',
-    description: '作业趋势',
+    description: '作业趋势(Today)',
     components: {
         ChartBar,
     },

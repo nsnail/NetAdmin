@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 导出部门
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/dept/export`,
+        name: `导出部门`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个部门
      */
     get: {

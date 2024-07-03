@@ -62,6 +62,14 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     }
 
     /// <summary>
+    ///     导出接口
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryApiReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个接口
     /// </summary>
     [NonAction]

@@ -22,11 +22,12 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_dic.pagedQueryContent"
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :context-menus="['key', 'value', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :export-api="$API.sys_dic.exportContent"
                 :params="query"
+                :query-api="$API.sys_dic.pagedQueryContent"
                 :vue="this"
                 @selection-change="
                     (items) => {
@@ -153,7 +154,11 @@ export default {
     mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
+            this.$refs.search.keeps.push({
+                field: 'keywords',
+                value: this.keywords,
+                type: 'root',
+            })
         }
     },
     props: { catalogId: Number, keywords: String },

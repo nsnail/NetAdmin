@@ -41,6 +41,12 @@ public sealed class ApiCache(IDistributedCache cache, IApiService service) //
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryApiReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryApiRsp> GetAsync(QueryApiReq req)
     {
         return Service.GetAsync(req);

@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Sys.SiteMsg;
 using NetAdmin.Domain.Enums.Sys;
 
@@ -19,12 +17,14 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string Content { get; init; }
 
     /// <summary>
     ///     消息-创建者映射
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(nameof(CreatedUserId))]
     public Sys_User Creator { get; init; }
@@ -32,6 +32,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// <summary>
     ///     消息-部门映射
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgDept))]
     public ICollection<Sys_Dept> Depts { get; init; }
@@ -39,6 +40,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// <summary>
     ///     消息-标记映射
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(nameof(Sys_SiteMsgFlag.SiteMsgId))]
     public ICollection<Sys_SiteMsgFlag> Flags { get; init; }
@@ -46,12 +48,14 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// <summary>
     ///     消息类型
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     public virtual SiteMsgTypes MsgType { get; init; }
 
     /// <summary>
     ///     消息-角色映射
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
     public ICollection<Sys_Role> Roles { get; init; }
@@ -60,6 +64,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     ///     消息摘要
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Summary { get; init; }
 
@@ -67,12 +72,14 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     ///     消息主题
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Title { get; init; }
 
     /// <summary>
     ///     消息-用户映射
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgUser))]
     public ICollection<Sys_User> Users { get; init; }

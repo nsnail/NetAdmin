@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.Dto.Sys.User;
 
 /// <summary>
@@ -8,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public sealed record LoginByPwdReq : DataAbstraction
 {
     /// <summary>
-    ///     用户名、手机号码、邮箱
+    ///     用户名、手机号、邮箱
     /// </summary>
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.账号不能为空))]
     public string Account { get; init; }

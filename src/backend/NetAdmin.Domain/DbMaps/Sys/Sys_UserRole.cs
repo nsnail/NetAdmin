@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>
@@ -11,6 +9,7 @@ public record Sys_UserRole : VersionEntity
     /// <summary>
     ///     关联的角色
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     public Sys_Role Role { get; init; }
 
@@ -18,12 +17,14 @@ public record Sys_UserRole : VersionEntity
     ///     角色编号
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public long RoleId { get; init; }
 
     /// <summary>
     ///     关联的用户
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     public Sys_User User { get; init; }
 
@@ -31,6 +32,7 @@ public record Sys_UserRole : VersionEntity
     ///     用户编号
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public long UserId { get; init; }
 }

@@ -59,6 +59,14 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     }
 
     /// <summary>
+    ///     导出示例
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryExampleReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个示例
     /// </summary>
     public Task<QueryExampleRsp> GetAsync(QueryExampleReq req)

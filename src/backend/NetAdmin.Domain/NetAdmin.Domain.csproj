@@ -9,4 +9,7 @@
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
     </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CsvHelper.NS" Version="33.0.2-ns2"/>
+    </ItemGroup>
 </Project>

@@ -67,6 +67,13 @@ public sealed class DicService(IDicCatalogService catalogService, IDicContentSer
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req)
+    {
+        req.ThrowIfInvalid();
+        return contentService.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
     {
         req.ThrowIfInvalid();

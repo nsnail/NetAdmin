@@ -32,12 +32,6 @@
                 <na-search
                     :controls="[
                         {
-                            type: 'input',
-                            field: ['root', 'keywords'],
-                            placeholder: $t('作业编号 / 作业名称'),
-                            style: 'width:20rem',
-                        },
-                        {
                             type: 'select',
                             field: ['dy', 'httpMethod'],
                             options: Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
@@ -45,6 +39,12 @@
                             }),
                             placeholder: $t('请求方式'),
                             style: 'width:15rem',
+                        },
+                        {
+                            type: 'input',
+                            field: ['root', 'keywords'],
+                            placeholder: $t('作业编号 / 作业名称'),
+                            style: 'width:20rem',
                         },
                     ]"
                     :vue="this"
@@ -73,7 +73,15 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_job.pagedQuery"
+                :cell-style="
+                    (row) => {
+                        if (row.column.property === 'lastDuration') {
+                            if (row.row.lastDuration > 1000) {
+                                return { color: 'var(--el-color-danger)' }
+                            }
+                        }
+                    }
+                "
                 :context-menus="[
                     'id',
                     'jobName',
@@ -87,8 +95,10 @@
                     'createdTime',
                 ]"
                 :default-sort="{ prop: 'lastExecTime', order: 'descending' }"
+                :export-api="$API.sys_job.export"
                 :page-size="100"
                 :params="query"
+                :query-api="$API.sys_job.pagedQuery"
                 :vue="this"
                 @selection-change="
                     (items) => {
@@ -341,7 +351,11 @@ export default {
     mounted() {
         if (this.keywords || this.$route.query.keywords) {
             this.$refs.search.form.root.keywords = this.keywords || this.$route.query.keywords
-            this.$refs.search.keepKeywords = this.keywords || this.$route.query.keywords
+            this.$refs.search.keeps.push({
+                field: 'keywords',
+                value: this.keywords || this.$route.query.keywords,
+                type: 'root',
+            })
         }
     },
     props: ['keywords'],

@@ -72,6 +72,17 @@ export default {
     },
 
     /**
+     * 导出站内信
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/site.msg/export`,
+        name: `导出站内信`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个站内信
      */
     get: {

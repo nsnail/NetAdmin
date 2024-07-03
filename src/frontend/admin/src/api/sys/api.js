@@ -17,6 +17,17 @@ export default {
     },
 
     /**
+     * 导出接口
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/api/export`,
+        name: `导出接口`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 查询接口
      */
     query: {

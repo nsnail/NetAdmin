@@ -10,8 +10,9 @@
                                     <el-form-item :label="$t('默认角色')" prop="userRegisterRoleId">
                                         <sc-select
                                             v-model="form.userRegisterRoleId"
-                                            :apiObj="$API.sys_role.query"
                                             :config="{ props: { label: 'name', value: 'id' } }"
+                                            :export-api="$API.sys_role.export"
+                                            :query-api="$API.sys_role.query"
                                             clearable
                                             filterable
                                             style="width: 15rem" />

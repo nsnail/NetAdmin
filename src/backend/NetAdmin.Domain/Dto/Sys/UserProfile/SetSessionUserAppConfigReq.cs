@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 
 /// <summary>
@@ -9,5 +7,6 @@ public record SetSessionUserAppConfigReq : Sys_UserProfile
 {
     /// <inheritdoc cref="Sys_UserProfile.AppConfig" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string AppConfig { get; init; }
+    [JsonString]
+    public override string AppConfig { get; set; }
 }

@@ -1,6 +1,6 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
@@ -12,6 +12,26 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rpo) //
     : RepositoryService<Sys_UserProfile, long, IUserProfileService>(rpo), IUserProfileService
 {
+    /// <summary>
+    ///     构建应用配置
+    /// </summary>
+    public static string BuildAppConfig(Dictionary<long, string> roles)
+    {
+        try {
+            return new string[][] { [
+                                          Chars.FLG_FRONT_APP_SET_HOME_GRID
+                                        , new {
+                                                  content  = roles.MaxBy(x => x.Key).Value.ToObject<object>()
+                                                , datetime = 0
+                                              }.ToJson()
+                                      ]
+                                  }.ToJson();
+        }
+        catch {
+            return "[]";
+        }
+    }
+
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
@@ -68,6 +88,12 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             .AnyAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />
@@ -158,6 +184,13 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
     {
         req.ThrowIfInvalid();
+
+        // 默认仪表版
+        if (req.AppConfig == "[]") {
+            req.AppConfig = BuildAppConfig(App.GetService<ContextUserInfo>()
+                                              .Roles.ToDictionary(x => x.Id, x => x.DashboardLayout));
+        }
+
         return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id, null, true);
     }
 

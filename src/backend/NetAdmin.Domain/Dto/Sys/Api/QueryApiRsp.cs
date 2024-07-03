@@ -1,16 +1,12 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.Dto.Sys.Api;
 
 /// <summary>
 ///     响应：查询接口
 /// </summary>
-public sealed record QueryApiRsp : Sys_Api
+public record QueryApiRsp : Sys_Api
 {
     /// <inheritdoc cref="Sys_Api.Children" />
-    public new IEnumerable<QueryApiRsp> Children { get; init; }
+    public new virtual IEnumerable<QueryApiRsp> Children { get; init; }
 
     /// <inheritdoc cref="EntityBase{T}.Id" />
     public override string Id { get; init; }

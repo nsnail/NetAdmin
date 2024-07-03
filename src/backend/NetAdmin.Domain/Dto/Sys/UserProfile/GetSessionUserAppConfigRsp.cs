@@ -1,7 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 
 /// <summary>
@@ -11,7 +7,7 @@ public sealed record GetSessionUserAppConfigRsp : Sys_UserProfile
 {
     /// <inheritdoc cref="Sys_UserProfile.AppConfig" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string AppConfig { get; init; }
+    public override string AppConfig { get; set; }
 
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

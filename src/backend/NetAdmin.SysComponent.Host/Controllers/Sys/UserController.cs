@@ -89,6 +89,14 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
     }
 
     /// <summary>
+    ///     导出用户
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个用户
     /// </summary>
     public Task<QueryUserRsp> GetAsync(QueryUserReq req)

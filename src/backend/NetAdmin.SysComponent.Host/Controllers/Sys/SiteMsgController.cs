@@ -69,6 +69,14 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     }
 
     /// <summary>
+    ///     导出站内信
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个站内信
     /// </summary>
     public Task<QuerySiteMsgRsp> GetAsync(QuerySiteMsgReq req)

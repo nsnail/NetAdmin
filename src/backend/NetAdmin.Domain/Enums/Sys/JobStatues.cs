@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Attributes;
-
 namespace NetAdmin.Domain.Enums.Sys;
 
 /// <summary>

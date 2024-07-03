@@ -1,6 +1,3 @@
-using NetAdmin.Domain.Attributes;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.DbMaps.Dependency;
 
 /// <inheritdoc />
@@ -24,11 +21,13 @@ public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldModifiedUs
 
     /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserId" />
     [Column(CanInsert = false, Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public long? ModifiedUserId { get; init; }
 
     /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserName" />
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanInsert = false, Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public string ModifiedUserName { get; init; }
 }

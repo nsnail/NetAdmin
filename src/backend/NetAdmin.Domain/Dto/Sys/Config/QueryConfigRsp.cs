@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Domain.Dto.Sys.Role;
 
@@ -9,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 /// <summary>
 ///     响应：查询配置
 /// </summary>
-public sealed record QueryConfigRsp : Sys_Config
+public record QueryConfigRsp : Sys_Config
 {
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -29,7 +26,7 @@ public sealed record QueryConfigRsp : Sys_Config
 
     /// <inheritdoc cref="Sys_Config.UserRegisterDept" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new QueryDeptRsp UserRegisterDept { get; init; }
+    public new virtual QueryDeptRsp UserRegisterDept { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterDeptId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -37,7 +34,7 @@ public sealed record QueryConfigRsp : Sys_Config
 
     /// <inheritdoc cref="Sys_Config.UserRegisterRole" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new QueryRoleRsp UserRegisterRole { get; init; }
+    public new virtual QueryRoleRsp UserRegisterRole { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterRoleId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

@@ -72,7 +72,9 @@ export default {
                 this.isLoading = false
                 return false
             }
-            window.location.href = '/'
+            const redirect = this.$TOOL.data.get('LOGIN_REDIRECT') ?? '/'
+            this.$TOOL.data.remove('LOGIN_REDIRECT')
+            window.location.href = redirect
         },
     },
 }

@@ -68,6 +68,15 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     }
 
     /// <summary>
+    ///     导出菜单
+    /// </summary>
+    [NonAction]
+    public Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个菜单
     /// </summary>
     public Task<QueryMenuRsp> GetAsync(QueryMenuReq req)

@@ -68,6 +68,14 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     }
 
     /// <summary>
+    ///     导出角色
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个角色
     /// </summary>
     public Task<QueryRoleRsp> GetAsync(QueryRoleReq req)

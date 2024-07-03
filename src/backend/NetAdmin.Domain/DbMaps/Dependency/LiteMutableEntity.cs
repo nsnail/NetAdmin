@@ -1,6 +1,3 @@
-using NetAdmin.Domain.Attributes;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.DbMaps.Dependency;
 
 /// <inheritdoc />
@@ -24,6 +21,7 @@ public abstract record LiteMutableEntity<T> : LiteImmutableEntity<T>, IFieldModi
 
     /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
     [Column(ServerTime = DateTimeKind.Local, CanInsert = false, Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public virtual DateTime? ModifiedTime { get; init; }
 }

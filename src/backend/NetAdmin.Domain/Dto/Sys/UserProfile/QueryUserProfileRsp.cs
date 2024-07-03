@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
 namespace NetAdmin.Domain.Dto.Sys.UserProfile;
@@ -10,6 +7,10 @@ namespace NetAdmin.Domain.Dto.Sys.UserProfile;
 /// </summary>
 public sealed record QueryUserProfileRsp : Sys_UserProfile
 {
+    /// <inheritdoc cref="Sys_UserProfile.AppConfig" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string AppConfig { get; set; }
+
     /// <inheritdoc cref="Sys_UserProfile.BornDate" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override DateTime? BornDate { get; init; }

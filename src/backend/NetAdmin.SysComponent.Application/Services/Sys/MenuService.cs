@@ -1,6 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Menu;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
@@ -77,6 +76,12 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             .AnyAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
+    {
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

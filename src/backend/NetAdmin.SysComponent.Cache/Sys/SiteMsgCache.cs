@@ -48,6 +48,12 @@ public sealed class SiteMsgCache(IDistributedCache cache, ISiteMsgService servic
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgRsp> GetAsync(QuerySiteMsgReq req)
     {
         return Service.GetAsync(req);

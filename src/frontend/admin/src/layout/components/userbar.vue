@@ -16,9 +16,11 @@
             </el-icon>
         </div>
         <div v-auth="'sys/job/userbar'" @click="tasks" class="tasks panel-item">
-            <el-icon>
-                <sc-icon-ScheduledJob />
-            </el-icon>
+            <el-badge :hidden="failJobCnt === 0" :value="failJobCnt">
+                <el-icon>
+                    <sc-icon-ScheduledJob />
+                </el-icon>
+            </el-badge>
         </div>
         <div @click="showMsg" class="msg panel-item">
             <el-badge :hidden="unreadCnt === 0" :value="unreadCnt" class="badge" type="danger">
@@ -73,7 +75,7 @@
     </el-dialog>
 
     <el-drawer v-model="tasksVisible" :size="450" :title="$t('作业中心')" destroy-on-close>
-        <tasks></tasks>
+        <tasks :fail="failJobCnt" @closed="tasksVisible = false"></tasks>
     </el-drawer>
 </template>
 
@@ -96,8 +98,51 @@ export default {
     },
     async created() {
         this.user = this.$GLOBAL.user
-        const res = await this.$API.sys_sitemsg.unreadCount.post()
+        let res = await this.$API.sys_sitemsg.unreadCount.post()
         this.unreadCnt = res.data
+
+        if (this.$GLOBAL.permissions.some((x) => x === '*/*/*' || x === 'sys/job/userbar')) {
+            res = await this.$API.sys_job.countRecord.post({
+                dynamicFilter: {
+                    filters: [
+                        {
+                            field: 'createdTime',
+                            operator: 'dateRange',
+                            value: [
+                                this.$TOOL.data.get('APP_SET_FAIL_JOB_VIEW_TIME') ?? this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'),
+                                this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                            ],
+                        },
+                        {
+                            logic: 'or',
+                            filters: [
+                                {
+                                    field: 'httpStatusCode',
+                                    operator: 'range',
+                                    value: '300,399',
+                                },
+                                {
+                                    field: 'httpStatusCode',
+                                    operator: 'range',
+                                    value: '400,499',
+                                },
+                                {
+                                    field: 'httpStatusCode',
+                                    operator: 'range',
+                                    value: '500,599',
+                                },
+                                {
+                                    field: 'httpStatusCode',
+                                    operator: 'range',
+                                    value: '900,999',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            })
+            this.failJobCnt = res.data
+        }
     },
     data() {
         return {
@@ -111,6 +156,7 @@ export default {
             tasksVisible: false,
             msg: false,
             unreadCnt: 0,
+            failJobCnt: 0,
         }
     },
     methods: {

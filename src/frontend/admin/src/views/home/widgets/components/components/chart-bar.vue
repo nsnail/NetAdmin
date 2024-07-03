@@ -1,6 +1,6 @@
 <template>
     <div v-loading="loading">
-        <scEcharts :option="option" height="20rem"></scEcharts>
+        <scEcharts v-bind="$attrs" :option="option"></scEcharts>
     </div>
 </template>
 
@@ -46,8 +46,9 @@ export default {
         this.option.xAxis.data = res[0].data.map((x) => {
             return x.timestamp
         })
+        let i = 0
         this.option.series = res.map((x) => {
-            return { type: 'line', data: x.data.map((y) => y.value), symbol: 'none', areaStyle: {} }
+            return { name: this.api[i++].label, type: 'line', data: x.data.map((y) => y.value), symbol: 'none', areaStyle: {} }
         })
     },
     mounted() {},
