@@ -60,6 +60,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
         return Service.GetAsync(req);

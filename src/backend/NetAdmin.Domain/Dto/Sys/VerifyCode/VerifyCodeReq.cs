@@ -1,6 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 
 /// <summary>

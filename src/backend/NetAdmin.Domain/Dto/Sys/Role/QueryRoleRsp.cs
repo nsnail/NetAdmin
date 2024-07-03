@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Role;
@@ -8,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.Role;
 /// <summary>
 ///     响应：查询角色
 /// </summary>
-public sealed record QueryRoleRsp : Sys_Role, IRegister
+public record QueryRoleRsp : Sys_Role
 {
     /// <summary>
     ///     角色-接口映射
@@ -19,6 +16,10 @@ public sealed record QueryRoleRsp : Sys_Role, IRegister
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
+
+    /// <inheritdoc cref="Sys_Role.DashboardLayout" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string DashboardLayout { get; set; }
 
     /// <inheritdoc cref="Sys_Role.DataScope" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -69,7 +70,7 @@ public sealed record QueryRoleRsp : Sys_Role, IRegister
     public override long Version { get; init; }
 
     /// <inheritdoc />
-    public new void Register(TypeAdapterConfig config)
+    public override void Register(TypeAdapterConfig config)
     {
         _ = config.ForType<Sys_Role, QueryRoleRsp>() //
                   .IgnoreIf((s, _) => s.Depts == null, d => d.DeptIds)

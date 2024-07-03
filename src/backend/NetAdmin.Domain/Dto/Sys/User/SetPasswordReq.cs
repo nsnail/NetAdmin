@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Attributes.DataValidation;
-
 namespace NetAdmin.Domain.Dto.Sys.User;
 
 /// <summary>

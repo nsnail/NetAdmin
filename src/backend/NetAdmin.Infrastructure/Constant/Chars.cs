@@ -47,6 +47,7 @@ public static class Chars
     public const string FLG_FREE_SQL_GLOBAL_FILTER_MEMBER              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_MEMBER);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_SELF                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_SELF);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_TENANT              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_TENANT);
+    public const string FLG_FRONT_APP_SET_HOME_GRID                    = "APP_SET_HOME_GRID";
     public const string FLG_HTTP_HEADER_KEY_ACCESS_TOKEN               = "ACCESS-TOKEN";
     public const string FLG_HTTP_HEADER_KEY_AUTHORIZATION              = "Authorization";
     public const string FLG_HTTP_HEADER_KEY_REFERER                    = "Referer";

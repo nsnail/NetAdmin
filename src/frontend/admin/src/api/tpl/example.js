@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 导出示例
+     */
+    export: {
+        url: `${config.API_URL}/api/tpl/example/export`,
+        name: `导出示例`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个示例
      */
     get: {

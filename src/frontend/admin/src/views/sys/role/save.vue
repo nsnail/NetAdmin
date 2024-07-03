@@ -74,6 +74,14 @@
                             </el-select>
                             <div class="el-form-item-msg">{{ $t('用于控制角色登录后控制台的视图') }}</div>
                         </el-form-item>
+                        <el-form-item v-if="form.displayDashboard" :label="$t('仪表板布局')">
+                            <v-ace-editor
+                                v-model:value="form.dashboardLayout"
+                                :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
+                                lang="json"
+                                style="height: 30rem; width: 100%" />
+                            <el-button @click="form.dashboardLayout = jsonFormat(form.dashboardLayout)" type="text">{{ $t('JSON格式化') }}</el-button>
+                        </el-form-item>
                     </el-form>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('用户列表')" name="user">
@@ -99,14 +107,17 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import vkbeautify from 'vkbeautify/index'
+import config from '@/config/index'
 
 const User = defineAsyncComponent(() => import('@/views/sys/user/index.vue'))
 export default {
     components: { User },
+    created() {},
     data() {
         return {
             //表单数据
-            form: { displayDashboard: false, sort: 100, enabled: true },
+            form: { displayDashboard: false, dashboardLayout: this.jsonFormat(config.APP_SET_HOME_GRID), sort: 100, enabled: true },
             loading: false,
             mode: 'add',
             //验证规则
@@ -136,6 +147,14 @@ export default {
     },
     emits: ['success', 'closed', 'mounted'],
     methods: {
+        jsonFormat(obj) {
+            try {
+                obj = vkbeautify.json(obj, 2)
+            } catch {
+                this.$message.error(this.$t('非JSON格式'))
+            }
+            return obj
+        },
         async getTrees(name) {
             const res = await this.$API[`sys_${name}`].query.post()
             this.trees[name] = res.data

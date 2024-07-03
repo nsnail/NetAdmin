@@ -9,7 +9,7 @@
                     在处理耗时过久的作业时为了不阻碍正在处理的工作，可在作业中心进行异步执行。
                 </p>
             </el-empty>
-            <el-card v-for="job in jobs" :class="`user-bar-jobs-item ${job.lastStatusCode === 'ok' ? '' : 'alert'}`" :key="job.id" shadow="hover">
+            <el-card v-for="job in jobs" :class="`user-bar-jobs-item ${job.lastStatusCode === 'oK' ? '' : 'alert'}`" :key="job.id" shadow="hover">
                 <div class="user-bar-jobs-item-body">
                     <div class="jobIcon">
                         {{ job.lastStatusCode }}
@@ -25,13 +25,13 @@
                         <div class="bottom">
                             <div class="status">
                                 <el-tag v-if="job.status === 'running'" type="warning">{{ $t('执行中') }}</el-tag>
-                                <el-tag v-if="job.status === 'idle'" :type="job.lastStatusCode === 'ok' ? 'primary' : 'danger'">{{
+                                <el-tag v-if="job.status === 'idle'" :type="job.lastStatusCode === 'oK' ? 'primary' : 'danger'">{{
                                     $t('空闲')
                                 }}</el-tag>
                             </div>
                             <div class="handler">
                                 <el-button
-                                    :type="job.lastStatusCode === 'ok' ? 'primary' : 'danger'"
+                                    :type="job.lastStatusCode === 'oK' ? 'primary' : 'danger'"
                                     @click="view(job)"
                                     circle
                                     icon="el-icon-view"></el-button>
@@ -41,8 +41,15 @@
                 </div>
             </el-card>
         </el-main>
-        <el-footer style="text-align: right">
-            <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
+        <el-footer class="flex" style="justify-content: space-evenly; height: unset">
+            <div>
+                <el-badge :hidden="fail === 0" :value="fail">
+                    <el-button @click="gotoJob">{{ $t('异常作业') }}</el-button>
+                </el-badge>
+            </div>
+            <div style="text-align: right; flex-grow: 1">
+                <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
+            </div>
         </el-footer>
     </el-container>
 
@@ -63,8 +70,13 @@ export default {
             jobs: [],
         }
     },
+    emits: ['closed'],
     inject: ['reload'],
     methods: {
+        gotoJob() {
+            this.$router.push({ path: '/sys/job', query: { view: 'fail' } })
+            this.$emit('closed')
+        },
         async getData() {
             this.loading = true
             const res = await this.$API.sys_job.query.post({ prop: 'lastStatusCode', order: 'descending' })
@@ -81,7 +93,9 @@ export default {
     mounted() {
         this.getData()
     },
-    props: [],
+    props: {
+        fail: { type: Number, default: 0 },
+    },
     watch: {},
 }
 </script>

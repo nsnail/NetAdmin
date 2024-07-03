@@ -47,6 +47,12 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
         return Service.GetAsync(req);

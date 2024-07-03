@@ -68,7 +68,22 @@
                     background></el-pagination>
             </div>
             <div v-if="!hideDo" class="scTable-do">
-                <el-button v-if="!hideRefresh" @click="refresh" circle icon="el-icon-refresh" style="margin-left: 1rem"></el-button>
+                <el-button
+                    v-if="exportApi"
+                    :title="$t('导出文件')"
+                    @click="exportData"
+                    circle
+                    icon="el-icon-download"
+                    plain
+                    style="margin-left: 1rem"
+                    type="primary"></el-button>
+                <el-button
+                    v-if="!hideRefresh"
+                    :title="$t('刷新')"
+                    @click="refresh"
+                    circle
+                    icon="el-icon-refresh"
+                    style="margin-left: 1rem"></el-button>
                 <el-popover
                     v-if="column"
                     :hide-after="0"
@@ -182,7 +197,8 @@
             :key="index"
             :title="adv.label">
         </sc-contextmenu-item>
-        <sc-contextmenu-item :title="$t('重新加载')" command="refresh" divided icon="el-icon-refresh" suffix="Ctrl+R"></sc-contextmenu-item>
+        <sc-contextmenu-item v-if="exportApi" :title="$t('导出文件')" command="export" divided icon="el-icon-download"></sc-contextmenu-item>
+        <sc-contextmenu-item :title="$t('重新加载')" command="refresh" icon="el-icon-refresh" suffix="Ctrl+R"></sc-contextmenu-item>
     </sc-contextmenu>
 </template>
 <script>
@@ -209,9 +225,13 @@ export default {
         beforePost: {
             type: Function,
         },
-        apiObj: {
+        queryApi: {
             type: Object,
             default: () => {},
+        },
+        exportApi: {
+            type: Object,
+            default: null,
         },
         params: { type: Object, default: () => ({}) },
         data: {
@@ -229,6 +249,7 @@ export default {
         summaryMethod: { type: Function, default: null },
         filterMethod: { type: Function, default: null },
         cellClickMethod: { type: Function, default: null },
+        onCommand: { type: Function, default: null },
         column: {
             type: Object,
             default: () => {},
@@ -252,7 +273,7 @@ export default {
             this.tableData = this.data
             this.total = this.tableData.length
         },
-        apiObj() {
+        queryApi() {
             this.tableParams = this.params
             this.refresh()
         },
@@ -310,7 +331,7 @@ export default {
             this.userColumn = this.column
         }
         //判断是否静态数据
-        if (this.apiObj) {
+        if (this.queryApi) {
             this.getData()
         } else if (this.data) {
             this.tableData = this.data
@@ -335,15 +356,15 @@ export default {
                 return
             }
             if (command === 'view') {
-                this.vue.dialog.save = true
-                await this.$nextTick()
-                await this.vue.$refs.saveDialog.open('view', { id: this.current.row.id })
+                this.vue.dialog.save = { mode: 'view', row: { id: this.current.row.id } }
+                return
+            }
+            if (command === 'export') {
+                this.exportData()
                 return
             }
             if (command === 'edit') {
-                this.vue.dialog.save = true
-                await this.$nextTick()
-                await this.vue.$refs.saveDialog.open('edit', { id: this.current.row.id })
+                this.vue.dialog.save = { mode: 'edit', row: { id: this.current.row.id } }
                 return
             }
             if (command === 'del') {
@@ -376,6 +397,9 @@ export default {
                 operator: kv[1],
                 value: value.length === 1 ? value[0] : value,
             })
+            if (this.onCommand) {
+                this.onCommand(this.vue.query.dynamicFilter.filters)
+            }
             this.upData()
         },
         contextMenuVisibleChange(visible) {
@@ -395,9 +419,7 @@ export default {
         async getCustomColumn() {
             this.userColumn = await config.columnSettingGet(this.tableName, this.column)
         },
-        //获取数据
-        async getData() {
-            this.loading = true
+        getQueryParams() {
             const reqData = {
                 [config.request.page]: this.currentPage,
                 [config.request.pageSize]: this.scPageSize,
@@ -409,10 +431,17 @@ export default {
                 delete reqData[config.request.pageSize]
             }
             Object.assign(reqData, this.tableParams)
+            return reqData
+        },
+        //获取数据
+        async getData() {
+            this.loading = true
+
             let res
             let response
             try {
-                if (!this.beforePost || this.beforePost(reqData)) res = await this.apiObj.post(reqData)
+                const reqData = this.getQueryParams()
+                if (!this.beforePost || this.beforePost(reqData)) res = await this.queryApi.post(reqData)
             } catch (error) {
                 this._clearData()
                 this.loading = false
@@ -462,6 +491,15 @@ export default {
         refresh() {
             this.$refs.scTable.clearSelection()
             this.getData()
+        },
+        //导出数据
+        async exportData() {
+            this.loading = true
+            try {
+                await this.exportApi.post(this.getQueryParams())
+                this.$message.success(`数据已导出（上限1万条）`)
+            } catch {}
+            this.loading = false
         },
         //更新数据 合并上一次params
         upData(params = null, page = 1) {

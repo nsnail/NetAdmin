@@ -1,8 +1,8 @@
+using CsvHelper;
+using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
@@ -81,7 +81,7 @@ public sealed class UserService(
     public async Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
         req.ThrowIfInvalid();
-        await CreateEditCheckAsync(req).ConfigureAwait(false);
+        var roles = await CreateEditCheckAsync(req).ConfigureAwait(false);
 
         // 主表
         var entity = req.Adapt<Sys_User>();
@@ -91,7 +91,13 @@ public sealed class UserService(
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);
 
         // 档案表
-        _ = await userProfileService.CreateAsync((req.Profile ?? new CreateUserProfileReq()) with { Id = dbUser.Id })
+        var appConfig = UserProfileService.BuildAppConfig(roles);
+
+        _ = await userProfileService.CreateAsync((req.Profile ?? new CreateUserProfileReq()) with //
+                                                 {
+                                                     Id = dbUser.Id //
+                                                   , AppConfig = appConfig
+                                                 })
                                     .ConfigureAwait(false);
         var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } })
             .ConfigureAwait(false);
@@ -119,7 +125,7 @@ public sealed class UserService(
     public async Task<QueryUserRsp> EditAsync(EditUserReq req)
     {
         req.ThrowIfInvalid();
-        await CreateEditCheckAsync(req).ConfigureAwait(false);
+        _ = await CreateEditCheckAsync(req).ConfigureAwait(false);
 
         // 主表
         var entity     = req.Adapt<Sys_User>();
@@ -151,6 +157,43 @@ public sealed class UserService(
     {
         req.ThrowIfInvalid();
         return await (await QueryInternalAsync(req).ConfigureAwait(false)).AnyAsync().ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
+    {
+        req.ThrowIfInvalid();
+        #pragma warning disable VSTHRD103, S6966
+
+        // ReSharper disable once MethodHasAsyncOverload
+        var data = await QueryInternal(req)
+                         #pragma warning restore S6966, VSTHRD103
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
+                         .Take(Numbers.MAX_LIMIT_EXPORT)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
+        var list   = data.Adapt<List<ExportUserRsp>>();
+        var stream = new MemoryStream();
+        var writer = new StreamWriter(stream);
+        var csv    = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        csv.WriteHeader<ExportUserRsp>();
+        await csv.NextRecordAsync().ConfigureAwait(false);
+
+        foreach (var item in list) {
+            csv.WriteRecord(item);
+            await csv.NextRecordAsync().ConfigureAwait(false);
+        }
+
+        await csv.FlushAsync().ConfigureAwait(false);
+        _ = stream.Seek(0, SeekOrigin.Begin);
+
+        App.HttpContext.Response.Headers.ContentDisposition
+            = new ContentDispositionHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_ATTACHMENT) {
+                  FileNameStar = $"{Ln.用户导出}_{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.csv"
+              }.ToString();
+        return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
     }
 
     /// <inheritdoc />
@@ -443,13 +486,13 @@ public sealed class UserService(
                             };
     }
 
-    private async Task CreateEditCheckAsync(CreateEditUserReq req)
+    private async Task<Dictionary<long, string>> CreateEditCheckAsync(CreateEditUserReq req)
     {
         // 检查角色是否存在
         var roles = await Rpo.Orm.Select<Sys_Role>()
                              .ForUpdate()
                              .Where(a => req.RoleIds.Contains(a.Id))
-                             .ToListAsync(a => a.Id)
+                             .ToDictionaryAsync(a => a.Id, a => a.DashboardLayout)
                              .ConfigureAwait(false);
         if (roles.Count != req.RoleIds.Count) {
             throw new NetAdminInvalidOperationException(Ln.角色不存在);
@@ -462,40 +505,11 @@ public sealed class UserService(
                             .ToListAsync(a => a.Id)
                             .ConfigureAwait(false);
 
-        if (dept.Count != 1) {
-            throw new NetAdminInvalidOperationException(Ln.部门不存在);
-        }
+        return dept.Count != 1 ? throw new NetAdminInvalidOperationException(Ln.部门不存在) : roles;
     }
 
-    private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req)
+    private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req, IEnumerable<long> deptIds)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        switch (req.Order) {
-            case Orders.None:
-                return ret;
-            case Orders.Random:
-                return ret.OrderByRandom();
-        }
-
-        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
-        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
-            ret = ret.OrderByDescending(a => a.Id);
-        }
-
-        return ret;
-    }
-
-    private async Task<ISelect<Sys_User>> QueryInternalAsync(QueryReq<QueryUserReq> req)
-    {
-        IEnumerable<long> deptIds = null;
-        if (req.Filter?.DeptId > 0) {
-            deptIds = await Rpo.Orm.Select<Sys_Dept>()
-                               .Where(a => a.Id == req.Filter.DeptId)
-                               .AsTreeCte()
-                               .ToListAsync(a => a.Id)
-                               .ConfigureAwait(false);
-        }
-
         var ret = Rpo.Select.Include(a => a.Dept)
                      .IncludeMany(a => a.Roles.Select(b => new Sys_Role { Id = b.Id, Name = b.Name }))
                      .WhereDynamicFilter(req.DynamicFilter)
@@ -523,5 +537,29 @@ public sealed class UserService(
         }
 
         return ret;
+    }
+
+    private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req)
+    {
+        IEnumerable<long> deptIds = null;
+        if (req.Filter?.DeptId > 0) {
+            deptIds = Rpo.Orm.Select<Sys_Dept>().Where(a => a.Id == req.Filter.DeptId).AsTreeCte().ToList(a => a.Id);
+        }
+
+        return QueryInternal(req, deptIds);
+    }
+
+    private async Task<ISelect<Sys_User>> QueryInternalAsync(QueryReq<QueryUserReq> req)
+    {
+        IEnumerable<long> deptIds = null;
+        if (req.Filter?.DeptId > 0) {
+            deptIds = await Rpo.Orm.Select<Sys_Dept>()
+                               .Where(a => a.Id == req.Filter.DeptId)
+                               .AsTreeCte()
+                               .ToListAsync(a => a.Id)
+                               .ConfigureAwait(false);
+        }
+
+        return QueryInternal(req, deptIds);
     }
 }

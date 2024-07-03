@@ -1,4 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
@@ -6,10 +5,11 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     计划作业执行记录表
 /// </summary>
-[Index($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(JobId)}_{nameof(TimeId)}", $"{nameof(JobId)},{nameof(TimeId)}", true)]
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(CreatedTime),    nameof(CreatedTime),                 false)]
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(JobId),          nameof(JobId),                       false)]
-[Index(Chars.FLG_DB_INDEX_PREFIX             + nameof(HttpStatusCode), nameof(HttpStatusCode),              false)]
+[FreeSql.DataAnnotations.Index( //
+    $"{Chars.FLG_DB_INDEX_PREFIX}{nameof(JobId)}_{nameof(TimeId)}", $"{nameof(JobId)},{nameof(TimeId)}", true)]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(CreatedTime), nameof(CreatedTime), false)]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(JobId), nameof(JobId), false)]
+[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(HttpStatusCode), nameof(HttpStatusCode), false)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_JobRecord))]
 public record Sys_JobRecord : LiteImmutableEntity
 {
@@ -17,6 +17,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     执行耗时（毫秒）
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual long Duration { get; init; }
 
@@ -24,6 +25,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     请求方法
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual HttpMethods HttpMethod { get; init; }
 
@@ -31,12 +33,14 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     HTTP 状态码
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public int HttpStatusCode { get; init; }
 
     /// <summary>
     ///     拥有者信息
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(nameof(JobId))]
     public Sys_Job Job { get; init; }
@@ -45,6 +49,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     作业编号
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual long JobId { get; init; }
 
@@ -56,6 +61,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
 
@@ -67,6 +73,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string RequestHeader { get; init; }
 
@@ -74,6 +81,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     请求的网络地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string RequestUrl { get; init; }
 
@@ -85,6 +93,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string ResponseBody { get; init; }
 
@@ -96,6 +105,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
     public virtual string ResponseHeader { get; init; }
 
@@ -103,6 +113,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     执行时间编号
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual long TimeId { get; init; }
 }

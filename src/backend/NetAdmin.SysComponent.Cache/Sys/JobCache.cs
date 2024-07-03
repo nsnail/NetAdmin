@@ -25,6 +25,12 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
+    public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Service.CountRecordAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryJobRsp> CreateAsync(CreateJobReq req)
     {
         return Service.CreateAsync(req);
@@ -55,9 +61,27 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IActionResult> ExportRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Service.ExportRecordAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryJobRsp> GetAsync(QueryJobReq req)
     {
         return Service.GetAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<QueryJobRecordRsp> GetRecordAsync(QueryJobRecordReq req)
+    {
+        return Service.GetRecordAsync(req);
     }
 
     /// <inheritdoc />
@@ -105,21 +129,15 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req)
+    {
+        return Service.PagedQueryRecordAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         return Service.QueryAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req)
-    {
-        return Service.RecordGetAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
-    {
-        return Service.RecordPagedQueryAsync(req);
     }
 
     /// <inheritdoc />

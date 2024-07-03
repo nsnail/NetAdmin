@@ -1,16 +1,12 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.Dto.Sys.Dept;
 
 /// <summary>
 ///     响应：查询部门
 /// </summary>
-public sealed record QueryDeptRsp : Sys_Dept
+public record QueryDeptRsp : Sys_Dept
 {
     /// <inheritdoc cref="Sys_Dept.Children" />
-    public new IEnumerable<QueryDeptRsp> Children { get; init; }
+    public new virtual IEnumerable<QueryDeptRsp> Children { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

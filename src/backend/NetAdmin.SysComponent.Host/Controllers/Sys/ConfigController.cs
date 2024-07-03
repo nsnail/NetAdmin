@@ -69,6 +69,14 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     }
 
     /// <summary>
+    ///     导出配置
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个配置
     /// </summary>
     public Task<QueryConfigRsp> GetAsync(QueryConfigReq req)

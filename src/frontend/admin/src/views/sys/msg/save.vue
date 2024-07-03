@@ -32,8 +32,8 @@
                         <sc-select
                             v-if="!this.loading"
                             v-model="form.roleIds"
-                            :apiObj="$API.sys_role.query"
                             :config="{ props: { label: 'name', value: 'id' } }"
+                            :query-api="$API.sys_role.query"
                             class="w100p"
                             clearable
                             filterable

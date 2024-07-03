@@ -1,4 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
@@ -17,13 +16,15 @@ public record Sys_UserProfile : VersionEntity, IRegister
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
+    [Ignore]
     [JsonIgnore]
-    public virtual string AppConfig { get; init; }
+    public virtual string AppConfig { get; set; }
 
     /// <summary>
     ///     出生日期
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual DateTime? BornDate { get; init; }
 
@@ -31,6 +32,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     证件号码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string CertificateNumber { get; init; }
 
@@ -38,6 +40,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     证件类型
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual CertificateTypes? CertificateType { get; init; }
 
@@ -45,6 +48,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     工作地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string CompanyAddress { get; init; }
 
@@ -52,6 +56,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     工作地区
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public int? CompanyArea { get; init; }
 
@@ -59,6 +64,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     工作单位
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string CompanyName { get; init; }
 
@@ -66,6 +72,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     工作电话
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string CompanyTelephone { get; init; }
 
@@ -73,6 +80,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     文化程度
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual Educations? Education { get; init; }
 
@@ -80,6 +88,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     紧急联系地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string EmergencyContactAddress { get; init; }
 
@@ -87,13 +96,15 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     紧急联系地区
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public int? EmergencyContactArea { get; init; }
 
     /// <summary>
-    ///     紧急联系人手机号码
+    ///     紧急联系人手机号
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
+    [Ignore]
     [JsonIgnore]
     public virtual string EmergencyContactMobile { get; init; }
 
@@ -101,6 +112,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     紧急联系人
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string EmergencyContactName { get; init; }
 
@@ -108,6 +120,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     毕业学校
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string GraduateSchool { get; init; }
 
@@ -115,6 +128,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     身高
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual int? Height { get; init; }
 
@@ -122,6 +136,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     住宅地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string HomeAddress { get; init; }
 
@@ -129,6 +144,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     住宅地区
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public int? HomeArea { get; init; }
 
@@ -136,6 +152,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     住宅电话
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string HomeTelephone { get; init; }
 
@@ -143,6 +160,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     婚姻状况
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual MarriageStatues? MarriageStatus { get; init; }
 
@@ -151,6 +169,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     /// </summary>
     /// 7
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual Nations? Nation { get; init; }
 
@@ -158,6 +177,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     籍贯
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public int? NationArea { get; init; }
 
@@ -165,6 +185,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     政治面貌
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual PoliticalStatues? PoliticalStatus { get; init; }
 
@@ -172,6 +193,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     职业
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Profession { get; init; }
 
@@ -179,6 +201,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     真实姓名
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     public virtual string RealName { get; init; }
 
@@ -186,12 +209,14 @@ public record Sys_UserProfile : VersionEntity, IRegister
     ///     性别
     /// </summary>
     [Column]
+    [Ignore]
     [JsonIgnore]
     public virtual Sexes? Sex { get; init; }
 
     /// <summary>
     ///     用户基本信息
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     public Sys_User User { get; init; }
 

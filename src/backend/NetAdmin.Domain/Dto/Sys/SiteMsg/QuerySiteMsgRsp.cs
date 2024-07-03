@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Domain.Dto.Sys.Role;
 using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
@@ -12,7 +9,7 @@ namespace NetAdmin.Domain.Dto.Sys.SiteMsg;
 /// <summary>
 ///     响应：查询站内信
 /// </summary>
-public sealed record QuerySiteMsgRsp : Sys_SiteMsg
+public record QuerySiteMsgRsp : Sys_SiteMsg
 {
     /// <inheritdoc cref="Sys_SiteMsg.Content" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -28,7 +25,7 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
 
     /// <inheritdoc cref="Sys_SiteMsg.Depts" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new IEnumerable<QueryDeptRsp> Depts { get; init; }
+    public new virtual IEnumerable<QueryDeptRsp> Depts { get; init; }
 
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -49,7 +46,7 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
 
     /// <inheritdoc cref="Sys_SiteMsg.Roles" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new IEnumerable<QueryRoleRsp> Roles { get; init; }
+    public new virtual IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <summary>
     ///     消息发送者
@@ -66,7 +63,7 @@ public sealed record QuerySiteMsgRsp : Sys_SiteMsg
 
     /// <inheritdoc cref="Sys_SiteMsg.Users" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new IEnumerable<QueryUserRsp> Users { get; init; }
+    public new virtual IEnumerable<QueryUserRsp> Users { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

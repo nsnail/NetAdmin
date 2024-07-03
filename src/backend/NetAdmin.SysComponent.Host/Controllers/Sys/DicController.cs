@@ -88,6 +88,14 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     }
 
     /// <summary>
+    ///     导出字典内容
+    /// </summary>
+    public Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return Cache.ExportContentAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个字典目录
     /// </summary>
     public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)

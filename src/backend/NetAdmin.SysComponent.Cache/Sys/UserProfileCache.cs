@@ -41,6 +41,12 @@ public sealed class UserProfileCache(IDistributedCache cache, IUserProfileServic
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
         return Service.GetAsync(req);

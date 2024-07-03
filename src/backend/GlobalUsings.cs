@@ -65,6 +65,13 @@ global using NetAdmin.Infrastructure.Utils;
 global using NSExt.Attributes;
 global using NSExt.Extensions;
 #if !INFRAS
+global using CsvHelper.Configuration.Attributes;
+global using NetAdmin.Domain.Attributes;
+global using NetAdmin.Domain.Attributes.DataValidation;
+global using NetAdmin.Domain.DbMaps.Dependency;
+global using NetAdmin.Domain.DbMaps.Dependency.Fields;
+global using NetAdmin.Domain.DbMaps.Sys;
+global using CsvIndex = CsvHelper.Configuration.Attributes.IndexAttribute;
 global using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
 global using DynamicFilterOperators = NetAdmin.Domain.Enums.DynamicFilterOperators;
 #endif

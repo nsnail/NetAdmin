@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 作业记录计数
+     */
+    countRecord: {
+        url: `${config.API_URL}/api/sys/job/count.record`,
+        name: `作业记录计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建计划作业
      */
     create: {
@@ -83,11 +94,44 @@ export default {
     },
 
     /**
+     * 导出计划作业
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/job/export`,
+        name: `导出计划作业`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 导出作业记录
+     */
+    exportRecord: {
+        url: `${config.API_URL}/api/sys/job/export.record`,
+        name: `导出作业记录`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个计划作业
      */
     get: {
         url: `${config.API_URL}/api/sys/job/get`,
         name: `获取单个计划作业`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 获取单个作业记录
+     */
+    getRecord: {
+        url: `${config.API_URL}/api/sys/job/get.record`,
+        name: `获取单个作业记录`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },
@@ -138,33 +182,22 @@ export default {
     },
 
     /**
+     * 分页查询作业记录
+     */
+    pagedQueryRecord: {
+        url: `${config.API_URL}/api/sys/job/paged.query.record`,
+        name: `分页查询作业记录`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 查询计划作业
      */
     query: {
         url: `${config.API_URL}/api/sys/job/query`,
         name: `查询计划作业`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 获取单个作业记录
-     */
-    recordGet: {
-        url: `${config.API_URL}/api/sys/job/record.get`,
-        name: `获取单个作业记录`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 分页查询作业记录
-     */
-    recordPagedQuery: {
-        url: `${config.API_URL}/api/sys/job/record.paged.query`,
-        name: `分页查询作业记录`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

@@ -50,6 +50,11 @@ public interface IDicModule
     Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req);
 
     /// <summary>
+    ///     导出字典内容
+    /// </summary>
+    Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req);
+
+    /// <summary>
     ///     获取单个字典目录
     /// </summary>
     Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req);

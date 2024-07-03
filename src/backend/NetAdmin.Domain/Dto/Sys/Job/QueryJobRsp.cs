@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Enums.Sys;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
@@ -10,10 +7,10 @@ namespace NetAdmin.Domain.Dto.Sys.Job;
 /// <summary>
 ///     响应：查询计划作业
 /// </summary>
-public sealed record QueryJobRsp : Sys_Job
+public record QueryJobRsp : Sys_Job
 {
     /// <inheritdoc cref="Sys_Job.LastStatusCode" />
-    public new string LastStatusCode =>
+    public new virtual string LastStatusCode =>
         #pragma warning disable IDE0072
         base.LastStatusCode switch {
             #pragma warning restore IDE0072
@@ -104,7 +101,7 @@ public sealed record QueryJobRsp : Sys_Job
     public override string Summary { get; init; }
 
     /// <inheritdoc cref="Sys_Job.User" />
-    public new QueryUserRsp User { get; init; }
+    public new virtual QueryUserRsp User { get; init; }
 
     /// <inheritdoc cref="Sys_Job.UserId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

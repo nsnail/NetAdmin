@@ -1,9 +1,9 @@
 <template>
     <sc-table-select
         v-model="user"
-        :apiObj="$API.sys_user.pagedQuery"
         :params="form"
         :props="{ label: 'userName', value: 'id' }"
+        :query-api="$API.sys_user.pagedQuery"
         :table-width="60"
         clearable
         ref="user">

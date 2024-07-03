@@ -42,6 +42,12 @@ public sealed class VerifyCodeCache(IDistributedCache cache, IVerifyCodeService 
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
         return Service.GetAsync(req);

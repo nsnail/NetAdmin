@@ -1,6 +1,3 @@
-using NetAdmin.Domain.Attributes;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.DbMaps.Dependency;
 
 /// <inheritdoc />
@@ -24,6 +21,7 @@ public abstract record LiteVersionEntity<T> : LiteMutableEntity<T>, IFieldVersio
 
     /// <inheritdoc cref="IFieldVersion.Version" />
     [Column(IsVersion = true, Position = -1)]
+    [Ignore]
     [JsonIgnore]
     public virtual long Version { get; init; }
 }

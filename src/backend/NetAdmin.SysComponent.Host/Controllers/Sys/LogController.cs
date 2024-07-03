@@ -64,6 +64,14 @@ public sealed class LogController(IRequestLogCache cache) : ControllerBase<IRequ
     }
 
     /// <summary>
+    ///     导出请求日志
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个请求日志
     /// </summary>
     public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)

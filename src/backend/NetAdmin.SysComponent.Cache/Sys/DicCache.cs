@@ -60,6 +60,12 @@ public sealed class DicCache(IDistributedCache cache, IDicService service) //
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return Service.ExportContentAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
     {
         return Service.GetCatalogAsync(req);

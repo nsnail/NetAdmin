@@ -47,6 +47,12 @@ public sealed class ConfigCache(IDistributedCache cache, IConfigService service)
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
         return Service.GetAsync(req);

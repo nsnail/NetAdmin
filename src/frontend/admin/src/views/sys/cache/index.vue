@@ -54,7 +54,7 @@
         </el-header>
 
         <el-main class="nopadding">
-            <sc-table :apiObj="$API.sys_cache.getAllEntries" :params="query" @row-click="rowClick" ref="table" row-key="key" stripe>
+            <sc-table :params="query" :query-api="$API.sys_cache.getAllEntries" @row-click="rowClick" ref="table" row-key="key" stripe>
                 <el-table-column :label="$t('键名')" prop="key" show-overflow-tooltip />
                 <el-table-column :label="$t('键值')" prop="data" show-overflow-tooltip />
                 <el-table-column :label="$t('滑动过期')" align="right" prop="sldExpTime" width="200" />

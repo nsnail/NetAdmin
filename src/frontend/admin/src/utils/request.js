@@ -6,6 +6,8 @@ import router from '@/router'
 import { h } from 'vue'
 import jsonBigInt from 'json-bigint'
 
+import i18 from '@/locales/index'
+
 axios.defaults.baseURL = ''
 
 axios.defaults.timeout = sysConfig.TIMEOUT
@@ -119,64 +121,66 @@ axios.interceptors.response.use(
         if (error.response) {
             if (error.response.status === 404) {
                 ElNotification.error({
-                    title: '请求错误',
-                    message: 'Status:404，正在请求不存在的服务器记录！',
+                    title: i18.global.t('请求错误'),
+                    message: i18.global.t('正在请求不存在的服务器记录！'),
                 })
             } else if (error.response.status === 500) {
                 ElNotification.error({
-                    title: '请求错误',
-                    message: error.response.data.message || 'Status:500，服务器发生错误！',
+                    title: i18.global.t('请求错误'),
+                    message: error.response.data.message || i18.global.t('服务器发生错误！'),
                 })
             } else if ([401, 403].includes(error.response.status)) {
                 // 如果token不存在，说明用户是第一次访问，直接跳转到登录页面
                 if (!tool.cookie.get('ACCESS-TOKEN') && window.location.href.indexOf('guest') < 0) {
+                    tool.data.set('LOGIN_REDIRECT', window.location.href)
                     await router.replace({ path: '/guest/login' })
                     return
                 }
                 if (!MessageBox_401_show && window.location.href.indexOf('guest') < 0) {
                     MessageBox_401_show = true
                     tool.timeout(100).then(async () => {
-                        await ElMessageBox.confirm('您已退出登录或无权限访问当前资源，请重新登录后再操作。', '访问受限', {
+                        await ElMessageBox.confirm(i18.global.t('您已退出登录或无权限访问当前资源，请重新登录后再操作'), i18.global.t('访问受限'), {
                             type: 'error',
                             closeOnClickModal: false,
                             center: true,
-                            confirmButtonText: '重新登录',
+                            confirmButtonText: i18.global.t('重新登录'),
                             beforeClose: (action, instance, done) => {
                                 MessageBox_401_show = false
                                 done()
                             },
                         })
+                        tool.data.set('LOGIN_REDIRECT', window.location.href)
                         await router.replace({ path: '/guest/login' })
                     })
                 }
             } else if (error.response.status === 900) {
-                function showErr(msg) {
+                function showErr(key, msg) {
                     const title = axios.defaults.app().config.globalProperties.$GLOBAL.enums.errorCodes[error.response.data.code][1]
 
                     ElNotification.error({
                         title: title,
-                        message: h('p', msg),
+                        message: h('p', [h('b', `${key} `), h('span', msg)]),
                     })
                 }
 
                 //业务错误
                 if (typeof error.response.data.msg === 'object') {
                     Object.keys(error.response.data.msg).forEach((x) => {
-                        showErr(error.response.data.msg[x])
+                        showErr(x, error.response.data.msg[x])
                     })
                 } else {
                     showErr(error.response.data.msg)
                 }
             } else {
                 ElNotification.error({
-                    title: '请求错误',
-                    message: error.message || `Status:${error.response.status}，未知错误！`,
+                    title: i18.global.t('请求错误'),
+                    message: error.message || i18.global.t(`未知错误！`),
                 })
             }
         } else {
             ElNotification.error({
-                title: '请求错误',
-                message: '请求服务器无响应！',
+                title: i18.global.t('请求错误'),
+                message: i18.global.t('请求服务器无响应！'),
             })
         }
 

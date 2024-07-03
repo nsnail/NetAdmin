@@ -41,6 +41,12 @@ public sealed class JobRecordCache(IDistributedCache cache, IJobRecordService se
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryJobRecordRsp> GetAsync(QueryJobRecordReq req)
     {
         return Service.GetAsync(req);

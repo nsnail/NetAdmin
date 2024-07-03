@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 导出角色
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/role/export`,
+        name: `导出角色`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个角色
      */
     get: {

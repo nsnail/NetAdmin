@@ -1,6 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Enums.Sys;
@@ -70,6 +69,12 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             .AnyAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-
 namespace NetAdmin.Domain.DbMaps.Tpl;
 
 /// <summary>

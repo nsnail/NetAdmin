@@ -1,6 +1,6 @@
 <template>
     <div v-loading="loading">
-        <scEcharts :option="option" height="20rem"></scEcharts>
+        <scEcharts v-bind="$attrs" :option="option"></scEcharts>
     </div>
 </template>
 

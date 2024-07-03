@@ -1,4 +1,3 @@
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
@@ -6,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：创建用户
 /// </summary>
-public sealed record CreateUserReq : CreateEditUserReq, IRegister
+public sealed record CreateUserReq : CreateEditUserReq
 {
     /// <inheritdoc cref="CreateEditUserReq.PasswordText" />
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.密码不能为空))]
@@ -16,7 +15,7 @@ public sealed record CreateUserReq : CreateEditUserReq, IRegister
     public new CreateUserProfileReq Profile { get; init; }
 
     /// <inheritdoc />
-    public new void Register(TypeAdapterConfig config)
+    public override void Register(TypeAdapterConfig config)
     {
         _ = config.ForType<RegisterUserReq, CreateUserReq>() //
                   .Map(d => d.Mobile, s => s.VerifySmsCodeReq.DestDevice)

@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.User;
 
 namespace NetAdmin.Domain.Dto.Sys.RequestLog;
@@ -7,22 +5,22 @@ namespace NetAdmin.Domain.Dto.Sys.RequestLog;
 /// <summary>
 ///     响应：查询请求日志
 /// </summary>
-public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
+public record QueryRequestLogRsp : Sys_RequestLog, IRegister
 {
     /// <summary>
     ///     创建者客户端IP
     /// </summary>
-    public new string CreatedClientIp => base.CreatedClientIp?.ToIpV4();
+    public new virtual string CreatedClientIp => base.CreatedClientIp?.ToIpV4();
 
     /// <summary>
     ///     登录名
     /// </summary>
-    public string LoginName => RequestBody?.ToObject<LoginByPwdReq>()?.Account;
+    public virtual string LoginName => RequestBody?.ToObject<LoginByPwdReq>()?.Account;
 
     /// <summary>
     ///     操作系统
     /// </summary>
-    public string Os => UserAgentParser.Create(CreatedUserAgent)?.Platform;
+    public virtual string Os => UserAgentParser.Create(CreatedUserAgent)?.Platform;
 
     /// <inheritdoc cref="Sys_RequestLog.ApiId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -94,14 +92,14 @@ public sealed record QueryRequestLogRsp : Sys_RequestLog, IRegister
     public override int? ServerIp { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.User" />
-    public new QueryUserRsp User { get; init; }
+    public new virtual QueryUserRsp User { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.UserId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override long? UserId { get; init; }
 
     /// <inheritdoc />
-    public void Register(TypeAdapterConfig config)
+    public virtual void Register(TypeAdapterConfig config)
     {
         _ = config.ForType<Sys_RequestLog, QueryRequestLogRsp>().Map(d => d.ApiSummary, s => s.Api.Summary);
     }

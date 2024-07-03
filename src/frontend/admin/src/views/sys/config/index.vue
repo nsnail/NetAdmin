@@ -47,9 +47,10 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_config.pagedQuery"
                 :context-menus="['id', 'userRegisterConfirm', 'enabled', 'createdTime']"
+                :export-api="$API.sys_config.export"
                 :params="query"
+                :query-api="$API.sys_config.pagedQuery"
                 :vue="this"
                 @selection-change="
                     (items) => {
@@ -210,7 +211,11 @@ export default {
     mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
+            this.$refs.search.keeps.push({
+                field: 'keywords',
+                value: this.keywords,
+                type: 'root',
+            })
         }
     },
     props: ['keywords'],

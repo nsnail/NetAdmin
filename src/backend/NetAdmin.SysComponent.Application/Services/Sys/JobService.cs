@@ -1,8 +1,9 @@
 using Cronos;
+using CsvHelper;
 using FreeSql.Internal;
+using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
@@ -39,6 +40,12 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             .CountAsync();
+    }
+
+    /// <inheritdoc />
+    public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return jobRecordService.CountAsync(req);
     }
 
     /// <inheritdoc />
@@ -133,6 +140,46 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     }
 
     /// <inheritdoc />
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
+    {
+        req.ThrowIfInvalid();
+        var data = await QueryInternal(req)
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
+                         .Take(Numbers.MAX_LIMIT_EXPORT)
+                         .ToListAsync()
+                         .ConfigureAwait(false);
+        var list   = data.Adapt<List<ExportJobRsp>>();
+        var stream = new MemoryStream();
+        var writer = new StreamWriter(stream);
+        var csv    = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        csv.WriteHeader<ExportJobRsp>();
+        await csv.NextRecordAsync().ConfigureAwait(false);
+
+        foreach (var item in list) {
+            csv.WriteRecord(item);
+            await csv.NextRecordAsync().ConfigureAwait(false);
+        }
+
+        await csv.FlushAsync().ConfigureAwait(false);
+        _ = stream.Seek(0, SeekOrigin.Begin);
+
+        App.HttpContext.Response.Headers.ContentDisposition
+            = new ContentDispositionHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_ATTACHMENT) {
+                  FileNameStar = $"{Ln.计划作业导出}_{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.csv"
+              }.ToString();
+        return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
+    }
+
+    /// <inheritdoc />
+    public Task<IActionResult> ExportRecordAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public async Task FinishJobAsync(FinishJobReq req)
     {
         req.ThrowIfInvalid();
@@ -210,6 +257,13 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     }
 
     /// <inheritdoc />
+    public Task<QueryJobRecordRsp> GetRecordAsync(QueryJobRecordReq req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.GetAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
@@ -248,6 +302,13 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     }
 
     /// <inheritdoc />
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.PagedQueryAsync(req);
+    }
+
+    /// <inheritdoc />
     public async Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
@@ -259,20 +320,6 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                         .ToListAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRsp>>();
-    }
-
-    /// <inheritdoc />
-    public Task<QueryJobRecordRsp> RecordGetAsync(QueryJobRecordReq req)
-    {
-        req.ThrowIfInvalid();
-        return jobRecordService.GetAsync(req);
-    }
-
-    /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryJobRecordRsp>> RecordPagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
-    {
-        req.ThrowIfInvalid();
-        return jobRecordService.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />

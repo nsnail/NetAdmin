@@ -17,6 +17,17 @@ export default {
     },
 
     /**
+     * 导出请求日志
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/log/export`,
+        name: `导出请求日志`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个请求日志
      */
     get: {

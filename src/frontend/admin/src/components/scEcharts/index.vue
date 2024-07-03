@@ -31,7 +31,7 @@ export default {
         option: {
             deep: true,
             handler(v) {
-                unwarp(this.myChart).setOption(v)
+                unwarp(this.myChart).setOption(v, { notMerge: true })
             },
         },
     },

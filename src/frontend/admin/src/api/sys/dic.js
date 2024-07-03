@@ -94,6 +94,17 @@ export default {
     },
 
     /**
+     * 导出字典内容
+     */
+    exportContent: {
+        url: `${config.API_URL}/api/sys/dic/export.content`,
+        name: `导出字典内容`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个字典目录
      */
     getCatalog: {

@@ -8,7 +8,8 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_api.query"
+                :export-api="$API.sys_api.export"
+                :query-api="$API.sys_api.query"
                 :summary-method="(x) => ['接口总数', countTotalRows(x.data)]"
                 default-expand-all
                 hidePagination

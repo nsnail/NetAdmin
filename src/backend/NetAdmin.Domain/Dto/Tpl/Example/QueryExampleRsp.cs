@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Tpl;
 
 namespace NetAdmin.Domain.Dto.Tpl.Example;

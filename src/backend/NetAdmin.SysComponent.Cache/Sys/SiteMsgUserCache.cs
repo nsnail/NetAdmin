@@ -41,6 +41,12 @@ public sealed class SiteMsgUserCache(IDistributedCache cache, ISiteMsgUserServic
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgUserReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgUserRsp> GetAsync(QuerySiteMsgUserReq req)
     {
         return Service.GetAsync(req);

@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 导出配置
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/config/export`,
+        name: `导出配置`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个配置
      */
     get: {

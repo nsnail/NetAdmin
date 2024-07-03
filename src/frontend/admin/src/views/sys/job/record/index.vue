@@ -5,12 +5,6 @@
                 <na-search
                     :controls="[
                         {
-                            type: 'input',
-                            field: ['root', 'keywords'],
-                            placeholder: $t('作业编号 / 执行编号'),
-                            style: 'width:20rem',
-                        },
-                        {
                             type: 'select',
                             field: ['dy', 'httpMethod'],
                             options: Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
@@ -33,6 +27,12 @@
                             placeholder: $t('状态码'),
                             style: 'width:20rem',
                         },
+                        {
+                            type: 'input',
+                            field: ['root', 'keywords'],
+                            placeholder: $t('作业编号 / 作业名称 / 执行编号'),
+                            style: 'width:20rem',
+                        },
                     ]"
                     :vue="this"
                     @search="onSearch"
@@ -45,10 +45,20 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_job.recordPagedQuery"
+                :cell-style="
+                    (row) => {
+                        if (row.column.property === 'duration') {
+                            if (row.row.duration > 1000) {
+                                return { color: 'var(--el-color-danger)' }
+                            }
+                        }
+                    }
+                "
                 :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :export-api="$API.sys_job.exportRecord"
                 :params="query"
+                :query-api="$API.sys_job.pagedQueryRecord"
                 :vue="this"
                 ref="table"
                 remote-filter
@@ -90,7 +100,7 @@
                 <el-table-column :label="$t('作业信息')" prop="jobId" show-overflow-tooltip sortable="custom" width="500">
                     <template #default="{ row }">
                         <p>
-                            <el-link :href="`/sys/job?keywords=${row.jobId}`" target="_blank">
+                            <el-link @click="jobClick(row.job)">
                                 {{ row.job.jobName }}
                             </el-link>
                         </p>
@@ -111,6 +121,13 @@
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
+
+    <job-dialog
+        v-if="dialog.job"
+        @closed="dialog.job = null"
+        @mounted="$refs.jobDialog.open(dialog.job)"
+        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
+        ref="jobDialog"></job-dialog>
 </template>
 
 <script>
@@ -120,10 +137,12 @@ import naColOperation from '@/config/naColOperation'
 import naIndicator from '@/components/naIndicator/index.vue'
 
 const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const jobDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save.vue'))
 export default {
     components: {
         naIndicator,
         saveDialog,
+        jobDialog,
     },
     computed: {
         naColOperation() {
@@ -170,6 +189,9 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        jobClick(job) {
+            this.dialog.job = { mode: 'view', row: { id: job.id } }
+        },
         //搜索
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
@@ -216,16 +238,29 @@ export default {
     mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
+            this.$refs.search.keeps.push({
+                field: 'keywords',
+                value: this.keywords,
+                type: 'root',
+            })
         }
         if (this.statusCodes) {
             this.$refs.search.form.dy.httpStatusCode = this.statusCodes
-            this.$refs.search.keepHttpStatusCode = this.statusCodes
+            this.$refs.search.keeps.push({
+                field: 'httpStatusCode',
+                value: this.statusCodes,
+                type: 'dy',
+            })
         }
-        this.$refs.search.form.dy.createdTime = this.$refs.search.keepCreatedTime = [
+        this.$refs.search.form.dy.createdTime = [
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
         ]
+        this.$refs.search.keeps.push({
+            field: 'createdTime',
+            value: this.$refs.search.form.dy.createdTime,
+            type: 'dy',
+        })
     },
     props: ['keywords', 'statusCodes'],
     watch: {},

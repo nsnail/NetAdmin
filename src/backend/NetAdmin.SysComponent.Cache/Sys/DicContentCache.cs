@@ -41,6 +41,12 @@ public sealed class DicContentCache(IDistributedCache cache, IDicContentService 
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
     {
         return Service.GetAsync(req);

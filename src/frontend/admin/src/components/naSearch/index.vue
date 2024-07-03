@@ -25,10 +25,10 @@
                 v-else-if="item.type === 'remote-select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
                 v-role="item.role || '*/*/*'"
-                :apiObj="item.api"
                 :class="item.class"
                 :config="item.config"
                 :placeholder="item.placeholder"
+                :query-api="item.api"
                 :style="item.style"
                 clearable
                 filterable />
@@ -321,9 +321,7 @@ export default {
                 },
             ],
             casLoaded: false,
-            keepKeywords: null,
-            keepCreatedTime: null,
-            keepHttpStatusCode: null,
+            keeps: [],
             form: {
                 root: {},
                 filter: {},
@@ -399,14 +397,8 @@ export default {
             Object.keys(this.form.dy).forEach((x) => {
                 delete this.form.dy[x]
             })
-            if (this.keepKeywords) {
-                this.form.root.keywords = this.keepKeywords
-            }
-            if (this.keepCreatedTime) {
-                this.form.dy.createdTime = this.keepCreatedTime
-            }
-            if (this.keepHttpStatusCode) {
-                this.form.dy.httpStatusCode = this.keepHttpStatusCode
+            for (const keep of this.keeps) {
+                this.form[keep.type][keep.field] = keep.value
             }
             this.$emit('reset')
             this.search()

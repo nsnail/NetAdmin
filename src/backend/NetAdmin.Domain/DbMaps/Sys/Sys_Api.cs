@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>
@@ -12,12 +9,14 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     /// <summary>
     ///     子节点
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(nameof(ParentId))]
     public IEnumerable<Sys_Api> Children { get; init; }
 
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127, IsIdentity = false, IsPrimary = true, Position = 1)]
+    [Ignore]
     [JsonIgnore]
     public override string Id { get; init; }
 
@@ -25,6 +24,7 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     请求方式
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Method { get; init; }
 
@@ -32,6 +32,7 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     服务名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Name { get; init; }
 
@@ -39,6 +40,7 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     命名空间
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
     [JsonIgnore]
     #pragma warning disable CA1716
     public virtual string Namespace { get; init; }
@@ -48,12 +50,14 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     父编号
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
+    [Ignore]
     [JsonIgnore]
     public virtual string ParentId { get; init; }
 
     /// <summary>
     ///     角色集合
     /// </summary>
+    [Ignore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleApi))]
     public ICollection<Sys_Role> Roles { get; init; }
@@ -62,6 +66,7 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     服务描述
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Ignore]
     [JsonIgnore]
     public virtual string Summary { get; init; }
 }

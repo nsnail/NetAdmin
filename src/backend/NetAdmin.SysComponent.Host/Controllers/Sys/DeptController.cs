@@ -68,6 +68,14 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     }
 
     /// <summary>
+    ///     导出部门
+    /// </summary>
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)
+    {
+        return Cache.ExportAsync(req);
+    }
+
+    /// <summary>
     ///     获取单个部门
     /// </summary>
     public Task<QueryDeptRsp> GetAsync(QueryDeptReq req)

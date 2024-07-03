@@ -41,10 +41,11 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :apiObj="$API.sys_sitemsg.pagedQuery"
                 :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :export-api="$API.sys_sitemsg.export"
                 :params="query"
+                :query-api="$API.sys_sitemsg.pagedQuery"
                 :vue="this"
                 @selection-change="
                     (items) => {
@@ -172,7 +173,11 @@ export default {
     mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
-            this.$refs.search.keepKeywords = this.keywords
+            this.$refs.search.keeps.push({
+                field: 'keywords',
+                value: this.keywords,
+                type: 'root',
+            })
         }
     },
     props: ['keywords'],

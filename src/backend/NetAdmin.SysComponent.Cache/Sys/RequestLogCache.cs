@@ -42,6 +42,12 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
     {
         return Service.GetAsync(req);

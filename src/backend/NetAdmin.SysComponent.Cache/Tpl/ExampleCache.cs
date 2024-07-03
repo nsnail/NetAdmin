@@ -41,6 +41,12 @@ public sealed class ExampleCache(IDistributedCache cache, IExampleService servic
     }
 
     /// <inheritdoc />
+    public Task<IActionResult> ExportAsync(QueryReq<QueryExampleReq> req)
+    {
+        return Service.ExportAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
     {
         return Service.GetAsync(req);

@@ -44,6 +44,11 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, TD
     Task<bool> ExistAsync(QueryReq<TQueryReq> req);
 
     /// <summary>
+    ///     导出实体
+    /// </summary>
+    Task<IActionResult> ExportAsync(QueryReq<TQueryReq> req);
+
+    /// <summary>
     ///     获取单个实体
     /// </summary>
     Task<TQueryRsp> GetAsync(TQueryReq req);
