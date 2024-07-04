@@ -1,5 +1,3 @@
-using CsvHelper;
-using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.Dto.Dependency;
@@ -94,36 +92,10 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     }
 
     /// <inheritdoc />
-    public async Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();
-        var data = await QueryInternal(req)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Take(Numbers.MAX_LIMIT_EXPORT)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
-        var list   = data.Adapt<List<ExportDeptRsp>>();
-        var stream = new MemoryStream();
-        var writer = new StreamWriter(stream);
-        var csv    = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteHeader<ExportDeptRsp>();
-        await csv.NextRecordAsync().ConfigureAwait(false);
-
-        foreach (var item in list) {
-            csv.WriteRecord(item);
-            await csv.NextRecordAsync().ConfigureAwait(false);
-        }
-
-        await csv.FlushAsync().ConfigureAwait(false);
-        _ = stream.Seek(0, SeekOrigin.Begin);
-
-        App.HttpContext.Response.Headers.ContentDisposition
-            = new ContentDispositionHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_ATTACHMENT) {
-                  FileNameStar = $"{Ln.部门导出}_{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.csv"
-              }.ToString();
-        return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
+        return ExportAsync<QueryDeptReq, ExportDeptRsp>(QueryInternal, req, Ln.部门导出);
     }
 
     /// <inheritdoc />
@@ -160,7 +132,12 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
         return UpdateAsync(req, [nameof(req.Enabled)]);
     }
 
-    private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req, bool asTreeCte = false)
+    private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req)
+    {
+        return QueryInternal(req, false);
+    }
+
+    private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req, bool asTreeCte)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
