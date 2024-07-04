@@ -6,8 +6,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     角色表
 /// </summary>
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(Name), nameof(Name), true)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX             + nameof(Sys_Role))]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Name), nameof(Name), true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Role))]
 public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary, IRegister
 {
     /// <summary>

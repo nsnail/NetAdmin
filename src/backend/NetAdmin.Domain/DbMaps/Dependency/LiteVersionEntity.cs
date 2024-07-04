@@ -17,6 +17,7 @@ public abstract record LiteVersionEntity<T> : LiteMutableEntity<T>, IFieldVersio
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [Snowflake]
     public override T Id { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />

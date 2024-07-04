@@ -5,7 +5,10 @@
             <div class="adminui-header-left">
                 <div class="logo-bar">
                     <img class="logo" src="@/assets/img/logo.png" />
-                    <span>{{ $CONFIG.APP_NAME }}</span>
+                    <div>
+                        <p>{{ $CONFIG.APP_NAME }}</p>
+                        <p class="version">{{ version }}</p>
+                    </div>
                 </div>
                 <ul v-if="!ismobile" class="nav">
                     <li v-for="item in menu" :class="pmenu.path === item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
@@ -63,7 +66,10 @@
             <div class="adminui-header-left">
                 <div class="logo-bar">
                     <img class="logo" src="@/assets/img/logo.png" />
-                    <span>{{ $CONFIG.APP_NAME }}</span>
+                    <div>
+                        <p>{{ $CONFIG.APP_NAME }}</p>
+                        <p class="version">{{ version }}</p>
+                    </div>
                 </div>
             </div>
             <div class="adminui-header-right">
@@ -108,7 +114,10 @@
             <div class="adminui-header-left">
                 <div class="logo-bar">
                     <img class="logo" src="@/assets/img/logo.png" />
-                    <span>{{ $CONFIG.APP_NAME }}</span>
+                    <div>
+                        <p>{{ $CONFIG.APP_NAME }}</p>
+                        <p class="version">{{ version }}</p>
+                    </div>
                 </div>
             </div>
             <div class="adminui-header-right">
@@ -237,6 +246,7 @@ export default {
             nextMenu: [],
             pmenu: {},
             active: '',
+            version: '',
         }
     },
     computed: {
@@ -253,12 +263,14 @@ export default {
             return this.$store.state.global.menuIsCollapse
         },
     },
-    created() {
+    async created() {
         this.onLayoutResize()
         window.addEventListener('resize', this.onLayoutResize)
         const menu = this.$router.sc_getMenu()
         this.menu = this.filterUrl(menu)
         this.showThis()
+        const res = await this.$API.sys_tools.getVersion.post()
+        this.version = res.data.slice(0, res.data.indexOf('+'))
     },
     watch: {
         $route() {
@@ -320,3 +332,10 @@ export default {
     },
 }
 </script>
+<style scoped>
+.version {
+    font-size: var(--el-font-size-small);
+    font-weight: var(--el-font-weight-primary);
+    color: var(--el-text-color-disabled);
+}
+</style>

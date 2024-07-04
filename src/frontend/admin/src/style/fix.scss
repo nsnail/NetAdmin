@@ -150,6 +150,11 @@
     margin-left: 0.8rem;
 }
 
+.el-button-group {
+    display: flex;
+    justify-content: end;
+}
+
 .el-button-group + .el-dropdown {
     margin-left: 0.8rem;
 }

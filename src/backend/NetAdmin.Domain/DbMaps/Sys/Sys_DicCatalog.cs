@@ -3,8 +3,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     字典目录表
 /// </summary>
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(Code), nameof(Code), true)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX             + nameof(Sys_DicCatalog))]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Code), nameof(Code), true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_DicCatalog))]
 public record Sys_DicCatalog : VersionEntity
 {
     /// <summary>

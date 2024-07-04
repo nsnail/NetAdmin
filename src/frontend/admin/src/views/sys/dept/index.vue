@@ -92,7 +92,8 @@
                             type: 'danger',
                         })
                     "
-                    :vue="this" />
+                    :vue="this"
+                    width="150" />
             </sc-table>
         </el-main>
     </el-container>

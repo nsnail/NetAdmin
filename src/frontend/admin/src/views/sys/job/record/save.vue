@@ -71,7 +71,7 @@ export default {
             this.loading = true
             this.mode = data.mode
             if (data.row?.id) {
-                const res = await this.$API.sys_job.recordGet.post({ id: data.row.id })
+                const res = await this.$API.sys_job.getRecord.post({ id: data.row.id })
                 Object.assign(this.form, res.data)
             }
             this.loading = false
