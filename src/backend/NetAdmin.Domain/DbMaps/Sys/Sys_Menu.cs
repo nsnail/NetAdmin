@@ -5,8 +5,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     菜单表
 /// </summary>
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(Name), nameof(Name), true)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX             + nameof(Sys_Menu))]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Name), nameof(Name), true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Menu))]
 public record Sys_Menu : VersionEntity, IFieldSort
 {
     /// <summary>

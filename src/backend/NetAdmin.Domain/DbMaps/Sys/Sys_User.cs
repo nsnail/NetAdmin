@@ -5,10 +5,10 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     用户基本信息表
 /// </summary>
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(Email),    nameof(Email),    true)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(Mobile),   nameof(Mobile),   true)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(UserName), nameof(UserName), true)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX             + nameof(Sys_User))]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Email),    nameof(Email),    true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Mobile),   nameof(Mobile),   true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(UserName), nameof(UserName), true)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_User))]
 public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
 {
     /// <summary>

@@ -1,15 +1,9 @@
 <template>
-    <el-container>
-        <el-header style="border: none">
-            <el-tabs v-model="tabId" class="w100p">
-                <el-tab-pane :label="$t('所有作业')" name="all"></el-tab-pane>
-                <el-tab-pane :label="$t('异常作业')" name="fail"></el-tab-pane>
-            </el-tabs>
-        </el-header>
-        <el-main class="nopadding">
-            <component :is="tabId" :status-codes="['300,399', '400,499', '500,599', '900,999']" />
-        </el-main>
-    </el-container>
+    <el-tabs v-model="tabId" class="w100p" style="background: var(--el-bg-color-overlay); padding-left: 1rem">
+        <el-tab-pane :label="$t('所有作业')" name="all"></el-tab-pane>
+        <el-tab-pane :label="$t('异常作业')" name="fail"></el-tab-pane>
+    </el-tabs>
+    <component :is="tabId" :status-codes="['300,399', '400,499', '500,599', '900,999']" />
 </template>
 
 <script>

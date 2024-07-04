@@ -3,8 +3,8 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信-用户映射表
 /// </summary>
-[FreeSql.DataAnnotations.Index( //
-    $"{Chars.FLG_DB_INDEX_PREFIX}{nameof(UserId)}_{nameof(SiteMsgId)}", $"{nameof(UserId)},{nameof(SiteMsgId)}", true)]
+[SqlIndex($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(UserId)}_{nameof(SiteMsgId)}", $"{nameof(UserId)},{nameof(SiteMsgId)}"
+        , true)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgUser))]
 public record Sys_SiteMsgUser : ImmutableEntity
 {

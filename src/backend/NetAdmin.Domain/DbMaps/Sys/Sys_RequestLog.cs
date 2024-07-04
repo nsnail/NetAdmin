@@ -3,11 +3,11 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     请求日志表
 /// </summary>
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(ApiId),          nameof(ApiId),          false)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(CreatedTime),    nameof(CreatedTime),    false)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(UserId),         nameof(UserId),         false)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(HttpStatusCode), nameof(HttpStatusCode), false)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX             + nameof(Sys_RequestLog))]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(ApiId),          nameof(ApiId),          false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(CreatedTime),    nameof(CreatedTime),    false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(UserId),         nameof(UserId),         false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(HttpStatusCode), nameof(HttpStatusCode), false)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RequestLog))]
 public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedClient
 {
     /// <summary>

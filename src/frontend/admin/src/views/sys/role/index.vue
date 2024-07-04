@@ -138,7 +138,8 @@
                             },
                         )
                     "
-                    :vue="this" />
+                    :vue="this"
+                    width="200" />
             </sc-table>
         </el-main>
     </el-container>

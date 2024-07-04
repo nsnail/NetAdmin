@@ -5,11 +5,10 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     计划作业执行记录表
 /// </summary>
-[FreeSql.DataAnnotations.Index( //
-    $"{Chars.FLG_DB_INDEX_PREFIX}{nameof(JobId)}_{nameof(TimeId)}", $"{nameof(JobId)},{nameof(TimeId)}", true)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(CreatedTime), nameof(CreatedTime), false)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(JobId), nameof(JobId), false)]
-[FreeSql.DataAnnotations.Index(Chars.FLG_DB_INDEX_PREFIX + nameof(HttpStatusCode), nameof(HttpStatusCode), false)]
+[SqlIndex($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(JobId)}_{nameof(TimeId)}", $"{nameof(JobId)},{nameof(TimeId)}", true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(CreatedTime),       nameof(CreatedTime),                 false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(JobId),             nameof(JobId),                       false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(HttpStatusCode),    nameof(HttpStatusCode),              false)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_JobRecord))]
 public record Sys_JobRecord : LiteImmutableEntity
 {

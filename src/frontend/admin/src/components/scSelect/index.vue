@@ -27,7 +27,7 @@ import selectConfig from '@/config/select'
 
 export default {
     props: {
-        apiObj: {
+        queryApi: {
             type: Object,
             default: () => {},
         },
@@ -55,7 +55,7 @@ export default {
     methods: {
         //选项显示隐藏事件
         visibleChange(isOpen) {
-            if (isOpen && this.options.length === 0 && (this.dic || this.apiObj)) {
+            if (isOpen && this.options.length === 0 && (this.dic || this.queryApi)) {
                 this.getRemoteData()
             }
         },
@@ -64,8 +64,8 @@ export default {
             this.loading = true
             this.dicParams[selectConfig.request.name] = this.dic
             let res = {}
-            if (this.apiObj) {
-                res = await this.apiObj.post(this.params)
+            if (this.queryApi) {
+                res = await this.queryApi.post(this.params)
             } else if (this.dic) {
                 res = await selectConfig.dicApiObj.get(this.params)
             }
