@@ -1,5 +1,3 @@
-using CsvHelper;
-using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.Contexts;
@@ -112,36 +110,10 @@ public sealed class SiteMsgService(
     }
 
     /// <inheritdoc />
-    public async Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
     {
         req.ThrowIfInvalid();
-        var data = await QueryInternal(req)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Take(Numbers.MAX_LIMIT_EXPORT)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
-        var list   = data.Adapt<List<ExportSiteMsgRsp>>();
-        var stream = new MemoryStream();
-        var writer = new StreamWriter(stream);
-        var csv    = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteHeader<ExportSiteMsgRsp>();
-        await csv.NextRecordAsync().ConfigureAwait(false);
-
-        foreach (var item in list) {
-            csv.WriteRecord(item);
-            await csv.NextRecordAsync().ConfigureAwait(false);
-        }
-
-        await csv.FlushAsync().ConfigureAwait(false);
-        _ = stream.Seek(0, SeekOrigin.Begin);
-
-        App.HttpContext.Response.Headers.ContentDisposition
-            = new ContentDispositionHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_ATTACHMENT) {
-                  FileNameStar = $"{Ln.站内信导出}_{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.csv"
-              }.ToString();
-        return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
+        return ExportAsync<QuerySiteMsgReq, ExportSiteMsgRsp>(QueryInternal, req, Ln.站内信导出);
     }
 
     /// <inheritdoc />

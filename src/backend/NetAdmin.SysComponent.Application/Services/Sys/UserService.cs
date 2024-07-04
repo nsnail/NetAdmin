@@ -1,5 +1,3 @@
-using CsvHelper;
-using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
 using NetAdmin.Domain.Contexts;
@@ -160,40 +158,10 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
-    public async Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
     {
         req.ThrowIfInvalid();
-        #pragma warning disable VSTHRD103, S6966
-
-        // ReSharper disable once MethodHasAsyncOverload
-        var data = await QueryInternal(req)
-                         #pragma warning restore S6966, VSTHRD103
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Take(Numbers.MAX_LIMIT_EXPORT)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
-        var list   = data.Adapt<List<ExportUserRsp>>();
-        var stream = new MemoryStream();
-        var writer = new StreamWriter(stream);
-        var csv    = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteHeader<ExportUserRsp>();
-        await csv.NextRecordAsync().ConfigureAwait(false);
-
-        foreach (var item in list) {
-            csv.WriteRecord(item);
-            await csv.NextRecordAsync().ConfigureAwait(false);
-        }
-
-        await csv.FlushAsync().ConfigureAwait(false);
-        _ = stream.Seek(0, SeekOrigin.Begin);
-
-        App.HttpContext.Response.Headers.ContentDisposition
-            = new ContentDispositionHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_ATTACHMENT) {
-                  FileNameStar = $"{Ln.用户导出}_{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.csv"
-              }.ToString();
-        return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
+        return ExportAsync<QueryUserReq, ExportUserRsp>(QueryInternal, req, Ln.用户导出);
     }
 
     /// <inheritdoc />
