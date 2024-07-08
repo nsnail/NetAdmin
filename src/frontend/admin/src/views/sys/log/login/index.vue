@@ -159,10 +159,10 @@ export default {
         async rowClick(row) {
             this.dialog.info = true
             await this.$nextTick()
-            const res = await this.$API.sys_log.query.post({
-                filter: { id: row.id },
+            const res = await this.$API.sys_log.get.post({
+                id: row.id,
             })
-            this.$refs.info.open(this.$TOOL.sortProperties(res.data[0]), this.$t('日志详情：{id}', { id: row.id }))
+            this.$refs.info.open(this.$TOOL.sortProperties(res.data), this.$t('日志详情：{id}', { id: row.id }))
         },
     },
     mounted() {

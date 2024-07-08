@@ -1,7 +1,7 @@
 <template>
     <el-drawer v-model="visible" :size="size" :title="title" @closed="$emit('closed')" destroy-on-close>
         <el-main>
-            <el-descriptions :column="1" border size="small">
+            <el-descriptions :column="1" border class="font-monospace" size="small">
                 <el-descriptions-item v-for="(item, i) in data" :key="i" :label="i" label-class-name="w15">
                     {{ item }}
                 </el-descriptions-item>

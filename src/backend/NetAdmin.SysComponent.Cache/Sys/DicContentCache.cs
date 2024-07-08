@@ -63,4 +63,16 @@ public sealed class DicContentCache(IDistributedCache cache, IDicContentService 
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<List<QueryDicContentRsp>> QueryByCatalogCodeAsync(string catalogCode)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync( //
+            GetCacheKey(catalogCode), () => Service.QueryByCatalogCodeAsync(catalogCode)
+,                                     TimeSpan.FromSeconds(Numbers.SECS_CACHE_DIC_CATALOG_CODE));
+        #else
+        return Service.QueryByCatalogCodeAsync(catalogCode);
+        #endif
+    }
 }

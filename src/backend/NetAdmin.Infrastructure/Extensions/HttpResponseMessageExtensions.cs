@@ -11,9 +11,8 @@ public static class HttpResponseMessageExtensions
     public static async Task LogAsync<T>(this HttpResponseMessage me, ILogger<T> logger
                                        , Func<string, string>     bodyPreHandle = null)
     {
-        logger.Info(
-            (await me.BuildJsonAsync(bodyPreHandle).ConfigureAwait(false))?.Sub(
-                0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT));
+        logger.Info($"HTTP Response {(await me.BuildJsonAsync(bodyPreHandle).ConfigureAwait(false))?.Sub(
+            0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT)}");
     }
 
     /// <summary>

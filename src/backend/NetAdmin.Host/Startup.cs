@@ -26,7 +26,7 @@ public abstract class Startup : AppStartup
     /// <summary>
     ///     打印Banner
     /// </summary>
-    protected static void ShowBanner()
+    private static void ShowBanner()
     {
         AnsiConsole.WriteLine();
         var gridInfo = new Grid().AddColumn(new GridColumn().NoWrap().Width(50).PadRight(10))

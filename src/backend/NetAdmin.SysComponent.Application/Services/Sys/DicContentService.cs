@@ -141,6 +141,17 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
     }
 
+    /// <inheritdoc />
+    public async Task<List<QueryDicContentRsp>> QueryByCatalogCodeAsync(string catalogCode)
+    {
+        var ret = await Rpo.Orm.Select<Sys_DicContent>()
+                           .Include(a => a.Catalog)
+                           .Where(a => a.Catalog.Code == catalogCode)
+                           .ToListAsync()
+                           .ConfigureAwait(false);
+        return ret.Adapt<List<QueryDicContentRsp>>();
+    }
+
     private ISelect<Sys_DicContent> QueryInternal(QueryReq<QueryDicContentReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);

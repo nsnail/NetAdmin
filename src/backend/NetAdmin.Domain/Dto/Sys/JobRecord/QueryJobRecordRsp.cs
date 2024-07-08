@@ -9,6 +9,7 @@ namespace NetAdmin.Domain.Dto.Sys.JobRecord;
 public record QueryJobRecordRsp : Sys_JobRecord
 {
     /// <inheritdoc cref="Sys_JobRecord.HttpStatusCode" />
+    [JsonInclude]
     public new virtual string HttpStatusCode =>
         base.HttpStatusCode == Numbers.HTTP_STATUS_BIZ_FAIL
             ? nameof(ErrorCodes.Unhandled).ToLowerCamelCase()

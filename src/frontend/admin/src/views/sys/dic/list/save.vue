@@ -5,7 +5,7 @@
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
                         <el-form-item :label="$t('所属字典')" prop="catalogId">
-                            <na-dic-catalog v-model="form.catalogId" />
+                            <na-dic-catalog v-model="form.catalogId" class="w100p" />
                         </el-form-item>
                         <el-form-item :label="$t('项名')" prop="key">
                             <el-input v-model="form.key" clearable></el-input>
@@ -63,6 +63,7 @@ export default {
             this.visible = true
             this.loading = true
             this.mode = data.mode
+            this.form.catalogId = data.data?.catalogId
             if (data.row?.id) {
                 const res = await this.$API.sys_dic.getContent.post({ id: data.row.id })
                 Object.assign(this.form, res.data)

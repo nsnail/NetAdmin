@@ -173,6 +173,14 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldCreatedCli
     public virtual int? ServerIp { get; init; }
 
     /// <summary>
+    ///     请求跟踪标识
+    /// </summary>
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Ignore]
+    [JsonIgnore]
+    public virtual string TraceId { get; init; }
+
+    /// <summary>
     ///     用户
     /// </summary>
     [Ignore]

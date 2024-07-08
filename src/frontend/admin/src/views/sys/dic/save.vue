@@ -8,7 +8,7 @@
                 <el-input v-model="form.code" :placeholder="$t('字典编码')" clearable></el-input>
             </el-form-item>
             <el-form-item :label="$t('父路径')" prop="parentId">
-                <na-dic-catalog v-model="form.parentId" />
+                <na-dic-catalog v-model="form.parentId" class="w100p" />
             </el-form-item>
         </el-form>
         <template #footer>
@@ -45,6 +45,8 @@ export default {
             this.visible = true
             this.loading = true
             this.mode = data.mode
+            this.form.parentId = data.data?.catalogId
+            this.form.code = data.data?.code
             if (data.row?.id) {
                 const res = await this.$API.sys_dic.getCatalog.post({ id: data.row.id })
                 Object.assign(this.form, res.data)

@@ -13,4 +13,9 @@ public interface IDicContentService : IService, IDicContentModule
     ///     编辑字典内容
     /// </summary>
     Task<QueryDicContentRsp> EditAsync(EditDicContentReq req);
+
+    /// <summary>
+    ///     通过分类键查询字典内容
+    /// </summary>
+    Task<List<QueryDicContentRsp>> QueryByCatalogCodeAsync(string catalogCode);
 }

@@ -10,16 +10,19 @@ public record QueryRequestLogRsp : Sys_RequestLog, IRegister
     /// <summary>
     ///     创建者客户端IP
     /// </summary>
+    [JsonInclude]
     public new virtual string CreatedClientIp => base.CreatedClientIp?.ToIpV4();
 
     /// <summary>
     ///     登录名
     /// </summary>
+    [JsonInclude]
     public virtual string LoginName => RequestBody?.ToObject<LoginByPwdReq>()?.Account;
 
     /// <summary>
     ///     操作系统
     /// </summary>
+    [JsonInclude]
     public virtual string Os => UserAgentParser.Create(CreatedUserAgent)?.Platform;
 
     /// <inheritdoc cref="Sys_RequestLog.ApiId" />
@@ -90,6 +93,10 @@ public record QueryRequestLogRsp : Sys_RequestLog, IRegister
     /// <inheritdoc cref="Sys_RequestLog.ServerIp" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override int? ServerIp { get; init; }
+
+    /// <inheritdoc cref="Sys_RequestLog.TraceId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string TraceId { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.User" />
     public new virtual QueryUserRsp User { get; init; }

@@ -121,13 +121,13 @@
         margin-top: 1rem;
         border-bottom: 1px solid var(--el-border-color-light);
     }
-    .adminui-main > .el-container > .el-container > .el-header {
+    .adminui-main > .el-container .el-header {
         @extend .headerPublic;
     }
-    .adminui-main > .el-container > .el-container > .el-header .left-panel {
+    .adminui-main > .el-container .el-header .left-panel {
         display: block;
     }
-    .adminui-main > .el-container > .el-container > .el-header .right-panel {
+    .adminui-main > .el-container .el-header .right-panel {
         display: block;
         margin-top: 1rem;
     }

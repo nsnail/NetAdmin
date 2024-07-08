@@ -19,7 +19,6 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
     {
         // 从请求头中读取用户信息
         var associatedUser = GetAssociatedUser(context);
-
         var auditData = new CreateRequestLogReq {
                                                     Duration           = duration
                                                   , Method             = context.Request.Method
@@ -48,6 +47,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
                                                                              ?.MapToIPv4()
                                                                              .ToString()
                                                                              .IpV4ToInt32()
+                                                  , TraceId = context.TraceIdentifier
                                                 };
 
         // 打印日志

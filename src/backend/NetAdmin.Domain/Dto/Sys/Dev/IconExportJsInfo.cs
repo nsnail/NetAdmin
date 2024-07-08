@@ -29,6 +29,7 @@ public sealed record IconExportJsInfo : DataAbstraction
         /// <summary>
         ///     Icons
         /// </summary>
+        [JsonInclude]
         public ICollection<string> Icons { get; init; }
 
         /// <summary>
