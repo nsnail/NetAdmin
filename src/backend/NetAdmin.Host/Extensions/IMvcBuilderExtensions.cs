@@ -68,7 +68,7 @@ public static class IMvcBuilderExtensions
     /// <summary>
     ///     设置Json选项
     /// </summary>
-    public static void SetJsonOptions(bool enumToString, JsonOptions options)
+    private static void SetJsonOptions(bool enumToString, JsonOptions options)
     {
         ////////////////////////////// json -> object
 

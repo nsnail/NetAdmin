@@ -10,5 +10,5 @@ public sealed class IndicatorAttribute(string indicate) : Attribute
     /// <summary>
     ///     状态指示
     /// </summary>
-    public string Indicate { get; init; } = indicate;
+    public string Indicate { get; } = indicate;
 }

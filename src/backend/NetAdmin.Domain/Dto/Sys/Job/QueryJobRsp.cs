@@ -10,6 +10,7 @@ namespace NetAdmin.Domain.Dto.Sys.Job;
 public record QueryJobRsp : Sys_Job
 {
     /// <inheritdoc cref="Sys_Job.LastStatusCode" />
+    [JsonInclude]
     public new virtual string LastStatusCode =>
         #pragma warning disable IDE0072
         base.LastStatusCode switch {

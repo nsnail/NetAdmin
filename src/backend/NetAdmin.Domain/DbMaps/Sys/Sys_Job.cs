@@ -61,7 +61,7 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     [Column]
     [Ignore]
     [JsonIgnore]
-    public virtual HttpStatusCode? LastStatusCode { get; init; }
+    public HttpStatusCode? LastStatusCode { get; init; }
 
     /// <summary>
     ///     下次执行时间

@@ -247,6 +247,10 @@ tool.groupSeparator = function (num) {
         })
         .replace(/\.$/, '')
 }
+// unicode解码
+tool.unicodeDecode = function (str) {
+    return str.replace(/\\u([0-9a-fA-F]{4})/g, (match, grp) => String.fromCharCode(parseInt(grp, 16)))
+}
 // 属性排序
 tool.sortProperties = function (obj) {
     const sortedKeys = Object.keys(obj).sort()

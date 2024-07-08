@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside v-loading="loading" width="30rem">
+        <el-aside v-loading="loading" width="40rem">
             <el-container>
                 <el-header>
                     <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable></el-input>
@@ -23,6 +23,7 @@
                                 <span>{{ data.name }} {{ data.code }}</span>
                                 <span class="btn">
                                     <el-button-group size="small">
+                                        <el-button @click.stop="add(data.id, data.code)" icon="el-icon-plus"></el-button>
                                         <el-button @click.stop="edit(data)" icon="el-icon-edit"></el-button>
                                         <el-popconfirm :title="$t('确定删除 {item} 吗？', { item: data.name })" @confirm="del(data)" width="20rem">
                                             <template #reference>
@@ -36,7 +37,9 @@
                     </el-tree>
                 </el-main>
                 <el-footer>
-                    <el-button @click="add" icon="el-icon-plus" size="small" style="width: 100%" type="primary">{{ $t('字典分类') }}</el-button>
+                    <el-button @click="add(form.catalogId)" icon="el-icon-plus" size="small" style="width: 100%" type="primary">{{
+                        $t('字典分类')
+                    }}</el-button>
                 </el-footer>
             </el-container>
         </el-aside>
@@ -105,8 +108,8 @@ export default {
             return targetText.indexOf(value) !== -1
         },
         //字典目录增加
-        async add() {
-            this.dialog.save = { mode: 'add' }
+        async add(id, code) {
+            this.dialog.save = { mode: 'add', data: { catalogId: id, code: code + '>' } }
         },
         //字典目录编辑
         async edit(data) {

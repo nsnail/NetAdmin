@@ -279,17 +279,16 @@ public sealed class UserService(
     public async Task<int> ResetPasswordAsync(ResetPasswordReq req)
     {
         req.ThrowIfInvalid();
-        if (await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq).ConfigureAwait(false)) {
-            var dto = (await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestDevice)
-                                .ToOneAsync(a => new { a.Version, a.Id })
-                                .ConfigureAwait(false)).Adapt<Sys_User>() with {
-                                                                                   Password = req.PasswordText.Pwd()
-                                                                                       .Guid()
-                                                                               };
-            return await UpdateAsync(dto, [nameof(Sys_User.Password)]).ConfigureAwait(false);
+        if (!await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq).ConfigureAwait(false)) {
+            throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
-        throw new NetAdminInvalidOperationException(Ln.验证码不正确);
+        var dto = (await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestDevice)
+                            .ToOneAsync(a => new { a.Version, a.Id })
+                            .ConfigureAwait(false)).Adapt<Sys_User>() with {
+                                                                               Password = req.PasswordText.Pwd().Guid()
+                                                                           };
+        return await UpdateAsync(dto, [nameof(Sys_User.Password)]).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

@@ -6,16 +6,16 @@ namespace NetAdmin.Domain.Dto.Dependency;
 public sealed record PagedQueryRsp<T>(int Page, int PageSize, long Total, IEnumerable<T> Rows) : IPagedInfo
     where T : DataAbstraction
 {
+    /// <summary>
+    ///     数据行
+    /// </summary>
+    public IEnumerable<T> Rows { get; } = Rows;
+
     /// <inheritdoc cref="IPagedInfo.Page" />
     public int Page { get; init; } = Page;
 
     /// <inheritdoc cref="IPagedInfo.PageSize" />
     public int PageSize { get; init; } = PageSize;
-
-    /// <summary>
-    ///     数据行
-    /// </summary>
-    public IEnumerable<T> Rows { get; init; } = Rows;
 
     /// <summary>
     ///     数据总条

@@ -19,5 +19,5 @@ public abstract class NetAdminException(string message, Exception innerException
     /// <summary>
     ///     错误码
     /// </summary>
-    public ErrorCodes Code { get; init; }
+    public ErrorCodes Code { get; }
 }

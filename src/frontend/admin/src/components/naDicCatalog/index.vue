@@ -1,5 +1,6 @@
 <template>
     <el-cascader
+        v-bind="$attrs"
         v-model="data"
         :options="options"
         :placeholder="placeholder"

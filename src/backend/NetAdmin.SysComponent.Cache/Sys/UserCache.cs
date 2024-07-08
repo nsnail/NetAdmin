@@ -120,48 +120,6 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
-    public Task RemoveCheckMobileAvailableAsync(CheckMobileAvailableReq req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    public Task RemoveCheckUserNameAvailableAsync(CheckUserNameAvailableReq req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    public Task RemoveLoginByPwdAsync(LoginByPwdReq req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    public Task RemoveLoginBySmsAsync(LoginBySmsReq req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    public Task RemoveQueryProfileAsync(QueryReq<QueryUserProfileReq> req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    public Task RemoveRegisterAsync(RegisterUserReq req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
-    public Task RemoveResetPasswordAsync(ResetPasswordReq req)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc />
     public Task RemoveUserInfoAsync()
     {
         return RemoveAsync(GetCacheKey( //

@@ -16,7 +16,10 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
+                <el-button
+                    @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
+                    icon="el-icon-plus"
+                    type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
             </div>
         </el-header>

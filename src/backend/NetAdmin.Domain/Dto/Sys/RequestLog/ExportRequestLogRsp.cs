@@ -60,6 +60,12 @@ public record ExportRequestLogRsp : QueryRequestLogRsp
     public override string Method { get; init; }
 
     /// <inheritdoc />
+    [CsvIndex(9)]
+    [Ignore(false)]
+    [Name(nameof(Ln.跟踪编号))]
+    public override string TraceId { get; init; }
+
+    /// <inheritdoc />
     [Ignore]
     public override QueryUserRsp User { get; init; }
 

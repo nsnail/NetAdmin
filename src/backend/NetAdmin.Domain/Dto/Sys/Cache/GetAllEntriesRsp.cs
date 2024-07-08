@@ -34,6 +34,7 @@ public sealed record GetAllEntriesRsp : DataAbstraction
     /// <summary>
     ///     绝对过期时间
     /// </summary>
+    [JsonInclude]
     public long AbsExp { get; init; }
 
     /// <summary>
@@ -49,5 +50,6 @@ public sealed record GetAllEntriesRsp : DataAbstraction
     /// <summary>
     ///     滑动过期时间
     /// </summary>
+    [JsonInclude]
     public long SldExp { get; init; }
 }
