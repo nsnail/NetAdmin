@@ -17,7 +17,7 @@
                     <div class="jobMain">
                         <div class="title">
                             <h2>{{ job.jobName }}</h2>
-                            <p>{{ $t('上次执行：') }}<span v-time.tip="job.lastExecTime"></span></p>
+                            <p>{{ $t('上次执行：') }}<span v-time.tip="job.lastExecTime" :title="job.lastExecTime"></span></p>
                             <p>
                                 下次执行：<span>{{ job.nextExecTime }}</span>
                             </p>

@@ -3,7 +3,10 @@
         <template #default="{ row }">
             <div class="flex">
                 <template v-for="(item, i) in Array.isArray(row[prop]) ? row[prop] : [row[prop]]" :key="i">
-                    <el-tag v-if="item" @click="$emit('click', item)">
+                    <el-tag
+                        v-if="item"
+                        :type="['success', 'danger', 'info', 'primary', 'warning'][$TOOL.crypto.hashCode(item[field]) % 5]"
+                        @click="$emit('click', item)">
                         {{ item ? item[field] : '' }}
                     </el-tag>
                 </template>

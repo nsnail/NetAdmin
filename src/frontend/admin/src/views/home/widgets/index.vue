@@ -151,6 +151,10 @@ export default {
         }
     },
     created() {
+        const roleDefaultGrid = this.$GLOBAL.user.roles.filter((x) => x.displayDashboard).sort((x, y) => y.id - x.id)[0].dashboardLayout
+        if (roleDefaultGrid) {
+            this.defaultGrid = JSON.parse(roleDefaultGrid)
+        }
         this.loadGrid()
     },
     mounted() {

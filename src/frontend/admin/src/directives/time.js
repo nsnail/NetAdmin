@@ -34,7 +34,7 @@ const Time = {
         return date.getFullYear() + '-' + month + '-' + day
     },
     //转换时间
-    getFormateTime: function (timestamp) {
+    getFormatTime: function (timestamp) {
         timestamp = new Date(timestamp)
         const now = this.getUnix()
         const today = this.getTodayUnix()
@@ -48,10 +48,10 @@ const Time = {
             tip = '刚刚'
         } else if (timer < 3600) {
             tip = Math.floor(timer / 60) + '分钟前'
-        } else if (timer >= 3600 && timestamp - today >= 0) {
+        } else if (timer >= 3600 && (timestamp - today >= 0 || Math.floor(timer / 86400) <= 0)) {
             tip = Math.floor(timer / 3600) + '小时前'
         } else if (timer / 86400 <= 31) {
-            tip = Math.ceil(timer / 86400) + '天前'
+            tip = Math.floor(timer / 86400) + '天前'
         } else {
             tip = this.getLastDate(timestamp)
         }
@@ -68,9 +68,9 @@ export default (el, binding) => {
         value = value * 1000
     }
     if (modifiers.tip) {
-        el.innerHTML = Time.getFormateTime(value)
+        el.innerHTML = Time.getFormatTime(value)
         el.__timeout__ = setInterval(() => {
-            el.innerHTML = Time.getFormateTime(value)
+            el.innerHTML = Time.getFormatTime(value)
         }, 60000)
     } else {
         const format = el.getAttribute('format') || undefined
