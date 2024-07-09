@@ -49,7 +49,7 @@
                                     </div>
                                     <div>
                                         <p>{{ msg.sender.userName }}</p>
-                                        <p v-time.tip="msg.createdTime"></p>
+                                        <p v-time.tip="msg.createdTime" :title="msg.createdTime"></p>
                                     </div>
                                 </div>
                             </template>

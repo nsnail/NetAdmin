@@ -113,7 +113,12 @@
                 <el-table-column type="selection" />
                 <na-col-id :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('作业名称')" prop="jobName" show-overflow-tooltip sortable="custom" />
-                <el-table-column :label="$t('执行计划')" align="right" prop="executionCron" sortable="custom" width="150" />
+                <el-table-column :label="$t('执行计划')" align="right" prop="executionCron" sortable="custom" width="150">
+                    <template #default="{ row }">
+                        <p>{{ row.cronDescription }}</p>
+                        <p>{{ row.executionCron }}</p>
+                    </template>
+                </el-table-column>
                 <na-col-indicator
                     :label="$t('作业状态')"
                     :options="
@@ -151,7 +156,7 @@
                     </el-table-column>
                     <el-table-column :label="$t('时间')" align="right" prop="lastExecTime" sortable="custom" width="100">
                         <template #default="{ row }">
-                            <span v-if="row.lastExecTime" v-time.tip="row.lastExecTime"></span>
+                            <span v-if="row.lastExecTime" v-time.tip="row.lastExecTime" :title="row.lastExecTime"></span>
                         </template>
                     </el-table-column>
                     <el-table-column

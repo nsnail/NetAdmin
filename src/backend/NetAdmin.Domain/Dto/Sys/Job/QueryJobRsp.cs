@@ -1,6 +1,8 @@
+using CronExpressionDescriptor;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Enums.Sys;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
+using Options = CronExpressionDescriptor.Options;
 
 namespace NetAdmin.Domain.Dto.Sys.Job;
 
@@ -9,6 +11,13 @@ namespace NetAdmin.Domain.Dto.Sys.Job;
 /// </summary>
 public record QueryJobRsp : Sys_Job
 {
+    /// <summary>
+    ///     Cron 表达式描述
+    /// </summary>
+    [JsonInclude]
+    public string CronDescription =>
+        ExpressionDescriptor.GetDescription(ExecutionCron, new Options { Locale = "zh-CN" });
+
     /// <inheritdoc cref="Sys_Job.LastStatusCode" />
     [JsonInclude]
     public new virtual string LastStatusCode =>

@@ -15,7 +15,6 @@
                             label: 'name',
                         }"
                         @node-click="click"
-                        default-expand-all
                         node-key="id"
                         ref="dic">
                         <template #default="{ _, data }">
