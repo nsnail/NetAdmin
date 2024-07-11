@@ -47,7 +47,7 @@
                         },
                     ]"
                     :vue="this"
-                    @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
+                    @reset="onReset"
                     @search="onSearch"
                     ref="search" />
             </div>
@@ -174,6 +174,11 @@ export default {
         if (this.keywords) {
             this.query.keywords = this.keywords
         }
+        this.query.dynamicFilter.filters.push({
+            field: 'enabled',
+            operator: 'eq',
+            value: true,
+        })
     },
     data() {
         return {
@@ -265,6 +270,12 @@ export default {
             }
             this.$refs.table.refresh()
         },
+        //重置
+        onReset() {
+            Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
+            this.$refs.selectFilter.selected['enabled'] = [true]
+        },
+        //搜索
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
@@ -309,6 +320,12 @@ export default {
                 type: 'root',
             })
         }
+        this.$refs.search.keeps.push({
+            field: 'enabled',
+            value: true,
+            type: 'dy',
+        })
+        this.onReset()
     },
     props: ['keywords'],
     watch: {},

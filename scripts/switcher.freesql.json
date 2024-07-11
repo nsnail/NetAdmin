@@ -10,11 +10,11 @@
       "packages": [
         {
           "packageName": "FreeSql.NS",
-          "version": "3.2.821-ns1"
+          "version": "3.2.833-preview20260627-ns1"
         },
         {
           "packageName": "FreeSql.DbContext.NS",
-          "version": "3.2.821-ns1"
+          "version": "3.2.833-preview20260627-ns1"
         }
       ]
     }
