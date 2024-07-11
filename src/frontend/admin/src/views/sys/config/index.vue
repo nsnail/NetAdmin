@@ -19,12 +19,7 @@
         </el-header>
         <el-header>
             <div class="left-panel">
-                <na-search
-                    :controls="[]"
-                    :vue="this"
-                    @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
-                    @search="onSearch"
-                    ref="search" />
+                <na-search :controls="[]" :vue="this" @reset="onReset" @search="onSearch" ref="search" />
             </div>
             <div class="right-panel">
                 <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
@@ -122,6 +117,11 @@ export default {
         if (this.keywords) {
             this.query.keywords = this.keywords
         }
+        this.query.dynamicFilter.filters.push({
+            field: 'enabled',
+            operator: 'eq',
+            value: true,
+        })
     },
     data() {
         return {
@@ -189,6 +189,12 @@ export default {
             }
             this.$refs.table.refresh()
         },
+        //重置
+        onReset() {
+            Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
+            this.$refs.selectFilter.selected['enabled'] = [true]
+        },
+        //搜索
         onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
@@ -218,6 +224,12 @@ export default {
                 type: 'root',
             })
         }
+        this.$refs.search.keeps.push({
+            field: 'enabled',
+            value: true,
+            type: 'dy',
+        })
+        this.onReset()
     },
     props: ['keywords'],
     watch: {},

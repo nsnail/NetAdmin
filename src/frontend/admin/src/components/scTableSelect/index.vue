@@ -65,7 +65,7 @@ import config from '@/config/tableSelect'
 export default {
     props: {
         modelValue: null,
-        apiObj: {
+        queryApi: {
             type: Object,
             default: () => {},
         },
@@ -143,7 +143,7 @@ export default {
                 [this.defaultProps.keyword]: this.keyword,
             }
             Object.assign(reqData, this.params, this.formData)
-            const res = await this.apiObj.post(reqData)
+            const res = await this.queryApi.post(reqData)
             const parseData = config.parseData(res)
             this.tableData = parseData.rows ?? []
             this.total = parseData.total

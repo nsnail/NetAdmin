@@ -10,10 +10,10 @@
         <ProjectReference Include="../NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="CronExpressionDescriptor" Version="2.33.0"/>
+        <PackageReference Include="CronExpressionDescriptor" Version="2.34.0"/>
         <PackageReference Include="Cronos" Version="0.8.4"/>
         <PackageReference Include="CsvHelper.NS" Version="33.0.2-ns2"/>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.6"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-preview.6.24328.4"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
     </ItemGroup>
 </Project>
