@@ -29,6 +29,7 @@ public static class Chars
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_MAX                 = "nvarchar(max)";
     public const string FLG_DB_FIELD_TYPE_SMALL_INT                    = "smallint";
     public const string FLG_DB_FIELD_TYPE_TEXT                         = "text";
+    public const string FLG_DB_FIELD_TYPE_TINY_INT                     = "tinyint";
     public const string FLG_DB_FIELD_TYPE_VARCHAR                      = "varchar";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_1022                 = "varchar(1022)";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_127                  = "varchar(127)";
@@ -54,6 +55,7 @@ public static class Chars
     public const string FLG_HTTP_HEADER_KEY_USER_AGENT                 = "User-Agent";
     public const string FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN             = "X-ACCESS-TOKEN";
     public const string FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN_HEADER_KEY  = "X-Authorization";
+    public const string FLG_HTTP_HEADER_KEY_X_CACHE_CONTROL            = "X-Cache-Control";
     public const string FLG_HTTP_HEADER_KEY_X_FORWARDED_FOR            = "X-Forwarded-For";
     public const string FLG_HTTP_HEADER_KEY_X_REAL_IP                  = "X-Real-IP";
     public const string FLG_HTTP_HEADER_VALUE_APPLICATION_JSON         = "application/json";
@@ -61,6 +63,7 @@ public static class Chars
     public const string FLG_HTTP_HEADER_VALUE_APPLICATION_URLENCODED   = "application/x-www-form-urlencoded";
     public const string FLG_HTTP_HEADER_VALUE_ATTACHMENT               = "attachment";
     public const string FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA              = "Bearer";
+    public const string FLG_HTTP_HEADER_VALUE_NO_CACHE                 = "no-cache";
     public const string FLG_HTTP_METHOD_CONNECT                        = "CONNECT";
     public const string FLG_HTTP_METHOD_DELETE                         = "DELETE";
     public const string FLG_HTTP_METHOD_GET                            = "GET";

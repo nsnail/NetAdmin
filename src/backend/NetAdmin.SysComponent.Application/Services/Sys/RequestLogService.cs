@@ -8,7 +8,9 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IRequestLogService" />
-public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo) //
+public sealed class RequestLogService(
+    BasicRepository<Sys_RequestLog, long> rpo
+  , RequestLogDetailService               requestLogDetailService) //
     : RepositoryService<Sys_RequestLog, long, IRequestLogService>(rpo), IRequestLogService
 {
     private static readonly Regex _regex = new(Chars.RGXL_IP_V4);
@@ -43,6 +45,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
     {
         req.ThrowIfInvalid();
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
+        _ = await requestLogDetailService.CreateAsync(req.Detail).ConfigureAwait(false);
         return ret.Adapt<QueryRequestLogRsp>();
     }
 
@@ -68,7 +71,17 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
     public Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        return ExportAsync<QueryRequestLogReq, ExportRequestLogRsp>(QueryInternal, req, Ln.请求日志导出);
+        return ExportAsync<QueryRequestLogReq, ExportRequestLogRsp>( //
+            QueryInternal, req, Ln.请求日志导出, a => new {
+                                                        a.Id
+                                                      , Api = new { a.Api.Id }
+                                                      , a.CreatedClientIp
+                                                      , a.CreatedTime
+                                                      , a.Duration
+                                                      , a.HttpMethod
+                                                      , a.HttpStatusCode
+                                                      , Owner = new { a.Owner.UserName }
+                                                    });
     }
 
     /// <inheritdoc />
@@ -76,17 +89,18 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req })
+                        .Include(a => a.Detail)
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryRequestLogRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
+    public async Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
 
-        var ret = await QueryInternal(req with { Order = Orders.None })
+        var ret = await QueryInternal(req with { Order = Orders.None }, false)
                         #if DBTYPE_SQLSERVER
                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
                         #endif
@@ -107,7 +121,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
@@ -121,11 +135,10 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(
-        QueryReq<QueryRequestLogReq> req)
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req with { Order = Orders.None })
+        var ret = await QueryInternal(req with { Order = Orders.None }, false)
                         #if DBTYPE_SQLSERVER
                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
                         #endif
@@ -148,42 +161,40 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
                      #endif
                      .Count(out var total);
-        object list = req.DynamicFilter?.Filters?.Exists(
-            x => nameof(QueryRequestLogReq.ApiId).Equals(x.Field, StringComparison.OrdinalIgnoreCase) &&
-                 Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD.Equals( //
-                     x.Value.ToString(), StringComparison.OrdinalIgnoreCase)) ?? false
-            ? await select.ToListAsync(a => new {
-                                                    a.ApiId
-                                                  , ApiSummary = a.Api.Summary
-                                                  , a.CreatedClientIp
-                                                  , a.CreatedTime
-                                                  , a.Duration
-                                                  , a.Method
-                                                  , a.CreatedUserAgent
-                                                  , a.HttpStatusCode
-                                                  , a.Id
-                                                  , a.UserId
-                                                  , a.User
-                                                  , a.RequestBody
-                                                })
-                          .ConfigureAwait(false)
-            : await select.ToListAsync(a => new {
-                                                    a.ApiId
-                                                  , ApiSummary = a.Api.Summary
-                                                  , a.CreatedClientIp
-                                                  , a.CreatedTime
-                                                  , a.Duration
-                                                  , a.Method
-                                                  , a.CreatedUserAgent
-                                                  , a.HttpStatusCode
-                                                  , a.Id
-                                                  , a.UserId
-                                                  , a.User
-                                                })
-                          .ConfigureAwait(false);
+
+        object ret
+            = req.DynamicFilter?.Filters?.Exists(
+                x => nameof(QueryRequestLogReq.ApiPathCrc32).Equals(x.Field, StringComparison.OrdinalIgnoreCase) &&
+                     x.Value.ToString().Int32() == Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD.Crc32()) ?? false
+                ? await select.Include(a => a.Detail)
+                              .ToListAsync(a => new {
+                                                        Api   = new { a.Api.Summary, a.Api.Id }
+                                                      , Owner = new { a.Owner.Id, a.Owner.UserName }
+                                                      , a.CreatedClientIp
+                                                      , a.CreatedTime
+                                                      , a.Duration
+                                                      , a.HttpMethod
+                                                      , a.HttpStatusCode
+                                                      , a.Id
+                                                      , a.ApiPathCrc32
+                                                      , Detail = new { a.Detail.RequestBody, a.Detail.CreatedUserAgent }
+                                                    })
+                              .ConfigureAwait(false)
+                : await select.ToListAsync(a => new {
+                                                        Api   = new { a.Api.Summary, a.Api.Id }
+                                                      , Owner = new { a.Owner.Id, a.Owner.UserName }
+                                                      , a.CreatedClientIp
+                                                      , a.CreatedTime
+                                                      , a.Duration
+                                                      , a.HttpMethod
+                                                      , a.HttpStatusCode
+                                                      , a.Id
+                                                      , a.ApiPathCrc32
+                                                    })
+                              .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryRequestLogRsp>(req.Page, req.PageSize, total
-                                                   , list.Adapt<IEnumerable<QueryRequestLogRsp>>());
+                                                   , ret.Adapt<IEnumerable<QueryRequestLogRsp>>());
     }
 
     /// <inheritdoc />
@@ -202,7 +213,17 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
 
     private ISelect<Sys_RequestLog> QueryInternal(QueryReq<QueryRequestLogReq> req)
     {
-        var ret = Rpo.Select.Include(a => a.Api).Include(a => a.User).WhereDynamicFilter(req.DynamicFilter);
+        return QueryInternal(req, true);
+    }
+
+    private ISelect<Sys_RequestLog> QueryInternal(QueryReq<QueryRequestLogReq> req, bool include)
+    {
+        var ret = Rpo.Select;
+        if (include) {
+            ret = ret.Include(a => a.Api).Include(a => a.Owner);
+        }
+
+        ret = ret.WhereDynamicFilter(req.DynamicFilter);
         if (req.Filter?.Id is not 0) {
             ret = ret.WhereDynamic(req.Filter);
         }
@@ -210,10 +231,11 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo)
         if (req.Keywords?.Length > 0) {
             ret = _regex.IsMatch(req.Keywords)
                 ? ret.Where(a => a.CreatedClientIp == req.Keywords.IpV4ToInt32())
-                : ret.Where(a => a.Id            == req.Keywords.Int64Try(0) || a.UserId == req.Keywords.Int64Try(0) ||
-                                 a.User.UserName == req.Keywords             || a.RequestBody.Contains(req.Keywords));
+                : ret.Where(a => a.Id == req.Keywords.Int64Try(0) || a.OwnerId == req.Keywords.Int64Try(0) ||
+                                 a.Owner.UserName == req.Keywords);
         }
 
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

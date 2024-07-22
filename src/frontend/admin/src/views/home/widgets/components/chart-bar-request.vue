@@ -6,16 +6,13 @@
                     file: 'sys_log',
                     name: 'getBarChart',
                     label: '今日',
-                    value: [tool.dateFormat(new Date(), 'yyyy-MM-dd'), tool.dateFormat(new Date(), 'yyyy-MM-dd')],
+                    value: ['DateTime.Now.Date', 'DateTime.Now.Date.AddDays(1)'],
                 },
                 {
                     file: 'sys_log',
                     name: 'getBarChart',
                     label: '昨日',
-                    value: [
-                        tool.dateFormat(new Date().setDate(new Date().getDate() - 1), 'yyyy-MM-dd'),
-                        tool.dateFormat(new Date().setDate(new Date().getDate() - 1), 'yyyy-MM-dd'),
-                    ],
+                    value: ['DateTime.Now.Date.AddDays(-1)', 'DateTime.Now.Date'],
                 },
             ]"
             height="20rem"></chart-bar>

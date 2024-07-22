@@ -37,6 +37,42 @@ public sealed record DynamicFilterInfo : DataAbstraction
     /// </summary>
     public static implicit operator FreeSql.Internal.Model.DynamicFilterInfo(DynamicFilterInfo d)
     {
-        return d.Adapt<FreeSql.Internal.Model.DynamicFilterInfo>();
+        var ret = d.Adapt<FreeSql.Internal.Model.DynamicFilterInfo>();
+        ProcessDynamicFilter(ret);
+        return ret;
+    }
+
+    private static void ProcessDynamicFilter(FreeSql.Internal.Model.DynamicFilterInfo d)
+    {
+        if (d?.Filters != null) {
+            foreach (var filterInfo in d.Filters) {
+                ProcessDynamicFilter(filterInfo);
+            }
+        }
+
+        if (d?.Operator != DynamicFilterOperator.DateRange) {
+            return;
+        }
+
+        var values = ((JsonElement)d.Value).Deserialize<string[]>();
+        if (!DateTime.TryParse(values[0], CultureInfo.InvariantCulture, out _)) {
+            var result = values[0]
+                         .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
+                         .ConfigureAwait(false)
+                         .GetAwaiter()
+                         .GetResult();
+            values[0] = $"{result:yyyy-MM-dd HH:mm:ss}";
+        }
+
+        if (!DateTime.TryParse(values[1], CultureInfo.InvariantCulture, out _)) {
+            var result = values[1]
+                         .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
+                         .ConfigureAwait(false)
+                         .GetAwaiter()
+                         .GetResult();
+            values[1] = $"{result:yyyy-MM-dd HH:mm:ss}";
+        }
+
+        d.Value = values;
     }
 }

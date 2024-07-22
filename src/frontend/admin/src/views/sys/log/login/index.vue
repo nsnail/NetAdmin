@@ -47,7 +47,6 @@
                 :params="query"
                 :query-api="$API.sys_log.pagedQuery"
                 :vue="this"
-                @row-click="rowClick"
                 ref="table"
                 remote-filter
                 remote-sort
@@ -60,14 +59,23 @@
                         {{ row.httpStatusCode === 200 ? '成功' : '失败' }}
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('登录名')" prop="loginName" width="150" />
+                <el-table-column :label="$t('登录名')" prop="detail.loginName" width="150" />
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="{ row }">
                         <na-ip :ip="row.createdClientIp"></na-ip>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
-                <el-table-column :label="$t('用户代理')" prop="createdUserAgent" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('操作系统')" align="center" prop="detail.os" width="150" />
+                <el-table-column :label="$t('用户代理')" prop="detail.createdUserAgent" show-overflow-tooltip sortable="custom" />
+                <na-col-operation
+                    :buttons="[
+                        {
+                            icon: 'el-icon-view',
+                            click: rowClick,
+                        },
+                    ]"
+                    :vue="this"
+                    width="70" />
             </sc-table>
         </el-main>
     </el-container>
@@ -84,13 +92,10 @@ export default {
     },
     computed: {},
     created() {
-        if (this.keywords) {
-            this.query.keywords = this.keywords
-        }
         this.query.dynamicFilter.filters.push({
-            field: 'apiId',
+            field: 'apiPathCrc32',
             operator: 'eq',
-            value: 'api/sys/user/login.by.pwd',
+            value: '1290209789',
         })
     },
     data() {
@@ -110,6 +115,7 @@ export default {
                     ],
                 },
                 filter: {},
+                keywords: this.keywords,
             },
             selection: [],
         }
@@ -124,11 +130,11 @@ export default {
         },
         //搜索
         onSearch(form) {
-            if (this.query.dynamicFilter.filters.findIndex((x) => x.field === 'apiId') < 0) {
+            if (this.query.dynamicFilter.filters.findIndex((x) => x.field === 'apiPathCrc32') < 0) {
                 this.query.dynamicFilter.filters.push({
-                    field: 'apiId',
+                    field: 'apiPathCrc32',
                     operator: 'eq',
-                    value: 'api/sys/user/login.by.pwd',
+                    value: '1290209789',
                 })
             }
             if (Array.isArray(form.dy.createdTime)) {
@@ -174,7 +180,7 @@ export default {
                 type: 'root',
             })
         }
-        this.$refs.search.form.dy.apiId = 'api/sys/user/login.by.pwd'
+        this.$refs.search.form.dy['apiPathCrc32'] = '1290209789'
         this.$refs.search.form.dy.createdTime = [
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
             `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,

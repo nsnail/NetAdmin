@@ -42,17 +42,17 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
     /// <summary>
     ///     获取作业记录条形图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req);
+    Task<IEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req);
 
     /// <summary>
     ///     状态码分组作业记录饼图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req);
+    Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req);
 
     /// <summary>
     ///     名称分组作业记录饼图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req);
+    Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req);
 
     /// <summary>
     ///     分页查询作业记录

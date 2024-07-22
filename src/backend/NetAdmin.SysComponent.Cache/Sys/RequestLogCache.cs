@@ -18,9 +18,22 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     }
 
     /// <inheritdoc />
+    #if !DEBUG
+    public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
+    #else
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
+        #endif
     {
+        #if !DEBUG
+        var ret = await GetOrCreateAsync(                                              //
+                GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
+              , async () => (long?)await Service.CountAsync(req).ConfigureAwait(false)
+              , TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT))
+            .ConfigureAwait(false);
+        return ret ?? 0;
+        #else
         return Service.CountAsync(req);
+        #endif
     }
 
     /// <inheritdoc />
@@ -54,11 +67,11 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.GetBarChartAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetBarChartAsync(req);
@@ -66,11 +79,11 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.GetPieChartByApiSummaryAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetPieChartByApiSummaryAsync(req);
@@ -78,11 +91,11 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.GetPieChartByHttpStatusCodeAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetPieChartByHttpStatusCodeAsync(req);

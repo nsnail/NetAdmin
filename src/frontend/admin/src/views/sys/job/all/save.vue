@@ -58,6 +58,22 @@
                     <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
                         <el-input v-model="form.requestUrl" clearable />
                     </el-form-item>
+                    <el-form-item :label="$t('随机延时')">
+                        <div class="flex gap05">
+                            <el-input
+                                v-model="form.randomDelayBegin"
+                                :placeholder="$t('起始值（毫秒）')"
+                                class="w15"
+                                clearable
+                                oninput="value=value.replace(/[^0-9]/g,'')" />
+                            <el-input
+                                v-model="form.randomDelayEnd"
+                                :placeholder="$t('结束值（毫秒）')"
+                                class="w15"
+                                clearable
+                                oninput="value=value.replace(/[^0-9]/g,'')" />
+                        </div>
+                    </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('作业状态')" prop="status">
                         <el-input v-model="form.status" clearable />
                     </el-form-item>
@@ -127,7 +143,7 @@ export default {
                 requestHeader: `{ "Content-Type": "application/json" }`,
                 requestBody: '{}',
             },
-            loading: false,
+            loading: true,
             mode: 'add',
             //验证规则
             rules: {

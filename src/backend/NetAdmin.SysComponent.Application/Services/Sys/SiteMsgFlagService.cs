@@ -119,6 +119,8 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
     private ISelect<Sys_SiteMsgFlag> QueryInternal(QueryReq<QuerySiteMsgFlagReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

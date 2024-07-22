@@ -66,7 +66,18 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         }
 
         var request = BuildRequest(job);
-        var sw      = new Stopwatch();
+
+        // 随机延时
+        if (job.RandomDelayBegin is > 0 && job.RandomDelayEnd is > 0) {
+            var (start, end) = (job.RandomDelayBegin.Value, job.RandomDelayEnd.Value);
+            if (start > end) {
+                (start, end) = (end, start);
+            }
+
+            await Task.Delay(new[] { start, end }.Rand(), CancellationToken.None).ConfigureAwait(false);
+        }
+
+        var sw = new Stopwatch();
         sw.Start();
         var rsp = await request.SendAsync(CancellationToken.None).ConfigureAwait(false);
         if (rsp.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden) {

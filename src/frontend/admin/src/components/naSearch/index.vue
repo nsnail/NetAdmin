@@ -94,7 +94,7 @@ export default {
         return {
             dateShortCuts: [
                 {
-                    text: this.$t('今天'),
+                    text: this.$t('今日'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -102,7 +102,7 @@ export default {
                     },
                 },
                 {
-                    text: this.$t('昨天'),
+                    text: this.$t('昨日'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -111,7 +111,17 @@ export default {
                     },
                 },
                 {
-                    text: this.$t('最近三天'),
+                    text: this.$t('后退一日'),
+                    value: () => {
+                        try {
+                            const start = new Date(new Date(this.form.dy.createdTime[0]) - 3600 * 1000 * 24)
+                            const end = new Date(new Date(this.form.dy.createdTime[1]) - 3600 * 1000 * 24)
+                            return [start, end]
+                        } catch {}
+                    },
+                },
+                {
+                    text: this.$t('最近三日'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
@@ -340,6 +350,16 @@ export default {
                         const end = new Date()
                         start.setTime(start.getTime() - 3600 * 1000)
                         return [start, end]
+                    },
+                },
+                {
+                    text: this.$t('后退一时'),
+                    value: () => {
+                        try {
+                            const start = new Date(new Date(this.form.dy.createdTime[0]) - 3600 * 1000)
+                            const end = new Date(new Date(this.form.dy.createdTime[1]) - 3600 * 1000)
+                            return [start, end]
+                        } catch {}
                     },
                 },
                 {

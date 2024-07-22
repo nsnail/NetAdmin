@@ -979,7 +979,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
     {
         return default;
     }
@@ -1075,7 +1075,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
     {
         return default;
     }
@@ -1083,7 +1083,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
     {
         return default;
     }
@@ -1099,7 +1099,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
     {
         return default;
     }
@@ -1107,8 +1107,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(
-        QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req)
     {
         return default;
     }
@@ -1116,7 +1115,7 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
     {
         return default;
     }

@@ -104,10 +104,10 @@ public sealed class SqlAuditor : ISingleton
             case nameof(IFieldCreatedUser.CreatedUserName):
                 SetCreatedUserName(e, userInfo);
                 break;
-            case nameof(IFieldCreatedClient.CreatedClientIp):
+            case nameof(IFieldCreatedClientIp.CreatedClientIp):
                 SetCreatedClientIp(e);
                 break;
-            case nameof(IFieldCreatedClient.CreatedUserAgent):
+            case nameof(IFieldCreatedClientUserAgent.CreatedUserAgent):
                 SetCreatedUserAgent(e);
                 break;
             default:

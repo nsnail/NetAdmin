@@ -8,6 +8,12 @@ namespace NetAdmin.Domain.Contexts;
 public sealed record ContextUserToken : DataAbstraction
 {
     /// <summary>
+    ///     部门编号
+    /// </summary>
+    /// ReSharper disable once MemberCanBePrivate.Global
+    public long DeptId { get; init; }
+
+    /// <summary>
     ///     用户编号
     /// </summary>
     /// ReSharper disable once MemberCanBePrivate.Global
@@ -39,6 +45,8 @@ public sealed record ContextUserToken : DataAbstraction
     /// </summary>
     public static ContextUserToken Create(QueryUserRsp user)
     {
-        return new ContextUserToken { Id = user.Id, Token = user.Token, UserName = user.UserName };
+        return new ContextUserToken {
+                                        Id = user.Id, Token = user.Token, UserName = user.UserName, DeptId = user.DeptId
+                                    };
     }
 }

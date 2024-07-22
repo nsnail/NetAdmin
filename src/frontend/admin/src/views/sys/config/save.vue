@@ -60,7 +60,7 @@ export default {
             form: {
                 enabled: true,
             },
-            loading: false,
+            loading: true,
             mode: 'add',
             //验证规则
             rules: {

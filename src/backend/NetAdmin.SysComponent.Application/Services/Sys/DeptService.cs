@@ -149,6 +149,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
             ret = ret.AsTreeCte();
         }
 
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

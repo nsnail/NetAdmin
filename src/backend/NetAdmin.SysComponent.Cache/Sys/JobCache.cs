@@ -85,11 +85,11 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.GetRecordBarChartAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetRecordBarChartAsync(req);
@@ -97,12 +97,11 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(
-        QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.GetRecordPieChartByHttpStatusCodeAsync(req)
           , TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
@@ -111,11 +110,11 @@ public sealed class JobCache(IDistributedCache cache, IJobService service)
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.GetRecordPieChartByNameAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetRecordPieChartByNameAsync(req);

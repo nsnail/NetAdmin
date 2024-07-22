@@ -505,6 +505,10 @@ textarea {
     width: 100%;
 }
 
+.h100p {
+    height: 100%;
+}
+
 .text-center {
     text-align: center;
 }
@@ -527,4 +531,24 @@ textarea {
 
 .font-monospace {
     font-family: 'Lucida Console', 'Microsoft YaHei', monospace;
+}
+
+.trace-log {
+    font-family: 'Lucida Console', 'Microsoft YaHei', monospace;
+
+    &:after {
+        content: '';
+        margin: 2rem 0;
+        border-bottom: var(--el-color-primary) 1px dashed;
+        display: block;
+    }
+
+    .w15 {
+        font-weight: bold;
+    }
+}
+
+.keywords-highlight {
+    background-color: yellow;
+    color: var(--el-color-black);
 }

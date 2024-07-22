@@ -11,20 +11,19 @@ public sealed record SqlCommandAfterEvent : SqlCommandBeforeEvent
     public SqlCommandAfterEvent(CommandAfterEventArgs e) //
         : base(e)
     {
-        ElapsedMicroseconds = (long)((double)e.ElapsedTicks / Stopwatch.Frequency * 1_000_000);
+        ElapsedMilliseconds = (long)((double)e.ElapsedTicks / Stopwatch.Frequency * 1_000);
         EventId             = nameof(SqlCommandAfterEvent);
     }
 
     /// <summary>
-    ///     耗时（单位：微秒）
+    ///     耗时（单位：毫秒）
     /// </summary>
     /// de
-    private long ElapsedMicroseconds { get; }
+    private long ElapsedMilliseconds { get; }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {2} ms {1}", Id
-                           , Sql?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_SQL), ElapsedMicroseconds / 1000);
+        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {2} ms {1}", Id, Sql, ElapsedMilliseconds);
     }
 }

@@ -99,8 +99,8 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     public Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.QueryAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
         return Service.QueryAsync(req);

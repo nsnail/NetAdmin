@@ -108,13 +108,16 @@ public sealed class ApiService(
         QueryApiRsp SelectQueryApiRsp(IGrouping<TypeInfo, ControllerActionDescriptor> group)
         {
             var first = group.First()!;
+
+            var id = Regex.Replace( //
+                first.AttributeRouteInfo!.Template!, $"/{first.ActionName}$", string.Empty);
             return new QueryApiRsp {
-                                       Summary = xmlCommentReader.GetComments(group.Key)
-                                     , Name    = first.ControllerName
-                                     , Id = Regex.Replace( //
-                                           first.AttributeRouteInfo!.Template!, $"/{first.ActionName}$", string.Empty)
+                                       Summary   = xmlCommentReader.GetComments(group.Key)
+                                     , Name      = first.ControllerName
+                                     , Id        = id
                                      , Children  = GetChildren(group)
                                      , Namespace = regex.Match(group.Key.Namespace!).Groups[1].Value.ToLowerInvariant()
+                                     , PathCrc32 = id.Crc32()
                                    };
         }
     }
@@ -136,19 +139,25 @@ public sealed class ApiService(
     private IEnumerable<QueryApiRsp> GetChildren(IEnumerable<ControllerActionDescriptor> actionDescriptors)
     {
         return actionDescriptors //
-            .Select(x => new QueryApiRsp {
-                                             Summary = xmlCommentReader.GetComments(x.MethodInfo)
-                                           , Name    = x.ActionName
-                                           , Id      = x.AttributeRouteInfo!.Template
-                                           , Method = x.ActionConstraints?.OfType<HttpMethodActionConstraint>()
-                                                       .FirstOrDefault()
-                                                       ?.HttpMethods.First()
-                                         });
+            .Select(x => {
+                var id = x.AttributeRouteInfo!.Template;
+                return new QueryApiRsp {
+                                           Summary = xmlCommentReader.GetComments(x.MethodInfo)
+                                         , Name    = x.ActionName
+                                         , Id      = id
+                                         , Method = x.ActionConstraints?.OfType<HttpMethodActionConstraint>()
+                                                     .FirstOrDefault()
+                                                     ?.HttpMethods.First()
+                                         , PathCrc32 = id.Crc32()
+                                       };
+            });
     }
 
     private ISelect<Sys_Api> QueryInternal(QueryReq<QueryApiReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

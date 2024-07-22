@@ -1,3 +1,6 @@
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+
 namespace NetAdmin.Infrastructure.Extensions;
 
 /// <summary>
@@ -5,8 +8,24 @@ namespace NetAdmin.Infrastructure.Extensions;
 /// </summary>
 public static class StringExtensions
 {
-    private static readonly Regex _regex  = new("Options$");
-    private static readonly Regex _regex2 = new("Async$");
+    /// <summary>
+    ///     计算Crc32
+    /// </summary>
+    public static int Crc32(this string me)
+    {
+        return BitConverter.ToInt32(System.IO.Hashing.Crc32.Hash(Encoding.UTF8.GetBytes(me)));
+    }
+
+    /// <summary>
+    ///     执行C#代码
+    /// </summary>
+    public static Task<T> ExecuteCSharpCodeAsync<T>(this   string   me, Assembly[] assemblies
+                                                  , params string[] importNamespaces)
+    {
+        // 使用 Roslyn 编译并执行代码
+        return CSharpScript.EvaluateAsync<T>(
+            me, ScriptOptions.Default.WithReferences(assemblies).WithImports(importNamespaces));
+    }
 
     /// <summary>
     ///     object -> json
@@ -31,7 +50,7 @@ public static class StringExtensions
     public static string TrimEndAsync(this string me)
         #pragma warning restore VSTHRD200, ASA002, RCS1047
     {
-        return _regex2.Replace(me, string.Empty);
+        return TrimSuffix(me, "Async");
     }
 
     /// <summary>
@@ -39,14 +58,22 @@ public static class StringExtensions
     /// </summary>
     public static string TrimEndOptions(this string me)
     {
-        return _regex.Replace(me, string.Empty);
+        return TrimSuffix(me, "Options");
     }
 
     /// <summary>
     ///     去掉前部字符串
     /// </summary>
-    public static string TrimStart(this string me, string clearStr)
+    public static string TrimPrefix(this string me, string clearStr)
     {
         return Regex.Replace(me, $"^{clearStr}", string.Empty);
+    }
+
+    /// <summary>
+    ///     去掉尾部字符串
+    /// </summary>
+    public static string TrimSuffix(this string me, string clearStr)
+    {
+        return Regex.Replace(me, $"{clearStr}$", string.Empty);
     }
 }

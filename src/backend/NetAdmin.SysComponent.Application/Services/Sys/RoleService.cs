@@ -161,6 +161,8 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
                               a.Summary.Contains(req.Keywords));
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

@@ -10,8 +10,7 @@ public static class HttpRequestMessageExtensions
     /// </summary>
     public static async Task<HttpRequestMessage> LogAsync<T>(this HttpRequestMessage me, ILogger<T> logger)
     {
-        logger.Info(
-            $"HTTP Request {(await me.BuildJsonAsync().ConfigureAwait(false))?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT)}");
+        logger.Info($"HTTP Request {await me.BuildJsonAsync().ConfigureAwait(false)}");
         return me;
     }
 

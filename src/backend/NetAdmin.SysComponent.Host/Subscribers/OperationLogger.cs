@@ -18,13 +18,6 @@ public sealed class OperationLogger : IEventSubscriber
             return;
         }
 
-        // 跳过指定的请求
-        if (Array.Exists( //
-                GlobalStatic.LogSavingSkipApiIds
-              , x => x.Equals(operationEvent.Data.ApiId, StringComparison.OrdinalIgnoreCase))) {
-            return;
-        }
-
         operationEvent.Data.TruncateStrings();
         _ = await App.GetService<IRequestLogService>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
     }

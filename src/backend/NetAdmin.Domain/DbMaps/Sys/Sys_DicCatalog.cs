@@ -18,7 +18,7 @@ public record Sys_DicCatalog : VersionEntity
     /// <summary>
     ///     字典编码
     /// </summary>
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
     [Ignore]
     [JsonIgnore]
     public virtual string Code { get; init; }
@@ -34,7 +34,7 @@ public record Sys_DicCatalog : VersionEntity
     /// <summary>
     ///     字典名称
     /// </summary>
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
     [Ignore]
     [JsonIgnore]
     public virtual string Name { get; init; }

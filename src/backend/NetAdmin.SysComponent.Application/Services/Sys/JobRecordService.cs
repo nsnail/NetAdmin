@@ -80,7 +80,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryJobRecordReq> req)
+    public async Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
 
@@ -105,8 +105,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(
-        QueryReq<QueryJobRecordReq> req)
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
@@ -124,7 +123,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
@@ -178,6 +177,8 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
                          req.Keywords?.Length > 0
                        , a => a.JobId       == req.Keywords.Int64Try(0) || a.Id == req.Keywords.Int64Try(0) ||
                               a.Job.JobName == req.Keywords);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

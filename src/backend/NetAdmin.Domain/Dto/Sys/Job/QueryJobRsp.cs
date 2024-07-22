@@ -90,6 +90,14 @@ public record QueryJobRsp : Sys_Job
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override long? NextTimeId { get; init; }
 
+    /// <inheritdoc />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override int? RandomDelayBegin { get; init; }
+
+    /// <inheritdoc />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override int? RandomDelayEnd { get; init; }
+
     /// <inheritdoc cref="Sys_Job.RequestBody" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string RequestBody { get; init; }

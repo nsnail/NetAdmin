@@ -170,25 +170,23 @@ export default {
             return table
         },
     },
-    created() {
-        if (this.keywords) {
-            this.query.keywords = this.keywords
-        }
-        this.query.dynamicFilter.filters.push({
-            field: 'enabled',
-            operator: 'eq',
-            value: true,
-        })
-    },
+    created() {},
     data() {
         return {
             dialog: {},
             loading: false,
             query: {
                 dynamicFilter: {
-                    filters: [],
+                    filters: [
+                        {
+                            field: 'enabled',
+                            operator: 'eq',
+                            value: true,
+                        },
+                    ],
                 },
                 filter: {},
+                keywords: this.keywords,
             },
             selection: [],
         }

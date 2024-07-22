@@ -70,7 +70,8 @@ public abstract class DistributedCache<TService>(IDistributedCache cache, TServi
                                               , TimeSpan? slideLifeTime = null)
     {
         var cacheRead = await GetAsync<T>(key).ConfigureAwait(false);
-        if (cacheRead is not null) {
+        if (cacheRead is not null && App.HttpContext?.Request.Headers.CacheControl.FirstOrDefault() !=
+            Chars.FLG_HTTP_HEADER_VALUE_NO_CACHE) {
             return cacheRead;
         }
 

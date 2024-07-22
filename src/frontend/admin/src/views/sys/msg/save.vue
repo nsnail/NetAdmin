@@ -87,7 +87,7 @@ export default {
                 roleIds: [],
                 deptIds: [],
             },
-            loading: false,
+            loading: true,
             mode: 'add',
             //验证规则
             rules: {

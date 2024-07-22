@@ -113,6 +113,8 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     private ISelect<Tpl_Example> QueryInternal(QueryReq<QueryExampleReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

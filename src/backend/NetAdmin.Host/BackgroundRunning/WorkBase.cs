@@ -36,19 +36,14 @@ public abstract class WorkBase<TLogger>
     protected UnitOfWorkManager UowManager { get; }
 
     /// <summary>
-    ///     获取锁
-    /// </summary>
-    protected Task<IRedLock> GetLockerAsync(string lockId)
-    {
-        return _redLocker.RedLockFactory.CreateLockAsync(lockId, TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_EXPIRY)
-                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_WAIT)
-                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_RETRY));
-    }
-
-    /// <summary>
     ///     通用工作流
     /// </summary>
-    protected abstract ValueTask WorkflowAsync(CancellationToken cancelToken);
+    protected abstract ValueTask WorkflowAsync( //
+
+        // ReSharper disable once UnusedParameter.Global
+        #pragma warning disable SA1114
+        CancellationToken cancelToken);
+    #pragma warning restore SA1114
 
     /// <summary>
     ///     通用工作流
@@ -68,5 +63,15 @@ public abstract class WorkBase<TLogger>
         }
 
         await WorkflowAsync(cancelToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     获取锁
+    /// </summary>
+    private Task<IRedLock> GetLockerAsync(string lockId)
+    {
+        return _redLocker.RedLockFactory.CreateLockAsync(lockId, TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_EXPIRY)
+                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_WAIT)
+                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_RETRY));
     }
 }

@@ -149,20 +149,12 @@ export default {
         },
     },
     created() {
-        if (this.keywords) {
-            this.query.keywords = this.keywords
-        }
         if (this.roleId) {
             this.query.filter.roleId = this.roleId
         }
         if (this.deptId) {
             this.query.filter.deptId = this.deptId
         }
-        this.query.dynamicFilter.filters.push({
-            field: 'enabled',
-            operator: 'eq',
-            value: true,
-        })
     },
     data() {
         return {
@@ -170,9 +162,16 @@ export default {
             loading: false,
             query: {
                 dynamicFilter: {
-                    filters: [],
+                    filters: [
+                        {
+                            field: 'enabled',
+                            operator: 'eq',
+                            value: true,
+                        },
+                    ],
                 },
                 filter: {},
+                keywords: this.keywords,
             },
             selection: [],
         }

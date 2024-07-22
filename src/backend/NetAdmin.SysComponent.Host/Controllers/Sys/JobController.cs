@@ -119,7 +119,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     /// <summary>
     ///     获取作业记录条形图数据
     /// </summary>
-    public Task<IOrderedEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
     {
         return Cache.GetRecordBarChartAsync(req);
     }
@@ -127,8 +127,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     /// <summary>
     ///     状态码分组作业记录饼图数据
     /// </summary>
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(
-        QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req)
     {
         return Cache.GetRecordPieChartByHttpStatusCodeAsync(req);
     }
@@ -136,7 +135,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     /// <summary>
     ///     名称分组作业记录饼图数据
     /// </summary>
-    public Task<IOrderedEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
     {
         return Cache.GetRecordPieChartByNameAsync(req);
     }

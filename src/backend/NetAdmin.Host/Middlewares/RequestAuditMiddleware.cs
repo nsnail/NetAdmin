@@ -58,7 +58,7 @@ public sealed class RequestAuditMiddleware(
                                .FirstOrDefault()
                                ?.Enum<ErrorCodes>() ?? 0;
 
-        _ = await requestLogger.LogAsync(context, (long)sw.Elapsed.TotalMicroseconds, responseBody, errorCode
+        _ = await requestLogger.LogAsync(context, (long)sw.Elapsed.TotalMilliseconds, responseBody, errorCode
                                        , exception)
                                .ConfigureAwait(false);
     }

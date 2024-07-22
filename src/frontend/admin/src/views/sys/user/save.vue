@@ -232,7 +232,7 @@
                     </el-row>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('操作日志')" name="log">
-                    <log v-if="tabId === 'log'" :user-id="form.id"></log>
+                    <log v-if="tabId === 'log'" :owner-id="form.id"></log>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer
@@ -270,7 +270,7 @@ export default {
                     emergencyContactArea: '',
                 },
             },
-            loading: false,
+            loading: true,
             mode: 'add',
             //验证规则
             rules: {
