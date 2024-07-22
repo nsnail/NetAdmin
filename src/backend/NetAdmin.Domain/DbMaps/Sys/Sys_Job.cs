@@ -80,6 +80,22 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     public virtual long? NextTimeId { get; init; }
 
     /// <summary>
+    ///     随机延时起始值（毫秒）
+    /// </summary>
+    [Column]
+    [Ignore]
+    [JsonIgnore]
+    public virtual int? RandomDelayBegin { get; init; }
+
+    /// <summary>
+    ///     随机延时结束值（毫秒）
+    /// </summary>
+    [Column]
+    [Ignore]
+    [JsonIgnore]
+    public virtual int? RandomDelayEnd { get; init; }
+
+    /// <summary>
     ///     请求体
     /// </summary>
     #if DBTYPE_SQLSERVER

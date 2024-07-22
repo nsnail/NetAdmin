@@ -4,6 +4,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     Api接口表
 /// </summary>
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Api))]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(PathCrc32), nameof(PathCrc32), true)]
 public record Sys_Api : ImmutableEntity<string>, IFieldSummary
 {
     /// <summary>
@@ -53,6 +54,14 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     [Ignore]
     [JsonIgnore]
     public virtual string ParentId { get; init; }
+
+    /// <summary>
+    ///     路径CRC32
+    /// </summary>
+    [Column]
+    [Ignore]
+    [JsonIgnore]
+    public int PathCrc32 { get; init; }
 
     /// <summary>
     ///     角色集合

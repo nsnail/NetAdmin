@@ -54,7 +54,7 @@
                         }
                     }
                 "
-                :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId']"
+                :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId', 'responseBody']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_job.exportRecord"
                 :params="query"
@@ -153,9 +153,6 @@ export default {
         },
     },
     created() {
-        if (this.keywords) {
-            this.query.keywords = this.keywords
-        }
         if (this.statusCodes) {
             this.query.dynamicFilter.filters.push({
                 logic: 'or',
@@ -184,6 +181,7 @@ export default {
                     ],
                 },
                 filter: {},
+                keywords: this.keywords,
             },
         }
     },

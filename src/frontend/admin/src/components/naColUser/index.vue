@@ -1,7 +1,10 @@
 <template>
     <el-table-column v-bind="$attrs">
         <template #default="{ row }">
-            <div @click="click($TOOL.getNestedProperty(row, $attrs.prop))" class="avatar">
+            <div
+                :style="{ display: $TOOL.getNestedProperty(row, $attrs.prop) ? 'flex' : 'none' }"
+                @click="click($TOOL.getNestedProperty(row, $attrs.prop))"
+                class="avatar">
                 <el-avatar v-if="$TOOL.getNestedProperty(row, $attrs.nestProp)" :src="getAvatar(row, $attrs.nestProp)" size="small"></el-avatar>
                 <div>
                     <p>{{ $TOOL.getNestedProperty(row, $attrs.nestProp) }}</p>

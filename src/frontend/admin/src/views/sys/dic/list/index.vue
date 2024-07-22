@@ -87,11 +87,7 @@ export default {
             return table
         },
     },
-    created() {
-        if (this.keywords) {
-            this.query.keywords = this.keywords
-        }
-    },
+    created() {},
     data() {
         return {
             dialog: {},
@@ -101,6 +97,7 @@ export default {
                     filters: [],
                 },
                 filter: {},
+                keywords: this.keywords,
             },
             selection: [],
         }

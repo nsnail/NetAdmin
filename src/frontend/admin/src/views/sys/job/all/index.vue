@@ -182,6 +182,12 @@
                                 click: execute,
                             },
                             {
+                                icon: 'el-icon-document-copy',
+                                confirm: true,
+                                title: '复制作业',
+                                click: copyJob,
+                            },
+                            {
                                 icon: 'el-icon-delete',
                                 confirm: true,
                                 title: $t('删除作业'),
@@ -191,7 +197,7 @@
                         )
                     "
                     :vue="this"
-                    width="200" />
+                    width="220" />
             </sc-table>
         </el-main>
     </el-container>
@@ -224,25 +230,23 @@ export default {
             return table
         },
     },
-    created() {
-        if (this.keywords || this.$route.query.keywords) {
-            this.query.keywords = this.keywords || this.$route.query.keywords
-        }
-        this.query.dynamicFilter.filters.push({
-            field: 'enabled',
-            operator: 'eq',
-            value: true,
-        })
-    },
+    created() {},
     data() {
         return {
             dialog: {},
             loading: false,
             query: {
                 dynamicFilter: {
-                    filters: [],
+                    filters: [
+                        {
+                            field: 'enabled',
+                            operator: 'eq',
+                            value: true,
+                        },
+                    ],
                 },
                 filter: {},
+                keywords: this.keywords || this.$route.query.keywords,
             },
             selection: [],
             timer: null,
@@ -250,6 +254,19 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async copyJob(row) {
+            let loading = this.$loading()
+            try {
+                const res = await this.$API.sys_job.create.post(Object.assign({}, row, { id: 0, jobName: row.jobName + '-copy' }))
+                if (res.data) {
+                    this.$message.success(this.$t('操作成功'))
+                } else {
+                    this.$message.error(this.$t('操作失败'))
+                }
+                this.$refs.table.refresh()
+            } catch {}
+            loading?.close()
+        },
         async setEnabled(enabled) {
             let loading
             try {

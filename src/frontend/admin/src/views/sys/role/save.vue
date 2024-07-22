@@ -118,7 +118,7 @@ export default {
         return {
             //表单数据
             form: { displayDashboard: false, dashboardLayout: this.jsonFormat(config.APP_SET_HOME_GRID), sort: 100, enabled: true },
-            loading: false,
+            loading: true,
             mode: 'add',
             //验证规则
             rules: {

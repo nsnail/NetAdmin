@@ -1,4 +1,7 @@
+using NetAdmin.Domain.Dto.Sys.Api;
+using NetAdmin.Domain.Dto.Sys.RequestLogDetail;
 using NetAdmin.Domain.Dto.Sys.User;
+using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Domain.Dto.Sys.RequestLog;
 
@@ -7,39 +10,51 @@ namespace NetAdmin.Domain.Dto.Sys.RequestLog;
 /// </summary>
 public record ExportRequestLogRsp : QueryRequestLogRsp
 {
+    /// <summary>
+    ///     接口路径
+    /// </summary>
+    [CsvIndex(2)]
+    [JsonInclude]
+    [Name(nameof(Ln.接口路径))]
+    public string ApiId => Api.Id;
+
     /// <inheritdoc />
     [CsvIndex(6)]
     [Ignore(false)]
     [Name(nameof(Ln.客户端IP))]
     public override string CreatedClientIp => base.CreatedClientIp;
 
+    /// <summary>
+    ///     用户名
+    /// </summary>
+    [CsvIndex(5)]
+    [JsonInclude]
+    [Name(nameof(Ln.用户名))]
+    public string UserName => Owner?.UserName;
+
     /// <inheritdoc />
     [Ignore]
-    public override string LoginName => base.LoginName;
+    public override QueryApiRsp Api { get; init; }
 
     /// <inheritdoc />
-    [CsvIndex(7)]
-    [Ignore(false)]
-    [Name(nameof(Ln.操作系统))]
-    public override string Os => base.Os;
+    [Ignore]
+    public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
-    [CsvIndex(2)]
-    [Ignore(false)]
-    [Name(nameof(Ln.接口路径))]
-    public override string ApiId { get; init; }
-
-    /// <inheritdoc />
-    [CsvIndex(8)]
-    [Ignore(false)]
-    [Name(nameof(Ln.用户代理))]
-    public override string CreatedUserAgent { get; init; }
+    [Ignore]
+    public override QueryRequestLogDetailRsp Detail { get; init; }
 
     /// <inheritdoc />
     [CsvIndex(4)]
     [Ignore(false)]
     [Name(nameof(Ln.执行耗时))]
-    public override long Duration { get; init; }
+    public override int Duration { get; init; }
+
+    /// <inheritdoc />
+    [CsvIndex(3)]
+    [Ignore(false)]
+    [Name(nameof(Ln.请求方式))]
+    public override HttpMethods HttpMethod { get; init; }
 
     /// <inheritdoc />
     [CsvIndex(1)]
@@ -54,32 +69,14 @@ public record ExportRequestLogRsp : QueryRequestLogRsp
     public override long Id { get; init; }
 
     /// <inheritdoc />
-    [CsvIndex(3)]
-    [Ignore(false)]
-    [Name(nameof(Ln.请求方式))]
-    public override string Method { get; init; }
-
-    /// <inheritdoc />
-    [CsvIndex(9)]
-    [Ignore(false)]
-    [Name(nameof(Ln.跟踪编号))]
-    public override string TraceId { get; init; }
+    [Ignore]
+    public override QueryUserLiteRsp Owner { get; init; }
 
     /// <inheritdoc />
     [Ignore]
-    public override QueryUserRsp User { get; init; }
-
-    /// <summary>
-    ///     用户名
-    /// </summary>
-    [CsvIndex(5)]
-    [Ignore(false)]
-    [Name(nameof(Ln.用户名))]
-    public string UserName { get; init; }
+    public override long? OwnerDeptId { get; init; }
 
     /// <inheritdoc />
-    public override void Register(TypeAdapterConfig config)
-    {
-        _ = config.ForType<Sys_RequestLog, ExportRequestLogRsp>().Map(d => d.UserName, s => s.User.UserName);
-    }
+    [Ignore]
+    public override long? OwnerId { get; init; }
 }

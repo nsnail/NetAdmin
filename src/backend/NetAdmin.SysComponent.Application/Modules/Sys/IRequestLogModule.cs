@@ -16,15 +16,15 @@ public interface IRequestLogModule : ICrudModule<CreateRequestLogReq, QueryReque
     /// <summary>
     ///     获取条形图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req);
+    Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req);
 
     /// <summary>
     ///     描述分组饼图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req);
+    Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req);
 
     /// <summary>
     ///     状态码分组饼图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req);
+    Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req);
 }

@@ -1,6 +1,9 @@
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Dto.Sys.RequestLogDetail;
 using NetAdmin.Domain.Events.Sys;
+using Yitter.IdGenerator;
+using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Host.Utils;
 
@@ -19,36 +22,39 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
     {
         // 从请求头中读取用户信息
         var associatedUser = GetAssociatedUser(context);
-        var auditData = new CreateRequestLogReq {
-                                                    Duration           = duration
-                                                  , Method             = context.Request.Method
-                                                  , RequestContentType = context.Request.ContentType
-                                                  , RequestBody = Array.Exists( //
-                                                        _textContentTypes
-                                                      , x => context.Request.ContentType?.Contains(
-                                                            x, StringComparison.OrdinalIgnoreCase) ?? false)
-                                                        ? (await context.ReadBodyContentAsync().ConfigureAwait(false))
-                                                        ?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT)
-                                                        : string.Empty
-                                                  , RequestUrl = context.Request.GetRequestUrlAddress()
-                                                  , ResponseBody
-                                                        = responseBody?.Sub(0, Numbers.MAX_LIMIT_PRINT_LEN_CONTENT)
-                                                  , ServerIp = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
-                                                  , ApiId = context.Request.Path.Value?.TrimStart('/')
-                                                  , RequestHeaders = context.Request.Headers.Json()
-                                                  , ResponseContentType = context.Response.ContentType
-                                                  , ResponseHeaders = context.Response.Headers.Json()
-                                                  , HttpStatusCode = context.Response.StatusCode
-                                                  , ErrorCode = errorCode
-                                                  , Exception = exception?.Error.ToString()
-                                                  , UserId = associatedUser?.UserId
-                                                  , CreatedUserAgent = context.Request.Headers.UserAgent.ToString()
-                                                  , CreatedClientIp = context.GetRealIpAddress()
-                                                                             ?.MapToIPv4()
-                                                                             .ToString()
-                                                                             .IpV4ToInt32()
-                                                  , TraceId = context.TraceIdentifier
-                                                };
+        var id             = YitIdHelper.NextId();
+        var requestBody = Array.Exists( //
+            _textContentTypes
+          , x => context.Request.ContentType?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false)
+            ? await context.ReadBodyContentAsync().ConfigureAwait(false)
+            : string.Empty;
+        var auditData = new CreateRequestLogReq //
+                        {
+                            Detail = new CreateRequestLogDetailReq //
+                                     {
+                                         Id                  = id
+                                       , CreatedUserAgent    = context.Request.Headers.UserAgent.ToString()
+                                       , ErrorCode           = errorCode
+                                       , Exception           = exception?.Error.ToString()
+                                       , RequestBody         = requestBody
+                                       , RequestContentType  = context.Request.ContentType
+                                       , RequestHeaders      = context.Request.Headers.Json()
+                                       , RequestUrl          = context.Request.GetRequestUrlAddress()
+                                       , ResponseBody        = responseBody
+                                       , ResponseContentType = context.Response.ContentType
+                                       , ResponseHeaders     = context.Response.Headers.Json()
+                                       , ServerIp            = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
+                                       , TraceId             = context.TraceIdentifier
+                                     }
+                          , Duration        = (int)duration
+                          , HttpMethod      = Enum.Parse<HttpMethods>(context.Request.Method, true)
+                          , ApiPathCrc32    = context.Request.Path.Value!.TrimStart('/').Crc32()
+                          , HttpStatusCode  = context.Response.StatusCode
+                          , CreatedClientIp = context.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32()
+                          , OwnerId         = associatedUser?.UserId
+                          , OwnerDeptId     = associatedUser?.DeptId
+                          , Id              = id
+                        };
 
         // 打印日志
         logger.Info(auditData);
@@ -59,7 +65,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
         return auditData;
     }
 
-    private (long UserId, string UserName)? GetAssociatedUser(HttpContext context)
+    private (long UserId, long DeptId, string UserName)? GetAssociatedUser(HttpContext context)
     {
         var token = context.Request.Headers.Authorization.FirstOrDefault();
         if (token == null) {
@@ -69,7 +75,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
         ContextUserToken userToken = null;
         try {
             var jsonWebToken
-                = JWTEncryption.ReadJwtToken(token.TrimStart($"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} "));
+                = JWTEncryption.ReadJwtToken(token.TrimPrefix($"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} "));
             var claim = jsonWebToken?.Claims.FirstOrDefault(y => y.Type == nameof(ContextUserToken));
             userToken = claim?.Value.ToObject<ContextUserToken>();
         }
@@ -77,6 +83,6 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
             logger.Warn($"{Ln.读取用户令牌出错}: {ex}");
         }
 
-        return userToken == null ? null : (userToken.Id, userToken.UserName);
+        return userToken == null ? null : (userToken.Id, userToken.DeptId, userToken.UserName);
     }
 }

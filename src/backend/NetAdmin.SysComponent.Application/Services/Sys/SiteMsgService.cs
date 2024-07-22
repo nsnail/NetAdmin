@@ -301,6 +301,8 @@ public sealed class SiteMsgService(
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.Title.Contains(req.Keywords) ||
                               a.Summary.Contains(req.Keywords));
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

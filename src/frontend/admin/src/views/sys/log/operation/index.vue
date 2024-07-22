@@ -37,7 +37,7 @@
                         },
                         {
                             type: 'cascader',
-                            field: ['dy', 'apiId'],
+                            field: ['dy', 'api.id'],
                             api: $API.sys_api.query,
                             props: { label: 'summary', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
                             placeholder: $t('请求服务'),
@@ -62,7 +62,7 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :context-menus="['id', 'httpStatusCode', 'apiId', 'userId', 'method', 'duration', 'createdClientIp', 'createdTime']"
+                :context-menus="['id', 'httpStatusCode', 'apiPathCrc32', 'ownerId', 'httpMethod', 'duration', 'createdClientIp', 'createdTime']"
                 :context-opers="[]"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_log.export"
@@ -82,21 +82,21 @@
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('请求服务')" align="center">
-                    <el-table-column :label="$t('路径')" prop="apiId" show-overflow-tooltip sortable="custom">
+                    <el-table-column :label="$t('路径')" prop="apiPathCrc32" show-overflow-tooltip sortable="custom">
                         <template #default="{ row }">
-                            <p>{{ row.apiId }}</p>
-                            <p>{{ row.apiSummary }}</p>
+                            <p>{{ row.api.id }}</p>
+                            <p>{{ row.api.summary }}</p>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('方法')" align="center" prop="method" sortable="custom" width="100">
+                    <el-table-column :label="$t('方法')" align="center" prop="httpMethod" sortable="custom" width="100">
                         <template #default="{ row }">
                             <sc-status-indicator
-                                :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(row.method)).toString(16).substring(0, 6)}`" />
-                            {{ row.method }}
+                                :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(row.httpMethod)).toString(16).substring(0, 6)}`" />
+                            {{ row.httpMethod.toUpperCase() }}
                         </template>
                     </el-table-column>
                     <el-table-column
-                        :formatter="(row) => `${$TOOL.groupSeparator((row.duration / 1000).toFixed(0))} ms`"
+                        :formatter="(row) => `${$TOOL.groupSeparator(row.duration.toFixed(0))} ms`"
                         :label="$t('耗时')"
                         align="right"
                         prop="duration"
@@ -108,9 +108,9 @@
                     v-auth="'sys/log/operation/user'"
                     :label="$t('用户')"
                     header-align="center"
-                    nestProp="user.userName"
-                    nestProp2="user.id"
-                    prop="userId"
+                    nestProp="owner.userName"
+                    nestProp2="owner.id"
+                    prop="ownerId"
                     sortable="custom"
                     width="170"></na-col-user>
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
@@ -118,7 +118,6 @@
                         <na-ip :ip="row.createdClientIp"></na-ip>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
                 <na-col-operation
                     :buttons="[
                         {
@@ -144,11 +143,8 @@ export default {
     },
     computed: {},
     created() {
-        if (this.keywords) {
-            this.query.keywords = this.keywords
-        }
-        if (this.userId) {
-            this.query.dynamicFilter.filters.push({ field: 'userId', operator: 'eq', value: this.userId })
+        if (this.ownerId) {
+            this.query.dynamicFilter.filters.push({ field: 'ownerId', operator: 'eq', value: this.ownerId })
         }
     },
     data() {
@@ -168,6 +164,7 @@ export default {
                     ],
                 },
                 filter: {},
+                keywords: this.keywords,
             },
             selection: [],
         }
@@ -197,19 +194,19 @@ export default {
                     }),
                 })
             }
-            if (typeof form.dy.apiId === 'string' && form.dy.apiId.trim() !== '') {
+            if (typeof form.dy['api.id'] === 'string' && form.dy['api.id'].trim() !== '') {
                 this.query.dynamicFilter.filters.push({
-                    field: 'apiId',
+                    field: 'api.id',
                     operator: 'eq',
-                    value: form.dy.apiId,
+                    value: form.dy['api.id'],
                 })
             }
 
-            if (typeof form.dy.userId === 'number' && form.dy.userId !== 0) {
+            if (typeof form.dy.ownerId === 'number' && form.dy.ownerId !== 0) {
                 this.query.dynamicFilter.filters.push({
-                    field: 'userId',
+                    field: 'ownerId',
                     operator: 'eq',
-                    value: form.dy.userId,
+                    value: form.dy.ownerId,
                 })
             }
 
@@ -250,10 +247,10 @@ export default {
             })
         }
 
-        if (this.userId) {
+        if (this.ownerId) {
             this.$refs.search.keeps.push({
-                field: 'userId',
-                value: this.userId,
+                field: 'ownerId',
+                value: this.ownerId,
                 type: 'dy',
             })
         }
@@ -268,7 +265,7 @@ export default {
             type: 'dy',
         })
     },
-    props: ['keywords', 'userId'],
+    props: ['keywords', 'ownerId'],
     watch: {},
 }
 </script>

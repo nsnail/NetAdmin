@@ -64,11 +64,7 @@ export default {
         saveDialog,
     },
     computed: {},
-    created() {
-        if (this.keywords) {
-            this.query.keywords = this.keywords
-        }
-    },
+    created() {},
     data() {
         return {
             data: [],
@@ -81,6 +77,7 @@ export default {
                     filters: [],
                 },
                 filter: {},
+                keywords: this.keywords,
             },
         }
     },
@@ -89,7 +86,7 @@ export default {
         // 获取字典目录
         async getData() {
             this.loading = true
-            const res = await this.$API.sys_dic.queryCatalog.post()
+            const res = await this.$API.sys_dic.queryCatalog.post({ prop: 'name', order: 'ascending' })
             this.loading = false
             this.data = res.data
 

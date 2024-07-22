@@ -32,6 +32,14 @@ public record CreateJobReq : Sys_Job
     /// <inheritdoc />
     public override long? NextTimeId { get; init; }
 
+    /// <inheritdoc />
+    [Range(1, int.MaxValue, ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.随机延时起始时间不正确))]
+    public override int? RandomDelayBegin { get; init; }
+
+    /// <inheritdoc />
+    [Range(1, int.MaxValue, ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.随机延时结束时间不正确))]
+    public override int? RandomDelayEnd { get; init; }
+
     /// <inheritdoc cref="Sys_Job.RequestBody" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string RequestBody { get; init; }

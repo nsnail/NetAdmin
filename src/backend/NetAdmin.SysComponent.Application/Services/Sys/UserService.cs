@@ -490,6 +490,8 @@ public sealed class UserService(
                        , a => a.Id     == req.Keywords.Int64Try(0) || a.UserName == req.Keywords ||
                               a.Mobile == req.Keywords             ||
                               a.Email  == req.Keywords             || a.Summary.Contains(req.Keywords));
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

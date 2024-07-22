@@ -155,6 +155,8 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
     private ISelect<Sys_DicContent> QueryInternal(QueryReq<QueryDicContentReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

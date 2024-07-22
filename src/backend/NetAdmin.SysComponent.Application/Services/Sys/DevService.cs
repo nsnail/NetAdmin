@@ -175,6 +175,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
             await File.WriteAllTextAsync(file, content).ConfigureAwait(false);
         }
 
+        // ReSharper disable once SeparateLocalFunctionsWithJumpStatement
         IEnumerable<string> Select(QueryApiRsp item)
         {
             return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)

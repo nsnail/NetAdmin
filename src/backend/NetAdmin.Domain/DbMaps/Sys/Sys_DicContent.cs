@@ -4,8 +4,6 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     字典内容表
 /// </summary>
 [SqlIndex($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(CatalogId)}_{nameof(Key)}", $"{nameof(CatalogId)},{nameof(Key)}", true)]
-[SqlIndex($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(CatalogId)}_{nameof(Value)}", $"{nameof(CatalogId)},{nameof(Value)}"
-        , true)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_DicContent))]
 public record Sys_DicContent : VersionEntity
 {

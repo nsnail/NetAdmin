@@ -142,6 +142,8 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereIf( //
                          req.Filter?.Enabled.HasValue ?? false, a => a.Enabled == req.Filter.Enabled.Value);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
                 return ret;

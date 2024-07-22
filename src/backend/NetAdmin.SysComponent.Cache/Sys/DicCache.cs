@@ -81,8 +81,8 @@ public sealed class DicCache(IDistributedCache cache, IDicService service) //
     public Task<string> GetDicValueAsync(GetDicValueReq req)
     {
         #if !DEBUG
-        return GetOrCreateAsync(                                                  //
-            GetCacheKey(req.GetHashCode().ToString(CultureInfo.InvariantCulture)) //
+        return GetOrCreateAsync(                                                   //
+            GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
           , () => Service.GetDicValueAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
         return Service.GetDicValueAsync(req);

@@ -14,15 +14,15 @@ public interface IJobRecordService : IService, IJobRecordModule
     /// <summary>
     ///     获取条形图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryJobRecordReq> req);
+    Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryJobRecordReq> req);
 
     /// <summary>
     ///     状态码分组饼图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req);
+    Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req);
 
     /// <summary>
     ///     名称分组饼图数据
     /// </summary>
-    Task<IOrderedEnumerable<GetPieChartRsp>> GetPieChartByNameAsync(QueryReq<QueryJobRecordReq> req);
+    Task<IEnumerable<GetPieChartRsp>> GetPieChartByNameAsync(QueryReq<QueryJobRecordReq> req);
 }
