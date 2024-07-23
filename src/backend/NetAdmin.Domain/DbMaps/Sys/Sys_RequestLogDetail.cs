@@ -8,7 +8,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
 {
     /// <inheritdoc />
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 
@@ -18,7 +18,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     #else
     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string CreatedUserAgent { get; init; }
 
@@ -26,7 +26,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     ///     程序响应码
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual ErrorCodes ErrorCode { get; init; }
 
@@ -38,7 +38,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Exception { get; init; }
 
@@ -50,7 +50,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
 
@@ -58,7 +58,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     ///     请求content-type
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestContentType { get; init; }
 
@@ -70,7 +70,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestHeaders { get; init; }
 
@@ -78,7 +78,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     ///     请求地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestUrl { get; init; }
 
@@ -90,7 +90,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseBody { get; init; }
 
@@ -98,7 +98,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     ///     响应content-type
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseContentType { get; init; }
 
@@ -110,7 +110,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseHeaders { get; init; }
 
@@ -118,7 +118,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     ///     服务器IP
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual int? ServerIp { get; init; }
 
@@ -126,7 +126,7 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     ///     请求跟踪标识
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string TraceId { get; init; }
 }

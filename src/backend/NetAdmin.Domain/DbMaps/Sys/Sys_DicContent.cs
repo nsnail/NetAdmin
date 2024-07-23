@@ -10,7 +10,7 @@ public record Sys_DicContent : VersionEntity
     /// <summary>
     ///     字典目录
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(CatalogId))]
     public Sys_DicCatalog Catalog { get; init; }
@@ -19,7 +19,7 @@ public record Sys_DicContent : VersionEntity
     ///     字典目录编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long CatalogId { get; init; }
 
@@ -27,7 +27,7 @@ public record Sys_DicContent : VersionEntity
     ///     键名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Key { get; init; }
 
@@ -35,7 +35,7 @@ public record Sys_DicContent : VersionEntity
     ///     键值
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Value { get; init; }
 }

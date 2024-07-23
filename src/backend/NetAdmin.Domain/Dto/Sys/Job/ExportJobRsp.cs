@@ -10,72 +10,72 @@ namespace NetAdmin.Domain.Dto.Sys.Job;
 public record ExportJobRsp : QueryJobRsp
 {
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(5)]
-    [Ignore(false)]
-    [Name(nameof(Ln.上次执行状态))]
+    [CsvName(nameof(Ln.上次执行状态))]
     public override string LastStatusCode => base.LastStatusCode;
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(10)]
-    [Ignore(false)]
-    [Name(nameof(Ln.创建时间))]
+    [CsvName(nameof(Ln.创建时间))]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(9)]
-    [Ignore(false)]
-    [Name(nameof(Ln.是否启用))]
+    [CsvName(nameof(Ln.是否启用))]
     public override bool Enabled { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(2)]
-    [Ignore(false)]
-    [Name(nameof(Ln.执行计划))]
+    [CsvName(nameof(Ln.执行计划))]
     public override string ExecutionCron { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(4)]
-    [Ignore(false)]
-    [Name(nameof(Ln.请求方式))]
+    [CsvName(nameof(Ln.请求方式))]
     public override HttpMethods HttpMethod { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(0)]
-    [Ignore(false)]
-    [Name(nameof(Ln.唯一编码))]
+    [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(1)]
-    [Ignore(false)]
-    [Name(nameof(Ln.作业名称))]
+    [CsvName(nameof(Ln.作业名称))]
     public override string JobName { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(7)]
-    [Ignore(false)]
-    [Name(nameof(Ln.上次执行耗时))]
+    [CsvName(nameof(Ln.上次执行耗时))]
     public override long? LastDuration { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(6)]
-    [Ignore(false)]
-    [Name(nameof(Ln.上次执行时间))]
+    [CsvName(nameof(Ln.上次执行时间))]
     public override DateTime? LastExecTime { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(8)]
-    [Ignore(false)]
-    [Name(nameof(Ln.下次执行时间))]
+    [CsvName(nameof(Ln.下次执行时间))]
     public override DateTime? NextExecTime { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(3)]
-    [Ignore(false)]
-    [Name(nameof(Ln.作业状态))]
+    [CsvName(nameof(Ln.作业状态))]
     public override JobStatues Status { get; init; }
 
     /// <inheritdoc />
-    [Ignore]
+    [CsvIgnore]
     public override QueryUserRsp User { get; init; }
 }

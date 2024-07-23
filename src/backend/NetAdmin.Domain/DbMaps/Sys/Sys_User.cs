@@ -15,14 +15,14 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     头像链接
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Avatar { get; init; }
 
     /// <summary>
     ///     所属部门
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(DeptId))]
     public Sys_Dept Dept { get; init; }
@@ -31,7 +31,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     部门编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long DeptId { get; init; }
 
@@ -39,7 +39,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     邮箱
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Email { get; init; }
 
@@ -47,7 +47,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     是否启用
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
@@ -55,7 +55,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     手机号码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Mobile { get; init; }
 
@@ -63,21 +63,21 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     密码
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public Guid Password { get; init; }
 
     /// <summary>
     ///     用户档案
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public Sys_UserProfile Profile { get; init; }
 
     /// <summary>
     ///     所属角色
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_UserRole))]
     public ICollection<Sys_Role> Roles { get; init; }
@@ -85,7 +85,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     /// <summary>
     ///     发送给此用户的站内信集合
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgUser))]
     public ICollection<Sys_SiteMsg> SiteMsgs { get; init; }
@@ -94,7 +94,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     描述
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; init; }
 
@@ -102,7 +102,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     授权验证Token，全局唯一，可以随时重置（强制下线）
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public Guid Token { get; init; }
 
@@ -110,7 +110,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     ///     用户名
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string UserName { get; init; }
 

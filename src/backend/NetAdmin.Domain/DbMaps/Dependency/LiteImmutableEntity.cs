@@ -5,6 +5,7 @@ public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }
@@ -18,13 +19,13 @@ public abstract record LiteImmutableEntity<T> : EntityBase<T>, IFieldCreatedTime
 {
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public override T Id { get; init; }
 }
