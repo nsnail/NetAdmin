@@ -1,4 +1,3 @@
-using Microsoft.IdentityModel.Logging;
 using NetAdmin.AdmServer.Host;
 using NetAdmin.AdmServer.Host.Extensions;
 using NetAdmin.Host.Extensions;
@@ -79,9 +78,8 @@ namespace NetAdmin.AdmServer.Host
         public Task<int> Execute(CommandContext context, CommandLineArgs settings)
             #pragma warning restore ASA001
         {
-            Args                             = settings;
-            IdentityModelEventSource.ShowPII = true;
-            _                                = Serve.Run(RunOptions.Default.WithArgs(context.Remaining.Raw.ToArray()));
+            Args = settings;
+            _    = Serve.Run(RunOptions.Default.WithArgs(context.Remaining.Raw.ToArray()));
             return Task.FromResult(0);
         }
 

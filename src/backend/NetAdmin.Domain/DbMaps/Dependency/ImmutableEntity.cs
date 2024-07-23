@@ -5,6 +5,7 @@ public abstract record ImmutableEntity : ImmutableEntity<long>
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }
@@ -18,17 +19,18 @@ public abstract record ImmutableEntity<T> : LiteImmutableEntity<T>, IFieldCreate
 {
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserId" />
     [Column(CanUpdate = false, Position = -1)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public long? CreatedUserId { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [CsvIgnore]
     public override T Id { get; init; }
 }

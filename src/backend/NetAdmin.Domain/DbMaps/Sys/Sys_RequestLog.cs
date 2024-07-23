@@ -15,7 +15,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     /// <summary>
     ///     接口
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(ApiPathCrc32), TempPrimary = nameof(Sys_Api.PathCrc32))]
     public Sys_Api Api { get; init; }
@@ -24,26 +24,26 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     ///     接口路径CRC32
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual int ApiPathCrc32 { get; init; }
 
     /// <inheritdoc />
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual int? CreatedClientIp { get; init; }
 
     /// <inheritdoc />
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 
     /// <summary>
     ///     明细
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(Id))]
     public Sys_RequestLogDetail Detail { get; init; }
@@ -52,7 +52,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     ///     执行耗时（毫秒）
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual int Duration { get; init; }
 
@@ -60,7 +60,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     ///     请求方法
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_TINY_INT)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual HttpMethods HttpMethod { get; init; }
 
@@ -68,27 +68,27 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     ///     HTTP状态码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_SMALL_INT)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual int HttpStatusCode { get; init; }
 
     /// <summary>
     ///     拥有者
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(OwnerId))]
     public Sys_User Owner { get; init; }
 
     /// <inheritdoc />
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerDeptId { get; init; }
 
     /// <inheritdoc />
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerId { get; init; }
 }

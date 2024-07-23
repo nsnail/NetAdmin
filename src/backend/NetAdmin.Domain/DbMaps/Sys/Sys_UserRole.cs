@@ -9,7 +9,7 @@ public record Sys_UserRole : VersionEntity
     /// <summary>
     ///     关联的角色
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public Sys_Role Role { get; init; }
 
@@ -17,14 +17,14 @@ public record Sys_UserRole : VersionEntity
     ///     角色编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public long RoleId { get; init; }
 
     /// <summary>
     ///     关联的用户
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public Sys_User User { get; init; }
 
@@ -32,7 +32,7 @@ public record Sys_UserRole : VersionEntity
     ///     用户编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public long UserId { get; init; }
 }

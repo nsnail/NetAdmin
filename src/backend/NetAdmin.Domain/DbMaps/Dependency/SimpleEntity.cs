@@ -5,6 +5,7 @@ public abstract record SimpleEntity : SimpleEntity<long>
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }

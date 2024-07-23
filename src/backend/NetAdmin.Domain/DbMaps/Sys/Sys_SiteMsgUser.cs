@@ -11,7 +11,7 @@ public record Sys_SiteMsgUser : ImmutableEntity
     /// <summary>
     ///     关联的站内信
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public Sys_SiteMsg SiteMsg { get; init; }
 
@@ -19,14 +19,14 @@ public record Sys_SiteMsgUser : ImmutableEntity
     ///     站内信编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public long SiteMsgId { get; init; }
 
     /// <summary>
     ///     关联的用户
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public Sys_User User { get; init; }
 
@@ -34,7 +34,7 @@ public record Sys_SiteMsgUser : ImmutableEntity
     ///     用户编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public long UserId { get; init; }
 }

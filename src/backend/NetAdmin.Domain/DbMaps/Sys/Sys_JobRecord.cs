@@ -16,7 +16,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     执行耗时（毫秒）
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long Duration { get; init; }
 
@@ -24,7 +24,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     请求方法
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual HttpMethods HttpMethod { get; init; }
 
@@ -32,14 +32,14 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     HTTP 状态码
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public int HttpStatusCode { get; init; }
 
     /// <summary>
     ///     拥有者信息
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(JobId))]
     public Sys_Job Job { get; init; }
@@ -48,7 +48,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     作业编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long JobId { get; init; }
 
@@ -60,7 +60,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
 
@@ -72,7 +72,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestHeader { get; init; }
 
@@ -80,7 +80,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     请求的网络地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestUrl { get; init; }
 
@@ -92,7 +92,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseBody { get; init; }
 
@@ -104,7 +104,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseHeader { get; init; }
 
@@ -112,7 +112,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     ///     执行时间编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long TimeId { get; init; }
 }

@@ -9,12 +9,13 @@
 
 ## 在线预览
 
-http://na.yaopy.com （演示站点仅300kbps带宽，访问较慢）
+http://47.110.248.163:12000
 
 ## 一键运行
 
 ```shell
 docker run -p 8080:8080 nsnail/netadmin
+# 需翻墙
 ```
 
 ## 构建步骤

@@ -10,7 +10,7 @@ public record Sys_Config : VersionEntity, IFieldEnabled
     ///     是否启用
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
@@ -18,14 +18,14 @@ public record Sys_Config : VersionEntity, IFieldEnabled
     ///     用户注册是否需要人工确认
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual bool UserRegisterConfirm { get; init; }
 
     /// <summary>
     ///     用户注册默认部门
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(UserRegisterDeptId))]
     public Sys_Dept UserRegisterDept { get; init; }
@@ -34,14 +34,14 @@ public record Sys_Config : VersionEntity, IFieldEnabled
     ///     用户注册默认部门编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long UserRegisterDeptId { get; init; }
 
     /// <summary>
     ///     用户注册默认角色
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(UserRegisterRoleId))]
     public Sys_Role UserRegisterRole { get; init; }
@@ -50,7 +50,7 @@ public record Sys_Config : VersionEntity, IFieldEnabled
     ///     用户注册默认角色编号
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long UserRegisterRoleId { get; init; }
 }

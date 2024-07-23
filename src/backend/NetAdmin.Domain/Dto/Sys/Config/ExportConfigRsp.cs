@@ -9,45 +9,45 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 public record ExportConfigRsp : QueryConfigRsp, IRegister
 {
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(6)]
-    [Ignore(false)]
-    [Name(nameof(Ln.是否启用))]
+    [CsvName(nameof(Ln.是否启用))]
     public override bool Enabled { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(0)]
-    [Ignore(false)]
-    [Name(nameof(Ln.唯一编码))]
+    [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(3)]
-    [Ignore(false)]
-    [Name(nameof(Ln.人工审核))]
+    [CsvName(nameof(Ln.人工审核))]
     public override bool UserRegisterConfirm { get; init; }
 
     /// <inheritdoc />
-    [Ignore]
+    [CsvIgnore]
     public override QueryDeptRsp UserRegisterDept { get; init; }
 
     /// <summary>
     ///     默认部门
     /// </summary>
+    [CsvIgnore(false)]
     [CsvIndex(1)]
-    [Ignore(false)]
-    [Name(nameof(Ln.默认部门))]
+    [CsvName(nameof(Ln.默认部门))]
     public string UserRegisterDeptName { get; init; }
 
     /// <inheritdoc />
-    [Ignore]
+    [CsvIgnore]
     public override QueryRoleRsp UserRegisterRole { get; init; }
 
     /// <summary>
     ///     默认角色
     /// </summary>
+    [CsvIgnore(false)]
     [CsvIndex(2)]
-    [Ignore(false)]
-    [Name(nameof(Ln.默认角色))]
+    [CsvName(nameof(Ln.默认角色))]
     public string UserRegisterRoleName { get; init; }
 
     /// <inheritdoc />

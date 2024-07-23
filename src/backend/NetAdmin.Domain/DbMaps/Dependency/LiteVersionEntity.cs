@@ -5,6 +5,7 @@ public abstract record LiteVersionEntity : LiteVersionEntity<long>
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }
@@ -17,12 +18,13 @@ public abstract record LiteVersionEntity<T> : LiteMutableEntity<T>, IFieldVersio
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [CsvIgnore]
     [Snowflake]
     public override T Id { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
     [Column(IsVersion = true, Position = -1)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long Version { get; init; }
 }

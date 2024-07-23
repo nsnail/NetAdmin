@@ -13,7 +13,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     角色-接口映射
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleApi))]
     public ICollection<Sys_Api> Apis { get; init; }
@@ -26,7 +26,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     #else
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     #endif
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string DashboardLayout { get; set; }
 
@@ -34,14 +34,14 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     ///     数据范围
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual DataScopes DataScope { get; init; }
 
     /// <summary>
     ///     角色-部门映射
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleDept))]
     public ICollection<Sys_Dept> Depts { get; init; }
@@ -50,7 +50,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     ///     是否显示仪表板
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual bool DisplayDashboard { get; init; }
 
@@ -58,7 +58,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     ///     是否启用
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
@@ -66,14 +66,14 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     ///     是否忽略权限控制
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual bool IgnorePermissionControl { get; init; }
 
     /// <summary>
     ///     角色-菜单映射
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleMenu))]
     public ICollection<Sys_Menu> Menus { get; init; }
@@ -82,14 +82,14 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     ///     角色名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Name { get; init; }
 
     /// <summary>
     ///     发送给此角色的站内信集合
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
     public ICollection<Sys_SiteMsg> SiteMsgs { get; init; }
@@ -98,7 +98,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     ///     排序值，越大越前
     /// </summary>
     [Column]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual long Sort { get; init; }
 
@@ -106,14 +106,14 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     ///     备注
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; init; }
 
     /// <summary>
     ///     此角色下的用户集合
     /// </summary>
-    [Ignore]
+    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_UserRole))]
     public ICollection<Sys_User> Users { get; init; }

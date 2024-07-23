@@ -6,30 +6,30 @@ namespace NetAdmin.Domain.Dto.Sys.Api;
 public record ExportApiRsp : QueryApiRsp
 {
     /// <inheritdoc />
-    [Ignore]
+    [CsvIgnore]
     public override IEnumerable<QueryApiRsp> Children { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(0)]
-    [Ignore(false)]
-    [Name(nameof(Ln.接口路径))]
+    [CsvName(nameof(Ln.接口路径))]
     public override string Id { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(2)]
-    [Ignore(false)]
-    [Name(nameof(Ln.请求方式))]
+    [CsvName(nameof(Ln.请求方式))]
     public override string Method { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(1)]
-    [Ignore(false)]
-    [Name(nameof(Ln.接口名称))]
+    [CsvName(nameof(Ln.接口名称))]
     public override string Name { get; init; }
 
     /// <inheritdoc />
+    [CsvIgnore(false)]
     [CsvIndex(3)]
-    [Ignore(false)]
-    [Name(nameof(Ln.接口描述))]
+    [CsvName(nameof(Ln.接口描述))]
     public override string Summary { get; init; }
 }
