@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/nsnail/NetAdmin/compare/v1.4.0...v1.5.0) (2024-07-26)
+
+
+### Features
+
+* ✨ 登录日志独立存储 ([#161](https://github.com/nsnail/NetAdmin/issues/161)) ([faaf5aa](https://github.com/nsnail/NetAdmin/commit/faaf5aa0fc5299633ca4f384d6287171bb241ff4))
+* ✨ 框架代码同步 ([#158](https://github.com/nsnail/NetAdmin/issues/158)) ([1a28e8d](https://github.com/nsnail/NetAdmin/commit/1a28e8d5a62aeab7e4fda5049b4f733a16480b67))
+* ✨ 请求日志增加TraceId ([#154](https://github.com/nsnail/NetAdmin/issues/154)) ([aaea283](https://github.com/nsnail/NetAdmin/commit/aaea28389a56566e055b6651cf48a89194a72cb7))
+* ✨ cron表达式的自然语言表达 ([#156](https://github.com/nsnail/NetAdmin/issues/156)) ([6d4ccf3](https://github.com/nsnail/NetAdmin/commit/6d4ccf344595e128a445f1cb7596a7a1c28fd4cd))
+* ✨ logoBar显示程序版本号 ([#153](https://github.com/nsnail/NetAdmin/issues/153)) ([be5b9a1](https://github.com/nsnail/NetAdmin/commit/be5b9a160d1f06cfdf36cea4e5eb95908523fed2))
+
+
+### Bug Fixes
+
+* 🐛 error CS0117: 'Numbers' does not contain a definition for 'SECS_CACHE_DIC_CATALOG_CODE' ([#155](https://github.com/nsnail/NetAdmin/issues/155)) ([1733802](https://github.com/nsnail/NetAdmin/commit/1733802e02b7e69e4c8646f259da5098b87888f7))
+
 ## [1.4.0](https://github.com/nsnail/NetAdmin/compare/v1.3.0...v1.4.0) (2024-07-03)
 
 
