@@ -200,12 +200,14 @@
         <sc-contextmenu-item v-if="exportApi" :title="$t('导出文件')" command="export" divided icon="el-icon-download"></sc-contextmenu-item>
         <sc-contextmenu-item :title="$t('重新加载')" command="refresh" icon="el-icon-refresh" suffix="Ctrl+R"></sc-contextmenu-item>
     </sc-contextmenu>
+    <field-filter ref="fieldFilterDialog"></field-filter>
 </template>
 <script>
 import config from '@/config/table'
 import columnSetting from './columnSetting'
 import scContextmenuItem from '@/components/scContextmenu/item.vue'
 import scContextmenu from '@/components/scContextmenu/index.vue'
+import fieldFilter from './fieldFilter.vue'
 import { h } from 'vue'
 import tool from '@/utils/tool'
 
@@ -215,6 +217,7 @@ export default {
         scContextmenu,
         scContextmenuItem,
         columnSetting,
+        fieldFilter,
     },
     props: {
         vue: { type: Object },
@@ -378,29 +381,19 @@ export default {
                 await this.vue.rowDel(this.current.row)
                 return
             }
-
             const kv = command.split('^|^')
-            let value
-            try {
-                value = await this.$prompt(this.$t('仅显示 {field} {operator}：', { field: kv[0], operator: kv[1] }), this.$t('高级筛选'), {
-                    inputplaceholder: this.$t('一行一个'),
-                    inputPattern: /.*/,
-                    inputType: 'textarea',
-                    inputValue: kv[2],
+            this.$refs.fieldFilterDialog.open({ field: kv[0], operator: kv[1], value: kv[2] }, (data) => {
+                const value = data.value?.split('\n') ?? ['']
+                this.vue.query.dynamicFilter.filters.push({
+                    field: data.field,
+                    operator: data.operator,
+                    value: value.length === 1 ? value[0] : value,
                 })
-            } catch {
-                return
-            }
-            value = value.value?.split('\n') ?? ['']
-            this.vue.query.dynamicFilter.filters.push({
-                field: kv[0],
-                operator: kv[1],
-                value: value.length === 1 ? value[0] : value,
+                if (this.onCommand) {
+                    this.onCommand(this.vue.query.dynamicFilter.filters)
+                }
+                this.upData()
             })
-            if (this.onCommand) {
-                this.onCommand(this.vue.query.dynamicFilter.filters)
-            }
-            this.upData()
         },
         contextMenuVisibleChange(visible) {
             if (!visible) {

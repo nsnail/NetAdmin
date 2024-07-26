@@ -26,4 +26,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 获取缓存项
+     */
+    getEntry: {
+        url: `${config.API_URL}/api/sys/cache/get.entry`,
+        name: `获取缓存项`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

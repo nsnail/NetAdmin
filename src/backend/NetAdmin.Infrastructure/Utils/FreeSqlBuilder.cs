@@ -15,7 +15,8 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     {
         var freeSql = new FreeSql.FreeSqlBuilder().UseConnectionString(databaseOptions.DbType, databaseOptions.ConnStr)
                                                   .UseGenerateCommandParameterWithLambda(true)
-                                                  .UseAutoSyncStructure(false)
+                                                  .UseAutoSyncStructure(
+                                                      initMethods.HasFlag(FreeSqlInitMethods.SyncStructure))
                                                   .Build();
 
         _ = InitDbAsync(freeSql, initMethods); // 初始化数据库 ，异步

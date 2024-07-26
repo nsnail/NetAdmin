@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.Cache;
 public sealed record GetAllEntriesReq : DataAbstraction
 {
     /// <summary>
-    ///     数据库索引号
+    ///     关键词
     /// </summary>
-    public int DbIndex { get; init; }
+    public string Keywords { get; init; }
 }

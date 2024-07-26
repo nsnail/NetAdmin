@@ -36,6 +36,13 @@ const routes = [
                             title: '账号信息',
                         },
                     },
+                    {
+                        path: '/profile/logs',
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/logs.vue'),
+                        meta: {
+                            title: '登录日志',
+                        },
+                    },
                 ],
             },
         ],

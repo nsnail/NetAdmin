@@ -1,5 +1,4 @@
 using NetAdmin.Cache;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using NetAdmin.SysComponent.Cache.Sys.Dependency;
@@ -22,8 +21,14 @@ public sealed class CacheCache(IDistributedCache cache, ICacheService service) /
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req)
     {
         return Service.GetAllEntriesAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req)
+    {
+        return Service.GetEntryAsync(req);
     }
 }

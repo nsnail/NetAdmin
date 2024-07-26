@@ -8,10 +8,11 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IApiService" />
 public sealed class ApiService(
-    BasicRepository<Sys_Api, string>    rpo                                 //
-  , XmlCommentReader                    xmlCommentReader                    //
-  , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider) //
-    : RepositoryService<Sys_Api, string, IApiService>(rpo), IApiService
+    BasicRepository<Sys_Api, string>    rpo              //
+  , XmlCommentReader                    xmlCommentReader //
+  , IActionDescriptorCollectionProvider actionDescriptorCollectionProvider
+  , RedLocker                           redLocker) //
+    : RedLockerService<Sys_Api, string, IApiService>(rpo, redLocker), IApiService
 {
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -125,6 +126,7 @@ public sealed class ApiService(
     /// <inheritdoc />
     public async Task SyncAsync()
     {
+        await using var locker = await GetLockerOnceAsync(nameof(SyncAsync)).ConfigureAwait(false);
         _ = await Rpo.DeleteAsync(_ => true).ConfigureAwait(false);
 
         var list = ReflectionList(false);

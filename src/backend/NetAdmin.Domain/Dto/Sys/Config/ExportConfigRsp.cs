@@ -9,20 +9,20 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 public record ExportConfigRsp : QueryConfigRsp, IRegister
 {
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(6)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.是否启用))]
     public override bool Enabled { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(0)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(3)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.人工审核))]
     public override bool UserRegisterConfirm { get; init; }
 
@@ -33,8 +33,8 @@ public record ExportConfigRsp : QueryConfigRsp, IRegister
     /// <summary>
     ///     默认部门
     /// </summary>
-    [CsvIgnore(false)]
     [CsvIndex(1)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.默认部门))]
     public string UserRegisterDeptName { get; init; }
 
@@ -45,8 +45,8 @@ public record ExportConfigRsp : QueryConfigRsp, IRegister
     /// <summary>
     ///     默认角色
     /// </summary>
-    [CsvIgnore(false)]
     [CsvIndex(2)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.默认角色))]
     public string UserRegisterRoleName { get; init; }
 

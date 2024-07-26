@@ -9,8 +9,8 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public record ExportUserRsp : QueryUserRsp
 {
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(7)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.创建时间))]
     public override DateTime CreatedTime { get; init; }
 
@@ -26,26 +26,26 @@ public record ExportUserRsp : QueryUserRsp
     public string DeptName { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(3)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.邮箱号))]
     public override string Email { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(6)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.是否启用))]
     public override bool Enabled { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(0)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(2)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.手机号))]
     public override string Mobile { get; init; }
 
@@ -61,8 +61,8 @@ public record ExportUserRsp : QueryUserRsp
     public override IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(1)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.用户名))]
     public override string UserName { get; init; }
 

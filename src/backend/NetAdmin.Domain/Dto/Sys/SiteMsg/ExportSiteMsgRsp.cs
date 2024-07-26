@@ -11,14 +11,14 @@ namespace NetAdmin.Domain.Dto.Sys.SiteMsg;
 public record ExportSiteMsgRsp : QuerySiteMsgRsp
 {
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(5)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.创建时间))]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(1)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.用户名))]
     public override string CreatedUserName { get; init; }
 
@@ -27,14 +27,14 @@ public record ExportSiteMsgRsp : QuerySiteMsgRsp
     public override IEnumerable<QueryDeptRsp> Depts { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(0)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(2)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.消息类型))]
     public override SiteMsgTypes MsgType { get; init; }
 
@@ -43,14 +43,14 @@ public record ExportSiteMsgRsp : QuerySiteMsgRsp
     public override IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(4)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.消息摘要))]
     public override string Summary { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(3)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.消息主题))]
     public override string Title { get; init; }
 

@@ -46,9 +46,13 @@ public record QueryRequestLogRsp : Sys_RequestLog
 
     /// <inheritdoc cref="Sys_RequestLog.Owner" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new virtual QueryUserLiteRsp Owner { get; init; }
+    public new virtual QueryUserRsp Owner { get; init; }
 
     /// <inheritdoc cref="IFieldOwner.OwnerId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override long? OwnerId { get; init; }
+
+    /// <inheritdoc cref="Sys_RequestLog.TraceId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override Guid TraceId { get; init; }
 }

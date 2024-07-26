@@ -3,13 +3,13 @@
         <chart-bar
             :api="[
                 {
-                    file: 'sys_log',
+                    file: 'sys_requestlog',
                     name: 'getBarChart',
                     label: '今日',
                     value: ['DateTime.Now.Date', 'DateTime.Now.Date.AddDays(1)'],
                 },
                 {
-                    file: 'sys_log',
+                    file: 'sys_requestlog',
                     name: 'getBarChart',
                     label: '昨日',
                     value: ['DateTime.Now.Date.AddDays(-1)', 'DateTime.Now.Date'],

@@ -66,8 +66,4 @@ public sealed record QueryRequestLogDetailRsp : Sys_RequestLogDetail
     /// <inheritdoc cref="Sys_RequestLogDetail.ServerIp" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override int? ServerIp { get; init; }
-
-    /// <inheritdoc cref="Sys_RequestLogDetail.TraceId" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string TraceId { get; init; }
 }

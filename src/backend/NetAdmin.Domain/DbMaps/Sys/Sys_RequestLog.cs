@@ -5,11 +5,13 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     请求日志表
 /// </summary>
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(ApiPathCrc32),   nameof(ApiPathCrc32),          false)]
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(CreatedTime),    $"{nameof(CreatedTime)} DESC", false)]
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(OwnerId),        nameof(OwnerId),               false)]
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(HttpStatusCode), nameof(HttpStatusCode),        false)]
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RequestLog))]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX + nameof(ApiPathCrc32),   nameof(ApiPathCrc32),          false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX + nameof(CreatedTime),    $"{nameof(CreatedTime)} DESC", false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX + nameof(OwnerId),        nameof(OwnerId),               false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX + nameof(HttpStatusCode), nameof(HttpStatusCode),        false)]
+[Table( //
+    Name = $"{Chars.FLG_DB_TABLE_NAME_PREFIX}{nameof(Sys_RequestLog)}_{{yyyyMMdd}}"
+  , AsTable = $"{nameof(CreatedTime)}=2024-1-1(1 day)")]
 public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFieldCreatedClientIp
 {
     /// <summary>
@@ -91,4 +93,12 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerId { get; init; }
+
+    /// <summary>
+    ///     请求跟踪标识
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual Guid TraceId { get; init; }
 }

@@ -27,6 +27,10 @@ public record QueryApiRsp : Sys_Api
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string ParentId { get; init; }
 
+    /// <inheritdoc cref="Sys_Api.PathCrc32" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override int PathCrc32 { get; init; }
+
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Summary { get; init; }

@@ -18,14 +18,15 @@ public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
     /// <inheritdoc />
     public Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
     {
-        return Task.FromResult<IEnumerable<GetModulesRsp>>( //
-            AppDomain.CurrentDomain.GetAssemblies()
-                     .Where(x => !x.FullName?.Contains('#') ?? false)
-                     .Select(x => {
-                         var asm = x.GetName();
-                         return new GetModulesRsp { Name = asm.Name, Version = asm.Version?.ToString() };
-                     })
-                     .OrderBy(x => x.Name));
+        return Task.FromResult<IEnumerable<GetModulesRsp>>(AppDomain.CurrentDomain.GetAssemblies()
+                                                                    .Select(x => {
+                                                                        var asm = x.GetName();
+                                                                        return new GetModulesRsp {
+                                                                                   Name    = asm.Name
+                                                                                 , Version = asm.Version?.ToString()
+                                                                               };
+                                                                    })
+                                                                    .OrderBy(x => x.Name));
     }
 
     /// <inheritdoc />

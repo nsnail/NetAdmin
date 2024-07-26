@@ -29,7 +29,9 @@
         </el-aside>
         <el-main class="profile-main">
             <router-view v-slot="{ Component }">
-                <component :is="Component" />
+                <keep-alive>
+                    <component :is="Component" />
+                </keep-alive>
             </router-view>
         </el-main>
     </el-container>
@@ -62,6 +64,11 @@ export default {
                             icon: 'el-icon-bell',
                             title: '我的消息',
                             component: '/profile/message',
+                        },
+                        {
+                            icon: 'el-icon-clock',
+                            title: '登录日志',
+                            component: '/profile/logs',
                         },
                     ],
                 },

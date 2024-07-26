@@ -552,3 +552,19 @@ textarea {
     background-color: yellow;
     color: var(--el-color-black);
 }
+
+.el-table-column-avatar {
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+
+    > div:last-child {
+        line-height: 1.2rem;
+
+        > p:last-child {
+            color: var(--el-color-info-light-3);
+        }
+    }
+}

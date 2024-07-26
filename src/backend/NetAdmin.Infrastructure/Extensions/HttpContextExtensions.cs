@@ -22,4 +22,12 @@ public static class HttpContextExtensions
             ? ip2
             : me.Connection.RemoteIpAddress;
     }
+
+    /// <summary>
+    ///     获取跟踪标识
+    /// </summary>
+    public static Guid GetTraceId(this HttpContext me)
+    {
+        return me.TraceIdentifier.Md5(Encoding.UTF8).Guid();
+    }
 }

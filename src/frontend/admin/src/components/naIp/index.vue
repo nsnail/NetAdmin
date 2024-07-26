@@ -17,7 +17,7 @@ export default {
     created() {
         if (this.ip) {
             this.region = '...'
-            http.get(`http://ip.line92.com/?ip=${this.ip}`).then((x) => {
+            http.get(`http://ip.line92.xyz/?ip=${this.ip}`).then((x) => {
                 this.region = x.region
             })
         }

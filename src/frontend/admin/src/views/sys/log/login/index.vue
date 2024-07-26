@@ -2,6 +2,7 @@
     <el-container>
         <el-header style="height: auto; padding: 0 1rem">
             <sc-select-filter
+                v-if="showFilter"
                 :data="[
                     {
                         title: $t('登录结果'),
@@ -29,7 +30,7 @@
                         },
                     ]"
                     :vue="this"
-                    @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
+                    @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
                     dateType="datetimerange"
@@ -40,12 +41,12 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :context-menus="['id', 'httpStatusCode', 'createdClientIp', 'createdUserAgent', 'createdTime']"
+                :context-menus="['id', 'httpStatusCode', 'loginUserName', 'createdClientIp', 'createdUserAgent', 'createdTime']"
                 :context-opers="['view']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
-                :export-api="$API.sys_log.export"
+                :export-api="$API.sys_loginlog.export"
                 :params="query"
-                :query-api="$API.sys_log.pagedQuery"
+                :query-api="$API.sys_loginlog.pagedQuery"
                 :vue="this"
                 ref="table"
                 remote-filter
@@ -59,14 +60,14 @@
                         {{ row.httpStatusCode === 200 ? '成功' : '失败' }}
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('登录名')" prop="detail.loginName" width="150" />
+                <el-table-column :label="$t('登录名')" prop="loginUserName" sortable="custom" width="150" />
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="{ row }">
                         <na-ip :ip="row.createdClientIp"></na-ip>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('操作系统')" align="center" prop="detail.os" width="150" />
-                <el-table-column :label="$t('用户代理')" prop="detail.createdUserAgent" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
+                <el-table-column :label="$t('用户代理')" prop="createdUserAgent" show-overflow-tooltip sortable="custom" />
                 <na-col-operation
                     :buttons="[
                         {
@@ -91,13 +92,7 @@ export default {
         naInfo,
     },
     computed: {},
-    created() {
-        this.query.dynamicFilter.filters.push({
-            field: 'apiPathCrc32',
-            operator: 'eq',
-            value: '1290209789',
-        })
-    },
+    created() {},
     data() {
         return {
             dialog: {
@@ -106,13 +101,7 @@ export default {
             loading: false,
             query: {
                 dynamicFilter: {
-                    filters: [
-                        {
-                            field: 'createdTime',
-                            operator: 'dateRange',
-                            value: [this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'), this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')],
-                        },
-                    ],
+                    filters: [],
                 },
                 filter: {},
                 keywords: this.keywords,
@@ -128,15 +117,12 @@ export default {
             })
             this.$refs.search.search()
         },
+        onReset() {
+            if (!this.showFilter) return
+            Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
+        },
         //搜索
         onSearch(form) {
-            if (this.query.dynamicFilter.filters.findIndex((x) => x.field === 'apiPathCrc32') < 0) {
-                this.query.dynamicFilter.filters.push({
-                    field: 'apiPathCrc32',
-                    operator: 'eq',
-                    value: '1290209789',
-                })
-            }
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
@@ -165,7 +151,7 @@ export default {
         async rowClick(row) {
             this.dialog.info = true
             await this.$nextTick()
-            const res = await this.$API.sys_log.get.post({
+            const res = await this.$API.sys_loginlog.get.post({
                 id: row.id,
             })
             this.$refs.info.open(this.$TOOL.sortProperties(res.data), this.$t('日志详情：{id}', { id: row.id }))
@@ -180,18 +166,8 @@ export default {
                 type: 'root',
             })
         }
-        this.$refs.search.form.dy['apiPathCrc32'] = '1290209789'
-        this.$refs.search.form.dy.createdTime = [
-            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
-            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
-        ]
-        this.$refs.search.keeps.push({
-            field: 'createdTime',
-            value: this.$refs.search.form.dy.createdTime,
-            type: 'dy',
-        })
     },
-    props: ['keywords'],
+    props: { keywords: { type: String }, showFilter: { type: Boolean, default: true } },
     watch: {},
 }
 </script>

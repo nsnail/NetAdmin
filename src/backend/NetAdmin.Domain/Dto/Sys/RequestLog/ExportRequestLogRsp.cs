@@ -14,13 +14,13 @@ public record ExportRequestLogRsp : QueryRequestLogRsp
     ///     接口路径
     /// </summary>
     [CsvIndex(2)]
-    [CsvName(nameof(Ln.接口路径))]
     [JsonInclude]
+    [CsvName(nameof(Ln.接口路径))]
     public string ApiId => Api.Id;
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(6)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.客户端IP))]
     public override string CreatedClientIp => base.CreatedClientIp;
 
@@ -28,8 +28,8 @@ public record ExportRequestLogRsp : QueryRequestLogRsp
     ///     用户名
     /// </summary>
     [CsvIndex(5)]
-    [CsvName(nameof(Ln.用户名))]
     [JsonInclude]
+    [CsvName(nameof(Ln.用户名))]
     public string UserName => Owner?.UserName;
 
     /// <inheritdoc />
@@ -37,7 +37,9 @@ public record ExportRequestLogRsp : QueryRequestLogRsp
     public override QueryApiRsp Api { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore]
+    [CsvIgnore(false)]
+    [CsvIndex(8)]
+    [CsvName(nameof(Ln.创建时间))]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
@@ -45,38 +47,36 @@ public record ExportRequestLogRsp : QueryRequestLogRsp
     public override QueryRequestLogDetailRsp Detail { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(4)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.执行耗时))]
     public override int Duration { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(3)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.请求方式))]
     public override HttpMethods HttpMethod { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(1)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.响应状态码))]
     public override int HttpStatusCode { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(0)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
     /// <inheritdoc />
     [CsvIgnore]
-    public override QueryUserLiteRsp Owner { get; init; }
+    public override QueryUserRsp Owner { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore]
-    public override long? OwnerDeptId { get; init; }
-
-    /// <inheritdoc />
-    [CsvIgnore]
-    public override long? OwnerId { get; init; }
+    [CsvIndex(7)]
+    [CsvIgnore(false)]
+    [CsvName(nameof(Ln.跟踪标识))]
+    public override Guid TraceId { get; init; }
 }

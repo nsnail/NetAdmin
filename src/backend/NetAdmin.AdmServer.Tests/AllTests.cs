@@ -823,11 +823,14 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req)
     {
-        var rsp = await PostAsync("/api/sys/cache/get.all.entries"
-                                , JsonContent.Create(new PagedQueryReq<GetAllEntriesReq>()))
-            .ConfigureAwait(true);
+        var rsp = PostAsync("/api/sys/cache/get.all.entries", JsonContent.Create(new GetAllEntriesReq()))
+                  .ConfigureAwait(true)
+                  .GetAwaiter()
+                  #pragma warning disable xUnit1031
+                  .GetResult();
+        #pragma warning restore xUnit1031
         Assert.Equal(HttpStatusCode.OK, rsp.StatusCode);
         return default;
     }
@@ -1025,6 +1028,12 @@ public class AllTests(WebApplicationFactory<Startup> factory, ITestOutputHelper 
     [InlineData(default)]
     [Theory]
     public Task<string> GetDicValueAsync(GetDicValueReq req)
+    {
+        return default;
+    }
+
+    /// <inheritdoc />
+    public Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req)
     {
         return default;
     }
