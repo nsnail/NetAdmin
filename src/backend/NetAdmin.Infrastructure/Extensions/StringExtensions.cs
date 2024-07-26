@@ -62,16 +62,6 @@ public static class StringExtensions
     }
 
     /// <summary>
-    ///     去掉尾部字符串“Async”
-    /// </summary>
-    #pragma warning disable RCS1047, ASA002, VSTHRD200
-    public static string TrimPrefixAsync(this string me)
-        #pragma warning restore VSTHRD200, ASA002, RCS1047
-    {
-        return TrimPrefix(me, "Async");
-    }
-
-    /// <summary>
     ///     去掉尾部字符串
     /// </summary>
     public static string TrimSuffix(this string me, string clearStr)
@@ -80,10 +70,20 @@ public static class StringExtensions
     }
 
     /// <summary>
+    ///     去掉尾部字符串“Async”
+    /// </summary>
+    #pragma warning disable RCS1047, ASA002, VSTHRD200
+    public static string TrimSuffixAsync(this string me)
+        #pragma warning restore VSTHRD200, ASA002, RCS1047
+    {
+        return TrimSuffix(me, "Async");
+    }
+
+    /// <summary>
     ///     去掉尾部字符串“Options”
     /// </summary>
     public static string TrimSuffixOptions(this string me)
     {
-        return TrimPrefix(me, "Options");
+        return TrimSuffix(me, "Options");
     }
 }
