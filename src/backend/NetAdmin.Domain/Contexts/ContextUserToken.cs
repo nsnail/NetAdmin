@@ -49,4 +49,14 @@ public sealed record ContextUserToken : DataAbstraction
                                         Id = user.Id, Token = user.Token, UserName = user.UserName, DeptId = user.DeptId
                                     };
     }
+
+    /// <summary>
+    ///     从 Json Web Token 创建上下文用户
+    /// </summary>
+    public static ContextUserToken Create(string jwt)
+    {
+        var claim = JWTEncryption.ReadJwtToken(jwt.TrimPrefix($"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} "))
+                                 ?.Claims.FirstOrDefault(x => x.Type == nameof(ContextUserToken));
+        return claim?.Value.ToObject<ContextUserToken>();
+    }
 }

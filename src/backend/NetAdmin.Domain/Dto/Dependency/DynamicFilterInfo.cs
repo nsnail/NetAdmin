@@ -50,29 +50,34 @@ public sealed record DynamicFilterInfo : DataAbstraction
             }
         }
 
-        if (d?.Operator != DynamicFilterOperator.DateRange) {
-            return;
+        if (new[] { nameof(IFieldCreatedClientIp.CreatedClientIp), nameof(IFieldModifiedClientIp.ModifiedClientIp) }
+            .Contains(d?.Field, StringComparer.OrdinalIgnoreCase)) {
+            var val = d!.Value?.ToString();
+            if (val?.IsIpV4() == true) {
+                d.Value = val.IpV4ToInt32();
+            }
         }
+        else if (d?.Operator == DynamicFilterOperator.DateRange) {
+            var values = ((JsonElement)d.Value).Deserialize<string[]>();
+            if (!DateTime.TryParse(values[0], CultureInfo.InvariantCulture, out _)) {
+                var result = values[0]
+                             .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
+                             .ConfigureAwait(false)
+                             .GetAwaiter()
+                             .GetResult();
+                values[0] = $"{result:yyyy-MM-dd HH:mm:ss}";
+            }
 
-        var values = ((JsonElement)d.Value).Deserialize<string[]>();
-        if (!DateTime.TryParse(values[0], CultureInfo.InvariantCulture, out _)) {
-            var result = values[0]
-                         .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
-                         .ConfigureAwait(false)
-                         .GetAwaiter()
-                         .GetResult();
-            values[0] = $"{result:yyyy-MM-dd HH:mm:ss}";
+            if (!DateTime.TryParse(values[1], CultureInfo.InvariantCulture, out _)) {
+                var result = values[1]
+                             .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
+                             .ConfigureAwait(false)
+                             .GetAwaiter()
+                             .GetResult();
+                values[1] = $"{result:yyyy-MM-dd HH:mm:ss}";
+            }
+
+            d.Value = values;
         }
-
-        if (!DateTime.TryParse(values[1], CultureInfo.InvariantCulture, out _)) {
-            var result = values[1]
-                         .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
-                         .ConfigureAwait(false)
-                         .GetAwaiter()
-                         .GetResult();
-            values[1] = $"{result:yyyy-MM-dd HH:mm:ss}";
-        }
-
-        d.Value = values;
     }
 }

@@ -253,12 +253,9 @@ tool.unicodeDecode = function (str) {
 }
 // 高亮关键词
 tool.highLightKeywords = function (str) {
-    console.error(str)
-    var ret = str
+    return str
         .replace(new RegExp('(Body)', 'gi'), '<span class=keywords-highlight>$1</span>')
         .replace(new RegExp('(http://cloud_code_adm_api.*?),', 'gi'), '<span class=keywords-highlight>$1</span>')
-    console.error(ret)
-    return ret
 }
 // 属性排序
 tool.sortProperties = function (obj) {

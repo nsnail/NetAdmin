@@ -10,68 +10,68 @@ namespace NetAdmin.Domain.Dto.Sys.Job;
 public record ExportJobRsp : QueryJobRsp
 {
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(5)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.上次执行状态))]
     public override string LastStatusCode => base.LastStatusCode;
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(10)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.创建时间))]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(9)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.是否启用))]
     public override bool Enabled { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(2)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.执行计划))]
     public override string ExecutionCron { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(4)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.请求方式))]
     public override HttpMethods HttpMethod { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(0)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(1)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.作业名称))]
     public override string JobName { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(7)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.上次执行耗时))]
     public override long? LastDuration { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(6)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.上次执行时间))]
     public override DateTime? LastExecTime { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(8)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.下次执行时间))]
     public override DateTime? NextExecTime { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(3)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.作业状态))]
     public override JobStatues Status { get; init; }
 

@@ -44,7 +44,6 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
                                        , ResponseContentType = context.Response.ContentType
                                        , ResponseHeaders     = context.Response.Headers.Json()
                                        , ServerIp            = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
-                                       , TraceId             = context.TraceIdentifier
                                      }
                           , Duration        = (int)duration
                           , HttpMethod      = Enum.Parse<HttpMethods>(context.Request.Method, true)
@@ -54,6 +53,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
                           , OwnerId         = associatedUser?.UserId
                           , OwnerDeptId     = associatedUser?.DeptId
                           , Id              = id
+                          , TraceId         = context.GetTraceId()
                         };
 
         // 打印日志
@@ -74,13 +74,10 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
 
         ContextUserToken userToken = null;
         try {
-            var jsonWebToken
-                = JWTEncryption.ReadJwtToken(token.TrimPrefix($"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} "));
-            var claim = jsonWebToken?.Claims.FirstOrDefault(y => y.Type == nameof(ContextUserToken));
-            userToken = claim?.Value.ToObject<ContextUserToken>();
+            userToken = ContextUserToken.Create(token);
         }
         catch (Exception ex) {
-            logger.Warn($"{Ln.读取用户令牌出错}: {ex}");
+            logger.Warn($"{Ln.读取用户令牌出错} {ex}");
         }
 
         return userToken == null ? null : (userToken.Id, userToken.DeptId, userToken.UserName);

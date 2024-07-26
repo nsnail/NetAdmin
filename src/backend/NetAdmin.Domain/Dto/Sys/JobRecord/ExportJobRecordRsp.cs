@@ -8,26 +8,26 @@ namespace NetAdmin.Domain.Dto.Sys.JobRecord;
 public record ExportJobRecordRsp : QueryJobRecordRsp, IRegister
 {
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(1)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.响应状态码))]
     public override string HttpStatusCode => base.HttpStatusCode;
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(6)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.创建时间))]
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(3)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.执行耗时))]
     public override long Duration { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(0)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
 
@@ -38,14 +38,14 @@ public record ExportJobRecordRsp : QueryJobRecordRsp, IRegister
     /// <summary>
     ///     作业名称
     /// </summary>
-    [CsvIgnore(false)]
     [CsvIndex(4)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.作业名称))]
     public string JobName { get; set; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(5)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.响应体))]
     public override string ResponseBody { get; init; }
 

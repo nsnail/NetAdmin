@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
@@ -24,8 +23,16 @@ public sealed class CacheController(ICacheCache cache) : ControllerBase<ICacheCa
     /// <summary>
     ///     获取所有缓存项
     /// </summary>
-    public Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req)
+    public Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req)
     {
         return Cache.GetAllEntriesAsync(req);
+    }
+
+    /// <summary>
+    ///     获取缓存项
+    /// </summary>
+    public Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req)
+    {
+        return Cache.GetEntryAsync(req);
     }
 }

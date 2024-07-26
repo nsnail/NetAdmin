@@ -1,12 +1,21 @@
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>
-///     请求日志明细表
+///     登录日志表
 /// </summary>
-[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_RequestLogDetail))]
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(CreatedTime), $"{nameof(CreatedTime)} DESC", false)]
-public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCreatedClientUserAgent
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(CreatedTime),    $"{nameof(CreatedTime)} DESC", false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(HttpStatusCode), nameof(HttpStatusCode),        false)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(OwnerId),        nameof(OwnerId),               false)]
+[Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_LoginLog))]
+public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFieldCreatedClientIp
+                           , IFieldCreatedClientUserAgent
 {
+    /// <inheritdoc />
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual int? CreatedClientIp { get; init; }
+
     /// <inheritdoc />
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
     [CsvIgnore]
@@ -24,6 +33,14 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     public virtual string CreatedUserAgent { get; init; }
 
     /// <summary>
+    ///     执行耗时（毫秒）
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual int Duration { get; init; }
+
+    /// <summary>
     ///     程序响应码
     /// </summary>
     [Column]
@@ -32,16 +49,40 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     public virtual ErrorCodes ErrorCode { get; init; }
 
     /// <summary>
-    ///     异常信息
+    ///     HTTP状态码
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_SMALL_INT)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Exception { get; init; }
+    public virtual int HttpStatusCode { get; init; }
+
+    /// <summary>
+    ///     登录用户名
+    /// </summary>
+    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual string LoginUserName { get; init; }
+
+    /// <summary>
+    ///     拥有者
+    /// </summary>
+    [CsvIgnore]
+    [JsonIgnore]
+    [Navigate(nameof(OwnerId))]
+    public Sys_User Owner { get; init; }
+
+    /// <inheritdoc />
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual long? OwnerDeptId { get; init; }
+
+    /// <inheritdoc />
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual long? OwnerId { get; init; }
 
     /// <summary>
     ///     请求内容
@@ -54,14 +95,6 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
-
-    /// <summary>
-    ///     请求content-type
-    /// </summary>
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [CsvIgnore]
-    [JsonIgnore]
-    public virtual string RequestContentType { get; init; }
 
     /// <summary>
     ///     请求头信息
@@ -94,14 +127,6 @@ public record Sys_RequestLogDetail : SimpleEntity, IFieldCreatedTime, IFieldCrea
     [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseBody { get; init; }
-
-    /// <summary>
-    ///     响应content-type
-    /// </summary>
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [CsvIgnore]
-    [JsonIgnore]
-    public virtual string ResponseContentType { get; init; }
 
     /// <summary>
     ///     响应头

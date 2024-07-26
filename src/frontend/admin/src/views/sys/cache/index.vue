@@ -52,14 +52,34 @@
                 </el-row>
             </div>
         </el-header>
-
-        <el-main class="nopadding">
-            <sc-table :params="query" :query-api="$API.sys_cache.getAllEntries" @row-click="rowClick" ref="table" row-key="key" stripe>
-                <el-table-column :label="$t('键名')" prop="key" show-overflow-tooltip />
-                <el-table-column :label="$t('键值')" prop="data" show-overflow-tooltip />
-                <el-table-column :label="$t('滑动过期')" align="right" prop="sldExpTime" width="200" />
-                <el-table-column :label="$t('绝对过期')" align="right" prop="absExpTime" width="200" />
+        <el-header>
+            <div class="left-panel">
+                <form @keyup.enter="search" @submit.prevent="search" class="right-panel-search">
+                    <el-input v-model="this.query.keywords" :placeholder="$t('关键词')" clearable style="width: 25rem" />
+                    <el-button-group>
+                        <el-button @click="search" icon="el-icon-search" type="primary">{{ $t('查询') }}</el-button>
+                        <el-button @click="reset" icon="el-icon-refresh-left">{{ $t('重置') }}</el-button>
+                    </el-button-group>
+                </form>
+            </div>
+            <div class="right-panel"></div>
+        </el-header>
+        <el-main v-loading="loading" class="nopadding">
+            <sc-table v-if="tableData.length > 0" :data="tableData" :page-size="100" hide-refresh pagination-layout="total" stripe>
+                <el-table-column :label="$t('键名')" prop="key" />
+                <el-table-column :label="$t('数据类型')" align="center" prop="type" width="100" />
+                <el-table-column :label="$t('过期时间')" align="right" prop="expireTime" width="200" />
+                <na-col-operation
+                    :buttons="[
+                        {
+                            icon: 'el-icon-view',
+                            click: rowClick,
+                        },
+                    ]"
+                    :vue="this"
+                    width="100" />
             </sc-table>
+            <el-empty v-else></el-empty>
         </el-main>
     </el-container>
     <na-info v-if="dialog.info" ref="info"></na-info>
@@ -74,14 +94,14 @@ export default {
     },
     data() {
         return {
+            loading: true,
             dialog: {
                 info: false,
             },
             query: {
-                filter: {
-                    dbIndex: 1,
-                },
+                keywords: '',
             },
+            tableData: [],
             statistics: {
                 keyspaceHits: 0,
                 keyspaceMisses: 0,
@@ -93,10 +113,32 @@ export default {
         }
     },
     methods: {
+        reset() {
+            this.query.keywords = ''
+            this.search()
+        },
+        search() {
+            this.getData()
+        },
         async rowClick(row) {
+            this.loading = true
+            const res = await this.$API.sys_cache.getEntry.post({ key: row.key })
             this.dialog.info = true
             await this.$nextTick()
-            this.$refs.info.open(this.$TOOL.sortProperties(row), this.$t('缓存详情'))
+            this.$refs.info.open(this.$TOOL.sortProperties(res.data), this.$t('缓存详情'))
+            this.loading = false
+        },
+        async getData() {
+            this.loading = true
+            try {
+                const res = await this.$API.sys_cache.getAllEntries.post(this.query)
+                if (res.data) {
+                    this.tableData = res.data
+                }
+            } catch {
+                //
+            }
+            this.loading = false
         },
         async cacheStatistics() {
             try {
@@ -109,15 +151,9 @@ export default {
             }
         },
     },
-    mounted() {
+    created() {
         this.cacheStatistics()
-    },
-    watch: {
-        'query.filter.dbIndex': {
-            handler() {
-                this.$refs.table.upData()
-            },
-        },
+        this.getData()
     },
 }
 </script>

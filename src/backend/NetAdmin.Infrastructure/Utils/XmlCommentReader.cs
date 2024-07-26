@@ -18,7 +18,7 @@ public sealed class XmlCommentReader : ISingleton
     {
         var xmlComments = specificationDocumentSettings.Value.XmlComments //
                           ?? App.GetConfig<SpecificationDocumentSettingsOptions>(
-                                    nameof(SpecificationDocumentSettingsOptions).TrimEndOptions())
+                                    nameof(SpecificationDocumentSettingsOptions).TrimSuffixOptions())
                                 .XmlComments;
         foreach (var commentFile in xmlComments.Where(x => x.Contains(nameof(NetAdmin)))) {
             var xmlDoc      = new XmlDocument();

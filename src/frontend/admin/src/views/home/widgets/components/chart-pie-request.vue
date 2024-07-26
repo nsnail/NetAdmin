@@ -3,13 +3,13 @@
         <chart-pie
             :api="[
                 {
-                    file: 'sys_log',
+                    file: 'sys_requestlog',
                     name: 'getPieChartByApiSummary',
                     value: [tool.dateFormat(new Date(), 'yyyy-MM-dd'), tool.dateFormat(new Date(), 'yyyy-MM-dd')],
                     radius: ['70%', '100%'],
                 },
                 {
-                    file: 'sys_log',
+                    file: 'sys_requestlog',
                     name: 'getPieChartByHttpStatusCode',
                     value: [tool.dateFormat(new Date(), 'yyyy-MM-dd'), tool.dateFormat(new Date(), 'yyyy-MM-dd')],
                     radius: [0, '30%'],

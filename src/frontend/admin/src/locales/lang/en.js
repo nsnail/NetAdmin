@@ -486,4 +486,13 @@ export default {
     '作业趋势(Today)': 'Job trend (Today)',
     后退一时: 'Back an hour',
     后退一日: 'Back a day',
+    登录日志: 'Login log',
+    关键词: 'Keyword',
+    数据类型: 'Data type',
+    字段名: 'Field',
+    操作符: 'Operator',
+    字段值: 'Value',
+    一行一个: 'One line per item',
+    请输入字段名: 'Please enter field name',
+    请输入操作符: 'Please enter operator',
 }

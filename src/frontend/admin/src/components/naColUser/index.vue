@@ -4,7 +4,7 @@
             <div
                 :style="{ display: $TOOL.getNestedProperty(row, $attrs.prop) ? 'flex' : 'none' }"
                 @click="click($TOOL.getNestedProperty(row, $attrs.prop))"
-                class="avatar">
+                class="el-table-column-avatar">
                 <el-avatar v-if="$TOOL.getNestedProperty(row, $attrs.nestProp)" :src="getAvatar(row, $attrs.nestProp)" size="small"></el-avatar>
                 <div>
                     <p>{{ $TOOL.getNestedProperty(row, $attrs.nestProp) }}</p>
@@ -44,18 +44,4 @@ export default {
     watch: {},
 }
 </script>
-<style lang="scss" scoped>
-.avatar {
-    div:last-child {
-        line-height: 1.2rem;
-        p:last-child {
-            color: var(--el-color-info-light-3);
-        }
-    }
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    gap: 0.5rem;
-}
-</style>
+<style scoped></style>

@@ -61,7 +61,7 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     [Column]
     [CsvIgnore]
     [JsonIgnore]
-    public int PathCrc32 { get; init; }
+    public virtual int PathCrc32 { get; init; }
 
     /// <summary>
     ///     角色集合

@@ -72,6 +72,6 @@ public abstract class WorkBase<TLogger>
     {
         return _redLocker.RedLockFactory.CreateLockAsync(lockId, TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_EXPIRY)
                                                        , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_WAIT)
-                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_RETRY));
+                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_RETRY_INTERVAL));
     }
 }

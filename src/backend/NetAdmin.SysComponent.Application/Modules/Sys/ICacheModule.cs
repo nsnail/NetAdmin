@@ -1,4 +1,3 @@
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
@@ -16,5 +15,10 @@ public interface ICacheModule
     /// <summary>
     ///     获取所有缓存项
     /// </summary>
-    Task<PagedQueryRsp<GetAllEntriesRsp>> GetAllEntriesAsync(PagedQueryReq<GetAllEntriesReq> req);
+    Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req);
+
+    /// <summary>
+    ///     获取缓存项
+    /// </summary>
+    Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req);
 }

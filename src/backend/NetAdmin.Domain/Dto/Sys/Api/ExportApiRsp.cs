@@ -10,26 +10,26 @@ public record ExportApiRsp : QueryApiRsp
     public override IEnumerable<QueryApiRsp> Children { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(0)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.接口路径))]
     public override string Id { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(2)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.请求方式))]
     public override string Method { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(1)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.接口名称))]
     public override string Name { get; init; }
 
     /// <inheritdoc />
-    [CsvIgnore(false)]
     [CsvIndex(3)]
+    [CsvIgnore(false)]
     [CsvName(nameof(Ln.接口描述))]
     public override string Summary { get; init; }
 }

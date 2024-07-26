@@ -37,16 +37,16 @@
                         },
                         {
                             type: 'cascader',
-                            field: ['dy', 'api.id'],
+                            field: ['dy', 'apiPathCrc32'],
                             api: $API.sys_api.query,
-                            props: { label: 'summary', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
+                            props: { label: 'summary', value: 'pathCrc32', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
                             placeholder: $t('请求服务'),
                             style: 'width:20rem',
                         },
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: $t('日志编号 / 用户 / 客户端IP'),
+                            placeholder: $t('日志编号 / 用户编号 / 客户端IP'),
                             style: 'width:25rem',
                         },
                     ]"
@@ -65,10 +65,11 @@
                 :context-menus="['id', 'httpStatusCode', 'apiPathCrc32', 'ownerId', 'httpMethod', 'duration', 'createdClientIp', 'createdTime']"
                 :context-opers="[]"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
-                :export-api="$API.sys_log.export"
+                :export-api="$API.sys_requestlog.export"
                 :params="query"
-                :query-api="$API.sys_log.pagedQuery"
+                :query-api="$API.sys_requestlog.pagedQuery"
                 :vue="this"
+                @data-change="dataChange"
                 ref="table"
                 remote-filter
                 remote-sort
@@ -84,8 +85,12 @@
                 <el-table-column :label="$t('请求服务')" align="center">
                     <el-table-column :label="$t('路径')" prop="apiPathCrc32" show-overflow-tooltip sortable="custom">
                         <template #default="{ row }">
-                            <p>{{ row.api.id }}</p>
-                            <p>{{ row.api.summary }}</p>
+                            <p>
+                                {{ apis?.find((x) => x.pathCrc32 === row.apiPathCrc32)?.id }}
+                            </p>
+                            <p>
+                                {{ apis?.find((x) => x.pathCrc32 === row.apiPathCrc32)?.summary }}
+                            </p>
                         </template>
                     </el-table-column>
                     <el-table-column :label="$t('方法')" align="center" prop="httpMethod" sortable="custom" width="100">
@@ -104,15 +109,29 @@
                         width="90">
                     </el-table-column>
                 </el-table-column>
-                <na-col-user
+                <el-table-column
                     v-auth="'sys/log/operation/user'"
                     :label="$t('用户')"
                     header-align="center"
-                    nestProp="owner.userName"
-                    nestProp2="owner.id"
                     prop="ownerId"
                     sortable="custom"
-                    width="170"></na-col-user>
+                    width="170">
+                    <template #default="{ row }">
+                        <div v-if="row.ownerId" :style="{ display: 'flex' }" @click="userClick(row.ownerId)" class="el-table-column-avatar">
+                            <el-avatar
+                                v-if="owners?.find((x) => x.id === row.ownerId)"
+                                :src="
+                                    owners?.find((x) => x.id === row.ownerId)?.avatar ??
+                                    $CONFIG.DEFAULT_AVATAR(owners?.find((x) => x.id === row.ownerId)?.userName)
+                                "
+                                size="small"></el-avatar>
+                            <div>
+                                <p>{{ owners?.find((x) => x.id === row.ownerId)?.userName }}</p>
+                                <p>{{ owners?.find((x) => x.id === row.ownerId)?.id }}</p>
+                            </div>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="{ row }">
                         <na-ip :ip="row.createdClientIp"></na-ip>
@@ -132,14 +151,24 @@
     </el-container>
 
     <na-info v-if="dialog.info" ref="info"></na-info>
+    <save-dialog
+        v-if="dialog.save"
+        @closed="dialog.save = null"
+        @mounted="$refs.saveDialog.open(dialog.save)"
+        @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
+        ref="saveDialog"></save-dialog>
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
+const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save.vue'))
 import naInfo from '@/components/naInfo/index.vue'
 
 export default {
     components: {
         naInfo,
+        saveDialog,
     },
     computed: {},
     created() {
@@ -152,6 +181,8 @@ export default {
             dialog: {
                 info: false,
             },
+            owners: [],
+            apis: [],
             loading: false,
             query: {
                 dynamicFilter: {
@@ -159,7 +190,10 @@ export default {
                         {
                             field: 'createdTime',
                             operator: 'dateRange',
-                            value: [this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'), this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')],
+                            value: [
+                                this.$TOOL.dateFormat(new Date(new Date() - 3600 * 1000), 'yyyy-MM-dd hh:mm:ss'),
+                                this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                            ],
                         },
                     ],
                 },
@@ -171,6 +205,38 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        userClick(id) {
+            this.dialog.save = { mode: 'view', row: { id } }
+        },
+        async dataChange(data) {
+            this.owners = []
+            this.apis = []
+            const ownerIds = data.data.rows?.filter((x) => x.ownerId).map((x) => x.ownerId)
+            const apiCrcs = data.data.rows?.map((x) => x.apiPathCrc32)
+            const res = await Promise.all([
+                ownerIds && ownerIds.length > 0
+                    ? this.$API.sys_user.query.post({
+                          dynamicFilter: {
+                              field: 'id',
+                              operator: 'any',
+                              value: ownerIds,
+                          },
+                      })
+                    : new Promise((x) => x({ data: [] })),
+
+                apiCrcs && apiCrcs.length > 0
+                    ? this.$API.sys_api.query.post({
+                          dynamicFilter: {
+                              field: 'pathCrc32',
+                              operator: 'any',
+                              value: apiCrcs,
+                          },
+                      })
+                    : new Promise((x) => x({ data: [] })),
+            ])
+            this.owners = res[0].data
+            this.apis = res[1].data
+        },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
@@ -194,11 +260,11 @@ export default {
                     }),
                 })
             }
-            if (typeof form.dy['api.id'] === 'string' && form.dy['api.id'].trim() !== '') {
+            if (typeof form.dy['apiPathCrc32'] === 'number' && form.dy['apiPathCrc32'] !== 0) {
                 this.query.dynamicFilter.filters.push({
-                    field: 'api.id',
+                    field: 'apiPathCrc32',
                     operator: 'eq',
-                    value: form.dy['api.id'],
+                    value: form.dy['apiPathCrc32'],
                 })
             }
 
@@ -231,8 +297,9 @@ export default {
         async rowClick(row) {
             this.dialog.info = true
             await this.$nextTick()
-            const res = await this.$API.sys_log.get.post({
+            const res = await this.$API.sys_requestlog.get.post({
                 id: row.id,
+                createdTime: row.createdTime,
             })
             this.$refs.info.open(this.$TOOL.sortProperties(res.data), this.$t('日志详情：{id}', { id: row.id }))
         },
@@ -253,11 +320,12 @@ export default {
                 value: this.ownerId,
                 type: 'dy',
             })
+            this.$refs.search.form.dy.ownerId = this.ownerId
         }
 
         this.$refs.search.form.dy.createdTime = [
-            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
-            `${this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')} 00:00:00`,
+            this.$TOOL.dateFormat(new Date(new Date() - 3600 * 1000), 'yyyy-MM-dd hh:mm:ss'),
+            this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         ]
         this.$refs.search.keeps.push({
             field: 'createdTime',
