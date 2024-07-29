@@ -134,8 +134,10 @@
                 </el-table-column>
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="{ row }">
-                        <p>{{ row.createdClientIp }}</p>
-                        <p>{{ this.ips.filter((x) => x.ip === row.createdClientIp)[0]?.region ?? '...' }}</p>
+                        <template v-if="ips && ips.length > 0 && row.createdClientIp">
+                            <p>{{ row.createdClientIp }}</p>
+                            <p>{{ ips.filter((x) => x.ip === row.createdClientIp)[0]?.region ?? '...' }}</p>
+                        </template>
                     </template>
                 </el-table-column>
                 <na-col-operation
@@ -215,7 +217,7 @@ export default {
             this.apis = []
             const ownerIds = data.data.rows?.filter((x) => x.ownerId).map((x) => x.ownerId)
             const apiCrcs = data.data.rows?.map((x) => x.apiPathCrc32)
-            const ips = data.data.rows?.map((x) => x.createdClientIp)
+            const ips = data.data.rows?.map((x) => x.createdClientIp) ?? []
             const res = await Promise.all([
                 ownerIds && ownerIds.length > 0
                     ? this.$API.sys_user.query.post({

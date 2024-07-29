@@ -64,8 +64,10 @@
                 <el-table-column :label="$t('登录名')" prop="loginUserName" sortable="custom" width="150" />
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="{ row }">
-                        <p>{{ row.createdClientIp }}</p>
-                        <p>{{ this.ips.filter((x) => x.ip === row.createdClientIp)[0]?.region ?? '...' }}</p>
+                        <template v-if="ips && ips.length > 0 && row.createdClientIp">
+                            <p>{{ row.createdClientIp }}</p>
+                            <p>{{ this.ips.filter((x) => x.ip === row.createdClientIp)[0]?.region ?? '...' }}</p>
+                        </template>
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
@@ -117,7 +119,7 @@ export default {
     methods: {
         async dataChange(data) {
             this.apis = []
-            const ips = data.data.rows?.map((x) => x.createdClientIp)
+            const ips = data.data.rows?.map((x) => x.createdClientIp) ?? []
             const res = await Promise.all([
                 ips && ips.length > 0 ? http.get(`http://ip.line92.xyz/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
             ])
