@@ -48,6 +48,7 @@
                 :params="query"
                 :query-api="$API.sys_loginlog.pagedQuery"
                 :vue="this"
+                @data-change="dataChange"
                 ref="table"
                 remote-filter
                 remote-sort
@@ -63,7 +64,8 @@
                 <el-table-column :label="$t('登录名')" prop="loginUserName" sortable="custom" width="150" />
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="{ row }">
-                        <na-ip :ip="row.createdClientIp"></na-ip>
+                        <p>{{ row.createdClientIp }}</p>
+                        <p>{{ this.ips.filter((x) => x.ip === row.createdClientIp)[0]?.region ?? '...' }}</p>
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
@@ -86,6 +88,7 @@
 
 <script>
 import naInfo from '@/components/naInfo/index.vue'
+import http from '@/utils/request'
 
 export default {
     components: {
@@ -98,6 +101,7 @@ export default {
             dialog: {
                 info: false,
             },
+            ips: [],
             loading: false,
             query: {
                 dynamicFilter: {
@@ -111,6 +115,14 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async dataChange(data) {
+            this.apis = []
+            const ips = data.data.rows?.map((x) => x.createdClientIp)
+            const res = await Promise.all([
+                ips && ips.length > 0 ? http.get(`http://ip.line92.xyz/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
+            ])
+            this.ips = res[0]
+        },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
@@ -151,10 +163,13 @@ export default {
         async rowClick(row) {
             this.dialog.info = true
             await this.$nextTick()
-            const res = await this.$API.sys_loginlog.get.post({
-                id: row.id,
-            })
-            this.$refs.info.open(this.$TOOL.sortProperties(res.data), this.$t('日志详情：{id}', { id: row.id }))
+            await this.$refs.info.open(
+                () => this.$t('日志详情：{id}', { id: row.id }),
+                () =>
+                    this.$API.sys_loginlog.get.post({
+                        id: row.id,
+                    }),
+            )
         },
     },
     mounted() {

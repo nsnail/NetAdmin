@@ -38,7 +38,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     [Column]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual int Duration { get; init; }
+    public virtual int Duration { get; protected init; }
 
     /// <summary>
     ///     程序响应码
@@ -46,7 +46,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     [Column]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual ErrorCodes ErrorCode { get; init; }
+    public virtual ErrorCodes ErrorCode { get; protected init; }
 
     /// <summary>
     ///     HTTP状态码
@@ -62,7 +62,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string LoginUserName { get; init; }
+    public virtual string LoginUserName { get; protected init; }
 
     /// <summary>
     ///     拥有者
@@ -94,7 +94,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     #endif
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string RequestBody { get; init; }
+    public virtual string RequestBody { get; protected init; }
 
     /// <summary>
     ///     请求头信息
@@ -106,7 +106,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     #endif
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string RequestHeaders { get; init; }
+    public virtual string RequestHeaders { get; protected init; }
 
     /// <summary>
     ///     请求地址
@@ -114,7 +114,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string RequestUrl { get; init; }
+    public virtual string RequestUrl { get; protected init; }
 
     /// <summary>
     ///     响应内容
@@ -126,7 +126,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     #endif
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string ResponseBody { get; init; }
+    public virtual string ResponseBody { get; protected init; }
 
     /// <summary>
     ///     响应头
@@ -138,7 +138,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     #endif
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string ResponseHeaders { get; init; }
+    public virtual string ResponseHeaders { get; protected init; }
 
     /// <summary>
     ///     服务器IP
@@ -146,5 +146,5 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     [Column]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual int? ServerIp { get; init; }
+    public virtual int? ServerIp { get; protected init; }
 }

@@ -121,12 +121,12 @@ export default {
             this.getData()
         },
         async rowClick(row) {
-            this.loading = true
-            const res = await this.$API.sys_cache.getEntry.post({ key: row.key })
             this.dialog.info = true
             await this.$nextTick()
-            this.$refs.info.open(this.$TOOL.sortProperties(res.data), this.$t('缓存详情'))
-            this.loading = false
+            this.$refs.info.open(
+                () => this.$t('缓存详情'),
+                () => this.$API.sys_cache.getEntry.post({ key: row.key }),
+            )
         },
         async getData() {
             this.loading = true

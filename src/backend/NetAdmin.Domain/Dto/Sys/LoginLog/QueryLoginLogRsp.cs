@@ -29,11 +29,11 @@ public record QueryLoginLogRsp : Sys_LoginLog
 
     /// <inheritdoc cref="Sys_LoginLog.Duration" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override int Duration { get; init; }
+    public override int Duration { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.ErrorCode" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override ErrorCodes ErrorCode { get; init; }
+    public override ErrorCodes ErrorCode { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.HttpStatusCode" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -45,7 +45,7 @@ public record QueryLoginLogRsp : Sys_LoginLog
 
     /// <inheritdoc cref="Sys_LoginLog.LoginUserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string LoginUserName { get; init; }
+    public override string LoginUserName { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.Owner" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -53,25 +53,25 @@ public record QueryLoginLogRsp : Sys_LoginLog
 
     /// <inheritdoc cref="Sys_LoginLog.RequestBody" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string RequestBody { get; init; }
+    public override string RequestBody { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.RequestHeaders" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string RequestHeaders { get; init; }
+    public override string RequestHeaders { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.RequestUrl" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string RequestUrl { get; init; }
+    public override string RequestUrl { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.ResponseBody" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string ResponseBody { get; init; }
+    public override string ResponseBody { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.ResponseHeaders" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string ResponseHeaders { get; init; }
+    public override string ResponseHeaders { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.ServerIp" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override int? ServerIp { get; init; }
+    public override int? ServerIp { get; protected init; }
 }
