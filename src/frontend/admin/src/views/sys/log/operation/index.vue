@@ -134,7 +134,8 @@
                 </el-table-column>
                 <el-table-column :label="$t('客户端IP')" prop="createdClientIp" show-overflow-tooltip sortable="custom" width="200">
                     <template #default="{ row }">
-                        <na-ip :ip="row.createdClientIp"></na-ip>
+                        <p>{{ row.createdClientIp }}</p>
+                        <p>{{ this.ips.filter((x) => x.ip === row.createdClientIp)[0]?.region ?? '...' }}</p>
                     </template>
                 </el-table-column>
                 <na-col-operation
@@ -161,7 +162,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-
+import http from '@/utils/request'
 const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save.vue'))
 import naInfo from '@/components/naInfo/index.vue'
 
@@ -183,6 +184,7 @@ export default {
             },
             owners: [],
             apis: [],
+            ips: [],
             loading: false,
             query: {
                 dynamicFilter: {
@@ -213,6 +215,7 @@ export default {
             this.apis = []
             const ownerIds = data.data.rows?.filter((x) => x.ownerId).map((x) => x.ownerId)
             const apiCrcs = data.data.rows?.map((x) => x.apiPathCrc32)
+            const ips = data.data.rows?.map((x) => x.createdClientIp)
             const res = await Promise.all([
                 ownerIds && ownerIds.length > 0
                     ? this.$API.sys_user.query.post({
@@ -233,9 +236,12 @@ export default {
                           },
                       })
                     : new Promise((x) => x({ data: [] })),
+
+                ips && ips.length > 0 ? http.get(`http://ip.line92.xyz/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
             ])
             this.owners = res[0].data
             this.apis = res[1].data
+            this.ips = res[2]
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -297,11 +303,14 @@ export default {
         async rowClick(row) {
             this.dialog.info = true
             await this.$nextTick()
-            const res = await this.$API.sys_requestlog.get.post({
-                id: row.id,
-                createdTime: row.createdTime,
-            })
-            this.$refs.info.open(this.$TOOL.sortProperties(res.data), this.$t('日志详情：{id}', { id: row.id }))
+            await this.$refs.info.open(
+                () => this.$t('日志详情：{id}', { id: row.id }),
+                () =>
+                    this.$API.sys_requestlog.get.post({
+                        id: row.id,
+                        createdTime: row.createdTime,
+                    }),
+            )
         },
     },
     mounted() {

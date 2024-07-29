@@ -42,6 +42,30 @@ public sealed record DynamicFilterInfo : DataAbstraction
         return ret;
     }
 
+    private static void ParseDateExp(FreeSql.Internal.Model.DynamicFilterInfo d)
+    {
+        var values = ((JsonElement)d.Value).Deserialize<string[]>();
+        if (!DateTime.TryParse(values[0], CultureInfo.InvariantCulture, out _)) {
+            var result = values[0]
+                         .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
+                         .ConfigureAwait(false)
+                         .GetAwaiter()
+                         .GetResult();
+            values[0] = $"{result:yyyy-MM-dd HH:mm:ss}";
+        }
+
+        if (!DateTime.TryParse(values[1], CultureInfo.InvariantCulture, out _)) {
+            var result = values[1]
+                         .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
+                         .ConfigureAwait(false)
+                         .GetAwaiter()
+                         .GetResult();
+            values[1] = $"{result:yyyy-MM-dd HH:mm:ss}";
+        }
+
+        d.Value = values;
+    }
+
     private static void ProcessDynamicFilter(FreeSql.Internal.Model.DynamicFilterInfo d)
     {
         if (d?.Filters != null) {
@@ -58,26 +82,7 @@ public sealed record DynamicFilterInfo : DataAbstraction
             }
         }
         else if (d?.Operator == DynamicFilterOperator.DateRange) {
-            var values = ((JsonElement)d.Value).Deserialize<string[]>();
-            if (!DateTime.TryParse(values[0], CultureInfo.InvariantCulture, out _)) {
-                var result = values[0]
-                             .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
-                             .ConfigureAwait(false)
-                             .GetAwaiter()
-                             .GetResult();
-                values[0] = $"{result:yyyy-MM-dd HH:mm:ss}";
-            }
-
-            if (!DateTime.TryParse(values[1], CultureInfo.InvariantCulture, out _)) {
-                var result = values[1]
-                             .ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System))
-                             .ConfigureAwait(false)
-                             .GetAwaiter()
-                             .GetResult();
-                values[1] = $"{result:yyyy-MM-dd HH:mm:ss}";
-            }
-
-            d.Value = values;
+            ParseDateExp(d);
         }
     }
 }
