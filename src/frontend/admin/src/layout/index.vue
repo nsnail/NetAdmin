@@ -46,7 +46,6 @@
             </div>
             <Side-m v-if="ismobile"></Side-m>
             <div class="aminui-body el-container">
-                <Topbar v-if="!ismobile"></Topbar>
                 <Tags v-if="!ismobile && layoutTags"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
@@ -94,7 +93,6 @@
             </div>
             <Side-m v-if="ismobile"></Side-m>
             <div class="aminui-body el-container">
-                <Topbar v-if="!ismobile"></Topbar>
                 <Tags v-if="!ismobile && layoutTags"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }">
@@ -125,10 +123,9 @@
                     <el-menu
                         :default-active="active"
                         active-text-color="var(--el-color-primary)"
-                        background-color="#424C50"
                         mode="horizontal"
                         router
-                        text-color="#fff">
+                        text-color="var(--el-text-color-primary)">
                         <NavMenu :navMenus="menu"></NavMenu>
                     </el-menu>
                 </div>
@@ -336,6 +333,6 @@ export default {
 .version {
     font-size: var(--el-font-size-small);
     font-weight: var(--el-font-weight-primary);
-    color: var(--el-text-color-disabled);
+    color: var(--el-text-color-secondary);
 }
 </style>

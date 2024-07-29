@@ -108,10 +108,10 @@ textarea {
 /* 头部 */
 .adminui-header {
     height: 4rem;
-    background: #424c50;
-    color: #fff;
+    background: #fff;
     display: flex;
     justify-content: space-between;
+    border-bottom: #ebeef5 1px solid;
 }
 
 .adminui-header-left {
@@ -148,7 +148,7 @@ textarea {
     padding: 0 1rem;
     margin: 0 1rem 0 0;
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--el-menu-text-color);
     list-style: none;
     height: 100%;
     display: flex;
@@ -161,29 +161,29 @@ textarea {
 }
 
 .adminui-header .nav li:hover {
-    color: #fff;
 }
 
 .adminui-header .nav li.active {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    color: var(--el-color-primary);
 }
 
 .adminui-header .user-bar .panel-item:hover {
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.adminui-header .user-bar .user label {
-    color: #fff;
+.user-bar * {
+    color: var(--el-menu-text-color);
 }
 
 /* 左侧菜单 */
 .aminui-side-split {
     width: 5rem;
     flex-shrink: 0;
-    background: #424c50;
+    background: #fff;
+    color: var(--el-menu-text-color);
     display: flex;
     flex-flow: column;
+    border-right: #ebeef5 1px solid;
 }
 
 .aminui-side-split-top {
@@ -214,7 +214,6 @@ textarea {
     cursor: pointer;
     width: 5rem;
     height: 5rem;
-    color: #fff;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -236,6 +235,7 @@ textarea {
 
 .aminui-side-split li.active {
     background: #21a675;
+    color: #fff;
 }
 
 .adminui-side-split-scroll::-webkit-scrollbar-thumb {
