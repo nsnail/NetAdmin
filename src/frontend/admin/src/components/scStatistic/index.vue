@@ -24,7 +24,12 @@
         </div>
         <div class="sc-statistic-content">
             <span v-if="prefix" class="sc-statistic-content-prefix">{{ prefix }}</span>
-            <span class="sc-statistic-content-value">{{ cmtValue }}</span>
+            <span class="sc-statistic-content-value">
+                <slot v-if="$slots.content" name="content"></slot>
+                <template v-else>
+                    {{ cmtValue }}
+                </template>
+            </span>
             <span v-if="suffix" class="sc-statistic-content-suffix">{{ suffix }}</span>
         </div>
         <div v-if="description || $slots.default" class="sc-statistic-description">

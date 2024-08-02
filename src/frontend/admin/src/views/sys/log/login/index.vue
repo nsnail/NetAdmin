@@ -121,7 +121,7 @@ export default {
             this.apis = []
             const ips = data.data.rows?.map((x) => x.createdClientIp) ?? []
             const res = await Promise.all([
-                ips && ips.length > 0 ? http.get(`http://ip.line92.xyz/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
+                ips && ips.length > 0 ? http.get(`https://ip.tools92.top/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
             ])
             this.ips = res[0]
         },
