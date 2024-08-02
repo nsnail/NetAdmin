@@ -19,6 +19,8 @@ public record CreateLoginLogReq : Sys_LoginLog, IRegister
     {
         var              body      = s.Detail.ResponseBody.ToObject<RestfulInfo<LoginRsp>>();
         ContextUserToken userToken = null;
+
+        // ReSharper disable once InvertIf
         if (body.Data?.AccessToken != null) {
             try {
                 userToken = ContextUserToken.Create(body.Data.AccessToken);

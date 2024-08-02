@@ -2,7 +2,7 @@
     <form @keyup.enter="search" @submit.prevent="search" class="right-panel-search">
         <el-date-picker
             v-if="hasDate"
-            v-model="form.dy.createdTime"
+            v-model="form.dy[this.dateField]"
             :end-placeholder="$t('结束日期')"
             :format="dateFormat"
             :range-separator="$t('至')"
@@ -83,6 +83,7 @@ import vkbeautify from 'vkbeautify/index'
 export default {
     emits: ['search', 'reset'],
     props: {
+        dateField: { type: String, default: 'createdTime' },
         hasDate: { type: Boolean, default: true },
         dateType: { type: String, default: 'daterange' },
         dateFormat: { type: String, default: 'YYYY-MM-DD' },
@@ -114,8 +115,8 @@ export default {
                     text: this.$t('后退一日'),
                     value: () => {
                         try {
-                            const start = new Date(new Date(this.form.dy.createdTime[0]) - 3600 * 1000 * 24)
-                            const end = new Date(new Date(this.form.dy.createdTime[1]) - 3600 * 1000 * 24)
+                            const start = new Date(new Date(this.form.dy[this.dateField][0]) - 3600 * 1000 * 24)
+                            const end = new Date(new Date(this.form.dy[this.dateField][1]) - 3600 * 1000 * 24)
                             return [start, end]
                         } catch {}
                     },
@@ -356,8 +357,8 @@ export default {
                     text: this.$t('后退一时'),
                     value: () => {
                         try {
-                            const start = new Date(new Date(this.form.dy.createdTime[0]) - 3600 * 1000)
-                            const end = new Date(new Date(this.form.dy.createdTime[1]) - 3600 * 1000)
+                            const start = new Date(new Date(this.form.dy[this.dateField][0]) - 3600 * 1000)
+                            const end = new Date(new Date(this.form.dy[this.dateField][1]) - 3600 * 1000)
                             return [start, end]
                         } catch {}
                     },

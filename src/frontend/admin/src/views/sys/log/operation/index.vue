@@ -239,7 +239,7 @@ export default {
                       })
                     : new Promise((x) => x({ data: [] })),
 
-                ips && ips.length > 0 ? http.get(`http://ip.line92.xyz/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
+                ips && ips.length > 0 ? http.get(`https://ip.tools92.top/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
             ])
             this.owners = res[0].data
             this.apis = res[1].data
