@@ -495,4 +495,6 @@ export default {
     一行一个: 'One line per item',
     请输入字段名: 'Please enter field name',
     请输入操作符: 'Please enter operator',
+    查询字段: 'Query field',
+    最后登录: 'Last login',
 }

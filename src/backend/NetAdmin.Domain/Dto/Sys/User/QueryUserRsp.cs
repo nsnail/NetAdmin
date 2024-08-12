@@ -31,6 +31,10 @@ public record QueryUserRsp : Sys_User
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
+    /// <inheritdoc cref="Sys_User.LastLoginTime" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override DateTime? LastLoginTime { get; init; }
+
     /// <inheritdoc cref="Sys_User.Mobile" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Mobile { get; init; }

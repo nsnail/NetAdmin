@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.JobRecord;
 /// <summary>
 ///     响应：导出计划作业执行记录
 /// </summary>
-public record ExportJobRecordRsp : QueryJobRecordRsp, IRegister
+public sealed record ExportJobRecordRsp : QueryJobRecordRsp, IRegister
 {
     /// <inheritdoc />
     [CsvIndex(1)]

@@ -7,7 +7,7 @@ namespace NetAdmin.Domain.Dto.Sys.LoginLog;
 /// <summary>
 ///     请求：创建登录日志
 /// </summary>
-public record CreateLoginLogReq : Sys_LoginLog, IRegister
+public sealed record CreateLoginLogReq : Sys_LoginLog, IRegister
 {
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)

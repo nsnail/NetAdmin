@@ -257,7 +257,9 @@ export default {
         async copyJob(row) {
             let loading = this.$loading()
             try {
-                const res = await this.$API.sys_job.create.post(Object.assign({}, row, { id: 0, jobName: row.jobName + '-copy' }))
+                const res = await this.$API.sys_job.create.post(
+                    Object.assign({}, row, { id: 0, jobName: row.jobName + '-copy', enabled: false, nextTimeId: null, status: 'idle' }),
+                )
                 if (res.data) {
                     this.$message.success(this.$t('操作成功'))
                 } else {

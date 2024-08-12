@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Dept;
 /// <summary>
 ///     响应：导出部门
 /// </summary>
-public record ExportDeptRsp : QueryDeptRsp
+public sealed record ExportDeptRsp : QueryDeptRsp
 {
     /// <inheritdoc />
     [CsvIgnore]

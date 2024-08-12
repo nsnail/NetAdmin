@@ -3,11 +3,9 @@ using NetAdmin.AdmServer.Host.Extensions;
 using NetAdmin.Host.Extensions;
 using NetAdmin.Host.Middlewares;
 using NetAdmin.SysComponent.Host.Extensions;
+using NetAdmin.SysComponent.Host.Middlewares;
 using Spectre.Console.Cli;
 using ValidationResult = Spectre.Console.ValidationResult;
-#if !DEBUG
-using Prometheus;
-#endif
 
 NetAdmin.Host.Startup.Entry<Startup>(args);
 
@@ -36,7 +34,7 @@ namespace NetAdmin.AdmServer.Host
                 .UseOpenApiSkin() // 使用OpenApiSkin中间件（仅在调试模式下），提供Swagger UI皮肤
                 #else
                 .UseVueAdmin()    // 托管管理后台，仅在非调试模式下
-                .UseHttpMetrics() // 使用HttpMetrics中间件，启用HTTP性能监控
+                .UsePrometheus()  // 使用Prometheus中间件，启用HTTP性能监控
                 #endif
                 .UseInject(string.Empty)                   // 使用Inject中间件，Furion脚手架的依赖注入支持
                 .UseUnifyResultStatusCodes()               // 使用UnifyResultStatusCodes中间件，用于统一处理结果状态码
@@ -45,6 +43,8 @@ namespace NetAdmin.AdmServer.Host
                 .UseAuthentication()                       // 使用Authentication中间件，启用身份验证
                 .UseAuthorization()                        // 使用Authorization中间件，启用授权
                 .UseMiddleware<RemoveNullNodeMiddleware>() // 使用RemoveNullNodeMiddleware中间件，删除JSON中的空节点
+                .UseWebSockets()                           // 使用WebSockets中间件，启用WebSocket支持
+                .UseMiddleware<VersionCheckerMiddleware>() // 使用VersionUpdaterMiddleware中间件，用于检查版本
                 .UseEndpoints();                           // 配置端点以处理请求
             _ = lifeTime.ApplicationStopping.Register(SafetyShopHostMiddleware.OnStopping);
         }

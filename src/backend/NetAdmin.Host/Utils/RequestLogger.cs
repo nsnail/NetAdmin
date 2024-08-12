@@ -28,6 +28,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
           , x => context.Request.ContentType?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false)
             ? await context.ReadBodyContentAsync().ConfigureAwait(false)
             : string.Empty;
+        var apiId = context.Request.Path.Value!.TrimStart('/');
         var auditData = new CreateRequestLogReq //
                         {
                             Detail = new CreateRequestLogDetailReq //
@@ -47,7 +48,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
                                      }
                           , Duration        = (int)duration
                           , HttpMethod      = Enum.Parse<HttpMethods>(context.Request.Method, true)
-                          , ApiPathCrc32    = context.Request.Path.Value!.TrimStart('/').Crc32()
+                          , ApiPathCrc32    = apiId.Crc32()
                           , HttpStatusCode  = context.Response.StatusCode
                           , CreatedClientIp = context.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32()
                           , OwnerId         = associatedUser?.UserId
@@ -56,11 +57,14 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
                           , TraceId         = context.GetTraceId()
                         };
 
-        // 打印日志
-        logger.Info(auditData);
+        // ReSharper disable once InvertIf
+        if (!GlobalStatic.LoggerIgnoreApiIds.Contains(apiId)) {
+            // 打印日志
+            logger.Info(auditData);
 
-        // 发布请求日志事件
-        await eventPublisher.PublishAsync(new RequestLogEvent(auditData)).ConfigureAwait(false);
+            // 发布请求日志事件
+            await eventPublisher.PublishAsync(new RequestLogEvent(auditData)).ConfigureAwait(false);
+        }
 
         return auditData;
     }

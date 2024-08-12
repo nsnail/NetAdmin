@@ -8,7 +8,7 @@ namespace NetAdmin.Domain.Dto.Sys.SiteMsg;
 /// <summary>
 ///     响应：导出站内信
 /// </summary>
-public record ExportSiteMsgRsp : QuerySiteMsgRsp
+public sealed record ExportSiteMsgRsp : QuerySiteMsgRsp
 {
     /// <inheritdoc />
     [CsvIndex(5)]

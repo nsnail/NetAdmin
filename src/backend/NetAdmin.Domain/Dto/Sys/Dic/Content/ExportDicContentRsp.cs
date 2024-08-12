@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Dic.Content;
 /// <summary>
 ///     响应：导出字典内容
 /// </summary>
-public record ExportDicContentRsp : QueryDicContentRsp
+public sealed record ExportDicContentRsp : QueryDicContentRsp
 {
     /// <inheritdoc />
     [CsvIndex(2)]

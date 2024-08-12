@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 /// <summary>
 ///     响应：导出配置
 /// </summary>
-public record ExportConfigRsp : QueryConfigRsp, IRegister
+public sealed record ExportConfigRsp : QueryConfigRsp, IRegister
 {
     /// <inheritdoc />
     [CsvIndex(6)]

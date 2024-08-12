@@ -36,4 +36,37 @@ public record QueryReq<T> : DataAbstraction
     ///     排序字段
     /// </summary>
     public string Prop { get; init; }
+
+    /// <summary>
+    ///     所需字段
+    /// </summary>
+    public string[] RequiredFields { get; set; }
+
+    /// <summary>
+    ///     列表表达式
+    /// </summary>
+    public Expression<Func<TEntity, TEntity>> GetToListExp<TEntity>()
+    {
+        if (RequiredFields.NullOrEmpty()) {
+            return null;
+        }
+
+        var expParameter = Expression.Parameter(typeof(TEntity), "a");
+        var bindings     = new List<MemberBinding>();
+
+        // ReSharper disable once LoopCanBeConvertedToQuery
+        foreach (var field in RequiredFields) {
+            var prop = typeof(TEntity).GetProperty(field);
+            if (prop == null || prop.GetCustomAttribute<DangerFieldAttribute>() != null) {
+                continue;
+            }
+
+            var propExp = Expression.Property(expParameter, prop);
+            var binding = Expression.Bind(prop, propExp);
+            bindings.Add(binding);
+        }
+
+        var expBody = Expression.MemberInit(Expression.New(typeof(TEntity)), bindings);
+        return Expression.Lambda<Func<TEntity, TEntity>>(expBody, expParameter);
+    }
 }

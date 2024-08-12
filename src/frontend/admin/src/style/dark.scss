@@ -2,7 +2,10 @@
 
 html.dark {
     //变量
-    --el-text-color-primary: #d0d0d0;
+    --el-text-color-primary: #c0c0c0;
+    --el-text-color-regular: #c0c0c0;
+    --el-text-color-secondary: #666666;
+    --el-mask-color: rgba(29, 30, 31, 0.9);
     --el-color-primary-dark-2: var(--el-color-primary-light-2) !important;
     --el-color-primary-light-9: var(--el-color-primary-dark-8) !important;
     --el-color-primary-light-8: var(--el-color-primary-dark-7) !important;
@@ -73,7 +76,7 @@ html.dark {
     .el-header,
     .el-main.nopadding,
     .el-footer {
-        background: var(--el-bg-color-overlay);
+        background: var(--el-bg-color);
         border-color: var(--el-border-color-light);
     }
 
@@ -92,5 +95,17 @@ html.dark {
 
     .el-table th.is-sortable:hover {
         background: #111;
+    }
+
+    .jv-container .jv-code.open {
+        background: var(--el-bg-color) !important;
+    }
+
+    .ace_editor {
+        background: var(--el-bg-color-overlay);
+    }
+
+    .ace_gutter {
+        background: var(--el-bg-color-overlay);
     }
 }

@@ -1,4 +1,4 @@
-using RedLockNet;
+using StackExchange.Redis;
 
 namespace NetAdmin.Host.BackgroundRunning;
 
@@ -7,8 +7,6 @@ namespace NetAdmin.Host.BackgroundRunning;
 /// </summary>
 public abstract class WorkBase<TLogger>
 {
-    private readonly RedLocker _redLocker;
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="WorkBase{TLogger}" /> class.
     /// </summary>
@@ -17,7 +15,6 @@ public abstract class WorkBase<TLogger>
         ServiceProvider = App.GetService<IServiceScopeFactory>().CreateScope().ServiceProvider;
         UowManager      = ServiceProvider.GetService<UnitOfWorkManager>();
         Logger          = ServiceProvider.GetService<ILogger<TLogger>>();
-        _redLocker      = ServiceProvider.GetService<RedLocker>();
     }
 
     /// <summary>
@@ -53,10 +50,8 @@ public abstract class WorkBase<TLogger>
     {
         if (singleInstance) {
             // 加锁
-            await using var redLock = await GetLockerAsync(GetType().FullName).ConfigureAwait(false);
-            if (!redLock.IsAcquired) {
-                throw new NetAdminGetLockerException();
-            }
+            var             lockName    = GetType().FullName;
+            await using var redisLocker = await GetLockerAsync(lockName).ConfigureAwait(false);
 
             await WorkflowAsync(cancelToken).ConfigureAwait(false);
             return;
@@ -68,10 +63,15 @@ public abstract class WorkBase<TLogger>
     /// <summary>
     ///     获取锁
     /// </summary>
-    private Task<IRedLock> GetLockerAsync(string lockId)
+    private Task<RedisLocker> GetLockerAsync(string lockId)
     {
-        return _redLocker.RedLockFactory.CreateLockAsync(lockId, TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_EXPIRY)
-                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_WAIT)
-                                                       , TimeSpan.FromSeconds(Numbers.SECS_RED_LOCK_RETRY_INTERVAL));
+        var db = ServiceProvider.GetService<IConnectionMultiplexer>()
+                                .GetDatabase(ServiceProvider.GetService<IOptions<RedisOptions>>()
+                                                            .Value.Instances
+                                                            .First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE)
+                                                            .Database);
+        return RedisLocker.GetLockerAsync(db, lockId, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY)
+                                        , Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK
+                                        , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
     }
 }
