@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/nsnail/NetAdmin/compare/v1.5.0...v1.6.0) (2024-08-12)
+
+
+### Features
+
+* ✨ 移除RedLocker，更改为自实现 ([#169](https://github.com/nsnail/NetAdmin/issues/169)) ([cd8ed67](https://github.com/nsnail/NetAdmin/commit/cd8ed674e0615b33fc0e025b9412c2f16d252f0f))
+
+
+### Bug Fixes
+
+* 🐛 站内信角标颜色 ([#167](https://github.com/nsnail/NetAdmin/issues/167)) ([e00c30c](https://github.com/nsnail/NetAdmin/commit/e00c30c96123769d8a9e6f30cc9a2c3e8099e34c))
+* 🐛 ip归属地查询接口地址更新 ([#168](https://github.com/nsnail/NetAdmin/issues/168)) ([4733ade](https://github.com/nsnail/NetAdmin/commit/4733adede5e8993f741e9b94541aafeb6a733859))
+* 🐛 ip显示问题 ([#166](https://github.com/nsnail/NetAdmin/issues/166)) ([6b63250](https://github.com/nsnail/NetAdmin/commit/6b6325003924b1605b610f759b2131c15013ffa0))
+* 🐛 trimSuffix ([#163](https://github.com/nsnail/NetAdmin/issues/163)) ([7c56c8d](https://github.com/nsnail/NetAdmin/commit/7c56c8d571d4f29fcb20f238893dbf61e5e538f0))
+
 ## [1.5.0](https://github.com/nsnail/NetAdmin/compare/v1.4.0...v1.5.0) (2024-07-26)
 
 
