@@ -44,10 +44,18 @@
                             style: 'width:20rem',
                         },
                         {
-                            type: 'input',
-                            field: ['root', 'keywords'],
-                            placeholder: $t('日志编号 / 用户编号 / 客户端IP'),
+                            type: 'select-input',
+                            field: [
+                                'dy',
+                                [
+                                    { label: '日志编号', key: 'id' },
+                                    { label: '用户编号', key: 'ownerId' },
+                                    { label: '客户端IP', key: 'createdClientIp' },
+                                ],
+                            ],
+                            placeholder: '匹配内容',
                             style: 'width:25rem',
+                            selectStyle: 'width:8rem',
                         },
                     ]"
                     :vue="this"
@@ -178,6 +186,9 @@ export default {
         if (this.ownerId) {
             this.query.dynamicFilter.filters.push({ field: 'ownerId', operator: 'eq', value: this.ownerId })
         }
+        if (this.excludeApiPathCrc32) {
+            this.query.dynamicFilter.filters.push({ field: 'apiPathCrc32', operator: 'notEqual', value: this.excludeApiPathCrc32 })
+        }
     },
     data() {
         return {
@@ -194,10 +205,7 @@ export default {
                         {
                             field: 'createdTime',
                             operator: 'dateRange',
-                            value: [
-                                this.$TOOL.dateFormat(new Date(new Date() - 3600 * 1000), 'yyyy-MM-dd hh:mm:ss'),
-                                this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                            ],
+                            value: [this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'), this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')],
                         },
                     ],
                 },
@@ -268,6 +276,13 @@ export default {
                     }),
                 })
             }
+            if (typeof form.dy['excludeApiPathCrc32'] === 'number' && form.dy['excludeApiPathCrc32'] !== 0) {
+                this.query.dynamicFilter.filters.push({
+                    field: 'apiPathCrc32',
+                    operator: 'notEqual',
+                    value: form.dy['excludeApiPathCrc32'],
+                })
+            }
             if (typeof form.dy['apiPathCrc32'] === 'number' && form.dy['apiPathCrc32'] !== 0) {
                 this.query.dynamicFilter.filters.push({
                     field: 'apiPathCrc32',
@@ -281,6 +296,29 @@ export default {
                     field: 'ownerId',
                     operator: 'eq',
                     value: form.dy.ownerId,
+                })
+            }
+
+            if (typeof form.dy.ownerId === 'string' && form.dy.ownerId.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'ownerId',
+                    operator: 'eq',
+                    value: form.dy.ownerId,
+                })
+            }
+            if (typeof form.dy.id === 'string' && form.dy.id.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'id',
+                    operator: 'eq',
+                    value: form.dy.id,
+                })
+            }
+
+            if (typeof form.dy.createdClientIp === 'string' && form.dy.createdClientIp.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'createdClientIp',
+                    operator: 'eq',
+                    value: form.dy.createdClientIp,
                 })
             }
 
@@ -334,9 +372,18 @@ export default {
             this.$refs.search.form.dy.ownerId = this.ownerId
         }
 
+        if (this.excludeApiPathCrc32) {
+            this.$refs.search.keeps.push({
+                field: 'excludeApiPathCrc32',
+                value: this.excludeApiPathCrc32,
+                type: 'dy',
+            })
+            this.$refs.search.form.dy.excludeApiPathCrc32 = this.excludeApiPathCrc32
+        }
+
         this.$refs.search.form.dy.createdTime = [
-            this.$TOOL.dateFormat(new Date(new Date() - 3600 * 1000), 'yyyy-MM-dd hh:mm:ss'),
-            this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+            this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd 00:00:00'),
+            this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd 00:00:00'),
         ]
         this.$refs.search.keeps.push({
             field: 'createdTime',
@@ -344,7 +391,7 @@ export default {
             type: 'dy',
         })
     },
-    props: ['keywords', 'ownerId'],
+    props: ['keywords', 'ownerId', 'excludeApiPathCrc32'],
     watch: {},
 }
 </script>

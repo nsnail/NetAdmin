@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.Api;
 /// <summary>
 ///     响应：导出接口
 /// </summary>
-public record ExportApiRsp : QueryApiRsp
+public sealed record ExportApiRsp : QueryApiRsp
 {
     /// <inheritdoc />
     [CsvIgnore]

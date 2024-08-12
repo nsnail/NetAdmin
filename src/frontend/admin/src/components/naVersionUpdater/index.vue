@@ -2,20 +2,26 @@
 
 <script>
 import { h } from 'vue'
+import config from '@/config'
 
 export default {
     data() {
         return {}
     },
     async created() {
-        setInterval(async () => {
-            // 检查版本
-            const res = await this.$API.sys_tools.getVersion.post({})
+        const ws = new WebSocket(`ws://${config.API_URL.replace('http://', '')}/ws/version`)
+        ws.onopen = () => {
+            ws.send('1')
+        }
+        ws.onmessage = async (res) => {
             if (res.data !== this.$TOOL.data.get('APP_VERSION')) {
-                this.$TOOL.data.set('APP_VERSION', res.data)
+                await this.$TOOL.data.set('APP_VERSION', res.data)
                 this.showTip(res.data.slice(0, res.data.indexOf('+')))
+            } else {
+                await new Promise((x) => setTimeout(x, 10000))
+                ws.send('1')
             }
-        }, 10000)
+        }
     },
     methods: {
         /**

@@ -32,7 +32,9 @@ export default {
     data() {
         return {
             user: {},
-            form: {},
+            form: {
+                requiredFields: ['Id', 'UserName', 'Mobile'],
+            },
         }
     },
     watch: {

@@ -28,13 +28,21 @@
                             style: 'width:20rem',
                         },
                         {
-                            type: 'input',
-                            field: ['root', 'keywords'],
-                            placeholder: $t('作业编号 / 作业名称 / 执行编号'),
-                            style: 'width:20rem',
+                            type: 'select-input',
+                            field: [
+                                'dy',
+                                [
+                                    { label: '唯一编码', key: 'id' },
+                                    { label: '作业编号', key: 'jobId' },
+                                ],
+                            ],
+                            placeholder: '匹配内容',
+                            style: 'width:25rem',
+                            selectStyle: 'width:8rem',
                         },
                     ]"
                     :vue="this"
+                    @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
                     dateType="datetimerange"
@@ -73,7 +81,7 @@
                                 :data="row"
                                 :options="
                                     Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
-                                        return { value: x[0], text: `${x[1][1]}`, type: x[1][2] }
+                                        return { value: x[0], text: `${x[1][1].toString().toUpperCase()}`, type: x[1][2] }
                                     })
                                 "
                                 prop="httpMethod" />
@@ -96,8 +104,8 @@
                     align="right"
                     prop="duration"
                     sortable="custom"
-                    width="150" />
-                <el-table-column :label="$t('作业信息')" prop="jobId" show-overflow-tooltip sortable="custom" width="500">
+                    width="100" />
+                <el-table-column :label="$t('作业信息')" min-width="150" prop="jobId" show-overflow-tooltip sortable="custom">
                     <template #default="{ row }">
                         <p>
                             <el-link @click="jobClick(row.job)">
@@ -109,7 +117,7 @@
                         </p>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('响应体')" prop="responseBody" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('响应体')" min-width="300" prop="responseBody" show-overflow-tooltip sortable="custom" />
                 <na-col-operation :buttons="[naColOperation.buttons[0]]" :vue="this" width="100" />
             </sc-table>
         </el-main>
@@ -165,6 +173,13 @@ export default {
                 }),
             })
         }
+        if (this.jobId) {
+            this.query.dynamicFilter.filters.push({
+                field: 'jobId',
+                operator: 'eq',
+                value: this.jobId,
+            })
+        }
     },
     data() {
         return {
@@ -181,7 +196,6 @@ export default {
                     ],
                 },
                 filter: {},
-                keywords: this.keywords,
             },
         }
     },
@@ -189,6 +203,11 @@ export default {
     methods: {
         jobClick(job) {
             this.dialog.job = { mode: 'view', row: { id: job.id } }
+        },
+        onReset() {
+            if (this.jobId) {
+                this.$refs.search.selectInputKey = 'jobId'
+            }
         },
         //搜索
         onSearch(form) {
@@ -223,6 +242,22 @@ export default {
                 })
             }
 
+            if (typeof form.dy.jobId === 'string' && form.dy.jobId.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'jobId',
+                    operator: 'eq',
+                    value: form.dy.jobId,
+                })
+            }
+
+            if (typeof form.dy.jobId === 'number' && form.dy.jobId !== 0) {
+                this.query.dynamicFilter.filters.push({
+                    field: 'jobId',
+                    operator: 'eq',
+                    value: form.dy.jobId,
+                })
+            }
+
             if (typeof form.dy.httpMethod === 'string' && form.dy.httpMethod.trim() !== '') {
                 this.query.dynamicFilter.filters.push({
                     field: 'httpMethod',
@@ -234,12 +269,13 @@ export default {
         },
     },
     mounted() {
-        if (this.keywords) {
-            this.$refs.search.form.root.keywords = this.keywords
+        if (this.jobId) {
+            this.$refs.search.selectInputKey = 'jobId'
+            this.$refs.search.form.dy.jobId = this.jobId
             this.$refs.search.keeps.push({
-                field: 'keywords',
-                value: this.keywords,
-                type: 'root',
+                field: 'jobId',
+                value: this.jobId,
+                type: 'dy',
             })
         }
         if (this.statusCodes) {
@@ -260,7 +296,7 @@ export default {
             type: 'dy',
         })
     },
-    props: ['keywords', 'statusCodes'],
+    props: ['statusCodes', 'jobId'],
     watch: {},
 }
 </script>

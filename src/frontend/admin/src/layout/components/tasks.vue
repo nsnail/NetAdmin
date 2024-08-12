@@ -12,7 +12,7 @@
             <el-card v-for="job in jobs" :class="`user-bar-jobs-item ${job.lastStatusCode === 'oK' ? '' : 'alert'}`" :key="job.id" shadow="hover">
                 <div class="user-bar-jobs-item-body">
                     <div class="jobIcon">
-                        {{ job.lastStatusCode }}
+                        {{ job.lastStatusCode.toUpperCase() }}
                     </div>
                     <div class="jobMain">
                         <div class="title">

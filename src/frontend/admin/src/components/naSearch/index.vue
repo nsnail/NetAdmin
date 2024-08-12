@@ -21,6 +21,21 @@
                 :placeholder="item.placeholder"
                 :style="item.style"
                 clearable />
+            <el-input
+                v-if="item.type === 'select-input' && (!item.condition || item.condition())"
+                v-model="form[item.field[0]][selectInputKey]"
+                v-role="item.role || '*/*/*'"
+                :class="item.class"
+                :placeholder="item.placeholder"
+                :style="item.style"
+                @change="trimSpaces(item.field[0])"
+                clearable>
+                <template #prepend>
+                    <el-select v-model="selectInputKey" :placeholder="$t('查询字段')" :style="item.selectStyle" @change="selectInputChange(item)">
+                        <el-option v-for="(field, j) in item.field[1]" :label="field.label" :value="field.key" />
+                    </el-select>
+                </template>
+            </el-input>
             <sc-select
                 v-else-if="item.type === 'remote-select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
@@ -93,6 +108,7 @@ export default {
     },
     data() {
         return {
+            selectInputKey: null,
             dateShortCuts: [
                 {
                     text: this.$t('今日'),
@@ -342,6 +358,7 @@ export default {
     },
     mounted() {},
     async created() {
+        this.selectInputKey = this.controls.find((x) => x.type === 'select-input')?.field[1][0].key
         if (this.dateType === 'datetimerange') {
             this.dateShortCuts.unshift(
                 {
@@ -390,6 +407,14 @@ export default {
         },
     },
     methods: {
+        trimSpaces(key) {
+            this.form[key][this.selectInputKey] = this.form[key][this.selectInputKey].replace(/^\s*(.*?)\s*$/g, '$1')
+        },
+        selectInputChange(item) {
+            for (const field of item.field[1]) {
+                delete this.form[item.field[0]][field.key]
+            }
+        },
         vkbeautify() {
             return vkbeautify
         },

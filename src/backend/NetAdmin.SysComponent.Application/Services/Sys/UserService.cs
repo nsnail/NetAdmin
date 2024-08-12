@@ -18,19 +18,23 @@ public sealed class UserService(
   , IEventPublisher                 eventPublisher)    //
     : RepositoryService<Sys_User, long, IUserService>(rpo), IUserService
 {
-    private readonly Expression<Func<Sys_User, Sys_User>> _selectUserFields = a => new Sys_User {
-        Id          = a.Id
-      , Avatar      = a.Avatar
-      , Email       = a.Email
-      , Mobile      = a.Mobile
-      , Enabled     = a.Enabled
-      , UserName    = a.UserName
-      , Summary     = a.Summary
-      , Version     = a.Version
-      , CreatedTime = a.CreatedTime
-      , Dept        = new Sys_Dept { Id = a.Dept.Id, Name = a.Dept.Name }
-      , Roles       = a.Roles
-    };
+    private readonly Expression<Func<Sys_User, Sys_User>> _listUserExp = a => new Sys_User {
+                                                                                  Id            = a.Id
+                                                                                , Avatar        = a.Avatar
+                                                                                , Email         = a.Email
+                                                                                , Mobile        = a.Mobile
+                                                                                , Enabled       = a.Enabled
+                                                                                , UserName      = a.UserName
+                                                                                , Summary       = a.Summary
+                                                                                , Version       = a.Version
+                                                                                , CreatedTime   = a.CreatedTime
+                                                                                , LastLoginTime = a.LastLoginTime
+                                                                                , Dept = new Sys_Dept {
+                                                                                      Id   = a.Dept.Id
+                                                                                    , Name = a.Dept.Name
+                                                                                  }
+                                                                                , Roles = a.Roles
+                                                                              };
 
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -232,14 +236,15 @@ public sealed class UserService(
     public async Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await (await QueryInternalAsync(req).ConfigureAwait(false)).Page(req.Page, req.PageSize)
-                                                                              #if DBTYPE_SQLSERVER
-                                                                              .WithLock(SqlServerLock.NoLock |
-                                                                                  SqlServerLock.NoWait)
-                                                                              #endif
-                                                                              .Count(out var total)
-                                                                              .ToListAsync(_selectUserFields)
-                                                                              .ConfigureAwait(false);
+        var listUserExp = req.GetToListExp<Sys_User>() ?? _listUserExp;
+        var select      = await QueryInternalAsync(req, listUserExp == _listUserExp).ConfigureAwait(false);
+        var list = await select.Page(req.Page, req.PageSize)
+                               #if DBTYPE_SQLSERVER
+                               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                               #endif
+                               .Count(out var total)
+                               .ToListAsync(listUserExp)
+                               .ConfigureAwait(false);
         return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
     }
 
@@ -248,7 +253,7 @@ public sealed class UserService(
     {
         req.ThrowIfInvalid();
         var list = await (await QueryInternalAsync(req).ConfigureAwait(false)).Take(req.Count)
-                                                                              .ToListAsync(_selectUserFields)
+                                                                              .ToListAsync(_listUserExp)
                                                                               .ConfigureAwait(false);
         return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
@@ -437,22 +442,6 @@ public sealed class UserService(
         return dbUser.Adapt<UserInfoRsp>();
     }
 
-    private static LoginRsp LoginInternal(Sys_User dbUser)
-    {
-        if (!dbUser.Enabled) {
-            throw new NetAdminInvalidOperationException(Ln.请联系管理员激活账号);
-        }
-
-        var tokenPayload
-            = new Dictionary<string, object> { { nameof(ContextUserToken), dbUser.Adapt<ContextUserToken>() } };
-
-        var accessToken = JWTEncryption.Encrypt(tokenPayload);
-        return new LoginRsp {
-                                AccessToken  = accessToken
-                              , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
-                            };
-    }
-
     private async Task<Dictionary<long, string>> CreateEditCheckAsync(CreateEditUserReq req)
     {
         // 检查角色是否存在
@@ -475,21 +464,44 @@ public sealed class UserService(
         return dept.Count != 1 ? throw new NetAdminInvalidOperationException(Ln.部门不存在) : roles;
     }
 
-    private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req, IEnumerable<long> deptIds)
+    private LoginRsp LoginInternal(Sys_User dbUser)
     {
-        var ret = Rpo.Select.Include(a => a.Dept)
-                     .IncludeMany(a => a.Roles.Select(b => new Sys_Role { Id = b.Id, Name = b.Name }))
-                     .WhereDynamicFilter(req.DynamicFilter)
-                     .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
-                     .WhereIf( //
-                         req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
-                     .WhereIf( //
-                         req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
-                     .WhereIf( //
-                         req.Keywords?.Length > 0
-                       , a => a.Id     == req.Keywords.Int64Try(0) || a.UserName == req.Keywords ||
-                              a.Mobile == req.Keywords             ||
-                              a.Email  == req.Keywords             || a.Summary.Contains(req.Keywords));
+        if (!dbUser.Enabled) {
+            throw new NetAdminInvalidOperationException(Ln.请联系管理员激活账号);
+        }
+
+        _ = UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)]
+,                                                                     ignoreVersion: true);
+
+        var tokenPayload
+            = new Dictionary<string, object> { { nameof(ContextUserToken), dbUser.Adapt<ContextUserToken>() } };
+
+        var accessToken = JWTEncryption.Encrypt(tokenPayload);
+        return new LoginRsp {
+                                AccessToken  = accessToken
+                              , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
+                            };
+    }
+
+    private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req, IEnumerable<long> deptIds
+                                          , bool                   includeRoles = true)
+    {
+        var ret = Rpo.Select.Include(a => a.Dept);
+        if (includeRoles) {
+            ret = ret.IncludeMany(a => a.Roles.Select(b => new Sys_Role { Id = b.Id, Name = b.Name }));
+        }
+
+        ret = ret.WhereDynamicFilter(req.DynamicFilter)
+                 .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
+                 .WhereIf( //
+                     req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
+                 .WhereIf( //
+                     req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
+                 .WhereIf( //
+                     req.Keywords?.Length > 0
+                   , a => a.Id     == req.Keywords.Int64Try(0) || a.UserName == req.Keywords ||
+                          a.Mobile == req.Keywords             ||
+                          a.Email  == req.Keywords             || a.Summary.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
@@ -518,7 +530,7 @@ public sealed class UserService(
         return QueryInternal(req, deptIds);
     }
 
-    private async Task<ISelect<Sys_User>> QueryInternalAsync(QueryReq<QueryUserReq> req)
+    private async Task<ISelect<Sys_User>> QueryInternalAsync(QueryReq<QueryUserReq> req, bool includeRoles = true)
     {
         IEnumerable<long> deptIds = null;
         if (req.Filter?.DeptId > 0) {
@@ -529,6 +541,6 @@ public sealed class UserService(
                                .ConfigureAwait(false);
         }
 
-        return QueryInternal(req, deptIds);
+        return QueryInternal(req, deptIds, includeRoles);
     }
 }

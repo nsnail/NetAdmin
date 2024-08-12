@@ -8,7 +8,7 @@ namespace NetAdmin.Domain.Dto.Sys.RequestLog;
 /// <summary>
 ///     响应：导出请求日志
 /// </summary>
-public record ExportRequestLogRsp : QueryRequestLogRsp
+public sealed record ExportRequestLogRsp : QueryRequestLogRsp
 {
     /// <summary>
     ///     接口路径

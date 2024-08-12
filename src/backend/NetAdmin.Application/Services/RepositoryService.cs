@@ -35,7 +35,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// </summary>
     protected async Task<IActionResult> ExportAsync<TQuery, TExport>( //
         Func<QueryReq<TQuery>, ISelectGrouping<TEntity, TEntity>> selector, QueryReq<TQuery> query, string fileName
-      , Expression<Func<ISelectGroupingAggregate<TEntity, TEntity>, object>> listExp)
+      , Expression<Func<ISelectGroupingAggregate<TEntity, TEntity>, object>> listExp = null)
         where TQuery : DataAbstraction, new()
     {
         var list = await selector(query).Take(Numbers.MAX_LIMIT_EXPORT).ToListAsync(listExp).ConfigureAwait(false);
@@ -95,6 +95,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <param name="includeFields">包含的属性</param>
     /// <param name="excludeFields">排除的属性</param>
     /// <param name="whereExp">查询表达式</param>
+    /// <param name="whereSql">查询sql</param>
     /// <param name="ignoreVersion">是否忽略版本锁</param>
     /// <returns>更新后的实体列表</returns>
     protected Task<List<TEntity>> UpdateReturnListAsync(     //
@@ -102,11 +103,15 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
       , IEnumerable<string>             includeFields        //
       , string[]                        excludeFields = null //
       , Expression<Func<TEntity, bool>> whereExp = null //
+      , string                          whereSql = null //
       , bool                            ignoreVersion = false)
     {
         // 默认匹配主键
         whereExp ??= a => a.Id.Equals(newValue.Id);
-        return BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).ExecuteUpdatedAsync();
+        return BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion)
+               .Where(whereExp)
+               .Where(whereSql)
+               .ExecuteUpdatedAsync();
     }
     #endif
 

@@ -3,6 +3,7 @@ using IGeekFan.AspNetCore.Knife4jUI;
 
 #else
 using Prometheus;
+using Prometheus.HttpMetrics;
 #endif
 
 namespace NetAdmin.Host.Extensions;
@@ -38,6 +39,23 @@ public static class IApplicationBuilderExtensions
             foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups()) {
                 options.SwaggerEndpoint(groupInfo.RouteTemplate, groupInfo.Title);
             }
+        });
+    }
+    #else
+    /// <summary>
+    ///     使用 Prometheus
+    /// </summary>
+    public static IApplicationBuilder UsePrometheus(this IApplicationBuilder me)
+    {
+        return me.UseHttpMetrics(opt => {
+            opt.RequestDuration.Histogram = Metrics.CreateHistogram( //
+                "http_request_duration_seconds"
+              , "The duration of HTTP requests processed by an ASP.NET Core application."
+              , HttpRequestLabelNames.All
+              , new HistogramConfiguration {
+                                               Buckets = Histogram.PowersOfTenDividedBuckets(
+                                                   -2, 2, 4)
+                                           });
         });
     }
     #endif

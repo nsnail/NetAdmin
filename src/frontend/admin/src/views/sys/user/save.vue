@@ -70,6 +70,9 @@
                             <el-switch v-model="form.enabled"></el-switch>
                         </el-form-item>
                     </template>
+                    <el-form-item v-if="mode === 'view'" :label="$t('最后登录')" prop="summary">
+                        <el-input v-model="form.lastLoginTime" clearable></el-input>
+                    </el-form-item>
                     <el-form-item :label="$t('备注')" prop="summary">
                         <el-input v-model="form.summary" clearable type="textarea"></el-input>
                     </el-form-item>

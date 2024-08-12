@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     响应：导出用户
 /// </summary>
-public record ExportUserRsp : QueryUserRsp
+public sealed record ExportUserRsp : QueryUserRsp
 {
     /// <inheritdoc />
     [CsvIndex(7)]
@@ -42,6 +42,12 @@ public record ExportUserRsp : QueryUserRsp
     [CsvIgnore(false)]
     [CsvName(nameof(Ln.唯一编码))]
     public override long Id { get; init; }
+
+    /// <inheritdoc />
+    [CsvIndex(8)]
+    [CsvIgnore(false)]
+    [CsvName(nameof(Ln.最后登录时间))]
+    public override DateTime? LastLoginTime { get; init; }
 
     /// <inheritdoc />
     [CsvIndex(2)]

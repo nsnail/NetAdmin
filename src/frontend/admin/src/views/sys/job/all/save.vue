@@ -44,7 +44,7 @@
                             v-model:value="form.requestHeader"
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
-                            style="height: 5rem; width: 100%" />
+                            style="height: 10rem; width: 100%" />
                         <el-button @click="form.requestHeader = jsonFormat(form.requestHeader)" type="text">{{ $t('JSON格式化') }}</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求体')" prop="requestBody">
@@ -52,7 +52,7 @@
                             v-model:value="form.requestBody"
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
-                            style="height: 10rem; width: 100%" />
+                            style="height: 15rem; width: 100%" />
                         <el-button @click="form.requestBody = jsonFormat(form.requestBody)" type="text">{{ $t('JSON格式化') }}</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
@@ -107,7 +107,7 @@
                 </el-form>
             </el-tab-pane>
             <el-tab-pane v-if="mode === 'view'" :label="$t('执行记录')" name="record">
-                <record v-if="tabId === 'record'" :keywords="form.id" />
+                <record v-if="tabId === 'record'" :job-id="form.id" />
             </el-tab-pane>
             <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                 <json-viewer

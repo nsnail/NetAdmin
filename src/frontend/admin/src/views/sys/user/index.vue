@@ -102,6 +102,11 @@
                     field="name"
                     prop="dept"
                     width="200" />
+                <el-table-column :label="$t('最后登录')" align="right" prop="lastLoginTime" sortable="custom" width="120">
+                    <template #default="{ row }">
+                        <span v-time.tip="row.lastLoginTime" :title="row.lastLoginTime"></span>
+                    </template>
+                </el-table-column>
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
