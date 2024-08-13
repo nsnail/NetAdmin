@@ -25,7 +25,6 @@ public record QueryConfigRsp : Sys_Config
     public override bool UserRegisterConfirm { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterDept" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual QueryDeptRsp UserRegisterDept { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterDeptId" />
@@ -33,7 +32,6 @@ public record QueryConfigRsp : Sys_Config
     public override long UserRegisterDeptId { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterRole" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual QueryRoleRsp UserRegisterRole { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterRoleId" />

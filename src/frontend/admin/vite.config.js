@@ -26,6 +26,11 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (p) => p.replace(/^\/api/, ''),
             },
+            '/ws': {
+                target: 'ws://localhost:5010/ws',
+                ws: true,
+                rewrite: (p) => p.replace(/^\/ws/, ''),
+            },
         },
     },
     css: {

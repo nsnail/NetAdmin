@@ -76,15 +76,59 @@
         <el-badge :hidden="vue.query.dynamicFilter.filters.length === 0" :value="vue.query.dynamicFilter.filters.length">
             <el-button-group>
                 <el-button @click="search" icon="el-icon-search" type="primary">{{ $t('查询') }}</el-button>
-                <el-popover :title="$t('已应用的查询条件')" placement="bottom-end" trigger="hover" width="40rem">
+                <el-popover :title="$t('已应用的查询条件')" :width="popWidth" placement="bottom-end" trigger="hover">
                     <template #reference>
                         <el-button @click="reset" icon="el-icon-refresh-left">{{ $t('重置') }}</el-button>
                     </template>
                     <v-ace-editor
-                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
-                        :value="vkbeautify().json(vue.query, 2)"
+                        v-model:value="aceEditorValue"
+                        :theme="$TOOL.data.get('APP_SET_DARK') || $CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                         lang="json"
                         style="height: 20rem; width: 100%" />
+                    <p class="mt-4 flex gap05 items-center" style="justify-content: right">
+                        <span class="text-right" style="width: 5rem">{{ $t('全局') }}</span>
+                        <el-select v-model="this.aceEditorValue" :key="selectFilterKey" :teleported="false" style="flex-grow: 1">
+                            <el-option
+                                v-for="(item, i) in $TOOL.data.get('APP_SET_QUERY_FILTERS') || []"
+                                :key="i"
+                                :label="item.name"
+                                :value="item.value" />
+                        </el-select>
+                        <el-button-group>
+                            <el-button @click="saveFilter(true)" plain type="primary">{{ $t('保存') }}</el-button>
+                            <el-button @click="delFilter(true)" plain>{{ $t('删除') }}</el-button>
+                        </el-button-group>
+                    </p>
+                    <p class="mt-4 flex gap05 items-center" style="justify-content: right">
+                        <span class="text-right" style="width: 5rem">{{ $t('本页') }}</span>
+                        <el-select v-model="this.aceEditorValue" :key="selectFilterKey" :teleported="false" style="flex-grow: 1">
+                            <el-option
+                                v-for="(item, i) in $TOOL.data.get('APP_SET_QUERY_FILTERS_' + this.queryApi) || []"
+                                :key="i"
+                                :label="item.name"
+                                :value="item.value" />
+                        </el-select>
+                        <el-button-group>
+                            <el-button @click="saveFilter(false)" plain type="primary">{{ $t('保存') }}</el-button>
+                            <el-button @click="delFilter(false)" plain>{{ $t('删除') }}</el-button>
+                        </el-button-group>
+                    </p>
+                    <p class="mt-4 text-right">
+                        <el-button @click="jsonFormat">{{ $t('JSON 格式化') }}</el-button>
+                        <el-dropdown :teleported="false">
+                            <el-button @click="reSearch" type="primary">{{ $t('重新查询') }}</el-button>
+                            <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item @click="reSearch(5)">5s</el-dropdown-item>
+                                    <el-dropdown-item @click="reSearch(10)">10s</el-dropdown-item>
+                                    <el-dropdown-item @click="reSearch(15)">15s</el-dropdown-item>
+                                    <el-dropdown-item @click="reSearch(30)">30s</el-dropdown-item>
+                                    <el-dropdown-item @click="reSearch(60)">60s</el-dropdown-item>
+                                    <el-dropdown-item @click="reSearch(120)">120s</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </template>
+                        </el-dropdown>
+                    </p>
                 </el-popover>
             </el-button-group>
         </el-badge>
@@ -96,7 +140,7 @@ import tool from '@/utils/tool'
 import vkbeautify from 'vkbeautify/index'
 
 export default {
-    emits: ['search', 'reset'],
+    emits: ['search', 'reset', 'reSearch'],
     props: {
         dateField: { type: String, default: 'createdTime' },
         hasDate: { type: Boolean, default: true },
@@ -108,6 +152,11 @@ export default {
     },
     data() {
         return {
+            autoResearchTimer: null,
+            queryApi: null,
+            popWidth: '40rem',
+            selectFilterKey: 0,
+            aceEditorValue: null,
             selectInputKey: null,
             dateShortCuts: [
                 {
@@ -356,8 +405,23 @@ export default {
             },
         }
     },
-    mounted() {},
+    mounted() {
+        this.queryApi = this.vue.$refs.table.queryApi.url.toUpperCase()
+    },
+    watch: {
+        'vue.query': {
+            immediate: true,
+            deep: true,
+            handler: function (o, n) {
+                this.aceEditorValue = this.vkbeautify.json(n, 2)
+            },
+        },
+    },
     async created() {
+        if (document.body.clientWidth < 1000) {
+            this.popWidth = '100%'
+        }
+        this.aceEditorValue = this.vkbeautify.json(this.vue.query, 2)
         this.selectInputKey = this.controls.find((x) => x.type === 'select-input')?.field[1][0].key
         if (this.dateType === 'datetimerange') {
             this.dateShortCuts.unshift(
@@ -405,8 +469,70 @@ export default {
         tool() {
             return tool
         },
+        vkbeautify() {
+            return vkbeautify
+        },
     },
     methods: {
+        jsonFormat() {
+            try {
+                this.aceEditorValue = vkbeautify.json(this.aceEditorValue, 2)
+            } catch {
+                this.$message.error(this.$t('格式错误'))
+            }
+        },
+        async reSearch(sec) {
+            const newParam = JSON.parse(this.aceEditorValue)
+            this.vue.$refs.table.tableParams = newParam
+            this.vue.$refs.table.upData()
+            await this.$nextTick()
+            this.vue.$refs.table.tableParams = this.vue.query
+            this.$emit('reSearch', newParam)
+
+            if (typeof sec !== 'number') return
+            const timerEl = document.getElementsByClassName('autoResearchTimer')[0]
+            if (!timerEl) {
+                this.$message({
+                    showClose: true,
+                    onClose: () => clearInterval(this.autoResearchTimer),
+                    type: 'warning',
+                    customClass: 'autoResearchTimer',
+                    message: this.$t('{s} 秒后刷新...', { s: sec }),
+                    duration: 0,
+                })
+                this.autoResearchTimer = setInterval(() => {
+                    const el = document.getElementsByClassName('autoResearchTimer')[0].getElementsByClassName('el-message__content')[0]
+                    let num = parseInt(/(\d+)/.exec(el.innerHTML)[0])
+                    if (num === 1) {
+                        this.reSearch()
+                        num = sec + 1
+                    }
+                    el.innerHTML = el.innerHTML.replace(/\d+/, (num - 1).toString())
+                }, 1000)
+            }
+        },
+        async delFilter(isGlobal) {
+            const key = isGlobal ? 'APP_SET_QUERY_FILTERS' : 'APP_SET_QUERY_FILTERS_' + this.queryApi
+            let filters = this.$TOOL.data.get(key) || []
+            filters = filters.filter((x) => x.value !== this.aceEditorValue)
+            await this.$TOOL.data.set(key, filters)
+            this.$message.success(this.$t('删除成功'))
+            this.selectFilterKey = Math.random()
+        },
+        async saveFilter(isGlobal) {
+            const key = isGlobal ? 'APP_SET_QUERY_FILTERS' : 'APP_SET_QUERY_FILTERS_' + this.queryApi
+            try {
+                const filterName = await this.$prompt('设置一个过滤器名称', '保存查询条件', {
+                    inputPattern: /\S/,
+                    inputErrorMessage: '名称不能为空',
+                })
+                let filters = this.$TOOL.data.get(key) || []
+                filters = filters.filter((x) => x.name !== filterName.value)
+                filters.push({ name: filterName.value, value: this.aceEditorValue })
+                await this.$TOOL.data.set(key, filters)
+                this.$message.success(this.$t('保存成功'))
+            } catch {}
+        },
         trimSpaces(key) {
             this.form[key][this.selectInputKey] = this.form[key][this.selectInputKey].replace(/^\s*(.*?)\s*$/g, '$1')
         },
@@ -414,9 +540,6 @@ export default {
             for (const field of item.field[1]) {
                 delete this.form[item.field[0]][field.key]
             }
-        },
-        vkbeautify() {
-            return vkbeautify
         },
         search() {
             const parentQuery = this.clearParentQuery()

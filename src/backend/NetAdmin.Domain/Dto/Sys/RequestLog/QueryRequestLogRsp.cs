@@ -17,7 +17,6 @@ public record QueryRequestLogRsp : Sys_RequestLog
     public new virtual string CreatedClientIp => base.CreatedClientIp?.ToIpV4();
 
     /// <inheritdoc cref="Sys_RequestLog.Api" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual QueryApiRsp Api { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.ApiPathCrc32" />
@@ -29,7 +28,6 @@ public record QueryRequestLogRsp : Sys_RequestLog
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.Detail" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual QueryRequestLogDetailRsp Detail { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.Duration" />
@@ -45,7 +43,6 @@ public record QueryRequestLogRsp : Sys_RequestLog
     public override int HttpStatusCode { get; init; }
 
     /// <inheritdoc cref="Sys_RequestLog.Owner" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual QueryUserRsp Owner { get; init; }
 
     /// <inheritdoc cref="IFieldOwner.OwnerId" />

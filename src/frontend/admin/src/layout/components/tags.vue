@@ -24,6 +24,12 @@
                 </el-icon>
                 刷新
             </li>
+            <li @click="scheduledRefresh()">
+                <el-icon>
+                    <el-icon-alarm-clock />
+                </el-icon>
+                定时刷新
+            </li>
             <hr />
             <li :class="contextMenuItem.meta.affix ? 'disabled' : ''" @click="closeTabs()">
                 <el-icon>
@@ -61,6 +67,7 @@ export default {
     name: 'tags',
     data() {
         return {
+            refreshTimer: null,
             contextMenuVisible: false,
             contextMenuItem: null,
             left: 0,
@@ -69,7 +76,9 @@ export default {
             tipDisplayed: false,
         }
     },
-    props: {},
+    props: {
+        vue: { type: Object },
+    },
     watch: {
         $route(e) {
             this.addViewTags(e)
@@ -188,27 +197,38 @@ export default {
             this.contextMenuItem = null
             this.contextMenuVisible = false
         },
+        async scheduledRefresh() {
+            this.closeMenu()
+            try {
+                const sleep = await this.$prompt('刷新时间间隔（秒）', '定时刷新', {
+                    inputPattern: /^[1-9]\d*$/,
+                    inputErrorMessage: '时间必须为数字',
+                    inputValue: '10',
+                })
+                const sleepSecs = parseInt(sleep.value)
+                this.$message({
+                    showClose: true,
+                    onClose: () => clearInterval(this.refreshTimer),
+                    type: 'warning',
+                    customClass: 'refreshTimer',
+                    message: this.$t('{s} 秒后刷新...', { s: sleepSecs }),
+                    duration: 0,
+                })
+                this.refreshTimer = setInterval(() => {
+                    const el = document.getElementsByClassName('refreshTimer')[0].getElementsByClassName('el-message__content')[0]
+                    let num = parseInt(/(\d+)/.exec(el.innerHTML)[0])
+                    if (num === 1) {
+                        this.vue.routerViewKey = Math.random()
+                        num = sleepSecs + 1
+                    }
+                    el.innerHTML = el.innerHTML.replace(/\d+/, (num - 1).toString())
+                }, 1000)
+            } catch {}
+        },
         //TAB 刷新
         refreshTab() {
-            this.contextMenuVisible = false
-            const nowTag = this.contextMenuItem
-            //判断是否当前路由，否的话跳转
-            if (this.$route.fullPath !== nowTag.fullPath) {
-                this.$router.push({
-                    path: nowTag.fullPath,
-                    query: nowTag.query,
-                })
-            }
-
-            this.$store.commit('refreshIframe', nowTag)
-            setTimeout(() => {
-                this.$store.commit('removeKeepLive', nowTag.name)
-                this.$store.commit('setRouteShow', false)
-                this.$nextTick(() => {
-                    this.$store.commit('pushKeepLive', nowTag.name)
-                    this.$store.commit('setRouteShow', true)
-                })
-            }, 0)
+            this.closeMenu()
+            this.vue.routerViewKey = Math.random()
         },
         //TAB 关闭
         closeTabs() {

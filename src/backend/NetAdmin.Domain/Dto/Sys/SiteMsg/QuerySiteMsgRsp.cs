@@ -24,7 +24,6 @@ public record QuerySiteMsgRsp : Sys_SiteMsg
     public override string CreatedUserName { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Depts" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual IEnumerable<QueryDeptRsp> Depts { get; init; }
 
     /// <inheritdoc cref="EntityBase{T}.Id" />
@@ -45,7 +44,6 @@ public record QuerySiteMsgRsp : Sys_SiteMsg
     public QuerySiteMsgFlagRsp MyFlags { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Roles" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <summary>
@@ -62,7 +60,6 @@ public record QuerySiteMsgRsp : Sys_SiteMsg
     public override string Title { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Users" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual IEnumerable<QueryUserRsp> Users { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
