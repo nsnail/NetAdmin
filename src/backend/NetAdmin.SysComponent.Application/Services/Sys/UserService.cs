@@ -207,7 +207,9 @@ public sealed class UserService(
                            .ConfigureAwait(false);
         }
 
-        return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户名或密码错误) : LoginInternal(dbUser);
+        return dbUser == null
+            ? throw new NetAdminInvalidOperationException(Ln.用户名或密码错误)
+            : await LoginInternalAsync(dbUser).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -221,7 +223,9 @@ public sealed class UserService(
         }
 
         var dbUser = await Rpo.Where(a => a.Mobile == req.DestDevice).ToOneAsync().ConfigureAwait(false);
-        return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户不存在) : LoginInternal(dbUser);
+        return dbUser == null
+            ? throw new NetAdminInvalidOperationException(Ln.用户不存在)
+            : await LoginInternalAsync(dbUser).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -229,7 +233,7 @@ public sealed class UserService(
     {
         var dbUser = await Rpo.Where(a => a.Id == userId).ToOneAsync().ConfigureAwait(false);
 
-        return LoginInternal(dbUser);
+        return await LoginInternalAsync(dbUser).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -464,14 +468,15 @@ public sealed class UserService(
         return dept.Count != 1 ? throw new NetAdminInvalidOperationException(Ln.部门不存在) : roles;
     }
 
-    private LoginRsp LoginInternal(Sys_User dbUser)
+    private async Task<LoginRsp> LoginInternalAsync(Sys_User dbUser)
     {
         if (!dbUser.Enabled) {
             throw new NetAdminInvalidOperationException(Ln.请联系管理员激活账号);
         }
 
-        _ = UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)]
-,                                                                     ignoreVersion: true);
+        _ = await UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)]
+,                                                                           ignoreVersion: true)
+            .ConfigureAwait(false);
 
         var tokenPayload
             = new Dictionary<string, object> { { nameof(ContextUserToken), dbUser.Adapt<ContextUserToken>() } };

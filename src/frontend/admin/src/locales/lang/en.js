@@ -436,7 +436,6 @@ export default {
     周四: 'Thursday',
     周五: 'Friday',
     周六: 'Saturday',
-    JSON格式化: 'JSON formatting',
     确定: 'Confirm',
     无权限或找不到页面: 'No permission or page not found',
     '当前页面无权限访问或者打开了一个不存在的链接，请检查当前账户权限和链接的可访问性。':
@@ -467,6 +466,7 @@ export default {
     用户列表: 'User list',
     是: 'Yes',
     否: 'No',
+    资源复用: 'Resource reuse',
     手机: 'Mobile',
     '您已退出登录或无权限访问当前资源，请重新登录后再操作':
         'You have logged out or do not have permission to access the current resource, please log in again before operating',
@@ -497,4 +497,10 @@ export default {
     请输入操作符: 'Please enter operator',
     查询字段: 'Query field',
     最后登录: 'Last login',
+    '{s} 秒后刷新...': '{s} seconds to refresh...',
+    重新查询: 'Re-query',
+    全局: 'Global',
+    本页: 'Page',
+    'JSON 格式化': 'JSON formatting',
+    格式错误: 'Format error',
 }

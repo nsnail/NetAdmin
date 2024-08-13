@@ -9,7 +9,7 @@
 
 <template>
     <div class="sc-dialog" ref="scDialog">
-        <el-dialog v-bind="$attrs" v-model="dialogVisible" :fullscreen="isFullscreen" :show-close="false" ref="dialog">
+        <el-dialog v-bind="$attrs" v-model="dialogVisible" :fullscreen="isFullscreen" :show-close="false" draggable ref="dialog">
             <template #header>
                 <slot name="header">
                     <span class="el-dialog__title">{{ title }}</span>

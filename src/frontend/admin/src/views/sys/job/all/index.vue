@@ -93,6 +93,7 @@
                     'nextExecTime',
                     'enabled',
                     'createdTime',
+                    'lastDuration',
                 ]"
                 :default-sort="{ prop: 'lastExecTime', order: 'descending' }"
                 :export-api="$API.sys_job.export"

@@ -48,7 +48,6 @@ public record QueryLoginLogRsp : Sys_LoginLog
     public override string LoginUserName { get; protected init; }
 
     /// <inheritdoc cref="Sys_LoginLog.Owner" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public new virtual QueryUserRsp Owner { get; init; }
 
     /// <inheritdoc cref="Sys_LoginLog.RequestBody" />

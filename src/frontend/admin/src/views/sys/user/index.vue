@@ -69,7 +69,7 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime']"
+                :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime', 'lastLoginTime']"
                 :context-opers="['view', 'edit']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_user.export"

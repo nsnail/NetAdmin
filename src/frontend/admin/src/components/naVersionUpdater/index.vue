@@ -6,24 +6,36 @@ import config from '@/config'
 
 export default {
     data() {
-        return {}
+        return {
+            ws: null,
+        }
     },
     async created() {
-        const ws = new WebSocket(`ws://${config.API_URL.replace('http://', '')}/ws/version`)
-        ws.onopen = () => {
-            ws.send('1')
-        }
-        ws.onmessage = async (res) => {
-            if (res.data !== this.$TOOL.data.get('APP_VERSION')) {
-                await this.$TOOL.data.set('APP_VERSION', res.data)
-                this.showTip(res.data.slice(0, res.data.indexOf('+')))
-            } else {
-                await new Promise((x) => setTimeout(x, 10000))
-                ws.send('1')
-            }
-        }
+        this.connectWebSocket()
     },
     methods: {
+        connectWebSocket() {
+            this.ws = new WebSocket(
+                import.meta.env.MODE === 'production'
+                    ? `wss://${config.API_URL.replace('https://', '')}/ws/version`
+                    : `ws://${window.location.host}/ws/version`,
+            )
+            this.ws.onopen = () => {
+                this.ws.send('1')
+            }
+            this.ws.onmessage = async (res) => {
+                if (res.data !== this.$TOOL.data.get('APP_VERSION')) {
+                    await this.$TOOL.data.set('APP_VERSION', res.data)
+                    this.showTip(res.data.slice(0, res.data.indexOf('+')))
+                } else {
+                    await new Promise((x) => setTimeout(x, 10000))
+                    this.ws.send('1')
+                }
+            }
+            this.ws.onclose = () => {
+                setTimeout(this.connectWebSocket, 5000) // 5秒后重试
+            }
+        },
         /**
          * 通知消息
          */

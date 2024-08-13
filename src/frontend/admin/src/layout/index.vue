@@ -46,9 +46,9 @@
             </div>
             <Side-m v-if="ismobile"></Side-m>
             <div class="aminui-body el-container">
-                <Tags v-if="!ismobile && layoutTags"></Tags>
+                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
-                    <router-view v-slot="{ Component }">
+                    <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
@@ -93,9 +93,9 @@
             </div>
             <Side-m v-if="ismobile"></Side-m>
             <div class="aminui-body el-container">
-                <Tags v-if="!ismobile && layoutTags"></Tags>
+                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
-                    <router-view v-slot="{ Component }">
+                    <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
@@ -135,9 +135,9 @@
         </header>
         <section class="aminui-wrapper">
             <div class="aminui-body el-container">
-                <Tags v-if="!ismobile && layoutTags"></Tags>
+                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
-                    <router-view v-slot="{ Component }">
+                    <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
@@ -195,9 +195,9 @@
                 <Topbar>
                     <userbar></userbar>
                 </Topbar>
-                <Tags v-if="!ismobile && layoutTags"></Tags>
+                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
-                    <router-view v-slot="{ Component }">
+                    <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive>
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
@@ -239,6 +239,7 @@ export default {
     },
     data() {
         return {
+            routerViewKey: 0,
             menu: [],
             nextMenu: [],
             pmenu: {},
