@@ -108,4 +108,8 @@ html.dark {
     .ace_gutter {
         background: var(--el-bg-color-overlay);
     }
+
+    .el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell {
+        --el-table-row-hover-bg-color: unset;
+    }
 }

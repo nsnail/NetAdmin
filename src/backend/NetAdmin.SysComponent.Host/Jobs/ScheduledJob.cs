@@ -6,6 +6,7 @@ using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.BackgroundRunning;
 using NetAdmin.Host.Extensions;
+using NetAdmin.Host.Middlewares;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
@@ -42,6 +43,11 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
+        if (SafetyShopHostMiddleware.IsShutdown) {
+            Console.WriteLine(Ln.此节点已下线);
+            return;
+        }
+
         await WorkflowAsync(stoppingToken).ConfigureAwait(false);
     }
 

@@ -227,7 +227,7 @@ export default {
             const apiCrcs = data.data.rows?.map((x) => x.apiPathCrc32)
             const ips = data.data.rows?.map((x) => x.createdClientIp) ?? []
             const res = await Promise.all([
-                ownerIds && ownerIds.length > 0
+                ownerIds && ownerIds.length > 0 && this.$GLOBAL.permissions.some((x) => x === '*/*/*' || x === 'sys/log/operation/user')
                     ? this.$API.sys_user.query.post({
                           dynamicFilter: {
                               field: 'id',

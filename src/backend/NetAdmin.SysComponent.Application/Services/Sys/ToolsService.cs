@@ -8,6 +8,15 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
 {
     /// <inheritdoc />
+    public Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
+    {
+        return App.GetService<IFreeSql>()
+                  .Ado.CommandFluent(req.Sql)
+                  .CommandTimeout(req.TimeoutSecs)
+                  .ExecuteArrayAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<string> GetChangeLogAsync()
     {
         await using var stream       = Assembly.GetEntryAssembly()!.GetManifestResourceStream("CHANGELOG.md");

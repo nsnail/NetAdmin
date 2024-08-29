@@ -11,6 +11,7 @@ public sealed class DefaultApiResultHandler : ApiResultHandler<RestfulInfo<objec
     /// <inheritdoc />
     public IActionResult OnAuthorizeException(DefaultHttpContext context, ExceptionMetadata metadata)
     {
-        throw new NotImplementedException();
+        LogHelper.Get<DefaultApiResultHandler>().Error(metadata.Exception);
+        throw metadata.Exception;
     }
 }

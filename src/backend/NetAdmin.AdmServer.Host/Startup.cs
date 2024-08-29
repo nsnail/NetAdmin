@@ -24,7 +24,9 @@ namespace NetAdmin.AdmServer.Host
         /// <summary>
         ///     配置应用程序中间件
         /// </summary>
+        #pragma warning disable S2325
         public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifeTime)
+            #pragma warning restore S2325
         {
             _ = app                                        //
                 .UseMiddleware<SafetyShopHostMiddleware>() // 安全停机中间件
@@ -52,7 +54,9 @@ namespace NetAdmin.AdmServer.Host
         /// <summary>
         ///     配置服务容器
         /// </summary>
+        #pragma warning disable S2325
         public void ConfigureServices(IServiceCollection services)
+            #pragma warning restore S2325
         {
             _ = services.AddConsoleFormatter() // 添加控制台日志模板
                         .AddAllOptions()       // 添加配置项
@@ -75,12 +79,18 @@ namespace NetAdmin.AdmServer.Host
 
         /// <inheritdoc />
         #pragma warning disable ASA001
-        public Task<int> Execute(CommandContext context, CommandLineArgs settings)
+        public async Task<int> Execute(CommandContext context, CommandLineArgs settings)
             #pragma warning restore ASA001
         {
             Args = settings;
-            _    = Serve.Run(RunOptions.Default.WithArgs(context.Remaining.Raw.ToArray()));
-            return Task.FromResult(0);
+            var webOpt = new WebApplicationOptions //
+                         {
+                             EnvironmentName = Environment.GetEnvironmentVariable("TEST_ENVIRONMENT").NullOrEmpty(null)
+                           , Args            = context.Remaining.Raw.ToArray()
+                         };
+            Serve.BuildApplication(RunOptions.Default.ConfigureOptions(webOpt), null, out var startUrl, out var app);
+            await app.RunAsync(startUrl).ConfigureAwait(false);
+            return 0;
         }
 
         /// <inheritdoc />

@@ -1,0 +1,141 @@
+using System.Diagnostics.CodeAnalysis;
+using NetAdmin.AdmServer.Host;
+using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Dto.Sys;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
+using NetAdmin.SysComponent.Application.Modules.Sys;
+using NetAdmin.SysComponent.Host.Controllers.Sys;
+using NetAdmin.Tests;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace NetAdmin.SysComponent.Tests.Sys;
+
+/// <summary>
+///     请求日志测试
+/// </summary>
+[SuppressMessage("Usage", "xUnit1026:Theory methods should use all of their parameters")]
+[SuppressMessage("Usage", "xUnit1028:Test method must have valid return type")]
+public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOutputHelper testOutputHelper)
+    : WebApiTestBase<Startup>(factory, testOutputHelper), IRequestLogModule
+{
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<int> DeleteAsync(DelReq req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+}

@@ -62,10 +62,24 @@
                     </el-button-group>
                 </form>
             </div>
-            <div class="right-panel"></div>
+            <div class="right-panel">
+                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+            </div>
         </el-header>
         <el-main v-loading="loading" class="nopadding">
-            <sc-table v-if="tableData.length > 0" :data="tableData" :page-size="100" hide-refresh pagination-layout="total" stripe>
+            <sc-table
+                v-if="tableData.length > 0"
+                :data="tableData"
+                :page-size="100"
+                @selection-change="
+                    (items) => {
+                        selection = items
+                    }
+                "
+                hide-refresh
+                pagination-layout="total"
+                stripe>
+                <el-table-column type="selection" />
                 <el-table-column :label="$t('键名')" prop="key" />
                 <el-table-column :label="$t('数据类型')" align="center" prop="type" width="100" />
                 <el-table-column :label="$t('过期时间')" align="right" prop="expireTime" width="200" />
@@ -73,7 +87,14 @@
                     :buttons="[
                         {
                             icon: 'el-icon-view',
-                            click: rowClick,
+                            click: viewClick,
+                        },
+                        {
+                            icon: 'el-icon-delete',
+                            type: 'danger',
+                            confirm: true,
+                            title: '删除缓存',
+                            click: delClick,
                         },
                     ]"
                     :vue="this"
@@ -94,6 +115,7 @@ export default {
     },
     data() {
         return {
+            selection: [],
             loading: true,
             dialog: {
                 info: false,
@@ -113,6 +135,24 @@ export default {
         }
     },
     methods: {
+        //批量删除
+        async batchDel() {
+            let loading
+            try {
+                await this.$confirm(`确定删除选中的 ${this.selection.length} 项吗？`, '提示', {
+                    type: 'warning',
+                })
+                loading = this.$loading()
+                const res = await this.$API.sys_cache.bulkDeleteEntry.post({
+                    items: this.selection,
+                })
+                this.$message.success(`删除 ${res.data} 项`)
+            } catch {
+                //
+            }
+            await this.getData()
+            loading?.close()
+        },
         reset() {
             this.query.keywords = ''
             this.search()
@@ -120,10 +160,19 @@ export default {
         search() {
             this.getData()
         },
-        async rowClick(row) {
+        async delClick(row) {
+            try {
+                const res = await this.$API.sys_cache.deleteEntry.post({ key: row.key })
+                this.$message.success(`删除 ${res.data} 项`)
+            } catch {
+                //
+            }
+            await this.getData()
+        },
+        async viewClick(row) {
             this.dialog.info = true
             await this.$nextTick()
-            this.$refs.info.open(
+            await this.$refs.info.open(
                 () => this.$t('缓存详情'),
                 () => this.$API.sys_cache.getEntry.post({ key: row.key }),
             )

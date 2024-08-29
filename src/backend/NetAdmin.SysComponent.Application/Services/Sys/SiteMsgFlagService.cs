@@ -71,7 +71,7 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
     public async Task<QuerySiteMsgFlagRsp> GetAsync(QuerySiteMsgFlagReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgFlagReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgFlagReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgFlagRsp>();

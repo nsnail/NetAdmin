@@ -112,9 +112,11 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                                                                      }
                                            ]
                                        };
-        var job = await QueryInternal(new QueryReq<QueryJobReq> { Count = 1, Filter = req, DynamicFilter = df })
-                        .ToOneAsync()
-                        .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException(Ln.未获取到待执行任务);
+        var job
+            = await QueryInternal(
+                        new QueryReq<QueryJobReq> { Count = 1, Filter = req, DynamicFilter = df, Order = Orders.None })
+                    .ToOneAsync()
+                    .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException(Ln.未获取到待执行任务);
 
         var nextExecTime = GetNextExecTime(Chars.FLG_CRON_PER_SECS);
         try {
@@ -175,7 +177,9 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     public async Task<QueryJobRsp> GetAsync(QueryJobReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryJobReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryJobReq> { Filter = req, Order = Orders.None })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryJobRsp>();
     }
 
@@ -201,13 +205,26 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                                                                      }
                                            ]
                                        };
-        var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Order = Orders.Random })
-                        .Take(1)
+        var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Order = Orders.Random }, false)
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
                         .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
                                         .As("b")
                                         .Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId)
                                         .Any())
-                        .ToOneAsync()
+                        .ToOneAsync(a => new {
+                                                 a.RequestUrl
+                                               , a.HttpMethod
+                                               , a.RequestHeader
+                                               , a.RequestBody
+                                               , a.RandomDelayBegin
+                                               , a.RandomDelayEnd
+                                               , a.UserId
+                                               , a.Id
+                                               , a.NextTimeId
+                                               , a.Version
+                                             })
                         .ConfigureAwait(false);
         if (job == null) {
             return null;
@@ -215,15 +232,15 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
 
         #if DBTYPE_SQLSERVER
         var ret = await UpdateReturnListAsync( //
-                job with { Status = JobStatues.Running, LastExecTime = DateTime.Now }
-              , [nameof(job.Status), nameof(job.LastExecTime)])
+                job.Adapt<Sys_Job>() with { Status = JobStatues.Running, LastExecTime = DateTime.Now }
+              , [nameof(Sys_Job.Status), nameof(Sys_Job.LastExecTime)])
             .ConfigureAwait(false);
 
         return ret.FirstOrDefault()?.Adapt<QueryJobRsp>();
         #else
         return await UpdateAsync( //
-                job with { Status = JobStatues.Running, LastExecTime = DateTime.Now }
-              , [nameof(job.Status), nameof(job.LastExecTime)])
+                job.Adapt<Sys_Job>() with { Status = JobStatues.Running, LastExecTime = DateTime.Now }
+              , [nameof(Sys_Job.Status), nameof(Sys_Job.LastExecTime)])
             .ConfigureAwait(false) > 0
             ? await GetAsync(new QueryJobReq { Id = job.Id }).ConfigureAwait(false)
             : null;
@@ -330,12 +347,21 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
 
     private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req)
     {
-        var ret = Rpo.Select.Include(a => a.User)
-                     .WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .WhereIf( //
-                         req.Keywords?.Length > 0
-                       , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords));
+        return QueryInternal(req, true);
+    }
+
+    private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req, bool includeUser)
+    {
+        var ret = Rpo.Select;
+        if (includeUser) {
+            ret = ret.Include(a => a.User);
+        }
+
+        ret = ret.WhereDynamicFilter(req.DynamicFilter)
+                 .WhereDynamic(req.Filter)
+                 .WhereIf( //
+                     req.Keywords?.Length > 0
+                   , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

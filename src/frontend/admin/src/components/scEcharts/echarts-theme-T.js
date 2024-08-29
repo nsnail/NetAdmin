@@ -7,6 +7,29 @@ const T = {
         top: '40',
         containLabel: true,
     },
+    pie: {
+        label: {
+            color: '#999',
+        },
+    },
+    gauge: {
+        axisTick: {
+            lineStyle: {
+                color: '#999',
+            },
+        },
+        splitLine: {
+            lineStyle: {
+                color: '#999',
+            },
+        },
+        axisLabel: {
+            color: '#999',
+        },
+        title: {
+            color: '#999',
+        },
+    },
     legend: {
         textStyle: {
             color: '#999',

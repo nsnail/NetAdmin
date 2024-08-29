@@ -104,7 +104,7 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
     public async Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryDicContentRsp>();
@@ -145,6 +145,9 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
     public async Task<List<QueryDicContentRsp>> QueryByCatalogCodeAsync(string catalogCode)
     {
         var ret = await Rpo.Orm.Select<Sys_DicContent>()
+                           #if DBTYPE_SQLSERVER
+                           .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                           #endif
                            .Include(a => a.Catalog)
                            .Where(a => a.Catalog.Code == catalogCode)
                            .ToListAsync()

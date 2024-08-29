@@ -100,6 +100,6 @@ export default {
 }
 
 .dark .sc-statistic-content {
-    color: #d0d0d0;
+    color: #c0c0c0;
 }
 </style>

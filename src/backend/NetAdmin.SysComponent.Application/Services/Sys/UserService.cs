@@ -172,9 +172,9 @@ public sealed class UserService(
     public async Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req }).ConfigureAwait(false))
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req, Order = Orders.None })
+                .ConfigureAwait(false)).ToOneAsync()
+                                       .ConfigureAwait(false);
         return ret.Adapt<QueryUserRsp>();
     }
 
@@ -433,14 +433,51 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<UserInfoRsp> UserInfoAsync()
     {
+        static void OtherIncludes(ISelect<Sys_Role> select)
+        {
+            select.Where(a => a.Enabled)
+                  #if DBTYPE_SQLSERVER
+                  .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                  #endif
+                  .IncludeMany( //
+                      a => a.Menus
+                      #if DBTYPE_SQLSERVER
+                      #pragma warning disable SA1115
+                    , then => then.WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                      #pragma warning restore SA1115
+                      #endif
+                      #pragma warning disable SA1009, SA1111
+                  )
+                  #pragma warning restore SA1111, SA1009
+                  .IncludeMany( //
+                      a => a.Depts
+                      #if DBTYPE_SQLSERVER
+                      #pragma warning disable SA1115
+                    , then => then.WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                      #pragma warning restore SA1115
+                      #endif
+                      #pragma warning disable SA1009, SA1111
+                  )
+                  #pragma warning restore SA1111, SA1009
+                  .IncludeMany( //
+                      a => a.Apis
+                      #if DBTYPE_SQLSERVER
+                      #pragma warning disable SA1115
+                    , then => then.WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                      #pragma warning restore SA1115
+                      #endif
+                      #pragma warning disable SA1009, SA1111
+                  )
+                #pragma warning restore SA1111, SA1009
+                ;
+        }
+
         var dbUser = await Rpo.Where(a => a.Token == UserToken.Token && a.Enabled)
+                              #if DBTYPE_SQLSERVER
+                              .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                              #endif
                               .Include(a => a.Dept)
-                              .IncludeMany( //
-                                  a => a.Roles
-                                , then => then.Where(a => a.Enabled)
-                                              .IncludeMany(a => a.Menus)
-                                              .IncludeMany(a => a.Depts)
-                                              .IncludeMany(a => a.Apis))
+                              .IncludeMany(a => a.Roles, OtherIncludes)
                               .ToOneAsync()
                               .ConfigureAwait(false);
         return dbUser.Adapt<UserInfoRsp>();

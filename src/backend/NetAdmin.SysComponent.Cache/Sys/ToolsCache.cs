@@ -10,6 +10,12 @@ public sealed class ToolsCache(IDistributedCache cache, IToolsService service) /
     : DistributedCache<IToolsService>(cache, service), IScoped, IToolsCache
 {
     /// <inheritdoc />
+    public Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
+    {
+        return Service.ExecuteSqlAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<string> GetChangeLogAsync()
     {
         return Service.GetChangeLogAsync();

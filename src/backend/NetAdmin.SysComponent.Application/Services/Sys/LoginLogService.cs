@@ -72,7 +72,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     public async Task<QueryLoginLogRsp> GetAsync(QueryLoginLogReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryLoginLogReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryLoginLogReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryLoginLogRsp>();

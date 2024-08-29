@@ -84,7 +84,9 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     public async Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req, Order = Orders.None })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryConfigRsp>();
     }
 

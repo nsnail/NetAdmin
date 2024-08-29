@@ -120,7 +120,7 @@ public sealed class SiteMsgService(
     public async Task<QuerySiteMsgRsp> GetAsync(QuerySiteMsgReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgReq> { Filter = req, Order = Orders.None })
                         .IncludeMany(a => a.Roles)
                         .IncludeMany(a => a.Users)
                         .IncludeMany(a => a.Depts)

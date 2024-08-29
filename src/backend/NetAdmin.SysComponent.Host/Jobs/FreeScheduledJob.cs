@@ -1,5 +1,6 @@
 using Furion.Schedule;
 using NetAdmin.Host.BackgroundRunning;
+using NetAdmin.Host.Middlewares;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
@@ -27,6 +28,11 @@ public sealed class FreeScheduledJob : WorkBase<FreeScheduledJob>, IJob
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
+        if (SafetyShopHostMiddleware.IsShutdown) {
+            Console.WriteLine(Ln.此节点已下线);
+            return;
+        }
+
         await WorkflowAsync(true, stoppingToken).ConfigureAwait(false);
     }
 

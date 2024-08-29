@@ -88,7 +88,9 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req, Order = Orders.None })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryMenuRsp>();
     }
 

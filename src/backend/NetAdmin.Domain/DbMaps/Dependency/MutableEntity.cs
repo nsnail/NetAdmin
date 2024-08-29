@@ -13,9 +13,21 @@ public abstract record MutableEntity : MutableEntity<long>
 /// <summary>
 ///     可变实体
 /// </summary>
-public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldModifiedUser
+public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldCreatedUser, IFieldModifiedUser
     where T : IEquatable<T>
 {
+    /// <inheritdoc />
+    [Column(CanUpdate = false, Position = -1)]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual long? CreatedUserId { get; init; }
+
+    /// <inheritdoc />
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual string CreatedUserName { get; init; }
+
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
