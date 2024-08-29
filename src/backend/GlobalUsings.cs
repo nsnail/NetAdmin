@@ -64,8 +64,8 @@ global using NetAdmin.Infrastructure.Languages;
 global using NetAdmin.Infrastructure.Utils;
 global using NSExt.Attributes;
 global using NSExt.Extensions;
+
 #if !INFRAS
-global using CsvHelper.Configuration.Attributes;
 global using NetAdmin.Domain.Attributes;
 global using NetAdmin.Domain.Attributes.DataValidation;
 global using NetAdmin.Domain.DbMaps.Dependency;
