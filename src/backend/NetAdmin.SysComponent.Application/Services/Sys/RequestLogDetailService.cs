@@ -71,7 +71,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
     public async Task<QueryRequestLogDetailRsp> GetAsync(QueryRequestLogDetailReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryRequestLogDetailReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryRequestLogDetailReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryRequestLogDetailRsp>();

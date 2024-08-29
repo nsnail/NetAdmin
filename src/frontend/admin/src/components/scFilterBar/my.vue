@@ -167,7 +167,7 @@ export default {
 }
 
 [data-theme='dark'] .sc-filter-my-list li {
-    color: #d0d0d0;
+    color: #c0c0c0;
 }
 
 [data-theme='dark'] .sc-filter-my-list li:hover {

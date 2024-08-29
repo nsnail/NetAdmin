@@ -1,3 +1,4 @@
+using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Sys;
@@ -13,11 +14,27 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 public sealed class CacheController(ICacheCache cache) : ControllerBase<ICacheCache, ICacheService>(cache), ICacheModule
 {
     /// <summary>
+    ///     批量删除缓存项
+    /// </summary>
+    public Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req)
+    {
+        return Cache.BulkDeleteEntryAsync(req);
+    }
+
+    /// <summary>
     ///     缓存统计
     /// </summary>
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
         return Cache.CacheStatisticsAsync();
+    }
+
+    /// <summary>
+    ///     删除缓存项
+    /// </summary>
+    public Task<int> DeleteEntryAsync(DelEntryReq req)
+    {
+        return Cache.DeleteEntryAsync(req);
     }
 
     /// <summary>

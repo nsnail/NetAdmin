@@ -100,7 +100,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryUserProfileRsp>();

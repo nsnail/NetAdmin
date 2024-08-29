@@ -8,10 +8,17 @@ namespace NetAdmin.Infrastructure;
 public static class GlobalStatic
 {
     /// <summary>
+    ///     当前进程
+    /// </summary>
+    public static readonly Process CurrentProcess = Process.GetCurrentProcess();
+
+    /// <summary>
     ///     产品版本
     /// </summary>
     public static readonly string ProductVersion
         = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly()!.Location).ProductVersion;
+
+    private static long _latestLogTime;
 
     /// <summary>
     ///     调试模式
@@ -25,9 +32,16 @@ public static class GlobalStatic
     ;
 
     /// <summary>
+    ///     最后一次日志时间
+    /// </summary>
+    public static DateTime LatestLogTime => Volatile.Read(ref _latestLogTime).Time();
+
+    /// <summary>
     ///     日志记录器忽略的API编号
     /// </summary>
-    public static string[] LoggerIgnoreApiIds => [];
+    public static string[] LoggerIgnoreApiIds => [
+        "api/adm/tools/query.es.log", "api/probe/health.check", "api/probe/is.system.safety.stopped"
+    ];
 
     /// <summary>
     ///     系统内部密钥
@@ -73,4 +87,12 @@ public static class GlobalStatic
     ///     Json序列化选项
     /// </summary>
     public static JsonSerializerOptions JsonSerializerOptions { get; set; }
+
+    /// <summary>
+    ///     增加日志计数器
+    /// </summary>
+    public static void IncrementLogCounter()
+    {
+        Volatile.Write(ref _latestLogTime, DateTime.Now.TimeUnixUtcMs());
+    }
 }

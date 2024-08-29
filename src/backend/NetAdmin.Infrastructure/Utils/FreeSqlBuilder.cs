@@ -18,7 +18,6 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
                                                   .UseAutoSyncStructure(
                                                       initMethods.HasFlag(FreeSqlInitMethods.SyncStructure))
                                                   .Build();
-
         _ = InitDbAsync(freeSql, initMethods); // 初始化数据库 ，异步
         return freeSql;
     }

@@ -8,6 +8,11 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 public interface IToolsModule
 {
     /// <summary>
+    ///     执行SQL语句
+    /// </summary>
+    Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req);
+
+    /// <summary>
     ///     获取更新日志
     /// </summary>
     Task<string> GetChangeLogAsync();

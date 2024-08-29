@@ -33,7 +33,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <summary>
     ///     导出实体
     /// </summary>
-    protected async Task<IActionResult> ExportAsync<TQuery, TExport>( //
+    protected static async Task<IActionResult> ExportAsync<TQuery, TExport>( //
         Func<QueryReq<TQuery>, ISelectGrouping<TEntity, TEntity>> selector, QueryReq<TQuery> query, string fileName
       , Expression<Func<ISelectGroupingAggregate<TEntity, TEntity>, object>> listExp = null)
         where TQuery : DataAbstraction, new()
@@ -45,7 +45,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <summary>
     ///     导出实体
     /// </summary>
-    protected async Task<IActionResult> ExportAsync<TQuery, TExport>( //
+    protected static async Task<IActionResult> ExportAsync<TQuery, TExport>( //
         Func<QueryReq<TQuery>, ISelect<TEntity>> selector, QueryReq<TQuery> query, string fileName
       , Expression<Func<TEntity, object>>        listExp = null)
         where TQuery : DataAbstraction, new()

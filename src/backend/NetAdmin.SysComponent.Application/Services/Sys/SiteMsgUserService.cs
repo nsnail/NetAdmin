@@ -71,7 +71,7 @@ public sealed class SiteMsgUserService(BasicRepository<Sys_SiteMsgUser, long> rp
     public async Task<QuerySiteMsgUserRsp> GetAsync(QuerySiteMsgUserReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgUserReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgUserReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgUserRsp>();

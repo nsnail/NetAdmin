@@ -73,7 +73,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public async Task<QueryJobRecordRsp> GetAsync(QueryJobRecordReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryJobRecordReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryJobRecordReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryJobRecordRsp>();

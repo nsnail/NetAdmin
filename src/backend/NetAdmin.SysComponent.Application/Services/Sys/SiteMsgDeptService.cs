@@ -71,7 +71,7 @@ public sealed class SiteMsgDeptService(BasicRepository<Sys_SiteMsgDept, long> rp
     public async Task<QuerySiteMsgDeptRsp> GetAsync(QuerySiteMsgDeptReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgDeptReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgDeptReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgDeptRsp>();

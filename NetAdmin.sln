@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B
         gen.id.linq = scripts/gen.id.linq
         gen.ln.cmd = scripts/gen.ln.cmd
         gen.resx.tt = scripts/gen.resx.tt
+        git.del.obsolete.tags.ps1 = scripts/git.del.obsolete.tags.ps1
         image.optimize.csx = scripts/image.optimize.csx
         install.as.tpl.ps1 = scripts/install.as.tpl.ps1
         rename.csx = scripts/rename.csx
@@ -48,6 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B
         switcher.nsext.json = scripts/switcher.nsext.json
         switcher.ps1 = scripts/switcher.ps1
         sync.sln.files.csx = scripts/sync.sln.files.csx
+        wait.server.stop.sh = scripts/wait.server.stop.sh
     EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"

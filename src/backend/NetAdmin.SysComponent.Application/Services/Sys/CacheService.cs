@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using NetAdmin.Application.Services;
+using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using StackExchange.Redis;
@@ -22,12 +23,36 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) /
     }
 
     /// <inheritdoc />
+    public async Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = 0;
+
+        // ReSharper disable once LoopCanBeConvertedToQuery
+        foreach (var item in req.Items) {
+            ret += await DeleteEntryAsync(item).ConfigureAwait(false);
+        }
+
+        return ret;
+    }
+
+    /// <inheritdoc />
     public async Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
         var database = connectionMultiplexer.GetDatabase(_redisInstance.Database);
         return new CacheStatisticsRsp((string)await database.ExecuteAsync("info").ConfigureAwait(false)) {
                    DbSize = (long)await database.ExecuteAsync("dbSize").ConfigureAwait(false)
                };
+    }
+
+    /// <inheritdoc />
+    public async Task<int> DeleteEntryAsync(DelEntryReq req)
+    {
+        req.ThrowIfInvalid();
+        #pragma warning disable VSTHRD103
+        var database   = connectionMultiplexer.GetDatabase(_redisInstance.Database);
+        var delSuccess = await database.KeyDeleteAsync(req.Key).ConfigureAwait(false);
+        return delSuccess ? 1 : 0;
     }
 
     /// <inheritdoc />

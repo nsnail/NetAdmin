@@ -96,7 +96,9 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req, Order = Orders.None })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryRoleRsp>();
     }
 

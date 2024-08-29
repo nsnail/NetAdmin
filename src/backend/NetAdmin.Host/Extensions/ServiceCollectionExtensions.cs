@@ -108,22 +108,20 @@ public static class ServiceCollectionExtensions
         return me.AddConsoleFormatter(options => {
             var logLevels = Enum.GetValues<LogLevels>().ToDictionary(x => x, x => x.GetDisplay());
 
-            #if DEBUG
             options.WriteHandler = (message, _, _, _, _) => {
+                #if DEBUG
                 MarkupLine(message.Message.EscapeMarkup(), message, logLevels);
                 if (message.Exception != null) {
                     MarkupLine(message.Exception.ToString().EscapeMarkup(), message, logLevels);
                 }
-            };
-
-            #else
-            options.WriteHandler = (message, _, _, _, _) => {
+                #else
                 var msg = message.Message.ReplaceLineEndings(string.Empty);
                 var (date, logName, logFormat) = ParseMessage(message, false);
                 Console.WriteLine( //
                     logFormat, date, logLevels[(LogLevels)message.LogLevel].ShortName, logName, message.ThreadId, msg);
+                #endif
+                GlobalStatic.IncrementLogCounter();
             };
-            #endif
         });
     }
 

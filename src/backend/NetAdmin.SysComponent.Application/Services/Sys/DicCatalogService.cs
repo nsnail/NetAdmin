@@ -89,7 +89,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryDicCatalogRsp>();

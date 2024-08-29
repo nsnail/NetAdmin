@@ -1,4 +1,5 @@
 using NetAdmin.Cache;
+using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using NetAdmin.SysComponent.Cache.Sys.Dependency;
@@ -10,6 +11,12 @@ public sealed class CacheCache(IDistributedCache cache, ICacheService service) /
     : DistributedCache<ICacheService>(cache, service), IScoped, ICacheCache
 {
     /// <inheritdoc />
+    public Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req)
+    {
+        return Service.BulkDeleteEntryAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<CacheStatisticsRsp> CacheStatisticsAsync()
     {
         #if !DEBUG
@@ -18,6 +25,12 @@ public sealed class CacheCache(IDistributedCache cache, ICacheService service) /
         #else
         return Service.CacheStatisticsAsync();
         #endif
+    }
+
+    /// <inheritdoc />
+    public Task<int> DeleteEntryAsync(DelEntryReq req)
+    {
+        return Service.DeleteEntryAsync(req);
     }
 
     /// <inheritdoc />

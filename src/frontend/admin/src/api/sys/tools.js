@@ -6,6 +6,17 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
+     * 执行SQL语句
+     */
+    executeSql: {
+        url: `${config.API_URL}/api/sys/tools/execute.sql`,
+        name: `执行SQL语句`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取更新日志
      */
     getChangeLog: {
@@ -46,6 +57,17 @@ export default {
         name: `获取版本信息`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 系统停机
+     */
+    shutdown: {
+        url: `${config.API_URL}/api/sys/tools/shutdown`,
+        name: `系统停机`,
+        get: async function (data = {}, config = {}) {
+            return await http.get(this.url, data, config)
         },
     },
 }

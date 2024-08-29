@@ -9,7 +9,7 @@ namespace NetAdmin.Host.Middlewares;
 public sealed class SafetyShopHostMiddleware(RequestDelegate next)
 {
     private static long _connections;
-    private static bool _hostStopping;
+    private static bool _trafficOff;
 
     /// <summary>
     ///     当前连接数
@@ -17,14 +17,35 @@ public sealed class SafetyShopHostMiddleware(RequestDelegate next)
     public static long Connections => Interlocked.Read(ref _connections);
 
     /// <summary>
+    ///     是否已停机
+    /// </summary>
+    public static bool IsShutdown => Volatile.Read(ref _trafficOff);
+
+    /// <summary>
     ///     停机处理
     /// </summary>
     public static void OnStopping()
     {
-        Volatile.Write(ref _hostStopping, true);
+        Stop();
         while (Interlocked.Read(ref _connections) > 0) {
             Thread.Sleep(10);
         }
+    }
+
+    /// <summary>
+    ///     系统启机
+    /// </summary>
+    public static void Start()
+    {
+        Volatile.Write(ref _trafficOff, false);
+    }
+
+    /// <summary>
+    ///     系统停机
+    /// </summary>
+    public static void Stop()
+    {
+        Volatile.Write(ref _trafficOff, true);
     }
 
     /// <summary>
@@ -32,13 +53,20 @@ public sealed class SafetyShopHostMiddleware(RequestDelegate next)
     /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {
-        if (Volatile.Read(ref _hostStopping)) {
+        if (Volatile.Read(ref _trafficOff) &&
+            !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_RPOBE}")) {
             context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
             return;
         }
 
-        _ = Interlocked.Increment(ref _connections);
-        await next(context).ConfigureAwait(false);
-        _ = Interlocked.Decrement(ref _connections);
+        // webSocket链接不参与计算
+        if (context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_WEBSOCKET_PREFIX}")) {
+            await next(context).ConfigureAwait(false);
+        }
+        else {
+            _ = Interlocked.Increment(ref _connections);
+            await next(context).ConfigureAwait(false);
+            _ = Interlocked.Decrement(ref _connections);
+        }
     }
 }

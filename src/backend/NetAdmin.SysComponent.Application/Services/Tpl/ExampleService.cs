@@ -73,7 +73,7 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     public async Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryExampleReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryExampleReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryExampleRsp>();

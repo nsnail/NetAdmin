@@ -99,7 +99,8 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
                                                          }.Json()
                                                           .Object<JsonElement>()
                                        };
-        var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req, DynamicFilter = df })
+        var ret = await QueryInternal(
+                            new QueryReq<QueryRequestLogReq> { Filter = req, DynamicFilter = df, Order = Orders.None })
                         .Include(a => a.Detail)
                         .ToOneAsync()
                         .ConfigureAwait(false);

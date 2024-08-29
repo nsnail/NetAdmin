@@ -13,6 +13,14 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCache, IToolsService>(cache), IToolsModule
 {
     /// <summary>
+    ///     执行SQL语句
+    /// </summary>
+    public Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
+    {
+        return Cache.ExecuteSqlAsync(req);
+    }
+
+    /// <summary>
     ///     获取更新日志
     /// </summary>
     [AllowAnonymous]

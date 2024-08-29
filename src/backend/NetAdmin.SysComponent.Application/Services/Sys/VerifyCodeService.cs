@@ -81,7 +81,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req })
+        var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req, Order = Orders.None })
                         .ToOneAsync()
                         .ConfigureAwait(false);
         return ret.Adapt<QueryVerifyCodeRsp>();
@@ -188,11 +188,10 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
                                                                           , Value    = destDevice
                                                                         }
                                                               })
-               #if DBTYPE_SQLSERVER
+            #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .Take(1)
-               .ToOneAsync();
+            #endif
+            .ToOneAsync();
     }
 
     private ISelect<Sys_VerifyCode> QueryInternal(QueryReq<QueryVerifyCodeReq> req)

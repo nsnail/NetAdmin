@@ -88,6 +88,6 @@ export default {
 }
 
 [data-theme='dark'] .sc-page-header__title h2 {
-    color: #d0d0d0;
+    color: #c0c0c0;
 }
 </style>

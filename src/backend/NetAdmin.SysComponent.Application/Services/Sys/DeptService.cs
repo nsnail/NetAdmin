@@ -102,7 +102,9 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     public async Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req, Order = Orders.None })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryDeptRsp>();
     }
 
