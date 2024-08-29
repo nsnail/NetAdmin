@@ -18,12 +18,11 @@ public static class Numbers
 
     public const int MAX_LIMIT_BULK_REQ             = 100;   // 最大限制：批量请求数
     public const int MAX_LIMIT_EXPORT               = 10000; // 最大限制：导出为CSV文件的条数
-    public const int MAX_LIMIT_PRINT_LEN_CONTENT    = 4096;  // 最大限制：打印长度（HTTP 内容）
-    public const int MAX_LIMIT_PRINT_LEN_SQL        = 4096;  // 最大限制：打印长度（SQL 语句）
     public const int MAX_LIMIT_QUERY                = 1000;  // 最大限制：非分页查询条数
     public const int MAX_LIMIT_QUERY_PAGE_NO        = 10000; // 最大限制：分页查询页码
     public const int MAX_LIMIT_QUERY_PAGE_SIZE      = 100;   // 最大限制：分页查询页容量
     public const int MAX_LIMIT_RETRY_CNT_REDIS_LOCK = 10;    // 最大限制：Redis锁重试次数
+    public const int REQUEST_LOG_BUFF_SIZE          = 10;    // 请求日志缓冲区大小
 
     public const int SECS_CACHE_CHART            = 300; // 秒：缓存时间-仪表
     public const int SECS_CACHE_DEFAULT          = 60;  // 秒：缓存时间-默认

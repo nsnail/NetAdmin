@@ -1,11 +1,5 @@
-#if !DEBUG
-using System.Collections.Concurrent;
-using NetAdmin.Domain.Dto.Sys.RequestLog;
-
-#else
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-#endif
 using NetAdmin.Domain.Events.Sys;
+using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 
@@ -14,7 +8,7 @@ namespace NetAdmin.SysComponent.Host.Subscribers;
 /// </summary>
 public sealed class OperationLogger : IEventSubscriber
 {
-    #if !DEBUG
+    #if !DEBUG && DBTYPE_SQLSERVER
     private static readonly ConcurrentQueue<CreateRequestLogReq> _requestLogs = new();
     #endif
 
@@ -28,7 +22,7 @@ public sealed class OperationLogger : IEventSubscriber
             return;
         }
 
-        #if DEBUG
+        #if DEBUG || !DBTYPE_SQLSERVER
         _ = await App.GetService<IRequestLogService>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
         #else
         if (_requestLogs.Count > Numbers.REQUEST_LOG_BUFF_SIZE) {
@@ -40,7 +34,7 @@ public sealed class OperationLogger : IEventSubscriber
         #endif
     }
 
-    #if !DEBUG
+    #if !DEBUG && DBTYPE_SQLSERVER
     private static async Task WriteToDbAsync()
     {
         var inserts = new List<CreateRequestLogReq>(Numbers.REQUEST_LOG_BUFF_SIZE);
