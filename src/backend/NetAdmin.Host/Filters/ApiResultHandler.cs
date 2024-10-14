@@ -64,8 +64,7 @@ public abstract class ApiResultHandler<T>
     {
         SetErrorCodeToHeader(context.HttpContext, ErrorCodes.InvalidInput);
 
-        return new JsonResult(RestfulResult(ErrorCodes.InvalidInput, metadata.Data
-                 ,                                                   GetValidationResult(metadata.ValidationResult))) {
+        return new JsonResult(RestfulResult(ErrorCodes.InvalidInput, metadata.Data, GetValidationResult(metadata.ValidationResult))) {
                    StatusCode = Numbers.HTTP_STATUS_BIZ_FAIL
                };
     }

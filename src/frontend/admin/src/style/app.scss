@@ -532,7 +532,9 @@ textarea {
 .justify-content-center {
     justify-content: center;
 }
-
+.justify-content-right {
+    justify-content: right;
+}
 .font-monospace {
     font-family: 'Lucida Console', 'Microsoft YaHei', monospace;
 }
@@ -587,4 +589,14 @@ textarea {
         position: absolute;
         right: 0;
     }
+}
+
+.color-secondary {
+    color: var(--el-text-color-secondary);
+}
+.color-primary {
+    color: var(--el-text-color-primary);
+}
+.color-regular {
+    color: var(--el-text-color-regular);
 }

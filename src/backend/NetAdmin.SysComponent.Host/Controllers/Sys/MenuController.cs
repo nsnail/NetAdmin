@@ -12,6 +12,7 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     菜单服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache, IMenuService>(cache), IMenuModule
 {
     /// <summary>

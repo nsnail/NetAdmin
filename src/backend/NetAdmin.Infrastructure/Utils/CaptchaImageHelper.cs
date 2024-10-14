@@ -26,15 +26,13 @@ public static class CaptchaImageHelper
     /// <returns> 背景图（base64），滑块图（base64），缺口坐标 </returns>
     #pragma warning disable SA1414
     public static async Task<(string BackgroundImage, string SliderImage, Point OffsetSaw)> CreateSawSliderImageAsync(
-            Assembly resAsm, string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope
-          , Size     sliderSize)
+            Assembly resAsm, string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope, Size sliderSize)
         #pragma warning restore SA1414
     {
         // 深色模板图
         var templateIndex = new[] { tempIndexScope.Item1, tempIndexScope.Item2 }.Rand();
 
-        await using var bgStream = resAsm.GetManifestResourceStream(
-            $"{bgPath}.{new[] { bgIndexScope.Item1, bgIndexScope.Item2 }.Rand()}.jpg");
+        await using var bgStream   = resAsm.GetManifestResourceStream($"{bgPath}.{new[] { bgIndexScope.Item1, bgIndexScope.Item2 }.Rand()}.jpg");
         await using var darkStream = resAsm.GetManifestResourceStream($"{tempPath}._{templateIndex}.dark.png");
         await using var tranStream = resAsm.GetManifestResourceStream($"{tempPath}._{templateIndex}.transparent.png");
 
@@ -57,8 +55,7 @@ public static class CaptchaImageHelper
         using var sliderBlockImage = new Image<Rgba32>(sliderSize.Width, backgroundImage.Height);
 
         // 随机生成拼图坐标
-        var offsetRand = GeneratePoint(backgroundImage.Width, backgroundImage.Height, sliderSize.Width
-              ,                                               sliderSize.Height);
+        var offsetRand = GeneratePoint(backgroundImage.Width, backgroundImage.Height, sliderSize.Width, sliderSize.Height);
 
         // 根据深色模板图计算轮廓形状
         var blockShape = CalcBlockShape(darkTemplateImage);
@@ -84,16 +81,13 @@ public static class CaptchaImageHelper
         backgroundImage.Mutate(x => x.DrawImage(darkTemplateImage, new Point(offsetRand.X, offsetRand.Y), opacity));
 
         // 生成干扰图坐标
-        var interferencePoint = GenerateInterferencePoint(backgroundImage.Width, backgroundImage.Height
-                                                        , sliderSize.Width, sliderSize.Height, offsetRand.X
-                                                        , offsetRand.Y);
+        var interferencePoint = GenerateInterferencePoint(backgroundImage.Width, backgroundImage.Height, sliderSize.Width, sliderSize.Height
+                                 ,                                               offsetRand.X,           offsetRand.Y);
 
         // 底图叠加深色干扰模板图
         // ReSharper disable once AccessToDisposedClosure
-        backgroundImage.Mutate(x => x.DrawImage(darkTemplateImage, new Point(interferencePoint.X, interferencePoint.Y)
-                                              , opacity));
-        return (backgroundImage.ToBase64String(PngFormat.Instance), sliderBlockImage.ToBase64String(PngFormat.Instance)
-              , offsetRand);
+        backgroundImage.Mutate(x => x.DrawImage(darkTemplateImage, new Point(interferencePoint.X, interferencePoint.Y), opacity));
+        return (backgroundImage.ToBase64String(PngFormat.Instance), sliderBlockImage.ToBase64String(PngFormat.Instance), offsetRand);
     }
 
     private static int BuildPathList(Span<Rgba32> rowSpan, int temp, List<IPath> pathList, int y)
@@ -133,8 +127,8 @@ public static class CaptchaImageHelper
     /// <summary>
     ///     随机生成干扰图坐标
     /// </summary>
-    private static Point GenerateInterferencePoint(int originalWidth,  int originalHeight, int templateWidth
-                                                 , int templateHeight, int blockX,         int blockY)
+    private static Point GenerateInterferencePoint(int originalWidth, int originalHeight, int templateWidth, int templateHeight, int blockX
+                                                 , int blockY)
     {
         var x =
 
@@ -166,9 +160,7 @@ public static class CaptchaImageHelper
     {
         var widthDifference  = originalWidth  - templateWidth;
         var heightDifference = originalHeight - templateHeight;
-        var x = widthDifference switch {
-                    <= 0 => 5, _ => new[] { 0, originalWidth - templateWidth - 100 }.Rand() + 100
-                };
+        var x                = widthDifference switch { <= 0 => 5, _ => new[] { 0, originalWidth - templateWidth - 100 }.Rand() + 100 };
 
         var y = heightDifference switch { <= 0 => 5, _ => new[] { 0, originalHeight - templateHeight - 5 }.Rand() + 5 };
 

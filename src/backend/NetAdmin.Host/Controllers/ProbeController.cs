@@ -8,6 +8,7 @@ namespace NetAdmin.Host.Controllers;
 ///     探针组件
 /// </summary>
 [ApiDescriptionSettings("Probe")]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class ProbeController : ControllerBase<ICache<IDistributedCache, IService>, IService>
 {
     /// <summary>
@@ -55,12 +56,7 @@ public sealed class ProbeController : ControllerBase<ICache<IDistributedCache, I
     public IActionResult IsSystemSafetyStopped(int logTimeoutSeconds = 15)
         #pragma warning restore S3400, CA1822
     {
-        return new ContentResult {
-                                     Content = (DateTime.Now - GlobalStatic.LatestLogTime).TotalSeconds >
-                                               logTimeoutSeconds
-                                         ? "1"
-                                         : "0"
-                                 };
+        return new ContentResult { Content = (DateTime.Now - GlobalStatic.LatestLogTime).TotalSeconds > logTimeoutSeconds ? "1" : "0" };
     }
 
     /// <summary>
@@ -80,6 +76,23 @@ public sealed class ProbeController : ControllerBase<ICache<IDistributedCache, I
         }
 
         SafetyShopHostMiddleware.Stop();
+        return new OkResult();
+    }
+
+    /// <summary>
+    ///     停止日志计数器
+    /// </summary>
+    [AllowAnonymous]
+    [HttpGet]
+    #pragma warning disable CA1822
+    public ActionResult StopLogCounter(string token)
+        #pragma warning restore CA1822
+    {
+        if (token != GlobalStatic.SecretKey) {
+            return new UnauthorizedResult();
+        }
+
+        GlobalStatic.LogCounterOff = true;
         return new OkResult();
     }
 }

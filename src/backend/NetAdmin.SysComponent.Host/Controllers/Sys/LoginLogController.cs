@@ -12,8 +12,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     登录日志服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<ILoginLogCache, ILoginLogService>(cache)
-                                                             , ILoginLogModule
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
+public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<ILoginLogCache, ILoginLogService>(cache), ILoginLogModule
 {
     /// <summary>
     ///     批量删除登录日志

@@ -18,8 +18,7 @@ public record CreateRoleReq : Sys_Role, IValidatableObject
     public override string DashboardLayout { get; set; }
 
     /// <inheritdoc cref="Sys_Role.DataScope" />
-    [EnumDataType(typeof(DataScopes), ErrorMessageResourceType = typeof(Ln)
-                , ErrorMessageResourceName = nameof(Ln.角色数据范围不正确))]
+    [EnumDataType(typeof(DataScopes), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.角色数据范围不正确))]
     public override DataScopes DataScope { get; init; } = DataScopes.All;
 
     /// <summary>

@@ -13,6 +13,7 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     字典服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, IDicService>(cache), IDicModule
 {
     /// <summary>
@@ -149,5 +150,13 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
     {
         return Cache.QueryContentAsync(req);
+    }
+
+    /// <summary>
+    ///     启用/禁用字典内容
+    /// </summary>
+    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
+    {
+        return Cache.SetEnabledAsync(req);
     }
 }

@@ -72,9 +72,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     public async Task<QueryLoginLogRsp> GetAsync(QueryLoginLogReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryLoginLogReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryLoginLogReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryLoginLogRsp>();
     }
 
@@ -128,8 +126,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
         if (req.Keywords?.Length > 0) {
             ret = req.Keywords.IsIpV4()
                 ? ret.Where(a => a.CreatedClientIp == req.Keywords.IpV4ToInt32())
-                : ret.Where(a => a.Id            == req.Keywords.Int64Try(0) || a.OwnerId == req.Keywords.Int64Try(0) ||
-                                 a.LoginUserName == req.Keywords);
+                : ret.Where(a => a.Id == req.Keywords.Int64Try(0) || a.OwnerId == req.Keywords.Int64Try(0) || a.LoginUserName == req.Keywords);
         }
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault

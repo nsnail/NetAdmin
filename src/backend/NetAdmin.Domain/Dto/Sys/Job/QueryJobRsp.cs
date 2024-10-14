@@ -15,8 +15,7 @@ public record QueryJobRsp : Sys_Job
     ///     Cron 表达式描述
     /// </summary>
     [JsonInclude]
-    public string CronDescription =>
-        ExpressionDescriptor.GetDescription(ExecutionCron, new Options { Locale = "zh-CN" });
+    public string CronDescription => ExpressionDescriptor.GetDescription(ExecutionCron, new Options { Locale = "zh-CN" });
 
     /// <inheritdoc cref="Sys_Job.LastStatusCode" />
     [JsonInclude]

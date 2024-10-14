@@ -30,9 +30,7 @@ public abstract record DataAbstraction
     /// </summary>
     public void TruncateStrings()
     {
-        foreach (var property in GetType()
-                                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                 .Where(x => x.PropertyType == typeof(string))) {
+        foreach (var property in GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.PropertyType == typeof(string))) {
             var maxLen = property.GetCustomAttribute<MaxLengthAttribute>(true)?.Length;
             if (maxLen is null or 0) {
                 continue;

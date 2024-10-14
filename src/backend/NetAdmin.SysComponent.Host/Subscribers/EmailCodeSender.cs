@@ -24,9 +24,7 @@ public sealed class EmailCodeSender(ILogger<EmailCodeSender> logger) : IEventSub
         // 发送...
         var verifyCodeService = App.GetService<IVerifyCodeService>();
         _ = await verifyCodeService.SetVerifyCodeStatusAsync(
-                                       verifyCodeCreatedEvent.Data.Adapt<SetVerifyCodeStatusReq>() with {
-                                           Status = VerifyCodeStatues.Sent
-                                       })
+                                       verifyCodeCreatedEvent.Data.Adapt<SetVerifyCodeStatusReq>() with { Status = VerifyCodeStatues.Sent })
                                    .ConfigureAwait(false);
         logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.SetVerifyCodeStatusAsync)} {Ln.已处理完毕}");
     }

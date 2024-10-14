@@ -130,18 +130,12 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
                   .Map(d => d.Password, s => s.PasswordText.Pwd().Guid())
                   .Map(d => d.Token,    _ => Guid.NewGuid())
                   .Map( //
-                      d => d.Roles
-                    , s => s.RoleIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Role>()
-                          : s.RoleIds.Select(x => new Sys_Role { Id = x }));
+                      d => d.Roles, s => s.RoleIds.NullOrEmpty() ? Array.Empty<Sys_Role>() : s.RoleIds.Select(x => new Sys_Role { Id = x }));
 
         _ = config.ForType<EditUserReq, Sys_User>()
                   .Map( //
                       d => d.Password, s => s.PasswordText.NullOrEmpty() ? Guid.Empty : s.PasswordText.Pwd().Guid())
                   .Map( //
-                      d => d.Roles
-                    , s => s.RoleIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Role>()
-                          : s.RoleIds.Select(x => new Sys_Role { Id = x }));
+                      d => d.Roles, s => s.RoleIds.NullOrEmpty() ? Array.Empty<Sys_Role>() : s.RoleIds.Select(x => new Sys_Role { Id = x }));
     }
 }

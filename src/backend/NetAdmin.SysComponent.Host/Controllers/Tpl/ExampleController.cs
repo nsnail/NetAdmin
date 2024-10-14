@@ -12,8 +12,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Tpl;
 ///     示例服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Tpl), Module = nameof(Tpl))]
-public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExampleCache, IExampleService>(cache)
-                                                           , IExampleModule
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
+public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExampleCache, IExampleService>(cache), IExampleModule
 {
     /// <summary>
     ///     批量删除示例

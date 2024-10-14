@@ -84,18 +84,14 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     public async Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryConfigReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryConfigRsp>();
     }
 
     /// <inheritdoc />
     public async Task<QueryConfigRsp> GetLatestConfigAsync()
     {
-        var ret = await QueryAsync(
-                new QueryReq<QueryConfigReq> { Count = 1, Filter = new QueryConfigReq { Enabled = true } })
-            .ConfigureAwait(false);
+        var ret = await QueryAsync(new QueryReq<QueryConfigReq> { Count = 1, Filter = new QueryConfigReq { Enabled = true } }).ConfigureAwait(false);
         return ret.FirstOrDefault();
     }
 
@@ -112,8 +108,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryConfigRsp>(req.Page, req.PageSize, total
-                                               , list.Adapt<IEnumerable<QueryConfigRsp>>());
+        return new PagedQueryRsp<QueryConfigRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryConfigRsp>>());
     }
 
     /// <inheritdoc />

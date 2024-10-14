@@ -67,7 +67,7 @@ public interface IDicModule
     /// <summary>
     ///     获取字典值
     /// </summary>
-    public Task<string> GetDicValueAsync(GetDicValueReq req);
+    Task<string> GetDicValueAsync(GetDicValueReq req);
 
     /// <summary>
     ///     分页查询字典目录
@@ -88,4 +88,9 @@ public interface IDicModule
     ///     查询字典内容
     /// </summary>
     Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req);
+
+    /// <summary>
+    ///     启用/禁用字典内容
+    /// </summary>
+    Task<int> SetEnabledAsync(SetDicContentEnabledReq req);
 }

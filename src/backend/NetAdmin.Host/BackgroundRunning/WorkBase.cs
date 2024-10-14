@@ -67,11 +67,9 @@ public abstract class WorkBase<TLogger>
     {
         var db = ServiceProvider.GetService<IConnectionMultiplexer>()
                                 .GetDatabase(ServiceProvider.GetService<IOptions<RedisOptions>>()
-                                                            .Value.Instances
-                                                            .First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE)
+                                                            .Value.Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE)
                                                             .Database);
-        return RedisLocker.GetLockerAsync(db, lockId, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY)
-                                        , Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK
+        return RedisLocker.GetLockerAsync(db, lockId, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK
                                         , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
     }
 }

@@ -14,8 +14,7 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
     public override string DestDevice { get; init; }
 
     /// <inheritdoc cref="Sys_VerifyCode.DeviceType" />
-    [EnumDataType(typeof(VerifyCodeDeviceTypes), ErrorMessageResourceType = typeof(Ln)
-                , ErrorMessageResourceName = nameof(Ln.验证码目标设备类型不正确))]
+    [EnumDataType(typeof(VerifyCodeDeviceTypes), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码目标设备类型不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.设备类型不能为空))]
     public override VerifyCodeDeviceTypes DeviceType { get; init; }
@@ -24,8 +23,7 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
     public override VerifyCodeStatues Status => VerifyCodeStatues.Waiting;
 
     /// <inheritdoc cref="Sys_VerifyCode.Type" />
-    [EnumDataType(typeof(VerifyCodeTypes), ErrorMessageResourceType = typeof(Ln)
-                , ErrorMessageResourceName = nameof(Ln.验证码类型不正确))]
+    [EnumDataType(typeof(VerifyCodeTypes), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码类型不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.验证码类型不能为空))]
     public override VerifyCodeTypes Type { get; init; }
@@ -43,22 +41,20 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
         switch (DeviceType) {
             case VerifyCodeDeviceTypes.Email:
                 validationResult = new EmailAttribute().GetValidationResult(DestDevice, validationContext);
-                if (validationResult == null) {
-                    yield break;
-                }
 
-                yield return new ValidationResult(validationResult.ErrorMessage, new[] { nameof(DestDevice) });
                 break;
             case VerifyCodeDeviceTypes.Mobile:
                 validationResult = new MobileAttribute().GetValidationResult(DestDevice, validationContext);
-                if (validationResult == null) {
-                    yield break;
-                }
 
-                yield return new ValidationResult(validationResult.ErrorMessage, new[] { nameof(DestDevice) });
                 break;
             default:
                 yield break;
         }
+
+        if (validationResult == null) {
+            yield break;
+        }
+
+        yield return new ValidationResult(validationResult.ErrorMessage, [nameof(DestDevice)]);
     }
 }

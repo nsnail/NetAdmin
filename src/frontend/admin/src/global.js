@@ -77,6 +77,9 @@ export default {
             user: null,
             numbers: null,
             chars: null,
+            hasPermission: function (p) {
+                return this.permissions.includes('*/*/*') || this.permissions.some((a) => a === p)
+            },
         }
 
         app.use(JsonViewer)

@@ -90,6 +90,18 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<LoginRsp> LoginByUserIdAsync(long userId)
+    {
+        #if !DEBUG
+        return GetOrCreateAsync(              //
+            GetCacheKey(userId.ToInvString()) //
+          , () => Service.LoginByUserIdAsync(userId), TimeSpan.FromSeconds(Numbers.SECS_CACHE_LOGIN_BY_USER_ID));
+        #else
+        return Service.LoginByUserIdAsync(userId);
+        #endif
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
         return Service.PagedQueryAsync(req);

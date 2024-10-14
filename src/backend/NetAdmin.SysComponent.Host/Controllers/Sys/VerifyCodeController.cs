@@ -12,6 +12,7 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     验证码服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache captchaCache)
     : ControllerBase<IVerifyCodeCache, IVerifyCodeService>(cache), IVerifyCodeModule
 {

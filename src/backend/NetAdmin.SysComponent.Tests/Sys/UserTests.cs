@@ -100,11 +100,7 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     public async Task<QueryUserRsp> EditAsync(EditUserReq req)
     {
         var rsp = await PostJsonAsync(typeof(UserController)
-                                    , new EditUserReq {
-                                                          UserName = "test"
-                                                        , RoleIds  = [371729946431493]
-                                                        , DeptId   = 372119301627909
-                                                      });
+                                    , new EditUserReq { UserName = "test", RoleIds = [371729946431493], DeptId = 372119301627909 });
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -158,8 +154,7 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     [TestPriority(101200)]
     public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
     {
-        var rsp = await PostJsonAsync(typeof(UserController)
-                                    , new LoginByPwdReq { Account = "root", Password = "1234qwer" });
+        var rsp = await PostJsonAsync(typeof(UserController), new LoginByPwdReq { Account = "root", Password = "1234qwer" });
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -170,8 +165,7 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     [TestPriority(101300)]
     public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
     {
-        var rsp = await PostJsonAsync(typeof(UserController)
-                                    , new LoginBySmsReq { Code = "1234", DestDevice = "13838381438" });
+        var rsp = await PostJsonAsync(typeof(UserController), new LoginBySmsReq { Code = "1234", DestDevice = "13838381438" });
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }

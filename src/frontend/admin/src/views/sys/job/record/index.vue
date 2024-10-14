@@ -1,5 +1,14 @@
 <template>
     <el-container>
+        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+            <el-row :gutter="15">
+                <el-col :lg="24">
+                    <el-card shadow="never">
+                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
         <el-header>
             <div class="left-panel">
                 <na-search
@@ -65,6 +74,7 @@
                 :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId', 'responseBody']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_job.exportRecord"
+                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_job.pagedQueryRecord"
                 :vue="this"
@@ -183,6 +193,7 @@ export default {
     },
     data() {
         return {
+            total: '...',
             dialog: {},
             loading: false,
             query: {
@@ -201,6 +212,10 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async getStatistics() {
+            const res = await this.$API.sys_job.countRecord.post(this.query)
+            this.total = res.data
+        },
         jobClick(job) {
             this.dialog.job = { mode: 'view', row: { id: job.id } }
         },
@@ -210,7 +225,7 @@ export default {
             }
         },
         //搜索
-        onSearch(form) {
+        async onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
@@ -242,6 +257,14 @@ export default {
                 })
             }
 
+            if (typeof form.dy.id === 'string' && form.dy.id.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'id',
+                    operator: 'eq',
+                    value: form.dy.id,
+                })
+            }
+
             if (typeof form.dy.jobId === 'string' && form.dy.jobId.trim() !== '') {
                 this.query.dynamicFilter.filters.push({
                     field: 'jobId',
@@ -266,9 +289,10 @@ export default {
                 })
             }
             this.$refs.table.upData()
+            await this.getStatistics()
         },
     },
-    mounted() {
+    async mounted() {
         if (this.jobId) {
             this.$refs.search.selectInputKey = 'jobId'
             this.$refs.search.form.dy.jobId = this.jobId
@@ -295,6 +319,7 @@ export default {
             value: this.$refs.search.form.dy.createdTime,
             type: 'dy',
         })
+        await this.getStatistics()
     },
     props: ['statusCodes', 'jobId'],
     watch: {},

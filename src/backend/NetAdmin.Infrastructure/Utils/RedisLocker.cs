@@ -30,16 +30,15 @@ public sealed class RedisLocker : IAsyncDisposable
     ///     获取锁
     /// </summary>
     /// <exception cref="NetAdminGetLockerException">NetAdminGetLockerException</exception>
-    public static async Task<RedisLocker> GetLockerAsync(IDatabase redisDatabase, string lockerName
-                                                       , TimeSpan  lockerExpire,  int retryCount, TimeSpan retryDelay)
+    public static async Task<RedisLocker> GetLockerAsync(IDatabase redisDatabase, string lockerName, TimeSpan lockerExpire, int retryCount
+                                                       , TimeSpan  retryDelay)
     {
         lockerName = $"{nameof(RedisLocker)}.{lockerName}";
         var setOk = false;
         for (var i = 0; i != retryCount; ++i) {
             try {
                 setOk = await redisDatabase
-                              .StringSetAsync(lockerName, RedisValue.EmptyString, lockerExpire, When.NotExists
-                                ,                         CommandFlags.DemandMaster)
+                              .StringSetAsync(lockerName, RedisValue.EmptyString, lockerExpire, When.NotExists, CommandFlags.DemandMaster)
                               .ConfigureAwait(false);
             }
             catch (Exception ex) {
@@ -60,8 +59,7 @@ public sealed class RedisLocker : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         try {
-            _ = await _redisDatabase.KeyDeleteAsync(_redisKey, CommandFlags.DemandMaster | CommandFlags.FireAndForget)
-                                    .ConfigureAwait(false);
+            _ = await _redisDatabase.KeyDeleteAsync(_redisKey, CommandFlags.DemandMaster | CommandFlags.FireAndForget).ConfigureAwait(false);
         }
         catch (Exception ex) {
             LogHelper.Get<RedisLocker>().Error(ex.Message);

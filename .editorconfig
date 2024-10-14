@@ -10,6 +10,7 @@ ij_xml_text_wrap = off # IntelliJ IDEA 中 XML 文本不换行
 indent_size = 4 # 缩进大小为 4 个空格
 indent_style = space # 使用空格进行缩进
 insert_final_newline = false # 不在文件末尾插入空行
+max_line_length = 150 # 行长度限制为 150 个字符
 trim_trailing_whitespace = true # 删除行尾的空格
 
 [{*.json,*.yml}]

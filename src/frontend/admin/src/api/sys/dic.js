@@ -180,4 +180,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 启用/禁用字典内容
+     */
+    setEnabled: {
+        url: `${config.API_URL}/api/sys/dic/set.enabled`,
+        name: `启用/禁用字典内容`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

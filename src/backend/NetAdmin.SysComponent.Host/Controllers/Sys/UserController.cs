@@ -13,8 +13,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     用户服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class UserController(IUserCache cache, IConfigCache configCache)
-    : ControllerBase<IUserCache, IUserService>(cache), IUserModule
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
+public sealed class UserController(IUserCache cache, IConfigCache configCache) : ControllerBase<IUserCache, IUserService>(cache), IUserModule
 {
     /// <summary>
     ///     批量删除用户
@@ -171,7 +171,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache)
 
         return await Cache.RegisterAsync(req with {
                                                       DeptId = config.UserRegisterDeptId
-                                                    , RoleIds = new[] { config.UserRegisterRoleId }
+                                                    , RoleIds = [config.UserRegisterRoleId]
                                                     , Profile = new CreateUserProfileReq()
                                                     , Enabled = !config.UserRegisterConfirm
                                                     , Mobile = req.VerifySmsCodeReq.DestDevice

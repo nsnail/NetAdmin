@@ -11,6 +11,7 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 /// </summary>
 [AllowAnonymous]
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class ConstantController(IConstantCache cache, IOptions<JsonOptions> jsonOptions)
     : ControllerBase<IConstantCache, IConstantService>(cache), IConstantModule
 {

@@ -12,8 +12,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     配置服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfigCache, IConfigService>(cache)
-                                                         , IConfigModule
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
+public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfigCache, IConfigService>(cache), IConfigModule
 {
     /// <summary>
     ///     批量删除配置

@@ -10,8 +10,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 [SqlIndex(Chars.FLG_DB_INDEX_PREFIX + nameof(OwnerId),        nameof(OwnerId),               false)]
 [SqlIndex(Chars.FLG_DB_INDEX_PREFIX + nameof(HttpStatusCode), nameof(HttpStatusCode),        false)]
 [Table( //
-    Name = $"{Chars.FLG_DB_TABLE_NAME_PREFIX}{nameof(Sys_RequestLog)}_{{yyyyMMdd}}"
-  , AsTable = $"{nameof(CreatedTime)}=2024-1-1(1 day)")]
+    Name = $"{Chars.FLG_DB_TABLE_NAME_PREFIX}{nameof(Sys_RequestLog)}_{{yyyyMMdd}}", AsTable = $"{nameof(CreatedTime)}=2024-5-1(1 day)")]
 public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFieldCreatedClientIp
 {
     /// <summary>

@@ -12,8 +12,7 @@ public record CreateSiteMsgFlagReq : Sys_SiteMsgFlag
     public override long SiteMsgId { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsgFlag.UserSiteMsgStatus" />
-    [EnumDataType(typeof(UserSiteMsgStatues), ErrorMessageResourceType = typeof(Ln)
-                , ErrorMessageResourceName = nameof(Ln.站内信状态不正确))]
+    [EnumDataType(typeof(UserSiteMsgStatues), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.站内信状态不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override UserSiteMsgStatues UserSiteMsgStatus { get; init; }
 }

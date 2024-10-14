@@ -6,13 +6,21 @@
                     <el-popconfirm
                         v-if="item.confirm"
                         :title="this.$t(`确定 {title}？`, { title: item.title })"
-                        @confirm="item.click(row, vue)"
+                        @confirm="click(item, row, vue)"
                         width="20rem">
                         <template #reference>
-                            <el-button :icon="item.icon" :title="item.title" :type="item.type" @click.native.stop size="small"></el-button>
+                            <el-button
+                                v-loading="loading"
+                                :icon="item.icon"
+                                :title="item.title"
+                                :type="item.type"
+                                @click.native.stop
+                                size="small"></el-button>
                         </template>
                     </el-popconfirm>
-                    <el-button v-else :icon="item.icon" :title="item.title" @click="item.click(row, vue)" size="small">{{ item.title }} </el-button>
+                    <el-button v-else v-loading="loading" :icon="item.icon" :title="item.title" @click="click(item, row, vue)" size="small"
+                        >{{ item.title }}
+                    </el-button>
                 </template>
             </el-button-group>
         </template>
@@ -32,13 +40,21 @@ export default {
         prop: { type: String },
     },
     data() {
-        return {}
+        return {
+            loading: false,
+        }
     },
     mounted() {},
     created() {},
     components: {},
     computed: {},
-    methods: {},
+    methods: {
+        async click(item, row, vue) {
+            this.loading = true
+            await item.click(row, vue)
+            this.loading = false
+        },
+    },
 }
 </script>
 <style scoped></style>

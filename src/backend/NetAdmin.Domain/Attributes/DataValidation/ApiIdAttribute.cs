@@ -12,8 +12,7 @@ public sealed class ApiIdAttribute : ValidationAttribute
     /// <inheritdoc />
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        var service = App.GetService(App.EffectiveTypes.Single(
-                                         x => x.FullName == "NetAdmin.SysComponent.Cache.Sys.Dependency.IApiCache"));
+        var service = App.GetService(App.EffectiveTypes.Single(x => x.FullName == "NetAdmin.SysComponent.Cache.Sys.Dependency.IApiCache"));
 
         var req = new QueryReq<QueryApiReq> { Filter = new QueryApiReq { Id = value as string } };
 

@@ -1,5 +1,22 @@
 <template>
     <el-container>
+        <el-header style="height: auto; padding: 0 1rem">
+            <sc-select-filter
+                :data="[
+                    {
+                        title: $t('启用状态'),
+                        key: 'enabled',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            { label: $t('启用'), value: true },
+                            { label: $t('禁用'), value: false },
+                        ],
+                    },
+                ]"
+                :label-width="6"
+                @on-change="filterChange"
+                ref="selectFilter"></sc-select-filter>
+        </el-header>
         <el-header>
             <div class="left-panel">
                 <na-search
@@ -12,7 +29,11 @@
                         },
                     ]"
                     :vue="this"
+                    @reset="onReset"
                     @search="onSearch"
+                    dateFormat="YYYY-MM-DD HH:mm:ss"
+                    dateType="datetimerange"
+                    dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
@@ -21,12 +42,29 @@
                     icon="el-icon-plus"
                     type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
+                <el-dropdown v-show="this.selection.length > 0">
+                    <el-button type="primary">
+                        {{ $t('批量操作') }}
+                        <el-icon>
+                            <el-icon-arrow-down />
+                        </el-icon>
+                    </el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click="setEnabled(true)">{{ $t('启用') }}</el-dropdown-item>
+                            <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用') }}</el-dropdown-item>
+                            <el-dropdown-item @click="this.dialog.savebatch = { mode: 'batchedit', data: { catalogId: this.catalogId } }">{{
+                                $t('设置项值')
+                            }}</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
         </el-header>
         <el-main class="nopadding">
             <sc-table
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
-                :context-menus="['key', 'value', 'createdTime']"
+                :context-menus="['key', 'value', 'enabled', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_dic.exportContent"
                 :params="query"
@@ -44,7 +82,13 @@
                 <el-table-column type="selection" width="50" />
                 <el-table-column :label="$t('项名')" prop="key" sortable="custom" />
                 <el-table-column :label="$t('项值')" prop="value" sortable="custom" />
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" />
+                <el-table-column :label="$t('描述')" prop="summary" sortable="custom" />
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
+                    <template #default="{ row }">
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
+                    </template>
+                </el-table-column>
+                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -67,6 +111,13 @@
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
+
+    <savebatch-dialog
+        v-if="dialog.savebatch"
+        @closed="dialog.savebatch = null"
+        @mounted="$refs.savebatchDialog.open(dialog.savebatch)"
+        @success="(data, mode) => batchsuccess(data, mode)"
+        ref="savebatchDialog"></savebatch-dialog>
 </template>
 
 <script>
@@ -75,9 +126,11 @@ import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
 
 const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const savebatchDialog = defineAsyncComponent(() => import('./savebatch.vue'))
 export default {
     components: {
         saveDialog,
+        savebatchDialog,
     },
     computed: {
         naColOperation() {
@@ -104,6 +157,59 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async batchsuccess(data, mode) {
+            if (mode === 'batchedit') {
+                let loading
+                try {
+                    await this.$confirm(`确定修改选中的 ${this.selection.length} 项吗？`, '提示', {
+                        type: 'warning',
+                    })
+                    loading = this.$loading()
+                    const res = await Promise.all(this.selection.map((x) => this.$API.sys_dic.editContent.post(Object.assign(x, { value: data }))))
+                    this.$message.success(
+                        `操作成功 ${res.map((x) => (x.code === 'succeed' ? 1 : 0)).reduce((a, b) => a + b, 0)}/${this.selection.length} 条`,
+                    )
+                } catch {
+                    //
+                }
+                this.$refs.table.refresh()
+                loading?.close()
+            }
+        },
+        filterChange(data) {
+            Object.entries(data).forEach(([key, value]) => {
+                this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
+            })
+            this.$refs.search.search()
+        },
+        //表格内开关事件
+        async changeSwitch(event, row) {
+            try {
+                await this.$API.sys_dic.setEnabled.post(row)
+                this.$message.success(`操作成功`)
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+        },
+        async setEnabled(enabled) {
+            let loading
+            try {
+                await this.$confirm(`确定${enabled ? '启用' : '禁用'}选中的 ${this.selection.length} 项吗？`, '提示', {
+                    type: 'warning',
+                })
+                loading = this.$loading()
+                const res = await Promise.all(this.selection.map((x) => this.$API.sys_dic.setEnabled.post(Object.assign(x, { enabled: enabled }))))
+                this.$message.success(`操作成功 ${res.map((x) => x.data ?? 0).reduce((a, b) => a + b, 0)}/${this.selection.length} 条`)
+            } catch {
+                //
+            }
+            this.$refs.table.refresh()
+            loading?.close()
+        },
+        onReset() {
+            Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
+        },
         //搜索
         onSearch(form) {
             this.query.dynamicFilter.filters.push({
@@ -135,6 +241,14 @@ export default {
                             value: form.dy.keywords,
                         },
                     ],
+                })
+            }
+
+            if (typeof form.dy.enabled === 'boolean') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'enabled',
+                    operator: 'eq',
+                    value: form.dy.enabled,
                 })
             }
 

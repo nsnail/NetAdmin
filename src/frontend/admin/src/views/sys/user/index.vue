@@ -1,5 +1,14 @@
 <template>
     <el-container>
+        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+            <el-row :gutter="15">
+                <el-col :lg="24">
+                    <el-card shadow="never">
+                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
         <el-header style="height: auto; padding: 0 1rem">
             <sc-select-filter
                 :data="[
@@ -47,6 +56,9 @@
                     :vue="this"
                     @reset="onReset"
                     @search="onSearch"
+                    dateFormat="YYYY-MM-DD HH:mm:ss"
+                    dateType="datetimerange"
+                    dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
@@ -73,6 +85,7 @@
                 :context-opers="['view', 'edit']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_user.export"
+                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_user.pagedQuery"
                 :vue="this"
@@ -163,6 +176,7 @@ export default {
     },
     data() {
         return {
+            total: '...',
             dialog: {},
             loading: false,
             query: {
@@ -183,6 +197,10 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async getStatistics() {
+            const res = await this.$API.sys_user.count.post(this.query)
+            this.total = res.data
+        },
         async setEnabled(enabled) {
             let loading
             try {
@@ -231,12 +249,12 @@ export default {
             this.$refs.selectFilter.selected['enabled'] = [true]
         },
         //搜索
-        onSearch(form) {
+        async onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
                     operator: 'dateRange',
-                    value: form.dy.createdTime,
+                    value: form.dy.createdTime.map((x) => x.replace(/ 00:00:00$/, '')),
                 })
             }
 
@@ -249,9 +267,10 @@ export default {
             }
 
             this.$refs.table.upData()
+            await this.getStatistics()
         },
     },
-    mounted() {
+    async mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
             this.$refs.search.keeps.push({
@@ -260,12 +279,15 @@ export default {
                 type: 'root',
             })
         }
+
+        this.$refs.search.form.dy.enabled = true
         this.$refs.search.keeps.push({
             field: 'enabled',
             value: true,
             type: 'dy',
         })
         this.onReset()
+        await this.getStatistics()
     },
     props: ['keywords', 'roleId', 'deptId'],
     watch: {},

@@ -18,8 +18,7 @@ public sealed class FileService(IOptions<UploadOptions> uploadOptions, MinioHelp
         }
 
         if (!uploadOptions.Value.ContentTypes.Contains(file.ContentType)) {
-            throw new NetAdminInvalidOperationException(
-                $"{Ln.允许的文件格式} {string.Join(",", uploadOptions.Value.ContentTypes)}");
+            throw new NetAdminInvalidOperationException($"{Ln.允许的文件格式} {string.Join(",", uploadOptions.Value.ContentTypes)}");
         }
 
         if (file.Length > uploadOptions.Value.MaxSize) {

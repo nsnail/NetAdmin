@@ -19,22 +19,23 @@ public sealed class UserService(
     : RepositoryService<Sys_User, long, IUserService>(rpo), IUserService
 {
     private readonly Expression<Func<Sys_User, Sys_User>> _listUserExp = a => new Sys_User {
-                                                                                  Id            = a.Id
-                                                                                , Avatar        = a.Avatar
-                                                                                , Email         = a.Email
-                                                                                , Mobile        = a.Mobile
-                                                                                , Enabled       = a.Enabled
-                                                                                , UserName      = a.UserName
-                                                                                , Summary       = a.Summary
-                                                                                , Version       = a.Version
-                                                                                , CreatedTime   = a.CreatedTime
-                                                                                , LastLoginTime = a.LastLoginTime
-                                                                                , Dept = new Sys_Dept {
-                                                                                      Id   = a.Dept.Id
-                                                                                    , Name = a.Dept.Name
-                                                                                  }
-                                                                                , Roles = a.Roles
-                                                                              };
+                                                                                               Id            = a.Id
+                                                                                             , Avatar        = a.Avatar
+                                                                                             , Email         = a.Email
+                                                                                             , Mobile        = a.Mobile
+                                                                                             , Enabled       = a.Enabled
+                                                                                             , UserName      = a.UserName
+                                                                                             , Summary       = a.Summary
+                                                                                             , Version       = a.Version
+                                                                                             , CreatedTime   = a.CreatedTime
+                                                                                             , LastLoginTime = a.LastLoginTime
+                                                                                             , Dept = new Sys_Dept {
+                                                                                                   Id = a.Dept.Id, Name = a.Dept.Name
+                                                                                               }
+                                                                                             , Roles           = a.Roles
+                                                                                             , CreatedUserId   = a.CreatedUserId
+                                                                                             , CreatedUserName = a.CreatedUserName
+                                                                                           };
 
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -61,9 +62,7 @@ public sealed class UserService(
     public async Task<bool> CheckUserNameAvailableAsync(CheckUserNameAvailableReq req)
     {
         req.ThrowIfInvalid();
-        return !await Rpo.Select.Where(a => a.UserName == req.UserName && a.Id != req.Id)
-                         .AnyAsync()
-                         .ConfigureAwait(false);
+        return !await Rpo.Select.Where(a => a.UserName == req.UserName && a.Id != req.Id).AnyAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -101,8 +100,7 @@ public sealed class UserService(
                                                    , AppConfig = appConfig
                                                  })
                                     .ConfigureAwait(false);
-        var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } })
-            .ConfigureAwait(false);
+        var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } }).ConfigureAwait(false);
         return ret.First();
     }
 
@@ -146,8 +144,7 @@ public sealed class UserService(
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);
 
-        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } })
-            .ConfigureAwait(false)).First();
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } }).ConfigureAwait(false)).First();
 
         // 发布用户更新事件
         await eventPublisher.PublishAsync(new UserUpdatedEvent(ret.Adapt<UserInfoRsp>())).ConfigureAwait(false);
@@ -172,9 +169,9 @@ public sealed class UserService(
     public async Task<QueryUserRsp> GetAsync(QueryUserReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req, Order = Orders.None })
-                .ConfigureAwait(false)).ToOneAsync()
-                                       .ConfigureAwait(false);
+        var ret = await (await QueryInternalAsync(new QueryReq<QueryUserReq> { Filter = req, Order = Orders.None }).ConfigureAwait(false))
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryUserRsp>();
     }
 
@@ -195,21 +192,15 @@ public sealed class UserService(
         #pragma warning disable IDE0045
         if (new MobileAttribute().IsValid(req.Account)) {
             #pragma warning restore IDE0045
-            dbUser = await Rpo.Where(a => a.Mobile == req.Account && a.Password == pwd)
-                              .ToOneAsync()
-                              .ConfigureAwait(false);
+            dbUser = await Rpo.Where(a => a.Mobile == req.Account && a.Password == pwd).ToOneAsync().ConfigureAwait(false);
         }
         else {
             dbUser = new EmailAddressAttribute().IsValid(req.Account)
-                ? await Rpo.Where(a => a.Email == req.Account && a.Password == pwd).ToOneAsync().ConfigureAwait(false)
-                : await Rpo.Where(a => a.UserName == req.Account && a.Password == pwd)
-                           .ToOneAsync()
-                           .ConfigureAwait(false);
+                ? await Rpo.Where(a => a.Email    == req.Account && a.Password == pwd).ToOneAsync().ConfigureAwait(false)
+                : await Rpo.Where(a => a.UserName == req.Account && a.Password == pwd).ToOneAsync().ConfigureAwait(false);
         }
 
-        return dbUser == null
-            ? throw new NetAdminInvalidOperationException(Ln.用户名或密码错误)
-            : await LoginInternalAsync(dbUser).ConfigureAwait(false);
+        return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户名或密码错误) : await LoginInternalAsync(dbUser).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -223,9 +214,7 @@ public sealed class UserService(
         }
 
         var dbUser = await Rpo.Where(a => a.Mobile == req.DestDevice).ToOneAsync().ConfigureAwait(false);
-        return dbUser == null
-            ? throw new NetAdminInvalidOperationException(Ln.用户不存在)
-            : await LoginInternalAsync(dbUser).ConfigureAwait(false);
+        return dbUser == null ? throw new NetAdminInvalidOperationException(Ln.用户不存在) : await LoginInternalAsync(dbUser).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -256,9 +245,7 @@ public sealed class UserService(
     public async Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await (await QueryInternalAsync(req).ConfigureAwait(false)).Take(req.Count)
-                                                                              .ToListAsync(_listUserExp)
-                                                                              .ConfigureAwait(false);
+        var list = await (await QueryInternalAsync(req).ConfigureAwait(false)).Take(req.Count).ToListAsync(_listUserExp).ConfigureAwait(false);
         return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
 
@@ -292,11 +279,10 @@ public sealed class UserService(
             throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
-        var dto = (await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestDevice)
-                            .ToOneAsync(a => new { a.Version, a.Id })
-                            .ConfigureAwait(false)).Adapt<Sys_User>() with {
-                                                                               Password = req.PasswordText.Pwd().Guid()
-                                                                           };
+        var dto = (await Rpo.Where(a => a.Mobile == req.VerifySmsCodeReq.DestDevice).ToOneAsync(a => new { a.Version, a.Id }).ConfigureAwait(false))
+                  .Adapt<Sys_User>() with {
+                                              Password = req.PasswordText.Pwd().Guid()
+                                          };
         return await UpdateAsync(dto, [nameof(Sys_User.Password)]).ConfigureAwait(false);
     }
 
@@ -307,17 +293,15 @@ public sealed class UserService(
         if (await UpdateAsync(
                     req with {
                                  Id = UserToken.Id
-                               , Version = await Rpo.Where(a => a.Id == UserToken.Id)
-                                                    .ToOneAsync(a => a.Version)
-                                                    .ConfigureAwait(false)
-                             }, [nameof(Sys_User.Avatar)])
+                               , Version = await Rpo.Where(a => a.Id == UserToken.Id).ToOneAsync(a => a.Version).ConfigureAwait(false)
+                             }
+                  , [nameof(Sys_User.Avatar)])
                 .ConfigureAwait(false) <= 0) {
             return null;
         }
 
-        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } })
-                .ConfigureAwait(false)).First()
-                                       .Adapt<UserInfoRsp>();
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }).ConfigureAwait(false)).First()
+            .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
         await eventPublisher.PublishAsync(new UserUpdatedEvent(ret)).ConfigureAwait(false);
@@ -328,9 +312,7 @@ public sealed class UserService(
     public async Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
     {
         req.ThrowIfInvalid();
-        var user = await Rpo.Where(a => a.Id == UserToken.Id)
-                            .ToOneAsync(a => new { a.Mobile, a.Version, a.Email })
-                            .ConfigureAwait(false);
+        var user = await Rpo.Where(a => a.Id == UserToken.Id).ToOneAsync(a => new { a.Mobile, a.Version, a.Email }).ConfigureAwait(false);
 
         // 如果已绑定手机号码、需要手机安全验证
         if (!user.Mobile.NullOrEmpty()) {
@@ -344,15 +326,13 @@ public sealed class UserService(
         }
 
         if (await UpdateAsync( //
-                    new Sys_User { Email = req.DestDevice, Id = UserToken.Id, Version = user.Version }
-                  , [nameof(Sys_User.Email)])
+                    new Sys_User { Email = req.DestDevice, Id = UserToken.Id, Version = user.Version }, [nameof(Sys_User.Email)])
                 .ConfigureAwait(false) <= 0) {
             return null;
         }
 
-        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } })
-                .ConfigureAwait(false)).First()
-                                       .Adapt<UserInfoRsp>();
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }).ConfigureAwait(false)).First()
+            .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
         await eventPublisher.PublishAsync(new UserUpdatedEvent(ret)).ConfigureAwait(false);
@@ -370,9 +350,7 @@ public sealed class UserService(
     public async Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
     {
         req.ThrowIfInvalid();
-        var user = await Rpo.Where(a => a.Id == UserToken.Id)
-                            .ToOneAsync(a => new { a.Version, a.Mobile })
-                            .ConfigureAwait(false);
+        var user = await Rpo.Where(a => a.Id == UserToken.Id).ToOneAsync(a => new { a.Version, a.Mobile }).ConfigureAwait(false);
 
         if (!user.Mobile.NullOrEmpty()) {
             // 已有手机号码，需验证旧手机
@@ -390,20 +368,15 @@ public sealed class UserService(
             throw new NetAdminInvalidOperationException($"{Ln.新手机号码验证码不正确}");
         }
 
-        if (await UpdateAsync(
-                    new Sys_User {
-                                     Version = user.Version
-                                   , Id      = UserToken.Id
-                                   , Mobile  = req.NewVerifySmsCodeReq.DestDevice
-                                 }
+        if (await UpdateAsync( //
+                    new Sys_User { Version = user.Version, Id = UserToken.Id, Mobile = req.NewVerifySmsCodeReq.DestDevice }
                   , [nameof(Sys_User.Mobile)])
                 .ConfigureAwait(false) <= 0) {
             return null;
         }
 
-        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } })
-                .ConfigureAwait(false)).First()
-                                       .Adapt<UserInfoRsp>();
+        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = UserToken.Id } }).ConfigureAwait(false)).First()
+            .Adapt<UserInfoRsp>();
 
         // 发布用户更新事件
         await eventPublisher.PublishAsync(new UserUpdatedEvent(ret)).ConfigureAwait(false);
@@ -418,9 +391,8 @@ public sealed class UserService(
                                .ToOneAsync(a => new long?(a.Version))
                                .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException($"{Ln.旧密码不正确}");
 
-        return await UpdateAsync(
-                new Sys_User { Id = UserToken.Id, Password = req.NewPassword.Pwd().Guid(), Version = version }
-              , [nameof(Sys_User.Password)])
+        return await UpdateAsync( //
+                new Sys_User { Id = UserToken.Id, Password = req.NewPassword.Pwd().Guid(), Version = version }, [nameof(Sys_User.Password)])
             .ConfigureAwait(false);
     }
 
@@ -487,7 +459,9 @@ public sealed class UserService(
     {
         // 检查角色是否存在
         var roles = await Rpo.Orm.Select<Sys_Role>()
-                             .ForUpdate()
+                             #if DBTYPE_SQLSERVER
+                             .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                             #endif
                              .Where(a => req.RoleIds.Contains(a.Id))
                              .ToDictionaryAsync(a => a.Id, a => a.DashboardLayout)
                              .ConfigureAwait(false);
@@ -497,7 +471,9 @@ public sealed class UserService(
 
         // 检查部门是否存在
         var dept = await Rpo.Orm.Select<Sys_Dept>()
-                            .ForUpdate()
+                            #if DBTYPE_SQLSERVER
+                            .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                            #endif
                             .Where(a => req.DeptId == a.Id)
                             .ToListAsync(a => a.Id)
                             .ConfigureAwait(false);
@@ -511,22 +487,16 @@ public sealed class UserService(
             throw new NetAdminInvalidOperationException(Ln.请联系管理员激活账号);
         }
 
-        _ = await UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)]
-,                                                                           ignoreVersion: true)
+        _ = await UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)], ignoreVersion: true)
             .ConfigureAwait(false);
 
-        var tokenPayload
-            = new Dictionary<string, object> { { nameof(ContextUserToken), dbUser.Adapt<ContextUserToken>() } };
+        var tokenPayload = new Dictionary<string, object> { { nameof(ContextUserToken), dbUser.Adapt<ContextUserToken>() } };
 
         var accessToken = JWTEncryption.Encrypt(tokenPayload);
-        return new LoginRsp {
-                                AccessToken  = accessToken
-                              , RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken)
-                            };
+        return new LoginRsp { AccessToken = accessToken, RefreshToken = JWTEncryption.GenerateRefreshToken(accessToken) };
     }
 
-    private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req, IEnumerable<long> deptIds
-                                          , bool                   includeRoles = true)
+    private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req, IEnumerable<long> deptIds, bool includeRoles = true)
     {
         var ret = Rpo.Select.Include(a => a.Dept);
         if (includeRoles) {
@@ -541,9 +511,8 @@ public sealed class UserService(
                      req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
                  .WhereIf( //
                      req.Keywords?.Length > 0
-                   , a => a.Id     == req.Keywords.Int64Try(0) || a.UserName == req.Keywords ||
-                          a.Mobile == req.Keywords             ||
-                          a.Email  == req.Keywords             || a.Summary.Contains(req.Keywords));
+                   , a => a.Id == req.Keywords.Int64Try(0) || a.UserName == req.Keywords || a.Mobile == req.Keywords || a.Email == req.Keywords ||
+                          a.Summary.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
@@ -576,11 +545,7 @@ public sealed class UserService(
     {
         IEnumerable<long> deptIds = null;
         if (req.Filter?.DeptId > 0) {
-            deptIds = await Rpo.Orm.Select<Sys_Dept>()
-                               .Where(a => a.Id == req.Filter.DeptId)
-                               .AsTreeCte()
-                               .ToListAsync(a => a.Id)
-                               .ConfigureAwait(false);
+            deptIds = await Rpo.Orm.Select<Sys_Dept>().Where(a => a.Id == req.Filter.DeptId).AsTreeCte().ToListAsync(a => a.Id).ConfigureAwait(false);
         }
 
         return QueryInternal(req, deptIds, includeRoles);

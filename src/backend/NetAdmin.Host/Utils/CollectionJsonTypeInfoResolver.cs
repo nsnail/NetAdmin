@@ -38,10 +38,7 @@ public sealed class CollectionJsonTypeInfoResolver : DefaultJsonTypeInfoResolver
 
     private static string GetMemberName(JsonPropertyInfo property)
     {
-        return property.GetType()
-                       .GetRuntimeProperties()
-                       .First(x => x.Name == "MemberName")
-                       .GetValue(property) as string;
+        return property.GetType().GetRuntimeProperties().First(x => x.Name == "MemberName").GetValue(property) as string;
     }
 
     /// <summary>
@@ -49,10 +46,7 @@ public sealed class CollectionJsonTypeInfoResolver : DefaultJsonTypeInfoResolver
     /// </summary>
     private static PropertyInfo GetNewProperty(string memberName, object obj)
     {
-        return obj.GetType()
-                  .GetProperties()
-                  .Where(x => x.Name          == memberName)
-                  .First(x => x.DeclaringType == x.ReflectedType);
+        return obj.GetType().GetProperties().Where(x => x.Name == memberName).First(x => x.DeclaringType == x.ReflectedType);
     }
 
     /// <summary>

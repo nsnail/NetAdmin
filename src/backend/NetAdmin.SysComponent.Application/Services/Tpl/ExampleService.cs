@@ -73,9 +73,7 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     public async Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryExampleReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryExampleReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryExampleRsp>();
     }
 
@@ -92,8 +90,7 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryExampleRsp>(req.Page, req.PageSize, total
-                                                , list.Adapt<IEnumerable<QueryExampleRsp>>());
+        return new PagedQueryRsp<QueryExampleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryExampleRsp>>());
     }
 
     /// <inheritdoc />

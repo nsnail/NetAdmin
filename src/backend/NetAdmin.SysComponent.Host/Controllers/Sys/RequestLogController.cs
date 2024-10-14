@@ -13,8 +13,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     请求日志服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class RequestLogController(IRequestLogCache cache)
-    : ControllerBase<IRequestLogCache, IRequestLogService>(cache), IRequestLogModule
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
+public sealed class RequestLogController(IRequestLogCache cache) : ControllerBase<IRequestLogCache, IRequestLogService>(cache), IRequestLogModule
 {
     /// <summary>
     ///     批量删除请求日志

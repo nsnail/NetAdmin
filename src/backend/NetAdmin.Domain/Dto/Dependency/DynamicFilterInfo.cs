@@ -74,8 +74,8 @@ public sealed record DynamicFilterInfo : DataAbstraction
             }
         }
 
-        if (new[] { nameof(IFieldCreatedClientIp.CreatedClientIp), nameof(IFieldModifiedClientIp.ModifiedClientIp) }
-            .Contains(d?.Field, StringComparer.OrdinalIgnoreCase)) {
+        if (new[] { nameof(IFieldCreatedClientIp.CreatedClientIp), nameof(IFieldModifiedClientIp.ModifiedClientIp) }.Contains(
+                d?.Field, StringComparer.OrdinalIgnoreCase)) {
             var val = d!.Value?.ToString();
             if (val?.IsIpV4() == true) {
                 d.Value = val.IpV4ToInt32();

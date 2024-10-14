@@ -1,20 +1,11 @@
 <template>
-    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" :width="800" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="$t('批量修改')" :width="800" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
-                        <el-form-item :label="$t('所属字典')" prop="catalogId">
-                            <na-dic-catalog v-model="form.catalogId" class="w100p" />
-                        </el-form-item>
-                        <el-form-item :label="$t('项名')" prop="key">
-                            <el-input v-model="form.key" clearable></el-input>
-                        </el-form-item>
                         <el-form-item :label="$t('项值')" prop="value">
                             <el-input v-model="form.value" clearable></el-input>
-                        </el-form-item>
-                        <el-form-item :label="$t('描述')" prop="summary">
-                            <el-input v-model="form.summary" clearable></el-input>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -44,17 +35,13 @@ export default {
             //表单数据
             form: {},
             loading: true,
-            mode: 'add',
+            mode: 'edit',
             //验证规则
             rules: {
-                catalogId: [{ required: true, message: '请选择所属字典' }],
-                key: [{ required: true, message: '请输入项名' }],
                 value: [{ required: true, message: '请输入项值' }],
             },
             titleMap: {
-                add: this.$t('新增字典项'),
-                edit: this.$t('编辑字典项'),
-                view: this.$t('查看字典项'),
+                edit: this.$t('批量编辑字典项'),
             },
             visible: false,
         }
@@ -82,14 +69,8 @@ export default {
                 return false
             }
             this.loading = true
-
-            const method = this.mode === 'add' ? this.$API.sys_dic.createContent : this.$API.sys_dic.editContent
-            try {
-                const res = await method.post(this.form)
-                this.$emit('success', res.data, this.mode)
-                this.visible = false
-                this.$message.success(this.$t('操作成功'))
-            } catch {}
+            this.$emit('success', this.form.value, this.mode)
+            this.visible = false
             this.loading = false
         },
     },

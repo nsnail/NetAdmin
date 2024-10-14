@@ -40,8 +40,12 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
         req.ThrowIfInvalid();
-        if (req.ParentId != 0 &&
-            !await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)) {
+        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId)
+                                           #if DBTYPE_SQLSERVER
+                                           .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                                           #endif
+                                           .AnyAsync()
+                                           .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
         }
 
@@ -62,8 +66,12 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<int> EditAsync(EditDicCatalogReq req)
     {
         req.ThrowIfInvalid();
-        return req.ParentId == 0 ||
-               await Rpo.Where(a => a.Id == req.ParentId).ForUpdate().AnyAsync().ConfigureAwait(false)
+        return req.ParentId == 0 || await Rpo.Where(a => a.Id == req.ParentId)
+                                             #if DBTYPE_SQLSERVER
+                                             .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                                             #endif
+                                             .AnyAsync()
+                                             .ConfigureAwait(false)
             ? await UpdateAsync(req, null).ConfigureAwait(false)
             : throw new NetAdminInvalidOperationException(Ln.父节点不存在);
     }
@@ -89,9 +97,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 
@@ -108,8 +114,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryDicCatalogRsp>(req.Page, req.PageSize, total
-                                                   , list.Adapt<IEnumerable<QueryDicCatalogRsp>>());
+        return new PagedQueryRsp<QueryDicCatalogRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDicCatalogRsp>>());
     }
 
     /// <inheritdoc />

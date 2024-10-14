@@ -228,7 +228,6 @@ public record Sys_UserProfile : VersionEntity, IRegister
                   .Map(d => d.CompanyArea, s => s.CompanyArea == null ? null : s.CompanyArea.Value)
                   .Map(d => d.HomeArea,    s => s.HomeArea    == null ? null : s.HomeArea.Value)
                   .Map( //
-                      d => d.EmergencyContactArea
-                    , s => s.EmergencyContactArea == null ? null : s.EmergencyContactArea.Value);
+                      d => d.EmergencyContactArea, s => s.EmergencyContactArea == null ? null : s.EmergencyContactArea.Value);
     }
 }

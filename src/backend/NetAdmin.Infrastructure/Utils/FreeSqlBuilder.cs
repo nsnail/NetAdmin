@@ -15,8 +15,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     {
         var freeSql = new FreeSql.FreeSqlBuilder().UseConnectionString(databaseOptions.DbType, databaseOptions.ConnStr)
                                                   .UseGenerateCommandParameterWithLambda(true)
-                                                  .UseAutoSyncStructure(
-                                                      initMethods.HasFlag(FreeSqlInitMethods.SyncStructure))
+                                                  .UseAutoSyncStructure(initMethods.HasFlag(FreeSqlInitMethods.SyncStructure))
                                                   .Build();
         _ = InitDbAsync(freeSql, initMethods); // 初始化数据库 ，异步
         return freeSql;
@@ -90,8 +89,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     private void InsertSeedData(IFreeSql freeSql, IEnumerable<Type> entityTypes)
     {
         foreach (var entityType in entityTypes) {
-            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseOptions.SeedDataRelativePath
-                                  , $"{entityType.Name}.json");
+            var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseOptions.SeedDataRelativePath, $"{entityType.Name}.json");
             if (!File.Exists(file)) {
                 continue;
             }
@@ -102,12 +100,8 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
                 fileContent, typeof(IEnumerable<>).MakeGenericType(entityType));
 
             // 如果表存在数据，跳过
-            var select = typeof(IFreeSql).GetMethod(nameof(freeSql.Select), 1, Type.EmptyTypes)
-                                         ?.MakeGenericMethod(entityType)
-                                         .Invoke(freeSql, null);
-            if (select?.GetType()
-                      .GetMethod(nameof(ISelect<dynamic>.Any), 0, Type.EmptyTypes)
-                      ?.Invoke(select, null) as bool? ?? true) {
+            var select = typeof(IFreeSql).GetMethod(nameof(freeSql.Select), 1, Type.EmptyTypes)?.MakeGenericMethod(entityType).Invoke(freeSql, null);
+            if (select?.GetType().GetMethod(nameof(ISelect<dynamic>.Any), 0, Type.EmptyTypes)?.Invoke(select, null) as bool? ?? true) {
                 continue;
             }
 

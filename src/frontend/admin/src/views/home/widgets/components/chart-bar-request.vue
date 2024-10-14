@@ -1,5 +1,5 @@
 <template>
-    <el-card :header="$t('访问趋势(Today)')" shadow="never" style="height: 25rem">
+    <el-card :header="$t('流量趋势(Today)')" shadow="never" style="height: 25rem">
         <chart-bar
             :api="[
                 {
@@ -29,9 +29,9 @@ export default {
             return tool
         },
     },
-    title: '访问趋势(Today)',
+    title: '流量趋势(Today)',
     icon: 'el-icon-data-line',
-    description: '访问趋势(Today)',
+    description: '流量趋势(Today)',
     components: {
         ChartBar,
     },

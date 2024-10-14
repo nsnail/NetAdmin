@@ -81,10 +81,7 @@ public sealed class ApiService(
     public async Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                           .WhereDynamic(req.Filter)
-                           .ToTreeListAsync()
-                           .ConfigureAwait(false);
+        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryApiRsp>>();
     }
 
@@ -143,12 +140,10 @@ public sealed class ApiService(
             .Select(x => {
                 var id = x.AttributeRouteInfo!.Template;
                 return new QueryApiRsp {
-                                           Summary = xmlCommentReader.GetComments(x.MethodInfo)
-                                         , Name    = x.ActionName
-                                         , Id      = id
-                                         , Method = x.ActionConstraints?.OfType<HttpMethodActionConstraint>()
-                                                     .FirstOrDefault()
-                                                     ?.HttpMethods.First()
+                                           Summary   = xmlCommentReader.GetComments(x.MethodInfo)
+                                         , Name      = x.ActionName
+                                         , Id        = id
+                                         , Method    = x.ActionConstraints?.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods.First()
                                          , PathCrc32 = id.Crc32()
                                        };
             });

@@ -1,5 +1,14 @@
 <template>
     <el-container>
+        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+            <el-row :gutter="15">
+                <el-col :lg="24">
+                    <el-card shadow="never">
+                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
         <el-header style="height: auto; padding: 0 1rem">
             <sc-select-filter
                 :data="[
@@ -192,6 +201,7 @@ export default {
     },
     data() {
         return {
+            total: '...',
             dialog: {
                 info: false,
             },
@@ -252,6 +262,7 @@ export default {
             this.owners = res[0].data
             this.apis = res[1].data
             this.ips = res[2]
+            this.total = data.data.total
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -260,7 +271,7 @@ export default {
             this.$refs.search.search()
         },
         //搜索
-        onSearch(form) {
+        async onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
@@ -353,7 +364,7 @@ export default {
             )
         },
     },
-    mounted() {
+    async mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
             this.$refs.search.keeps.push({

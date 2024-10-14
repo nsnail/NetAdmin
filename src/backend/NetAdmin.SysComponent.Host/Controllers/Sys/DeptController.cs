@@ -12,6 +12,7 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     部门服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache, IDeptService>(cache), IDeptModule
 {
     /// <summary>

@@ -178,4 +178,14 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
+    {
+        var rsp = await PostJsonAsync(typeof(DicController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
 }

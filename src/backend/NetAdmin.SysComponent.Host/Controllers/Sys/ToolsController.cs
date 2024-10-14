@@ -10,8 +10,17 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     工具服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCache, IToolsService>(cache), IToolsModule
 {
+    /// <summary>
+    ///     Aes解密
+    /// </summary>
+    public string AesDecode(AesDecodeReq req)
+    {
+        return Cache.AesDecode(req);
+    }
+
     /// <summary>
     ///     执行SQL语句
     /// </summary>

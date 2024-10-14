@@ -12,8 +12,7 @@ public static class MethodInfoExtensions
     {
         return serviceProvider.GetService<IActionDescriptorCollectionProvider>()
                               .ActionDescriptors.Items.FirstOrDefault(x => x.DisplayName!.StartsWith( //
-                                                                          $"{me.DeclaringType}.{me.Name}"
-                                                                        , StringComparison.Ordinal))
+                                                                          $"{me.DeclaringType}.{me.Name}", StringComparison.Ordinal))
                               ?.AttributeRouteInfo?.Template;
     }
 }

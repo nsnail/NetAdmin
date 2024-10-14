@@ -7,8 +7,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 [SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(HttpStatusCode), nameof(HttpStatusCode),        false)]
 [SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(OwnerId),        nameof(OwnerId),               false)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_LoginLog))]
-public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFieldCreatedClientIp
-                           , IFieldCreatedClientUserAgent
+public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFieldCreatedClientIp, IFieldCreatedClientUserAgent
 {
     /// <inheritdoc />
     [Column]

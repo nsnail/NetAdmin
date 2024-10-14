@@ -10,11 +10,9 @@ public sealed class RequestAuditMiddleware(
   , IOptions<DynamicApiControllerSettingsOptions> dynamicApiControllerSettingsOptions
   , RequestLogger                                 requestLogger)
 {
-    private readonly PathString _defaultRoutePrefix
-        = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
+    private readonly PathString _defaultRoutePrefix = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}");
 
-    private readonly PathString _healthCheckRoutePrefix
-        = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}/probe/health.check");
+    private readonly PathString _healthCheckRoutePrefix = new($"/{dynamicApiControllerSettingsOptions.Value.DefaultRoutePrefix}/probe/health.check");
 
     /// <summary>
     ///     主函数
@@ -22,11 +20,10 @@ public sealed class RequestAuditMiddleware(
     public async Task InvokeAsync(HttpContext context)
     {
         // 跳过处理的情况：
-        if (!context.Request.Path.StartsWithSegments(_defaultRoutePrefix)       // 非api请求
-            || context.Request.Path.StartsWithSegments(_healthCheckRoutePrefix) // 健康检查
-            || context.Request.Method == Chars.FLG_HTTP_METHOD_OPTIONS          // is options 请求
-            || (context.Request.ContentType?.StartsWith("multipart/form-data", true, CultureInfo.InvariantCulture) ??
-                false) // 文件上传
+        if (!context.Request.Path.StartsWithSegments(_defaultRoutePrefix)                                                    // 非api请求
+            || context.Request.Path.StartsWithSegments(_healthCheckRoutePrefix)                                              // 健康检查
+            || context.Request.Method == Chars.FLG_HTTP_METHOD_OPTIONS                                                       // is options 请求
+            || (context.Request.ContentType?.StartsWith("multipart/form-data", true, CultureInfo.InvariantCulture) ?? false) // 文件上传
             #pragma warning disable SA1009
            ) {
             #pragma warning restore SA1009
@@ -58,8 +55,6 @@ public sealed class RequestAuditMiddleware(
                                .FirstOrDefault()
                                ?.Enum<ErrorCodes>() ?? 0;
 
-        _ = await requestLogger.LogAsync(context, (long)sw.Elapsed.TotalMilliseconds, responseBody, errorCode
-                                       , exception)
-                               .ConfigureAwait(false);
+        _ = await requestLogger.LogAsync(context, (long)sw.Elapsed.TotalMilliseconds, responseBody, errorCode, exception).ConfigureAwait(false);
     }
 }

@@ -123,20 +123,11 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     {
         _ = config.ForType<CreateRoleReq, Sys_Role>()
                   .Map( //
-                      d => d.Depts
-                    , s => s.DeptIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Dept>()
-                          : s.DeptIds.Select(x => new Sys_Dept { Id = x }))
+                      d => d.Depts, s => s.DeptIds.NullOrEmpty() ? Array.Empty<Sys_Dept>() : s.DeptIds.Select(x => new Sys_Dept { Id = x }))
                   .Map( //
-                      d => d.Menus
-                    , s => s.MenuIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Menu>()
-                          : s.MenuIds.Select(x => new Sys_Menu { Id = x }))
+                      d => d.Menus, s => s.MenuIds.NullOrEmpty() ? Array.Empty<Sys_Menu>() : s.MenuIds.Select(x => new Sys_Menu { Id = x }))
                   .Map( //
-                      d => d.Apis
-                    , s => s.ApiIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Api>()
-                          : s.ApiIds.Select(x => new Sys_Api { Id = x }))
+                      d => d.Apis, s => s.ApiIds.NullOrEmpty() ? Array.Empty<Sys_Api>() : s.ApiIds.Select(x => new Sys_Api { Id = x }))
 
             //
             ;

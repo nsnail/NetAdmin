@@ -12,8 +12,7 @@ namespace NetAdmin.Application.Services;
 /// <typeparam name="TEntity">实体类型</typeparam>
 /// <typeparam name="TPrimary">主键类型</typeparam>
 /// <typeparam name="TLogger">日志类型</typeparam>
-public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicRepository<TEntity, TPrimary> rpo)
-    : ServiceBase<TLogger>
+public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicRepository<TEntity, TPrimary> rpo) : ServiceBase<TLogger>
     where TEntity : EntityBase<TPrimary> //
     where TPrimary : IEquatable<TPrimary>
 {
@@ -34,7 +33,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     ///     导出实体
     /// </summary>
     protected static async Task<IActionResult> ExportAsync<TQuery, TExport>( //
-        Func<QueryReq<TQuery>, ISelectGrouping<TEntity, TEntity>> selector, QueryReq<TQuery> query, string fileName
+        Func<QueryReq<TQuery>, ISelectGrouping<TEntity, TEntity>>            selector, QueryReq<TQuery> query, string fileName
       , Expression<Func<ISelectGroupingAggregate<TEntity, TEntity>, object>> listExp = null)
         where TQuery : DataAbstraction, new()
     {
@@ -46,8 +45,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     ///     导出实体
     /// </summary>
     protected static async Task<IActionResult> ExportAsync<TQuery, TExport>( //
-        Func<QueryReq<TQuery>, ISelect<TEntity>> selector, QueryReq<TQuery> query, string fileName
-      , Expression<Func<TEntity, object>>        listExp = null)
+        Func<QueryReq<TQuery>, ISelect<TEntity>> selector, QueryReq<TQuery> query, string fileName, Expression<Func<TEntity, object>> listExp = null)
         where TQuery : DataAbstraction, new()
     {
         var select = selector(query)
@@ -56,9 +54,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
             #endif
             .Take(Numbers.MAX_LIMIT_EXPORT);
 
-        object list = listExp == null
-            ? await select.ToListAsync().ConfigureAwait(false)
-            : await select.ToListAsync(listExp).ConfigureAwait(false);
+        object list = listExp == null ? await select.ToListAsync().ConfigureAwait(false) : await select.ToListAsync(listExp).ConfigureAwait(false);
 
         return await GetExportFileStreamAsync<TExport>(fileName, list).ConfigureAwait(false);
     }
@@ -108,10 +104,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     {
         // 默认匹配主键
         whereExp ??= a => a.Id.Equals(newValue.Id);
-        return BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion)
-               .Where(whereExp)
-               .Where(whereSql)
-               .ExecuteUpdatedAsync();
+        return BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql).ExecuteUpdatedAsync();
     }
     #endif
 
@@ -134,8 +127,9 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
 
         App.HttpContext.Response.Headers.ContentDisposition
             = new ContentDispositionHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_ATTACHMENT) {
-                  FileNameStar = $"{fileName}_{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.csv"
-              }.ToString();
+                                                                                            FileNameStar
+                                                                                                = $"{fileName}_{DateTime.Now:yyyy.MM.dd-HH.mm.ss}.csv"
+                                                                                        }.ToString();
 
         return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
     }
@@ -149,9 +143,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         var updateExp = includeFields == null
             ? Rpo.UpdateDiy.SetSource(entity)
             : Rpo.UpdateDiy.SetDto(includeFields!.ToDictionary(
-                                       x => x
-                                     , x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!
-                                                           .GetValue(entity)));
+                                       x => x, x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!.GetValue(entity)));
         if (excludeFields != null) {
             updateExp = updateExp.IgnoreColumns(excludeFields);
         }

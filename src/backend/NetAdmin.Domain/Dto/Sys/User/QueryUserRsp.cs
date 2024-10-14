@@ -16,6 +16,14 @@ public record QueryUserRsp : Sys_User
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
+    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override long? CreatedUserId { get; init; }
+
+    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string CreatedUserName { get; init; }
+
     /// <inheritdoc cref="Sys_User.Dept" />
     public new virtual QueryDeptRsp Dept { get; init; }
 

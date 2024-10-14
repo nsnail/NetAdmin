@@ -11,8 +11,7 @@ public static class ApplicationHelper
     public static Dictionary<string, object> GetEnvironmentInfo()
     {
         var ret = typeof(Environment).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                                     .Where(x => x.Name is not (nameof(Environment.StackTrace)
-                                                                or nameof(Environment.NewLine)))
+                                     .Where(x => x.Name is not (nameof(Environment.StackTrace) or nameof(Environment.NewLine)))
                                      .ToDictionary(x => x.Name, x => x.GetValue(null));
 
         var vars = Environment.GetEnvironmentVariables();
