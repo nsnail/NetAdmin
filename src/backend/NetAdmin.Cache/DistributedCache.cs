@@ -6,8 +6,7 @@ namespace NetAdmin.Cache;
 /// <summary>
 ///     分布式缓存
 /// </summary>
-public abstract class DistributedCache<TService>(IDistributedCache cache, TService service)
-    : CacheBase<IDistributedCache, TService>(cache, service)
+public abstract class DistributedCache<TService>(IDistributedCache cache, TService service) : CacheBase<IDistributedCache, TService>(cache, service)
     where TService : IService
 {
     /// <summary>
@@ -66,12 +65,10 @@ public abstract class DistributedCache<TService>(IDistributedCache cache, TServi
     /// <param name="slideLifeTime">滑动过期时间</param>
     /// <typeparam name="T">缓存对象类型</typeparam>
     /// <returns>缓存对象</returns>
-    protected async Task<T> GetOrCreateAsync<T>(string    key, Func<Task<T>> createProc, TimeSpan? absLifeTime = null
-                                              , TimeSpan? slideLifeTime = null)
+    protected async Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> createProc, TimeSpan? absLifeTime = null, TimeSpan? slideLifeTime = null)
     {
         var cacheRead = await GetAsync<T>(key).ConfigureAwait(false);
-        if (cacheRead is not null && App.HttpContext?.Request.Headers.CacheControl.FirstOrDefault() !=
-            Chars.FLG_HTTP_HEADER_VALUE_NO_CACHE) {
+        if (cacheRead is not null && App.HttpContext?.Request.Headers.CacheControl.FirstOrDefault() != Chars.FLG_HTTP_HEADER_VALUE_NO_CACHE) {
             return cacheRead;
         }
 

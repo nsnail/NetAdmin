@@ -45,9 +45,7 @@ public sealed record ContextUserToken : DataAbstraction
     /// </summary>
     public static ContextUserToken Create(QueryUserRsp user)
     {
-        return new ContextUserToken {
-                                        Id = user.Id, Token = user.Token, UserName = user.UserName, DeptId = user.DeptId
-                                    };
+        return new ContextUserToken { Id = user.Id, Token = user.Token, UserName = user.UserName, DeptId = user.DeptId };
     }
 
     /// <summary>

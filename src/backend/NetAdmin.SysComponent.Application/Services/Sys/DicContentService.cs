@@ -42,7 +42,9 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
         req.ThrowIfInvalid();
         if (!await Rpo.Orm.Select<Sys_DicCatalog>()
                       .Where(a => a.Id == req.CatalogId)
-                      .ForUpdate()
+                      #if DBTYPE_SQLSERVER
+                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                      #endif
                       .AnyAsync()
                       .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.字典目录不存在);
@@ -66,15 +68,16 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
         req.ThrowIfInvalid();
         if (!await Rpo.Orm.Select<Sys_DicCatalog>()
                       .Where(a => a.Id == req.CatalogId)
-                      .ForUpdate()
+                      #if DBTYPE_SQLSERVER
+                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                      #endif
                       .AnyAsync()
                       .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.字典目录不存在);
         }
 
         #if DBTYPE_SQLSERVER
-        return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()
-                                                                             ?.Adapt<QueryDicContentRsp>();
+        return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDicContentRsp>();
         #else
         return await UpdateAsync(req, null).ConfigureAwait(false) > 0
             ? await GetAsync(new QueryDicContentReq { Id = req.Id }).ConfigureAwait(false)
@@ -104,9 +107,7 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
     public async Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryDicContentReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDicContentRsp>();
     }
 
@@ -123,8 +124,7 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryDicContentRsp>(req.Page, req.PageSize, total
-                                                   , list.Adapt<IEnumerable<QueryDicContentRsp>>());
+        return new PagedQueryRsp<QueryDicContentRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDicContentRsp>>());
     }
 
     /// <inheritdoc />
@@ -150,9 +150,17 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
                            #endif
                            .Include(a => a.Catalog)
                            .Where(a => a.Catalog.Code == catalogCode)
+                           .Where(a => a.Enabled)
                            .ToListAsync()
                            .ConfigureAwait(false);
         return ret.Adapt<List<QueryDicContentRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(Sys_DicContent.Enabled)]);
     }
 
     private ISelect<Sys_DicContent> QueryInternal(QueryReq<QueryDicContentReq> req)

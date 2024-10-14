@@ -91,20 +91,11 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
                   .Map( //
                       d => d.Summary, s => s.Content.RemoveHtmlTag().HtmlDe().Sub(0, 100))
                   .Map( //
-                      d => d.Roles
-                    , s => s.RoleIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Role>()
-                          : s.RoleIds.Select(x => new Sys_Role { Id = x }))
+                      d => d.Roles, s => s.RoleIds.NullOrEmpty() ? Array.Empty<Sys_Role>() : s.RoleIds.Select(x => new Sys_Role { Id = x }))
                   .Map( //
-                      d => d.Users
-                    , s => s.UserIds.NullOrEmpty()
-                          ? Array.Empty<Sys_User>()
-                          : s.UserIds.Select(x => new Sys_User { Id = x }))
+                      d => d.Users, s => s.UserIds.NullOrEmpty() ? Array.Empty<Sys_User>() : s.UserIds.Select(x => new Sys_User { Id = x }))
                   .Map( //
-                      d => d.Depts
-                    , s => s.DeptIds.NullOrEmpty()
-                          ? Array.Empty<Sys_Dept>()
-                          : s.DeptIds.Select(x => new Sys_Dept { Id = x }))
+                      d => d.Depts, s => s.DeptIds.NullOrEmpty() ? Array.Empty<Sys_Dept>() : s.DeptIds.Select(x => new Sys_Dept { Id = x }))
 
             //
             ;

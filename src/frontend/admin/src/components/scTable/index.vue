@@ -25,7 +25,8 @@
                 @filter-change="filterChange"
                 @row-contextmenu="rowContextmenu"
                 @sort-change="sortChange"
-                ref="scTable">
+                ref="scTable"
+                tooltip-effect="light">
                 <slot></slot>
                 <template v-for="(item, index) in userColumn" :key="index">
                     <el-table-column
@@ -181,12 +182,8 @@
                 :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('非其一')"></sc-contextmenu-item>
         </sc-contextmenu-item>
-        <sc-contextmenu-item
-            v-if="contextOpers.includes('view')"
-            :title="$t('查看')"
-            command="view"
-            divided
-            icon="el-icon-view"></sc-contextmenu-item>
+        <sc-contextmenu-item :title="$t('复制')" command="copy" divided icon="el-icon-copy-document"></sc-contextmenu-item>
+        <sc-contextmenu-item v-if="contextOpers.includes('view')" :title="$t('查看')" command="view" icon="el-icon-view"></sc-contextmenu-item>
         <sc-contextmenu-item v-if="contextOpers.includes('edit')" :title="$t('编辑')" command="edit" icon="el-icon-edit"></sc-contextmenu-item>
         <sc-contextmenu-item v-if="contextOpers.includes('del')" :title="$t('删除')" command="del" icon="el-icon-delete"></sc-contextmenu-item>
         <sc-contextmenu-item
@@ -222,7 +219,7 @@ export default {
     props: {
         vue: { type: Object },
         contextMenus: { type: Array },
-        contextOpers: { type: Array, default: ['view', 'edit', 'del'] },
+        contextOpers: { type: Array, default: ['copy', 'view', 'edit', 'del'] },
         contextAdvs: { type: Array, default: [] },
         tableName: { type: String, default: '' },
         beforePost: {
@@ -352,10 +349,28 @@ export default {
     methods: {
         async contextMenuCommand(command) {
             if (typeof command === 'object') {
-                return command.action()
+                return command.action(this.vue, this.current.row)
             }
             if (command === 'refresh') {
                 this.vue.reload()
+                return
+            }
+            if (command === 'copy') {
+                let data = this.current.row[this.current.column.property]
+
+                const textarea = document.createElement('textarea')
+                textarea.readOnly = 'readonly'
+                textarea.style.position = 'absolute'
+                textarea.style.left = '-9999px'
+                textarea.value = data
+                document.body.appendChild(textarea)
+                textarea.select()
+                textarea.setSelectionRange(0, textarea.value.length)
+                const result = document.execCommand('Copy')
+                if (result) {
+                    this.$message.success(this.$t('复制成功'))
+                }
+                document.body.removeChild(textarea)
                 return
             }
             if (command === 'view') {

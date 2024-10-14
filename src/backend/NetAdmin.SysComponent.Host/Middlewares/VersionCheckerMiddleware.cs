@@ -31,19 +31,16 @@ public sealed class VersionCheckerMiddleware(RequestDelegate next)
     {
         var buffer = new byte[1024];
         while (webSocket.State == WebSocketState.Open) {
-            var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None)
-                                               .ConfigureAwait(false);
+            var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None).ConfigureAwait(false);
             if (receiveResult.MessageType != WebSocketMessageType.Text) {
                 continue;
             }
 
             var ver = await App.GetService<IToolsCache>().GetVersionAsync().ConfigureAwait(false);
-            await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(ver)), WebSocketMessageType.Text
-                                    , true, CancellationToken.None)
+            await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(ver)), WebSocketMessageType.Text, true, CancellationToken.None)
                            .ConfigureAwait(false);
         }
 
-        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None)
-                       .ConfigureAwait(false);
+        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None).ConfigureAwait(false);
     }
 }

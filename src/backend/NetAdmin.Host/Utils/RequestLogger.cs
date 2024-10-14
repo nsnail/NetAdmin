@@ -17,15 +17,14 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
     /// <summary>
     ///     生成审计数据
     /// </summary>
-    public async Task<CreateRequestLogReq> LogAsync(HttpContext context,   long duration, string responseBody
-                                                  , ErrorCodes  errorCode, IExceptionHandlerFeature exception)
+    public async Task<CreateRequestLogReq> LogAsync(HttpContext              context, long duration, string responseBody, ErrorCodes errorCode
+                                                  , IExceptionHandlerFeature exception)
     {
         // 从请求头中读取用户信息
         var associatedUser = GetAssociatedUser(context);
         var id             = YitIdHelper.NextId();
         var requestBody = Array.Exists( //
-            _textContentTypes
-          , x => context.Request.ContentType?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false)
+            _textContentTypes, x => context.Request.ContentType?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false)
             ? await context.ReadBodyContentAsync().ConfigureAwait(false)
             : string.Empty;
         var apiId = context.Request.Path.Value!.TrimStart('/');

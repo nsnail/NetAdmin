@@ -8,8 +8,7 @@ public static class HttpResponseMessageExtensions
     /// <summary>
     ///     记录日志
     /// </summary>
-    public static async Task LogAsync<T>(this HttpResponseMessage me, ILogger<T> logger
-                                       , Func<string, string>     bodyPreHandle = null)
+    public static async Task LogAsync<T>(this HttpResponseMessage me, ILogger<T> logger, Func<string, string> bodyPreHandle = null)
     {
         logger.Info($"HTTP Response {await me.BuildJsonAsync(bodyPreHandle).ConfigureAwait(false)}");
     }
@@ -30,10 +29,7 @@ public static class HttpResponseMessageExtensions
         this HttpResponseMessage me, Func<string, string> bodyHandle = null)
     {
         var body = me?.Content is null ? null : await me.Content!.ReadAsStringAsync().ConfigureAwait(false);
-        return new {
-                       Header        = me?.ToString()
-                     , RequestHeader = me?.RequestMessage?.Headers
-                     , Body          = bodyHandle is null ? body : bodyHandle(body)
-                   }.Json();
+        return new { Header = me?.ToString(), RequestHeader = me?.RequestMessage?.Headers, Body = bodyHandle is null ? body : bodyHandle(body) }
+            .Json();
     }
 }

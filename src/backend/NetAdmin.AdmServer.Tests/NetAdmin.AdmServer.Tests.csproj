@@ -4,6 +4,6 @@
         <ProjectReference Include="../NetAdmin.AdmServer.Host/NetAdmin.AdmServer.Host.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1"/>
     </ItemGroup>
 </Project>

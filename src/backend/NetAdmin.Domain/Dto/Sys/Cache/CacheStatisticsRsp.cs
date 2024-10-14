@@ -6,13 +6,13 @@ namespace NetAdmin.Domain.Dto.Sys.Cache;
 public sealed record CacheStatisticsRsp : DataAbstraction
 {
     private static readonly Regex[] _regexes = [
-        new Regex(@"keyspace_hits:(\d+)",      RegexOptions.Compiled) //
-      , new Regex(@"keyspace_misses:(\d+)",    RegexOptions.Compiled) //
-      , new Regex(@"uptime_in_seconds:(\d+)",  RegexOptions.Compiled) //
-      , new Regex(@"used_cpu_sys:([\d\\.]+)",  RegexOptions.Compiled) //
-      , new Regex(@"used_cpu_user:([\d\\.]+)", RegexOptions.Compiled) //
-      , new Regex(@"used_memory:(\d+)",        RegexOptions.Compiled) //
-      , new Regex("redis_version:(.+)",        RegexOptions.Compiled) //
+        new(@"keyspace_hits:(\d+)", RegexOptions.Compiled)      //
+      , new(@"keyspace_misses:(\d+)", RegexOptions.Compiled)    //
+      , new(@"uptime_in_seconds:(\d+)", RegexOptions.Compiled)  //
+      , new(@"used_cpu_sys:([\d\\.]+)", RegexOptions.Compiled)  //
+      , new(@"used_cpu_user:([\d\\.]+)", RegexOptions.Compiled) //
+      , new(@"used_memory:(\d+)", RegexOptions.Compiled)        //
+      , new("redis_version:(.+)", RegexOptions.Compiled)        //
     ];
 
     /// <summary>
@@ -25,13 +25,12 @@ public sealed record CacheStatisticsRsp : DataAbstraction
     /// </summary>
     public CacheStatisticsRsp(string redisResult)
     {
-        KeyspaceHits   = _regexes[0].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
+        KeyspaceHits = _regexes[0].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
         KeyspaceMisses = _regexes[1].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
-        UpTime         = _regexes[2].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
-        UsedCpu = _regexes[3].Match(redisResult).Groups[1].Value.Trim().DecTry(0) +
-                  _regexes[4].Match(redisResult).Groups[1].Value.Trim().DecTry(0);
+        UpTime = _regexes[2].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
+        UsedCpu = _regexes[3].Match(redisResult).Groups[1].Value.Trim().DecTry(0) + _regexes[4].Match(redisResult).Groups[1].Value.Trim().DecTry(0);
         UsedMemory = _regexes[5].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
-        Version    = _regexes[6].Match(redisResult).Groups[1].Value.Trim();
+        Version = _regexes[6].Match(redisResult).Groups[1].Value.Trim();
     }
 
     /// <summary>

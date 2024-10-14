@@ -10,8 +10,8 @@ public sealed record VerifyCodeCreatedEvent : DataAbstraction, IEventSourceGener
     /// <summary>
     ///     Initializes a new instance of the <see cref="VerifyCodeCreatedEvent" /> class.
     /// </summary>
-    public VerifyCodeCreatedEvent(QueryVerifyCodeRsp data, DateTime createdTime = default, bool isConsumOnce = false
-                                , object             payload = default, CancellationToken cancellationToken = default)
+    public VerifyCodeCreatedEvent(QueryVerifyCodeRsp data, DateTime createdTime = default, bool isConsumOnce = false, object payload = default
+                                , CancellationToken  cancellationToken = default)
     {
         Data              = data;
         CancellationToken = cancellationToken;

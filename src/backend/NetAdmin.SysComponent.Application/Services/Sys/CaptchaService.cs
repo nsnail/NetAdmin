@@ -21,17 +21,13 @@ public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaServi
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
         var (backgroundImage, sliderImage, offsetSaw) = await CaptchaImageHelper.CreateSawSliderImageAsync(
-                _entryAsm, $"{_entryAsmName}.Assets.Captcha.background", $"{_entryAsmName}.Assets.Captcha.template"
-              , (1, 101), (1, 7), new Size(50, 50))
-            .ConfigureAwait(false);
+                                                                                    _entryAsm, $"{_entryAsmName}.Assets.Captcha.background"
+                                                                                  , $"{_entryAsmName}.Assets.Captcha.template", (1, 101), (1, 7)
+                                                                                  , new Size(50, 50))
+                                                                                .ConfigureAwait(false);
 
         var id = $"{nameof(GetCaptchaImageAsync)}_{YitIdHelper.NextId()}";
-        return new GetCaptchaRsp {
-                                     Id              = id
-                                   , BackgroundImage = backgroundImage
-                                   , SliderImage     = sliderImage
-                                   , SawOffsetX      = offsetSaw.X
-                                 };
+        return new GetCaptchaRsp { Id = id, BackgroundImage = backgroundImage, SliderImage = sliderImage, SawOffsetX = offsetSaw.X };
     }
 
     /// <inheritdoc />

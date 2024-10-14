@@ -7,7 +7,7 @@
                     <img class="logo" src="@/assets/img/logo.png" />
                     <div>
                         <p>{{ $CONFIG.APP_NAME }}</p>
-                        <p class="version">{{ version }}</p>
+                        <p class="version color-secondary">{{ version }}</p>
                     </div>
                 </div>
                 <ul v-if="!ismobile" class="nav">
@@ -334,6 +334,5 @@ export default {
 .version {
     font-size: var(--el-font-size-small);
     font-weight: var(--el-font-weight-primary);
-    color: var(--el-text-color-secondary);
 }
 </style>

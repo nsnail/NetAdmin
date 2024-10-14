@@ -6,6 +6,17 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
+     * Aes解密
+     */
+    aesDecode: {
+        url: `${config.API_URL}/api/sys/tools/aes.decode`,
+        name: `Aes解密`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 执行SQL语句
      */
     executeSql: {
@@ -57,17 +68,6 @@ export default {
         name: `获取版本信息`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 系统停机
-     */
-    shutdown: {
-        url: `${config.API_URL}/api/sys/tools/shutdown`,
-        name: `系统停机`,
-        get: async function (data = {}, config = {}) {
-            return await http.get(this.url, data, config)
         },
     },
 }

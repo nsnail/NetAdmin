@@ -152,8 +152,7 @@ public class JobTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(
-        QueryReq<QueryJobRecordReq> req)
+    public async Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);

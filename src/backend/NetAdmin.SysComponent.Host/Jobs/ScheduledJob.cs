@@ -18,21 +18,14 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
 {
     private static   string                _accessToken;
     private static   string                _refreshToken;
-    private readonly IJobRecordService     _jobRecordService;
-    private readonly IJobService           _jobService;
     private readonly ILogger<ScheduledJob> _logger;
-    private readonly IUserService          _userService;
-    private          string                _requestHeader;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="ScheduledJob" /> class.
     /// </summary>
     public ScheduledJob()
     {
-        _jobRecordService = ServiceProvider.GetService<IJobRecordService>();
-        _jobService       = ServiceProvider.GetService<IJobService>();
-        _logger           = ServiceProvider.GetService<ILogger<ScheduledJob>>();
-        _userService      = ServiceProvider.GetService<IUserService>();
+        _logger = ServiceProvider.GetService<ILogger<ScheduledJob>>();
     }
 
     /// <summary>
@@ -48,7 +41,9 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
             return;
         }
 
-        await WorkflowAsync(stoppingToken).ConfigureAwait(false);
+        // ReSharper disable once MethodSupportsCancellation
+        await Parallel.ForAsync(0, Numbers.SCHEDULED_JOB_PARALLEL_NUM, async (_, _) => await WorkflowAsync(stoppingToken).ConfigureAwait(false))
+                      .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -58,9 +53,15 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
     /// <exception cref="ArgumentOutOfRangeException">ArgumentOutOfRangeException</exception>
     protected override async ValueTask WorkflowAsync(CancellationToken cancelToken)
     {
-        QueryJobRsp job = null;
+        QueryJobRsp     job               = null;
+        await using var scope             = ServiceProvider.CreateAsyncScope();
+        var             jobService        = scope.ServiceProvider.GetService<IJobService>();
+        var             jobRecordService  = scope.ServiceProvider.GetService<IJobRecordService>();
+        var             userService       = scope.ServiceProvider.GetService<IUserService>();
+        var             unitOfWorkManager = scope.ServiceProvider.GetService<UnitOfWorkManager>();
+
         try {
-            job = await _jobService.GetNextJobAsync().ConfigureAwait(false);
+            job = await jobService.GetNextJobAsync().ConfigureAwait(false);
         }
         catch (DbUpdateVersionException) {
             // ignore
@@ -87,7 +88,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         sw.Start();
         var rsp = await request.SendAsync(CancellationToken.None).ConfigureAwait(false);
         if (rsp.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden) {
-            var loginRsp = await _userService.LoginByUserIdAsync(job.UserId).ConfigureAwait(false);
+            var loginRsp = await userService.LoginByUserIdAsync(job.UserId).ConfigureAwait(false);
             #pragma warning disable S2696
             _accessToken  = loginRsp.AccessToken;
             _refreshToken = loginRsp.RefreshToken;
@@ -97,31 +98,32 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         }
 
         sw.Stop();
-        await UowManager.AtomicOperateAsync(async () => {
-                            var rspBody = await rsp.Content.ReadAsStringAsync(CancellationToken.None)
+
+        await unitOfWorkManager.AtomicOperateAsync(async () => {
+                                   var rspBody = await rsp.Content.ReadAsStringAsync(CancellationToken.None).ConfigureAwait(false);
+                                   var jobRecord = new CreateJobRecordReq //
+                                                   {
+                                                       Duration       = sw.ElapsedMilliseconds
+                                                     , HttpMethod     = job.HttpMethod
+                                                     , HttpStatusCode = (int)rsp.StatusCode
+                                                     , JobId          = job.Id
+                                                     , RequestBody    = job.RequestBody
+                                                     , RequestHeader  = rsp!.RequestMessage!.Headers.Json()
+                                                     , RequestUrl     = job.RequestUrl
+                                                     , ResponseBody   = rspBody
+                                                     , ResponseHeader = rsp.Headers.Json()
+                                                     , TimeId         = job.NextTimeId!.Value
+                                                   };
+
+                                   _ = await jobRecordService.CreateAsync(jobRecord).ConfigureAwait(false);
+                                   await jobService.FinishJobAsync(job.Adapt<FinishJobReq>() with //
+                                                                   {
+                                                                       LastStatusCode = rsp.StatusCode //
+                                                                     , LastDuration = jobRecord.Duration
+                                                                   })
                                                    .ConfigureAwait(false);
-                            var jobRecord = new CreateJobRecordReq //
-                                            {
-                                                Duration       = sw.ElapsedMilliseconds
-                                              , HttpMethod     = job.HttpMethod
-                                              , HttpStatusCode = (int)rsp.StatusCode
-                                              , JobId          = job.Id
-                                              , RequestBody    = job.RequestBody
-                                              , RequestHeader  = _requestHeader
-                                              , RequestUrl     = job.RequestUrl
-                                              , ResponseBody   = rspBody
-                                              , ResponseHeader = rsp.Headers.Json()
-                                              , TimeId         = job.NextTimeId!.Value
-                                            };
-                            _ = await _jobRecordService.CreateAsync(jobRecord).ConfigureAwait(false);
-                            await _jobService
-                                  .FinishJobAsync(job.Adapt<FinishJobReq>() with {
-                                                      LastStatusCode = rsp.StatusCode
-                                                    , LastDuration = jobRecord.Duration
-                                                  })
-                                  .ConfigureAwait(false);
-                        })
-                        .ConfigureAwait(false);
+                               })
+                               .ConfigureAwait(false);
     }
 
     private HttpRequestPart BuildRequest(QueryJobRsp job)
@@ -136,29 +138,18 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
 
         if (!_refreshToken.NullOrEmpty()) {
             headers.Add( //
-                Chars.FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN_HEADER_KEY
-              , $"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} {_refreshToken}");
+                Chars.FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN_HEADER_KEY, $"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} {_refreshToken}");
         }
 
         if (!job.RequestHeader.NullOrEmpty()) {
-            ret = ret.SetHeaders(headers.Union(job.RequestHeader.Object<Dictionary<string, string>>())
-                                        .ToDictionary(x => x.Key, x => x.Value));
+            // ReSharper disable once UsageOfDefaultStructEquality
+            ret = ret.SetHeaders(headers.Union(job.RequestHeader.Object<Dictionary<string, string>>()).ToDictionary(x => x.Key, x => x.Value));
         }
 
         if (!job.RequestBody.NullOrEmpty()) {
             ret = ret.SetBody(job.RequestBody);
         }
 
-        return ret.SetLog(_logger).OnResponsing(GetRequestHeader).OnException(GetRequestHeader);
-    }
-
-    private void GetRequestHeader(HttpClient _, HttpResponseMessage rsp, string __)
-    {
-        _requestHeader = rsp!.RequestMessage!.Headers.Json();
-    }
-
-    private void GetRequestHeader(HttpClient _, HttpResponseMessage rsp)
-    {
-        GetRequestHeader(_, rsp, null);
+        return ret.SetLog(_logger);
     }
 }

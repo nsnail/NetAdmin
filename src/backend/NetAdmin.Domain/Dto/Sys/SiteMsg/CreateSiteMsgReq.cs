@@ -20,8 +20,7 @@ public record CreateSiteMsgReq : Sys_SiteMsg
     public IReadOnlyCollection<long> DeptIds { get; init; }
 
     /// <inheritdoc cref="Sys_SiteMsg.MsgType" />
-    [EnumDataType(typeof(SiteMsgTypes), ErrorMessageResourceType = typeof(Ln)
-                , ErrorMessageResourceName = nameof(Ln.站内信类型不正确))]
+    [EnumDataType(typeof(SiteMsgTypes), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.站内信类型不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override SiteMsgTypes MsgType { get; init; }
 

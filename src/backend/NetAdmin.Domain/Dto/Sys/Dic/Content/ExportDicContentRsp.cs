@@ -12,10 +12,22 @@ public sealed record ExportDicContentRsp : QueryDicContentRsp
     public override DateTime CreatedTime { get; init; }
 
     /// <inheritdoc />
+    [CsvIndex(3)]
+    [CsvIgnore(false)]
+    [CsvName(nameof(Ln.是否启用))]
+    public override bool Enabled { get; init; }
+
+    /// <inheritdoc />
     [CsvIndex(0)]
     [CsvIgnore(false)]
     [CsvName(nameof(Ln.项名))]
     public override string Key { get; init; }
+
+    /// <inheritdoc />
+    [CsvIndex(4)]
+    [CsvIgnore(false)]
+    [CsvName(nameof(Ln.备注))]
+    public override string Summary { get; init; }
 
     /// <inheritdoc />
     [CsvIndex(1)]

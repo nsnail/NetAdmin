@@ -1,5 +1,5 @@
 <template>
-    <el-card :header="$t('访问分布(Today)')" shadow="never" style="height: 25rem">
+    <el-card :header="$t('流量分布(Today)')" shadow="never" style="height: 25rem">
         <chart-pie
             :api="[
                 {
@@ -29,9 +29,9 @@ export default {
             return tool
         },
     },
-    title: '访问分布(Today)',
+    title: '流量分布(Today)',
     icon: 'el-icon-data-line',
-    description: '访问分布(Today)',
+    description: '流量分布(Today)',
     components: {
         ChartPie,
     },

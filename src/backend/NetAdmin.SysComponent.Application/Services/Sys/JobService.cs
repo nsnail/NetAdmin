@@ -112,11 +112,9 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                                                                      }
                                            ]
                                        };
-        var job
-            = await QueryInternal(
-                        new QueryReq<QueryJobReq> { Count = 1, Filter = req, DynamicFilter = df, Order = Orders.None })
-                    .ToOneAsync()
-                    .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException(Ln.未获取到待执行任务);
+        var job = await QueryInternal(new QueryReq<QueryJobReq> { Count = 1, Filter = req, DynamicFilter = df, Order = Orders.None })
+                        .ToOneAsync()
+                        .ConfigureAwait(false) ?? throw new NetAdminInvalidOperationException(Ln.未获取到待执行任务);
 
         var nextExecTime = GetNextExecTime(Chars.FLG_CRON_PER_SECS);
         try {
@@ -160,16 +158,9 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     {
         req.ThrowIfInvalid();
         var nextExecTime = GetNextExecTime(req.ExecutionCron);
-        _ = await UpdateAsync(
-                req with {
-                             Status = JobStatues.Idle
-                           , NextExecTime = nextExecTime
-                           , NextTimeId = nextExecTime?.TimeUnixUtc()
-                         }
-              , [
-                    nameof(req.Status), nameof(req.NextExecTime), nameof(req.NextTimeId), nameof(req.LastDuration)
-                  , nameof(req.LastStatusCode)
-                ])
+        _ = await UpdateAsync( //
+                req with { Status = JobStatues.Idle, NextExecTime = nextExecTime, NextTimeId = nextExecTime?.TimeUnixUtc() }
+              , [nameof(req.Status), nameof(req.NextExecTime), nameof(req.NextTimeId), nameof(req.LastDuration), nameof(req.LastStatusCode)])
             .ConfigureAwait(false);
     }
 
@@ -177,9 +168,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     public async Task<QueryJobRsp> GetAsync(QueryJobReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryJobReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryJobReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryJobRsp>();
     }
 
@@ -209,10 +198,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                         #if DBTYPE_SQLSERVER
                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
                         #endif
-                        .Where(a => !Rpo.Orm.Select<Sys_JobRecord>()
-                                        .As("b")
-                                        .Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId)
-                                        .Any())
+                        .Where(a => !Rpo.Orm.Select<Sys_JobRecord>().As("b").Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId).Any())
                         .ToOneAsync(a => new {
                                                  a.RequestUrl
                                                , a.HttpMethod
@@ -317,16 +303,13 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     {
         var ret1 = await UpdateAsync( // 运行中，运行时间超过超时设定；置为空闲状态
                 new Sys_Job { Status = JobStatues.Idle }, [nameof(Sys_Job.Status)], null
-              ,                                           a => a.Status == JobStatues.Running &&
-                                                               a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB)
-              , null, true)
+              , a => a.Status == JobStatues.Running && a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB), null, true)
             .ConfigureAwait(false);
 
         var ret2 = await UpdateAsync( // 空闲中，下次执行时间在当前时间减去超时时间以前；将下次执行时间调整到现在
                 new Sys_Job { NextExecTime = DateTime.Now, NextTimeId = DateTime.Now.TimeUnixUtc() }
-              , [nameof(Sys_Job.NextExecTime), nameof(Sys_Job.NextTimeId)], null
-              , a => a.Status == JobStatues.Idle && a.NextExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB)
-              , null, true)
+              , [nameof(Sys_Job.NextExecTime), nameof(Sys_Job.NextTimeId)],                                              null
+              , a => a.Status == JobStatues.Idle && a.NextExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB), null, true)
             .ConfigureAwait(false);
         return ret1 + ret2;
     }
@@ -340,9 +323,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
 
     private static DateTime? GetNextExecTime(string cron)
     {
-        return CronExpression.Parse(cron, CronFormat.IncludeSeconds)
-                             .GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Local)
-                             ?.ToLocalTime();
+        return CronExpression.Parse(cron, CronFormat.IncludeSeconds).GetNextOccurrence(DateTime.UtcNow, TimeZoneInfo.Local)?.ToLocalTime();
     }
 
     private ISelect<Sys_Job> QueryInternal(QueryReq<QueryJobReq> req)
@@ -360,8 +341,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
         ret = ret.WhereDynamicFilter(req.DynamicFilter)
                  .WhereDynamic(req.Filter)
                  .WhereIf( //
-                     req.Keywords?.Length > 0
-                   , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords));
+                     req.Keywords?.Length > 0, a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

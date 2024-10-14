@@ -99,8 +99,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
                                                          }.Json()
                                                           .Object<JsonElement>()
                                        };
-        var ret = await QueryInternal(
-                            new QueryReq<QueryRequestLogReq> { Filter = req, DynamicFilter = df, Order = Orders.None })
+        var ret = await QueryInternal(new QueryReq<QueryRequestLogReq> { Filter = req, DynamicFilter = df, Order = Orders.None })
                         .Include(a => a.Detail)
                         .ToOneAsync()
                         .ConfigureAwait(false);
@@ -116,16 +115,10 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
                         #if DBTYPE_SQLSERVER
                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
                         #endif
-                        .GroupBy(a => new {
-                                              a.CreatedTime.Year
-                                            , a.CreatedTime.Month
-                                            , a.CreatedTime.Day
-                                            , a.CreatedTime.Hour
-                                          })
+                        .GroupBy(a => new { a.CreatedTime.Year, a.CreatedTime.Month, a.CreatedTime.Day, a.CreatedTime.Hour })
                         .ToListAsync(a => new GetBarChartRsp {
-                                                                 Timestamp = new DateTime(
-                                                                     a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0
-                                                                   , 0, DateTimeKind.Unspecified)
+                                                                 Timestamp = new DateTime(a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0, 0
+                                                                                        , DateTimeKind.Unspecified)
                                                                , Value = a.Count()
                                                              })
                         .ConfigureAwait(false);
@@ -159,8 +152,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key.ToString() })
                         #pragma warning restore CA1305
                         .ConfigureAwait(false);
-        return ret.Select(x => x with { Key = Enum.Parse<HttpStatusCode>(x.Key).ToString() })
-                  .OrderByDescending(x => x.Value);
+        return ret.Select(x => x with { Key = Enum.Parse<HttpStatusCode>(x.Key).ToString() }).OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
@@ -189,8 +181,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
                                   .ToListAsync(a => a.temp)
                                   .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryRequestLogRsp>(req.Page, req.PageSize, total
-                                                   , ret.Adapt<IEnumerable<QueryRequestLogRsp>>());
+        return new PagedQueryRsp<QueryRequestLogRsp>(req.Page, req.PageSize, total, ret.Adapt<IEnumerable<QueryRequestLogRsp>>());
     }
 
     /// <inheritdoc />

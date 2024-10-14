@@ -17,26 +17,20 @@ public static class IMvcBuilderExtensions
     public static IMvcBuilder AddDefaultApiResultHandler(this IMvcBuilder me)
     {
         return me.AddInjectWithUnifyResult<DefaultApiResultHandler>(injectOptions => {
-            injectOptions.ConfigureSwaggerGen(
-                genOptions => {
-                    // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
-                    genOptions
-                        .SchemaFilter<
-                            SwaggerEnumSchemaFixer>();
+            injectOptions.ConfigureSwaggerGen(genOptions => {
+                // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
+                genOptions.SchemaFilter<SwaggerEnumSchemaFixer>();
 
-                    // 将程序集版本号与OpenApi版本号同步
-                    foreach (var doc in genOptions
-                                        .SwaggerGeneratorOptions
-                                        .SwaggerDocs) {
-                        doc.Value.Version
-                            = FileVersionInfo
-                              .GetVersionInfo(
-                                  Assembly
-                                      .GetEntryAssembly()!
-                                      .Location)
-                              .ProductVersion;
-                    }
-                });
+                // 枚举显示自身xml comment 而不是$ref原型引用
+                genOptions.UseInlineDefinitionsForEnums();
+
+                // 将程序集版本号与OpenApi版本号同步
+                foreach (var doc in genOptions.SwaggerGeneratorOptions.SwaggerDocs) {
+                    doc.Value.Version = FileVersionInfo
+                                        .GetVersionInfo(Assembly.GetEntryAssembly()!.Location)
+                                        .ProductVersion;
+                }
+            });
         });
     }
 

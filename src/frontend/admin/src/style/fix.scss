@@ -307,3 +307,8 @@
 .el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell {
     --el-table-row-hover-bg-color: #fffaf0;
 }
+
+.el-popper {
+    max-width: 90%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

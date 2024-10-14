@@ -13,8 +13,7 @@ public sealed class TransactionInterceptor(UnitOfWorkManager uowManager) : IAsyn
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         // 跳过没有事务特性标记的方法
-        if (context.HttpContext.GetControllerActionDescriptor().MethodInfo.GetCustomAttribute<TransactionAttribute>() ==
-            null) {
+        if (context.HttpContext.GetControllerActionDescriptor().MethodInfo.GetCustomAttribute<TransactionAttribute>() == null) {
             _ = await next().ConfigureAwait(false);
             return;
         }

@@ -17,8 +17,7 @@ public sealed class XmlCommentReader : ISingleton
     public XmlCommentReader(IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettings)
     {
         var xmlComments = specificationDocumentSettings.Value.XmlComments //
-                          ?? App.GetConfig<SpecificationDocumentSettingsOptions>(
-                                    nameof(SpecificationDocumentSettingsOptions).TrimSuffixOptions())
+                          ?? App.GetConfig<SpecificationDocumentSettingsOptions>(nameof(SpecificationDocumentSettingsOptions).TrimSuffixOptions())
                                 .XmlComments;
         foreach (var commentFile in xmlComments.Where(x => x.Contains(nameof(NetAdmin)))) {
             var xmlDoc      = new XmlDocument();
@@ -40,9 +39,7 @@ public sealed class XmlCommentReader : ISingleton
     public string GetComments(MemberInfo memberInfo)
     {
         var node = memberInfo switch {
-                       MethodInfo method => GetNodeByMethod(method)
-                     , Type type         => GetNodeByType(type)
-                     , _                 => throw new InvalidCastException()
+                       MethodInfo method => GetNodeByMethod(method), Type type => GetNodeByType(type), _ => throw new InvalidCastException()
                    };
 
         if (node?.FirstChild?.Name != "inheritdoc") {
@@ -60,9 +57,7 @@ public sealed class XmlCommentReader : ISingleton
             return GetComments(methodFromBaseType);
         }
 
-        var methodFromInterface = memberInfo.DeclaringType?.GetInterfaces()
-                                            .Select(x => x.GetMethod(memberInfo.Name))
-                                            .FirstOrDefault(x => x != null);
+        var methodFromInterface = memberInfo.DeclaringType?.GetInterfaces().Select(x => x.GetMethod(memberInfo.Name)).FirstOrDefault(x => x != null);
         return methodFromInterface == null ? null : GetComments(methodFromInterface);
     }
 
@@ -82,9 +77,7 @@ public sealed class XmlCommentReader : ISingleton
 
         static string Replace(ParameterInfo parameterInfo)
         {
-            return _regex.Replace(parameterInfo.ParameterType.ToString(), string.Empty)
-                         .Replace("[", "{")
-                         .Replace("]", "}");
+            return _regex.Replace(parameterInfo.ParameterType.ToString(), string.Empty).Replace("[", "{").Replace("]", "}");
         }
     }
 

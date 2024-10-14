@@ -11,6 +11,7 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     缓存服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class CacheController(ICacheCache cache) : ControllerBase<ICacheCache, ICacheService>(cache), ICacheModule
 {
     /// <summary>

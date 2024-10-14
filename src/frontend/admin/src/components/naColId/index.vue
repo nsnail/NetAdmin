@@ -2,7 +2,7 @@
     <el-table-column v-bind="$attrs">
         <template #default="{ row }">
             <p>{{ row.id }}</p>
-            <p v-if="showTime" class="time">{{ row.createdTime }}</p>
+            <p v-if="showTime" class="color-secondary">{{ row.createdTime }}</p>
             <slot :data="row"></slot>
         </template>
     </el-table-column>
@@ -26,8 +26,4 @@ export default {
     methods: {},
 }
 </script>
-<style scoped>
-.time {
-    color: var(--el-text-color-secondary);
-}
-</style>
+<style scoped></style>

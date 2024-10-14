@@ -81,9 +81,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryVerifyCodeReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryVerifyCodeRsp>();
     }
 
@@ -100,8 +98,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryVerifyCodeRsp>(req.Page, req.PageSize, total
-                                                   , list.Adapt<IEnumerable<QueryVerifyCodeRsp>>());
+        return new PagedQueryRsp<QueryVerifyCodeRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryVerifyCodeRsp>>());
     }
 
     /// <inheritdoc />
@@ -134,8 +131,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
         #endif
 
         if (lastSent != null && lastSent.Status != VerifyCodeStatues.Verified) { // 上次发送未验证，生成相同code
-            ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = lastSent.Code })
-                .ConfigureAwait(false);
+            ret = await CreateAsync(req.Adapt<CreateVerifyCodeReq>() with { Code = lastSent.Code }).ConfigureAwait(false);
         }
         else { // 生成新的code
             var code = _randRange.Rand().ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
@@ -171,8 +167,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
             return false;
         }
 
-        _ = await UpdateAsync(lastSent with { Status = VerifyCodeStatues.Verified }, [nameof(lastSent.Status)])
-            .ConfigureAwait(false);
+        _ = await UpdateAsync(lastSent with { Status = VerifyCodeStatues.Verified }, [nameof(lastSent.Status)]).ConfigureAwait(false);
 
         return true;
     }
@@ -180,13 +175,11 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     private Task<Sys_VerifyCode> GetLastSentAsync(string destDevice)
     {
         return QueryInternal(new QueryReq<QueryVerifyCodeReq> {
-                                                                  DynamicFilter
-                                                                      = new DynamicFilterInfo {
-                                                                            Field = nameof(
-                                                                                Sys_VerifyCode.DestDevice)
-                                                                          , Operator = DynamicFilterOperators.Eq
-                                                                          , Value    = destDevice
-                                                                        }
+                                                                  DynamicFilter = new DynamicFilterInfo {
+                                                                                      Field    = nameof(Sys_VerifyCode.DestDevice)
+                                                                                    , Operator = DynamicFilterOperators.Eq
+                                                                                    , Value    = destDevice
+                                                                                  }
                                                               })
             #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)

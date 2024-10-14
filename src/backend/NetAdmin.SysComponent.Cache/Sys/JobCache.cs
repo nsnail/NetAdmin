@@ -9,8 +9,7 @@ using NetAdmin.SysComponent.Cache.Sys.Dependency;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IJobCache" />
-public sealed class JobCache(IDistributedCache cache, IJobService service)
-    : DistributedCache<IJobService>(cache, service), IScoped, IJobCache
+public sealed class JobCache(IDistributedCache cache, IJobService service) : DistributedCache<IJobService>(cache, service), IScoped, IJobCache
 {
     /// <inheritdoc />
     public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)

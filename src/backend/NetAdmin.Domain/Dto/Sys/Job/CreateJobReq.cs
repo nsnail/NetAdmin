@@ -19,8 +19,7 @@ public record CreateJobReq : Sys_Job
     public override string ExecutionCron { get; init; }
 
     /// <inheritdoc cref="Sys_Job.HttpMethod" />
-    [EnumDataType(typeof(HttpMethods), ErrorMessageResourceType = typeof(Ln)
-                , ErrorMessageResourceName = nameof(Ln.请求方法不正确))]
+    [EnumDataType(typeof(HttpMethods), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.请求方法不正确))]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override HttpMethods HttpMethod { get; init; }
 

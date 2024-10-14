@@ -1,5 +1,14 @@
 <template>
     <el-container>
+        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+            <el-row :gutter="15">
+                <el-col :lg="24">
+                    <el-card shadow="never">
+                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
         <el-header style="height: auto; padding: 0 1rem">
             <sc-select-filter
                 :data="[
@@ -32,6 +41,9 @@
                     :vue="this"
                     @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
                     @search="onSearch"
+                    dateFormat="YYYY-MM-DD HH:mm:ss"
+                    dateType="datetimerange"
+                    dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
@@ -44,6 +56,7 @@
                 :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_sitemsg.export"
+                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_sitemsg.pagedQuery"
                 :vue="this"
@@ -119,6 +132,7 @@ export default {
     created() {},
     data() {
         return {
+            total: '...',
             dialog: {},
             loading: false,
             query: {
@@ -133,6 +147,10 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async getStatistics() {
+            const res = await this.$API.sys_sitemsg.count.post(this.query)
+            this.total = res.data
+        },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
@@ -148,7 +166,7 @@ export default {
             }
             this.$refs.table.refresh()
         },
-        onSearch(form) {
+        async onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
@@ -166,9 +184,10 @@ export default {
             }
 
             this.$refs.table.upData()
+            await this.getStatistics()
         },
     },
-    mounted() {
+    async mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
             this.$refs.search.keeps.push({
@@ -177,6 +196,7 @@ export default {
                 type: 'root',
             })
         }
+        await this.getStatistics()
     },
     props: ['keywords'],
     watch: {},

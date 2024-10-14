@@ -15,10 +15,7 @@ public sealed class UserAgentParser
                                                                            , { "Opera.*?Version", "Opera" }
                                                                            , { "Opera", "Opera" }
                                                                            , { "MSIE", "Internet Explorer" }
-                                                                           , {
-                                                                                 "Internet Explorer"
-                                                                               , "Internet Explorer"
-                                                                             }
+                                                                           , { "Internet Explorer", "Internet Explorer" }
                                                                            , { "Trident.* rv", "Internet Explorer" }
                                                                            , { "Shiira", "Shiira" }
                                                                            , { "Firefox", "Firefox" }
@@ -73,10 +70,7 @@ public sealed class UserAgentParser
                                                                           , { "benq", "BenQ" }
                                                                           , { "ipaq", "HP iPaq" }
                                                                           , { "mot-", "Motorola" }
-                                                                          , {
-                                                                                "playstation portable"
-                                                                              , "PlayStation Portable"
-                                                                            }
+                                                                          , { "playstation portable", "PlayStation Portable" }
                                                                           , { "playstation 3", "PlayStation 3" }
                                                                           , { "playstation vita", "PlayStation Vita" }
                                                                           , { "hiptop", "Danger Hiptop" }
@@ -195,16 +189,10 @@ public sealed class UserAgentParser
                                                                          , { "infoseek", "InfoSeek Robot 1.0" }
                                                                          , { "lycos", "Lycos" }
                                                                          , { "yandex", "YandexBot" }
-                                                                         , {
-                                                                               "mediapartners-google"
-                                                                             , "MediaPartners Google"
-                                                                           }
+                                                                         , { "mediapartners-google", "MediaPartners Google" }
                                                                          , { "CRAZYWEBCRAWLER", "Crazy Webcrawler" }
                                                                          , { "adsbot-google", "AdsBot Google" }
-                                                                         , {
-                                                                               "feedfetcher-google"
-                                                                             , "Feedfetcher Google"
-                                                                           }
+                                                                         , { "feedfetcher-google", "Feedfetcher Google" }
                                                                          , { "curious george", "Curious George" }
                                                                          , { "ia_archiver", "Alexa Crawler" }
                                                                          , { "MJ12bot", "Majestic-12" }
@@ -316,8 +304,7 @@ public sealed class UserAgentParser
     private bool SetPlatform()
     {
         var kv = _platforms.FirstOrDefault(x => //
-                                               Regex.IsMatch(_agent, $"{Regex.Escape(x.Key)}"
-                                                           , RegexOptions.IgnoreCase));
+                                               Regex.IsMatch(_agent, $"{Regex.Escape(x.Key)}", RegexOptions.IgnoreCase));
 
         if (kv.Key == null) {
             Platform = "Unknown Platform";

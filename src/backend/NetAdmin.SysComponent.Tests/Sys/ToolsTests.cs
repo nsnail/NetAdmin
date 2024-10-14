@@ -20,6 +20,18 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public string AesDecode(AesDecodeReq req)
+    {
+        #pragma warning disable xUnit1031
+        var rsp = PostJsonAsync(typeof(ToolsController), req).Result;
+        #pragma warning restore xUnit1031
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public async Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
     {
         var rsp = await PostJsonAsync(typeof(ToolsController), req);

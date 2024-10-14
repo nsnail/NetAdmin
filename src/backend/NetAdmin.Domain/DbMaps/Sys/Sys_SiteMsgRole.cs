@@ -3,8 +3,7 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     站内信-角色映射表
 /// </summary>
-[SqlIndex($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(RoleId)}_{nameof(SiteMsgId)}", $"{nameof(RoleId)},{nameof(SiteMsgId)}"
-        , true)]
+[SqlIndex($"{Chars.FLG_DB_INDEX_PREFIX}{nameof(RoleId)}_{nameof(SiteMsgId)}", $"{nameof(RoleId)},{nameof(SiteMsgId)}", true)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_SiteMsgRole))]
 public record Sys_SiteMsgRole : ImmutableEntity
 {

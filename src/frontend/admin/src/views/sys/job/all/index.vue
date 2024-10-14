@@ -1,5 +1,19 @@
 <template>
     <el-container>
+        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+            <el-row :gutter="15">
+                <el-col :lg="12">
+                    <el-card shadow="never">
+                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+                <el-col :lg="12">
+                    <el-card shadow="never">
+                        <sc-statistic :value="running" group-separator title="运行"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
         <el-header style="height: auto; padding: 0 1rem">
             <sc-select-filter
                 :data="[
@@ -50,6 +64,9 @@
                     :vue="this"
                     @reset="onReset"
                     @search="onSearch"
+                    dateFormat="YYYY-MM-DD HH:mm:ss"
+                    dateType="datetimerange"
+                    dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
@@ -97,6 +114,7 @@
                 ]"
                 :default-sort="{ prop: 'lastExecTime', order: 'descending' }"
                 :export-api="$API.sys_job.export"
+                :on-command="this.getStatistics"
                 :page-size="100"
                 :params="query"
                 :query-api="$API.sys_job.pagedQuery"
@@ -143,7 +161,7 @@
                     sortable="custom"
                     width="150" />
                 <el-table-column :label="$t('上次执行')" align="center">
-                    <el-table-column :label="$t('状态')" align="center" prop="lastExecTime" sortable="custom" width="100">
+                    <el-table-column :label="$t('状态')" align="center" prop="lastStatusCode" sortable="custom" width="100">
                         <template #default="{ row }">
                             <na-indicator
                                 :data="row"
@@ -234,6 +252,8 @@ export default {
     created() {},
     data() {
         return {
+            total: '...',
+            running: '...',
             dialog: {},
             loading: false,
             query: {
@@ -255,6 +275,17 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async getStatistics() {
+            const runningFilter = JSON.parse(JSON.stringify(this.query))
+            runningFilter.dynamicFilter.filters.push({
+                field: 'status',
+                operator: 'eq',
+                value: 'running',
+            })
+            const res = await Promise.all([this.$API.sys_job.count.post(this.query), this.$API.sys_job.count.post(runningFilter)])
+            this.total = res[0].data
+            this.running = res[1].data
+        },
         async copyJob(row) {
             let loading = this.$loading()
             try {
@@ -350,12 +381,12 @@ export default {
             this.$refs.selectFilter.selected['enabled'] = [true]
         },
         //搜索
-        onSearch(form) {
+        async onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
                     operator: 'dateRange',
-                    value: form.dy.createdTime,
+                    value: form.dy.createdTime.map((x) => x.replace(/ 00:00:00$/, '')),
                 })
             }
 
@@ -383,9 +414,10 @@ export default {
                 })
             }
             this.$refs.table.upData()
+            await this.getStatistics()
         },
     },
-    mounted() {
+    async mounted() {
         if (this.keywords || this.$route.query.keywords) {
             this.$refs.search.form.root.keywords = this.keywords || this.$route.query.keywords
             this.$refs.search.keeps.push({
@@ -394,12 +426,15 @@ export default {
                 type: 'root',
             })
         }
+
+        this.$refs.search.form.dy.enabled = true
         this.$refs.search.keeps.push({
             field: 'enabled',
             value: true,
             type: 'dy',
         })
         this.onReset()
+        await this.getStatistics()
     },
     props: ['keywords'],
     watch: {},

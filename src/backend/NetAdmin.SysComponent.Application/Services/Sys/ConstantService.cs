@@ -26,19 +26,13 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
         var httpStatusCodes = Enum.GetNames<HttpStatusCode>().ToDictionary(x => x, GetHttpStatusCodeDicValue);
         httpStatusCodes.Add( //
             nameof(ErrorCodes.Unhandled)
-          , [
-                Numbers.HTTP_STATUS_BIZ_FAIL.ToInvString(), nameof(ErrorCodes.Unhandled)
-              , nameof(Indicates.Danger).ToLowerInvariant()
-            ]);
+          , [Numbers.HTTP_STATUS_BIZ_FAIL.ToInvString(), nameof(ErrorCodes.Unhandled), nameof(Indicates.Danger).ToLowerInvariant()]);
         ret.Add($"{nameof(HttpStatusCode)}s", httpStatusCodes);
         return ret;
 
         static string[] GetDicValue(Enum y)
         {
-            var ret = new[] {
-                                Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture)
-                              , y.ResDesc<Ln>()
-                            };
+            var ret      = new[] { Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture), y.ResDesc<Ln>() };
             var indicate = y.GetAttributeOfType<IndicatorAttribute>()?.Indicate.ToLowerInvariant();
             return indicate.NullOrEmpty() ? ret : [..ret, indicate];
         }
@@ -48,11 +42,8 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
             var codeInt = Convert.ToInt64(Enum.Parse<HttpStatusCode>(name), CultureInfo.InvariantCulture);
             return [
                 codeInt.ToString(CultureInfo.InvariantCulture), name
-              , (codeInt switch {
-                     >= 200 and < 300 => nameof(Indicates.Success)
-                   , < 400            => nameof(Indicates.Warning)
-                   , _                => nameof(Indicates.Danger)
-                 }).ToLowerInvariant()
+              , (codeInt switch { >= 200 and < 300 => nameof(Indicates.Success), < 400 => nameof(Indicates.Warning), _ => nameof(Indicates.Danger) })
+                .ToLowerInvariant()
             ];
         }
     }

@@ -20,10 +20,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         try {
             return new string[][] { [
                                           Chars.FLG_FRONT_APP_SET_HOME_GRID
-                                        , new {
-                                                  content  = roles.MaxBy(x => x.Key).Value.ToObject<object>()
-                                                , datetime = 0
-                                              }.ToJson()
+                                        , new { content = roles.MaxBy(x => x.Key).Value.ToObject<object>(), datetime = 0 }.ToJson()
                                       ]
                                   }.ToJson();
         }
@@ -100,9 +97,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryUserProfileRsp>();
     }
 
@@ -138,8 +133,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                                                                    NationArea = x.b.Adapt<QueryDicContentRsp>()
                                                                  , CompanyArea = x.c.Adapt<QueryDicContentRsp>()
                                                                  , HomeArea = x.d.Adapt<QueryDicContentRsp>()
-                                                                 , EmergencyContactArea
-                                                                   = x.e.Adapt<QueryDicContentRsp>()
+                                                                 , EmergencyContactArea = x.e.Adapt<QueryDicContentRsp>()
                                                                }));
     }
 
@@ -161,22 +155,11 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                                                             })
                         .ConfigureAwait(false);
         return ret.ConvertAll(x => x.a.Adapt<QueryUserProfileRsp>() with {
-                                                                             NationArea
-                                                                             = x.b.Key == null
-                                                                                 ? null
-                                                                                 : x.b.Adapt<QueryDicContentRsp>()
-                                                                           , CompanyArea
-                                                                             = x.c.Key == null
-                                                                                 ? null
-                                                                                 : x.c.Adapt<QueryDicContentRsp>()
-                                                                           , HomeArea
-                                                                             = x.d.Key == null
-                                                                                 ? null
-                                                                                 : x.d.Adapt<QueryDicContentRsp>()
+                                                                             NationArea = x.b.Key  == null ? null : x.b.Adapt<QueryDicContentRsp>()
+                                                                           , CompanyArea = x.c.Key == null ? null : x.c.Adapt<QueryDicContentRsp>()
+                                                                           , HomeArea = x.d.Key    == null ? null : x.d.Adapt<QueryDicContentRsp>()
                                                                            , EmergencyContactArea
-                                                                             = x.e.Key == null
-                                                                                 ? null
-                                                                                 : x.e.Adapt<QueryDicContentRsp>()
+                                                                             = x.e.Key == null ? null : x.e.Adapt<QueryDicContentRsp>()
                                                                          });
     }
 
@@ -187,27 +170,20 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
 
         // 默认仪表版
         if (req.AppConfig == "[]") {
-            req.AppConfig = BuildAppConfig(App.GetService<ContextUserInfo>()
-                                              .Roles.ToDictionary(x => x.Id, x => x.DashboardLayout));
+            req.AppConfig = BuildAppConfig(App.GetService<ContextUserInfo>().Roles.ToDictionary(x => x.Id, x => x.DashboardLayout));
         }
 
         return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id, null, true);
     }
 
-    private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(
-        QueryReq<QueryUserProfileReq> req)
+    private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(QueryReq<QueryUserProfileReq> req)
     {
         #pragma warning disable CA1305,IDE0072
         var ret = Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()
-                     .LeftJoin((a, b, _, __, ___) =>
-                                   a.NationArea.ToString() == b.Value && b.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
-                     .LeftJoin((a, _, c, __, ___) =>
-                                   a.CompanyArea.ToString() == c.Value &&
-                                   c.CatalogId              == Numbers.ID_DIC_CATALOG_GEO_AREA)
-                     .LeftJoin((a, _, __, d, ___) =>
-                                   a.HomeArea.ToString() == d.Value && d.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
-                     .LeftJoin((a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value &&
-                                                     e.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, b, _,  __,  ___) => a.NationArea.ToString()         == b.Value && b.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, c,  __,  ___) => a.CompanyArea.ToString()        == c.Value && c.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, __, d,   ___) => a.HomeArea.ToString()           == d.Value && d.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value && e.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
                      .WhereDynamicFilter(req.DynamicFilter);
 
         return req.Order switch {

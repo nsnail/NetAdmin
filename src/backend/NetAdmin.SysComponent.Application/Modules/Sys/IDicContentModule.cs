@@ -10,4 +10,10 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 public interface IDicContentModule : ICrudModule<CreateDicContentReq, QueryDicContentRsp // 创建类型
   , QueryDicContentReq, QueryDicContentRsp                                               // 查询类型
   , DelReq                                                                               // 删除类型
->;
+>
+{
+    /// <summary>
+    ///     启用/禁用字典内容
+    /// </summary>
+    Task<int> SetEnabledAsync(SetDicContentEnabledReq req);
+}

@@ -136,4 +136,11 @@ public sealed class DicService(IDicCatalogService catalogService, IDicContentSer
         req.ThrowIfInvalid();
         return contentService.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
+    {
+        req.ThrowIfInvalid();
+        return contentService.SetEnabledAsync(req);
+    }
 }

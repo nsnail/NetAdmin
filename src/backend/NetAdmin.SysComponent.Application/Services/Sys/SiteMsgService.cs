@@ -11,10 +11,7 @@ using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ISiteMsgService" />
-public sealed class SiteMsgService(
-    BasicRepository<Sys_SiteMsg, long> rpo
-  , ContextUserInfo                    contextUserInfo
-  , ISiteMsgFlagService                siteMsgFlagService) //
+public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, ContextUserInfo contextUserInfo, ISiteMsgFlagService siteMsgFlagService) //
     : RepositoryService<Sys_SiteMsg, long, ISiteMsgService>(rpo), ISiteMsgService
 {
     /// <inheritdoc />
@@ -61,8 +58,7 @@ public sealed class SiteMsgService(
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
 
-        var ret = await QueryAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = dbSiteMsg.Id } })
-            .ConfigureAwait(false);
+        var ret = await QueryAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = dbSiteMsg.Id } }).ConfigureAwait(false);
 
         return ret.Adapt<QuerySiteMsgRsp>();
     }
@@ -94,8 +90,7 @@ public sealed class SiteMsgService(
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Depts)).ConfigureAwait(false);
 
-        return (await QueryAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.Id } })
-            .ConfigureAwait(false)).First();
+        return (await QueryAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.Id } }).ConfigureAwait(false)).First();
     }
 
     /// <inheritdoc />
@@ -135,12 +130,11 @@ public sealed class SiteMsgService(
         req.ThrowIfInvalid();
         var ret = await PagedQueryMineAsync(
                 new PagedQueryReq<QuerySiteMsgReq> {
-                                                       DynamicFilter
-                                                           = new DynamicFilterInfo {
-                                                                 Field    = nameof(req.Id)
-                                                               , Value    = req.Id
-                                                               , Operator = DynamicFilterOperators.Eq
-                                                             }
+                                                       DynamicFilter = new DynamicFilterInfo {
+                                                                                                 Field    = nameof(req.Id)
+                                                                                               , Value    = req.Id
+                                                                                               , Operator = DynamicFilterOperators.Eq
+                                                                                             }
                                                    }, true)
             .ConfigureAwait(false);
         return ret.Rows.FirstOrDefault();
@@ -167,8 +161,7 @@ public sealed class SiteMsgService(
                                                })
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total
-                                                , list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
+        return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
     }
 
     /// <inheritdoc />
@@ -196,8 +189,7 @@ public sealed class SiteMsgService(
     public async Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
         req.ThrowIfInvalid();
-        if (!await ExistAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.SiteMsgId } })
-                .ConfigureAwait(false)) {
+        if (!await ExistAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.SiteMsgId } }).ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.站内信不存在);
         }
 
@@ -205,8 +197,7 @@ public sealed class SiteMsgService(
             _ = await siteMsgFlagService.CreateAsync(req with { UserId = contextUserInfo.Id }).ConfigureAwait(false);
         }
         catch {
-            await siteMsgFlagService.SetUserSiteMsgStatusAsync(req with { UserId = contextUserInfo.Id })
-                                    .ConfigureAwait(false);
+            await siteMsgFlagService.SetUserSiteMsgStatusAsync(req with { UserId = contextUserInfo.Id }).ConfigureAwait(false);
         }
     }
 
@@ -215,8 +206,7 @@ public sealed class SiteMsgService(
     {
         // 减去标记已读的数量
         var subtract = await Rpo.Orm.Select<Sys_SiteMsgFlag>()
-                                .Where(a => a.UserId            == contextUserInfo.Id &&
-                                            a.UserSiteMsgStatus == UserSiteMsgStatues.Read)
+                                .Where(a => a.UserId == contextUserInfo.Id && a.UserSiteMsgStatus == UserSiteMsgStatues.Read)
                                 .CountAsync()
                                 .ConfigureAwait(false);
 
@@ -227,10 +217,7 @@ public sealed class SiteMsgService(
     {
         // 检查角色是否存在
         if (!req.RoleIds.NullOrEmpty()) {
-            var roles = await Rpo.Orm.Select<Sys_Role>()
-                                 .Where(a => req.RoleIds.Contains(a.Id))
-                                 .ToListAsync(a => a.Id)
-                                 .ConfigureAwait(false);
+            var roles = await Rpo.Orm.Select<Sys_Role>().Where(a => req.RoleIds.Contains(a.Id)).ToListAsync(a => a.Id).ConfigureAwait(false);
             if (roles.Count != req.RoleIds.Count) {
                 throw new NetAdminInvalidOperationException(Ln.角色不存在);
             }
@@ -238,10 +225,7 @@ public sealed class SiteMsgService(
 
         if (!req.DeptIds.NullOrEmpty()) {
             // 检查部门是否存在
-            var depts = await Rpo.Orm.Select<Sys_Dept>()
-                                 .Where(a => req.DeptIds.Contains(a.Id))
-                                 .ToListAsync(a => a.Id)
-                                 .ConfigureAwait(false);
+            var depts = await Rpo.Orm.Select<Sys_Dept>().Where(a => req.DeptIds.Contains(a.Id)).ToListAsync(a => a.Id).ConfigureAwait(false);
             if (depts.Count != req.DeptIds.Count) {
                 throw new NetAdminInvalidOperationException(Ln.部门不存在);
             }
@@ -249,47 +233,37 @@ public sealed class SiteMsgService(
 
         if (!req.UserIds.NullOrEmpty()) {
             // 检查用户是否存在
-            var users = await Rpo.Orm.Select<Sys_User>()
-                                 .Where(a => req.UserIds.Contains(a.Id))
-                                 .ToListAsync(a => a.Id)
-                                 .ConfigureAwait(false);
+            var users = await Rpo.Orm.Select<Sys_User>().Where(a => req.UserIds.Contains(a.Id)).ToListAsync(a => a.Id).ConfigureAwait(false);
             if (users.Count != req.UserIds.Count) {
                 throw new NetAdminInvalidOperationException(Ln.用户不存在);
             }
         }
     }
 
-    private async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(
-        PagedQueryReq<QuerySiteMsgReq> req, bool containsContent)
+    private async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req, bool containsContent)
     {
         var list = await QueryMineInternal(req)
                          .Page(req.Page, req.PageSize)
                          .Count(out var total)
                          .OrderByDescending(a => a.Max(a.Value.Item1.CreatedTime))
                          .ToListAsync(a => new QuerySiteMsgRsp {
-                                                                   Id      = a.Max(a.Value.Item1.Id)
-                                                                 , Title   = a.Max(a.Value.Item1.Title)
-                                                                 , Summary = a.Max(a.Value.Item1.Summary)
-                                                                 , Content
-                                                                       = containsContent
-                                                                           ? a.Max(a.Value.Item1.Content)
-                                                                           : null
+                                                                   Id          = a.Max(a.Value.Item1.Id)
+                                                                 , Title       = a.Max(a.Value.Item1.Title)
+                                                                 , Summary     = a.Max(a.Value.Item1.Summary)
+                                                                 , Content     = containsContent ? a.Max(a.Value.Item1.Content) : null
                                                                  , CreatedTime = a.Max(a.Value.Item1.CreatedTime)
                                                                  , MyFlags
                                                                        = new QuerySiteMsgFlagRsp {
-                                                                             UserSiteMsgStatus
-                                                                                 = a.Max(a.Value.Item6
-                                                                                     .UserSiteMsgStatus)
-                                                                         }
+                                                                                                     UserSiteMsgStatus
+                                                                                                         = a.Max(a.Value.Item6.UserSiteMsgStatus)
+                                                                                                 }
                                                                  , Sender = new QueryUserRsp {
-                                                                                UserName = a.Max(
-                                                                                    a.Value.Item2.UserName)
-                                                                              , Avatar = a.Max(a.Value.Item2.Avatar)
-                                                                            }
+                                                                                                 UserName = a.Max(a.Value.Item2.UserName)
+                                                                                               , Avatar   = a.Max(a.Value.Item2.Avatar)
+                                                                                             }
                                                                })
                          .ConfigureAwait(false);
-        return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total
-                                                , list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
+        return new PagedQueryRsp<QuerySiteMsgRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgRsp>>());
     }
 
     private ISelect<Sys_SiteMsg> QueryInternal(QueryReq<QuerySiteMsgReq> req)
@@ -299,8 +273,7 @@ public sealed class SiteMsgService(
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Id == req.Keywords.Int64Try(0) || a.Title.Contains(req.Keywords) ||
-                              a.Summary.Contains(req.Keywords));
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Title.Contains(req.Keywords) || a.Summary.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
@@ -319,27 +292,24 @@ public sealed class SiteMsgService(
     }
 
     private ISelectGrouping //
-        <long, NativeTuple<Sys_SiteMsg, Sys_User, Sys_SiteMsgDept, Sys_SiteMsgRole, Sys_SiteMsgUser, Sys_SiteMsgFlag>>
-        QueryMineInternal(QueryReq<QuerySiteMsgReq> req)
+        <long, NativeTuple<Sys_SiteMsg, Sys_User, Sys_SiteMsgDept, Sys_SiteMsgRole, Sys_SiteMsgUser, Sys_SiteMsgFlag>> QueryMineInternal(
+            QueryReq<QuerySiteMsgReq> req)
     {
         var roleIds = contextUserInfo.Roles.Select(x => x.Id).ToList();
 
-        return Rpo
-               .Orm.Select<Sys_SiteMsg, Sys_User, Sys_SiteMsgDept, Sys_SiteMsgRole, Sys_SiteMsgUser, Sys_SiteMsgFlag>()
-               #if DBTYPE_SQLSERVER
+        return Rpo.Orm.Select<Sys_SiteMsg, Sys_User, Sys_SiteMsgDept, Sys_SiteMsgRole, Sys_SiteMsgUser, Sys_SiteMsgFlag>()
+                  #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .LeftJoin((a, b, _, _, _, _) => a.CreatedUserId == b.Id)
-               .LeftJoin((a, _, c, _, _, _) => a.Id            == c.SiteMsgId)
-               .LeftJoin((a, _, _, d, _, _) => a.Id            == d.SiteMsgId)
-               .LeftJoin((a, _, _, _, e, _) => a.Id            == e.SiteMsgId)
-               .LeftJoin((a, _, _, _, _, f) => a.Id == f.SiteMsgId && f.UserId == contextUserInfo.Id)
-               .WhereDynamicFilter(req.DynamicFilter)
-               .Where((a, _, c, d, e, f) =>
-                          (SqlExt.EqualIsNull(f.UserSiteMsgStatus) ||
-                           f.UserSiteMsgStatus != UserSiteMsgStatues.Deleted) &&
-                          (a.MsgType == SiteMsgTypes.Public || c.DeptId == contextUserInfo.DeptId ||
-                           roleIds.Contains(d.RoleId)       || e.UserId == contextUserInfo.Id))
-               .GroupBy((a, _, _, _, _, _) => a.Id);
+                  #endif
+                  .LeftJoin((a, b, _, _, _, _) => a.CreatedUserId == b.Id)
+                  .LeftJoin((a, _, c, _, _, _) => a.Id            == c.SiteMsgId)
+                  .LeftJoin((a, _, _, d, _, _) => a.Id            == d.SiteMsgId)
+                  .LeftJoin((a, _, _, _, e, _) => a.Id            == e.SiteMsgId)
+                  .LeftJoin((a, _, _, _, _, f) => a.Id == f.SiteMsgId && f.UserId == contextUserInfo.Id)
+                  .WhereDynamicFilter(req.DynamicFilter)
+                  .Where((a, _, c, d, e, f) => (SqlExt.EqualIsNull(f.UserSiteMsgStatus) || f.UserSiteMsgStatus != UserSiteMsgStatues.Deleted) &&
+                                               (a.MsgType == SiteMsgTypes.Public || c.DeptId == contextUserInfo.DeptId ||
+                                                roleIds.Contains(d.RoleId)       || e.UserId == contextUserInfo.Id))
+                  .GroupBy((a, _, _, _, _, _) => a.Id);
     }
 }

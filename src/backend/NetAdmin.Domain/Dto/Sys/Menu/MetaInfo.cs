@@ -15,8 +15,7 @@ public sealed record MetaInfo : DataAbstraction
     /// <summary>
     ///     Initializes a new instance of the <see cref="MetaInfo" /> class.
     /// </summary>
-    public MetaInfo(string color, bool      fullPage, bool hidden, bool hiddenBreadCrumb, string icon, string tag
-                  , string title, MenuTypes type)
+    public MetaInfo(string color, bool fullPage, bool hidden, bool hiddenBreadCrumb, string icon, string tag, string title, MenuTypes type)
     {
         Color            = color;
         FullPage         = fullPage;
@@ -73,8 +72,7 @@ public sealed record MetaInfo : DataAbstraction
     /// <summary>
     ///     类型
     /// </summary>
-    [EnumDataType(typeof(MenuTypes), ErrorMessageResourceType = typeof(Ln)
-                , ErrorMessageResourceName = nameof(Ln.菜单类型不正确))]
+    [EnumDataType(typeof(MenuTypes), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.菜单类型不正确))]
     [JsonInclude]
     public MenuTypes Type { get; init; }
 }

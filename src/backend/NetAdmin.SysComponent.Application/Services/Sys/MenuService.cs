@@ -48,10 +48,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     {
         req.ThrowIfInvalid();
         var ret = await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
-        _ = await Rpo.Orm.Delete<Sys_RoleMenu>()
-                     .Where(a => a.MenuId == req.Id)
-                     .ExecuteAffrowsAsync()
-                     .ConfigureAwait(false);
+        _ = await Rpo.Orm.Delete<Sys_RoleMenu>().Where(a => a.MenuId == req.Id).ExecuteAffrowsAsync().ConfigureAwait(false);
         return ret;
     }
 
@@ -61,9 +58,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryMenuRsp>();
         #else
-        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
-            ? await GetAsync(new QueryMenuReq { Id = req.Id }).ConfigureAwait(false)
-            : null;
+        return await UpdateAsync(req, null).ConfigureAwait(false) > 0 ? await GetAsync(new QueryMenuReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }
 
@@ -88,9 +83,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryMenuReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryMenuRsp>();
     }
 
@@ -128,14 +121,10 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
         else {
             var ownedMenuIds = userInfo.Roles.SelectMany(x => x.MenuIds);
             if (ownedMenuIds.NullOrEmpty()) {
-                ownedMenuIds = new[] { 0L };
+                ownedMenuIds = [0L];
             }
 
-            var df = new DynamicFilterInfo {
-                                               Field    = nameof(QueryMenuReq.Id)
-                                             , Operator = DynamicFilterOperators.Any
-                                             , Value    = ownedMenuIds
-                                           };
+            var df = new DynamicFilterInfo { Field = nameof(QueryMenuReq.Id), Operator = DynamicFilterOperators.Any, Value = ownedMenuIds };
             ret = QueryAsync(req with { DynamicFilter = df });
         }
 

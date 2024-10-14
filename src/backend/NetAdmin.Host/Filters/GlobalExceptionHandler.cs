@@ -16,8 +16,7 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
         }
 
         // 将异常设置到HttpContext.Features中 以便中间件能获取到他
-        context.HttpContext.Features.Set<IExceptionHandlerFeature>(
-            new ExceptionHandlerFeature { Error = context.Exception });
+        context.HttpContext.Features.Set<IExceptionHandlerFeature>(new ExceptionHandlerFeature { Error = context.Exception });
 
         return Task.CompletedTask;
     }

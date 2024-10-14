@@ -73,9 +73,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public async Task<QueryJobRecordRsp> GetAsync(QueryJobRecordReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryJobRecordReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryJobRecordReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryJobRecordRsp>();
     }
 
@@ -88,16 +86,10 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
                         #if DBTYPE_SQLSERVER
                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
                         #endif
-                        .GroupBy(a => new {
-                                              a.CreatedTime.Year
-                                            , a.CreatedTime.Month
-                                            , a.CreatedTime.Day
-                                            , a.CreatedTime.Hour
-                                          })
+                        .GroupBy(a => new { a.CreatedTime.Year, a.CreatedTime.Month, a.CreatedTime.Day, a.CreatedTime.Hour })
                         .ToListAsync(a => new GetBarChartRsp {
-                                                                 Timestamp = new DateTime(
-                                                                     a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0
-                                                                   , 0, DateTimeKind.Unspecified)
+                                                                 Timestamp = new DateTime(a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0, 0
+                                                                                        , DateTimeKind.Unspecified)
                                                                , Value = a.Count()
                                                              })
                         .ConfigureAwait(false);
@@ -118,8 +110,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key.ToString() })
                         #pragma warning restore CA1305
                         .ConfigureAwait(false);
-        return ret.Select(x => x with { Key = Enum.Parse<HttpStatusCode>(x.Key).ToString() })
-                  .OrderByDescending(x => x.Value);
+        return ret.Select(x => x with { Key = Enum.Parse<HttpStatusCode>(x.Key).ToString() }).OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
@@ -150,8 +141,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryJobRecordRsp>(req.Page, req.PageSize, total
-                                                  , list.Adapt<IEnumerable<QueryJobRecordRsp>>());
+        return new PagedQueryRsp<QueryJobRecordRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryJobRecordRsp>>());
     }
 
     /// <inheritdoc />
@@ -175,8 +165,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.JobId       == req.Keywords.Int64Try(0) || a.Id == req.Keywords.Int64Try(0) ||
-                              a.Job.JobName == req.Keywords);
+                       , a => a.JobId == req.Keywords.Int64Try(0) || a.Id == req.Keywords.Int64Try(0) || a.Job.JobName == req.Keywords);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

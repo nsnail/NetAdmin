@@ -71,9 +71,7 @@ public sealed class SiteMsgDeptService(BasicRepository<Sys_SiteMsgDept, long> rp
     public async Task<QuerySiteMsgDeptRsp> GetAsync(QuerySiteMsgDeptReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgDeptReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgDeptReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgDeptRsp>();
     }
 
@@ -90,8 +88,7 @@ public sealed class SiteMsgDeptService(BasicRepository<Sys_SiteMsgDept, long> rp
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QuerySiteMsgDeptRsp>(req.Page, req.PageSize, total
-                                                    , list.Adapt<IEnumerable<QuerySiteMsgDeptRsp>>());
+        return new PagedQueryRsp<QuerySiteMsgDeptRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgDeptRsp>>());
     }
 
     /// <inheritdoc />

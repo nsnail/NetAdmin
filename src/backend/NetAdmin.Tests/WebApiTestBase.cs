@@ -22,14 +22,12 @@ public abstract class WebApiTestBase<T>(WebTestApplicationFactory<T> factory, IT
     /// <summary>
     ///     Post请求
     /// </summary>
-    protected async Task<HttpResponseMessage> PostAsync(Type                      type, HttpContent content
-                                                      , [CallerMemberName] string memberName = null)
+    protected async Task<HttpResponseMessage> PostAsync(Type type, HttpContent content, [CallerMemberName] string memberName = null)
     {
         var client = factory.CreateClient();
         await Authorization(client);
 
-        var ret = await client.PostAsync(type.GetMethod(memberName!).GetRoutePath(factory.Services), content)
-                              .ConfigureAwait(false);
+        var ret = await client.PostAsync(type.GetMethod(memberName!).GetRoutePath(factory.Services), content).ConfigureAwait(false);
         testOutputHelper.WriteLine(await ret.Content.ReadAsStringAsync().ConfigureAwait(false));
         return ret;
     }
@@ -37,8 +35,7 @@ public abstract class WebApiTestBase<T>(WebTestApplicationFactory<T> factory, IT
     /// <summary>
     ///     Post请求
     /// </summary>
-    protected async Task<HttpResponseMessage> PostJsonAsync<TRequest>(Type type, TRequest req = default
-                                                                    , [CallerMemberName] string memberName = null)
+    protected async Task<HttpResponseMessage> PostJsonAsync<TRequest>(Type type, TRequest req = default, [CallerMemberName] string memberName = null)
     {
         return await PostAsync(type, req == null ? JsonContent.Create(new { }) : JsonContent.Create(req), memberName);
     }
@@ -57,23 +54,19 @@ public abstract class WebApiTestBase<T>(WebTestApplicationFactory<T> factory, IT
             var req = new LoginByPwdReq //
                       {
                           Password
-                              = Environment.GetEnvironmentVariable(
-                                    nameof(WebTestApplicationFactory<T>.TEST_PASSWORD)) ??
+                              = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<T>.TEST_PASSWORD)) ??
                                 WebTestApplicationFactory<T>.TEST_PASSWORD
-                        , Account
-                              = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<T>.TEST_ACCOUNT)) ??
-                                WebTestApplicationFactory<T>.TEST_ACCOUNT
+                        , Account = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<T>.TEST_ACCOUNT)) ??
+                                    WebTestApplicationFactory<T>.TEST_ACCOUNT
                       };
             var loginAccount = JsonContent.Create(req);
             var rspMsg = await client.PostAsync( //
                                          Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD, loginAccount)
                                      .ConfigureAwait(false);
-            var rspObj = (await rspMsg.Content.ReadAsStringAsync().ConfigureAwait(false))
-                .ToObject<RestfulInfo<LoginRsp>>();
+            var rspObj = (await rspMsg.Content.ReadAsStringAsync().ConfigureAwait(false)).ToObject<RestfulInfo<LoginRsp>>();
             _accessToken = rspObj.Data.AccessToken;
         }
 
-        client.DefaultRequestHeaders.Authorization
-            = new AuthenticationHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA, _accessToken);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA, _accessToken);
     }
 }

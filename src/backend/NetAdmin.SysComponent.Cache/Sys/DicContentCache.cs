@@ -75,4 +75,10 @@ public sealed class DicContentCache(IDistributedCache cache, IDicContentService 
         return Service.QueryByCatalogCodeAsync(catalogCode);
         #endif
     }
+
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
+    {
+        return Service.SetEnabledAsync(req);
+    }
 }

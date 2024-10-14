@@ -71,9 +71,7 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
     public async Task<QuerySiteMsgRoleRsp> GetAsync(QuerySiteMsgRoleReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgRoleReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgRoleReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgRoleRsp>();
     }
 
@@ -90,8 +88,7 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QuerySiteMsgRoleRsp>(req.Page, req.PageSize, total
-                                                    , list.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>());
+        return new PagedQueryRsp<QuerySiteMsgRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>());
     }
 
     /// <inheritdoc />

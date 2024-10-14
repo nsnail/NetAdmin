@@ -13,8 +13,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     private static readonly string _clientProjectPath = Path.Combine( //
         Environment.CurrentDirectory, "../../frontend/admin");
 
-    private static readonly string[] _projectDirs
-        = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"));
+    private static readonly string[] _projectDirs = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"));
 
     private static readonly Regex _regex  = new(@"\.(\w)");
     private static readonly Regex _regex2 = new("([a-zA-Z]+):");
@@ -26,6 +25,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
 
         // 模块类型（Sys、Adm、等）
         var moduleType = Enum.GetName(req.Type)!;
+        var @namespace = req.Type.ToString();
 
         // 模板层目录
         var tplHostDir  = GetDir("SysComponent.Host");
@@ -51,57 +51,57 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         var entityDir = Path.Combine(dataDir, "DbMaps", moduleType[..3]);
 
         // 创建缺少的目录
-        CreateDir(hostControllerDir, cacheDir,                 cacheDependencyDir, appDir, appModulesDir, appServicesDir
-,                                    appServicesDependencyDir, dataDir,            dtoDir, entityDir);
+        CreateDir(hostControllerDir, cacheDir, cacheDependencyDir, appDir, appModulesDir, appServicesDir, appServicesDependencyDir, dataDir, dtoDir
+,                                    entityDir);
 
         // Controller
         await WriteCodeFileAsync(req, Path.Combine(tplHostDir,        "Controllers", "Tpl", "ExampleController.cs")
-                          ,           Path.Combine(hostControllerDir, $"{req.ModuleName}Controller.cs"))
+                          ,           Path.Combine(hostControllerDir, $"{req.ModuleName}Controller.cs"), @namespace)
             .ConfigureAwait(false);
 
         // CreateReq
         await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "CreateExampleReq.cs")
-                          ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"))
+                          ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"), @namespace)
             .ConfigureAwait(false);
 
         // QueryReq
         await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "QueryExampleReq.cs")
-                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"))
+                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"), @namespace)
             .ConfigureAwait(false);
 
         // QueryRsp
         await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "QueryExampleRsp.cs")
-                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"))
+                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"), @namespace)
             .ConfigureAwait(false);
 
         // ICache
         await WriteCodeFileAsync(req, Path.Combine(tplCacheDir,        "Tpl", "Dependency", "IExampleCache.cs")
-                          ,           Path.Combine(cacheDependencyDir, $"I{req.ModuleName}Cache.cs"))
+                          ,           Path.Combine(cacheDependencyDir, $"I{req.ModuleName}Cache.cs"), @namespace)
             .ConfigureAwait(false);
 
         // Cache
-        await WriteCodeFileAsync(req, Path.Combine(tplCacheDir, "Tpl", "ExampleCache.cs")
-                          ,           Path.Combine(cacheDir,    $"{req.ModuleName}Cache.cs"))
+        await WriteCodeFileAsync(req, Path.Combine(tplCacheDir, "Tpl", "ExampleCache.cs"), Path.Combine(cacheDir, $"{req.ModuleName}Cache.cs")
+                          ,           @namespace)
             .ConfigureAwait(false);
 
         // IModule
         await WriteCodeFileAsync(req, Path.Combine(tplAppDir,     "Modules", "Tpl", "IExampleModule.cs")
-                          ,           Path.Combine(appModulesDir, $"I{req.ModuleName}Module.cs"))
+                          ,           Path.Combine(appModulesDir, $"I{req.ModuleName}Module.cs"), @namespace)
             .ConfigureAwait(false);
 
         // IService
-        await WriteCodeFileAsync(req, Path.Combine(tplAppDir, "Services", "Tpl", "Dependency", "IExampleService.cs")
-                          ,           Path.Combine(appServicesDependencyDir, $"I{req.ModuleName}Service.cs"))
+        await WriteCodeFileAsync(req, Path.Combine(tplAppDir,                "Services", "Tpl", "Dependency", "IExampleService.cs")
+                          ,           Path.Combine(appServicesDependencyDir, $"I{req.ModuleName}Service.cs"), @namespace)
             .ConfigureAwait(false);
 
         // Service
         await WriteCodeFileAsync(req, Path.Combine(tplAppDir,      "Services", "Tpl", "ExampleService.cs")
-                          ,           Path.Combine(appServicesDir, $"{req.ModuleName}Service.cs"))
+                          ,           Path.Combine(appServicesDir, $"{req.ModuleName}Service.cs"), @namespace)
             .ConfigureAwait(false);
 
         // Entity
         await WriteCodeFileAsync(req, Path.Combine(dataDir,   "DbMaps", "Tpl", "Tpl_Example.cs")
-                          ,           Path.Combine(entityDir, $"{moduleType[..3]}_{req.ModuleName}.cs"))
+                          ,           Path.Combine(entityDir, $"{moduleType[..3]}_{req.ModuleName}.cs"), @namespace)
             .ConfigureAwait(false);
     }
 
@@ -109,13 +109,9 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     public async Task GenerateIconCodeAsync(GenerateIconCodeReq req)
     {
         req.ThrowIfInvalid();
-        var tplSvg = await File.ReadAllTextAsync(
-                                   Path.Combine(_clientProjectPath, "src", "assets", "icons", "tpl", "Svg.vue"))
-                               .ConfigureAwait(false);
-        var tplExport = await File
-                              .ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "assets", "icons", "tpl"
-                                                           , "export.js"))
-                              .ConfigureAwait(false);
+        var tplSvg = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "assets", "icons", "tpl", "Svg.vue")).ConfigureAwait(false);
+        var tplExport = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "assets", "icons", "tpl", "export.js"))
+                                  .ConfigureAwait(false);
 
         var vueContent = tplSvg.Replace("$svgCode$", req.SvgCode).Replace(_REPLACE_TO_EMPTY, string.Empty);
 
@@ -130,9 +126,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         var indexJsFile = Path.Combine(dir, "index.js");
 
         await File.AppendAllTextAsync(
-                      indexJsFile
-                    , Environment.NewLine +
-                      tplExport.Replace("$iconName$", req.IconName).Replace(_REPLACE_TO_EMPTY, string.Empty))
+                      indexJsFile, Environment.NewLine + tplExport.Replace("$iconName$", req.IconName).Replace(_REPLACE_TO_EMPTY, string.Empty))
                   .ConfigureAwait(false);
 
         // 修改iconSelect.js
@@ -152,10 +146,8 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     public async Task GenerateJsCodeAsync()
     {
         // 模板文件
-        var tplOuter = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "outer.js"))
-                                 .ConfigureAwait(false);
-        var tplInner = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "inner.js"))
-                                 .ConfigureAwait(false);
+        var tplOuter = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "outer.js")).ConfigureAwait(false);
+        var tplInner = await File.ReadAllTextAsync(Path.Combine(_clientProjectPath, "src", "api", "tpl", "inner.js")).ConfigureAwait(false);
 
         foreach (var item in apiService.ReflectionList(false)) {
             var dir = Path.Combine(_clientProjectPath, "src", "api", item.Namespace);
@@ -168,8 +160,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
             var content = tplOuter.Replace("$controllerDesc$", item.Summary)
                                   .Replace("$controllerPath$", item.Id)
                                   .Replace( //
-                                      "$inner$"
-                       , string.Join(Environment.NewLine + Environment.NewLine, Select(item)))
+                                      "$inner$",              string.Join(Environment.NewLine + Environment.NewLine, Select(item)))
                                   .Replace(_REPLACE_TO_EMPTY, string.Empty);
 
             await File.WriteAllTextAsync(file, content).ConfigureAwait(false);
@@ -180,9 +171,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         {
             return item.Children.Select(x => tplInner.Replace("$actionDesc$", x.Summary)
                                                      .Replace( //
-                                                         "$actionName$"
-                                                       , _regex.Replace(
-                                                             x.Name, y => y.Groups[1].Value.ToUpperInvariant()))
+                                                         "$actionName$",      _regex.Replace(x.Name, y => y.Groups[1].Value.ToUpperInvariant()))
                                                      .Replace("$actionPath$", x.Id)
                                                      .Replace( //
                                                          "$actionMethod$",       x.Method?.ToLowerInvariant())
@@ -204,13 +193,13 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         return _projectDirs.First(x => x.EndsWith(key, true, CultureInfo.InvariantCulture));
     }
 
-    private static async Task WriteCodeFileAsync(GenerateCsCodeReq req, string tplFile, string writeFile)
+    private static async Task WriteCodeFileAsync(GenerateCsCodeReq req, string tplFile, string writeFile, string @namespace = "SysComponent")
     {
         var tplContent = await File.ReadAllTextAsync(tplFile).ConfigureAwait(false);
         tplContent = tplContent.Replace("Tpl", Enum.GetName(req.Type)![..3])
                                .Replace("示例",                    req.ModuleRemark)
                                .Replace("Example",               req.ModuleName)
-                               .Replace("NetAdmin.SysComponent", "SysComponent");
+                               .Replace("NetAdmin.SysComponent", $"NetAdmin.{@namespace}");
 
         await File.WriteAllTextAsync(writeFile, tplContent).ConfigureAwait(false);
     }

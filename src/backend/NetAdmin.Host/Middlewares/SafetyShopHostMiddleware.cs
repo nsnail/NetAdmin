@@ -53,8 +53,8 @@ public sealed class SafetyShopHostMiddleware(RequestDelegate next)
     /// </summary>
     public async Task InvokeAsync(HttpContext context)
     {
-        if (Volatile.Read(ref _trafficOff) &&
-            !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_RPOBE}")) {
+        if (Volatile.Read(ref _trafficOff) && !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_RPOBE}") &&
+            !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_METRICS}")) {
             context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
             return;
         }

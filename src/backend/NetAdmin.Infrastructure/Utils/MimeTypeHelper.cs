@@ -1018,12 +1018,10 @@ public static class MimeTypeHelper
                                                   zmm application/vnd.handheld-entertainment+xml
                                                   """;
 
-    private static readonly Dictionary<string, string> _mimeTypeDic = _MIME_TYPES_RAW_STRING
-                                                                      .Split(
-                                                                          '\n', StringSplitOptions.RemoveEmptyEntries)
-                                                                      .ToDictionary(
-                                                                          x => x.Split(' ')[0].Trim()
-                                                                        , x => x.Split(' ')[1].Trim());
+    private static readonly Dictionary<string, string> _mimeTypeDic = _MIME_TYPES_RAW_STRING.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                                                                                            .ToDictionary( //
+                                                                                                x => x.Split(' ')[0].Trim()
+                                                                                              , x => x.Split(' ')[1].Trim());
 
     /// <summary>
     ///     通过扩展名获取MIME类型

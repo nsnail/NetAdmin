@@ -71,9 +71,7 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
     public async Task<QuerySiteMsgFlagRsp> GetAsync(QuerySiteMsgFlagReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QuerySiteMsgFlagReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QuerySiteMsgFlagReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QuerySiteMsgFlagRsp>();
     }
 
@@ -90,8 +88,7 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QuerySiteMsgFlagRsp>(req.Page, req.PageSize, total
-                                                    , list.Adapt<IEnumerable<QuerySiteMsgFlagRsp>>());
+        return new PagedQueryRsp<QuerySiteMsgFlagRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgFlagRsp>>());
     }
 
     /// <inheritdoc />
@@ -112,8 +109,7 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
     public Task SetUserSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
         req.ThrowIfInvalid();
-        return UpdateAsync(req, [nameof(req.UserSiteMsgStatus)], null
-                    ,           a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId);
+        return UpdateAsync(req, [nameof(req.UserSiteMsgStatus)], null, a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId);
     }
 
     private ISelect<Sys_SiteMsgFlag> QueryInternal(QueryReq<QuerySiteMsgFlagReq> req)

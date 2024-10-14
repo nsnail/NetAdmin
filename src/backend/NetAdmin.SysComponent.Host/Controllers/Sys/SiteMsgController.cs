@@ -13,8 +13,8 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     站内信服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
-public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISiteMsgCache, ISiteMsgService>(cache)
-                                                           , ISiteMsgModule
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
+public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISiteMsgCache, ISiteMsgService>(cache), ISiteMsgModule
 {
     /// <summary>
     ///     批量删除站内信

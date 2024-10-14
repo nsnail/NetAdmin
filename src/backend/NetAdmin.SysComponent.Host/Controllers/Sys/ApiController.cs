@@ -12,6 +12,7 @@ namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 ///     接口服务
 /// </summary>
 [ApiDescriptionSettings(nameof(Sys), Module = nameof(Sys))]
+[Produces(Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_JSON)]
 public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, IApiService>(cache), IApiModule
 {
     /// <summary>

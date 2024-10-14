@@ -74,9 +74,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDeptRsp>();
         #else
-        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
-            ? await GetAsync(new QueryDeptReq { Id = req.Id }).ConfigureAwait(false)
-            : null;
+        return await UpdateAsync(req, null).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDeptReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }
 
@@ -102,9 +100,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     public async Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryDeptReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDeptRsp>();
     }
 
@@ -145,8 +141,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
-                              a.Summary.Contains(req.Keywords));
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords));
         if (asTreeCte) {
             ret = ret.AsTreeCte();
         }

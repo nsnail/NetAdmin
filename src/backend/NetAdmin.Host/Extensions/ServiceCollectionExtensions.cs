@@ -90,8 +90,8 @@ public static class ServiceCollectionExtensions
         var sbLog = new StringBuilder();
         foreach (var type in optionsTypes) {
             var configureMethod = typeof(ConfigurableOptionsServiceCollectionExtensions).GetMethod(
-                nameof(ConfigurableOptionsServiceCollectionExtensions.AddConfigurableOptions)
-              , BindingFlags.Public | BindingFlags.Static, [typeof(IServiceCollection)]);
+                nameof(ConfigurableOptionsServiceCollectionExtensions.AddConfigurableOptions), BindingFlags.Public | BindingFlags.Static
+              , [typeof(IServiceCollection)]);
             _ = configureMethod!.MakeGenericMethod(type).Invoke(me, [me]);
             _ = sbLog.Append(CultureInfo.InvariantCulture, $" {type.Name}");
         }
@@ -146,36 +146,32 @@ public static class ServiceCollectionExtensions
     ///     添加 freeSql orm工具
     /// </summary>
     public static IServiceCollection AddFreeSql( //
-        this IServiceCollection me, FreeSqlInitMethods initMethods = FreeSqlInitMethods.None
-      , Action<IFreeSql>        freeSqlConfig = null)
+        this IServiceCollection me, FreeSqlInitMethods initMethods = FreeSqlInitMethods.None, Action<IFreeSql> freeSqlConfig = null)
     {
         // // 非调试模式下禁止同步数据库
         // #if !DEBUG
         // initOptions = FreeSqlInitOptions.None;
         // #endif
-        var freeSql = new FreeSqlBuilder(App.GetOptions<DatabaseOptions>()).Build(initMethods);
-        _ = me.AddSingleton(freeSql);
+        var dbOptions = App.GetOptions<DatabaseOptions>();
+        var fSql      = new FreeSqlBuilder(dbOptions).Build(initMethods);
+        _ = me.AddSingleton(fSql);
 
-        freeSql.Aop.AuditValue += SqlAuditor.DataAuditHandler; // Insert/Update自动值处理
+        fSql.Aop.AuditValue += SqlAuditor.DataAuditHandler; // Insert/Update自动值处理
         var eventPublisher = App.GetService<IEventPublisher>();
 
         #pragma warning disable VSTHRD110
 
         // AOP事件发布（异步）
-        freeSql.Aop.CommandBefore
-            += (_, e) => eventPublisher.PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
-        freeSql.Aop.CommandAfter
-            += (_, e) => eventPublisher.PublishAsync(new SqlCommandAfterEvent(e)); // 增删查改，执行命令完成后触发
+        fSql.Aop.CommandBefore += (_, e) => eventPublisher.PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
+        fSql.Aop.CommandAfter  += (_, e) => eventPublisher.PublishAsync(new SqlCommandAfterEvent(e));  // 增删查改，执行命令完成后触发
 
-        freeSql.Aop.SyncStructureBefore += (_, e) =>
-            eventPublisher.PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
+        fSql.Aop.SyncStructureBefore += (_, e) => eventPublisher.PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
 
-        freeSql.Aop.SyncStructureAfter += (_, e) =>
-            eventPublisher.PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
+        fSql.Aop.SyncStructureAfter += (_, e) => eventPublisher.PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
         #pragma warning restore VSTHRD110
 
         // 全局过滤器设置
-        freeSqlConfig?.Invoke(freeSql);
+        freeSqlConfig?.Invoke(fSql);
 
         return me.AddScoped<UnitOfWorkManager>()                    // 注入工作单元管理器
                  .AddFreeRepository(null, App.Assemblies.ToArray()) // 批量注入 Repository
@@ -209,8 +205,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddRedisCache(this IServiceCollection me)
     {
-        var redisOptions = App.GetOptions<RedisOptions>()
-                              .Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE);
+        var redisOptions = App.GetOptions<RedisOptions>().Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE);
 
         // IDistributedCache 分布式缓存通用接口
         _ = me.AddStackExchangeRedisCache(options => {

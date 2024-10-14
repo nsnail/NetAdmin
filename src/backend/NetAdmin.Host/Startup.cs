@@ -29,9 +29,7 @@ public abstract class Startup : AppStartup
     private static void ShowBanner()
     {
         AnsiConsole.WriteLine();
-        var gridInfo = new Grid().AddColumn(new GridColumn().NoWrap().Width(50).PadRight(10))
-                                 .AddColumn(new GridColumn().NoWrap())
-                                 .Expand();
+        var gridInfo = new Grid().AddColumn(new GridColumn().NoWrap().Width(50).PadRight(10)).AddColumn(new GridColumn().NoWrap()).Expand();
         foreach (var kv in ApplicationHelper.GetEnvironmentInfo().OrderBy(x => x.Key)) {
             _ = gridInfo.AddRow(kv.Key, kv.Value.ToString()!.EscapeMarkup());
         }

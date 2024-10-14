@@ -1,5 +1,14 @@
 <template>
     <el-container>
+        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+            <el-row :gutter="15">
+                <el-col :lg="24">
+                    <el-card shadow="never">
+                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
         <el-header style="height: auto; padding: 0 1rem">
             <sc-select-filter
                 v-if="showFilter"
@@ -45,6 +54,7 @@
                 :context-opers="['view']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_loginlog.export"
+                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_loginlog.pagedQuery"
                 :vue="this"
@@ -100,6 +110,7 @@ export default {
     created() {},
     data() {
         return {
+            total: '...',
             dialog: {
                 info: false,
             },
@@ -117,6 +128,10 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async getStatistics() {
+            const res = await this.$API.sys_loginlog.count.post(this.query)
+            this.total = res.data
+        },
         async dataChange(data) {
             this.apis = []
             const ips = data.data.rows?.map((x) => x.createdClientIp) ?? []
@@ -136,7 +151,7 @@ export default {
             Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
         },
         //搜索
-        onSearch(form) {
+        async onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
@@ -160,6 +175,7 @@ export default {
                 )
             }
             this.$refs.table.upData()
+            await this.getStatistics()
         },
 
         async rowClick(row) {
@@ -174,7 +190,7 @@ export default {
             )
         },
     },
-    mounted() {
+    async mounted() {
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
             this.$refs.search.keeps.push({
@@ -183,6 +199,7 @@ export default {
                 type: 'root',
             })
         }
+        await this.getStatistics()
     },
     props: { keywords: { type: String }, showFilter: { type: Boolean, default: true } },
     watch: {},

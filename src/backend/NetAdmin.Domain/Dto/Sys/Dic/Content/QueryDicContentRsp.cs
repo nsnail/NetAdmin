@@ -13,9 +13,17 @@ public record QueryDicContentRsp : Sys_DicContent
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
 
+    /// <inheritdoc cref="IFieldEnabled.Enabled" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool Enabled { get; init; }
+
     /// <inheritdoc cref="Sys_DicContent.Key" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Key { get; init; }
+
+    /// <inheritdoc cref="Sys_DicContent.Summary" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string Summary { get; init; }
 
     /// <inheritdoc cref="Sys_DicContent.Value" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

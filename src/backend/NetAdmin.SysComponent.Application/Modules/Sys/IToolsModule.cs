@@ -8,6 +8,11 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 public interface IToolsModule
 {
     /// <summary>
+    ///     Aes解密
+    /// </summary>
+    string AesDecode(AesDecodeReq req);
+
+    /// <summary>
     ///     执行SQL语句
     /// </summary>
     Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req);

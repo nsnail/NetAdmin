@@ -29,10 +29,14 @@ public sealed class SwaggerEnumSchemaFixer : ISchemaFilter
         foreach (var e in Enum.GetValues(context.Type).Cast<Enum>()) {
             var value = Convert.ToInt64(e, CultureInfo.InvariantCulture);
             schema.Enum.Add(new OpenApiLong(value));
+            var enumName = Enum.GetName(context.Type, e).ToLowerCamelCase();
+            if (enumName.Length <= 3) {
+                enumName = enumName.ToLowerInvariant();
+            }
+
             _ = sb.Append(wrap)
                   .Append( //
-                      CultureInfo.InvariantCulture
-                    , $"{Enum.GetName(context.Type, e).ToLowerCamelCase()} = {value} ({e.ResDesc<Ln>()})");
+                      CultureInfo.InvariantCulture, $"{enumName} = {value} ({e.ResDesc<Ln>()})");
         }
 
         schema.Description = sb.ToString();

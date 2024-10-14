@@ -20,19 +20,15 @@ public abstract class RedisService<TEntity, TPrimary, TLogger>(BasicRepository<T
     /// </summary>
     protected IDatabase RedisDatabase { get; } //
         = App.GetService<IConnectionMultiplexer>()
-             .GetDatabase(App.GetOptions<RedisOptions>()
-                             .Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE)
-                             .Database);
+             .GetDatabase(App.GetOptions<RedisOptions>().Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE).Database);
 
     /// <summary>
     ///     获取锁
     /// </summary>
     protected Task<RedisLocker> GetLockerAsync(string lockerName)
     {
-        return RedisLocker.GetLockerAsync(RedisDatabase, lockerName
-                                        , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY)
-                                        , Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK
-                                        , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
+        return RedisLocker.GetLockerAsync(RedisDatabase, lockerName, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY)
+                                        , Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
     }
 
     /// <summary>
@@ -40,8 +36,7 @@ public abstract class RedisService<TEntity, TPrimary, TLogger>(BasicRepository<T
     /// </summary>
     protected Task<RedisLocker> GetLockerOnceAsync(string lockerName)
     {
-        return RedisLocker.GetLockerAsync(RedisDatabase, lockerName
-                                        , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), 1
+        return RedisLocker.GetLockerAsync(RedisDatabase, lockerName, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), 1
                                         , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
     }
 }

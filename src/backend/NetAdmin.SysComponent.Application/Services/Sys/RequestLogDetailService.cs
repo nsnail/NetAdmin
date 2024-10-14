@@ -78,8 +78,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryRequestLogDetailRsp>> PagedQueryAsync(
-        PagedQueryReq<QueryRequestLogDetailReq> req)
+    public async Task<PagedQueryRsp<QueryRequestLogDetailRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogDetailReq> req)
     {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
@@ -91,8 +90,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
                          .ToListAsync()
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryRequestLogDetailRsp>(req.Page, req.PageSize, total
-                                                         , list.Adapt<IEnumerable<QueryRequestLogDetailRsp>>());
+        return new PagedQueryRsp<QueryRequestLogDetailRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryRequestLogDetailRsp>>());
     }
 
     /// <inheritdoc />

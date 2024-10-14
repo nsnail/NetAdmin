@@ -1,5 +1,7 @@
+#if !DEBUG && DBTYPE_SQLSERVER
+using System.Collections.Concurrent;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Domain.Events.Sys;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 
@@ -8,9 +10,7 @@ namespace NetAdmin.SysComponent.Host.Subscribers;
 /// </summary>
 public sealed class OperationLogger : IEventSubscriber
 {
-    #if !DEBUG && DBTYPE_SQLSERVER
     private static readonly ConcurrentQueue<CreateRequestLogReq> _requestLogs = new();
-    #endif
 
     /// <summary>
     ///     保存请求日志到数据库
@@ -22,19 +22,14 @@ public sealed class OperationLogger : IEventSubscriber
             return;
         }
 
-        #if DEBUG || !DBTYPE_SQLSERVER
-        _ = await App.GetService<IRequestLogService>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
-        #else
         if (_requestLogs.Count > Numbers.REQUEST_LOG_BUFF_SIZE) {
             await WriteToDbAsync().ConfigureAwait(false);
         }
         else {
             _requestLogs.Enqueue(operationEvent.Data);
         }
-        #endif
     }
 
-    #if !DEBUG && DBTYPE_SQLSERVER
     private static async Task WriteToDbAsync()
     {
         var inserts = new List<CreateRequestLogReq>(Numbers.REQUEST_LOG_BUFF_SIZE);
@@ -64,5 +59,29 @@ public sealed class OperationLogger : IEventSubscriber
                      .ConfigureAwait(false);
         }
     }
-    #endif
 }
+#else
+using NetAdmin.Domain.Events.Sys;
+using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+
+namespace NetAdmin.SysComponent.Host.Subscribers;
+
+/// <summary>
+///     操作日志记录
+/// </summary>
+public sealed class OperationLogger : IEventSubscriber
+{
+    /// <summary>
+    ///     保存请求日志到数据库
+    /// </summary>
+    [EventSubscribe(nameof(RequestLogEvent))]
+    public async Task OperationEventDbRecordAsync(EventHandlerExecutingContext context)
+    {
+        if (context.Source is not RequestLogEvent operationEvent) {
+            return;
+        }
+
+        _ = await App.GetService<IRequestLogService>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
+    }
+}
+#endif

@@ -55,7 +55,12 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public async Task<int> DeleteAsync(DelReq req)
     {
         req.ThrowIfInvalid();
-        return await Rpo.Orm.Select<Sys_UserRole>().ForUpdate().AnyAsync(a => a.RoleId == req.Id).ConfigureAwait(false)
+        return await Rpo.Orm.Select<Sys_UserRole>()
+                        #if DBTYPE_SQLSERVER
+                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                        #endif
+                        .AnyAsync(a => a.RoleId == req.Id)
+                        .ConfigureAwait(false)
             ? throw new NetAdminInvalidOperationException(Ln.该角色下存在用户)
             : await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
     }
@@ -70,8 +75,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
         await Rpo.SaveManyAsync(entity, nameof(entity.Menus)).ConfigureAwait(false);
         await Rpo.SaveManyAsync(entity, nameof(entity.Apis)).ConfigureAwait(false);
 
-        return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } })
-            .ConfigureAwait(false)).First();
+        return (await QueryAsync(new QueryReq<QueryRoleReq> { Filter = new QueryRoleReq { Id = req.Id } }).ConfigureAwait(false)).First();
     }
 
     /// <inheritdoc />
@@ -96,9 +100,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req, Order = Orders.None })
-                        .ToOneAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryRoleReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryRoleRsp>();
     }
 
@@ -161,8 +163,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
-                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) ||
-                              a.Summary.Contains(req.Keywords));
+                       , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
