@@ -6,7 +6,9 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Job))]
 public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
 {
-    /// <inheritdoc cref="IFieldEnabled.Enabled" />
+    /// <summary>
+    ///     是否启用
+    /// </summary>
     [Column]
     [CsvIgnore]
     [JsonIgnore]
@@ -136,7 +138,9 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     [JsonIgnore]
     public virtual JobStatues Status { get; init; }
 
-    /// <inheritdoc cref="IFieldSummary.Summary" />
+    /// <summary>
+    ///     备注
+    /// </summary>
     #if DBTYPE_SQLSERVER
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
     #else

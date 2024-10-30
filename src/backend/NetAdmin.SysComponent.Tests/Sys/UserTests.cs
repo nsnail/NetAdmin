@@ -1,14 +1,6 @@
-using System.Diagnostics.CodeAnalysis;
-using NetAdmin.AdmServer.Host;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
-using NetAdmin.SysComponent.Application.Modules.Sys;
-using NetAdmin.SysComponent.Host.Controllers.Sys;
-using NetAdmin.Tests;
 using NetAdmin.Tests.Attributes;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace NetAdmin.SysComponent.Tests.Sys;
 

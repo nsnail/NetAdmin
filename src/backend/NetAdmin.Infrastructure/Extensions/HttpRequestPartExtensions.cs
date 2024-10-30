@@ -1,5 +1,3 @@
-using Furion.RemoteRequest;
-
 namespace NetAdmin.Infrastructure.Extensions;
 
 /// <summary>
