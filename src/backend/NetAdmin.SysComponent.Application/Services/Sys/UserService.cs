@@ -1,6 +1,9 @@
-using NetAdmin.Application.Repositories;
-using NetAdmin.Application.Services;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Attributes.DataValidation;
+using NetAdmin.Domain.Contexts;
+using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

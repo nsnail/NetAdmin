@@ -1,8 +1,5 @@
-using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

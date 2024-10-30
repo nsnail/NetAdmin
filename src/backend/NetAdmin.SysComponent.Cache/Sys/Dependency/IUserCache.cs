@@ -1,7 +1,4 @@
-using NetAdmin.Cache;
 using NetAdmin.Domain.Dto.Sys.User;
-using NetAdmin.SysComponent.Application.Modules.Sys;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys.Dependency;
 

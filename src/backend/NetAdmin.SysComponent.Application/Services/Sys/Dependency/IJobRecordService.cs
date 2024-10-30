@@ -1,8 +1,5 @@
-using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
-using NetAdmin.SysComponent.Application.Modules.Sys;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 

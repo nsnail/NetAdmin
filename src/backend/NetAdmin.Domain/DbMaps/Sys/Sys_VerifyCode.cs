@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Enums.Sys;
-
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>

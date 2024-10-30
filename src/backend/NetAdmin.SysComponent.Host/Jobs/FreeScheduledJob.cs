@@ -1,7 +1,6 @@
 using Furion.Schedule;
 using NetAdmin.Host.BackgroundRunning;
 using NetAdmin.Host.Middlewares;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
 

@@ -1,5 +1,4 @@
 using System.Net.WebSockets;
-using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Middlewares;
 

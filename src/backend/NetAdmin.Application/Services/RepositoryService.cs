@@ -2,6 +2,8 @@ using CsvHelper;
 using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Domain;
+using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Dependency;
 
 namespace NetAdmin.Application.Services;

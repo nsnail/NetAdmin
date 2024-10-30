@@ -1,6 +1,4 @@
-using NetAdmin.Application.Services;
 using NetAdmin.Domain.Dto.Sys.Captcha;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 using SixLabors.ImageSharp;
 using Yitter.IdGenerator;
 

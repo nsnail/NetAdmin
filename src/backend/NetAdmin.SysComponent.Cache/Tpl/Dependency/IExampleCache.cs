@@ -1,4 +1,3 @@
-using NetAdmin.Cache;
 using NetAdmin.SysComponent.Application.Modules.Tpl;
 using NetAdmin.SysComponent.Application.Services.Tpl.Dependency;
 

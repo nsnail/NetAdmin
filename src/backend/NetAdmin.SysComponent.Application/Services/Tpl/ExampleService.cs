@@ -1,7 +1,4 @@
-using NetAdmin.Application.Repositories;
-using NetAdmin.Application.Services;
 using NetAdmin.Domain.DbMaps.Tpl;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Tpl.Example;
 using NetAdmin.SysComponent.Application.Services.Tpl.Dependency;
 

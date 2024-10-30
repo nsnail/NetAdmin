@@ -1,6 +1,4 @@
-using NetAdmin.Application.Repositories;
-using NetAdmin.Application.Services;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
