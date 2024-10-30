@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="visible" :title="$t('设置邮箱')" :width="800" @closed="$emit('closed')" destroy-on-close>
+    <el-dialog v-model="visible" :title="$t('设置邮箱')" @closed="$emit('closed')" destroy-on-close>
         <el-form :model="form" :rules="rules" label-position="top" ref="form">
             <el-row class="is-justify-space-evenly">
                 <el-col v-if="$GLOBAL.user.mobile" :lg="10">

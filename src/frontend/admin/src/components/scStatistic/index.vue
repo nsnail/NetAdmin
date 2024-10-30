@@ -31,6 +31,9 @@
                 </template>
             </span>
             <span v-if="suffix" class="sc-statistic-content-suffix">{{ suffix }}</span>
+            <span class="sc-statistic-icon">
+                <slot v-if="$slots.icon" name="icon"></slot>
+            </span>
         </div>
         <div v-if="description || $slots.default" class="sc-statistic-description">
             <slot>
@@ -101,5 +104,9 @@ export default {
 
 .dark .sc-statistic-content {
     color: #c0c0c0;
+}
+
+.sc-statistic-icon {
+    float: right;
 }
 </style>

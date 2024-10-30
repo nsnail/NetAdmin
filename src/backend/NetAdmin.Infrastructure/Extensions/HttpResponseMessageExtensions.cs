@@ -28,7 +28,22 @@ public static class HttpResponseMessageExtensions
     private static async Task<string> BuildJsonAsync( //
         this HttpResponseMessage me, Func<string, string> bodyHandle = null)
     {
-        var body = me?.Content is null ? null : await me.Content!.ReadAsStringAsync().ConfigureAwait(false);
+        var body = string.Empty;
+        try {
+            body = me?.Content is null ? null : await me.Content!.ReadAsStringAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex.Message.Contains("The character set provided in ContentType is invalid") &&
+                                   ex.InnerException?.Message.Contains("is not a supported encoding name") == true) {
+            #pragma warning disable S2589
+            var sr = me?.Content is null ? null : await me.Content!.ReadAsStreamAsync().ConfigureAwait(false);
+            if (sr != null) {
+                #pragma warning restore S2589
+                await using var ms = new MemoryStream();
+                await sr.CopyToAsync(ms).ConfigureAwait(false);
+                return Encoding.UTF8.GetString(ms.ToArray());
+            }
+        }
+
         return new { Header = me?.ToString(), RequestHeader = me?.RequestMessage?.Headers, Body = bodyHandle is null ? body : bodyHandle(body) }
             .Json();
     }

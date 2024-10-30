@@ -32,7 +32,7 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     键名称
     /// </summary>
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string Key { get; init; }

@@ -1,7 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -71,6 +69,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     /// <inheritdoc />
     public async Task<QueryDeptRsp> EditAsync(EditDeptReq req)
     {
+        req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDeptRsp>();
         #else

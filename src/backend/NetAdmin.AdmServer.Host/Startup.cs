@@ -22,12 +22,7 @@
 */
 
 using NetAdmin.AdmServer.Host;
-using NetAdmin.AdmServer.Host.Extensions;
-using NetAdmin.Host.Extensions;
-using NetAdmin.Host.Middlewares;
-using NetAdmin.SysComponent.Host.Extensions;
 using NetAdmin.SysComponent.Host.Middlewares;
-using Spectre.Console.Cli;
 using ValidationResult = Spectre.Console.ValidationResult;
 
 NetAdmin.Host.Startup.Entry<Startup>(args);
@@ -51,6 +46,8 @@ namespace NetAdmin.AdmServer.Host
         public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifeTime)
             #pragma warning restore S2325
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             _ = app                                        //
                 .UseMiddleware<SafetyShopHostMiddleware>() // 安全停机中间件
                 .EnableBuffering()                         // 启用请求体缓冲，允许多次读取请求体

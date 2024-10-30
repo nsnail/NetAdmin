@@ -25,7 +25,6 @@
                                     </el-form-item>
                                 </div>
                             </el-collapse-item>
-                            <el-collapse-item :title="$t('其他设置')" name="2"></el-collapse-item>
                         </el-collapse>
 
                         <el-form-item :label="$t('启用')" prop="enabled">

@@ -293,6 +293,32 @@
 
     .el-dialog__body {
         flex: 1;
+
+        > * {
+            height: 100%;
+        }
+
+        .el-tabs,
+        .el-tab-pane,
+        .el-form {
+            height: 100%;
+        }
+
+        .el-tabs__content,
+        .el-tabs__content > * {
+            height: 100%;
+        }
+
+        .el-tab-pane {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                width: 0; /* 隐藏纵向滚动条 */
+                background: transparent; /* 隐藏背景 */
+            }
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 using NetAdmin.Domain.Enums;
 
-namespace NetAdmin.Domain.Dto.Dependency;
+namespace NetAdmin.Domain.Dto;
 
 /// <summary>
 ///     动态过滤条件
@@ -40,6 +40,43 @@ public sealed record DynamicFilterInfo : DataAbstraction
         var ret = d.Adapt<FreeSql.Internal.Model.DynamicFilterInfo>();
         ProcessDynamicFilter(ret);
         return ret;
+    }
+
+    /// <summary>
+    ///     添加子过滤条件
+    /// </summary>
+    public DynamicFilterInfo Add(DynamicFilterInfo df)
+    {
+        if (Filters == null) {
+            return this with { Filters = [df] };
+        }
+
+        Filters.Add(df);
+        return this;
+    }
+
+    /// <summary>
+    ///     添加过滤条件
+    /// </summary>
+    public DynamicFilterInfo Add(string field, DynamicFilterOperators opt, object val)
+    {
+        return Add(new DynamicFilterInfo { Field = field, Operator = opt, Value = val });
+    }
+
+    /// <summary>
+    ///     添加过滤条件
+    /// </summary>
+    public DynamicFilterInfo AddIf(bool condition, string field, DynamicFilterOperators opt, object val)
+    {
+        return !condition ? this : Add(field, opt, val);
+    }
+
+    /// <summary>
+    ///     添加过滤条件
+    /// </summary>
+    public DynamicFilterInfo AddIf(bool condition, DynamicFilterInfo df)
+    {
+        return !condition ? this : Add(df);
     }
 
     private static void ParseDateExp(FreeSql.Internal.Model.DynamicFilterInfo d)

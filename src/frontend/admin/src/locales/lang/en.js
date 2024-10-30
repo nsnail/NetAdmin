@@ -466,7 +466,6 @@ export default {
     用户列表: 'User list',
     是: 'Yes',
     否: 'No',
-    资源复用: 'Resource reuse',
     手机: 'Mobile',
     '您已退出登录或无权限访问当前资源，请重新登录后再操作':
         'You have logged out or do not have permission to access the current resource, please log in again before operating',

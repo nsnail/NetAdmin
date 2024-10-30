@@ -1,13 +1,5 @@
-using FreeSql.Internal;
-using Furion.RemoteRequest;
-using Furion.RemoteRequest.Extensions;
-using Furion.Schedule;
-using NetAdmin.Domain.Dto.Sys.Job;
-using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.BackgroundRunning;
-using NetAdmin.Host.Extensions;
 using NetAdmin.Host.Middlewares;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
 
