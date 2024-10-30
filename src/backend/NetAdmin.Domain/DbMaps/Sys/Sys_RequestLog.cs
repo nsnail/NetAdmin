@@ -27,13 +27,17 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     [JsonIgnore]
     public virtual int ApiPathCrc32 { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     创建者客户端IP
+    /// </summary>
     [Column]
     [CsvIgnore]
     [JsonIgnore]
     public virtual int? CreatedClientIp { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     创建时间
+    /// </summary>
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]
@@ -79,13 +83,17 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     [Navigate(nameof(OwnerId))]
     public Sys_User Owner { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     拥有者部门编号
+    /// </summary>
     [Column]
     [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerDeptId { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
+    ///     拥有者用户编号
+    /// </summary>
     [Column]
     [CsvIgnore]
     [JsonIgnore]
