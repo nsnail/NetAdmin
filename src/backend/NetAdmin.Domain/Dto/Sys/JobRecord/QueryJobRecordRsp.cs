@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Dto.Sys.Job;
-using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Domain.Dto.Sys.JobRecord;
 

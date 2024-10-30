@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Dto.Sys.Role;
-using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
 

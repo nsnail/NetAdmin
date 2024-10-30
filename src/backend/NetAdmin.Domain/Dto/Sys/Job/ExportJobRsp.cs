@@ -1,6 +1,4 @@
 using NetAdmin.Domain.Dto.Sys.User;
-using NetAdmin.Domain.Enums.Sys;
-using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Domain.Dto.Sys.Job;
 

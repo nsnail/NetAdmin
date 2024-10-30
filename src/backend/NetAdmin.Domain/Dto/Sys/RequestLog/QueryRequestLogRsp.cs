@@ -1,7 +1,6 @@
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Dto.Sys.RequestLogDetail;
 using NetAdmin.Domain.Dto.Sys.User;
-using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Domain.Dto.Sys.RequestLog;
 

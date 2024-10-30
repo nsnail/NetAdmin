@@ -1,7 +1,5 @@
 using CronExpressionDescriptor;
 using NetAdmin.Domain.Dto.Sys.User;
-using NetAdmin.Domain.Enums.Sys;
-using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 using Options = CronExpressionDescriptor.Options;
 
 namespace NetAdmin.Domain.Dto.Sys.Job;

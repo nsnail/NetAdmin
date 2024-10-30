@@ -1,11 +1,5 @@
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
-using NetAdmin.Host.Attributes;
-using NetAdmin.Host.Controllers;
-using NetAdmin.SysComponent.Application.Modules.Sys;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 

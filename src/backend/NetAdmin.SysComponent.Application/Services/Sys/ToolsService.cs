@@ -1,5 +1,4 @@
-using NetAdmin.Application.Services;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Dto.Sys.Tool;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

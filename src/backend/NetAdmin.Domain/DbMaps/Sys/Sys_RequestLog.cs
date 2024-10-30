@@ -1,5 +1,3 @@
-using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
-
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>

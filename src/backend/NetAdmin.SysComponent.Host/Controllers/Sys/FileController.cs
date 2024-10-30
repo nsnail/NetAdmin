@@ -1,8 +1,3 @@
-using NetAdmin.Host.Controllers;
-using NetAdmin.SysComponent.Application.Modules.Sys;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using NetAdmin.SysComponent.Cache.Sys.Dependency;
-
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
 /// <summary>

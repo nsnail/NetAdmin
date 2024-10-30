@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Dto.Sys.SiteMsg;
-using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.DbMaps.Sys;
 

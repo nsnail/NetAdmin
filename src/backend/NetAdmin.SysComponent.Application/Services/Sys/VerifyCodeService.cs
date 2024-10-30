@@ -1,6 +1,6 @@
-using NetAdmin.Application.Repositories;
-using NetAdmin.Application.Services;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.Domain.Enums.Sys;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

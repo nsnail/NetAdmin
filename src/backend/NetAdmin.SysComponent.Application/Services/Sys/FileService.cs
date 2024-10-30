@@ -1,6 +1,3 @@
-using NetAdmin.Application.Services;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IFileService" />

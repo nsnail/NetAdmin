@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Dto.Sys.Captcha;
-using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 

@@ -1,7 +1,4 @@
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Tpl.Example;
-using NetAdmin.Host.Attributes;
-using NetAdmin.Host.Controllers;
 using NetAdmin.SysComponent.Application.Modules.Tpl;
 using NetAdmin.SysComponent.Application.Services.Tpl.Dependency;
 using NetAdmin.SysComponent.Cache.Tpl.Dependency;

@@ -1,6 +1,5 @@
 using Microsoft.OpenApi.Extensions;
-using NetAdmin.Application.Services;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
+using NetAdmin.Domain.Attributes;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

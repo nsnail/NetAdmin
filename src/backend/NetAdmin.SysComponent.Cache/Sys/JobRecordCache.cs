@@ -1,8 +1,4 @@
-using NetAdmin.Cache;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 

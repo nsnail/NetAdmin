@@ -1,5 +1,3 @@
-using NetAdmin.Application.Modules;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Tpl.Example;
 
 namespace NetAdmin.SysComponent.Application.Modules.Tpl;

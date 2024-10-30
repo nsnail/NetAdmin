@@ -62,7 +62,6 @@ public sealed class OperationLogger : IEventSubscriber
 }
 #else
 using NetAdmin.Domain.Events.Sys;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 

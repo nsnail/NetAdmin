@@ -1,7 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <DefineConstants>INFRAS</DefineConstants>
-    </PropertyGroup>
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <Import Project="$(SolutionDir)/build/copy.pkg.xml.comment.files.targets"/>
     <Import Project="$(SolutionDir)/build/prebuild.targets"/>

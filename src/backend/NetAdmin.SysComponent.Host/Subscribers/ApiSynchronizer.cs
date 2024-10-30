@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Events;
-using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 

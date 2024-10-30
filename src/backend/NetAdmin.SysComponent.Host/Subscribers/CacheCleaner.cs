@@ -1,6 +1,5 @@
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Events.Sys;
-using NetAdmin.SysComponent.Cache.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 

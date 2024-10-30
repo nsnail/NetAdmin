@@ -1,5 +1,3 @@
-using NetAdmin.Cache;
-using NetAdmin.Domain.Dto.Dependency;
 using NetAdmin.Domain.Dto.Tpl.Example;
 using NetAdmin.SysComponent.Application.Services.Tpl.Dependency;
 using NetAdmin.SysComponent.Cache.Tpl.Dependency;

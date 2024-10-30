@@ -1,7 +1,6 @@
 using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Domain.Dto.Sys.Role;
 using NetAdmin.Domain.Dto.Sys.User;
-using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.SiteMsg;
 
