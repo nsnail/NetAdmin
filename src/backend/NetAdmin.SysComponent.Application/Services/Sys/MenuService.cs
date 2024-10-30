@@ -1,7 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.Menu;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -55,6 +53,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     /// <inheritdoc />
     public async Task<QueryMenuRsp> EditAsync(EditMenuReq req)
     {
+        req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryMenuRsp>();
         #else
@@ -76,6 +75,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 

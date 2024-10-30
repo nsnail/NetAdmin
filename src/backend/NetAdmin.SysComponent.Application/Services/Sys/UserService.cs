@@ -1,11 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.User;
-using NetAdmin.Domain.Dto.Sys.UserProfile;
-using NetAdmin.Domain.Dto.Sys.VerifyCode;
-using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -100,8 +94,12 @@ public sealed class UserService(
                                                    , AppConfig = appConfig
                                                  })
                                     .ConfigureAwait(false);
-        var ret = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } }).ConfigureAwait(false);
-        return ret.First();
+        var userList = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } }).ConfigureAwait(false);
+
+        // 发布用户创建事件
+        var ret = userList.First();
+        await eventPublisher.PublishAsync(new UserCreatedEvent(ret.Adapt<UserInfoRsp>())).ConfigureAwait(false);
+        return ret;
     }
 
     /// <inheritdoc />

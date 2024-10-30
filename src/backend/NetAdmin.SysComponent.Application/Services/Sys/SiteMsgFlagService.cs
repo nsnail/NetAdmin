@@ -1,7 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -64,6 +62,7 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
     /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgFlagReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 

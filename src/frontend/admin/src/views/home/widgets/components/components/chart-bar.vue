@@ -43,7 +43,7 @@ export default {
             }),
         )
         this.loading = false
-        this.option.xAxis.data = res[0].data.map((x) => {
+        this.option.xAxis.data = res[res.length - 1].data.map((x) => {
             return x.timestamp
         })
         let i = 0

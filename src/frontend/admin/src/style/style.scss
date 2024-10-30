@@ -1,5 +1,5 @@
-@import 'app.scss';
-@import 'fix.scss';
-@import 'pages.scss';
-@import 'media.scss';
-@import 'dark.scss';
+@use 'app.scss' as *;
+@use 'fix.scss' as *;
+@use 'pages.scss' as *;
+@use 'media.scss' as *;
+@use 'dark.scss' as *;

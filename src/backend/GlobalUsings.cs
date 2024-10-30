@@ -74,7 +74,7 @@ global using NetAdmin.Domain.DbMaps.Sys;
 global using CsvIgnore = CsvHelper.Configuration.Attributes.IgnoreAttribute;
 global using CsvIndex = CsvHelper.Configuration.Attributes.IndexAttribute;
 global using CsvName = CsvHelper.Configuration.Attributes.NameAttribute;
-global using DynamicFilterInfo = NetAdmin.Domain.Dto.Dependency.DynamicFilterInfo;
+global using DynamicFilterInfo = NetAdmin.Domain.Dto.DynamicFilterInfo;
 global using DynamicFilterOperators = NetAdmin.Domain.Enums.DynamicFilterOperators;
 global using SqlIndex = FreeSql.DataAnnotations.IndexAttribute;
 #endif

@@ -30,7 +30,7 @@
         </template>
     </el-input>
 
-    <el-dialog v-model="dialogVisible" :title="$t('Cron 规则生成器')" :width="800" append-to-body destroy-on-close>
+    <el-dialog v-model="dialogVisible" :title="$t('Cron 规则生成器')" append-to-body destroy-on-close>
         <div class="sc-cron">
             <el-tabs>
                 <el-tab-pane>

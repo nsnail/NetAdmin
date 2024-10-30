@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="$t('高级筛选')" :width="800" destroy-on-close>
+    <sc-dialog v-model="visible" :title="$t('高级筛选')" destroy-on-close>
         <el-form :model="form" :rules="rules" label-width="10rem" ref="form">
             <el-form-item :label="$t('字段名')" prop="field">
                 <el-input v-model="form.field" :placeholder="$t('字段名')" clearable />

@@ -1,7 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.Config;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -53,6 +51,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     /// <inheritdoc />
     public async Task<QueryConfigRsp> EditAsync(EditConfigReq req)
     {
+        req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryConfigRsp>();
         #else

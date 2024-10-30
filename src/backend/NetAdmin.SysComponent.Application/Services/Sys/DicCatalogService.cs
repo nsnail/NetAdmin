@@ -1,7 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -90,6 +88,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryDicCatalogReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 

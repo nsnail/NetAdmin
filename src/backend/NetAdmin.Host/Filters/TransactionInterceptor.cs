@@ -1,5 +1,4 @@
 using NetAdmin.Host.Attributes;
-using NetAdmin.Host.Extensions;
 
 namespace NetAdmin.Host.Filters;
 

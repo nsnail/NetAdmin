@@ -1,4 +1,4 @@
-namespace NetAdmin.Host.Extensions;
+namespace NetAdmin.Application.Extensions;
 
 /// <summary>
 ///     工作单元管理器扩展方法

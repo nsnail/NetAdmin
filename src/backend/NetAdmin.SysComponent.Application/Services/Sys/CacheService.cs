@@ -1,9 +1,6 @@
 using System.Collections.Concurrent;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.Cache;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
-using StackExchange.Redis;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -82,6 +79,7 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) /
     /// <inheritdoc />
     public async Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req)
     {
+        req.ThrowIfInvalid();
         var database = connectionMultiplexer.GetDatabase(_redisInstance.Database);
 
         var ret = new GetEntryRsp {

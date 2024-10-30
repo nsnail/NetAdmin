@@ -1,5 +1,4 @@
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Sys.Tool;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -17,6 +16,7 @@ public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
     /// <inheritdoc />
     public Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
     {
+        req.ThrowIfInvalid();
         return App.GetService<IFreeSql>().Ado.CommandFluent(req.Sql).CommandTimeout(req.TimeoutSecs).ExecuteArrayAsync();
     }
 

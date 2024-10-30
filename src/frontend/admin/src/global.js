@@ -51,6 +51,7 @@ import naColAvatar from '@/components/naColAvatar'
 import naColId from '@/components/naColId/index.vue'
 import naColIndicator from '@/components/naColIndicator/index.vue'
 import naColOperation from '@/components/naColOperation'
+import naColTag from '@/components/naColTag/index.vue'
 import naColTags from '@/components/naColTags/index.vue'
 import naColTime from '@/components/naColTime/index.vue'
 import naColUser from '@/components/naColUser/index.vue'
@@ -93,6 +94,7 @@ export default {
         app.component('naColId', naColId)
         app.component('naColIndicator', naColIndicator)
         app.component('naColOperation', naColOperation)
+        app.component('naColTag', naColTag)
         app.component('naColTags', naColTags)
         app.component('naColTime', naColTime)
         app.component('naColUser', naColUser)

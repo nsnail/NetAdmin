@@ -1,7 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.SiteMsgRole;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -64,6 +62,7 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
     /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgRoleReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 

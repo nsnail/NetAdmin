@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="visible" :title="$t('修改密码')" :width="800" @closed="$emit('closed')" destroy-on-close>
+    <el-dialog v-model="visible" :title="$t('修改密码')" @closed="$emit('closed')" destroy-on-close>
         <el-form :model="form" :rules="rules" label-width="15rem" ref="form">
             <el-form-item :label="$t('旧密码')" prop="oldPassword">
                 <el-input

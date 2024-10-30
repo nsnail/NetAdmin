@@ -59,16 +59,7 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
-                :context-menus="[
-                    'id',
-                    'userRegisterConfirm',
-                    'userRegisterDept.name',
-                    'userRegisterRole.name',
-                    'enabled',
-                    'createdTime',
-                    'phoneReuseTimes',
-                    'emailReuseTimes',
-                ]"
+                :context-menus="['id', 'userRegisterConfirm', 'userRegisterDept.name', 'userRegisterRole.name', 'enabled', 'createdTime']"
                 :export-api="$API.sys_config.export"
                 :on-command="this.getStatistics"
                 :params="query"
@@ -93,7 +84,7 @@
                         </template>
                     </el-table-column>
                 </el-table-column>
-                <el-table-column :label="$t('启用')" align="center" prop="enabled" width="100">
+                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>

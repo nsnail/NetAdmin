@@ -7,13 +7,13 @@
         destroy-on-close
         full-screen>
         <el-form
-            v-loading="loading"
             :disabled="mode === 'view' && tabId !== 'log'"
             :model="form"
             :rules="rules"
             label-position="right"
             label-width="12rem"
-            ref="dialogForm">
+            ref="dialogForm"
+            style="height: 100%">
             <el-tabs v-model="tabId" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form-item prop="avatar">

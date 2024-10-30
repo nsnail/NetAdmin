@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="$t('批量修改')" :width="800" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="$t('批量修改')" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">

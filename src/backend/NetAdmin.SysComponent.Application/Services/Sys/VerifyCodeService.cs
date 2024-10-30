@@ -1,9 +1,5 @@
 using NetAdmin.Application.Repositories;
 using NetAdmin.Application.Services;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Sys.VerifyCode;
-using NetAdmin.Domain.Enums.Sys;
-using NetAdmin.Domain.Events.Sys;
 using NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -74,6 +70,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
     {
+        req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
@@ -144,6 +141,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     /// <inheritdoc />
     public Task<int> SetVerifyCodeStatusAsync(SetVerifyCodeStatusReq req)
     {
+        req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.Status)]);
     }
 

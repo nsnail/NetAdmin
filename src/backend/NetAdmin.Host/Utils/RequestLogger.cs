@@ -1,8 +1,3 @@
-using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.Dto.Sys.RequestLog;
-using NetAdmin.Domain.Dto.Sys.RequestLogDetail;
-using NetAdmin.Domain.Events.Sys;
-using Yitter.IdGenerator;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 
 namespace NetAdmin.Host.Utils;
@@ -44,6 +39,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
                                        , ResponseContentType = context.Response.ContentType
                                        , ResponseHeaders     = context.Response.Headers.Json()
                                        , ServerIp            = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
+                                       , CreatedTime         = DateTime.Now
                                      }
                           , Duration        = (int)duration
                           , HttpMethod      = Enum.Parse<HttpMethods>(context.Request.Method, true)
@@ -54,6 +50,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
                           , OwnerDeptId     = associatedUser?.DeptId
                           , Id              = id
                           , TraceId         = context.GetTraceId()
+                          , CreatedTime     = DateTime.Now
                         };
 
         // ReSharper disable once InvertIf
