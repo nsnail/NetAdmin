@@ -1,7 +1,6 @@
 #if DBTYPE_SQLSERVER
 using Microsoft.Data.SqlClient;
 #endif
-using Newtonsoft.Json;
 using DataType = FreeSql.DataType;
 
 namespace NetAdmin.Infrastructure.Utils;
@@ -103,10 +102,18 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
                 continue;
             }
 
-            var fileContent = File.ReadAllText(file);
+            using var fs = File.OpenRead(file);
+            var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerOptions.Default) //
+                                        {
+                                            AllowTrailingCommas = true
+                                          , ReadCommentHandling = JsonCommentHandling.Skip
+                                          , TypeInfoResolver
+                                                = new DefaultJsonTypeInfoResolver { Modifiers = { JsonIgnoreRemover.RemoveJsonIgnore(entityType) } }
+                                        };
+            _ = jsonSerializerOptions.Converters.AddDateTimeTypeConverters();
 
-            dynamic entities = JsonConvert.DeserializeObject( //
-                fileContent, typeof(IEnumerable<>).MakeGenericType(entityType));
+            var jsonTypeInfo = JsonTypeInfo.CreateJsonTypeInfo(typeof(IEnumerable<>).MakeGenericType(entityType), jsonSerializerOptions);
+            var entities     = JsonSerializer.Deserialize(fs, jsonTypeInfo);
 
             // 如果表存在数据，跳过
             var select = typeof(IFreeSql).GetMethod(nameof(freeSql.Select), 1, Type.EmptyTypes)?.MakeGenericMethod(entityType).Invoke(freeSql, null);

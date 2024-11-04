@@ -63,7 +63,7 @@ namespace NetAdmin.AdmServer.Host
                 .UseVueAdmin()    // 托管管理后台，仅在非调试模式下
                 .UsePrometheus()  // 使用Prometheus中间件，启用HTTP性能监控
                 #endif
-                .UseInject(string.Empty)                   // 使用Inject中间件，Furion脚手架的依赖注入支持
+                .UseInject(string.Empty)                   // 使用Inject中间件，Gurion脚手架的依赖注入支持
                 .UseUnifyResultStatusCodes()               // 使用UnifyResultStatusCodes中间件，用于统一处理结果状态码
                 .UseCorsAccessor()                         // 使用CorsAccessor中间件，启用跨域资源共享（CORS）支持
                 .UseRouting()                              // 使用Routing中间件，配置路由映射
