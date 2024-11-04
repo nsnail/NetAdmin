@@ -4,7 +4,6 @@
 
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/nightly-build.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/nightly-build.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
-[![Furion](https://img.shields.io/badge/Furion-4.x-blueviolet.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 [![FreeSql](https://img.shields.io/badge/FreeSql-3.x-orange.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
 
 ## 在线预览
@@ -86,7 +85,6 @@ XC-->XA
 | 语言         | 集成领域          | 开源库                                                                                                                                                                                                                   |
 |------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | C#         | Web基础框架       | [ASP.NET Core](https://github.com/dotnet/aspnetcore)                                                                                                                                                                  |
-| C#         | 快速开发脚手架       | [Furion](https://gitee.com/dotnetchina/Furion)                                                                                                                                                                        |
 | C#         | 数据库关系映射       | [FreeSql](https://github.com/dotnetcore/FreeSql)                                                                                                                                                                      |
 | C#         | 代码质量检查        | [Roslynator.Analyzers](https://github.com/josefpihrt/roslynator) \| [SonarAnalyzer.CSharp](https://github.com/SonarSource/sonar-dotnet) \| [StyleCop.Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) |
 | C#         | 单元测试框架        | [xunit](https://github.com/xunit/xunit)  \| [coverlet.collector](https://github.com/coverlet-coverage/coverlet)                                                                                                       |
