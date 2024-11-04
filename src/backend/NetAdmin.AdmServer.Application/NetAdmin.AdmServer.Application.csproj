@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <DefineConstants>DBTYPE_SQLITE</DefineConstants>
-    </PropertyGroup>
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
+        <ProjectReference Include="../NetAdmin.AdmServer.Domain/NetAdmin.AdmServer.Domain.csproj"/>
         <ProjectReference Include="../NetAdmin.SysComponent.Application/NetAdmin.SysComponent.Application.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MailKit" Version="4.8.0"/>
     </ItemGroup>
 </Project>

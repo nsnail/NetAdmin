@@ -1,0 +1,17 @@
+{
+  "solution": "NetAdmin.sln",
+  "mappings": {
+    "Gurion": "../refs/Gurion/src/Gurion.csproj"
+  },
+  "restore": [
+    {
+      "name": "NetAdmin.Infrastructure",
+      "packages": [
+        {
+          "packageName": "Gurion",
+          "version": "1.1.0"
+        }
+      ]
+    }
+  ]
+}

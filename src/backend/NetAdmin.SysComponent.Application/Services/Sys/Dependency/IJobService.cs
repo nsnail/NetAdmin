@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Job;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 

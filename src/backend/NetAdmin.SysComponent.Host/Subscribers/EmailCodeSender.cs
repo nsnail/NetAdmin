@@ -1,6 +1,6 @@
-using NetAdmin.Domain.Dto.Sys.VerifyCode;
-using NetAdmin.Domain.Enums.Sys;
-using NetAdmin.Domain.Events.Sys;
+using NetAdmin.SysComponent.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.SysComponent.Domain.Enums.Sys;
+using NetAdmin.SysComponent.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 

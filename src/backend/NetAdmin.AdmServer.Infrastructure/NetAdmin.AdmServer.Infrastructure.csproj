@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(SolutionDir)/build/code.quality.props"/>
+    <ItemGroup>
+        <ProjectReference Include="../NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="$(SolutionDir)/assets/res/NetAdmin.AdmServer.Statements.ln">
+            <Link>Languages/NetAdmin.AdmServer.Statements.ln</Link>
+        </None>
+        <None Include="$(SolutionDir)/assets/res/NetAdmin.AdmServer.Fields.ln">
+            <Link>Languages/NetAdmin.AdmServer.Fields.ln</Link>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="*.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

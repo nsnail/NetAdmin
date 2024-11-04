@@ -1,7 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <DefineConstants>DBTYPE_SQLITE</DefineConstants>
-    </PropertyGroup>
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Domain/NetAdmin.Domain.csproj"/>

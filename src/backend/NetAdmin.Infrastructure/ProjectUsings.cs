@@ -1,1 +1,1 @@
-global using Furion.RemoteRequest;
+global using Gurion.RemoteRequest;

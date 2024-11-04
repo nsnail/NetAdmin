@@ -19,6 +19,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
 
 content = Regex.Replace(
     content,
+    "Project\\(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\"\\) = \"docker\", \"docker\", \"{E80A1018-C354-4A26-9029-8847BB9DA864}\"(?:.|\n)*?EndProject",
+    $$"""
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E80A1018-C354-4A26-9029-8847BB9DA864}"
+    ProjectSection(SolutionItems) = preProject
+{{string.Join('\n',
+             Directory.GetFiles(@"../docker", "*")
+                      .Select(x=>$"        {Path.GetFileName(x)} = docker/{Path.GetFileName(x)}")
+                      )}}
+    EndProject
+"""
+);
+
+content = Regex.Replace(
+    content,
     "Project\\(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\"\\) = \"workflows\", \"workflows\", \"{3C6F049E-3EE8-4D66-9AFF-E8A369032487}\"(?:.|\n)*?EndProject",
     $$"""
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"

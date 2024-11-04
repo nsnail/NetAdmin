@@ -3,7 +3,9 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 /// <inheritdoc />
 public abstract record LiteVersionEntity : LiteVersionEntity<long>
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     [Snowflake]
@@ -16,13 +18,17 @@ public abstract record LiteVersionEntity : LiteVersionEntity<long>
 public abstract record LiteVersionEntity<T> : LiteMutableEntity<T>, IFieldVersion
     where T : IEquatable<T>
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     [Snowflake]
     public override T Id { get; init; }
 
-    /// <inheritdoc cref="IFieldVersion.Version" />
+    /// <summary>
+    ///     数据版本
+    /// </summary>
     [Column(IsVersion = true, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]

@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.SysComponent.Domain.Dto.Sys.VerifyCode;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 

@@ -8,6 +8,7 @@ public record RestfulInfo<T> : DataAbstraction
     /// <summary>
     ///     代码
     /// </summary>
+    /// <example>succeed</example>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ErrorCodes Code { get; init; }
 
@@ -17,7 +18,8 @@ public record RestfulInfo<T> : DataAbstraction
     public T Data { get; init; }
 
     /// <summary>
-    ///     消息
+    ///     字符串："消息内容"，或数组：[{"参数名1":"消息内容1"},{"参数名2":"消息内容2"}]
     /// </summary>
+    /// <example>请求成功</example>
     public object Msg { get; init; }
 }

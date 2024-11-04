@@ -3,7 +3,9 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 /// <inheritdoc />
 public abstract record SimpleEntity : SimpleEntity<long>
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     [Snowflake]

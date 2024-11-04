@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Cache;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Cache;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -17,7 +17,7 @@ public sealed class CacheCache(IDistributedCache cache, ICacheService service) /
     {
         #if !DEBUG
         return GetOrCreateAsync( //
-            GetCacheKey(string.Empty), Service.CacheStatisticsAsync, TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
+            GetCacheKey(string.Empty), Service.CacheStatisticsAsync, TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DEFAULT));
         #else
         return Service.CacheStatisticsAsync();
         #endif

@@ -91,7 +91,8 @@ namespace NetAdmin.AdmServer.Host
                         .AddFreeSqlWithArgs()  // 添加 freeSql
                         .AddRemoteRequest()    // 添加远程请求
                         .AddCorsAccessor()     // 添加支持跨域访问
-                        .AddContextUser()      // 添加上下文用户
+                        .AddContextUserToken() // 添加上下文用户令牌
+                        .AddContextUserInfo()  // 添加上下文用户信息
                         .AddRedisCache()       // 添加 Redis 缓存
                         .AddSchedules()        // 添加计划任务
 

@@ -1,5 +1,4 @@
-using NetAdmin.Domain.Dto.Sys;
-using NetAdmin.Domain.Dto.Sys.JobRecord;
+using NetAdmin.SysComponent.Domain.Dto.Sys.JobRecord;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 

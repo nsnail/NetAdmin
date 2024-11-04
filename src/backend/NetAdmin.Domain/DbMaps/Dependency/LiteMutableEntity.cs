@@ -3,7 +3,9 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 /// <inheritdoc />
 public abstract record LiteMutableEntity : LiteMutableEntity<long>
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     [Snowflake]
@@ -16,12 +18,16 @@ public abstract record LiteMutableEntity : LiteMutableEntity<long>
 public abstract record LiteMutableEntity<T> : LiteImmutableEntity<T>, IFieldModifiedTime
     where T : IEquatable<T>
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     public override T Id { get; init; }
 
-    /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
+    /// <summary>
+    ///     修改时间
+    /// </summary>
     [Column(ServerTime = DateTimeKind.Local, CanInsert = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]

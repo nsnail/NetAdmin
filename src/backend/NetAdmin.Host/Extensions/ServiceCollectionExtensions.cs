@@ -1,12 +1,7 @@
-using Furion.Logging;
+using Gurion.Logging;
 using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.Events;
-using NetAdmin.Host.Filters;
-using NetAdmin.Host.Utils;
 using StackExchange.Redis;
 using Yitter.IdGenerator;
-using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
-
 #if DEBUG
 using Spectre.Console;
 #endif
@@ -83,7 +78,7 @@ public static class ServiceCollectionExtensions
         this IServiceCollection me)
     {
         var optionsTypes
-            = from type in App.EffectiveTypes.Where(x => !x.IsAbstract && !x.FullName!.Contains(nameof(Furion)) &&
+            = from type in App.EffectiveTypes.Where(x => !x.IsAbstract && !x.FullName!.Contains(nameof(Gurion)) &&
                                                          x.GetInterfaces().Contains(typeof(IConfigurableOptions)))
               select type;
 
@@ -126,12 +121,11 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    ///     添加上下文用户
+    ///     添加上下文用户令牌
     /// </summary>
-    public static IServiceCollection AddContextUser(this IServiceCollection me)
+    public static IServiceCollection AddContextUserToken(this IServiceCollection me)
     {
-        return me.AddScoped(typeof(ContextUserToken), _ => ContextUserToken.Create())
-                 .AddScoped(typeof(ContextUserInfo), _ => ContextUserInfo.Create());
+        return me.AddScoped(typeof(ContextUserToken), _ => ContextUserToken.Create());
     }
 
     /// <summary>
@@ -140,42 +134,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddEventBus(this IServiceCollection me)
     {
         return me.AddEventBus(builder => builder.AddSubscribers(App.Assemblies.ToArray()));
-    }
-
-    /// <summary>
-    ///     添加 freeSql orm工具
-    /// </summary>
-    public static IServiceCollection AddFreeSql( //
-        this IServiceCollection me, FreeSqlInitMethods initMethods = FreeSqlInitMethods.None, Action<IFreeSql> freeSqlConfig = null)
-    {
-        // // 非调试模式下禁止同步数据库
-        // #if !DEBUG
-        // initOptions = FreeSqlInitOptions.None;
-        // #endif
-        var dbOptions = App.GetOptions<DatabaseOptions>();
-        var fSql      = new FreeSqlBuilder(dbOptions).Build(initMethods);
-        _ = me.AddSingleton(fSql);
-
-        fSql.Aop.AuditValue += SqlAuditor.DataAuditHandler; // Insert/Update自动值处理
-        var eventPublisher = App.GetService<IEventPublisher>();
-
-        #pragma warning disable VSTHRD110
-
-        // AOP事件发布（异步）
-        fSql.Aop.CommandBefore += (_, e) => eventPublisher.PublishAsync(new SqlCommandBeforeEvent(e)); // 增删查改，执行命令之前触发
-        fSql.Aop.CommandAfter  += (_, e) => eventPublisher.PublishAsync(new SqlCommandAfterEvent(e));  // 增删查改，执行命令完成后触发
-
-        fSql.Aop.SyncStructureBefore += (_, e) => eventPublisher.PublishAsync(new SyncStructureBeforeEvent(e)); // CodeFirst迁移，执行之前触发
-
-        fSql.Aop.SyncStructureAfter += (_, e) => eventPublisher.PublishAsync(new SyncStructureAfterEvent(e)); // CodeFirst迁移，执行完成触发
-        #pragma warning restore VSTHRD110
-
-        // 全局过滤器设置
-        freeSqlConfig?.Invoke(fSql);
-
-        return me.AddScoped<UnitOfWorkManager>()                    // 注入工作单元管理器
-                 .AddFreeRepository(null, App.Assemblies.ToArray()) // 批量注入 Repository
-                 .AddMvcFilter<TransactionInterceptor>();           // 注入事务拦截器
     }
 
     /// <summary>

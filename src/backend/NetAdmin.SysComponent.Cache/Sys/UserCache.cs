@@ -1,5 +1,5 @@
-using NetAdmin.Domain.Dto.Sys.User;
-using NetAdmin.Domain.Dto.Sys.UserProfile;
+using NetAdmin.SysComponent.Domain.Dto.Sys.User;
+using NetAdmin.SysComponent.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -91,7 +91,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
         #if !DEBUG
         return GetOrCreateAsync(              //
             GetCacheKey(userId.ToInvString()) //
-          , () => Service.LoginByUserIdAsync(userId), TimeSpan.FromSeconds(Numbers.SECS_CACHE_LOGIN_BY_USER_ID));
+          , () => Service.LoginByUserIdAsync(userId), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_LOGIN_BY_USER_ID));
         #else
         return Service.LoginByUserIdAsync(userId);
         #endif
@@ -109,7 +109,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.QueryAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
+          , () => Service.QueryAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DEFAULT));
         #else
         return Service.QueryAsync(req);
         #endif
@@ -184,7 +184,7 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
         #if !DEBUG
         return GetOrCreateAsync( //
             GetCacheKey(Service.UserToken.Id.ToString(CultureInfo.InvariantCulture)), Service.UserInfoAsync
-          , TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
+,                                                                                     TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DEFAULT));
         #else
         return Service.UserInfoAsync();
         #endif

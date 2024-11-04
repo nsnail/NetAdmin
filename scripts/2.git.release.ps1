@@ -20,8 +20,10 @@ git tag -d $tag
 git tag $tag
 git push --tags origin release
 Start-Process -FilePath "https://github.com/nsnail/NetAdmin/compare/main...release"
-Write-Host "按『Enter』回到主分支，『Ctrl+C』退出"
+Write-Host "按『Enter』回到tk分支，『Ctrl+C』退出"
 Pause
 git checkout main
 git pull
 git branch -D release
+git branch -D tk
+git checkout -b tk

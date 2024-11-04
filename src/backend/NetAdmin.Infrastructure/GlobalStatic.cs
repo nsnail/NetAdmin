@@ -36,11 +36,6 @@ public static class GlobalStatic
     public static DateTime LatestLogTime => LogCounterOff ? DateTime.MinValue : Volatile.Read(ref _latestLogTime).Time();
 
     /// <summary>
-    ///     日志记录器忽略的API编号
-    /// </summary>
-    public static string[] LoggerIgnoreApiIds => ["api/adm/tools/query.es.log", "api/probe/health.check", "api/probe/is.system.safety.stopped"];
-
-    /// <summary>
     ///     系统内部密钥
     /// </summary>
     public static string SecretKey => "{6C4922D3-499A-46db-BFC4-0B51A9C4395F}";

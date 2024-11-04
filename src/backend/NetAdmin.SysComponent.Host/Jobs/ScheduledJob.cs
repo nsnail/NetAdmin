@@ -1,12 +1,13 @@
 using FreeSql.Internal;
-using Furion.RemoteRequest;
-using Furion.RemoteRequest.Extensions;
-using Furion.Schedule;
+using Gurion.RemoteRequest;
+using Gurion.RemoteRequest.Extensions;
+using Gurion.Schedule;
 using NetAdmin.Application.Extensions;
-using NetAdmin.Domain.Dto.Sys.Job;
-using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.BackgroundRunning;
 using NetAdmin.Host.Middlewares;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Job;
+using NetAdmin.SysComponent.Domain.Dto.Sys.JobRecord;
+using NetAdmin.SysComponent.Infrastructure.Constant;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
 
@@ -41,7 +42,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         }
 
         // ReSharper disable once MethodSupportsCancellation
-        await Parallel.ForAsync(0, Numbers.SCHEDULED_JOB_PARALLEL_NUM, async (_, _) => await WorkflowAsync(stoppingToken).ConfigureAwait(false))
+        await Parallel.ForAsync(0, SysNumbers.SCHEDULED_JOB_PARALLEL_NUM, async (_, _) => await WorkflowAsync(stoppingToken).ConfigureAwait(false))
                       .ConfigureAwait(false);
     }
 
@@ -128,7 +129,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
     private HttpRequestPart BuildRequest(QueryJobRsp job)
     {
         var ret     = job.RequestUrl.SetHttpMethod(new HttpMethod(job.HttpMethod.ToString()));
-        var headers = new Dictionary<string, string>();
+        var headers = new Dictionary<string, object>();
 
         if (!_accessToken.NullOrEmpty()) {
             headers.Add( //
@@ -142,7 +143,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
 
         if (!job.RequestHeader.NullOrEmpty()) {
             // ReSharper disable once UsageOfDefaultStructEquality
-            ret = ret.SetHeaders(headers.Union(job.RequestHeader.Object<Dictionary<string, string>>()).ToDictionary(x => x.Key, x => x.Value));
+            ret = ret.SetHeaders(headers.Union(job.RequestHeader.Object<Dictionary<string, object>>()).ToDictionary(x => x.Key, x => x.Value));
         }
 
         if (!job.RequestBody.NullOrEmpty()) {

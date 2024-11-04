@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Captcha;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Captcha;
 using SixLabors.ImageSharp;
 using Yitter.IdGenerator;
 

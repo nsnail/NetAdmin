@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(SolutionDir)/build/code.quality.props"/>
+    <ItemGroup>
+        <ProjectReference Include="../NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="$(SolutionDir)/assets/res/NetAdmin.SysComponent.Statements.ln">
+            <Link>Languages/NetAdmin.SysComponent.Statements.ln</Link>
+        </None>
+        <None Include="$(SolutionDir)/assets/res/NetAdmin.SysComponent.Fields.ln">
+            <Link>Languages/NetAdmin.SysComponent.Fields.ln</Link>
+        </None>
+    </ItemGroup>
+</Project>

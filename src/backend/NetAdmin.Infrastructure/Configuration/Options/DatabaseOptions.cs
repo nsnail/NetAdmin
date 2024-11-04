@@ -1,3 +1,4 @@
+using NetAdmin.Infrastructure.Configuration.Dependency;
 using DataType = FreeSql.DataType;
 
 namespace NetAdmin.Infrastructure.Configuration.Options;
