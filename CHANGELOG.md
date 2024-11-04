@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/nsnail/NetAdmin/compare/v1.6.0...v2.0.0) (2024-11-04)
+
+
+### Features
+
+* ✨ 查询过滤器保存 ([779d8e5](https://github.com/nsnail/NetAdmin/commit/779d8e511a84d2be91d74ea308c22b969d6963f3))
+* ✨ 框架代码同步 ([#173](https://github.com/nsnail/NetAdmin/issues/173)) ([c088492](https://github.com/nsnail/NetAdmin/commit/c088492cfabada198ad563e43278ab7e869029bc))
+* ✨ 框架代码同步 ([#178](https://github.com/nsnail/NetAdmin/issues/178)) ([58e4572](https://github.com/nsnail/NetAdmin/commit/58e4572723ba68700fb6414167cb27b03c864db1))
+
+
+### Bug Fixes
+
+* 🐛 public const int SECS_CACHE_LOGIN_BY_USER_ID = 3600 * 24 * 30; // 秒：缓存时间-通过用户编号登录的用户信息 ([#179](https://github.com/nsnail/NetAdmin/issues/179)) ([000e3d6](https://github.com/nsnail/NetAdmin/commit/000e3d68a85eaee7758b4160d1d0ffa52aa4aae0))
+
 ## [1.6.0](https://github.com/nsnail/NetAdmin/compare/v1.5.0...v1.6.0) (2024-08-12)
 
 
