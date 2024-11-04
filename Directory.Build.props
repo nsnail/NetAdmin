@@ -1,6 +1,7 @@
 <!-- 注意此文件名大小写不可变更 -->
 <Project>
     <PropertyGroup>
+        <DefineConstants>DBTYPE_SQLITE</DefineConstants>
         <SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
     </PropertyGroup>
     <Import Project="$(SolutionDir)/build/minver.targets" />

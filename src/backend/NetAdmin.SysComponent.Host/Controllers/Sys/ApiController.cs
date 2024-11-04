@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Api;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Api;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 

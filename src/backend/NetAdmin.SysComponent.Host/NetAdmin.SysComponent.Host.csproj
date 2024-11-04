@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <DefineConstants>DBTYPE_SQLITE</DefineConstants>
-    </PropertyGroup>
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
+    <ItemGroup>
+        <EmbeddedResource Include="$(SolutionDir)/assets/captcha/**" LinkBase="Assets/Captcha"/>
+    </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Host/NetAdmin.Host.csproj"/>
         <ProjectReference Include="../NetAdmin.SysComponent.Cache/NetAdmin.SysComponent.Cache.csproj"/>

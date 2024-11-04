@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Content;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 

@@ -3,7 +3,9 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 /// <inheritdoc />
 public abstract record ImmutableEntity : ImmutableEntity<long>
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     [Snowflake]
@@ -17,19 +19,25 @@ public abstract record ImmutableEntity : ImmutableEntity<long>
 public abstract record ImmutableEntity<T> : LiteImmutableEntity<T>, IFieldCreatedUser
     where T : IEquatable<T>
 {
-    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserId" />
+    /// <summary>
+    ///     创建者编号
+    /// </summary>
     [Column(CanUpdate = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]
     public long? CreatedUserId { get; init; }
 
-    /// <inheritdoc cref="IFieldCreatedUser.CreatedUserName" />
+    /// <summary>
+    ///     创建者用户名
+    /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string CreatedUserName { get; init; }
 
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     public override T Id { get; init; }

@@ -1,5 +1,5 @@
-using NetAdmin.Domain.Dto.Sys.Api;
-using NetAdmin.Domain.Dto.Sys.Dev;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Api;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Dev;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -20,33 +20,32 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
         req.ThrowIfInvalid();
-
-        // 模块类型（Sys、Adm、等）
-        var moduleType = Enum.GetName(req.Type)!;
-        var @namespace = req.Type.ToString();
+        int index;
+        var typeAbbr = req.Type[(index = req.Type.LastIndexOf('.') + 1)..(index + 3)];
 
         // 模板层目录
-        var tplHostDir  = GetDir("SysComponent.Host");
-        var tplCacheDir = GetDir("SysComponent.Cache");
-        var tplAppDir   = GetDir("SysComponent.Application");
+        var tplHostDir  = GetDir("NetAdmin.Host");
+        var tplCacheDir = GetDir("NetAdmin.Cache");
+        var tplDataDir  = GetDir("NetAdmin.Domain");
+        var tplAppDir   = GetDir("NetAdmin.Application");
 
         // 主机层目录
-        var hostControllerDir = Path.Combine(GetDir($"{moduleType}.Host"), "Controllers", moduleType[..3]);
+        var hostControllerDir = Path.Combine(GetDir($"{req.Type}.Host"), "Controllers", typeAbbr);
 
         // 缓存层目录
-        var cacheDir           = Path.Combine(GetDir($"{moduleType}.Cache"), moduleType[..3]);
-        var cacheDependencyDir = Path.Combine(cacheDir,                      "Dependency");
+        var cacheDir           = Path.Combine(GetDir($"{req.Type}.Cache"), typeAbbr);
+        var cacheDependencyDir = Path.Combine(cacheDir,                    "Dependency");
 
         // 业务逻辑层目录
-        var appDir                   = GetDir($"{moduleType}.Application");
-        var appModulesDir            = Path.Combine(appDir,         "Modules",  moduleType[..3]);
-        var appServicesDir           = Path.Combine(appDir,         "Services", moduleType[..3]);
+        var appDir                   = GetDir($"{req.Type}.Application");
+        var appModulesDir            = Path.Combine(appDir,         "Modules",  typeAbbr);
+        var appServicesDir           = Path.Combine(appDir,         "Services", typeAbbr);
         var appServicesDependencyDir = Path.Combine(appServicesDir, "Dependency");
 
         // 数据契约层目录
-        var dataDir   = GetDir("NetAdmin.Domain");
-        var dtoDir    = Path.Combine(dataDir, "Dto",    moduleType[..3], req.ModuleName);
-        var entityDir = Path.Combine(dataDir, "DbMaps", moduleType[..3]);
+        var dataDir   = GetDir($"{req.Type}.Domain");
+        var dtoDir    = Path.Combine(dataDir, "Dto",    typeAbbr, req.ModuleName);
+        var entityDir = Path.Combine(dataDir, "DbMaps", typeAbbr);
 
         // 创建缺少的目录
         CreateDir(hostControllerDir, cacheDir, cacheDependencyDir, appDir, appModulesDir, appServicesDir, appServicesDependencyDir, dataDir, dtoDir
@@ -54,52 +53,52 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
 
         // Controller
         await WriteCodeFileAsync(req, Path.Combine(tplHostDir,        "Controllers", "Tpl", "ExampleController.cs")
-                          ,           Path.Combine(hostControllerDir, $"{req.ModuleName}Controller.cs"), @namespace)
+                          ,           Path.Combine(hostControllerDir, $"{req.ModuleName}Controller.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // CreateReq
-        await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "CreateExampleReq.cs")
-                          ,           Path.Combine(dtoDir,  $"Create{req.ModuleName}Req.cs"), @namespace)
+        await WriteCodeFileAsync(req, Path.Combine(tplDataDir, "Dto", "Tpl", "Example", "CreateExampleReq.cs")
+                          ,           Path.Combine(dtoDir,     $"Create{req.ModuleName}Req.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // QueryReq
-        await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "QueryExampleReq.cs")
-                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Req.cs"), @namespace)
+        await WriteCodeFileAsync(req, Path.Combine(tplDataDir, "Dto", "Tpl", "Example", "QueryExampleReq.cs")
+                          ,           Path.Combine(dtoDir,     $"Query{req.ModuleName}Req.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // QueryRsp
-        await WriteCodeFileAsync(req, Path.Combine(dataDir, "Dto", "Tpl", "Example", "QueryExampleRsp.cs")
-                          ,           Path.Combine(dtoDir,  $"Query{req.ModuleName}Rsp.cs"), @namespace)
+        await WriteCodeFileAsync(req, Path.Combine(tplDataDir, "Dto", "Tpl", "Example", "QueryExampleRsp.cs")
+                          ,           Path.Combine(dtoDir,     $"Query{req.ModuleName}Rsp.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // ICache
         await WriteCodeFileAsync(req, Path.Combine(tplCacheDir,        "Tpl", "Dependency", "IExampleCache.cs")
-                          ,           Path.Combine(cacheDependencyDir, $"I{req.ModuleName}Cache.cs"), @namespace)
+                          ,           Path.Combine(cacheDependencyDir, $"I{req.ModuleName}Cache.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // Cache
         await WriteCodeFileAsync(req, Path.Combine(tplCacheDir, "Tpl", "ExampleCache.cs"), Path.Combine(cacheDir, $"{req.ModuleName}Cache.cs")
-                          ,           @namespace)
+                          ,           typeAbbr)
             .ConfigureAwait(false);
 
         // IModule
         await WriteCodeFileAsync(req, Path.Combine(tplAppDir,     "Modules", "Tpl", "IExampleModule.cs")
-                          ,           Path.Combine(appModulesDir, $"I{req.ModuleName}Module.cs"), @namespace)
+                          ,           Path.Combine(appModulesDir, $"I{req.ModuleName}Module.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // IService
         await WriteCodeFileAsync(req, Path.Combine(tplAppDir,                "Services", "Tpl", "Dependency", "IExampleService.cs")
-                          ,           Path.Combine(appServicesDependencyDir, $"I{req.ModuleName}Service.cs"), @namespace)
+                          ,           Path.Combine(appServicesDependencyDir, $"I{req.ModuleName}Service.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // Service
         await WriteCodeFileAsync(req, Path.Combine(tplAppDir,      "Services", "Tpl", "ExampleService.cs")
-                          ,           Path.Combine(appServicesDir, $"{req.ModuleName}Service.cs"), @namespace)
+                          ,           Path.Combine(appServicesDir, $"{req.ModuleName}Service.cs"), typeAbbr)
             .ConfigureAwait(false);
 
         // Entity
-        await WriteCodeFileAsync(req, Path.Combine(dataDir,   "DbMaps", "Tpl", "Tpl_Example.cs")
-                          ,           Path.Combine(entityDir, $"{moduleType[..3]}_{req.ModuleName}.cs"), @namespace)
+        await WriteCodeFileAsync(req, Path.Combine(tplDataDir, "DbMaps", "Tpl", "Tpl_Example.cs")
+                          ,           Path.Combine(entityDir,  $"{typeAbbr}_{req.ModuleName}.cs"), typeAbbr)
             .ConfigureAwait(false);
     }
 
@@ -191,13 +190,10 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         return _projectDirs.First(x => x.EndsWith(key, true, CultureInfo.InvariantCulture));
     }
 
-    private static async Task WriteCodeFileAsync(GenerateCsCodeReq req, string tplFile, string writeFile, string @namespace = "SysComponent")
+    private static async Task WriteCodeFileAsync(GenerateCsCodeReq req, string tplFile, string writeFile, string moduleAbbr)
     {
         var tplContent = await File.ReadAllTextAsync(tplFile).ConfigureAwait(false);
-        tplContent = tplContent.Replace("Tpl", Enum.GetName(req.Type)![..3])
-                               .Replace("示例",                    req.ModuleRemark)
-                               .Replace("Example",               req.ModuleName)
-                               .Replace("NetAdmin.SysComponent", $"NetAdmin.{@namespace}");
+        tplContent = tplContent.Replace("Tpl", moduleAbbr).Replace("示例", req.ModuleRemark).Replace("Example", req.ModuleName);
 
         await File.WriteAllTextAsync(writeFile, tplContent).ConfigureAwait(false);
     }

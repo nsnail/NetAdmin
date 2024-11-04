@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.SysComponent.Domain.Dto.Sys.User;
 
 namespace NetAdmin.SysComponent.Cache.Sys.Dependency;
 

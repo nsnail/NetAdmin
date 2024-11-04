@@ -1,3 +1,6 @@
+#if DBTYPE_SQLSERVER
+using Microsoft.Data.SqlClient;
+#endif
 using Newtonsoft.Json;
 using DataType = FreeSql.DataType;
 
@@ -13,10 +16,16 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     /// </summary>
     public IFreeSql Build(FreeSqlInitMethods initMethods)
     {
-        var freeSql = new FreeSql.FreeSqlBuilder().UseConnectionString(databaseOptions.DbType, databaseOptions.ConnStr)
-                                                  .UseGenerateCommandParameterWithLambda(true)
-                                                  .UseAutoSyncStructure(initMethods.HasFlag(FreeSqlInitMethods.SyncStructure))
-                                                  .Build();
+        var freeSql = new FreeSql.FreeSqlBuilder()
+                      #if DBTYPE_SQLSERVER
+                      .UseConnectionFactory(databaseOptions.DbType, () => new SqlConnection(databaseOptions.ConnStr))
+                      .UseAdoConnectionPool(true)
+                      #else
+                      .UseConnectionString(databaseOptions.DbType, databaseOptions.ConnStr)
+                      #endif
+                      .UseGenerateCommandParameterWithLambda(true)
+                      .UseAutoSyncStructure(initMethods.HasFlag(FreeSqlInitMethods.SyncStructure))
+                      .Build();
         _ = InitDbAsync(freeSql, initMethods); // 初始化数据库 ，异步
         return freeSql;
     }

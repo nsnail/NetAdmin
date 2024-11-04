@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Dev;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Dev;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 

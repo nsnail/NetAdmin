@@ -1,6 +1,6 @@
-[submodule "refs/Furion"]
-    path = refs/Furion
-    url = https://github.com/nsnail/Furion.git
+[submodule "refs/Gurion"]
+    path = refs/Gurion
+    url = https://github.com/nsnail/Gurion.git
 [submodule "refs/ns-ext"]
     path = refs/ns-ext
     url = https://github.com/nsnail/ns-ext.git

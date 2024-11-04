@@ -1,5 +1,3 @@
-using NetAdmin.Domain.Dto.Sys.User;
-
 namespace NetAdmin.Domain.Contexts;
 
 /// <summary>
@@ -43,9 +41,9 @@ public sealed record ContextUserToken : DataAbstraction
     /// <summary>
     ///     从 QueryUserRsp 创建上下文用户
     /// </summary>
-    public static ContextUserToken Create(QueryUserRsp user)
+    public static ContextUserToken Create(long id, Guid token, string userName, long deptId)
     {
-        return new ContextUserToken { Id = user.Id, Token = user.Token, UserName = user.UserName, DeptId = user.DeptId };
+        return new ContextUserToken { Id = id, Token = token, UserName = userName, DeptId = deptId };
     }
 
     /// <summary>

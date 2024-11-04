@@ -1,5 +1,5 @@
 using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.Events.Sys;
+using NetAdmin.SysComponent.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 
@@ -24,7 +24,8 @@ public sealed class CacheCleaner : IEventSubscriber
         }
 
         var cache = App.GetService<IUserCache>();
-        cache.Service.UserToken = ContextUserToken.Create(userUpdatedEvent.Data);
+        cache.Service.UserToken = ContextUserToken.Create(userUpdatedEvent.Data.Id, userUpdatedEvent.Data.Token, userUpdatedEvent.Data.UserName
+                                                        , userUpdatedEvent.Data.DeptId);
         return cache.RemoveUserInfoAsync();
     }
 }

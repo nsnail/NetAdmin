@@ -1,6 +1,6 @@
-using NetAdmin.Domain.Dto.Sys;
-using NetAdmin.Domain.Dto.Sys.LoginLog;
-using NetAdmin.Domain.Dto.Sys.RequestLog;
+using NetAdmin.SysComponent.Domain.Dto.Sys.LoginLog;
+using NetAdmin.SysComponent.Domain.Dto.Sys.RequestLog;
+using NetAdmin.SysComponent.Infrastructure.Constant;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -40,7 +40,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
 
         // 插入登录日志
-        if (req.ApiPathCrc32 == Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD.Crc32()) {
+        if (req.ApiPathCrc32 == SysChars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD.Crc32()) {
             _ = await loginLogService.CreateAsync(req.Adapt<CreateLoginLogReq>()).ConfigureAwait(false);
         }
 

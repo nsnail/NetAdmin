@@ -1,6 +1,7 @@
 <#@ template language="C#" #>
 <#@ output encoding="utf-8" extension="resx" #>
 <#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
 <?xml version="1.0" encoding="utf-8"?>
 <root>
@@ -28,14 +29,11 @@
     </resheader>
    <#
     var regex = new Regex(@"^\d", RegexOptions.Compiled);
-    foreach (var file in Directory.GetFiles("../assets/res/", "*.ln"))
+    foreach (var line in Directory.GetFiles("../assets/res/", "*.ln").SelectMany(x => File.ReadLines(x)).Distinct())
     {
-        foreach (var line in File.ReadLines(file))
-        {
 #>
     <data name="<#= regex.IsMatch(line) ? "_" : "" #><#= line #>" xml:space="preserve"><value><#= line #></value></data>
 <#
-        }
     }
 #>
 </root>

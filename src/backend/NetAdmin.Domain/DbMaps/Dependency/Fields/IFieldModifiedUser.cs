@@ -1,7 +1,7 @@
 namespace NetAdmin.Domain.DbMaps.Dependency.Fields;
 
 /// <summary>
-///     更新用户字段接口
+///     修改用户字段接口
 /// </summary>
 public interface IFieldModifiedUser
 {

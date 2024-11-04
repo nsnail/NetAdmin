@@ -397,6 +397,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 .idea/
+!src/backend/CloudCode.DataGrip/.idea
 
 # User Define
 dist/

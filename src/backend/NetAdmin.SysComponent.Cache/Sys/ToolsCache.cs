@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Tool;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Tool;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 

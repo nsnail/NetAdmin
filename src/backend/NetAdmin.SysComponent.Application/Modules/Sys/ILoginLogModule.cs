@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.LoginLog;
+using NetAdmin.SysComponent.Domain.Dto.Sys.LoginLog;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 

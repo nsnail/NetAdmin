@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Role;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 

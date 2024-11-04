@@ -1,11 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <DefineConstants>DBTYPE_SQLITE</DefineConstants>
-    </PropertyGroup>
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
-    <ItemGroup>
-        <Content Include="$(SolutionDir)/assets/seed-data/**" LinkBase="SeedData" CopyToOutputDirectory="PreserveNewest"/>
-    </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
     </ItemGroup>

@@ -1,8 +1,8 @@
-using Furion.FriendlyException;
+using Gurion.FriendlyException;
 
 namespace NetAdmin.Host.Filters;
 
-/// <inheritdoc cref="Furion.FriendlyException.IGlobalExceptionHandler" />
+/// <inheritdoc cref="Gurion.FriendlyException.IGlobalExceptionHandler" />
 public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IGlobalExceptionHandler, ISingleton
 {
     /// <inheritdoc />

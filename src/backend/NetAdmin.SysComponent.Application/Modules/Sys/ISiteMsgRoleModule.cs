@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.SiteMsgRole;
+using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsgRole;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 

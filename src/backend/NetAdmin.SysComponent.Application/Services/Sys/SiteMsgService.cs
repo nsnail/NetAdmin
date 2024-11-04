@@ -1,8 +1,7 @@
-using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.Dto.Sys.SiteMsg;
-using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
-using NetAdmin.Domain.Dto.Sys.User;
-using NetAdmin.Domain.Enums.Sys;
+using NetAdmin.SysComponent.Domain.Contexts;
+using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsg;
+using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsgFlag;
+using NetAdmin.SysComponent.Domain.Dto.Sys.User;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -295,7 +294,7 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
 
         return Rpo.Orm.Select<Sys_SiteMsg, Sys_User, Sys_SiteMsgDept, Sys_SiteMsgRole, Sys_SiteMsgUser, Sys_SiteMsgFlag>()
                   #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                  .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
                   #endif
                   .LeftJoin((a, b, _, _, _, _) => a.CreatedUserId == b.Id)
                   .LeftJoin((a, _, c, _, _, _) => a.Id            == c.SiteMsgId)

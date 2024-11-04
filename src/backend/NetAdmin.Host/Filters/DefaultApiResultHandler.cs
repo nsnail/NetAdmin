@@ -1,4 +1,4 @@
-using Furion.FriendlyException;
+using Gurion.FriendlyException;
 using NetAdmin.Domain.Dto;
 
 namespace NetAdmin.Host.Filters;

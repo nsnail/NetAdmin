@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Content;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -65,7 +65,8 @@ public sealed class DicContentCache(IDistributedCache cache, IDicContentService 
     {
         #if !DEBUG
         return GetOrCreateAsync( //
-            GetCacheKey(catalogCode), () => Service.QueryByCatalogCodeAsync(catalogCode), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DIC_CATALOG_CODE));
+            GetCacheKey(catalogCode), () => Service.QueryByCatalogCodeAsync(catalogCode)
+,                                     TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DIC_CATALOG_CODE));
         #else
         return Service.QueryByCatalogCodeAsync(catalogCode);
         #endif

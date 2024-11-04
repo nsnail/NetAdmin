@@ -1,3 +1,5 @@
+using NetAdmin.Infrastructure.Configuration.Dependency;
+
 namespace NetAdmin.Infrastructure.Configuration.Options;
 
 /// <summary>

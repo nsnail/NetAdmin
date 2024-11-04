@@ -1,4 +1,5 @@
 // ReSharper disable IdentifierTypo
+// ReSharper disable UnusedMember.Global
 
 namespace NetAdmin.Infrastructure.Enums;
 

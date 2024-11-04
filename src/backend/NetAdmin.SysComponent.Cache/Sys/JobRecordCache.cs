@@ -1,4 +1,4 @@
-using NetAdmin.Domain.Dto.Sys.JobRecord;
+using NetAdmin.SysComponent.Domain.Dto.Sys.JobRecord;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 

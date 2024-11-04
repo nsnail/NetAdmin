@@ -3,7 +3,9 @@ namespace NetAdmin.Domain.DbMaps.Dependency;
 /// <inheritdoc />
 public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     [Snowflake]
@@ -17,13 +19,17 @@ public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
 public abstract record LiteImmutableEntity<T> : EntityBase<T>, IFieldCreatedTime
     where T : IEquatable<T>
 {
-    /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
+    /// <summary>
+    ///     创建时间
+    /// </summary>
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
     [CsvIgnore]
     [JsonIgnore]

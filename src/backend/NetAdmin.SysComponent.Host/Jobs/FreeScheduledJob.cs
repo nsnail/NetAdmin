@@ -1,4 +1,4 @@
-using Furion.Schedule;
+using Gurion.Schedule;
 using NetAdmin.Host.BackgroundRunning;
 using NetAdmin.Host.Middlewares;
 

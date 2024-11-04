@@ -9,22 +9,4 @@
               Command="dotnet t4 ./gen.cs.tt -o ../dist/backend/$(ProjectName)/Ln.cs"
               StdOutEncoding="utf-8" />
     </Target>
-    <ItemGroup>
-        <None Include="$(SolutionDir)/assets/res/Statements.ln">
-            <Link>Languages/Statements.ln</Link>
-        </None>
-        <None Include="$(SolutionDir)/assets/res/Nations.ln">
-            <Link>Languages/Nations.ln</Link>
-        </None>
-        <None Include="$(SolutionDir)/assets/res/Fields.ln">
-            <Link>Languages/Fields.ln</Link>
-        </None>
-        <EmbeddedResource Include="$(SolutionDir)/assets/res/Ln.resx">
-            <Link>Languages/Ln.resx</Link>
-            <Generator>PublicResXFileCodeGenerator</Generator>
-        </EmbeddedResource>
-        <Compile Include="$(SolutionDir)/dist/backend/$(ProjectName)/Ln.Designer.cs">
-            <Link>Languages/Ln.Designer.cs</Link>
-        </Compile>
-    </ItemGroup>
 </Project>
