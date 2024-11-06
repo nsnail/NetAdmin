@@ -71,6 +71,15 @@
                 :style="item.style"
                 clearable
                 filterable />
+            <na-user-select
+                v-else-if="item.type === 'user-select' && (!item.condition || item.condition())"
+                v-model="form[item.field[0]][item.field[1]]"
+                v-role="item.role || '*/*/*'"
+                :class="item.class"
+                :placeholder="item.placeholder"
+                :style="item.style"
+                clearable
+                filterable />
         </template>
 
         <el-badge :hidden="vue.query.dynamicFilter.filters.length === 0" :value="vue.query.dynamicFilter.filters.length">

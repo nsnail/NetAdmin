@@ -31,6 +31,15 @@
                 <na-search
                     :controls="[
                         {
+                            type: 'remote-select',
+                            field: ['dy', 'ownerId'],
+                            api: $API.sys_user.query,
+                            config: { props: { label: 'userName', value: 'id' } },
+                            placeholder: '用户',
+                            style: 'width:15rem',
+                            condition: () => $GLOBAL.hasPermission('sys/log/operation/user'),
+                        },
+                        {
                             multiple: true,
                             type: 'select',
                             field: ['dy', 'httpStatusCode'],

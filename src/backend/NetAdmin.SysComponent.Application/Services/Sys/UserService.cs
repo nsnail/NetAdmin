@@ -246,7 +246,13 @@ public sealed class UserService(
     public async Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await (await QueryInternalAsync(req).ConfigureAwait(false)).Take(req.Count).ToListAsync(_listUserExp).ConfigureAwait(false);
+        var list = await (await QueryInternalAsync(req, false).ConfigureAwait(false))
+                         #if DBTYPE_SQLSERVER
+                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                         #endif
+                         .Take(req.Count)
+                         .ToListAsync(a => new Sys_User { Id = a.Id, UserName = a.UserName })
+                         .ConfigureAwait(false);
         return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
 

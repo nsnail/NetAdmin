@@ -42,7 +42,7 @@ public record CreateMenuReq : Sys_Menu
 
     /// <inheritdoc cref="Sys_Menu.ParentId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long ParentId { get; init; } = 0;
+    public override long ParentId { get; init; }
 
     /// <inheritdoc cref="Sys_Menu.Path" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

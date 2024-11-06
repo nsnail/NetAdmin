@@ -63,6 +63,9 @@ export default {
             this.myChart = myChart
             window.addEventListener('resize', () => myChart.resize())
         },
+        resize(width) {
+            this.myChart.resize({ width: width || 'auto' })
+        },
     },
 }
 </script>

@@ -1,8 +1,7 @@
 {
   // App基本配置
   "AppSettings": {
-    "InjectSpecificationDocument": false,
-    "InjectMiniProfiler": false
+    "InjectSpecificationDocument": false
   },
   //  Swagger文档配置 ------------------------------------------------------------------------------
   "SpecificationDocumentSettings": {

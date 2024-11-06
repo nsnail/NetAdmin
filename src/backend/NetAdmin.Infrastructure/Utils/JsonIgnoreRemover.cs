@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Infrastructure.Utils;
+namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
 ///     忽略 JsonIgnore 特性

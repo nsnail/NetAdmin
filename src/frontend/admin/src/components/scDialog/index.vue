@@ -72,6 +72,7 @@ export default {
         //最大化
         setFullscreen() {
             this.isFullscreen = !this.isFullscreen
+            this.$emit('onSetFullscreen', this.isFullscreen)
         },
     },
 }

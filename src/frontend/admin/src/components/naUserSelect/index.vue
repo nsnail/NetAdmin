@@ -46,7 +46,7 @@ export default {
             immediate: true,
             deep: true,
             handler(n) {
-                this.user = n ?? {}
+                this.user = n
             },
         },
     },
