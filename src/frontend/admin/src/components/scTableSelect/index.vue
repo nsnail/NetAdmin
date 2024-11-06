@@ -158,7 +158,9 @@ export default {
                         }
                     })
                 } else {
-                    const setrow = this.tableData.filter((item) => item[this.defaultProps.value] === this.defaultValue[this.defaultProps.value])
+                    const setrow = this.tableData.filter(
+                        (item) => item[this.defaultProps.value] === (this.defaultValue ?? {})[this.defaultProps.value],
+                    )
                     this.$refs.table.setCurrentRow(setrow[0])
                 }
                 this.$refs.table.setScrollTop(0)
@@ -182,7 +184,7 @@ export default {
                         item.currentLabel = item.value[this.defaultProps.label]
                     })
                 } else {
-                    this.$refs.select.states.selectedLabel = this.defaultValue[this.defaultProps.label]
+                    this.$refs.select.states.selectedLabel = (this.defaultValue ?? {})[this.defaultProps.label]
                 }
             })
         },

@@ -1,6 +1,5 @@
 {
   "AppSettings": {
-    "InjectSpecificationDocument": true,
-    "InjectMiniProfiler": true
+    "InjectSpecificationDocument": true
   }
 }

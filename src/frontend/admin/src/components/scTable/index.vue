@@ -505,7 +505,7 @@ export default {
             this.loading = true
             try {
                 await this.exportApi.post(this.getQueryParams())
-                this.$message.success(`数据已导出（上限2万条）`)
+                this.$message.success(`数据已导出（上限5万条）`)
             } catch {}
             this.loading = false
         },
