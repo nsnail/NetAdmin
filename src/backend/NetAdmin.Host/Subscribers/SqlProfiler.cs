@@ -37,10 +37,6 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     {
         var source = context.Source as SeedDataInsertedEvent;
         logger.Info(source);
-        if (App.WebHostEnvironment.IsDevelopment()) {
-            Environment.Exit(0);
-        }
-
         return Task.CompletedTask;
     }
 
