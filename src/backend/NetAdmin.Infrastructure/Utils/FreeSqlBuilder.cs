@@ -13,7 +13,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     /// <summary>
     ///     构建freeSql对象
     /// </summary>
-    public IFreeSql Build(FreeSqlInitMethods initMethods)
+    public IFreeSql Build(FreeSqlInitMethods initMethods, Func<int, Task> onSeedDataInserted = null)
     {
         var freeSql = new FreeSql.FreeSqlBuilder()
                       #if DBTYPE_SQLSERVER
@@ -25,7 +25,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
                       .UseGenerateCommandParameterWithLambda(true)
                       .UseAutoSyncStructure(initMethods.HasFlag(FreeSqlInitMethods.SyncStructure))
                       .Build();
-        _ = InitDbAsync(freeSql, initMethods); // 初始化数据库 ，异步
+        _ = InitDbAsync(freeSql, initMethods, onSeedDataInserted); // 初始化数据库 ，异步
         return freeSql;
     }
 
@@ -69,7 +69,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     /// <summary>
     ///     初始化数据库
     /// </summary>
-    private Task InitDbAsync(IFreeSql freeSql, FreeSqlInitMethods initMethods)
+    private Task InitDbAsync(IFreeSql freeSql, FreeSqlInitMethods initMethods, Func<int, Task> onSeedDataInserted)
     {
         return Task.Run(() => {
             if (initMethods == FreeSqlInitMethods.None) {
@@ -82,7 +82,8 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
             }
 
             if (initMethods.HasFlag(FreeSqlInitMethods.InsertSeedData)) {
-                InsertSeedData(freeSql, entityTypes);
+                var insertCount = InsertSeedData(freeSql, entityTypes);
+                _ = onSeedDataInserted?.Invoke(insertCount);
             }
 
             if (initMethods.HasFlag(FreeSqlInitMethods.CompareStructure)) {
@@ -94,8 +95,9 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     /// <summary>
     ///     插入种子数据
     /// </summary>
-    private void InsertSeedData(IFreeSql freeSql, IEnumerable<Type> entityTypes)
+    private int InsertSeedData(IFreeSql freeSql, IEnumerable<Type> entityTypes)
     {
+        var ret = 0;
         foreach (var entityType in entityTypes) {
             var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, databaseOptions.SeedDataRelativePath, $"{entityType.Name}.json");
             if (!File.Exists(file)) {
@@ -112,8 +114,8 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
                                         };
             _ = jsonSerializerOptions.Converters.AddDateTimeTypeConverters();
 
-            var jsonTypeInfo = JsonTypeInfo.CreateJsonTypeInfo(typeof(IEnumerable<>).MakeGenericType(entityType), jsonSerializerOptions);
-            var entities     = JsonSerializer.Deserialize(fs, jsonTypeInfo);
+            var     jsonTypeInfo = JsonTypeInfo.CreateJsonTypeInfo(typeof(IEnumerable<>).MakeGenericType(entityType), jsonSerializerOptions);
+            dynamic entities     = JsonSerializer.Deserialize(fs, jsonTypeInfo);
 
             // 如果表存在数据，跳过
             var select = typeof(IFreeSql).GetMethod(nameof(freeSql.Select), 1, Type.EmptyTypes)?.MakeGenericMethod(entityType).Invoke(freeSql, null);
@@ -129,8 +131,11 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
 
             var insert = MakeInsertMethod(entityType);
 
-            _ = insert?.Invoke(rep, [entities]);
+            _   =  insert?.Invoke(rep, [entities]);
+            ret += entities!.Count;
         }
+
+        return ret;
     }
 
     /// <summary>

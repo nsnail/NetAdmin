@@ -30,6 +30,21 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     }
 
     /// <summary>
+    ///     种子数据插入完毕
+    /// </summary>
+    [EventSubscribe(nameof(SeedDataInsertedEvent))]
+    public Task SeedDataInsertedEventAsync(EventHandlerExecutingContext context)
+    {
+        var source = context.Source as SeedDataInsertedEvent;
+        logger.Info(source);
+        if (App.WebHostEnvironment.IsDevelopment()) {
+            Environment.Exit(0);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     ///     同步数据库结构之后
     /// </summary>
     [EventSubscribe(nameof(SyncStructureAfterEvent))]
