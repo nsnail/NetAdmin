@@ -23,8 +23,13 @@ public abstract class ApiResultHandler<T>
     /// </summary>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        var naException = context.Exception switch { NetAdminException ex => ex, _ => null };
-        var errorCode   = naException?.Code ?? ErrorCodes.Unhandled;
+        var naException = context.Exception switch {
+                              NetAdminException ex => ex
+                            , _ => context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT)
+                                  ? new NetAdminInvalidOperationException(Ln.记录已存在)
+                                  : null
+                          };
+        var errorCode = naException?.Code ?? ErrorCodes.Unhandled;
         var result = RestfulResult(errorCode, metadata.Data
                       ,                       naException is NetAdminValidateException vEx
                                        ? vEx.ValidateResults

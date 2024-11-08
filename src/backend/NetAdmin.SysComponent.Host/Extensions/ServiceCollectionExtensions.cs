@@ -32,12 +32,13 @@ public static class ServiceCollectionExtensions
         // #if !DEBUG
         // initOptions = FreeSqlInitOptions.None;
         // #endif
-        var dbOptions = App.GetOptions<DatabaseOptions>();
-        var fSql      = new FreeSqlBuilder(dbOptions).Build(initMethods);
+        var dbOptions      = App.GetOptions<DatabaseOptions>();
+        var eventPublisher = App.GetService<IEventPublisher>();
+
+        var fSql = new FreeSqlBuilder(dbOptions).Build(initMethods, count => eventPublisher.PublishAsync(new SeedDataInsertedEvent(count)));
         _ = me.AddSingleton(fSql);
 
         fSql.Aop.AuditValue += SqlAuditor.DataAuditHandler; // Insert/Update自动值处理
-        var eventPublisher = App.GetService<IEventPublisher>();
 
         #pragma warning disable VSTHRD110
 
