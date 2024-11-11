@@ -20,9 +20,9 @@
 import packageJson from '/package.json'
 
 export default {
-    title: null,
+    title: '外部组件',
     icon: 'el-icon-monitor',
-    description: null,
+    description: '引用的外部组件信息',
     data() {
         return {
             loading: true,
