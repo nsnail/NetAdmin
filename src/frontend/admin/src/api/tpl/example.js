@@ -50,28 +50,6 @@ export default {
     },
 
     /**
-     * 示例是否存在
-     */
-    exist: {
-        url: `${config.API_URL}/api/tpl/example/exist`,
-        name: `示例是否存在`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 导出示例
-     */
-    export: {
-        url: `${config.API_URL}/api/tpl/example/export`,
-        name: `导出示例`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 获取单个示例
      */
     get: {
@@ -88,17 +66,6 @@ export default {
     pagedQuery: {
         url: `${config.API_URL}/api/tpl/example/paged.query`,
         name: `分页查询示例`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
-     * 查询示例
-     */
-    query: {
-        url: `${config.API_URL}/api/tpl/example/query`,
-        name: `查询示例`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

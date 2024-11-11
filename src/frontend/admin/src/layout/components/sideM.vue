@@ -15,9 +15,9 @@
             <el-main>
                 <el-scrollbar>
                     <el-menu
+                        :active-text-color="DEFAULT_CONFIG.APP_SET_COLOR"
                         :default-active="$route.meta.active || $route.fullPath"
                         @select="select"
-                        active-text-color="#21A675"
                         background-color="#424c50"
                         router
                         text-color="#fff">
@@ -31,6 +31,7 @@
 
 <script>
 import NavMenu from './NavMenu.vue'
+import DEFAULT_CONFIG from '@/config'
 
 export default {
     components: {
@@ -42,7 +43,11 @@ export default {
             menu: [],
         }
     },
-    computed: {},
+    computed: {
+        DEFAULT_CONFIG() {
+            return DEFAULT_CONFIG
+        },
+    },
     created() {
         const menu = this.$router.sc_getMenu()
         this.menu = this.filterUrl(menu)

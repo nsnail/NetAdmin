@@ -20,7 +20,7 @@ export default (error, vm) => {
     }
     const errorName = errorMap[error.name] || '未知错误'
 
-    console.warn(`[NetAdmin error]: ${error}`)
+    console.warn(`[error]: ${error}`)
     console.error(error)
     //throw error;
 

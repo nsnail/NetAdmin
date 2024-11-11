@@ -13,7 +13,7 @@
                         <el-form-item :label="$t('项值')" prop="value">
                             <el-input v-model="form.value" clearable></el-input>
                         </el-form-item>
-                        <el-form-item :label="$t('描述')" prop="summary">
+                        <el-form-item :label="$t('备注')" prop="summary">
                             <el-input v-model="form.summary" clearable></el-input>
                         </el-form-item>
                     </el-form>

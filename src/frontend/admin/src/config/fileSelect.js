@@ -1,4 +1,5 @@
 import API from '@/api'
+import DEFAULT_CONFIG from '@/config/index'
 
 //文件选择器配置
 
@@ -43,11 +44,11 @@ export default {
     files: {
         doc: {
             icon: 'sc-icon-file-word-2-fill',
-            color: '#21A675',
+            color: DEFAULT_CONFIG.APP_SET_COLOR,
         },
         docx: {
             icon: 'sc-icon-file-word-2-fill',
-            color: '#21A675',
+            color: DEFAULT_CONFIG.APP_SET_COLOR,
         },
         xls: {
             icon: 'sc-icon-file-excel-2-fill',

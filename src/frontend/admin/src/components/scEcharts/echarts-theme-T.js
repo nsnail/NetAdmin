@@ -1,5 +1,7 @@
+import DEFAULT_CONFIG from '@/config'
+
 const T = {
-    color: ['#21A675', '#36CE9E', '#f56e6a', '#626c91', '#edb00d', '#909399'],
+    color: [DEFAULT_CONFIG.APP_SET_COLOR, '#36CE9E', '#f56e6a', '#626c91', '#edb00d', '#909399'],
     grid: {
         left: '3%',
         right: '3%',

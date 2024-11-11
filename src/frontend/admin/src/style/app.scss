@@ -92,7 +92,7 @@ textarea {
     bottom: 10rem;
     right: 0;
     z-index: 100;
-    background: #21a675;
+    background: var(--el-color-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -234,7 +234,7 @@ textarea {
 }
 
 .aminui-side-split li.active {
-    background: #21a675;
+    background: var(--el-color-primary);
     color: #fff;
 }
 
@@ -347,6 +347,7 @@ textarea {
 
 .right-panel-search {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
 }
@@ -410,7 +411,7 @@ textarea {
 }
 
 .adminui-tags li.active {
-    background: #21a675;
+    background: var(--el-color-primary);
 }
 
 .adminui-tags li.active a {

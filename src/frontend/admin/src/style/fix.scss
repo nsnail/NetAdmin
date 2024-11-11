@@ -44,7 +44,17 @@
 
 .el-date-editor {
     --el-date-editor-daterange-width: 20rem;
-    --el-date-editor-datetimerange-width: 30rem;
+    --el-date-editor-datetimerange-width: 27rem;
+
+    .el-range-separator {
+        flex: unset;
+        padding: unset;
+    }
+}
+
+.el-range-editor.el-input__wrapper {
+    padding: 0 0.5rem;
+    justify-content: space-around;
 }
 
 .el-menu {
@@ -93,6 +103,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    --el-header-height: auto;
+    gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .el-header .left-panel {
