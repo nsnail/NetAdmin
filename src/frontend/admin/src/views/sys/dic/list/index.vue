@@ -82,7 +82,7 @@
                 <el-table-column type="selection" width="50" />
                 <el-table-column :label="$t('项名')" prop="key" sortable="custom" />
                 <el-table-column :label="$t('项值')" prop="value" sortable="custom" />
-                <el-table-column :label="$t('描述')" prop="summary" sortable="custom" />
+                <el-table-column :label="$t('备注')" prop="summary" sortable="custom" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>

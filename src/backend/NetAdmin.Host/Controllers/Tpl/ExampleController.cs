@@ -52,6 +52,7 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     /// <summary>
     ///     示例是否存在
     /// </summary>
+    [NonAction]
     public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
     {
         return Cache.ExistAsync(req);
@@ -60,6 +61,7 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     /// <summary>
     ///     导出示例
     /// </summary>
+    [NonAction]
     public Task<IActionResult> ExportAsync(QueryReq<QueryExampleReq> req)
     {
         return Cache.ExportAsync(req);
@@ -84,6 +86,7 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     /// <summary>
     ///     查询示例
     /// </summary>
+    [NonAction]
     public Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
     {
         return Cache.QueryAsync(req);

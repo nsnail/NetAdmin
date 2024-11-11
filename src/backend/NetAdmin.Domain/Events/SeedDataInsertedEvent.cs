@@ -8,14 +8,13 @@ public sealed record SeedDataInsertedEvent : DataAbstraction, IEventSource
     /// <summary>
     ///     Initializes a new instance of the <see cref="SeedDataInsertedEvent" /> class.
     /// </summary>
-    public SeedDataInsertedEvent(int insertedCount)
+    public SeedDataInsertedEvent(int insertedCount, bool isConsumOnce = false)
     {
+        IsConsumOnce  = isConsumOnce;
         InsertedCount = insertedCount;
+        CreatedTime   = DateTime.Now;
         EventId       = nameof(SeedDataInsertedEvent);
     }
-
-    /// <inheritdoc />
-    public CancellationToken CancellationToken { get; }
 
     /// <inheritdoc />
     public DateTime CreatedTime { get; }
@@ -27,10 +26,13 @@ public sealed record SeedDataInsertedEvent : DataAbstraction, IEventSource
     public bool IsConsumOnce { get; }
 
     /// <inheritdoc />
-    public object Payload { get; }
+    public CancellationToken CancellationToken { get; init; }
 
     /// <summary>
     ///     插入数量
     /// </summary>
     public int InsertedCount { get; set; }
+
+    /// <inheritdoc />
+    public object Payload { get; init; }
 }
