@@ -34,7 +34,7 @@ redis-cli    # 连接测试
 # 下载 redis for linux/mac：https://redis.io/download
 
 # 4. 运行后端 WebApi
-dotnet run --project ./src/backend/NetAdmin.AdmServer.Host/NetAdmin.AdmServer.Host.csproj --urls http://[::]:5010 -is
+dotnet run --project ./src/backend/YourSolution.AdmServer.Host/YourSolution.AdmServer.Host.csproj --urls http://[::]:5010 -is
 # -i 插入种子数据
 # -s 同步数据库结构
 # 浏览器访问 http://localhost:5010 ，将看到Swagger（Knife4jUI）界面

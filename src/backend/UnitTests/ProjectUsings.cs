@@ -1,4 +1,4 @@
-global using NetAdmin.AdmServer.Host;
+global using YourSolution.AdmServer.Host;
 global using NetAdmin.Domain.Dto.Dependency;
 global using NetAdmin.SysComponent.Application.Modules.Sys;
 global using NetAdmin.SysComponent.Host.Controllers.Sys;
