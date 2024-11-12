@@ -9,7 +9,7 @@ namespace YourSolution.AdmServer.Host.Extensions;
 public static class IApplicationBuilderExtensions
 {
     private const           string              _INDEX_HTML_PATH = ".index.html";
-    private const           string              _RES_PFX         = $"{nameof(NetAdmin)}.{nameof(AdmServer)}.{nameof(Host)}.UI";
+    private const           string              _RES_PFX         = $"{nameof(YourSolution)}.{nameof(AdmServer)}.{nameof(Host)}.UI";
     private static readonly Regex               _regex           = new(@"\.(\w+)$", RegexOptions.Compiled);
     private static          IEnumerable<string> _allResNames;
 
