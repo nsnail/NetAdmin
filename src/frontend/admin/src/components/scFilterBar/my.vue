@@ -125,7 +125,7 @@ export default {
 
 .sc-filter-my-list li:hover {
     background: #ecf5ff;
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
 }
 
 .sc-filter-my-list li label {

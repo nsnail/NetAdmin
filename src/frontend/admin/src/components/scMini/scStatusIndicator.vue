@@ -47,7 +47,7 @@ export default {
 }
 
 .sc-state-bg--primary {
-    background: var(--el-color-primary);
+    background: var(--na-color-primary);
 }
 
 .sc-state-bg--success {

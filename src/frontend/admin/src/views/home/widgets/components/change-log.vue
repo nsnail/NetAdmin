@@ -44,7 +44,7 @@ export default {
         display: none;
     }
     a {
-        color: var(--el-color-primary);
+        color: var(--na-color-primary);
     }
 }
 </style>

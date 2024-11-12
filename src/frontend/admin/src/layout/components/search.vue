@@ -183,8 +183,8 @@ export default {
 }
 
 .sc-search-result li:hover {
-    background: var(--el-color-primary);
+    background: var(--na-color-primary);
     color: #fff;
-    border-color: var(--el-color-primary);
+    border-color: var(--na-color-primary);
 }
 </style>

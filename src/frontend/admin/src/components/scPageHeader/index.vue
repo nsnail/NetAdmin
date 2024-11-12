@@ -53,7 +53,7 @@ export default {
 .sc-page-header__icon span {
     width: 2.5rem;
     height: 2.5rem;
-    background: var(--el-color-primary);
+    background: var(--na-color-primary);
     border-radius: 40%;
     display: flex;
     align-items: center;

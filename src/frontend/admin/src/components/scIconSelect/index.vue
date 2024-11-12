@@ -185,11 +185,11 @@ export default {
 }
 
 .sc-icon-select__list li:hover {
-    box-shadow: 0 0 1px 0.3rem var(--el-color-primary);
+    box-shadow: 0 0 1px 0.3rem var(--na-color-primary);
     background: var(--el-color-primary-light-9);
 }
 
 .sc-icon-select__list li:hover i {
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
 }
 </style>

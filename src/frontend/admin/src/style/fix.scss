@@ -26,7 +26,7 @@
 }
 
 .el-menu--inline {
-    --el-menu-active-color: var(--el-color-primary) !important;
+    --el-menu-active-color: var(--na-color-primary) !important;
 }
 
 .el-form-item--default {
@@ -269,7 +269,7 @@
 }
 
 .aminui-side-split li.active {
-    background-color: var(--el-color-primary);
+    background-color: var(--na-color-primary);
 }
 
 .adminui-tags li:hover {
@@ -277,7 +277,7 @@
 }
 
 .adminui-tags li.active {
-    background-color: var(--el-color-primary) !important;
+    background-color: var(--na-color-primary) !important;
 }
 
 .contextmenu li:hover {
@@ -286,12 +286,12 @@
 }
 
 .data-box .item-background {
-    background-color: var(--el-color-primary) !important;
+    background-color: var(--na-color-primary) !important;
 }
 
 .layout-setting,
 .diy-grid-setting {
-    background-color: var(--el-color-primary) !important;
+    background-color: var(--na-color-primary) !important;
 }
 
 .el-descriptions__body .el-descriptions__table {

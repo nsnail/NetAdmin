@@ -440,7 +440,7 @@ export default {
 }
 
 .sc-file-select__item__file .item-file.item-file-doc {
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
 }
 
 .sc-file-select__item__upload {

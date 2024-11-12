@@ -178,8 +178,8 @@ export default {
 
 .modItem-add:hover,
 .modItem-add:hover i {
-    border-color: var(--el-color-primary);
-    color: var(--el-color-primary) !important;
+    border-color: var(--na-color-primary);
+    color: var(--na-color-primary) !important;
 }
 
 .setMods {

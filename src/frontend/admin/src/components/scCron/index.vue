@@ -828,7 +828,7 @@ export default {
 }
 
 .sc-cron:deep(.el-tabs__item.is-active) .sc-cron-num h4 {
-    background: var(--el-color-primary);
+    background: var(--na-color-primary);
     color: #fff;
 }
 

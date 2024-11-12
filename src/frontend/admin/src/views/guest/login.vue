@@ -166,7 +166,7 @@ export default {
 }
 
 .login-form:deep(.login-forgot) a {
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
 }
 
 .login-form:deep(.login-forgot) a:hover {
@@ -179,7 +179,7 @@ export default {
 }
 
 .login-form:deep(.login-reg) a {
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
 }
 
 .login-form:deep(.login-reg) a:hover {
