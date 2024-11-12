@@ -70,29 +70,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E4C93BA
         stylecop.analyzers.ruleset = build/stylecop.analyzers.ruleset
     EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.AdmServer.Application", "src\backend\NetAdmin.AdmServer.Application\NetAdmin.AdmServer.Application.csproj", "{E38B2EB4-D7A5-4777-9236-3B348919DF23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Application", "src\backend\YourSolution.AdmServer.Application\YourSolution.AdmServer.Application.csproj", "{E38B2EB4-D7A5-4777-9236-3B348919DF23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.AdmServer.Host", "src\backend\NetAdmin.AdmServer.Host\NetAdmin.AdmServer.Host.csproj", "{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Host", "src\backend\YourSolution.AdmServer.Host\YourSolution.AdmServer.Host.csproj", "{CE895E44-EEC3-4ECE-A56A-8A82E7D863E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.hosted-servers", "03.hosted-servers", "{12AE5B4B-CB1A-498E-83B8-04E201E31D86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Domain", "src\backend\NetAdmin.Domain\NetAdmin.Domain.csproj", "{58509C57-09FA-4E3C-BC07-78E786A2A326}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Domain", "src\backend\NetAdmin\NetAdmin.Domain\NetAdmin.Domain.csproj", "{58509C57-09FA-4E3C-BC07-78E786A2A326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\backend\NetAdmin.Application\NetAdmin.Application.csproj", "{70C54E1B-2083-4196-AB68-34CAF0075D82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Application", "src\backend\NetAdmin\NetAdmin.Application\NetAdmin.Application.csproj", "{70C54E1B-2083-4196-AB68-34CAF0075D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\backend\NetAdmin.Host\NetAdmin.Host.csproj", "{91839A15-D08F-4848-A301-F793412BC688}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Host", "src\backend\NetAdmin\NetAdmin.Host\NetAdmin.Host.csproj", "{91839A15-D08F-4848-A301-F793412BC688}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Cache", "src\backend\NetAdmin.Cache\NetAdmin.Cache.csproj", "{91452C22-4B57-4F16-9AF6-42C7BF830504}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Cache", "src\backend\NetAdmin\NetAdmin.Cache\NetAdmin.Cache.csproj", "{91452C22-4B57-4F16-9AF6-42C7BF830504}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.AdmServer.Cache", "src\backend\NetAdmin.AdmServer.Cache\NetAdmin.AdmServer.Cache.csproj", "{7CB632D3-3635-4F8D-AFE7-F496D37D422B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Cache", "src\backend\YourSolution.AdmServer.Cache\YourSolution.AdmServer.Cache.csproj", "{7CB632D3-3635-4F8D-AFE7-F496D37D422B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Host", "src\backend\NetAdmin.SysComponent.Host\NetAdmin.SysComponent.Host.csproj", "{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Host", "src\backend\NetAdmin\NetAdmin.SysComponent.Host\NetAdmin.SysComponent.Host.csproj", "{C2CC1596-3BEE-43EA-A9BE-4EDE5716296C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Cache", "src\backend\NetAdmin.SysComponent.Cache\NetAdmin.SysComponent.Cache.csproj", "{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Cache", "src\backend\NetAdmin\NetAdmin.SysComponent.Cache\NetAdmin.SysComponent.Cache.csproj", "{19872A4C-3C9A-4C62-A33B-74F5B8D6F77C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Application", "src\backend\NetAdmin.SysComponent.Application\NetAdmin.SysComponent.Application.csproj", "{34650E82-D257-46DA-BD6B-DE307113347B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Application", "src\backend\NetAdmin\NetAdmin.SysComponent.Application\NetAdmin.SysComponent.Application.csproj", "{34650E82-D257-46DA-BD6B-DE307113347B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.components", "02.components", "{3F23258D-8299-4992-9F51-2EE9B52CF9D2}"
 EndProject
@@ -104,20 +104,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05.tools", "05.tools", "{79
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\backend\UnitTests\UnitTests.csproj", "{C7F27698-DA05-4ACD-B0D7-4791B3972002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin.Tests\NetAdmin.Tests.csproj", "{00604162-C444-478B-B773-3AB23C856CA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin\NetAdmin.Tests\NetAdmin.Tests.csproj", "{00604162-C444-478B-B773-3AB23C856CA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E80A1018-C354-4A26-9029-8847BB9DA864}"
     ProjectSection(SolutionItems) = preProject
         README.md = docker/README.md
     EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Domain", "src\backend\NetAdmin.SysComponent.Domain\NetAdmin.SysComponent.Domain.csproj", "{51D6E603-0749-4A11-A78C-9E5BB127E03A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Domain", "src\backend\NetAdmin\NetAdmin.SysComponent.Domain\NetAdmin.SysComponent.Domain.csproj", "{51D6E603-0749-4A11-A78C-9E5BB127E03A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.AdmServer.Domain", "src\backend\NetAdmin.AdmServer.Domain\NetAdmin.AdmServer.Domain.csproj", "{932520DF-D312-415A-A128-1117F8221D68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Domain", "src\backend\YourSolution.AdmServer.Domain\YourSolution.AdmServer.Domain.csproj", "{932520DF-D312-415A-A128-1117F8221D68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.AdmServer.Infrastructure", "src\backend\NetAdmin.AdmServer.Infrastructure\NetAdmin.AdmServer.Infrastructure.csproj", "{C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Infrastructure", "src\backend\YourSolution.AdmServer.Infrastructure\YourSolution.AdmServer.Infrastructure.csproj", "{C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Infrastructure", "src\backend\NetAdmin.SysComponent.Infrastructure\NetAdmin.SysComponent.Infrastructure.csproj", "{48EE6FC4-B64A-40D3-B889-36837E067880}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Infrastructure", "src\backend\NetAdmin\NetAdmin.SysComponent.Infrastructure\NetAdmin.SysComponent.Infrastructure.csproj", "{48EE6FC4-B64A-40D3-B889-36837E067880}"
 EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution

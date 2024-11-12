@@ -37,8 +37,8 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: ${{ runner.os }}-nuget
-      - working-directory: ./src/backend/NetAdmin.AdmServer.Host
-        run: dotnet publish NetAdmin.AdmServer.Host.csproj -c Release
+      - working-directory: ./src/backend/YourSolution.AdmServer.Host
+        run: dotnet publish YourSolution.AdmServer.Host.csproj -c Release
       - uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(SolutionDir)/build/code.quality.props"/>
+    <ItemGroup>
+        <ProjectReference Include="../YourSolution.AdmServer.Application/YourSolution.AdmServer.Application.csproj"/>
+        <ProjectReference Include="../NetAdmin/NetAdmin.SysComponent.Cache/NetAdmin.SysComponent.Cache.csproj"/>
+    </ItemGroup>
+</Project>

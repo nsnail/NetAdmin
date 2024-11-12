@@ -3,5 +3,5 @@ WORKDIR /app
 EXPOSE 8080
 RUN apt update
 RUN apt install -y redis
-COPY ./dist/backend/NetAdmin.AdmServer.Host/bin/Release/net9.0/publish .
-ENTRYPOINT redis-server --daemonize yes && dotnet NetAdmin.AdmServer.Host.dll -is
+COPY ./dist/backend/YourSolution.AdmServer.Host/bin/Release/net9.0/publish .
+ENTRYPOINT redis-server --daemonize yes && dotnet YourSolution.AdmServer.Host.dll -is
