@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(SolutionDir)/build/code.quality.props"/>
+    <ItemGroup>
+        <Content Include="$(SolutionDir)/assets/seed-data/Sys_*.json" LinkBase="SeedData" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="../NetAdmin.Domain/NetAdmin.Domain.csproj"/>
+        <ProjectReference Include="../NetAdmin.SysComponent.Infrastructure/NetAdmin.SysComponent.Infrastructure.csproj"/>
+    </ItemGroup>
+</Project>
