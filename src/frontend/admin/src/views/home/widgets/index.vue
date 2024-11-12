@@ -330,7 +330,7 @@ export default {
 }
 
 .customizing .widgets-wrapper .draggable-box {
-    border: 1px dashed var(--el-color-primary);
+    border: 1px dashed var(--na-color-primary);
     padding: 1rem;
 }
 
@@ -359,7 +359,7 @@ export default {
 }
 
 .customize-overlay label {
-    background: var(--el-color-primary);
+    background: var(--na-color-primary);
     color: #fff;
     height: 4rem;
     padding: 0 3rem;
@@ -466,15 +466,15 @@ export default {
 }
 
 .selectLayout-item:hover {
-    border-color: var(--el-color-primary);
+    border-color: var(--na-color-primary);
 }
 
 .selectLayout-item.active {
-    border-color: var(--el-color-primary);
+    border-color: var(--na-color-primary);
 }
 
 .selectLayout-item.active span {
-    background: var(--el-color-primary);
+    background: var(--na-color-primary);
 }
 
 .dark {

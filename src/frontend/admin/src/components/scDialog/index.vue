@@ -97,7 +97,7 @@ export default {
 }
 
 .sc-dialog__headerbtn button:hover .el-dialog__close {
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
 }
 
 .sc-dialog:deep(.el-dialog).is-fullscreen {

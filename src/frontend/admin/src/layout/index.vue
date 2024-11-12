@@ -122,7 +122,7 @@
                 <div v-if="!ismobile" class="adminui-header-menu">
                     <el-menu
                         :default-active="active"
-                        active-text-color="var(--el-color-primary)"
+                        active-text-color="var(--na-color-primary)"
                         mode="horizontal"
                         router
                         text-color="var(--el-text-color-primary)">

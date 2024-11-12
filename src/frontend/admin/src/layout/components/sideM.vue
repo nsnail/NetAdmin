@@ -142,8 +142,8 @@ export default {
     z-index: 10;
     width: 4rem;
     height: 4rem;
-    background: var(--el-color-primary);
-    box-shadow: 0 0.2rem 1rem 0 var(--el-color-primary);
+    background: var(--na-color-primary);
+    box-shadow: 0 0.2rem 1rem 0 var(--na-color-primary);
     display: flex;
     align-items: center;
     justify-content: center;

@@ -3,14 +3,15 @@
   "SpecificationDocumentSettings": {
     "GroupOpenApiInfos": [
       {
+        "Description": "NetAdmin - 系统组件",
         "Group": "Sys",
+        "TermsOfService": "https://github.com/nsnail/NetAdmin",
         "Title": "系统组件",
-        "Description": "NetAdmin - 系统组件"
       },
       {
+        "Description": "NetAdmin - 管理服务",
         "Group": "Adm",
         "Title": "管理服务",
-        "Description": "NetAdmin - 管理服务"
       },
       {
         "Group": "Tpl",

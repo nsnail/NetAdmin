@@ -180,11 +180,11 @@ export default {
 }
 
 .sc-select-filter__item-options li:hover {
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
 }
 
 .sc-select-filter__item-options li.active {
-    background: var(--el-color-primary);
+    background: var(--na-color-primary);
     color: #fff;
     font-weight: bold;
 }

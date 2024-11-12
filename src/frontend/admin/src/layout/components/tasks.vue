@@ -105,7 +105,7 @@ export default {
     margin-bottom: 0.5rem;
 }
 .user-bar-jobs-item:hover {
-    border-color: var(--el-color-primary);
+    border-color: var(--na-color-primary);
 }
 
 .user-bar-jobs-item.alert:hover {
@@ -124,7 +124,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--el-color-primary);
+    color: var(--na-color-primary);
     border-radius: 1.5rem;
 }
 .user-bar-jobs-item-body .jobMain {
