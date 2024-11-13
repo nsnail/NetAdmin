@@ -8,13 +8,13 @@ public abstract record SqlCommandEvent : DataAbstraction, IEventSource
     /// <summary>
     ///     Initializes a new instance of the <see cref="SqlCommandEvent" /> class.
     /// </summary>
-    protected SqlCommandEvent(bool isConsumOnce = false)
+    protected SqlCommandEvent(bool isConsumeOnce = false)
     {
-        IsConsumOnce = isConsumOnce;
+        IsConsumeOnce = isConsumeOnce;
     }
 
     /// <inheritdoc />
-    public bool IsConsumOnce { get; }
+    public bool IsConsumeOnce { get; }
 
     /// <inheritdoc />
     public CancellationToken CancellationToken { get; init; }

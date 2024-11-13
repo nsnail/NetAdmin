@@ -11,13 +11,13 @@ public sealed record VerifyCodeCreatedEvent : DataAbstraction, IEventSourceGener
     /// <summary>
     ///     Initializes a new instance of the <see cref="VerifyCodeCreatedEvent" /> class.
     /// </summary>
-    public VerifyCodeCreatedEvent(QueryVerifyCodeRsp data, DateTime createdTime = default, bool isConsumOnce = false, object payload = default
+    public VerifyCodeCreatedEvent(QueryVerifyCodeRsp data, DateTime createdTime = default, bool isConsumeOnce = false, object payload = default
                                 , CancellationToken  cancellationToken = default)
     {
         Data              = data;
         CancellationToken = cancellationToken;
         CreatedTime       = createdTime;
-        IsConsumOnce      = isConsumOnce;
+        IsConsumeOnce      = isConsumeOnce;
         Payload           = payload;
     }
 
@@ -34,7 +34,7 @@ public sealed record VerifyCodeCreatedEvent : DataAbstraction, IEventSourceGener
     public string EventId => nameof(VerifyCodeCreatedEvent);
 
     /// <inheritdoc />
-    public bool IsConsumOnce { get; }
+    public bool IsConsumeOnce { get; }
 
     /// <inheritdoc />
     public object Payload { get; }
