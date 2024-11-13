@@ -44,10 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B
         install.as.tpl.ps1 = scripts/install.as.tpl.ps1
         rename.csx = scripts/rename.csx
         resharper.full.ps1 = scripts/resharper.full.ps1
-        switcher.freesql.json = scripts/switcher.freesql.json
-        switcher.gurion.json = scripts/switcher.gurion.json
-        switcher.nsext.json = scripts/switcher.nsext.json
-        switcher.ps1 = scripts/switcher.ps1
+        switch.nuget.or.project.csx = scripts/switch.nuget.or.project.csx
         sync.sln.files.csx = scripts/sync.sln.files.csx
         wait.server.stop.sh = scripts/wait.server.stop.sh
     EndProjectSection
@@ -119,6 +116,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Infr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Infrastructure", "src\backend\NetAdmin\NetAdmin.SysComponent.Infrastructure\NetAdmin.SysComponent.Infrastructure.csproj", "{48EE6FC4-B64A-40D3-B889-36837E067880}"
 EndProject
+##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gurion", "refs\Gurion\src\Gurion\Gurion.csproj", "{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}"#refs
+##EndProject#refs
+##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql", "refs\FreeSql\FreeSql\FreeSql.csproj", "{3C65DA42-877D-46FF-B754-C12214302A29}"#refs
+##EndProject#refs
+##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.Provider.Sqlite", "refs\FreeSql\Providers\FreeSql.Provider.Sqlite\FreeSql.Provider.Sqlite.csproj", "{CF5EFA63-4631-4A64-B4F3-98A7DD532F68}"#refs
+##EndProject#refs
+##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.DbContext", "refs\FreeSql\FreeSql.DbContext\FreeSql.DbContext.csproj", "{FE03DF27-EC56-48DB-81B0-F99947259A7C}"#refs
+##EndProject#refs
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
         Debug|Any CPU = Debug|Any CPU
@@ -196,6 +201,22 @@ Global
         {48EE6FC4-B64A-40D3-B889-36837E067880}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {48EE6FC4-B64A-40D3-B889-36837E067880}.Release|Any CPU.ActiveCfg = Release|Any CPU
         {48EE6FC4-B64A-40D3-B889-36837E067880}.Release|Any CPU.Build.0 = Release|Any CPU
+        ##{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        ##{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        ##{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        ##{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}.Release|Any CPU.Build.0 = Release|Any CPU
+        ##{3C65DA42-877D-46FF-B754-C12214302A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        ##{3C65DA42-877D-46FF-B754-C12214302A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        ##{3C65DA42-877D-46FF-B754-C12214302A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        ##{3C65DA42-877D-46FF-B754-C12214302A29}.Release|Any CPU.Build.0 = Release|Any CPU
+        ##{CF5EFA63-4631-4A64-B4F3-98A7DD532F68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        ##{CF5EFA63-4631-4A64-B4F3-98A7DD532F68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        ##{CF5EFA63-4631-4A64-B4F3-98A7DD532F68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        ##{CF5EFA63-4631-4A64-B4F3-98A7DD532F68}.Release|Any CPU.Build.0 = Release|Any CPU
+        ##{FE03DF27-EC56-48DB-81B0-F99947259A7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        ##{FE03DF27-EC56-48DB-81B0-F99947259A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        ##{FE03DF27-EC56-48DB-81B0-F99947259A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        ##{FE03DF27-EC56-48DB-81B0-F99947259A7C}.Release|Any CPU.Build.0 = Release|Any CPU
     EndGlobalSection
     GlobalSection(NestedProjects) = preSolution
         {4DAF9366-855F-46BB-AE4C-660C92FA0697} = {C84EB5A0-37AD-4B17-A51E-E36888C4441E}
