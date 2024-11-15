@@ -16,7 +16,9 @@ public sealed class ApiIdAttribute : ValidationAttribute
         var req = new QueryReq<QueryApiReq> { Filter = new QueryApiReq { Id = value as string } };
 
         var method = service.GetType().GetMethod("ExistAsync");
-        var exist  = ((Task<bool>)method!.Invoke(service, [req]))!.ConfigureAwait(false).GetAwaiter().GetResult();
+        #pragma warning disable VSTHRD002
+        var exist = ((Task<bool>)method!.Invoke(service, [req]))!.ConfigureAwait(false).GetAwaiter().GetResult();
+        #pragma warning restore VSTHRD002
         return !exist ? new ValidationResult(Ln.接口编码不存在) : ValidationResult.Success;
     }
 }

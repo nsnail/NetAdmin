@@ -64,41 +64,20 @@
                 </el-header>
                 <el-header style="height: auto">
                     <div class="selectLayout">
-                        <div :class="{ active: grid.layout.join(',') === '12,6,6' }" @click="setLayout([12, 6, 6])" class="selectLayout-item item01">
-                            <el-row :gutter="2">
-                                <el-col :span="12"><span></span></el-col>
-                                <el-col :span="6"><span></span></el-col>
-                                <el-col :span="6"><span></span></el-col>
-                            </el-row>
-                        </div>
-                        <div
-                            :class="{ active: grid.layout.join(',') === '24,12,12' }"
-                            @click="setLayout([24, 12, 12])"
-                            class="selectLayout-item item02">
-                            <el-row :gutter="2">
-                                <el-col :span="24"><span></span></el-col>
-                                <el-col :span="12"><span></span></el-col>
-                                <el-col :span="12"><span></span></el-col>
-                            </el-row>
-                        </div>
-                        <div
-                            :class="{ active: grid.layout.join(',') === '24,16,8' }"
-                            @click="setLayout([24, 16, 8])"
-                            class="selectLayout-item item02">
-                            <el-row :gutter="2">
-                                <el-col :span="24"><span></span></el-col>
-                                <el-col :span="16"><span></span></el-col>
-                                <el-col :span="8"><span></span></el-col>
-                            </el-row>
-                        </div>
-                        <div :class="{ active: grid.layout.join(',') === '24' }" @click="setLayout([24])" class="selectLayout-item item03">
-                            <el-row :gutter="2">
-                                <el-col :span="24"><span></span></el-col>
-                                <el-col :span="24"><span></span></el-col>
-                                <el-col :span="24"><span></span></el-col>
-                            </el-row>
-                        </div>
+                        <layout
+                            v-for="l in layouts"
+                            :active="grid.layout.join(',') === l.replaceAll('-', ',')"
+                            :layout="l"
+                            @onSetLayout="setLayout"></layout>
+                        <layout
+                            v-for="l in customLayouts"
+                            :active="grid.layout.join(',') === l.replaceAll('-', ',')"
+                            :layout="l"
+                            @onSetLayout="setLayout"></layout>
                     </div>
+                </el-header>
+                <el-header style="height: auto">
+                    <el-button @click="this.dialog.customLayout = { title: '添加自定义布局' }" style="margin: 0 auto">添加自定义布局</el-button>
                 </el-header>
                 <el-main class="nopadding">
                     <div class="widgets-list">
@@ -129,17 +108,30 @@
     </div>
 
     <div @click="custom" class="layout-setting">
-        <el-icon><el-icon-setting /></el-icon>
+        <el-icon>
+            <el-icon-setting />
+        </el-icon>
     </div>
+
+    <custom-layout-dialog
+        v-if="dialog.customLayout"
+        @closed="dialog.customLayout = null"
+        @mounted="$refs.customLayoutDialog.open(dialog.customLayout)"
+        @onCustomLayout="(l) => (customLayouts = [l])"
+        ref="customLayoutDialog"></custom-layout-dialog>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
 import allComps from './components'
+import customLayoutDialog from './dialog/custom-layout-dialog.vue'
+import layout from './components/components/layout.vue'
 
 export default {
     components: {
         draggable,
+        customLayoutDialog,
+        layout,
     },
     data() {
         return {
@@ -148,6 +140,9 @@ export default {
             selectLayout: [],
             defaultGrid: this.$CONFIG.APP_SET_HOME_GRID,
             grid: [],
+            layouts: ['12,6,6', '24-12,12', '24-16,8', '24-24-24'],
+            customLayouts: [],
+            dialog: {},
         }
     },
     created() {
@@ -197,16 +192,23 @@ export default {
     methods: {
         //开启自定义
         custom() {
-            this.customizing = true
+            this.customizing = !this.customizing
             const oldWidth = this.$refs.widgets.offsetWidth
             this.$nextTick(() => {
                 const scale = this.$refs.widgets.offsetWidth / oldWidth
-                this.$refs.widgets.style.setProperty('transform', `scale(${scale})`)
+                this.$refs.widgets.style.setProperty('transform', `scale(${this.customizing ? scale : 1})`)
             })
+            this.$emit('on-customizing', this.customizing)
         },
         //设置布局
         setLayout(layout) {
             this.grid.layout = layout
+
+            // 初始化
+            layout.forEach((_, i) => {
+                if (!this.grid.compsList[i]) this.grid.compsList[i] = []
+            })
+
             if (layout.join(',') === '24') {
                 this.grid.compsList[0] = [...this.grid.compsList[0], ...this.grid.compsList[1], ...this.grid.compsList[2]]
                 this.grid.compsList[1] = []
@@ -230,6 +232,7 @@ export default {
             this.customizing = false
             this.$refs.widgets.style.removeProperty('transform')
             this.$TOOL.data.set('APP_SET_HOME_GRID', this.grid)
+            this.$emit('on-customizing', this.customizing)
         },
         //恢复默认
         backDefault() {
@@ -237,12 +240,14 @@ export default {
             this.$refs.widgets.style.removeProperty('transform')
             this.grid = JSON.parse(JSON.stringify(this.defaultGrid))
             this.$TOOL.data.remove('APP_SET_HOME_GRID')
+            this.$emit('on-customizing', this.customizing)
         },
         //关闭
         close() {
             this.customizing = false
             this.$refs.widgets.style.removeProperty('transform')
             this.loadGrid()
+            this.$emit('on-customizing', this.customizing)
         },
         loadGrid() {
             this.grid = this.$TOOL.data.get('APP_SET_HOME_GRID') || JSON.parse(JSON.stringify(this.defaultGrid))
@@ -434,47 +439,6 @@ export default {
 .selectLayout {
     width: 100%;
     display: flex;
-}
-
-.selectLayout-item {
-    width: 5rem;
-    height: 5rem;
-    border: 0.2rem solid var(--el-border-color-light);
-    padding: 0.4rem;
-    cursor: pointer;
-    margin-right: 1rem;
-}
-
-.selectLayout-item span {
-    display: block;
-    background: var(--el-border-color-light);
-    height: 3.6rem;
-}
-
-.selectLayout-item.item02 span {
-    height: 2.4rem;
-}
-
-.selectLayout-item.item02 .el-col:nth-child(1) span {
-    height: 1.1rem;
-    margin-bottom: 0.2rem;
-}
-
-.selectLayout-item.item03 span {
-    height: 1.1rem;
-    margin-bottom: 0.2rem;
-}
-
-.selectLayout-item:hover {
-    border-color: var(--na-color-primary);
-}
-
-.selectLayout-item.active {
-    border-color: var(--na-color-primary);
-}
-
-.selectLayout-item.active span {
-    background: var(--na-color-primary);
 }
 
 .dark {
