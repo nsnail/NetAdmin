@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/nsnail/NetAdmin/compare/v2.0.0...v2.1.0) (2024-11-15)
+
+
+### Features
+
+* ✨ 首页仪表板自定义布局 ([#201](https://github.com/nsnail/NetAdmin/issues/201)) ([2f30028](https://github.com/nsnail/NetAdmin/commit/2f300285aa2afbfaea1fd9ffe299cc2badf98e0f))
+* ✨ 用户选择器 ([#189](https://github.com/nsnail/NetAdmin/issues/189)) ([8479f69](https://github.com/nsnail/NetAdmin/commit/8479f69bdccac93a497e039dd01e18333ec2bbdc))
+
+
+### Bug Fixes
+
+* 🐛 --el-color-primary 变量有闪烁现象 ([#194](https://github.com/nsnail/NetAdmin/issues/194)) ([26e3698](https://github.com/nsnail/NetAdmin/commit/26e3698f57a2986f3b727fa38f293ca40c89f3ab))
+* 🐛 404 ([#198](https://github.com/nsnail/NetAdmin/issues/198)) ([d8dbb28](https://github.com/nsnail/NetAdmin/commit/d8dbb28cfc8ad427062eb8d81be67cc25ded6fb6))
+* 🐛 module name ([#193](https://github.com/nsnail/NetAdmin/issues/193)) ([3069b8f](https://github.com/nsnail/NetAdmin/commit/3069b8fbc451c4c257becf0523ab6ea6cc9af7e2))
+
 ## [2.0.0](https://github.com/nsnail/NetAdmin/compare/v1.6.0...v2.0.0) (2024-11-04)
 
 
