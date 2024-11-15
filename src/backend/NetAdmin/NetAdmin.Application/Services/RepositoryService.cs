@@ -51,10 +51,10 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         where TQuery : DataAbstraction, new()
     {
         var select = selector(query)
-            #if DBTYPE_SQLSERVER
+                     #if DBTYPE_SQLSERVER
                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .Take(Numbers.MAX_LIMIT_EXPORT);
+                     #endif
+                     .Take(Numbers.MAX_LIMIT_EXPORT);
 
         object list = listExp == null ? await select.ToListAsync().ConfigureAwait(false) : await select.ToListAsync(listExp).ConfigureAwait(false);
 

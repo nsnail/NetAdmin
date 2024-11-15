@@ -25,10 +25,10 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     {
         req.ThrowIfInvalid();
         return QueryInternal(req)
-            #if DBTYPE_SQLSERVER
+               #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .CountAsync();
+               #endif
+               .CountAsync();
     }
 
     /// <inheritdoc />
@@ -64,10 +64,10 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     {
         req.ThrowIfInvalid();
         return QueryInternal(req)
-            #if DBTYPE_SQLSERVER
+               #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .AnyAsync();
+               #endif
+               .AnyAsync();
     }
 
     /// <inheritdoc />

@@ -68,10 +68,10 @@ public sealed class UserService(
         req.ThrowIfInvalid();
         #pragma warning disable VSTHRD103
         return QueryInternal(req)
-            #if DBTYPE_SQLSERVER
+               #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .CountAsync();
+               #endif
+               .CountAsync();
         #pragma warning restore VSTHRD103
     }
 
