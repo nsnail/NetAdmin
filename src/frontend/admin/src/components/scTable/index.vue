@@ -504,7 +504,7 @@ export default {
         async exportData() {
             this.loading = true
             try {
-                await this.exportApi.post(this.getQueryParams())
+                await this.exportApi.post(this.getQueryParams(), { responseType: 'blob' })
                 this.$message.success(`数据已导出（上限5万条）`)
             } catch {}
             this.loading = false
