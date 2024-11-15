@@ -17,7 +17,7 @@ public sealed record UserUpdatedEvent : DataAbstraction, IEventSourceGeneric<Use
         Data              = data;
         CancellationToken = cancellationToken;
         CreatedTime       = createdTime;
-        IsConsumeOnce      = isConsumeOnce;
+        IsConsumeOnce     = isConsumeOnce;
         Payload           = payload;
     }
 

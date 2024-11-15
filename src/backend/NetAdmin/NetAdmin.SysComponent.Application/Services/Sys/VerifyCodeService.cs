@@ -28,10 +28,10 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     {
         req.ThrowIfInvalid();
         return QueryInternal(req)
-            #if DBTYPE_SQLSERVER
+               #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .CountAsync();
+               #endif
+               .CountAsync();
     }
 
     /// <inheritdoc />
@@ -60,10 +60,10 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     {
         req.ThrowIfInvalid();
         return QueryInternal(req)
-            #if DBTYPE_SQLSERVER
+               #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .AnyAsync();
+               #endif
+               .AnyAsync();
     }
 
     /// <inheritdoc />
@@ -178,10 +178,10 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
                                                                                     , Value    = destDevice
                                                                                   }
                                                               })
-            #if DBTYPE_SQLSERVER
+               #if DBTYPE_SQLSERVER
                .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .ToOneAsync();
+               #endif
+               .ToOneAsync();
     }
 
     private ISelect<Sys_VerifyCode> QueryInternal(QueryReq<QueryVerifyCodeReq> req)

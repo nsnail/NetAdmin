@@ -15,7 +15,7 @@ public sealed record RequestLogEvent : DataAbstraction, IEventSourceGeneric<Crea
                          , CancellationToken   cancellationToken = default)
     {
         Data              = data;
-        IsConsumeOnce      = isConsumeOnce;
+        IsConsumeOnce     = isConsumeOnce;
         Payload           = payload;
         CreatedTime       = createdTime;
         CancellationToken = cancellationToken;
