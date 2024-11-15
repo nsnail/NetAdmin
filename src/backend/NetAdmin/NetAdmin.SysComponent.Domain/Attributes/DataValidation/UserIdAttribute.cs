@@ -16,7 +16,9 @@ public sealed class UserIdAttribute : ValidationAttribute
         var req = new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = (long)value! } };
 
         var method = service.GetType().GetMethod("ExistAsync");
-        var exist  = ((Task<bool>)method!.Invoke(service, [req]))!.ConfigureAwait(false).GetAwaiter().GetResult();
+        #pragma warning disable VSTHRD002
+        var exist = ((Task<bool>)method!.Invoke(service, [req]))!.ConfigureAwait(false).GetAwaiter().GetResult();
+        #pragma warning restore VSTHRD002
         return !exist ? new ValidationResult(Ln.用户编号不存在) : ValidationResult.Success;
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div v-if="loading" v-loading="true" style="height: 100%"></div>
-    <el-main v-else>
-        <widgets v-if="dashboard"></widgets>
+    <el-main v-else :style="{ height: mainHeight }">
+        <widgets v-if="dashboard" @on-customizing="onCustomizing"></widgets>
         <work v-else></work>
     </el-main>
 </template>
@@ -20,6 +20,7 @@ export default {
     data() {
         return {
             loading: true,
+            mainHeight: 'auto',
             dashboard: false,
         }
     },
@@ -30,7 +31,11 @@ export default {
         this.loading = false
     },
     mounted() {},
-    methods: {},
+    methods: {
+        onCustomizing(isCustomizing) {
+            this.mainHeight = isCustomizing ? '100%' : 'auto'
+        },
+    },
 }
 </script>
 
