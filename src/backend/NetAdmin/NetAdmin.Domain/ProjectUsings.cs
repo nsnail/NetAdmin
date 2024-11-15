@@ -1,4 +1,3 @@
-global using NetAdmin.Domain;
 global using NetAdmin.Domain.Attributes;
 global using NetAdmin.Domain.Attributes.DataValidation;
 global using NetAdmin.Domain.DbMaps.Dependency;
