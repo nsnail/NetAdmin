@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Menu;
+using NetAdmin.Domain.Dto.Sys.Menu;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 

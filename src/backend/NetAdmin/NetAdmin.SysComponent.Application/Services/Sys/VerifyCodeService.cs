@@ -1,5 +1,7 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.VerifyCode;
-using NetAdmin.SysComponent.Domain.Events.Sys;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.Domain.Enums.Sys;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -120,6 +122,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
         QueryVerifyCodeRsp ret;
 
         #if !DEBUG
+
         // 有发送记录，且小于1分钟，不允许
         if (lastSent != null && (DateTime.Now - lastSent.CreatedTime).TotalMinutes < 1) {
             throw new NetAdminInvalidOperationException(Ln._1分钟内只能发送1次);

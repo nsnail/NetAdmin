@@ -1,4 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsgFlag;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

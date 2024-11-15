@@ -2,9 +2,8 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using NetAdmin.Domain.Dto;
+using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Host.Extensions;
-using NetAdmin.SysComponent.Domain.Dto.Sys.User;
-using NetAdmin.SysComponent.Infrastructure.Constant;
 
 namespace UnitTests;
 
@@ -60,7 +59,7 @@ public abstract class WebApiTestBase<T>(WebTestApplicationFactory<T> factory, IT
                       };
             var loginAccount = JsonContent.Create(req);
             var rspMsg = await client.PostAsync( //
-                                         SysChars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD, loginAccount)
+                                         Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD, loginAccount)
                                      .ConfigureAwait(false);
             var rspObj = (await rspMsg.Content.ReadAsStringAsync().ConfigureAwait(false)).ToObject<RestfulInfo<LoginRsp>>();
             _accessToken = rspObj.Data.AccessToken;

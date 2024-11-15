@@ -1,4 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.RequestLogDetail;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.RequestLogDetail;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

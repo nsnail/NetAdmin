@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Captcha;
+using NetAdmin.Domain.Dto.Sys.Captcha;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 

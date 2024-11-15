@@ -1,4 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

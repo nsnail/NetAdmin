@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Tool;
+using NetAdmin.Domain.Dto.Sys.Tool;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 

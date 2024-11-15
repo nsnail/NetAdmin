@@ -1,9 +1,8 @@
 #if !DEBUG && DBTYPE_SQLSERVER
 using System.Collections.Concurrent;
-using NetAdmin.SysComponent.Domain.DbMaps.Sys;
-using NetAdmin.SysComponent.Domain.Dto.Sys.RequestLog;
-using NetAdmin.SysComponent.Domain.Events.Sys;
-using NetAdmin.SysComponent.Infrastructure.Constant;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 
@@ -24,7 +23,7 @@ public sealed class OperationLogger : IEventSubscriber
             return;
         }
 
-        if (_requestLogs.Count > SysNumbers.REQUEST_LOG_BUFF_SIZE) {
+        if (_requestLogs.Count > Numbers.REQUEST_LOG_BUFF_SIZE) {
             await WriteToDbAsync().ConfigureAwait(false);
         }
         else {
@@ -34,10 +33,10 @@ public sealed class OperationLogger : IEventSubscriber
 
     private static async Task WriteToDbAsync()
     {
-        var inserts = new List<CreateRequestLogReq>(SysNumbers.REQUEST_LOG_BUFF_SIZE);
+        var inserts = new List<CreateRequestLogReq>(Numbers.REQUEST_LOG_BUFF_SIZE);
 
         // 批量入库
-        for (var i = 0; i != SysNumbers.REQUEST_LOG_BUFF_SIZE; ++i) {
+        for (var i = 0; i != Numbers.REQUEST_LOG_BUFF_SIZE; ++i) {
             if (!_requestLogs.TryDequeue(out var log)) {
                 continue;
             }
@@ -63,7 +62,7 @@ public sealed class OperationLogger : IEventSubscriber
     }
 }
 #else
-using NetAdmin.SysComponent.Domain.Events.Sys;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 

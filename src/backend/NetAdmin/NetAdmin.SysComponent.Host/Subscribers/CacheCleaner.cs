@@ -1,5 +1,5 @@
 using NetAdmin.Domain.Contexts;
-using NetAdmin.SysComponent.Domain.Events.Sys;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Host.Subscribers;
 

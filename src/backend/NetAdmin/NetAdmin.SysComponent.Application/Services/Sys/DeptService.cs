@@ -1,4 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dept;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.Dept;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

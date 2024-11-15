@@ -1,9 +1,10 @@
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
-using NetAdmin.SysComponent.Domain.Dto.Sys.User;
-using NetAdmin.SysComponent.Domain.Dto.Sys.UserProfile;
-using NetAdmin.SysComponent.Domain.Dto.Sys.VerifyCode;
-using NetAdmin.SysComponent.Domain.Events.Sys;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.Domain.Events.Sys;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -506,8 +507,12 @@ public sealed class UserService(
     private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req, IEnumerable<long> deptIds, bool includeRoles = true)
     {
         var ret = Rpo.Select.Include(a => a.Dept);
+
+        #pragma warning disable RCS1196
+
+        // ReSharper disable InvokeAsExtensionMethod
         if (includeRoles) {
-            ret = ret.IncludeMany(a => a.Roles.Select(b => new Sys_Role { Id = b.Id, Name = b.Name }));
+            ret = ret.IncludeMany(a => Enumerable.Select(a.Roles, b => new Sys_Role { Id = b.Id, Name = b.Name }));
         }
 
         ret = ret.WhereDynamicFilter(req.DynamicFilter)
@@ -515,11 +520,14 @@ public sealed class UserService(
                  .WhereIf( //
                      req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
                  .WhereIf( //
-                     req.Filter?.RoleId > 0, a => a.Roles.Any(b => b.Id == req.Filter.RoleId))
+                     req.Filter?.RoleId > 0, a => Enumerable.Any(a.Roles, b => b.Id == req.Filter.RoleId))
                  .WhereIf( //
                      req.Keywords?.Length > 0
                    , a => a.Id == req.Keywords.Int64Try(0) || a.UserName == req.Keywords || a.Mobile == req.Keywords || a.Email == req.Keywords ||
                           a.Summary.Contains(req.Keywords));
+
+        // ReSharper restore InvokeAsExtensionMethod
+        #pragma warning restore RCS1196
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

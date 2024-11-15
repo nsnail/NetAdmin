@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
-        <ProjectReference Include="../NetAdmin/NetAdmin.SysComponent.Infrastructure/NetAdmin.SysComponent.Infrastructure.csproj"/>
+        <ProjectReference Include="../NetAdmin/NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <None Include="$(SolutionDir)/assets/res/YourSolution.AdmServer.Statements.ln">

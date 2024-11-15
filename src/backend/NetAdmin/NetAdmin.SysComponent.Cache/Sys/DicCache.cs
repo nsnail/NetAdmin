@@ -1,5 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Catalog;
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -79,7 +79,7 @@ public sealed class DicCache(IDistributedCache cache, IDicService service) //
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.GetDicValueAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DEFAULT));
+          , () => Service.GetDicValueAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
         return Service.GetDicValueAsync(req);
         #endif

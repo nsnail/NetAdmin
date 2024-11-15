@@ -1,5 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys;
-using NetAdmin.SysComponent.Domain.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Dto.Sys;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 

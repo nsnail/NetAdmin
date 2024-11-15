@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsgDept;
+using NetAdmin.Domain.Dto.Sys.SiteMsgDept;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 

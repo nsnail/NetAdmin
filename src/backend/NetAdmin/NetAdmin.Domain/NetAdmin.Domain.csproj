@@ -9,4 +9,7 @@
         <PackageReference Include="CsvHelper.NS" Version="33.0.2-ns2"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
     </ItemGroup>
+    <ItemGroup>
+        <Content Include="$(SolutionDir)/assets/seed-data/Sys_*.json" LinkBase="SeedData" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
 </Project>

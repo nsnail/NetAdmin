@@ -1,6 +1,6 @@
+using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.SysComponent.Domain.Contexts;
-using NetAdmin.SysComponent.Domain.Enums.Sys;
+using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.SysComponent.Host.Extensions;
 using YourSolution.AdmServer.Host.Filters;
 

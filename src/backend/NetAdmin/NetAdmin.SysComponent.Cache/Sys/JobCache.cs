@@ -1,6 +1,6 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys;
-using NetAdmin.SysComponent.Domain.Dto.Sys.Job;
-using NetAdmin.SysComponent.Domain.Dto.Sys.JobRecord;
+using NetAdmin.Domain.Dto.Sys;
+using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.Domain.Dto.Sys.JobRecord;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -85,7 +85,7 @@ public sealed class JobCache(IDistributedCache cache, IJobService service) : Dis
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.GetRecordBarChartAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_CHART));
+          , () => Service.GetRecordBarChartAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetRecordBarChartAsync(req);
         #endif
@@ -97,7 +97,7 @@ public sealed class JobCache(IDistributedCache cache, IJobService service) : Dis
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.GetRecordPieChartByHttpStatusCodeAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DEFAULT));
+          , () => Service.GetRecordPieChartByHttpStatusCodeAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT));
         #else
         return Service.GetRecordPieChartByHttpStatusCodeAsync(req);
         #endif
@@ -109,7 +109,7 @@ public sealed class JobCache(IDistributedCache cache, IJobService service) : Dis
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.GetRecordPieChartByNameAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_CHART));
+          , () => Service.GetRecordPieChartByNameAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetRecordPieChartByNameAsync(req);
         #endif

@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.VerifyCode;
+using NetAdmin.Domain.Dto.Sys.VerifyCode;
 
 namespace UnitTests.Sys;
 

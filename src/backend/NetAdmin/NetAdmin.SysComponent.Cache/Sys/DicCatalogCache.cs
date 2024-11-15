@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 

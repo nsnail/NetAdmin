@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Api;
+using NetAdmin.Domain.Dto.Sys.Api;
 
 namespace UnitTests.Sys;
 
