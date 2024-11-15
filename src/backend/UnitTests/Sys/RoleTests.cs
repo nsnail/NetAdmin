@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.Role;
 
 namespace UnitTests.Sys;
 

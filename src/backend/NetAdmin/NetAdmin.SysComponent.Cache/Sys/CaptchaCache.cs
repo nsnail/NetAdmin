@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Captcha;
+using NetAdmin.Domain.Dto.Sys.Captcha;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -10,8 +10,7 @@ public sealed class CaptchaCache(IDistributedCache cache, ICaptchaService servic
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
         var captchaRsp = await Service.GetCaptchaImageAsync().ConfigureAwait(false);
-        await CreateAsync(GetCacheKey(captchaRsp.Id, nameof(CaptchaCache)), captchaRsp.SawOffsetX
-,                                                                           TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DEFAULT))
+        await CreateAsync(GetCacheKey(captchaRsp.Id, nameof(CaptchaCache)), captchaRsp.SawOffsetX, TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT))
             .ConfigureAwait(false);
         return captchaRsp;
     }

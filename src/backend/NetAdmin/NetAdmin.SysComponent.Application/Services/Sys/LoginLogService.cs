@@ -1,4 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.LoginLog;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.LoginLog;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

@@ -1,5 +1,5 @@
 using System.Collections.Concurrent;
-using NetAdmin.SysComponent.Domain.Dto.Sys.Cache;
+using NetAdmin.Domain.Dto.Sys.Cache;
 using StackExchange.Redis;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;

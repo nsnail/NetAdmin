@@ -70,29 +70,27 @@ npm run dev
 
 ```mermaid
 flowchart TD
-sys-host["NetAdmin.SysComponent.Host\n（系统组件：主机层）"]
-sys-cache["NetAdmin.SysComponent.Cache\n（系统组件：缓存层）"]
-sys-app["NetAdmin.SysComponent.Application\n（系统组件：应用层）"]
-sys-domain["NetAdmin.SysComponent.Domain\n（系统组件：数据实体层）"]
-sys-infra["NetAdmin.SysComponent.Infrastructure\n（系统组件：基础设施层）"]
-host["NetAdmin.Host\n框架：主机层\n（.Net自托管主机程序）\n（输入输出格式化）\n（数据校验、鉴权）\n（...所有HTTP管道过滤器中间件）"]
-cache["NetAdmin.Cache\n框架：缓存层\n（基于Redis或MemoryCache的缓存策略实现）"]
-app["NetAdmin.Application\n框架：业务应用层\n（内部服务增删改查）\n（外部服务增删改查）\n（...所有业务用例的计算与组合逻辑的模块化）"]
-domain["NetAdmin.Domain\n框架：数据实体层\n（数据库关系实体映射）\n（DTO数据传输对象）\n（...所有数据模型的抽象与封装）"]
-infra["NetAdmin.Infrastructure\n框架：基础设施层\n（第三方组件和Nuget包引用）\n（公共构建和程序运行配置）\n（公共常量枚举异常定义）\n（全球化化和多语言）\n（...所有公共Utility工具）"]
-biz-host["YourSolution.XXX.Host\n（业务实例：主机层）"]
-biz-cache["YourSolution.XXX.Cache\n（业务实例：缓存层）"]
-biz-app["YourSolution.XXX.Application\n（业务实例：应用层）"]
-biz-domain["YourSolution.XXX.Domain\n（业务实例：数据实体层）"]
-biz-infra["YourSolution.XXX.Infrastructure\n（业务实例：基础设施层）"]
+sys-host["NetAdmin.SysComponent.Host\n系统组件：主机层"]
+sys-cache["NetAdmin.SysComponent.Cache\n系统组件：缓存层"]
+sys-app["NetAdmin.SysComponent.Application\n系统组件：应用层"]
+host["<b>NetAdmin.Host</b>\n框架：主机层\n（.Net自托管主机程序）\n（输入输出格式化）\n（数据校验、鉴权）\n（...所有HTTP管道过滤器中间件）"]
+cache["<b>NetAdmin.Cache</b>\n框架：缓存层\n（基于Redis或MemoryCache的缓存策略实现）"]
+app["<b>NetAdmin.Application</b>\n框架：业务应用层\n（内部服务增删改查）\n（外部服务增删改查）\n（...所有业务用例的计算与组合逻辑的模块化）"]
+domain["<b>NetAdmin.Domain</b>\n框架：数据实体层\n（数据库关系实体映射）\n（DTO数据传输对象）\n（...所有数据模型的抽象与封装）"]
+infra["<b>NetAdmin.Infrastructure</b>\n框架：基础设施层\n（第三方组件和Nuget包引用）\n（公共构建和程序运行配置）\n（公共常量枚举异常定义）\n（全球化化和多语言）\n（...所有公共Utility工具）"]
+biz-host["YourSolution.XXX.Host\n业务实例：主机层"]
+biz-cache["YourSolution.XXX.Cache\n业务实例：缓存层"]
+biz-app["YourSolution.XXX.Application\n业务实例：应用层"]
+biz-domain["YourSolution.XXX.Domain\n业务实例：数据实体层"]
+biz-infra["YourSolution.XXX.Infrastructure\n业务实例：基础设施层"]
 biz-host-->biz-cache-->biz-app-->biz-domain-->biz-infra
-sys-host-->sys-cache-->sys-app-->sys-domain-->sys-infra
+sys-host-->sys-cache-->sys-app-->domain-->infra
 host-->cache-->app-->domain-->infra
 biz-host-->sys-host-->host
 biz-cache-->sys-cache-->cache
 biz-app-->sys-app-->app
-biz-domain-->sys-domain-->domain
-biz-infra-->sys-infra-->infra
+biz-domain-->domain
+biz-infra-->infra
 ```
 
 ## 特别鸣谢

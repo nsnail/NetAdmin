@@ -1,7 +1,9 @@
-using NetAdmin.SysComponent.Domain.Contexts;
-using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsg;
-using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsgFlag;
-using NetAdmin.SysComponent.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Contexts;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.SiteMsg;
+using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
+using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

@@ -118,7 +118,7 @@ export default {
                 ///     模块说明
                 moduleRemark: '',
                 ///     模块类型
-                type: 'NetAdmin.SysComponent',
+                type: 'YourSolution.AdmServer',
             },
         }
     },

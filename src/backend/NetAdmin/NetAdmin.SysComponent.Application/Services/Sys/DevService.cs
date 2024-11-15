@@ -1,5 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Api;
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dev;
+using NetAdmin.Domain.Dto.Sys.Api;
+using NetAdmin.Domain.Dto.Sys.Dev;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -11,7 +11,10 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
     private static readonly string _clientProjectPath = Path.Combine( //
         Environment.CurrentDirectory, "../../frontend/admin");
 
-    private static readonly string[] _projectDirs = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"));
+    private static readonly string[] _projectDirs = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "../"))
+                                                             .Concat(Directory.GetDirectories(
+                                                                         Path.Combine(Environment.CurrentDirectory, "../NetAdmin")))
+                                                             .ToArray();
 
     private static readonly Regex _regex  = new(@"\.(\w)");
     private static readonly Regex _regex2 = new("([a-zA-Z]+):");

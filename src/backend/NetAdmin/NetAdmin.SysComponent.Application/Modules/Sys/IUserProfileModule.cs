@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 

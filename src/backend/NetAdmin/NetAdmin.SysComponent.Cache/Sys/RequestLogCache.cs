@@ -1,5 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys;
-using NetAdmin.SysComponent.Domain.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Dto.Sys;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -16,14 +16,14 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     /// <inheritdoc />
     #if !DEBUG
     public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
-    #else
+        #else
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
         #endif
     {
         #if !DEBUG
         var ret = await GetOrCreateAsync(                                              //
                 GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-              , async () => (long?)await Service.CountAsync(req).ConfigureAwait(false), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_DEFAULT))
+              , async () => (long?)await Service.CountAsync(req).ConfigureAwait(false), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DEFAULT))
             .ConfigureAwait(false);
         return ret ?? 0;
         #else
@@ -67,7 +67,7 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.GetBarChartAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_CHART));
+          , () => Service.GetBarChartAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetBarChartAsync(req);
         #endif
@@ -79,7 +79,7 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.GetPieChartByApiSummaryAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_CHART));
+          , () => Service.GetPieChartByApiSummaryAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetPieChartByApiSummaryAsync(req);
         #endif
@@ -91,7 +91,7 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
         #if !DEBUG
         return GetOrCreateAsync(                                                   //
             GetCacheKey(req.Json().Crc32().ToString(CultureInfo.InvariantCulture)) //
-          , () => Service.GetPieChartByHttpStatusCodeAsync(req), TimeSpan.FromSeconds(SysNumbers.SECS_CACHE_CHART));
+          , () => Service.GetPieChartByHttpStatusCodeAsync(req), TimeSpan.FromSeconds(Numbers.SECS_CACHE_CHART));
         #else
         return Service.GetPieChartByHttpStatusCodeAsync(req);
         #endif

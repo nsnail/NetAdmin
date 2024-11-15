@@ -3,11 +3,10 @@ using Gurion.RemoteRequest;
 using Gurion.RemoteRequest.Extensions;
 using Gurion.Schedule;
 using NetAdmin.Application.Extensions;
+using NetAdmin.Domain.Dto.Sys.Job;
+using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.BackgroundRunning;
 using NetAdmin.Host.Middlewares;
-using NetAdmin.SysComponent.Domain.Dto.Sys.Job;
-using NetAdmin.SysComponent.Domain.Dto.Sys.JobRecord;
-using NetAdmin.SysComponent.Infrastructure.Constant;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
 
@@ -42,7 +41,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
         }
 
         // ReSharper disable once MethodSupportsCancellation
-        await Parallel.ForAsync(0, SysNumbers.SCHEDULED_JOB_PARALLEL_NUM, async (_, _) => await WorkflowAsync(stoppingToken).ConfigureAwait(false))
+        await Parallel.ForAsync(0, Numbers.SCHEDULED_JOB_PARALLEL_NUM, async (_, _) => await WorkflowAsync(stoppingToken).ConfigureAwait(false))
                       .ConfigureAwait(false);
     }
 

@@ -1,4 +1,4 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.LoginLog;
+using NetAdmin.Domain.Dto.Sys.LoginLog;
 
 namespace UnitTests.Sys;
 

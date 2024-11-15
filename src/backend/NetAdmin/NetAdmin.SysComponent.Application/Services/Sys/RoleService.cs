@@ -1,4 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.Role;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -152,14 +153,20 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
 
     private ISelect<Sys_Role> QueryInternal(QueryReq<QueryRoleReq> req)
     {
-        var ret = Rpo.Select.IncludeMany(a => a.Depts.Select(b => new Sys_Dept { Id = b.Id }))
-                     .IncludeMany(a => a.Menus.Select(b => new Sys_Menu { Id        = b.Id }))
-                     .IncludeMany(a => a.Apis.Select(b => new Sys_Api { Id          = b.Id }))
+        #pragma warning disable RCS1196
+
+        // ReSharper disable InvokeAsExtensionMethod
+        var ret = Rpo.Select.IncludeMany(a => Enumerable.Select(a.Depts, b => new Sys_Dept { Id = b.Id }))
+                     .IncludeMany(a => Enumerable.Select(a.Menus,        b => new Sys_Menu { Id = b.Id }))
+                     .IncludeMany(a => Enumerable.Select(a.Apis,         b => new Sys_Api { Id  = b.Id }))
                      .WhereDynamicFilter(req.DynamicFilter)
                      .WhereDynamic(req.Filter)
                      .WhereIf( //
                          req.Keywords?.Length > 0
                        , a => a.Id == req.Keywords.Int64Try(0) || a.Name.Contains(req.Keywords) || a.Summary.Contains(req.Keywords));
+
+        // ReSharper restore InvokeAsExtensionMethod
+        #pragma warning restore RCS1196
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

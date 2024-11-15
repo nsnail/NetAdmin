@@ -1,5 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.User;
-using NetAdmin.SysComponent.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NetAdmin.Tests.Attributes;
 
 namespace UnitTests.Sys;

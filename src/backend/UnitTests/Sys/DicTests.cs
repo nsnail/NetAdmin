@@ -1,5 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Catalog;
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
 
 namespace UnitTests.Sys;
 

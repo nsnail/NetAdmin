@@ -1,7 +1,7 @@
-using NetAdmin.SysComponent.Domain.Contexts;
-using NetAdmin.SysComponent.Domain.Dto.Sys.Dic.Content;
-using NetAdmin.SysComponent.Domain.Dto.Sys.UserProfile;
-using NetAdmin.SysComponent.Infrastructure.Constant;
+using NetAdmin.Domain.Contexts;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Dto.Sys.UserProfile;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -179,11 +179,10 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     {
         #pragma warning disable CA1305,IDE0072
         var ret = Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()
-                     .LeftJoin((a, b, _,  __, ___) => a.NationArea.ToString()  == b.Value && b.CatalogId == SysNumbers.ID_DIC_CATALOG_GEO_AREA)
-                     .LeftJoin((a, _, c,  __, ___) => a.CompanyArea.ToString() == c.Value && c.CatalogId == SysNumbers.ID_DIC_CATALOG_GEO_AREA)
-                     .LeftJoin((a, _, __, d,  ___) => a.HomeArea.ToString()    == d.Value && d.CatalogId == SysNumbers.ID_DIC_CATALOG_GEO_AREA)
-                     .LeftJoin(
-                         (a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value && e.CatalogId == SysNumbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, b, _,  __,  ___) => a.NationArea.ToString()         == b.Value && b.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, c,  __,  ___) => a.CompanyArea.ToString()        == c.Value && c.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, __, d,   ___) => a.HomeArea.ToString()           == d.Value && d.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
+                     .LeftJoin((a, _, __, ___, e) => a.EmergencyContactArea.ToString() == e.Value && e.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
                      .WhereDynamicFilter(req.DynamicFilter);
 
         return req.Order switch {

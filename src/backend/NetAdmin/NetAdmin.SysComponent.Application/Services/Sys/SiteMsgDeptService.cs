@@ -1,4 +1,5 @@
-using NetAdmin.SysComponent.Domain.Dto.Sys.SiteMsgDept;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.SiteMsgDept;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

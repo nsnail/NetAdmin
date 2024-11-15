@@ -31,14 +31,12 @@
       "NetAdmin.Infrastructure.xml",
       "NetAdmin.SysComponent.Application.xml",
       "NetAdmin.SysComponent.Cache.xml",
-      "NetAdmin.SysComponent.Domain.xml",
       "NetAdmin.SysComponent.Host.xml",
-      "NetAdmin.SysComponent.Infrastructure.xml",
       "YourSolution.AdmServer.Application.xml",
       "YourSolution.AdmServer.Cache.xml",
       "YourSolution.AdmServer.Domain.xml",
       "YourSolution.AdmServer.Host.xml",
-      "YourSolution.AdmServer.Infrastructure.xml",
+      "YourSolution.AdmServer.Infrastructure.xml"
     ]
   },
   // 数据库配置 --------------------------------------------------------------------------------------------------------

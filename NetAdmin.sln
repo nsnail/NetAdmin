@@ -108,13 +108,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E80A10
         README.md = docker/README.md
     EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Domain", "src\backend\NetAdmin\NetAdmin.SysComponent.Domain\NetAdmin.SysComponent.Domain.csproj", "{51D6E603-0749-4A11-A78C-9E5BB127E03A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Domain", "src\backend\YourSolution.AdmServer.Domain\YourSolution.AdmServer.Domain.csproj", "{932520DF-D312-415A-A128-1117F8221D68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Infrastructure", "src\backend\YourSolution.AdmServer.Infrastructure\YourSolution.AdmServer.Infrastructure.csproj", "{C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.SysComponent.Infrastructure", "src\backend\NetAdmin\NetAdmin.SysComponent.Infrastructure\NetAdmin.SysComponent.Infrastructure.csproj", "{48EE6FC4-B64A-40D3-B889-36837E067880}"
 EndProject
 ##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gurion", "refs\Gurion\src\Gurion\Gurion.csproj", "{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}"#refs
 ##EndProject#refs
@@ -185,10 +181,6 @@ Global
         {00604162-C444-478B-B773-3AB23C856CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {00604162-C444-478B-B773-3AB23C856CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
         {00604162-C444-478B-B773-3AB23C856CA7}.Release|Any CPU.Build.0 = Release|Any CPU
-        {51D6E603-0749-4A11-A78C-9E5BB127E03A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {51D6E603-0749-4A11-A78C-9E5BB127E03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {51D6E603-0749-4A11-A78C-9E5BB127E03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {51D6E603-0749-4A11-A78C-9E5BB127E03A}.Release|Any CPU.Build.0 = Release|Any CPU
         {932520DF-D312-415A-A128-1117F8221D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
         {932520DF-D312-415A-A128-1117F8221D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {932520DF-D312-415A-A128-1117F8221D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -197,10 +189,6 @@ Global
         {C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
         {C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA}.Release|Any CPU.Build.0 = Release|Any CPU
-        {48EE6FC4-B64A-40D3-B889-36837E067880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-        {48EE6FC4-B64A-40D3-B889-36837E067880}.Debug|Any CPU.Build.0 = Debug|Any CPU
-        {48EE6FC4-B64A-40D3-B889-36837E067880}.Release|Any CPU.ActiveCfg = Release|Any CPU
-        {48EE6FC4-B64A-40D3-B889-36837E067880}.Release|Any CPU.Build.0 = Release|Any CPU
         ##{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
         ##{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
         ##{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -238,10 +226,8 @@ Global
         {19872A4C-3C9A-4C62-A33B-74F5B8D6F77C} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
         {C2CC1596-3BEE-43EA-A9BE-4EDE5716296C} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
         {79409163-5006-405D-AC96-406FA0AD77B7} = {4DAF9366-855F-46BB-AE4C-660C92FA0697}
-        {51D6E603-0749-4A11-A78C-9E5BB127E03A} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
         {932520DF-D312-415A-A128-1117F8221D68} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
         {C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
-        {48EE6FC4-B64A-40D3-B889-36837E067880} = {3F23258D-8299-4992-9F51-2EE9B52CF9D2}
         {3C6F049E-3EE8-4D66-9AFF-E8A369032487} = {1129FE25-466B-4F4F-85FC-3752664245E1}
     EndGlobalSection
 EndGlobal

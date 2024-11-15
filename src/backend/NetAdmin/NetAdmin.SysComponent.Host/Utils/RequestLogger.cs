@@ -1,7 +1,7 @@
 using NetAdmin.Domain.Contexts;
-using NetAdmin.SysComponent.Domain.Dto.Sys.RequestLog;
-using NetAdmin.SysComponent.Domain.Dto.Sys.RequestLogDetail;
-using NetAdmin.SysComponent.Domain.Events.Sys;
+using NetAdmin.Domain.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Dto.Sys.RequestLogDetail;
+using NetAdmin.Domain.Events.Sys;
 using Yitter.IdGenerator;
 using HttpMethods = NetAdmin.Domain.Enums.HttpMethods;
 

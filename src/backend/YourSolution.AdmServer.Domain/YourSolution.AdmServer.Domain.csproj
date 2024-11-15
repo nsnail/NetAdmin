@@ -5,6 +5,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../YourSolution.AdmServer.Infrastructure/YourSolution.AdmServer.Infrastructure.csproj"/>
-        <ProjectReference Include="../NetAdmin/NetAdmin.SysComponent.Domain/NetAdmin.SysComponent.Domain.csproj"/>
+        <ProjectReference Include="../NetAdmin/NetAdmin.Domain/NetAdmin.Domain.csproj"/>
     </ItemGroup>
 </Project>
