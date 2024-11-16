@@ -378,7 +378,7 @@ export default {
                 return
             }
             if (command === 'export') {
-                this.exportData()
+                await this.exportData()
                 return
             }
             if (command === 'edit') {
@@ -439,6 +439,16 @@ export default {
                 delete reqData[config.request.pageSize]
             }
             Object.assign(reqData, this.tableParams)
+
+            const ids = [...new Set(this.$refs.scTable.getSelectionRows().map((x) => x.idd))].filter((x) => !!x)
+            if (ids.length > 0) {
+                reqData.dynamicFilter = {
+                    filters: [reqData.dynamicFilter],
+                    field: 'id',
+                    operator: 'Any',
+                    value: ids,
+                }
+            }
             return reqData
         },
         //获取数据
