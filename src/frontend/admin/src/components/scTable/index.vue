@@ -440,7 +440,7 @@ export default {
             }
             Object.assign(reqData, this.tableParams)
 
-            const ids = [...new Set(this.$refs.scTable.getSelectionRows().map((x) => x.idd))].filter((x) => !!x)
+            const ids = [...new Set(this.$refs.scTable.getSelectionRows().map((x) => x.id))].filter((x) => !!x)
             if (ids.length > 0) {
                 reqData.dynamicFilter = {
                     filters: [reqData.dynamicFilter],
