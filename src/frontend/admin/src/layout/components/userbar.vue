@@ -39,7 +39,7 @@
                 </el-container>
             </el-drawer>
         </div>
-        <el-dropdown @command="handleUser" class="user panel-item" trigger="click">
+        <el-dropdown @command="handleUser" class="user panel-item" trigger="hover">
             <div class="user-avatar">
                 <el-avatar
                     :size="30"
