@@ -29,6 +29,7 @@
                                 <span class="btn">
                                     <el-button-group size="small">
                                         <el-button @click.stop="add(node, data)" icon="el-icon-plus"></el-button>
+                                        <el-button @click.stop="copy(data)" icon="el-icon-copy-document"></el-button>
                                         <el-popconfirm
                                             :title="this.$t('确定删除 {item} 吗？', { item: data.meta.title })"
                                             @confirm="del(node, data)"
@@ -87,6 +88,18 @@ export default {
             if (!value) return true
             const targetText = data.meta.title
             return targetText.indexOf(value) !== -1
+        },
+        //复制
+        async copy(data) {
+            const newData = Object.assign({}, data, {
+                id: 0,
+                meta: Object.assign({}, data.meta, { title: data.meta.title + '-copy' }),
+                name: data.name + '-copy',
+            })
+            this.loading = true
+            const res = await this.$API.sys_menu.create.post(newData)
+            this.loading = false
+            this.reload()
         },
         //增加
         async add(node, data) {
