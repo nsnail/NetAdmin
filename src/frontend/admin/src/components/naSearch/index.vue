@@ -82,7 +82,7 @@
                 filterable />
         </template>
 
-        <el-badge :hidden="vue.query.dynamicFilter.filters.length === 0" :value="vue.query.dynamicFilter.filters.length">
+        <el-badge :hidden="!vue.query.dynamicFilter.filters?.length" :value="vue.query.dynamicFilter.filters?.length ?? 0">
             <el-button-group>
                 <el-button @click="search" icon="el-icon-search" type="primary">{{ $t('查询') }}</el-button>
                 <el-popover :title="$t('已应用的查询条件')" :width="popWidth" placement="bottom-end" trigger="hover">
