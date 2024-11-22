@@ -122,7 +122,6 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
         QueryVerifyCodeRsp ret;
 
         #if !DEBUG
-
         // 有发送记录，且小于1分钟，不允许
         if (lastSent != null && (DateTime.Now - lastSent.CreatedTime).TotalMinutes < 1) {
             throw new NetAdminInvalidOperationException(Ln._1分钟内只能发送1次);

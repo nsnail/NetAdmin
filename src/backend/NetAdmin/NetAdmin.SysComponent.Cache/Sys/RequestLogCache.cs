@@ -16,9 +16,9 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     /// <inheritdoc />
     #if !DEBUG
     public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
-        #else
+    #else
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
-        #endif
+    #endif
     {
         #if !DEBUG
         var ret = await GetOrCreateAsync(                                              //

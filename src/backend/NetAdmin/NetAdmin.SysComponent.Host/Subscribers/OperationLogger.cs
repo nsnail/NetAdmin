@@ -1,6 +1,7 @@
 #if !DEBUG && DBTYPE_SQLSERVER
 using System.Collections.Concurrent;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.LoginLog;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Domain.Events.Sys;
 
@@ -42,6 +43,11 @@ public sealed class OperationLogger : IEventSubscriber
             }
 
             inserts.Add(log);
+
+            // 插入登录日志
+            if (log.ApiPathCrc32 == Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD.Crc32()) {
+                _ = await App.GetService<ILoginLogCache>().CreateAsync(log.Adapt<CreateLoginLogReq>()).ConfigureAwait(false);
+            }
         }
 
         // 如果首尾日期不一致，要分别插入不同的日期分表
@@ -81,7 +87,7 @@ public sealed class OperationLogger : IEventSubscriber
             return;
         }
 
-        _ = await App.GetService<IRequestLogService>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
+        _ = await App.GetService<IRequestLogCache>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
     }
 }
 #endif
