@@ -579,12 +579,15 @@ textarea {
     }
 }
 
-.sc-statistic-error a {
-    font-size: inherit;
-    font-weight: inherit;
-    color: var(--el-color-danger) !important;
+.sc-statistic-error {
+    a,
+    .sc-statistic-content-value {
+        font-size: inherit;
+        font-weight: bold;
+        color: var(--el-color-danger) !important;
+    }
 
-    &:after {
+    a:after {
         border-bottom: 1px solid var(--el-color-danger) !important;
         bottom: 0;
         content: '';

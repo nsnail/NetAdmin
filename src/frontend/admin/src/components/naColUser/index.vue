@@ -30,6 +30,9 @@ export default {
     emits: ['click'],
     methods: {
         async click(id) {
+            if (!this.clickOpenDialog) {
+                return
+            }
             this.dialog.save = true
             await this.$nextTick()
             await this.$refs.saveDialog.open({ mode: 'view', row: { id: id } })
@@ -40,7 +43,9 @@ export default {
         },
     },
     mounted() {},
-    props: {},
+    props: {
+        clickOpenDialog: { type: Boolean, default: true },
+    },
     watch: {},
 }
 </script>
