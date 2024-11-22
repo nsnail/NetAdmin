@@ -240,7 +240,9 @@ public sealed class UserService(
                                .Count(out var total)
                                .ToListAsync(listUserExp)
                                .ConfigureAwait(false);
-        return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
+        return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total
+                                             , list.Select(x => x with { Roles = x.Roles.OrderBy(y => y.Sort).ThenBy(y => y.Id).ToList() })
+                                                   .Adapt<IEnumerable<QueryUserRsp>>());
     }
 
     /// <inheritdoc />
