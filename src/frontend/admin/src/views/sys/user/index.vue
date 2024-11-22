@@ -37,19 +37,19 @@
                             style: 'width:25rem',
                         },
                         {
-                            type: 'remote-select',
-                            field: ['filter', 'roleId'],
-                            api: $API.sys_role.query,
-                            config: { props: { label: 'name', value: 'id' } },
-                            placeholder: $t('所属角色'),
-                            style: 'width:15rem',
-                        },
-                        {
                             type: 'cascader',
                             field: ['filter', 'deptId'],
                             api: $API.sys_dept.query,
                             props: { label: 'name', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
                             placeholder: $t('所属部门'),
+                            style: 'width:15rem',
+                        },
+                        {
+                            type: 'remote-select',
+                            field: ['filter', 'roleId'],
+                            api: $API.sys_role.query,
+                            config: { props: { label: 'name', value: 'id' } },
+                            placeholder: $t('所属角色'),
                             style: 'width:15rem',
                         },
                     ]"
@@ -103,18 +103,18 @@
                 <na-col-id :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
                 <na-col-avatar :label="$t('用户名')" prop="userName" width="170" />
                 <el-table-column :label="$t('手机号')" align="center" prop="mobile" sortable="custom" width="120" />
-                <el-table-column :label="$t('邮箱')" align="right" prop="email" sortable="custom" />
-                <na-col-tags
-                    :label="$t('所属角色')"
-                    @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
-                    field="name"
-                    prop="roles" />
+                <el-table-column :label="$t('邮箱')" align="right" prop="email" sortable="custom" width="250" />
                 <na-col-tags
                     :label="$t('所属部门')"
                     @click="(item) => (this.dialog.deptSave = { row: item, mode: 'view' })"
                     field="name"
                     prop="dept"
-                    width="200" />
+                    width="120" />
+                <na-col-tags
+                    :label="$t('所属角色')"
+                    @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
+                    field="name"
+                    prop="roles" />
                 <el-table-column :label="$t('最后登录')" align="right" prop="lastLoginTime" sortable="custom" width="120">
                     <template #default="{ row }">
                         <span v-time.tip="row.lastLoginTime" :title="row.lastLoginTime"></span>
