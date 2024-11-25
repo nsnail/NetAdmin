@@ -24,7 +24,10 @@
                         <el-icon v-if="option.icon">
                             <component :is="option.icon" />
                         </el-icon>
-                        <span>{{ option.label }}</span>
+                        <el-badge v-if="item.badgeMax" :max="item.badgeMax" :value="option.badge">
+                            <span>{{ option.label }}</span>
+                        </el-badge>
+                        <span v-else>{{ option.label }}</span>
                     </li>
                 </ul>
             </div>
