@@ -28,7 +28,6 @@ import { VAceEditor } from 'vue3-ace-editor'
 // sc组件
 import scCron from '@/components/scCron/index.vue'
 import scDialog from '@/components/scDialog'
-import scFilterBar from '@/components/scFilterBar'
 import scFormTable from '@/components/scFormTable'
 import scPageHeader from '@/components/scPageHeader'
 import scSelect from '@/components/scSelect'
@@ -107,7 +106,6 @@ export default {
         // sc组件
         app.component('scCron', scCron)
         app.component('scDialog', scDialog)
-        app.component('scFilterBar', scFilterBar)
         app.component('scFormTable', scFormTable)
         app.component('scPageHeader', scPageHeader)
         app.component('scSelect', scSelect)
