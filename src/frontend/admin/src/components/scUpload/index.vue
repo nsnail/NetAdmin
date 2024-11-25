@@ -63,8 +63,6 @@ import { defineAsyncComponent } from 'vue'
 import { genFileId } from 'element-plus'
 import config from '@/config/upload'
 
-const scCropper = defineAsyncComponent(() => import('@/components/scCropper'))
-
 export default {
     props: {
         modelValue: { type: String, default: '' },
@@ -100,9 +98,7 @@ export default {
         compress: { type: Number, default: 1 },
         aspectRatio: { type: Number, default: NaN },
     },
-    components: {
-        scCropper,
-    },
+    components: {},
     data() {
         return {
             value: '',
