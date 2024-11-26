@@ -231,18 +231,21 @@ public sealed class UserService(
     public async Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
     {
         req.ThrowIfInvalid();
-        var listUserExp = req.GetToListExp<Sys_User>() ?? _listUserExp;
-        var select      = await QueryInternalAsync(req, listUserExp == _listUserExp).ConfigureAwait(false);
-        var list = await select.Page(req.Page, req.PageSize)
-                               #if DBTYPE_SQLSERVER
-                               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                               #endif
-                               .Count(out var total)
-                               .ToListAsync(listUserExp)
-                               .ConfigureAwait(false);
-        return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total
-                                             , list.Select(x => x with { Roles = x.Roles.OrderBy(y => y.Sort).ThenBy(y => y.Id).ToList() })
-                                                   .Adapt<IEnumerable<QueryUserRsp>>());
+        var listUserExp  = req.GetToListExp<Sys_User>() ?? _listUserExp;
+        var includeRoles = listUserExp == _listUserExp;
+        var select       = await QueryInternalAsync(req, includeRoles).ConfigureAwait(false);
+        IEnumerable<Sys_User> list = await select.Page(req.Page, req.PageSize)
+                                                 #if DBTYPE_SQLSERVER
+                                                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
+                                                 #endif
+                                                 .Count(out var total)
+                                                 .ToListAsync(listUserExp)
+                                                 .ConfigureAwait(false);
+        if (includeRoles) {
+            list = list.Select(x => x with { Roles = x.Roles.OrderBy(y => y.Sort).ThenBy(y => y.Id).ToList() });
+        }
+
+        return new PagedQueryRsp<QueryUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRsp>>());
     }
 
     /// <inheritdoc />
