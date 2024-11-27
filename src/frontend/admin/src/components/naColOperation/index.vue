@@ -12,7 +12,7 @@
                             <el-button
                                 v-loading="loading"
                                 :icon="item.icon"
-                                :title="item.title"
+                                :title="$t(item.title)"
                                 :type="item.type"
                                 @click.native.stop
                                 size="small"></el-button>
@@ -22,7 +22,7 @@
                         v-else
                         v-loading="loading"
                         :icon="item.icon"
-                        :title="item.title"
+                        :title="$t(item.title)"
                         :type="item.type"
                         @click="click(item, row, vue)"
                         size="small">

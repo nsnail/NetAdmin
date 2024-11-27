@@ -1,6 +1,5 @@
 <template>
     <article v-if="doc" v-loading="loading" class="article">
-        <h1>{{ doc.title }}</h1>
         <section
             :class="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'aie-theme-dark' : 'aie-theme-light'"
             ref="editor"></section>
@@ -12,9 +11,10 @@
 import { AiEditor } from 'aieditor'
 import 'aieditor/dist/style.css'
 import { defineAsyncComponent } from 'vue'
-const notFound = defineAsyncComponent(() => import('@/layout/other/404.vue'))
 import sysConfig from '@/config'
 import tool from '@/utils/tool'
+
+const notFound = defineAsyncComponent(() => import('@/layout/other/404.vue'))
 
 export default {
     components: { notFound },
@@ -31,11 +31,9 @@ export default {
         if (this.doc) {
             document.title = this.doc.title
             const aiEditor = new AiEditor({
+                editable: false,
                 element: this.$refs.editor,
-                content: this.doc.body,
-                onChange: (body) => {
-                    this.doc.body = body.getHtml()
-                },
+                content: `<h1 style="text-align:center">${this.doc.title}</h1>${this.doc.body}`,
             })
             aiEditor.changeLang(this.$TOOL.data.get('APP_SET_LANG') || sysConfig.APP_SET_LANG)
         } else {
@@ -51,11 +49,17 @@ export default {
     display: flex;
     height: 100%;
     flex-direction: column;
+
     > h1 {
         padding: 1rem;
     }
+
     > section {
         flex: 1;
     }
+}
+
+.article:deep(.aie-container) {
+    border: none;
 }
 </style>

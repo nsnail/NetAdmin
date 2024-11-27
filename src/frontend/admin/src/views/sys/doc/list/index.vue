@@ -106,22 +106,32 @@
                     </template>
                 </el-table-column>
                 <na-col-operation
-                    :buttons="
-                        naColOperation.buttons.concat([
-                            {
-                                icon: 'el-icon-share',
-                                click: share,
-                                title: '删除文档',
+                    :buttons="[
+                        {
+                            icon: 'el-icon-view',
+                            title: '查看',
+                            click: viewClick,
+                        },
+                        {
+                            icon: 'el-icon-edit',
+                            title: '编辑',
+                            click: async (row, vue) => {
+                                vue.dialog.save = { row, mode: 'edit' }
                             },
-                            {
-                                icon: 'el-icon-delete',
-                                confirm: true,
-                                title: '删除文档',
-                                click: rowDel,
-                                type: 'danger',
-                            },
-                        ])
-                    "
+                        },
+                        {
+                            icon: 'el-icon-share',
+                            click: share,
+                            title: '分享文档',
+                        },
+                        {
+                            icon: 'el-icon-delete',
+                            confirm: true,
+                            title: '删除文档',
+                            click: rowDel,
+                            type: 'danger',
+                        },
+                    ]"
                     :vue="this"
                     width="180" />
             </sc-table>
@@ -171,6 +181,9 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        viewClick(row) {
+            window.open(window.location.origin + `/guest/view-doc/${row.id}`)
+        },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
