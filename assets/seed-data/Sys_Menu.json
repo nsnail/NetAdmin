@@ -142,7 +142,7 @@
   },
   // ------------------------------  档案管理 ------------------------------
   {
-    "Icon": "sc-icon-App",
+    "Icon": "sc-icon-Archive",
     "Id": 616214756757512,
     "Name": "archive",
     "Path": "/archive",
@@ -152,7 +152,7 @@
   },
   {
     "Component": "sys/doc",
-    "Icon": "el-icon-set-up",
+    "Icon": "el-icon-document",
     "Id": 616214756757516,
     "Name": "archive/doc",
     "ParentId": 616214756757512,
