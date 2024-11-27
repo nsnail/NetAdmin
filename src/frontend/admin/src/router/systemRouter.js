@@ -68,6 +68,13 @@ const routes = [
             title: '重置密码',
         },
     },
+    {
+        path: '/guest/view-doc/:id',
+        component: () => import(/* webpackChunkName: "view-doc" */ '@/views/guest/view-doc'),
+        meta: {
+            title: '查看文档',
+        },
+    },
 ]
 
 export default routes

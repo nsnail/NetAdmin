@@ -70,7 +70,7 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
+                <el-button @click="(this.dialog.save = { mode: 'add' })" icon="el-icon-plus" type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_job.bulkDelete" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
@@ -223,7 +223,7 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = null"
+        @closed="(dialog.save = null)"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>

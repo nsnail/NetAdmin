@@ -140,13 +140,34 @@
     "Title": "缓存管理",
     "Type": 1
   },
+  // ------------------------------  档案管理 ------------------------------
+  {
+    "Icon": "sc-icon-App",
+    "Id": 616214756757512,
+    "Name": "archive",
+    "Path": "/archive",
+    "Sort": 98,
+    "Title": "档案管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/doc",
+    "Icon": "el-icon-set-up",
+    "Id": 616214756757516,
+    "Name": "archive/doc",
+    "ParentId": 616214756757512,
+    "Path": "/archive/doc",
+    "Sort": 100,
+    "Title": "文档管理",
+    "Type": 1
+  },
   // ------------------------------  日志管理 ------------------------------
   {
     "Icon": "el-icon-tickets",
     "Id": 374792687640581,
     "Name": "log",
     "Path": "/log",
-    "Sort": 98,
+    "Sort": 97,
     "Title": "日志管理",
     "Type": 1
   },
@@ -178,7 +199,7 @@
     "Id": 373838105399301,
     "Name": "dev",
     "Path": "/dev",
-    "Sort": 97,
+    "Sort": 96,
     "Title": "开发管理",
     "Type": 1
   },

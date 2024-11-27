@@ -90,8 +90,8 @@
                     :hide-after="0"
                     :title="$t('列设置')"
                     :width="500"
-                    @after-leave="customColumnShow = false"
-                    @show="customColumnShow = true"
+                    @after-leave="(customColumnShow = false)"
+                    @show="(customColumnShow = true)"
                     placement="top"
                     trigger="click">
                     <template #reference>

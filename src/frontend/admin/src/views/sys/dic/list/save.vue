@@ -4,8 +4,8 @@
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
-                        <el-form-item :label="$t('所属字典')" prop="catalogId">
-                            <na-dic-catalog v-model="form.catalogId" class="w100p" />
+                        <el-form-item :label="$t('所属字典目录')" prop="catalogId">
+                            <catalog-select v-model="form.catalogId" class="w100p" />
                         </el-form-item>
                         <el-form-item :label="$t('项名')" prop="key">
                             <el-input v-model="form.key" clearable></el-input>
@@ -30,15 +30,17 @@
             </el-tabs>
         </div>
         <template #footer>
-            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button @click="(visible = false)">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+const catalogSelect = defineAsyncComponent(() => import('../components/catalog-select.vue'))
 export default {
-    components: {},
+    components: { catalogSelect },
     data() {
         return {
             //表单数据
@@ -47,7 +49,7 @@ export default {
             mode: 'add',
             //验证规则
             rules: {
-                catalogId: [{ required: true, message: '请选择所属字典' }],
+                catalogId: [{ required: true, message: '请选择所属字典目录' }],
                 key: [{ required: true, message: '请输入项名' }],
                 value: [{ required: true, message: '请输入项值' }],
             },

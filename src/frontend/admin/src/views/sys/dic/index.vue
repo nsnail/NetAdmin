@@ -38,7 +38,7 @@
                 </el-main>
                 <el-footer>
                     <el-button @click="add(form.catalogId)" icon="el-icon-plus" size="small" style="width: 100%" type="primary">{{
-                        $t('字典分类')
+                        $t('字典目录')
                     }}</el-button>
                 </el-footer>
             </el-container>
@@ -48,7 +48,7 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = null"
+        @closed="(dialog.save = null)"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => getData()"
         ref="saveDialog"></save-dialog>
@@ -106,7 +106,7 @@ export default {
         },
         //字典目录增加
         async add(id, code) {
-            this.dialog.save = { mode: 'add', data: { catalogId: id, code: code + '>' } }
+            this.dialog.save = { mode: 'add', data: { catalogId: id, code: code ? code + '>' : '' } }
         },
         //字典目录编辑
         async edit(data) {

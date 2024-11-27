@@ -62,7 +62,7 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
+                <el-button @click="(this.dialog.save = { mode: 'add' })" icon="el-icon-plus" type="primary"></el-button>
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -132,18 +132,18 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = null"
+        @closed="(dialog.save = null)"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
     <role-save-dialog
         v-if="dialog.roleSave"
-        @closed="dialog.roleSave = null"
+        @closed="(dialog.roleSave = null)"
         @mounted="$refs.roleSaveDialog.open(dialog.roleSave)"
         ref="roleSaveDialog"></role-save-dialog>
     <dept-save-dialog
         v-if="dialog.deptSave"
-        @closed="dialog.deptSave = null"
+        @closed="(dialog.deptSave = null)"
         @mounted="$refs.deptSaveDialog.open(dialog.deptSave)"
         ref="deptSaveDialog"></dept-save-dialog>
 </template>

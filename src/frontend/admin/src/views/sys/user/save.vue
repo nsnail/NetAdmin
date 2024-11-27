@@ -46,7 +46,7 @@
                                 maxlength="16"
                                 oninput="value=value.replace(/[^\w]/g,'')"
                                 placeholder="8位以上数字字母组合"></el-input>
-                            <el-button @click="form.passwordText = '1234qwer'">{{ $t('初始密码') }}</el-button>
+                            <el-button @click="(form.passwordText = '1234qwer')">{{ $t('初始密码') }}</el-button>
                         </div>
                     </el-form-item>
 
@@ -249,7 +249,7 @@
             </el-tabs>
         </el-form>
         <template #footer>
-            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button @click="(visible = false)">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>

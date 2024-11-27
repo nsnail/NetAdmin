@@ -13,7 +13,7 @@
         </el-form>
 
         <template #footer>
-            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
+            <el-button @click="(visible = false)">{{ $t('取消') }}</el-button>
             <el-button @click="submit" type="primary">{{ $t('确定') }}</el-button>
         </template>
     </sc-dialog>

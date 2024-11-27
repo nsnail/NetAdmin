@@ -23,8 +23,8 @@
                     :controls="[
                         {
                             type: 'input',
-                            field: ['dy', 'keywords'],
-                            placeholder: $t('项名 / 项值'),
+                            field: ['root', 'keywords'],
+                            placeholder: $t('项名 / 项值 / 备注'),
                             style: 'width:20rem',
                         },
                     ]"
@@ -38,7 +38,7 @@
             </div>
             <div class="right-panel">
                 <el-button
-                    @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
+                    @click="(this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } })"
                     icon="el-icon-plus"
                     type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
@@ -53,7 +53,7 @@
                         <el-dropdown-menu>
                             <el-dropdown-item @click="setEnabled(true)">{{ $t('启用') }}</el-dropdown-item>
                             <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用') }}</el-dropdown-item>
-                            <el-dropdown-item @click="this.dialog.savebatch = { mode: 'batchedit', data: { catalogId: this.catalogId } }">{{
+                            <el-dropdown-item @click="(this.dialog.savebatch = { mode: 'batchedit', data: { catalogId: this.catalogId } })">{{
                                 $t('设置项值')
                             }}</el-dropdown-item>
                         </el-dropdown-menu>
@@ -64,7 +64,7 @@
         <el-main class="nopadding">
             <sc-table
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
-                :context-menus="['key', 'value', 'enabled', 'createdTime']"
+                :context-menus="['key', 'value', 'enabled', 'createdTime', 'id', 'summary']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_dic.exportContent"
                 :params="query"
@@ -80,6 +80,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
+                <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('项名')" prop="key" sortable="custom" />
                 <el-table-column :label="$t('项值')" prop="value" sortable="custom" />
                 <el-table-column :label="$t('备注')" prop="summary" sortable="custom" />
@@ -88,7 +89,6 @@
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('创建时间')" align="right" prop="createdTime" sortable="custom" width="170" />
                 <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat({
@@ -107,14 +107,14 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="dialog.save = null"
+        @closed="(dialog.save = null)"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
 
     <savebatch-dialog
         v-if="dialog.savebatch"
-        @closed="dialog.savebatch = null"
+        @closed="(dialog.savebatch = null)"
         @mounted="$refs.savebatchDialog.open(dialog.savebatch)"
         @success="(data, mode) => batchsuccess(data, mode)"
         ref="savebatchDialog"></savebatch-dialog>
@@ -222,25 +222,7 @@ export default {
                 this.query.dynamicFilter.filters.push({
                     field: 'createdTime',
                     operator: 'dateRange',
-                    value: form.dy.createdTime,
-                })
-            }
-
-            if (form.dy.keywords) {
-                this.query.dynamicFilter.filters.push({
-                    logic: 'or',
-                    filters: [
-                        {
-                            field: 'key',
-                            operator: 'contains',
-                            value: form.dy.keywords,
-                        },
-                        {
-                            field: 'value',
-                            operator: 'contains',
-                            value: form.dy.keywords,
-                        },
-                    ],
+                    value: form.dy.createdTime.map((x) => x.replace(/ 00:00:00$/, '')),
                 })
             }
 
