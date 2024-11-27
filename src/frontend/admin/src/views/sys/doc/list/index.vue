@@ -48,7 +48,7 @@
             </div>
             <div class="right-panel">
                 <el-button
-                    @click="(this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } })"
+                    @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
                     icon="el-icon-plus"
                     type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_doc.bulkDeleteContent" :vue="this" />
@@ -107,23 +107,30 @@
                 </el-table-column>
                 <na-col-operation
                     :buttons="
-                        naColOperation.buttons.concat({
-                            icon: 'el-icon-delete',
-                            confirm: true,
-                            title: '删除文档',
-                            click: rowDel,
-                            type: 'danger',
-                        })
+                        naColOperation.buttons.concat([
+                            {
+                                icon: 'el-icon-share',
+                                click: share,
+                                title: '删除文档',
+                            },
+                            {
+                                icon: 'el-icon-delete',
+                                confirm: true,
+                                title: '删除文档',
+                                click: rowDel,
+                                type: 'danger',
+                            },
+                        ])
                     "
                     :vue="this"
-                    width="150" />
+                    width="180" />
             </sc-table>
         </el-main>
     </el-container>
 
     <save-dialog
         v-if="dialog.save"
-        @closed="(dialog.save = null)"
+        @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
@@ -232,7 +239,21 @@ export default {
 
             this.$refs.table.upData()
         },
-
+        async share(row) {
+            const textarea = document.createElement('textarea')
+            textarea.readOnly = 'readonly'
+            textarea.style.position = 'absolute'
+            textarea.style.left = '-9999px'
+            textarea.value = window.location.origin + `/guest/view-doc/${row.id}`
+            document.body.appendChild(textarea)
+            textarea.select()
+            textarea.setSelectionRange(0, textarea.value.length)
+            const result = document.execCommand('Copy')
+            if (result) {
+                this.$message.success(this.$t('文档链接已复制'))
+            }
+            document.body.removeChild(textarea)
+        },
         //删除
         async rowDel(row) {
             try {

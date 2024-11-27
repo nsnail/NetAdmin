@@ -18,8 +18,14 @@
                                 size="small"></el-button>
                         </template>
                     </el-popconfirm>
-                    <el-button v-else v-loading="loading" :icon="item.icon" :title="item.title" @click="click(item, row, vue)" size="small"
-                        >{{ item.title }}
+                    <el-button
+                        v-else
+                        v-loading="loading"
+                        :icon="item.icon"
+                        :title="item.title"
+                        :type="item.type"
+                        @click="click(item, row, vue)"
+                        size="small">
                     </el-button>
                 </template>
             </el-button-group>
