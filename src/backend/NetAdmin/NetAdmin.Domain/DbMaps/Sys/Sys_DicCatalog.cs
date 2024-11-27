@@ -16,7 +16,7 @@ public record Sys_DicCatalog : VersionEntity
     public IEnumerable<Sys_DicCatalog> Children { get; init; }
 
     /// <summary>
-    ///     字典编码
+    ///     字典目录编码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
     [CsvIgnore]
@@ -32,7 +32,7 @@ public record Sys_DicCatalog : VersionEntity
     public ICollection<Sys_DicContent> Contents { get; init; }
 
     /// <summary>
-    ///     字典名称
+    ///     字典目录名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
     [CsvIgnore]

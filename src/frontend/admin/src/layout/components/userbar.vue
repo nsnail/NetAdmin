@@ -71,11 +71,11 @@
     </div>
 
     <el-dialog v-model="searchVisible" :title="$t('搜索')" :width="700" center destroy-on-close>
-        <search @success="searchVisible = false"></search>
+        <search @success="(searchVisible = false)"></search>
     </el-dialog>
 
     <el-drawer v-model="tasksVisible" :size="450" :title="$t('作业中心')" destroy-on-close>
-        <tasks :fail="failJobCnt" @closed="tasksVisible = false"></tasks>
+        <tasks :fail="failJobCnt" @closed="(tasksVisible = false)"></tasks>
     </el-drawer>
 </template>
 

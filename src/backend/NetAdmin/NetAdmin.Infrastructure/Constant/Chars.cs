@@ -16,6 +16,7 @@ public static class Chars
     public const string FLG_CONTEXT_USER_INFO                          = nameof(FLG_CONTEXT_USER_INFO);
     public const string FLG_CRON_PER_SECS                              = "* * * * * *";
     public const string FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT          = "PRIMARY KEY";
+    public const string FLG_DB_EXCEPTION_UNIQUE_CONSTRAINT_CONFLICT    = "UNIQUE constraint";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR                     = "nvarchar";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_1022                = "nvarchar(1022)";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_127                 = "nvarchar(127)";

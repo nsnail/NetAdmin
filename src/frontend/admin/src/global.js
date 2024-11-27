@@ -55,7 +55,6 @@ import naColTags from '@/components/naColTags/index.vue'
 import naColTime from '@/components/naColTime/index.vue'
 import naColUser from '@/components/naColUser/index.vue'
 import naDept from '@/components/naDept/index.vue'
-import naDicCatalog from '@/components/naDicCatalog/index.vue'
 import naFormEmail from '@/components/naFormEmail/index.vue'
 import naSearch from '@/components/naSearch'
 import naUserSelect from '@/components/naUserSelect/index.vue'
@@ -98,7 +97,6 @@ export default {
         app.component('naColTime', naColTime)
         app.component('naColUser', naColUser)
         app.component('naDept', naDept)
-        app.component('naDicCatalog', naDicCatalog)
         app.component('naFormEmail', naFormEmail)
         app.component('naSearch', naSearch)
         app.component('naUserSelect', naUserSelect)

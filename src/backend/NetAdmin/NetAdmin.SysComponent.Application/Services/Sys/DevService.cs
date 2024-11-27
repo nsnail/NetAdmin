@@ -46,7 +46,14 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         var appServicesDependencyDir = Path.Combine(appServicesDir, "Dependency");
 
         // 数据契约层目录
-        var dataDir   = GetDir($"{req.Type}.Domain");
+        string dataDir;
+        try {
+            dataDir = GetDir($"{req.Type}.Domain");
+        }
+        catch (InvalidOperationException) {
+            dataDir = tplDataDir;
+        }
+
         var dtoDir    = Path.Combine(dataDir, "Dto",    typeAbbr, req.ModuleName);
         var entityDir = Path.Combine(dataDir, "DbMaps", typeAbbr);
 
