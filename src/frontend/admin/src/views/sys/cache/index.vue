@@ -87,6 +87,7 @@
                     :buttons="[
                         {
                             icon: 'el-icon-view',
+                            title: '查看缓存',
                             click: viewClick,
                         },
                         {

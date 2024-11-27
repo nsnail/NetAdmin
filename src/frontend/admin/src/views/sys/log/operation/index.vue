@@ -170,6 +170,7 @@
                     :buttons="[
                         {
                             icon: 'el-icon-view',
+                            title: '查看',
                             click: rowClick,
                         },
                     ]"
@@ -182,7 +183,7 @@
     <na-info v-if="dialog.info" ref="info"></na-info>
     <save-dialog
         v-if="dialog.save"
-        @closed="(dialog.save = null)"
+        @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
