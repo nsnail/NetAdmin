@@ -86,6 +86,7 @@
                     :buttons="[
                         {
                             icon: 'el-icon-view',
+                            title: '查看',
                             click: rowClick,
                         },
                     ]"
