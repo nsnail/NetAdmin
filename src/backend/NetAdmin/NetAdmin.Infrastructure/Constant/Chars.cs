@@ -41,7 +41,6 @@ public static class Chars
     public const string FLG_DB_FIELD_TYPE_VARCHAR_510                  = "varchar(510)";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_63                   = "varchar(63)";
     public const string FLG_DB_FIELD_TYPE_VARCHAR_7                    = "varchar(7)";
-    public const string FLG_DB_FIELD_TYPE_VARCHAR_MAX                  = "varchar(max)";
     public const string FLG_DB_INDEX_PREFIX                            = "idx_{tablename}_";
     public const string FLG_DB_TABLE_NAME_PREFIX                       = "";
     public const string FLG_FREE_SQL_GLOBAL_FILTER_DATA                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DATA);
@@ -80,6 +79,14 @@ public static class Chars
     public const string FLG_PATH_WEBSOCKET_PREFIX                      = "ws";
     public const string FLG_REDIS_INSTANCE_DATA_CACHE                  = "DataCache";
     public const string FLG_SNOWFLAKE_WORK_ID                          = "SNOWFLAKE_WORK_ID";
+
+    public const string FLGL_DB_FIELD_TYPE_VARCHAR_MAX =
+            #if DBTYPE_SQLSERVER
+    "varchar(max)"
+            #else
+            "text"
+        #endif
+        ;
 
     public const string FLGL_HTTP_HEADER_VALUE_UA_MOBILE
         = "Mozilla/5.0 (Linux; Android 9; Redmi Note 8 Pro Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.96 Mobile Safari/537.36";

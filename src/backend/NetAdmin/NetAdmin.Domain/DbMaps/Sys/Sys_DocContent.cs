@@ -11,11 +11,7 @@ public record Sys_DocContent : VersionEntity, IFieldEnabled, IFieldOwner
     /// <summary>
     ///     文档正文
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string Body { get; init; }

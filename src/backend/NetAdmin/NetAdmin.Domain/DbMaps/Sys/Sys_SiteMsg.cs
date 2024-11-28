@@ -12,11 +12,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     /// <summary>
     ///     消息内容
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string Content { get; init; }
