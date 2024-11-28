@@ -11,11 +11,7 @@ public record Sys_UserProfile : VersionEntity, IRegister
     /// <summary>
     ///     应用配置
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string AppConfig { get; set; }

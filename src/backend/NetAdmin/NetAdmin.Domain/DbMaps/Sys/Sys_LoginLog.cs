@@ -96,11 +96,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     /// <summary>
     ///     请求内容
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestBody { get; protected init; }
@@ -108,11 +104,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     /// <summary>
     ///     请求头信息
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestHeaders { get; protected init; }
@@ -128,11 +120,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     /// <summary>
     ///     响应内容
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseBody { get; protected init; }
@@ -140,11 +128,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     /// <summary>
     ///     响应头
     /// </summary>
-    #if DBTYPE_SQLSERVER
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_MAX)]
-    #else
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
+    [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
     [CsvIgnore]
     [JsonIgnore]
     public virtual string ResponseHeaders { get; protected init; }
