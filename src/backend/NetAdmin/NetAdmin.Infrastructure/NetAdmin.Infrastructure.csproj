@@ -15,7 +15,7 @@
     <ItemGroup>
         <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/FreeSql.DbContext/FreeSql.DbContext.csproj" Label="refs"/>-->
         <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/FreeSql/FreeSql.csproj" Label="refs"/>-->
-        <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/Providers/FreeSql.Provider.Sqlite/FreeSql.Provider.Sqlite.csproj" Label="refs"/>-->
+        <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/FreeSql.Provider.Sqlite/FreeSql.Provider.Sqlite.csproj" Label="refs"/>-->
         <!--<ProjectReference Include="$(SolutionDir)/refs/Gurion/src/Gurion/Gurion.csproj" Label="refs"/>-->
     </ItemGroup>
     <ItemGroup>
