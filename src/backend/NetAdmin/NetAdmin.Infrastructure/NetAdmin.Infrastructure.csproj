@@ -3,8 +3,8 @@
     <Import Project="$(SolutionDir)/build/copy.pkg.xml.comment.files.targets"/>
     <Import Project="$(SolutionDir)/build/prebuild.targets"/>
     <ItemGroup>
-        <PackageReference Include="FreeSql.DbContext.NS" Version="3.2.833-ns6" Label="refs"/>
-        <PackageReference Include="FreeSql.Provider.Sqlite.NS" Version="3.2.833-ns6" Label="refs"/>
+        <PackageReference Include="NetAdmin.FreeSql.DbContext" Version="1.0.2" Label="refs"/>
+        <PackageReference Include="NetAdmin.FreeSql.Provider.Sqlite" Version="1.0.2" Label="refs"/>
         <PackageReference Include="Gurion" Version="1.2.2" Label="refs"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0"/>
         <PackageReference Include="Minio" Version="6.0.3"/>
@@ -13,9 +13,9 @@
         <PackageReference Include="System.Drawing.Common" Version="9.0.0"/>
     </ItemGroup>
     <ItemGroup>
-        <!--<ProjectReference Include="$(SolutionDir)/refs/FreeSql/FreeSql.DbContext/FreeSql.DbContext.csproj" Label="refs"/>-->
-        <!--<ProjectReference Include="$(SolutionDir)/refs/FreeSql/FreeSql/FreeSql.csproj" Label="refs"/>-->
-        <!--<ProjectReference Include="$(SolutionDir)/refs/FreeSql/Providers/FreeSql.Provider.Sqlite/FreeSql.Provider.Sqlite.csproj" Label="refs"/>-->
+        <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/FreeSql.DbContext/FreeSql.DbContext.csproj" Label="refs"/>-->
+        <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/FreeSql/FreeSql.csproj" Label="refs"/>-->
+        <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/Providers/FreeSql.Provider.Sqlite/FreeSql.Provider.Sqlite.csproj" Label="refs"/>-->
         <!--<ProjectReference Include="$(SolutionDir)/refs/Gurion/src/Gurion/Gurion.csproj" Label="refs"/>-->
     </ItemGroup>
     <ItemGroup>
