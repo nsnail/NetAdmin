@@ -114,11 +114,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Infr
 EndProject
 ##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gurion", "refs\Gurion\src\Gurion\Gurion.csproj", "{CCD098FE-4F95-4FA4-8CC0-9A6DE921FBAE}"#refs
 ##EndProject#refs
-##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql", "refs\NetAdmin.FreeSql\FreeSql\FreeSql.csproj", "{3C65DA42-877D-46FF-B754-C12214302A29}"#refs
+##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql", "refs\NetAdmin.FreeSql\src\FreeSql\FreeSql.csproj", "{3C65DA42-877D-46FF-B754-C12214302A29}"#refs
 ##EndProject#refs
-##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.Provider.Sqlite", "refs\NetAdmin.FreeSql\Providers\FreeSql.Provider.Sqlite\FreeSql.Provider.Sqlite.csproj", "{CF5EFA63-4631-4A64-B4F3-98A7DD532F68}"#refs
+##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.Provider.Sqlite", "refs\NetAdmin.FreeSql\src\FreeSql.Provider.Sqlite\FreeSql.Provider.Sqlite.csproj", "{CF5EFA63-4631-4A64-B4F3-98A7DD532F68}"#refs
 ##EndProject#refs
-##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.DbContext", "refs\NetAdmin.FreeSql\FreeSql.DbContext\FreeSql.DbContext.csproj", "{FE03DF27-EC56-48DB-81B0-F99947259A7C}"#refs
+##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.DbContext", "refs\NetAdmin.FreeSql\src\FreeSql.DbContext\FreeSql.DbContext.csproj", "{FE03DF27-EC56-48DB-81B0-F99947259A7C}"#refs
 ##EndProject#refs
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution

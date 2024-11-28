@@ -5,5 +5,5 @@
     path = refs/ns-ext
     url = https://github.com/nsnail/ns-ext.git
 [submodule "refs/NetAdmin.FreeSql"]
-	path = refs/NetAdmin.FreeSql
-	url = https://github.com/nsnail/NetAdmin.FreeSql.git
+    path = refs/NetAdmin.FreeSql
+    url = https://github.com/nsnail/NetAdmin.FreeSql.git
