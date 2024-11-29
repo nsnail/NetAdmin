@@ -58,7 +58,7 @@ namespace YourSolution.AdmServer.Host
                 .EnableBuffering()                         // 启用请求体缓冲，允许多次读取请求体
                 .UseMiddleware<RequestAuditMiddleware>()   // 使用RequestAuditMiddleware中间件，执行请求审计
                 #if DEBUG
-                .UseOpenApiSkin() // 使用OpenApiSkin中间件（仅在调试模式下），提供Swagger UI皮肤
+                .UseApiSkin() // 使用OpenApiSkin中间件（仅在调试模式下），提供Swagger UI皮肤
                 #else
                 .UseVueAdmin()    // 托管管理后台，仅在非调试模式下
                 .UsePrometheus()  // 使用Prometheus中间件，启用HTTP性能监控
