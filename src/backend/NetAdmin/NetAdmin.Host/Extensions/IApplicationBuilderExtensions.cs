@@ -1,5 +1,5 @@
 #if DEBUG
-using IGeekFan.AspNetCore.Knife4jUI;
+using NetAdmin.ApiSkin;
 
 #else
 using Prometheus;
@@ -32,9 +32,9 @@ public static class IApplicationBuilderExtensions
     /// <summary>
     ///     使用 api skin （knife4j-vue）
     /// </summary>
-    public static IApplicationBuilder UseOpenApiSkin(this IApplicationBuilder me)
+    public static IApplicationBuilder UseApiSkin(this IApplicationBuilder me)
     {
-        return me.UseKnife4UI(options => {
+        return me.UseApiSkin(options => {
             options.RoutePrefix = string.Empty; // 配置 Knife4UI 路由地址
             foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups()) {
                 options.SwaggerEndpoint(groupInfo.RouteTemplate, groupInfo.Title);

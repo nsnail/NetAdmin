@@ -6,7 +6,7 @@
     <ItemGroup>
         <PackageReference Include="CronExpressionDescriptor" Version="2.36.0"/>
         <PackageReference Include="Cronos" Version="0.8.4"/>
-        <PackageReference Include="CsvHelper.NS" Version="33.0.2-ns2"/>
+        <PackageReference Include="NetAdmin.CsvHelper" Version="1.0.0"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
     </ItemGroup>
     <ItemGroup>
