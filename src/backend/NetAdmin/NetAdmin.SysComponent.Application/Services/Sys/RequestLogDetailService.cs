@@ -25,11 +25,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
     public Task<long> CountAsync(QueryReq<QueryRequestLogDetailReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -51,11 +47,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
     public Task<bool> ExistAsync(QueryReq<QueryRequestLogDetailReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -79,14 +71,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
     public async Task<PagedQueryRsp<QueryRequestLogDetailRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogDetailReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryRequestLogDetailRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryRequestLogDetailRsp>>());
     }
@@ -95,13 +80,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
     public async Task<IEnumerable<QueryRequestLogDetailRsp>> QueryAsync(QueryReq<QueryRequestLogDetailReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .Take(req.Count)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRequestLogDetailRsp>>();
     }
 

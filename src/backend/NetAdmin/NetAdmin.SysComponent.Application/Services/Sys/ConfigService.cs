@@ -25,11 +25,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     public Task<long> CountAsync(QueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -64,11 +60,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -97,14 +89,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryConfigRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryConfigRsp>>());
     }
@@ -113,13 +98,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     public async Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .Take(req.Count)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryConfigRsp>>();
     }
 

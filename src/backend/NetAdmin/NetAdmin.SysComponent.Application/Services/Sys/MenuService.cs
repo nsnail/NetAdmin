@@ -25,11 +25,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     public Task<long> CountAsync(QueryReq<QueryMenuReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -64,11 +60,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -97,12 +89,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .ToTreeListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryMenuRsp>>();
     }
 

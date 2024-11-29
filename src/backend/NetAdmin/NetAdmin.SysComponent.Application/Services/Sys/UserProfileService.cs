@@ -44,11 +44,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public Task<long> CountAsync(QueryReq<QueryUserProfileReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -78,11 +74,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -113,9 +105,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
                          .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
+                         .WithNoLockNoWait()
                          .Count(out var total)
                          .ToListAsync((a, b, c, d, e) => new {
                                                                  a
@@ -141,9 +131,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .Take(req.Count)
                         .ToListAsync((a, b, c, d, e) => new {
                                                                 a

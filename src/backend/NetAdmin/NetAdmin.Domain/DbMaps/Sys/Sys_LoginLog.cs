@@ -28,11 +28,7 @@ public record Sys_LoginLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFiel
     /// <summary>
     ///     创建者客户端用户代理
     /// </summary>
-    #if DBTYPE_SQLSERVER
     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_1022)]
-    #else
-    [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    #endif
     [CsvIgnore]
     [JsonIgnore]
     public virtual string CreatedUserAgent { get; init; }

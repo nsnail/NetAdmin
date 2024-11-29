@@ -25,11 +25,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public Task<long> CountAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -52,12 +48,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public async Task<int> DeleteAsync(DelReq req)
     {
         req.ThrowIfInvalid();
-        return await Rpo.Orm.Select<Sys_UserRole>()
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .AnyAsync(a => a.RoleId == req.Id)
-                        .ConfigureAwait(false)
+        return await Rpo.Orm.Select<Sys_UserRole>().WithNoLockNoWait().AnyAsync(a => a.RoleId == req.Id).ConfigureAwait(false)
             ? throw new NetAdminInvalidOperationException(Ln.该角色下存在用户)
             : await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
     }
@@ -79,11 +70,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -105,14 +92,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryRoleRsp>>());
     }
@@ -121,12 +101,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRoleRsp>>();
     }
 

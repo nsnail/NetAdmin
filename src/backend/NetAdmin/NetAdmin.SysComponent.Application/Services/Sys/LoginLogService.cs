@@ -25,11 +25,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     public Task<long> CountAsync(QueryReq<QueryLoginLogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -51,11 +47,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     public Task<bool> ExistAsync(QueryReq<QueryLoginLogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -80,9 +72,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
         var list = await QueryInternal(req)
                          .Include(a => a.Owner)
                          .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
+                         .WithNoLockNoWait()
                          .Count(out var total)
                          .ToListAsync(a => new {
                                                    a.CreatedClientIp
@@ -106,13 +96,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     public async Task<IEnumerable<QueryLoginLogRsp>> QueryAsync(QueryReq<QueryLoginLogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .Take(req.Count)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryLoginLogRsp>>();
     }
 

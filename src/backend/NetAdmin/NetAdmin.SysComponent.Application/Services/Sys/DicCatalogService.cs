@@ -25,11 +25,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public Task<long> CountAsync(QueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -37,12 +33,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
     {
         req.ThrowIfInvalid();
-        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId)
-                                           #if DBTYPE_SQLSERVER
-                                           .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                                           #endif
-                                           .AnyAsync()
-                                           .ConfigureAwait(false)) {
+        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
         }
 
@@ -63,12 +54,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<int> EditAsync(EditDicCatalogReq req)
     {
         req.ThrowIfInvalid();
-        return req.ParentId == 0 || await Rpo.Where(a => a.Id == req.ParentId)
-                                             #if DBTYPE_SQLSERVER
-                                             .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                                             #endif
-                                             .AnyAsync()
-                                             .ConfigureAwait(false)
+        return req.ParentId == 0 || await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)
             ? await UpdateAsync(req, null).ConfigureAwait(false)
             : throw new NetAdminInvalidOperationException(Ln.父节点不存在);
     }
@@ -77,11 +63,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public Task<bool> ExistAsync(QueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -103,14 +85,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDicCatalogRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDicCatalogRsp>>());
     }
@@ -119,12 +94,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .ToTreeListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
     }
 
