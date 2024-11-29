@@ -5,7 +5,7 @@
     <ItemGroup>
         <PackageReference Include="NetAdmin.FreeSql.DbContext" Version="1.0.2" Label="refs"/>
         <PackageReference Include="NetAdmin.FreeSql.Provider.Sqlite" Version="1.0.2" Label="refs"/>
-        <PackageReference Include="Gurion" Version="1.2.4" Label="refs"/>
+        <PackageReference Include="Gurion" Version="1.2.5" Label="refs"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0"/>
         <PackageReference Include="Minio" Version="6.0.3"/>
         <PackageReference Include="NSExt" Version="2.3.2"/>
