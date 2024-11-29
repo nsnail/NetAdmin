@@ -26,11 +26,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public Task<long> CountAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -52,11 +48,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public Task<bool> ExistAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -80,9 +72,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
         req.ThrowIfInvalid();
 
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .GroupBy(a => new { a.CreatedTime.Year, a.CreatedTime.Month, a.CreatedTime.Day, a.CreatedTime.Hour })
                         .ToListAsync(a => new GetBarChartRsp {
                                                                  Timestamp = new DateTime(a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0, 0
@@ -98,9 +88,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .Include(a => a.Job)
                         .GroupBy(a => a.HttpStatusCode)
                         #pragma warning disable CA1305
@@ -115,9 +103,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .Include(a => a.Job)
                         .GroupBy(a => a.Job.JobName)
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key })
@@ -129,14 +115,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public async Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryJobRecordRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryJobRecordRsp>>());
     }
@@ -145,13 +124,7 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public async Task<IEnumerable<QueryJobRecordRsp>> QueryAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .Take(req.Count)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRecordRsp>>();
     }
 

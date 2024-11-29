@@ -25,11 +25,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     public Task<long> CountAsync(QueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -80,11 +76,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -113,12 +105,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     public async Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();
-        return (await QueryInternal(req)
-                      #if DBTYPE_SQLSERVER
-                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                      #endif
-                      .ToTreeListAsync()
-                      .ConfigureAwait(false)).Adapt<IEnumerable<QueryDeptRsp>>();
+        return (await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false)).Adapt<IEnumerable<QueryDeptRsp>>();
     }
 
     /// <inheritdoc />

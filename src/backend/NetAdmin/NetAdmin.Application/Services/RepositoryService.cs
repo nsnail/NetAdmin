@@ -50,11 +50,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         Func<QueryReq<TQuery>, ISelect<TEntity>> selector, QueryReq<TQuery> query, string fileName, Expression<Func<TEntity, object>> listExp = null)
         where TQuery : DataAbstraction, new()
     {
-        var select = selector(query)
-                     #if DBTYPE_SQLSERVER
-                     .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                     #endif
-                     .Take(Numbers.MAX_LIMIT_EXPORT);
+        var select = selector(query).WithNoLockNoWait().Take(Numbers.MAX_LIMIT_EXPORT);
 
         object list = listExp == null ? await select.ToListAsync().ConfigureAwait(false) : await select.ToListAsync(listExp).ConfigureAwait(false);
 
@@ -100,8 +96,8 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         TEntity                         newValue             //
       , IEnumerable<string>             includeFields        //
       , string[]                        excludeFields = null //
-      , Expression<Func<TEntity, bool>> whereExp      = null //
-      , string                          whereSql      = null //
+      , Expression<Func<TEntity, bool>> whereExp = null //
+      , string                          whereSql = null //
       , bool                            ignoreVersion = false)
     {
         // 默认匹配主键

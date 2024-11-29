@@ -27,11 +27,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -59,11 +55,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -109,9 +101,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
         req.ThrowIfInvalid();
 
         var ret = await QueryInternal(req with { Order = Orders.None }, false)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .GroupBy(a => new { a.CreatedTime.Year, a.CreatedTime.Month, a.CreatedTime.Day, a.CreatedTime.Hour })
                         .ToListAsync(a => new GetBarChartRsp {
                                                                  Timestamp = new DateTime(a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0, 0
@@ -127,9 +117,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .GroupBy(a => a.Api.Summary)
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key })
                         .ConfigureAwait(false);
@@ -141,9 +129,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None }, false)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .GroupBy(a => a.HttpStatusCode)
                         #pragma warning disable CA1305
                         .ToListAsync(a => new GetPieChartRsp { Value = a.Count(), Key = a.Key.ToString() })
@@ -171,9 +157,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
         }
 
         var ret = await selectTemp.Page(req.Page, req.PageSize)
-                                  #if DBTYPE_SQLSERVER
-                                  .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                                  #endif
+                                  .WithNoLockNoWait()
                                   .Count(out var total)
                                   .ToListAsync(a => a.temp)
                                   .ConfigureAwait(false);
@@ -185,13 +169,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .Take(req.Count)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
     }
 

@@ -68,11 +68,7 @@ public sealed class UserService(
     {
         req.ThrowIfInvalid();
         #pragma warning disable VSTHRD103
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
         #pragma warning restore VSTHRD103
     }
 
@@ -235,9 +231,7 @@ public sealed class UserService(
         var includeRoles = listUserExp == _listUserExp;
         var select       = await QueryInternalAsync(req, includeRoles).ConfigureAwait(false);
         IEnumerable<Sys_User> list = await select.Page(req.Page, req.PageSize)
-                                                 #if DBTYPE_SQLSERVER
-                                                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                                                 #endif
+                                                 .WithNoLockNoWait()
                                                  .Count(out var total)
                                                  .ToListAsync(listUserExp)
                                                  .ConfigureAwait(false);
@@ -252,13 +246,12 @@ public sealed class UserService(
     public async Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await (await QueryInternalAsync(req, false).ConfigureAwait(false))
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Take(req.Count)
-                         .ToListAsync(a => new Sys_User { Id = a.Id, UserName = a.UserName })
-                         .ConfigureAwait(false);
+        var list = await (await QueryInternalAsync(req, false).ConfigureAwait(false)).WithNoLockNoWait()
+                                                                                     .Take(req.Count)
+                                                                                     .ToListAsync(a => new Sys_User {
+                                                                                                      Id = a.Id, UserName = a.UserName
+                                                                                                  })
+                                                                                     .ConfigureAwait(false);
         return list.Adapt<IEnumerable<QueryUserRsp>>();
     }
 
@@ -418,63 +411,29 @@ public sealed class UserService(
     /// <inheritdoc />
     public async Task<UserInfoRsp> UserInfoAsync()
     {
-        static void OtherIncludes(ISelect<Sys_Role> select)
-        {
-            select.Where(a => a.Enabled)
-                  #if DBTYPE_SQLSERVER
-                  .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                  #endif
-                  .IncludeMany( //
-                      a => a.Menus
-                      #if DBTYPE_SQLSERVER
-                      #pragma warning disable SA1115
-                    , then => then.WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                      #pragma warning restore SA1115
-                      #endif
-                      #pragma warning disable SA1009, SA1111
-                  )
-                  #pragma warning restore SA1111, SA1009
-                  .IncludeMany( //
-                      a => a.Depts
-                      #if DBTYPE_SQLSERVER
-                      #pragma warning disable SA1115
-                    , then => then.WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                      #pragma warning restore SA1115
-                      #endif
-                      #pragma warning disable SA1009, SA1111
-                  )
-                  #pragma warning restore SA1111, SA1009
-                  .IncludeMany( //
-                      a => a.Apis
-                      #if DBTYPE_SQLSERVER
-                      #pragma warning disable SA1115
-                    , then => then.WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                      #pragma warning restore SA1115
-                      #endif
-                      #pragma warning disable SA1009, SA1111
-                  )
-                #pragma warning restore SA1111, SA1009
-                ;
-        }
-
         var dbUser = await Rpo.Where(a => a.Token == UserToken.Token && a.Enabled)
-                              #if DBTYPE_SQLSERVER
-                              .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                              #endif
+                              .WithNoLockNoWait()
                               .Include(a => a.Dept)
                               .IncludeMany(a => a.Roles, OtherIncludes)
                               .ToOneAsync()
                               .ConfigureAwait(false);
         return dbUser.Adapt<UserInfoRsp>();
+
+        static void OtherIncludes(ISelect<Sys_Role> select)
+        {
+            _ = select.Where(a => a.Enabled)
+                      .WithNoLockNoWait()
+                      .IncludeMany(a => a.Menus, then => then.WithNoLockNoWait())
+                      .IncludeMany(a => a.Depts, then => then.WithNoLockNoWait())
+                      .IncludeMany(a => a.Apis,  then => then.WithNoLockNoWait());
+        }
     }
 
     private async Task<Dictionary<long, string>> CreateEditCheckAsync(CreateEditUserReq req)
     {
         // 检查角色是否存在
         var roles = await Rpo.Orm.Select<Sys_Role>()
-                             #if DBTYPE_SQLSERVER
-                             .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                             #endif
+                             .WithNoLockNoWait()
                              .Where(a => req.RoleIds.Contains(a.Id))
                              .ToDictionaryAsync(a => a.Id, a => a.DashboardLayout)
                              .ConfigureAwait(false);
@@ -483,13 +442,7 @@ public sealed class UserService(
         }
 
         // 检查部门是否存在
-        var dept = await Rpo.Orm.Select<Sys_Dept>()
-                            #if DBTYPE_SQLSERVER
-                            .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                            #endif
-                            .Where(a => req.DeptId == a.Id)
-                            .ToListAsync(a => a.Id)
-                            .ConfigureAwait(false);
+        var dept = await Rpo.Orm.Select<Sys_Dept>().WithNoLockNoWait().Where(a => req.DeptId == a.Id).ToListAsync(a => a.Id).ConfigureAwait(false);
 
         return dept.Count != 1 ? throw new NetAdminInvalidOperationException(Ln.部门不存在) : roles;
     }

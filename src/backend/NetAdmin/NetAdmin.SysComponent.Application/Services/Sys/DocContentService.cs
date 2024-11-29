@@ -1,7 +1,9 @@
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Doc.Content;
 using NetAdmin.Domain.Enums.Sys;
+#if !DBTYPE_SQLSERVER
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
+#endif
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -27,11 +29,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     public Task<long> CountAsync(QueryReq<QueryDocContentReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-            #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -39,13 +37,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     public async Task<QueryDocContentRsp> CreateAsync(CreateDocContentReq req)
     {
         req.ThrowIfInvalid();
-        if (!await Rpo.Orm.Select<Sys_DocCatalog>()
-                      .Where(a => a.Id == req.CatalogId)
-                      #if DBTYPE_SQLSERVER
-                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                      #endif
-                      .AnyAsync()
-                      .ConfigureAwait(false)) {
+        if (!await Rpo.Orm.Select<Sys_DocCatalog>().Where(a => a.Id == req.CatalogId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.文档分类不存在);
         }
 
@@ -65,13 +57,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     public async Task<QueryDocContentRsp> EditAsync(EditDocContentReq req)
     {
         req.ThrowIfInvalid();
-        if (!await Rpo.Orm.Select<Sys_DocCatalog>()
-                      .Where(a => a.Id == req.CatalogId)
-                      #if DBTYPE_SQLSERVER
-                      .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                      #endif
-                      .AnyAsync()
-                      .ConfigureAwait(false)) {
+        if (!await Rpo.Orm.Select<Sys_DocCatalog>().Where(a => a.Id == req.CatalogId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.文档分类不存在);
         }
 
@@ -88,11 +74,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     public Task<bool> ExistAsync(QueryReq<QueryDocContentReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-            #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-            #endif
-            .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -114,14 +96,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     public async Task<PagedQueryRsp<QueryDocContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDocContentReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDocContentRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDocContentRsp>>());
     }
@@ -130,13 +105,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     public async Task<IEnumerable<QueryDocContentRsp>> QueryAsync(QueryReq<QueryDocContentReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .Take(req.Count)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDocContentRsp>>();
     }
 

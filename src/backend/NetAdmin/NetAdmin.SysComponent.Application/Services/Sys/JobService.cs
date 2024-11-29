@@ -30,11 +30,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     public Task<long> CountAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .CountAsync();
+        return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
@@ -129,11 +125,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req)
-               #if DBTYPE_SQLSERVER
-               .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-               #endif
-               .AnyAsync();
+        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />
@@ -192,9 +184,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                                            ]
                                        };
         var job = await QueryInternal(new QueryReq<QueryJobReq> { DynamicFilter = df, Order = Orders.Random }, false)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
+                        .WithNoLockNoWait()
                         .Where(a => !Rpo.Orm.Select<Sys_JobRecord>().As("b").Where(b => b.JobId == a.Id && b.TimeId == a.NextTimeId).Any())
                         .ToOneAsync(a => new {
                                                  a.RequestUrl
@@ -262,14 +252,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     public async Task<PagedQueryRsp<QueryJobRsp>> PagedQueryAsync(PagedQueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         #if DBTYPE_SQLSERVER
-                         .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                         #endif
-                         .Count(out var total)
-                         .ToListAsync()
-                         .ConfigureAwait(false);
+        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryJobRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryJobRsp>>());
     }
@@ -285,13 +268,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     public async Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        #if DBTYPE_SQLSERVER
-                        .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
-                        #endif
-                        .Take(req.Count)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRsp>>();
     }
 
