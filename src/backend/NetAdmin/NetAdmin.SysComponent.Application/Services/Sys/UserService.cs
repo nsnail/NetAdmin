@@ -146,7 +146,7 @@ public sealed class UserService(
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);
 
-        var ret = (await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = req.Id } }).ConfigureAwait(false)).First();
+        var ret = await GetAsync(new QueryUserReq { Id = req.Id }).ConfigureAwait(false);
 
         // 发布用户更新事件
         await eventPublisher.PublishAsync(new UserUpdatedEvent(ret.Adapt<UserInfoRsp>())).ConfigureAwait(false);
