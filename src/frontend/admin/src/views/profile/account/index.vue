@@ -36,18 +36,18 @@
 
     <set-mobile-dialog
         v-if="dialog.setMobile"
-        @closed="(dialog.setMobile = null)"
+        @closed="dialog.setMobile = null"
         @mounted="$refs.setMobileDialog.open(dialog.setMobile)"
         @success="setSuccess"
         ref="setMobileDialog"></set-mobile-dialog>
     <set-password-dialog
         v-if="dialog.setPassword"
-        @closed="(dialog.setPassword = null)"
+        @closed="dialog.setPassword = null"
         @mounted="$refs.setPasswordDialog.open(dialog.setPassword)"
         ref="setPasswordDialog"></set-password-dialog>
     <set-email-dialog
         v-if="dialog.setEmail"
-        @closed="(dialog.setEmail = null)"
+        @closed="dialog.setEmail = null"
         @mounted="$refs.setEmailDialog.open(dialog.setEmail)"
         @success="setSuccess"
         ref="setEmailDialog"></set-email-dialog>

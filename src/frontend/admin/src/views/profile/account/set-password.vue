@@ -34,7 +34,7 @@
         </el-form>
 
         <template #footer>
-            <el-button @click="(visible = false)">{{ $t('取消') }}</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </el-dialog>

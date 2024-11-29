@@ -44,7 +44,7 @@
             </el-tabs>
         </div>
         <template #footer>
-            <el-button @click="(visible = false)">{{ $t('取消') }}</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>

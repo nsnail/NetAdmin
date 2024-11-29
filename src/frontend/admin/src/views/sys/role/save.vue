@@ -80,7 +80,7 @@
                                 :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                                 lang="json"
                                 style="height: 30rem; width: 100%" />
-                            <el-button @click="(form.dashboardLayout = jsonFormat(form.dashboardLayout))" type="text">{{
+                            <el-button @click="form.dashboardLayout = jsonFormat(form.dashboardLayout)" type="text">{{
                                 $t('JSON 格式化')
                             }}</el-button>
                         </el-form-item>
@@ -101,7 +101,7 @@
             </el-tabs>
         </div>
         <template #footer>
-            <el-button @click="(visible = false)">{{ $t('取消') }}</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>

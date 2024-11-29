@@ -31,7 +31,7 @@
             </el-form-item>
             <el-form-item label="" prop="agree">
                 <el-checkbox v-model="form.agree" label="">{{ $t('我已阅读并同意') }}</el-checkbox>
-                <span @click="(showAgree = true)" class="link">《{{ $t('平台服务协议') }}》</span>
+                <span @click="showAgree = true" class="link">《{{ $t('平台服务协议') }}》</span>
             </el-form-item>
         </el-form>
         <el-form v-if="stepActive === 1" :model="form" :rules="rules" ref="stepForm_1" size="large">
@@ -57,7 +57,7 @@
         </el-form>
         <el-dialog v-model="showAgree" :title="$t('平台服务协议')" destroy-on-close>
             <template #footer>
-                <el-button @click="(showAgree = false)">{{ $t('取消') }}</el-button>
+                <el-button @click="showAgree = false">{{ $t('取消') }}</el-button>
                 <el-button
                     @click="
                         () => {

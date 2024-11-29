@@ -38,7 +38,7 @@
             </div>
             <div class="right-panel">
                 <el-button
-                    @click="(this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } })"
+                    @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
                     icon="el-icon-plus"
                     type="primary"></el-button>
                 <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
@@ -53,7 +53,7 @@
                         <el-dropdown-menu>
                             <el-dropdown-item @click="setEnabled(true)">{{ $t('启用') }}</el-dropdown-item>
                             <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用') }}</el-dropdown-item>
-                            <el-dropdown-item @click="(this.dialog.savebatch = { mode: 'batchedit', data: { catalogId: this.catalogId } })">{{
+                            <el-dropdown-item @click="this.dialog.savebatch = { mode: 'batchedit', data: { catalogId: this.catalogId } }">{{
                                 $t('设置项值')
                             }}</el-dropdown-item>
                         </el-dropdown-menu>
@@ -107,14 +107,14 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="(dialog.save = null)"
+        @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
         ref="saveDialog"></save-dialog>
 
     <savebatch-dialog
         v-if="dialog.savebatch"
-        @closed="(dialog.savebatch = null)"
+        @closed="dialog.savebatch = null"
         @mounted="$refs.savebatchDialog.open(dialog.savebatch)"
         @success="(data, mode) => batchsuccess(data, mode)"
         ref="savebatchDialog"></savebatch-dialog>

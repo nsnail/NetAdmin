@@ -49,7 +49,7 @@
             </div>
             <template #footer>
                 <el-button @click="clear" text>{{ $t('清除') }}</el-button>
-                <el-button @click="(dialogVisible = false)">{{ $t('取消') }}</el-button>
+                <el-button @click="dialogVisible = false">{{ $t('取消') }}</el-button>
             </template>
         </el-dialog>
     </div>

@@ -12,7 +12,7 @@
                 }">
                 <el-input
                     v-model="form.rows[index].value"
-                    :input="(form.rows[index].value = form.rows[index].value.replace(/[^0-9 ]/g, ''))"
+                    :input="form.rows[index].value = form.rows[index].value.replace(/[^0-9 ]/g, '')"
                     placeholder="请输入以空格分隔的24分栏布局：如【24】或【12 12】或【8 8 8】">
                     <template #append>
                         <el-button @click.prevent="form.rows.splice(index, 1)" icon="delete">删除</el-button>

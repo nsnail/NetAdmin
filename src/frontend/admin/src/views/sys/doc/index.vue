@@ -48,7 +48,7 @@
 
     <save-dialog
         v-if="dialog.save"
-        @closed="(dialog.save = null)"
+        @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => getData()"
         ref="saveDialog"></save-dialog>

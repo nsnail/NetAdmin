@@ -45,7 +45,7 @@
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 10rem; width: 100%" />
-                        <el-button @click="(form.requestHeader = jsonFormat(form.requestHeader))" type="text">{{ $t('JSON 格式化') }}</el-button>
+                        <el-button @click="form.requestHeader = jsonFormat(form.requestHeader)" type="text">{{ $t('JSON 格式化') }}</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求体')" prop="requestBody">
                         <v-ace-editor
@@ -53,7 +53,7 @@
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
                             style="height: 15rem; width: 100%" />
-                        <el-button @click="(form.requestBody = jsonFormat(form.requestBody))" type="text">{{ $t('JSON 格式化') }}</el-button>
+                        <el-button @click="form.requestBody = jsonFormat(form.requestBody)" type="text">{{ $t('JSON 格式化') }}</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
                         <el-input v-model="form.requestUrl" clearable />
@@ -121,7 +121,7 @@
         </el-tabs>
 
         <template #footer>
-            <el-button @click="(visible = false)">{{ $t('取消') }}</el-button>
+            <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
     </sc-dialog>

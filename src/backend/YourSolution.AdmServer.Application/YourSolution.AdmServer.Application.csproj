@@ -4,7 +4,4 @@
         <ProjectReference Include="../YourSolution.AdmServer.Domain/YourSolution.AdmServer.Domain.csproj"/>
         <ProjectReference Include="../NetAdmin/NetAdmin.SysComponent.Application/NetAdmin.SysComponent.Application.csproj"/>
     </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="MailKit" Version="4.8.0"/>
-    </ItemGroup>
 </Project>
