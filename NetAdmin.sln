@@ -1,12 +1,34 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C84EB5A0-37AD-4B17-A51E-E36888C4441E}"
+
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{4DAF9366-855F-46BB-AE4C-660C92FA0697}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
+    ProjectSection(SolutionItems) = preProject
+        nightly-build.yml = .github/workflows/nightly-build.yml
+        README.md = .github/workflows/README.md
+        release.yml = .github/workflows/release.yml
+    EndProjectSection
 EndProject
+
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E4C93BA-9493-4892-80C4-5E174C504829}"
+    ProjectSection(SolutionItems) = preProject
+        code.quality.props = build/code.quality.props
+        copy.pkg.xml.comment.files.targets = build/copy.pkg.xml.comment.files.targets
+        minver.targets = build/minver.targets
+        prebuild.targets = build/prebuild.targets
+        stylecop.analyzers.ruleset = build/stylecop.analyzers.ruleset
+    EndProjectSection
+EndProject
+
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E80A1018-C354-4A26-9029-8847BB9DA864}"
+    ProjectSection(SolutionItems) = preProject
+        README.md = docker/README.md
+    EndProjectSection
+EndProject
+
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0CAC-4828-A807-34A693F73859}"
     ProjectSection(SolutionItems) = preProject
         .commitlintrc.js = .commitlintrc.js
@@ -26,6 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{5198A03D-0
         README.md = README.md
     EndProjectSection
 EndProject
+
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B25C9-0901-4923-913F-00F9A6B352A5}"
     ProjectSection(SolutionItems) = preProject
         1.git.pull.request.ps1 = scripts/1.git.pull.request.ps1
@@ -49,23 +72,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B
         wait.server.stop.sh = scripts/wait.server.stop.sh
     EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"
+
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C84EB5A0-37AD-4B17-A51E-E36888C4441E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
-    ProjectSection(SolutionItems) = preProject
-        nightly-build.yml = .github/workflows/nightly-build.yml
-        README.md = .github/workflows/README.md
-        release.yml = .github/workflows/release.yml
-    EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E4C93BA-9493-4892-80C4-5E174C504829}"
-    ProjectSection(SolutionItems) = preProject
-        code.quality.props = build/code.quality.props
-        copy.pkg.xml.comment.files.targets = build/copy.pkg.xml.comment.files.targets
-        minver.targets = build/minver.targets
-        prebuild.targets = build/prebuild.targets
-        stylecop.analyzers.ruleset = build/stylecop.analyzers.ruleset
-    EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{4DAF9366-855F-46BB-AE4C-660C92FA0697}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Infrastructure", "src\backend\NetAdmin\NetAdmin.Infrastructure\NetAdmin.Infrastructure.csproj", "{1E62C322-EE42-4699-A6F1-791C53EFA62D}"
 EndProject
@@ -103,11 +113,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\backend\Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetAdmin.Tests", "src\backend\NetAdmin\NetAdmin.Tests\NetAdmin.Tests.csproj", "{00604162-C444-478B-B773-3AB23C856CA7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E80A1018-C354-4A26-9029-8847BB9DA864}"
-    ProjectSection(SolutionItems) = preProject
-        README.md = docker/README.md
-    EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Domain", "src\backend\YourSolution.AdmServer.Domain\YourSolution.AdmServer.Domain.csproj", "{932520DF-D312-415A-A128-1117F8221D68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourSolution.AdmServer.Infrastructure", "src\backend\YourSolution.AdmServer.Infrastructure\YourSolution.AdmServer.Infrastructure.csproj", "{C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA}"
@@ -120,6 +125,7 @@ EndProject
 ##EndProject#refs
 ##Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSql.DbContext", "refs\NetAdmin.FreeSql\src\FreeSql.DbContext\FreeSql.DbContext.csproj", "{FE03DF27-EC56-48DB-81B0-F99947259A7C}"#refs
 ##EndProject#refs
+
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
         Debug|Any CPU = Debug|Any CPU
