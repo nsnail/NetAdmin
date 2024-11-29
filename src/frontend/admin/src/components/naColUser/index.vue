@@ -11,7 +11,7 @@
                     <p v-if="$attrs.nestProp2">{{ $TOOL.getNestedProperty(row, $attrs.nestProp2) }}</p>
                 </div>
             </div>
-            <save-dialog v-if="dialog.save" @closed="(dialog.save = false)" ref="saveDialog"></save-dialog>
+            <save-dialog v-if="dialog.save" @closed="dialog.save = false" ref="saveDialog"></save-dialog>
         </template>
     </el-table-column>
 </template>

@@ -53,7 +53,7 @@
         </el-footer>
     </el-container>
 
-    <save-dialog v-if="dialog.save" @closed="(dialog.save = null)" @mounted="$refs.saveDialog.open(dialog.save)" ref="saveDialog"></save-dialog>
+    <save-dialog v-if="dialog.save" @closed="dialog.save = null" @mounted="$refs.saveDialog.open(dialog.save)" ref="saveDialog"></save-dialog>
 </template>
 
 <script>

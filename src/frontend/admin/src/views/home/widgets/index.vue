@@ -77,7 +77,7 @@
                     </div>
                 </el-header>
                 <el-header style="height: auto">
-                    <el-button @click="(this.dialog.customLayout = { title: '添加自定义布局' })" style="margin: 0 auto">添加自定义布局</el-button>
+                    <el-button @click="this.dialog.customLayout = { title: '添加自定义布局' }" style="margin: 0 auto">添加自定义布局</el-button>
                 </el-header>
                 <el-main class="nopadding">
                     <div class="widgets-list">
@@ -115,7 +115,7 @@
 
     <custom-layout-dialog
         v-if="dialog.customLayout"
-        @closed="(dialog.customLayout = null)"
+        @closed="dialog.customLayout = null"
         @mounted="$refs.customLayoutDialog.open(dialog.customLayout)"
         @onCustomLayout="(l) => (customLayouts = [l])"
         ref="customLayoutDialog"></custom-layout-dialog>

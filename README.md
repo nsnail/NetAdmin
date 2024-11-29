@@ -1,6 +1,6 @@
 # NetAdmin
 
-通用后台权限管理系统、快速开发框架（基于C#12/.NET9、Vue3/Vite、Element Plus等现代技术构建，具有十分整洁、优雅的编码规范）
+通用后台权限管理系统、快速开发框架（基于C#13/.NET9、Vue3/Vite、ElementPlus等现代技术构建，具有十分整洁、优雅的编码规范）
 
 [![.NET](https://github.com/nsnail/NetAdmin/actions/workflows/nightly-build.yml/badge.svg)](https://github.com/nsnail/NetAdmin/actions/workflows/nightly-build.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nsnail/NetAdmin/blob/main/LICENSE)
@@ -110,7 +110,7 @@ biz-infra-->infra
 | C#         | 自动化版本管理       | [MinVer](https://github.com/adamralph/minver)                                                                                                                                                                         |
 | TypeScript | SPA基础框架       | [Vue](https://github.com/vuejs/core)                                                                                                                                                                                  |
 | TypeScript | 前端构建工具        | [Vite](https://github.com/vitejs/vite)                                                                                                                                                                                |
-| TypeScript | UI控件库         | [Element Plus](https://github.com/element-plus/element-plus)                                                                                                                                                          |
+| TypeScript | UI控件库         | [ElementPlus](https://github.com/element-plus/element-plus)                                                                                                                                                           |
 | TypeScript | CSS解析器        | [Sass](https://github.com/sass/sass)                                                                                                                                                                                  |
 | TypeScript | 图表和数据可视化      | [ECharts](https://github.com/apache/echarts)                                                                                                                                                                          |
 | JavaScript | 后台管理界面        | [SCUI](https://gitee.com/lolicode/scui)                                                                                                                                                                               |

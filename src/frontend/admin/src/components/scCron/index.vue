@@ -293,7 +293,7 @@
         </div>
 
         <template #footer>
-            <el-button @click="(dialogVisible = false)">{{ $t('取消') }}</el-button>
+            <el-button @click="dialogVisible = false">{{ $t('取消') }}</el-button>
             <el-button @click="submit()" type="primary">{{ $t('确认') }}</el-button>
         </template>
     </el-dialog>

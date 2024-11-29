@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Infrastructure.Extensions;
+namespace NetAdmin.Infrastructure.Extensions;
 
 /// <summary>
 ///     ISelect 扩展方法

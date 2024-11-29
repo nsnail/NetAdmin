@@ -10,7 +10,6 @@
         <PackageReference Include="Minio" Version="6.0.3"/>
         <PackageReference Include="NSExt" Version="2.3.2"/>
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.4"/>
-        <PackageReference Include="System.Drawing.Common" Version="9.0.0"/>
     </ItemGroup>
     <ItemGroup>
         <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/FreeSql.DbContext/FreeSql.DbContext.csproj" Label="refs"/>-->

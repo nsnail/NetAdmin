@@ -52,7 +52,7 @@
                 </draggable>
             </div>
             <template #footer>
-                <el-button @click="(modsDrawer = false)">{{ $t('取消') }}</el-button>
+                <el-button @click="modsDrawer = false">{{ $t('取消') }}</el-button>
                 <el-button @click="saveMods" type="primary">{{ $t('保存') }}</el-button>
             </template>
         </el-drawer>
