@@ -28,15 +28,14 @@ dotnet --list-sdks
 git clone https://github.com/nsnail/NetAdmin.git && cd ./NetAdmin
 
 # 3. 确认本机 redis 处于运行状态
-redis-server # 启动
+redis-server # 启动服务器
 redis-cli    # 连接测试
 # 下载 redis for windows：https://github.com/redis-windows/redis-windows/releases
 # 下载 redis for linux/mac：https://redis.io/download
 
 # 4. 运行后端 WebApi
 dotnet run --project ./src/backend/YourSolution.AdmServer.Host/YourSolution.AdmServer.Host.csproj --urls http://[::]:5010 -is
-# -i 插入种子数据
-# -s 同步数据库结构
+# -i 插入种子数据；-s 同步数据库结构
 # 浏览器访问 http://localhost:5010 ，将看到Swagger（Knife4jUI）界面
 
 # 5. 检查 nodejs 版本 >=20
