@@ -59,10 +59,10 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     上次执行状态
     /// </summary>
-    [Column]
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_SMALL_INT)]
     [CsvIgnore]
     [JsonIgnore]
-    public HttpStatusCode? LastStatusCode { get; init; }
+    public int? LastStatusCode { get; init; }
 
     /// <summary>
     ///     下次执行时间

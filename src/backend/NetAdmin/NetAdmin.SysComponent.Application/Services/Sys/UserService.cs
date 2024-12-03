@@ -453,8 +453,7 @@ public sealed class UserService(
             throw new NetAdminInvalidOperationException(Ln.请联系管理员激活账号);
         }
 
-        _ = await UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)], ignoreVersion: true)
-            .ConfigureAwait(false);
+        _ = await UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)]).ConfigureAwait(false);
 
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUserToken), dbUser.Adapt<ContextUserToken>() } };
 

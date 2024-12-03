@@ -20,13 +20,11 @@ public record QueryJobRsp : Sys_Job
     /// <inheritdoc cref="Sys_Job.LastStatusCode" />
     [JsonInclude]
     public new virtual string LastStatusCode =>
-        #pragma warning disable IDE0072
         base.LastStatusCode switch {
-            #pragma warning restore IDE0072
             null => null
-          , _ => (int)base.LastStatusCode.Value == Numbers.HTTP_STATUS_BIZ_FAIL
+          , _ => base.LastStatusCode.Value == Numbers.HTTP_STATUS_BIZ_FAIL
                 ? nameof(ErrorCodes.Unhandled).ToLowerCamelCase()
-                : base.LastStatusCode.Value.ToString().ToLowerCamelCase()
+                : ((HttpStatusCode)base.LastStatusCode.Value).ToString().ToLowerCamelCase()
         };
 
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />

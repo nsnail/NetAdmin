@@ -277,13 +277,13 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     {
         var ret1 = await UpdateAsync( // 运行中，运行时间超过超时设定；置为空闲状态
                 new Sys_Job { Status = JobStatues.Idle }, [nameof(Sys_Job.Status)], null
-              , a => a.Status == JobStatues.Running && a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB), null, true)
+              , a => a.Status == JobStatues.Running && a.LastExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB))
             .ConfigureAwait(false);
 
         var ret2 = await UpdateAsync( // 空闲中，下次执行时间在当前时间减去超时时间以前；将下次执行时间调整到现在
                 new Sys_Job { NextExecTime = DateTime.Now, NextTimeId = DateTime.Now.TimeUnixUtc() }
-              , [nameof(Sys_Job.NextExecTime), nameof(Sys_Job.NextTimeId)],                                              null
-              , a => a.Status == JobStatues.Idle && a.NextExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB), null, true)
+              , [nameof(Sys_Job.NextExecTime), nameof(Sys_Job.NextTimeId)], null
+              , a => a.Status == JobStatues.Idle && a.NextExecTime < DateTime.Now.AddSeconds(-Numbers.SECS_TIMEOUT_JOB))
             .ConfigureAwait(false);
         return ret1 + ret2;
     }
