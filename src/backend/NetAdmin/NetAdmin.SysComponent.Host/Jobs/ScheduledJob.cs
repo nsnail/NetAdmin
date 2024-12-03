@@ -117,7 +117,7 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
                                    _ = await jobRecordService.CreateAsync(jobRecord).ConfigureAwait(false);
                                    await jobService.FinishJobAsync(job.Adapt<FinishJobReq>() with //
                                                                    {
-                                                                       LastStatusCode = rsp.StatusCode //
+                                                                       LastStatusCode = (int?)rsp.StatusCode //
                                                                      , LastDuration = jobRecord.Duration
                                                                    })
                                                    .ConfigureAwait(false);
