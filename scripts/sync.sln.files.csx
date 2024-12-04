@@ -47,6 +47,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 
 content = Regex.Replace(
     content,
+    "Project\\(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\"\\) = \"workflows\", \"workflows\", \"{BB5BB244-E7D2-4368-8C18-C1C0ED1E12D1}\"(?:.|\n)*?EndProject",
+    $$"""
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{BB5BB244-E7D2-4368-8C18-C1C0ED1E12D1}"
+    ProjectSection(SolutionItems) = preProject
+{{string.Join('\n',
+             Directory.GetFiles(@"../.drone/workflows", "*")
+                      .Select(x=>$"        {Path.GetFileName(x)} = .drone/workflows/{Path.GetFileName(x)}")
+                      )}}
+    EndProject
+"""
+);
+
+content = Regex.Replace(
+    content,
     "Project\\(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\"\\) = \"scripts\", \"scripts\", \"{BB0B25C9-0901-4923-913F-00F9A6B352A5}\"(?:.|\n)*?EndProject",
     $$"""
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B25C9-0901-4923-913F-00F9A6B352A5}"

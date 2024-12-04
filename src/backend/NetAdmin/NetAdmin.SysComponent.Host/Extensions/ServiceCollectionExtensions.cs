@@ -62,9 +62,9 @@ public static class ServiceCollectionExtensions
     /// <summary>
     ///     添加定时任务
     /// </summary>
-    public static IServiceCollection AddSchedules(this IServiceCollection me)
+    public static IServiceCollection AddSchedules(this IServiceCollection me, bool force = false)
     {
-        return App.WebHostEnvironment.IsProduction()
+        return App.WebHostEnvironment.IsProduction() || force
             ? me.AddSchedule(      //
                 builder => builder //
                            .AddJob<ScheduledJob>(true,     Triggers.PeriodSeconds(1).SetRunOnStart(true))
