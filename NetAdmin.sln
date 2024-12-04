@@ -3,6 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".drone", ".drone", "{3E408077-E73E-45CE-A53A-EF5F9DAE4B46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{BB5BB244-E7D2-4368-8C18-C1C0ED1E12D1}"
+    ProjectSection(SolutionItems) = preProject
+        README.md = .drone/workflows/README.md
+    EndProjectSection
+EndProject
+
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1129FE25-466B-4F4F-85FC-3752664245E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{3C6F049E-3EE8-4D66-9AFF-E8A369032487}"
@@ -55,6 +63,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{BB0B
         2.git.release.ps1 = scripts/2.git.release.ps1
         3.git.recreate.branch.ps1 = scripts/3.git.recreate.branch.ps1
         4.git.del.obsolete.tags.ps1 = scripts/4.git.del.obsolete.tags.ps1
+        5.git.update.submodule.ps1 = scripts/5.git.update.submodule.ps1
         clean.ln.csx = scripts/clean.ln.csx
         code.clean.csx = scripts/code.clean.csx
         code.clean.ps1 = scripts/code.clean.ps1
@@ -235,5 +244,6 @@ Global
         {932520DF-D312-415A-A128-1117F8221D68} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
         {C3DE6F6A-D1FC-4B8E-9033-980FBEBBD2BA} = {12AE5B4B-CB1A-498E-83B8-04E201E31D86}
         {3C6F049E-3EE8-4D66-9AFF-E8A369032487} = {1129FE25-466B-4F4F-85FC-3752664245E1}
+        {BB5BB244-E7D2-4368-8C18-C1C0ED1E12D1} = {3E408077-E73E-45CE-A53A-EF5F9DAE4B46}
     EndGlobalSection
 EndGlobal

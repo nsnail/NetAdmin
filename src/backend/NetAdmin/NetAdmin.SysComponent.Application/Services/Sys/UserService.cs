@@ -132,7 +132,7 @@ public sealed class UserService(
             ignoreCols.Add(nameof(Sys_User.Password));
         }
 
-        _ = await UpdateAsync(entity, null, ignoreCols.ToArray()).ConfigureAwait(false);
+        _ = await UpdateAsync(entity, null, ignoreCols).ConfigureAwait(false);
 
         // 档案表
         if (req.Profile != null) {
@@ -453,7 +453,8 @@ public sealed class UserService(
             throw new NetAdminInvalidOperationException(Ln.请联系管理员激活账号);
         }
 
-        _ = await UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)]).ConfigureAwait(false);
+        _ = await UpdateAsync(dbUser with { LastLoginTime = DateTime.Now }, [nameof(Sys_User.LastLoginTime)], ignoreVersion: true)
+            .ConfigureAwait(false);
 
         var tokenPayload = new Dictionary<string, object> { { nameof(ContextUserToken), dbUser.Adapt<ContextUserToken>() } };
 

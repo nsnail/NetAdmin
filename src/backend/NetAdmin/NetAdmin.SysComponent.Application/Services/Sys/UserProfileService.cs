@@ -160,7 +160,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
             req.AppConfig = BuildAppConfig(App.GetService<ContextUserInfo>().Roles.ToDictionary(x => x.Id, x => x.DashboardLayout));
         }
 
-        return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id);
+        return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id, null, true);
     }
 
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(QueryReq<QueryUserProfileReq> req)

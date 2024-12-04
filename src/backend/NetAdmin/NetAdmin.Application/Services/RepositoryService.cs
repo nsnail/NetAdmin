@@ -3,6 +3,7 @@ using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Domain;
 using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Dependency;
 
 namespace NetAdmin.Application.Services;
@@ -64,17 +65,19 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <param name="excludeFields">排除的属性</param>
     /// <param name="whereExp">查询表达式</param>
     /// <param name="whereSql">查询sql</param>
+    /// <param name="ignoreVersion">是否忽略版本锁</param>
     /// <returns>更新行数</returns>
     protected Task<int> UpdateAsync(                         //
         TEntity                         newValue             //
-      , IEnumerable<string>             includeFields        //
-      , string[]                        excludeFields = null //
+      , List<string>                    includeFields = null //
+      , List<string>                    excludeFields = null //
       , Expression<Func<TEntity, bool>> whereExp      = null //
-      , string                          whereSql      = null)
+      , string                          whereSql      = null //
+      , bool                            ignoreVersion = false)
     {
         // 默认匹配主键
         whereExp ??= a => a.Id.Equals(newValue.Id);
-        var update = BuildUpdate(newValue, includeFields, excludeFields).Where(whereExp).Where(whereSql);
+        var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql);
         return update.ExecuteAffrowsAsync();
     }
 
@@ -87,17 +90,19 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <param name="excludeFields">排除的属性</param>
     /// <param name="whereExp">查询表达式</param>
     /// <param name="whereSql">查询sql</param>
+    /// <param name="ignoreVersion">是否忽略版本锁</param>
     /// <returns>更新后的实体列表</returns>
     protected Task<List<TEntity>> UpdateReturnListAsync(     //
         TEntity                         newValue             //
-      , IEnumerable<string>             includeFields        //
-      , string[]                        excludeFields = null //
+      , List<string>                    includeFields = null //
+      , List<string>                    excludeFields = null //
       , Expression<Func<TEntity, bool>> whereExp      = null //
-      , string                          whereSql      = null)
+      , string                          whereSql      = null //
+      , bool                            ignoreVersion = false)
     {
         // 默认匹配主键
         whereExp ??= a => a.Id.Equals(newValue.Id);
-        return BuildUpdate(newValue, includeFields, excludeFields).Where(whereExp).Where(whereSql).ExecuteUpdatedAsync();
+        return BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql).ExecuteUpdatedAsync();
     }
     #endif
 
@@ -127,17 +132,22 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
     }
 
-    private IUpdate<TEntity> BuildUpdate( //
-        TEntity             entity        //
-      , IEnumerable<string> includeFields //
-      , string[]            excludeFields = null)
+    private IUpdate<TEntity> BuildUpdate(TEntity entity, List<string> includeFields, List<string> excludeFields, bool ignoreVersion)
     {
-        var updateExp = includeFields == null
-            ? Rpo.UpdateDiy.SetSource(entity)
-            : Rpo.UpdateDiy.SetDto(includeFields!.ToDictionary(
-                                       x => x, x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!.GetValue(entity)));
-        if (excludeFields != null) {
-            updateExp = updateExp.IgnoreColumns(excludeFields);
+        IUpdate<TEntity> updateExp;
+        if (includeFields.NullOrEmpty()) {
+            updateExp = Rpo.UpdateDiy.SetSource(entity);
+            if (!excludeFields.NullOrEmpty()) {
+                updateExp = updateExp.IgnoreColumns(excludeFields.ToArray());
+            }
+        }
+        else {
+            updateExp = Rpo.UpdateDiy.SetDto(includeFields!.ToDictionary(
+                                                 x => x
+                                               , x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!.GetValue(entity)));
+            if (!ignoreVersion && entity is IFieldVersion ver) {
+                updateExp = updateExp.Where($"{nameof(IFieldVersion.Version)} = {ver.Version}");
+            }
         }
 
         return updateExp;
