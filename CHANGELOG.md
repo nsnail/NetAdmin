@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/nsnail/NetAdmin/compare/v2.1.0...v2.2.1) (2024-12-04)
+
+
+### Features
+
+* ✨ 菜单复制 ([#214](https://github.com/nsnail/NetAdmin/issues/214)) ([81d9b0b](https://github.com/nsnail/NetAdmin/commit/81d9b0b3bb280661ceffa61aa6e9d612fb7ec52c))
+* ✨ 文档管理 ([#221](https://github.com/nsnail/NetAdmin/issues/221)) ([7ed3040](https://github.com/nsnail/NetAdmin/commit/7ed30406c9f721a12f0b756ec8884a1882242b93))
+* ✨ select-filter badge icon ([#217](https://github.com/nsnail/NetAdmin/issues/217)) ([4d857f1](https://github.com/nsnail/NetAdmin/commit/4d857f1861b1256980e7cc59e2ab6a5f7d966da2))
+
+
+### Bug Fixes
+
+* 🐛 按钮文字提示 ([#227](https://github.com/nsnail/NetAdmin/issues/227)) ([c88c8d2](https://github.com/nsnail/NetAdmin/commit/c88c8d293d44f2707f3b5232e6a40a141af9981c))
+* 🐛 导出界面报错 ([#213](https://github.com/nsnail/NetAdmin/issues/213)) ([ef2f0de](https://github.com/nsnail/NetAdmin/commit/ef2f0de095e314f34bec21c0a2ccdb51423a163b))
+* 🐛 导出文件的responseType ([#205](https://github.com/nsnail/NetAdmin/issues/205)) ([841a419](https://github.com/nsnail/NetAdmin/commit/841a4195e77aa96e3c6c72626c1add3f71a310aa))
+* 🐛 请求日志批量插入，漏写了登录日志 ([#210](https://github.com/nsnail/NetAdmin/issues/210)) ([6c71c74](https://github.com/nsnail/NetAdmin/commit/6c71c74a27617c7d0530a5f6eaff650ecfd4eaec))
+* 🐛 用户选择器报错 ([#220](https://github.com/nsnail/NetAdmin/issues/220)) ([71bfdaa](https://github.com/nsnail/NetAdmin/commit/71bfdaafa8176cf686b03244ee758de058080a71))
+* 🐛 editUser ([ef2a0c3](https://github.com/nsnail/NetAdmin/commit/ef2a0c3280532ac24889279e4780a1b1a2561a6b))
+* 🐛 idd ([#208](https://github.com/nsnail/NetAdmin/issues/208)) ([4e9f605](https://github.com/nsnail/NetAdmin/commit/4e9f605ea2cc6fe394068cfea5638e51920b9096))
+* 🐛 version 条件重复指定 ([01058ba](https://github.com/nsnail/NetAdmin/commit/01058ba7288bcc645f66de2f78e1d659d55333cf))
+* 🐛 version lock ([4eecc0b](https://github.com/nsnail/NetAdmin/commit/4eecc0b4ce09f620f83109949e4c2b67b7f8ba90))
+
 ## [2.2.0](https://github.com/nsnail/NetAdmin/compare/v2.1.0...v2.2.0) (2024-11-27)
 
 
