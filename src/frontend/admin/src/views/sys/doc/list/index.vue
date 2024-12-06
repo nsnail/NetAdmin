@@ -88,7 +88,7 @@
                 stripe>
                 <el-table-column type="selection" width="50" />
                 <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
-                <el-table-column :label="$t('文档标题')" prop="title" sortable="custom" />
+                <el-table-column :label="$t('文档标题')" min-width="200" prop="title" sortable="custom" />
                 <na-col-indicator
                     :label="$t('档案可见性')"
                     :options="

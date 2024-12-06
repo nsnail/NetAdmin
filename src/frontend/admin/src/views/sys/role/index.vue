@@ -103,9 +103,9 @@
                 stripe>
                 <el-table-column type="selection" />
                 <na-col-id :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
-                <el-table-column :label="$t('角色名称')" prop="name" sortable="custom" />
-                <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" />
-                <el-table-column :label="$t('无限权限')" align="center" prop="ignorePermissionControl" sortable="custom">
+                <el-table-column :label="$t('角色名称')" min-width="150" prop="name" sortable="custom" />
+                <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" width="100" />
+                <el-table-column :label="$t('无限权限')" align="center" prop="ignorePermissionControl" sortable="custom" width="100">
                     <template #default="{ row }">
                         <el-switch v-model="row.ignorePermissionControl" @change="changeIgnorePermissionControl($event, row)"></el-switch>
                     </template>
@@ -123,7 +123,7 @@
                     width="120">
                 </na-col-indicator>
 
-                <el-table-column :label="$t('显示仪表板')" align="center" prop="displayDashboard" sortable="custom">
+                <el-table-column :label="$t('显示仪表板')" align="center" prop="displayDashboard" sortable="custom" width="120">
                     <template #default="{ row }">
                         <el-switch v-model="row.displayDashboard" @change="changeDisplayDashboard($event, row)"></el-switch>
                     </template>

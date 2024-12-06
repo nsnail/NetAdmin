@@ -17,8 +17,8 @@
                 row-key="id"
                 show-summary
                 stripe>
-                <el-table-column :label="$t('接口路径')" prop="id" />
-                <el-table-column :label="$t('接口名称')" prop="name" />
+                <el-table-column :label="$t('接口路径')" min-width="400" prop="id" />
+                <el-table-column :label="$t('接口名称')" min-width="200" prop="name" />
                 <na-col-indicator
                     :label="$t('请求方式')"
                     :options="
@@ -30,7 +30,7 @@
                     prop="method"
                     sortable="custom"
                     width="150" />
-                <el-table-column :label="$t('接口描述')" prop="summary" />
+                <el-table-column :label="$t('接口描述')" min-width="200" prop="summary" />
             </sc-table>
         </el-main>
     </el-container>

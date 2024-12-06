@@ -72,7 +72,7 @@
                 stripe>
                 <el-table-column type="selection" />
                 <na-col-id :label="$t('消息编号')" prop="id" sortable="custom" width="170" />
-                <na-col-avatar :label="$t('用户名')" prop="createdUserName" />
+                <na-col-avatar :label="$t('用户名')" min-width="100" prop="createdUserName" />
                 <na-col-indicator
                     :label="$t('消息类型')"
                     :options="
@@ -84,8 +84,8 @@
                     prop="msgType"
                     sortable="custom"
                     width="150" />
-                <el-table-column :label="$t('消息主题')" prop="title" show-overflow-tooltip sortable="custom" />
-                <el-table-column :label="$t('消息摘要')" prop="summary" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('消息主题')" min-width="200" prop="title" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('消息摘要')" min-width="400" prop="summary" show-overflow-tooltip sortable="custom" />
 
                 <na-col-operation
                     :buttons="
@@ -98,7 +98,7 @@
                         })
                     "
                     :vue="this"
-                    width="150" />
+                    width="120" />
             </sc-table>
         </el-main>
     </el-container>

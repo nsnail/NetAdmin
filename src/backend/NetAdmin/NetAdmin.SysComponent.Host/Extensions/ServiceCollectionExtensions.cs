@@ -62,13 +62,17 @@ public static class ServiceCollectionExtensions
     /// <summary>
     ///     添加定时任务
     /// </summary>
-    public static IServiceCollection AddSchedules(this IServiceCollection me, bool force = false)
+    public static IServiceCollection AddSchedules(this IServiceCollection me, bool force = false, Action<ScheduleOptionsBuilder> optionsAction = null)
     {
         return App.WebHostEnvironment.IsProduction() || force
-            ? me.AddSchedule(      //
-                builder => builder //
-                           .AddJob<ScheduledJob>(true,     Triggers.PeriodSeconds(1).SetRunOnStart(true))
-                           .AddJob<FreeScheduledJob>(true, Triggers.PeriodMinutes(1).SetRunOnStart(true)))
+            ? me.AddSchedule( //
+                builder => {
+                    _ = builder //
+                        .AddJob<ScheduledJob>(true,     Triggers.PeriodSeconds(1).SetRunOnStart(true))
+                        .AddJob<FreeScheduledJob>(true, Triggers.PeriodMinutes(1).SetRunOnStart(true));
+
+                    optionsAction?.Invoke(builder);
+                })
             : me;
     }
 }

@@ -114,6 +114,7 @@
                     :label="$t('所属角色')"
                     @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
                     field="name"
+                    min-width="200"
                     prop="roles" />
                 <el-table-column :label="$t('最后登录')" align="right" prop="lastLoginTime" sortable="custom" width="120">
                     <template #default="{ row }">

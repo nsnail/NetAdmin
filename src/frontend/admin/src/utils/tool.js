@@ -251,12 +251,6 @@ tool.groupSeparator = function (num) {
 tool.unicodeDecode = function (str) {
     return str.replace(/\\u([0-9a-fA-F]{4})/g, (match, grp) => String.fromCharCode(parseInt(grp, 16)))
 }
-// 高亮关键词
-tool.highLightKeywords = function (str) {
-    return str
-        .replace(new RegExp('(Body)', 'gi'), '<span class=keywords-highlight>$1</span>')
-        .replace(new RegExp('(http://cloud_code_adm_api.*?),', 'gi'), '<span class=keywords-highlight>$1</span>')
-}
 // 属性排序
 tool.sortProperties = function (obj) {
     const sortedKeys = Object.keys(obj).sort()

@@ -131,7 +131,7 @@
                 stripe>
                 <el-table-column type="selection" />
                 <na-col-id :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
-                <el-table-column :label="$t('作业名称')" prop="jobName" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('执行计划')" align="right" prop="executionCron" sortable="custom" width="150">
                     <template #default="{ row }">
                         <p>{{ row.cronDescription }}</p>
