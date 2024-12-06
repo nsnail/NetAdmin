@@ -74,7 +74,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" />
-                <na-col-id :label="$t('配置编号')" prop="id" width="170" />
+                <na-col-id :label="$t('配置编号')" min-width="170" prop="id" />
                 <el-table-column :label="$t('用户注册')" align="center">
                     <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150" />
                     <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150" />
@@ -99,7 +99,8 @@
                             type: 'danger',
                         })
                     "
-                    :vue="this" />
+                    :vue="this"
+                    width="150" />
             </sc-table>
         </el-main>
     </el-container>

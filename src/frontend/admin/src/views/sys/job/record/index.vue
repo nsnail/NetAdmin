@@ -115,7 +115,7 @@
                     prop="duration"
                     sortable="custom"
                     width="100" />
-                <el-table-column :label="$t('作业信息')" min-width="150" prop="jobId" show-overflow-tooltip sortable="custom">
+                <el-table-column :label="$t('作业信息')" min-width="200" prop="jobId" show-overflow-tooltip sortable="custom">
                     <template #default="{ row }">
                         <p>
                             <el-link @click="jobClick(row.job)">
@@ -128,7 +128,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('响应体')" min-width="300" prop="responseBody" show-overflow-tooltip sortable="custom" />
-                <na-col-operation :buttons="[naColOperation.buttons[0]]" :vue="this" width="100" />
+                <na-col-operation :buttons="[naColOperation.buttons[0]]" :vue="this" width="50" />
             </sc-table>
         </el-main>
     </el-container>

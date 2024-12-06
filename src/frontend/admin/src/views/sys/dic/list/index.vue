@@ -81,9 +81,9 @@
                 stripe>
                 <el-table-column type="selection" width="50" />
                 <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
-                <el-table-column :label="$t('项名')" prop="key" sortable="custom" />
-                <el-table-column :label="$t('项值')" prop="value" sortable="custom" />
-                <el-table-column :label="$t('备注')" prop="summary" sortable="custom" />
+                <el-table-column :label="$t('项名')" min-width="150" prop="key" sortable="custom" />
+                <el-table-column :label="$t('项值')" min-width="150" prop="value" sortable="custom" />
+                <el-table-column :label="$t('备注')" min-width="150" prop="summary" sortable="custom" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
@@ -100,7 +100,7 @@
                         })
                     "
                     :vue="this"
-                    width="150" />
+                    width="120" />
             </sc-table>
         </el-main>
     </el-container>

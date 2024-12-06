@@ -81,7 +81,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
-                <el-table-column :label="$t('用户代理')" prop="createdUserAgent" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('用户代理')" min-width="150" prop="createdUserAgent" show-overflow-tooltip sortable="custom" />
                 <na-col-operation
                     :buttons="[
                         {
