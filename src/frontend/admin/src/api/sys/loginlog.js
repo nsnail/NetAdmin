@@ -50,17 +50,6 @@ export default {
     },
 
     /**
-     * 登录日志是否存在
-     */
-    exist: {
-        url: `${config.API_URL}/api/sys/login.log/exist`,
-        name: `登录日志是否存在`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 导出登录日志
      */
     export: {
