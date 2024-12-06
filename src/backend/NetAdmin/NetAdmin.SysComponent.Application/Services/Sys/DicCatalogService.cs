@@ -55,7 +55,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     {
         req.ThrowIfInvalid();
         return req.ParentId == 0 || await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)
-            ? await UpdateAsync(req, null).ConfigureAwait(false)
+            ? await UpdateAsync(req).ConfigureAwait(false)
             : throw new NetAdminInvalidOperationException(Ln.父节点不存在);
     }
 

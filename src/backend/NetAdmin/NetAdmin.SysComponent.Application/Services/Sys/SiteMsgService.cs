@@ -72,7 +72,7 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
 
         // 主表
         var entity = req.Adapt<Sys_SiteMsg>();
-        _ = await UpdateAsync(entity, null).ConfigureAwait(false);
+        _ = await UpdateAsync(entity).ConfigureAwait(false);
 
         // 分表
         await Rpo.SaveManyAsync(entity, nameof(entity.Roles)).ConfigureAwait(false);

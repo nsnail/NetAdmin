@@ -62,7 +62,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
         }
 
         #if DBTYPE_SQLSERVER
-        return (await UpdateReturnListAsync(req, null).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDocContentRsp>();
+        return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDocContentRsp>();
         #else
         return await UpdateAsync(req, null, [nameof(IFieldOwner.OwnerId), nameof(IFieldOwner.OwnerDeptId)]).ConfigureAwait(false) > 0
             ? await GetAsync(new QueryDocContentReq { Id = req.Id }).ConfigureAwait(false)

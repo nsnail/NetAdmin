@@ -67,7 +67,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public Task<int> EditAsync(EditUserProfileReq req)
     {
         req.ThrowIfInvalid();
-        return UpdateAsync(req.Adapt<Sys_UserProfile>(), null);
+        return UpdateAsync(req.Adapt<Sys_UserProfile>());
     }
 
     /// <inheritdoc />
