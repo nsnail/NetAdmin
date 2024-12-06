@@ -61,17 +61,6 @@ export default {
     },
 
     /**
-     * 站内信是否存在
-     */
-    exist: {
-        url: `${config.API_URL}/api/sys/site.msg/exist`,
-        name: `站内信是否存在`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 导出站内信
      */
     export: {

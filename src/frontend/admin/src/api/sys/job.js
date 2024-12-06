@@ -83,17 +83,6 @@ export default {
     },
 
     /**
-     * 计划作业是否存在
-     */
-    exist: {
-        url: `${config.API_URL}/api/sys/job/exist`,
-        name: `计划作业是否存在`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 导出计划作业
      */
     export: {

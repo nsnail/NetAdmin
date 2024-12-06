@@ -50,6 +50,17 @@ export default {
     },
 
     /**
+     * 编辑示例
+     */
+    edit: {
+        url: `${config.API_URL}/api/tpl/example/edit`,
+        name: `编辑示例`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个示例
      */
     get: {
