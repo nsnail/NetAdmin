@@ -7,7 +7,7 @@ namespace NetAdmin.Infrastructure.Attributes;
 ///     https://github.com/countries/countries
 /// </remarks>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Enum)]
-public sealed class CountryAttribute : Attribute
+public sealed class CountryInfoAttribute : Attribute
 {
     /// <summary>
     ///     三个字母的国家代码
@@ -22,7 +22,7 @@ public sealed class CountryAttribute : Attribute
     /// <summary>
     ///     国际电话子呼号（区分同一呼号不同国家）
     /// </summary>
-    public string CallingSubCode { get; set; }
+    public string[] CallingSubCode { get; set; }
 
     /// <summary>
     ///     货币代码
@@ -37,7 +37,7 @@ public sealed class CountryAttribute : Attribute
     /// <summary>
     ///     官方语言代码
     /// </summary>
-    public string Languages { get; set; }
+    public string[] Languages { get; set; }
 
     /// <summary>
     ///     国家全称
@@ -50,7 +50,12 @@ public sealed class CountryAttribute : Attribute
     public string ShortName { get; set; }
 
     /// <summary>
+    ///     时区
+    /// </summary>
+    public string[] Timezones { get; set; }
+
+    /// <summary>
     ///     非正式名称
     /// </summary>
-    public string UnofficialNames { get; set; }
+    public string[] UnofficialNames { get; set; }
 }

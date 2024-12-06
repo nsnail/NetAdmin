@@ -31,7 +31,11 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
 
         static string[] GetDicValue(Enum y)
         {
-            var ret      = new[] { Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture), y.ResDesc<Ln>() };
+            var ret = new[] { Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture), y.ResDesc<Ln>() };
+            if (y is CountryCodes) {
+                return [..ret, y.GetAttributeOfType<CountryInfoAttribute>().CallingCode.ToInvString()];
+            }
+
             var indicate = y.GetAttributeOfType<IndicatorAttribute>()?.Indicate.ToLowerInvariant();
             return indicate.NullOrEmpty() ? ret : [..ret, indicate];
         }
