@@ -37,12 +37,6 @@ public sealed class DeptCache(IDistributedCache cache, IDeptService service) //
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
-    {
-        return Service.ExistAsync(req);
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)
     {
         return Service.ExportAsync(req);

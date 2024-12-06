@@ -50,12 +50,6 @@ public sealed class JobCache(IDistributedCache cache, IJobService service) : Dis
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
-    {
-        return Service.ExistAsync(req);
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
     {
         return Service.ExportAsync(req);

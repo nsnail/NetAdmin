@@ -68,7 +68,7 @@ public sealed class DocController(IDocCache cache) : ControllerBase<IDocCache, I
     ///     编辑文档分类
     /// </summary>
     [Transaction]
-    public Task<int> EditCatalogAsync(EditDocCatalogReq req)
+    public Task<QueryDocCatalogRsp> EditCatalogAsync(EditDocCatalogReq req)
     {
         return Cache.EditCatalogAsync(req);
     }

@@ -50,7 +50,7 @@ public sealed class DocService(IDocCatalogService catalogService, IDocContentSer
     }
 
     /// <inheritdoc />
-    public Task<int> EditCatalogAsync(EditDocCatalogReq req)
+    public Task<QueryDocCatalogRsp> EditCatalogAsync(EditDocCatalogReq req)
     {
         req.ThrowIfInvalid();
         return catalogService.EditAsync(req);

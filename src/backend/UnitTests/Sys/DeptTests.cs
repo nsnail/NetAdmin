@@ -63,16 +63,6 @@ public class DeptTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
-    {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
-        Assert.True(rsp.IsSuccessStatusCode);
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)
     {
         var rsp = await PostJsonAsync(typeof(DeptController), req);

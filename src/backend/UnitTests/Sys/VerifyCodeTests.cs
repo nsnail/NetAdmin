@@ -53,7 +53,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
+    public async Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);

@@ -44,10 +44,10 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    public Task<QuerySiteMsgFlagRsp> EditAsync(EditSiteMsgFlagReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

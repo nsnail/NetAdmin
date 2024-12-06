@@ -46,12 +46,13 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     }
 
     /// <summary>
-    ///     判断验证码是否存在
+    ///     编辑验证码
     /// </summary>
     [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
+    [Transaction]
+    public Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req)
     {
-        return Cache.ExistAsync(req);
+        return Cache.EditAsync(req);
     }
 
     /// <summary>

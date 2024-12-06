@@ -31,9 +31,9 @@ public sealed class SiteMsgDeptCache(IDistributedCache cache, ISiteMsgDeptServic
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgDeptReq> req)
+    public Task<QuerySiteMsgDeptRsp> EditAsync(EditSiteMsgDeptReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

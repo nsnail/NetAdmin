@@ -41,7 +41,7 @@ public interface IDocModule
     /// <summary>
     ///     编辑文档分类
     /// </summary>
-    Task<int> EditCatalogAsync(EditDocCatalogReq req);
+    Task<QueryDocCatalogRsp> EditCatalogAsync(EditDocCatalogReq req);
 
     /// <summary>
     ///     编辑文档内容

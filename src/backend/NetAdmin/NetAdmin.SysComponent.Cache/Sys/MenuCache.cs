@@ -37,12 +37,6 @@ public sealed class MenuCache(IDistributedCache cache, IMenuService service) //
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
-    {
-        return Service.ExistAsync(req);
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
     {
         return Service.ExportAsync(req);

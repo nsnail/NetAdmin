@@ -44,10 +44,10 @@ public sealed class SiteMsgUserService(BasicRepository<Sys_SiteMsgUser, long> rp
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgUserReq> req)
+    public Task<QuerySiteMsgUserRsp> EditAsync(EditSiteMsgUserReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

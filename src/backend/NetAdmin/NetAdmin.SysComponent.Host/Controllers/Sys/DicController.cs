@@ -68,7 +68,7 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     编辑字典目录
     /// </summary>
     [Transaction]
-    public Task<int> EditCatalogAsync(EditDicCatalogReq req)
+    public Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req)
     {
         return Cache.EditCatalogAsync(req);
     }

@@ -11,7 +11,8 @@ public sealed class UserIdAttribute : ValidationAttribute
     /// <inheritdoc />
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        var service = App.GetService(App.EffectiveTypes.Single(x => x.FullName == "NetAdmin.SysComponent.Cache.Sys.Dependency.IUserCache"));
+        var service = App.GetService(
+            App.EffectiveTypes.Single(x => x.FullName == "NetAdmin.SysComponent.Application.Services.Sys.Dependency.IUserService"));
 
         var req = new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = (long)value! } };
 

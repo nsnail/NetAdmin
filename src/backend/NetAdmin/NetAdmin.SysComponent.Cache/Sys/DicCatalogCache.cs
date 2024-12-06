@@ -31,9 +31,9 @@ public sealed class DicCatalogCache(IDistributedCache cache, IDicCatalogService 
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryDicCatalogReq> req)
+    public Task<QueryDicCatalogRsp> EditAsync(EditDicCatalogReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

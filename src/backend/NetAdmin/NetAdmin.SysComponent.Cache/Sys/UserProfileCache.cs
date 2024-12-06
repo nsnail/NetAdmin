@@ -31,9 +31,9 @@ public sealed class UserProfileCache(IDistributedCache cache, IUserProfileServic
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
+    public Task<QueryUserProfileRsp> EditAsync(EditUserProfileReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

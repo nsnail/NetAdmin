@@ -67,13 +67,6 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();

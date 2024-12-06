@@ -44,10 +44,10 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgRoleReq> req)
+    public Task<QuerySiteMsgRoleRsp> EditAsync(EditSiteMsgRoleReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

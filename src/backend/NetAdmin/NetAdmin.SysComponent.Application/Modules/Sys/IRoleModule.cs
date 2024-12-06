@@ -6,15 +6,11 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     角色模块
 /// </summary>
 public interface IRoleModule : ICrudModule<CreateRoleReq, QueryRoleRsp // 创建类型
+  , EditRoleReq                                                        // 编辑类型
   , QueryRoleReq, QueryRoleRsp                                         // 查询类型
   , DelReq                                                             // 删除类型
 >
 {
-    /// <summary>
-    ///     编辑角色
-    /// </summary>
-    Task<QueryRoleRsp> EditAsync(EditRoleReq req);
-
     /// <summary>
     ///     设置是否显示仪表板
     /// </summary>

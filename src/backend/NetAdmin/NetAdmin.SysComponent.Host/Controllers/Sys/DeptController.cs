@@ -54,15 +54,6 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     }
 
     /// <summary>
-    ///     部门是否存在
-    /// </summary>
-    [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryDeptReq> req)
-    {
-        return Cache.ExistAsync(req);
-    }
-
-    /// <summary>
     ///     导出部门
     /// </summary>
     public Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)

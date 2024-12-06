@@ -50,7 +50,7 @@ public sealed class DicService(IDicCatalogService catalogService, IDicContentSer
     }
 
     /// <inheritdoc />
-    public Task<int> EditCatalogAsync(EditDicCatalogReq req)
+    public Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req)
     {
         req.ThrowIfInvalid();
         return catalogService.EditAsync(req);

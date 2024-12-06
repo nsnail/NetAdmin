@@ -31,9 +31,9 @@ public sealed class SiteMsgRoleCache(IDistributedCache cache, ISiteMsgRoleServic
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgRoleReq> req)
+    public Task<QuerySiteMsgRoleRsp> EditAsync(EditSiteMsgRoleReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

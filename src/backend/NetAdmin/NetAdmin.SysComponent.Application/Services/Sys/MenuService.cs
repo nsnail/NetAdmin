@@ -52,15 +52,8 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryMenuRsp>();
         #else
-        return await UpdateAsync(req, null).ConfigureAwait(false) > 0 ? await GetAsync(new QueryMenuReq { Id = req.Id }).ConfigureAwait(false) : null;
+        return await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryMenuReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
-    }
-
-    /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />

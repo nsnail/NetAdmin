@@ -45,10 +45,10 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<QueryJobRecordRsp> EditAsync(EditJobRecordReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

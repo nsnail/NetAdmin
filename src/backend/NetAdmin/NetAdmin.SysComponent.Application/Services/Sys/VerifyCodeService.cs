@@ -54,10 +54,10 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
+    public Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

@@ -74,7 +74,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<int> EditCatalogAsync(EditDocCatalogReq req)
+    public async Task<QueryDocCatalogRsp> EditCatalogAsync(EditDocCatalogReq req)
     {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);

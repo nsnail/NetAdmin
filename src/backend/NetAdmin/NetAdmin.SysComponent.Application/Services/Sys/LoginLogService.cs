@@ -44,10 +44,10 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryLoginLogReq> req)
+    public Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

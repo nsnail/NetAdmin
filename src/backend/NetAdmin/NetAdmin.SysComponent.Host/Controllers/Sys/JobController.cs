@@ -72,14 +72,6 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     }
 
     /// <summary>
-    ///     计划作业是否存在
-    /// </summary>
-    public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
-    {
-        return Cache.ExistAsync(req);
-    }
-
-    /// <summary>
     ///     导出计划作业
     /// </summary>
     public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)

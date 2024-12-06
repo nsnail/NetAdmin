@@ -31,9 +31,9 @@ public sealed class LoginLogCache(IDistributedCache cache, ILoginLogService serv
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryLoginLogReq> req)
+    public Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

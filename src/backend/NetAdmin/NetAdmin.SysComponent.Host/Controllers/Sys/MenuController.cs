@@ -54,15 +54,6 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     }
 
     /// <summary>
-    ///     菜单是否存在
-    /// </summary>
-    [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
-    {
-        return Cache.ExistAsync(req);
-    }
-
-    /// <summary>
     ///     导出菜单
     /// </summary>
     [NonAction]

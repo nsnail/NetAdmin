@@ -31,9 +31,9 @@ public sealed class RequestLogDetailCache(IDistributedCache cache, IRequestLogDe
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryRequestLogDetailReq> req)
+    public Task<QueryRequestLogDetailRsp> EditAsync(EditRequestLogDetailReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

@@ -74,7 +74,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<int> EditCatalogAsync(EditDicCatalogReq req)
+    public async Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req)
     {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);

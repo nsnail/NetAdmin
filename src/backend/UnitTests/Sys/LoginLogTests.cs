@@ -53,7 +53,7 @@ public class LoginLogTests(WebTestApplicationFactory<Startup> factory, ITestOutp
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryLoginLogReq> req)
+    public async Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req)
     {
         var rsp = await PostJsonAsync(typeof(LoginLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);

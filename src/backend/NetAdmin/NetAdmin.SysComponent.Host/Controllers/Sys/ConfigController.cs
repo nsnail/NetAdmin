@@ -54,15 +54,6 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     }
 
     /// <summary>
-    ///     配置是否存在
-    /// </summary>
-    [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
-    {
-        return Cache.ExistAsync(req);
-    }
-
-    /// <summary>
     ///     导出配置
     /// </summary>
     public Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req)

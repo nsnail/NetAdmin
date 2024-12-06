@@ -31,9 +31,9 @@ public sealed class SiteMsgUserCache(IDistributedCache cache, ISiteMsgUserServic
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgUserReq> req)
+    public Task<QuerySiteMsgUserRsp> EditAsync(EditSiteMsgUserReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

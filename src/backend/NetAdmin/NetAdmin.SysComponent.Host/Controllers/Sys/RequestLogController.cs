@@ -49,12 +49,13 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     }
 
     /// <summary>
-    ///     请求日志是否存在
+    ///     编辑请求日志
     /// </summary>
     [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
+    [Transaction]
+    public Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req)
     {
-        return Cache.ExistAsync(req);
+        return Cache.EditAsync(req);
     }
 
     /// <summary>

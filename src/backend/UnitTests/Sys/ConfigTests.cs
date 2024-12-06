@@ -63,16 +63,6 @@ public class ConfigTests(WebTestApplicationFactory<Startup> factory, ITestOutput
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
-    {
-        var rsp = await PostJsonAsync(typeof(ConfigController), req);
-        Assert.True(rsp.IsSuccessStatusCode);
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);

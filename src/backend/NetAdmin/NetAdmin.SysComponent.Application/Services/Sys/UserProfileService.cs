@@ -64,17 +64,18 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     }
 
     /// <inheritdoc />
-    public Task<int> EditAsync(EditUserProfileReq req)
+    public async Task<QueryUserProfileRsp> EditAsync(EditUserProfileReq req)
     {
         req.ThrowIfInvalid();
-        return UpdateAsync(req.Adapt<Sys_UserProfile>());
-    }
 
-    /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryUserProfileReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        return
+            #if DBTYPE_SQLSERVER
+            (await UpdateReturnListAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
+            #else
+            await UpdateAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false) > 0
+                ? await GetAsync(new QueryUserProfileReq { Id = req.Id }).ConfigureAwait(false)
+                : null;
+        #endif
     }
 
     /// <inheritdoc />

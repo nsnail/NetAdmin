@@ -87,13 +87,6 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
     {
         req.ThrowIfInvalid();
@@ -170,7 +163,10 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
     public async Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
         req.ThrowIfInvalid();
-        if (!await ExistAsync(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.SiteMsgId } }).ConfigureAwait(false)) {
+        if (!await QueryInternal(new QueryReq<QuerySiteMsgReq> { Filter = new QuerySiteMsgReq { Id = req.SiteMsgId } })
+                   .WithNoLockNoWait()
+                   .AnyAsync()
+                   .ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.站内信不存在);
         }
 

@@ -47,10 +47,14 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
+    public async Task<QueryExampleRsp> EditAsync(EditExampleReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        #if DBTYPE_SQLSERVER
+        return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryExampleRsp>();
+        #else
+        return await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryExampleReq { Id = req.Id }).ConfigureAwait(false) : null;
+        #endif
     }
 
     /// <inheritdoc />

@@ -31,9 +31,9 @@ public sealed class DocCatalogCache(IDistributedCache cache, IDocCatalogService 
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryDocCatalogReq> req)
+    public Task<QueryDocCatalogRsp> EditAsync(EditDocCatalogReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

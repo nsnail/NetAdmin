@@ -71,13 +71,6 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryDocContentReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryDocContentReq> req)
     {
         req.ThrowIfInvalid();
@@ -122,6 +115,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryDocContentReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
 
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (ret?.Visibility) {
             case ArchiveVisibilities.LogonUser:
                 if (UserToken == null) {
