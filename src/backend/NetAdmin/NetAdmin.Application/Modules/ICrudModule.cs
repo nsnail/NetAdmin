@@ -8,12 +8,14 @@ namespace NetAdmin.Application.Modules;
 /// </summary>
 /// <typeparam name="TCreateReq">创建请求类型</typeparam>
 /// <typeparam name="TCreateRsp">创建响应类型</typeparam>
+/// <typeparam name="TEditReq">编辑请求类型</typeparam>
 /// <typeparam name="TQueryReq">查询请求类型</typeparam>
 /// <typeparam name="TQueryRsp">查询响应类型</typeparam>
 /// <typeparam name="TDelReq">删除请求类型</typeparam>
-public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, TDelReq>
+public interface ICrudModule<in TCreateReq, TCreateRsp, in TEditReq, TQueryReq, TQueryRsp, TDelReq>
     where TCreateReq : DataAbstraction, new()
     where TCreateRsp : DataAbstraction
+    where TEditReq : DataAbstraction, new()
     where TQueryReq : DataAbstraction, new()
     where TQueryRsp : DataAbstraction
     where TDelReq : DataAbstraction, new()
@@ -39,9 +41,9 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, TQueryReq, TQueryRsp, TD
     Task<int> DeleteAsync(TDelReq req);
 
     /// <summary>
-    ///     判断实体是否存在
+    ///     编辑实体
     /// </summary>
-    Task<bool> ExistAsync(QueryReq<TQueryReq> req);
+    Task<TQueryRsp> EditAsync(TEditReq req);
 
     /// <summary>
     ///     导出实体

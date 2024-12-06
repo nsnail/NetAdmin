@@ -31,9 +31,9 @@ public sealed class SiteMsgFlagCache(IDistributedCache cache, ISiteMsgFlagServic
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    public Task<QuerySiteMsgFlagRsp> EditAsync(EditSiteMsgFlagReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

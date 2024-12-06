@@ -55,14 +55,6 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     }
 
     /// <summary>
-    ///     站内信是否存在
-    /// </summary>
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgReq> req)
-    {
-        return Cache.ExistAsync(req);
-    }
-
-    /// <summary>
     ///     导出站内信
     /// </summary>
     public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)

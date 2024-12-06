@@ -39,10 +39,17 @@ public sealed class ApiService(
     }
 
     /// <inheritdoc />
+    public Task<QueryApiRsp> EditAsync(EditApiReq req)
+    {
+        req.ThrowIfInvalid();
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
     public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        return QueryInternal(req).AnyAsync();
     }
 
     /// <inheritdoc />

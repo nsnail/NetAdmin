@@ -60,17 +60,8 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDicContentRsp>();
         #else
-        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
-            ? await GetAsync(new QueryDicContentReq { Id = req.Id }).ConfigureAwait(false)
-            : null;
+        return await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDicContentReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
-    }
-
-    /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryDicContentReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />

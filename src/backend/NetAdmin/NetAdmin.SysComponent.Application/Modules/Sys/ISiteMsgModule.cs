@@ -7,15 +7,11 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     站内信模块
 /// </summary>
 public interface ISiteMsgModule : ICrudModule<CreateSiteMsgReq, QuerySiteMsgRsp // 创建类型
+  , EditSiteMsgReq                                                              // 编辑类型
   , QuerySiteMsgReq, QuerySiteMsgRsp                                            // 查询类型
   , DelReq                                                                      // 删除类型
 >
 {
-    /// <summary>
-    ///     编辑站内信
-    /// </summary>
-    Task<QuerySiteMsgRsp> EditAsync(EditSiteMsgReq req);
-
     /// <summary>
     ///     获取单个我的站内信
     /// </summary>

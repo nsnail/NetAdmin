@@ -50,12 +50,6 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryUserReq> req)
-    {
-        return Service.ExistAsync(req);
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
     {
         return Service.ExportAsync(req);

@@ -6,6 +6,7 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     登录日志模块
 /// </summary>
 public interface ILoginLogModule : ICrudModule<CreateLoginLogReq, QueryLoginLogRsp // 创建类型
+  , EditLoginLogReq                                                                // 编辑类型
   , QueryLoginLogReq, QueryLoginLogRsp                                             // 查询类型
   , DelReq                                                                         // 删除类型
 >;

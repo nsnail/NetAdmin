@@ -8,11 +8,6 @@ namespace NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 public interface IDocContentService : IService, IDocContentModule
 {
     /// <summary>
-    ///     编辑文档内容
-    /// </summary>
-    Task<QueryDocContentRsp> EditAsync(EditDocContentReq req);
-
-    /// <summary>
     ///     浏览文档内容
     /// </summary>
     Task<QueryDocContentRsp> ViewAsync(QueryDocContentReq req);

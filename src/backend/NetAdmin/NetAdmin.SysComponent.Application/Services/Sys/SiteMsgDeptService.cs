@@ -44,10 +44,10 @@ public sealed class SiteMsgDeptService(BasicRepository<Sys_SiteMsgDept, long> rp
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QuerySiteMsgDeptReq> req)
+    public Task<QuerySiteMsgDeptRsp> EditAsync(EditSiteMsgDeptReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

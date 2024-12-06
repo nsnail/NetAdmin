@@ -8,6 +8,7 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     计划作业模块
 /// </summary>
 public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类型
+  , EditJobReq                                                      // 编辑类型
   , QueryJobReq, QueryJobRsp                                        // 查询类型
   , DelReq                                                          // 删除类型
 >
@@ -16,11 +17,6 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
     ///     作业记录计数
     /// </summary>
     Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req);
-
-    /// <summary>
-    ///     编辑作业
-    /// </summary>
-    Task<QueryJobRsp> EditAsync(EditJobReq req);
 
     /// <summary>
     ///     执行作业

@@ -45,11 +45,13 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     }
 
     /// <summary>
-    ///     登录日志是否存在
+    ///     编辑登录日志
     /// </summary>
-    public Task<bool> ExistAsync(QueryReq<QueryLoginLogReq> req)
+    [NonAction]
+    [Transaction]
+    public Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req)
     {
-        return Cache.ExistAsync(req);
+        return Cache.EditAsync(req);
     }
 
     /// <summary>

@@ -51,19 +51,20 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
-    public async Task<int> EditAsync(EditDocCatalogReq req)
+    public async Task<QueryDocCatalogRsp> EditAsync(EditDocCatalogReq req)
     {
         req.ThrowIfInvalid();
-        return req.ParentId == 0 || await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)
-            ? await UpdateAsync(req).ConfigureAwait(false)
-            : throw new NetAdminInvalidOperationException(Ln.父节点不存在);
-    }
 
-    /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryDocCatalogReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
+            throw new NetAdminInvalidOperationException(Ln.父节点不存在);
+        }
+
+        return
+            #if DBTYPE_SQLSERVER
+            (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDocCatalogRsp>();
+            #else
+            await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDocCatalogReq { Id = req.Id }).ConfigureAwait(false) : null;
+        #endif
     }
 
     /// <inheritdoc />

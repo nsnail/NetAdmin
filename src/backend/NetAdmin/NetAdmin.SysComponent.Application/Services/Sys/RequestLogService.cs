@@ -52,10 +52,10 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
+        throw new NotImplementedException();
     }
 
     /// <inheritdoc />

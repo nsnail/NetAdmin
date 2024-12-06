@@ -54,7 +54,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
+    public async Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req)
     {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);

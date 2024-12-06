@@ -53,7 +53,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
+    public async Task<QueryApiRsp> EditAsync(EditApiReq req)
     {
         var rsp = await PostJsonAsync(typeof(DeptController), req);
         Assert.True(rsp.IsSuccessStatusCode);

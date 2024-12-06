@@ -100,17 +100,6 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    [TestPriority(100800)]
-    public async Task<bool> ExistAsync(QueryReq<QueryUserReq> req)
-    {
-        var rsp = await PostJsonAsync(typeof(UserController), new QueryReq<QueryUserReq>());
-        Assert.True(rsp.IsSuccessStatusCode);
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
     [TestPriority(100900)]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
     {

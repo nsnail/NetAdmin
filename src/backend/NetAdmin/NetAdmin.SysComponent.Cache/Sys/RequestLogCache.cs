@@ -18,7 +18,7 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
     #else
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
-    #endif
+        #endif
     {
         #if !DEBUG
         var ret = await GetOrCreateAsync(                                              //
@@ -44,9 +44,9 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryRequestLogReq> req)
+    public Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

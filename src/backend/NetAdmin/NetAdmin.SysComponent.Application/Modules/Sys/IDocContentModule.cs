@@ -6,6 +6,7 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     文档内容模块
 /// </summary>
 public interface IDocContentModule : ICrudModule<CreateDocContentReq, QueryDocContentRsp // 创建类型
+  , EditDocContentReq                                                                    // 编辑类型
   , QueryDocContentReq, QueryDocContentRsp                                               // 查询类型
   , DelReq                                                                               // 删除类型
 >

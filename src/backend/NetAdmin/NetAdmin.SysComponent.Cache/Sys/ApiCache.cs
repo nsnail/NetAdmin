@@ -31,9 +31,9 @@ public sealed class ApiCache(IDistributedCache cache, IApiService service) //
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
+    public Task<QueryApiRsp> EditAsync(EditApiReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

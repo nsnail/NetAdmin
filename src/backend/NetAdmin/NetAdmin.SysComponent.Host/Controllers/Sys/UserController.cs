@@ -74,15 +74,6 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     }
 
     /// <summary>
-    ///     用户是否存在
-    /// </summary>
-    [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryUserReq> req)
-    {
-        return Cache.ExistAsync(req);
-    }
-
-    /// <summary>
     ///     导出用户
     /// </summary>
     public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)

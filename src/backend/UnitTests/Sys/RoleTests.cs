@@ -63,16 +63,6 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
-    {
-        var rsp = await PostJsonAsync(typeof(RoleController), req);
-        Assert.True(rsp.IsSuccessStatusCode);
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)
     {
         var rsp = await PostJsonAsync(typeof(RoleController), req);

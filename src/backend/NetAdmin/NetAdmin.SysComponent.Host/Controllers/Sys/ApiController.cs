@@ -48,12 +48,13 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     }
 
     /// <summary>
-    ///     接口是否存在
+    ///     编辑接口
     /// </summary>
     [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryApiReq> req)
+    [Transaction]
+    public Task<QueryApiRsp> EditAsync(EditApiReq req)
     {
-        return Cache.ExistAsync(req);
+        return Cache.EditAsync(req);
     }
 
     /// <summary>

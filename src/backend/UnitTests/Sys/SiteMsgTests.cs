@@ -64,16 +64,6 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QuerySiteMsgReq> req)
-    {
-        var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
-        Assert.True(rsp.IsSuccessStatusCode);
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);

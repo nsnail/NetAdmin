@@ -41,7 +41,7 @@ public interface IDicModule
     /// <summary>
     ///     编辑字典目录
     /// </summary>
-    Task<int> EditCatalogAsync(EditDicCatalogReq req);
+    Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req);
 
     /// <summary>
     ///     编辑字典内容

@@ -31,9 +31,9 @@ public sealed class JobRecordCache(IDistributedCache cache, IJobRecordService se
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryJobRecordReq> req)
+    public Task<QueryJobRecordRsp> EditAsync(EditJobRecordReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

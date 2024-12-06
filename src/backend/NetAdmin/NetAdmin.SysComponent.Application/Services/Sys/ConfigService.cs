@@ -50,17 +50,8 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryConfigRsp>();
         #else
-        return await UpdateAsync(req, null).ConfigureAwait(false) > 0
-            ? await GetAsync(new QueryConfigReq { Id = req.Id }).ConfigureAwait(false)
-            : null;
+        return await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryConfigReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
-    }
-
-    /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryConfigReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
     }
 
     /// <inheritdoc />

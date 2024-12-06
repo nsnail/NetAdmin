@@ -63,16 +63,6 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryMenuReq> req)
-    {
-        var rsp = await PostJsonAsync(typeof(MenuTests), req);
-        Assert.True(rsp.IsSuccessStatusCode);
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);

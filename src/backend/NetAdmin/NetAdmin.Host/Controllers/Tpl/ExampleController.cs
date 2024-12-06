@@ -50,12 +50,12 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     }
 
     /// <summary>
-    ///     示例是否存在
+    ///     编辑示例
     /// </summary>
-    [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
+    [Transaction]
+    public Task<QueryExampleRsp> EditAsync(EditExampleReq req)
     {
-        return Cache.ExistAsync(req);
+        return Cache.EditAsync(req);
     }
 
     /// <summary>

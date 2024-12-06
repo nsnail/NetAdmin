@@ -8,6 +8,11 @@ namespace NetAdmin.SysComponent.Application.Services.Sys.Dependency;
 public interface IApiService : IService, IApiModule
 {
     /// <summary>
+    ///     接口是否存在
+    /// </summary>
+    public Task<bool> ExistAsync(QueryReq<QueryApiReq> req);
+
+    /// <summary>
     ///     反射接口列表
     /// </summary>
     IEnumerable<QueryApiRsp> ReflectionList(bool excludeAnonymous = true);

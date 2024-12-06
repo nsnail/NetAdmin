@@ -6,6 +6,7 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     用户档案模块
 /// </summary>
 public interface IUserProfileModule : ICrudModule<CreateUserProfileReq, QueryUserProfileRsp // 创建类型
+  , EditUserProfileReq                                                                      // 编辑类型
   , QueryUserProfileReq, QueryUserProfileRsp                                                // 查询类型
   , DelReq                                                                                  // 删除类型
 >;

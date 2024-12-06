@@ -54,15 +54,6 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     }
 
     /// <summary>
-    ///     角色是否存在
-    /// </summary>
-    [NonAction]
-    public Task<bool> ExistAsync(QueryReq<QueryRoleReq> req)
-    {
-        return Cache.ExistAsync(req);
-    }
-
-    /// <summary>
     ///     导出角色
     /// </summary>
     public Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)

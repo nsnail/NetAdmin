@@ -6,6 +6,7 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     接口模块
 /// </summary>
 public interface IApiModule : ICrudModule<CreateApiReq, QueryApiRsp // 创建类型
+  , EditApiReq                                                      // 编辑类型
   , QueryApiReq, QueryApiRsp                                        // 查询类型
   , DelReq                                                          // 删除类型
 >

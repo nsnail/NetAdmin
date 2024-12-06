@@ -34,9 +34,9 @@ public sealed class ExampleCache(IDistributedCache cache, IExampleService servic
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryExampleReq> req)
+    public Task<QueryExampleRsp> EditAsync(EditExampleReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />

@@ -122,13 +122,6 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
-    {
-        req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().AnyAsync();
-    }
-
-    /// <inheritdoc />
     public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();

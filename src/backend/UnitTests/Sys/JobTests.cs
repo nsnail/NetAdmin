@@ -84,16 +84,6 @@ public class JobTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
-    public async Task<bool> ExistAsync(QueryReq<QueryJobReq> req)
-    {
-        var rsp = await PostJsonAsync(typeof(JobController), req);
-        Assert.True(rsp.IsSuccessStatusCode);
-        return default;
-    }
-
-    /// <inheritdoc />
-    [InlineData(default)]
-    [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);

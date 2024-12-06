@@ -31,9 +31,9 @@ public sealed class VerifyCodeCache(IDistributedCache cache, IVerifyCodeService 
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistAsync(QueryReq<QueryVerifyCodeReq> req)
+    public Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req)
     {
-        return Service.ExistAsync(req);
+        return Service.EditAsync(req);
     }
 
     /// <inheritdoc />
