@@ -1,6 +1,5 @@
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 
-// ReSharper disable once CheckNamespace
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 
 public partial interface IUserModule
