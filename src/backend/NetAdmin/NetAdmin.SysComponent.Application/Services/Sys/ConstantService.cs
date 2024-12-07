@@ -1,4 +1,3 @@
-using Microsoft.OpenApi.Extensions;
 using NetAdmin.Domain.Attributes;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
@@ -32,11 +31,11 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
         static string[] GetDicValue(Enum y)
         {
             var ret = new[] { Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture), y.ResDesc<Ln>() };
-            if (y is CountryCodes) {
-                return [..ret, y.GetAttributeOfType<CountryInfoAttribute>().CallingCode.ToInvString()];
+            if (y is CountryCodes z) {
+                return [..ret, z.GetCallingCode().ToInvString()];
             }
 
-            var indicate = y.GetAttributeOfType<IndicatorAttribute>()?.Indicate.ToLowerInvariant();
+            var indicate = y.Attr<IndicatorAttribute>()?.Indicate.ToLowerInvariant();
             return indicate.NullOrEmpty() ? ret : [..ret, indicate];
         }
 

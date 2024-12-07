@@ -1,6 +1,4 @@
-﻿using Microsoft.OpenApi.Extensions;
-
-namespace NetAdmin.Infrastructure.Extensions;
+﻿namespace NetAdmin.Infrastructure.Extensions;
 
 /// <summary>
 ///     CountryCodes 扩展方法
@@ -12,6 +10,6 @@ public static class CountryCodesExtensions
     /// </summary>
     public static int GetCallingCode(this CountryCodes me)
     {
-        return me.GetAttributeOfType<CountryInfoAttribute>().CallingCode;
+        return me.Attr<CountryInfoAttribute>().CallingCode;
     }
 }

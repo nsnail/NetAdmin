@@ -1,5 +1,3 @@
-using Microsoft.OpenApi.Extensions;
-
 namespace NetAdmin.Infrastructure.Utils;
 
 /// <summary>
@@ -15,13 +13,13 @@ public static class PhoneNumberHelper
     {
         _countryList = Enum.GetValues<CountryCodes>()
                            .SelectMany(x => {
-                               var attribute = x.GetAttributeOfType<CountryInfoAttribute>();
+                               var attribute = x.Attr<CountryInfoAttribute>();
 
                                // ReSharper disable once UseCollectionExpression
                                return (attribute.CallingSubCode ?? new[] { string.Empty }).Select(y => (attribute.CallingCode + y, x));
                            })
                            .OrderBy(x => x.Item1)
-                           .ThenByDescending(x => x.x.GetAttributeOfType<CountryInfoAttribute>().IsPreferred)
+                           .ThenByDescending(x => x.x.Attr<CountryInfoAttribute>().IsPreferred)
                            .DistinctBy(x => x.Item1)
                            .OrderByDescending(x => x.Item1.Length);
     }
