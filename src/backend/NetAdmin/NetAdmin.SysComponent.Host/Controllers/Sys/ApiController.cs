@@ -28,6 +28,15 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     }
 
     /// <summary>
+    ///     接口分组计数
+    /// </summary>
+    [NonAction]
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryApiReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建接口
     /// </summary>
     [NonAction]
@@ -81,6 +90,14 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
         return Cache.PagedQueryAsync(req);
+    }
+
+    /// <summary>
+    ///     平面查询接口
+    /// </summary>
+    public Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req)
+    {
+        return Cache.PlainQueryAsync(req);
     }
 
     /// <summary>

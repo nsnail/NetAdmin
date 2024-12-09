@@ -31,6 +31,21 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_RequestLog>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(
+                                  y => y, y => typeof(Sys_RequestLog).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
         req.ThrowIfInvalid();

@@ -19,6 +19,12 @@ public sealed class DocCatalogCache(IDistributedCache cache, IDocCatalogService 
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDocCatalogReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDocCatalogRsp> CreateAsync(CreateDocCatalogReq req)
     {
         return Service.CreateAsync(req);

@@ -25,7 +25,7 @@ public abstract record ImmutableEntity<T> : LiteImmutableEntity<T>, IFieldCreate
     [Column(CanUpdate = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]
-    public long? CreatedUserId { get; init; }
+    public virtual long? CreatedUserId { get; init; }
 
     /// <summary>
     ///     创建者用户名

@@ -32,6 +32,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
         return Service.CreateAsync(req);

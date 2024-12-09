@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 字典内容分组计数
+     */
+    contentCountBy: {
+        url: `${config.API_URL}/api/sys/dic/content.count.by`,
+        name: `字典内容分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建字典目录
      */
     createCatalog: {

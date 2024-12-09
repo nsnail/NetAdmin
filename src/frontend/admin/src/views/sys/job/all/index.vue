@@ -1,20 +1,15 @@
 <template>
     <el-container>
-        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
             <el-row :gutter="15">
-                <el-col :lg="12">
+                <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
-                    </el-card>
-                </el-col>
-                <el-col :lg="12">
-                    <el-card shadow="never">
-                        <sc-statistic :value="running" group-separator title="运行"></sc-statistic>
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
-        <el-header style="height: auto; padding: 0 1rem">
+        <el-header class="el-header-select-filter">
             <sc-select-filter
                 :data="[
                     {
@@ -23,7 +18,11 @@
                         options: [
                             { label: $t('全部'), value: '' },
                             ...Object.entries(this.$GLOBAL.enums.jobStatues).map((x) => {
-                                return { value: x[0], label: x[1][1] }
+                                return {
+                                    value: x[0],
+                                    label: x[1][1],
+                                    badge: this.statistics.status?.find((y) => y.key.status.toLowerCase() === x[0].toLowerCase())?.value,
+                                }
                             }),
                         ],
                     },
@@ -32,9 +31,24 @@
                         key: 'enabled',
                         options: [
                             { label: $t('全部'), value: '' },
-                            { label: $t('启用'), value: true },
-                            { label: $t('禁用'), value: false },
+                            { label: $t('启用'), value: true, badge: statistics.enabled?.find((x) => x.key.enabled === 'True')?.value },
+                            { label: $t('禁用'), value: false, badge: statistics.enabled?.find((x) => x.key.enabled === 'False')?.value },
                         ],
+                    },
+                    {
+                        title: $t('上次执行状态'),
+                        key: 'lastStatusCode',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...(this.statistics.lastStatusCode?.map((x) => {
+                                return {
+                                    value: x.key.lastStatusCode,
+                                    label: x.key.lastStatusCode,
+                                    badge: x.value,
+                                }
+                            }) ?? []),
+                        ],
+                        w100p: true,
                     },
                 ]"
                 :label-width="10"
@@ -114,11 +128,11 @@
                 ]"
                 :default-sort="{ prop: 'lastExecTime', order: 'descending' }"
                 :export-api="$API.sys_job.export"
-                :on-command="this.getStatistics"
                 :page-size="100"
                 :params="query"
                 :query-api="$API.sys_job.pagedQuery"
                 :vue="this"
+                @data-change="getStatistics"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -129,7 +143,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection" />
+                <el-table-column type="selection" width="50" />
                 <na-col-id :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('执行计划')" align="right" prop="executionCron" sortable="custom" width="150">
@@ -211,7 +225,7 @@
                                 icon: 'el-icon-delete',
                                 confirm: true,
                                 title: '删除作业',
-                                click: rowDel,
+                                click: this.rowDel,
                                 type: 'danger',
                             },
                         )
@@ -253,8 +267,9 @@ export default {
     created() {},
     data() {
         return {
-            total: '...',
-            running: '...',
+            statistics: {
+                total: '...',
+            },
             dialog: {},
             loading: false,
             query: {
@@ -277,15 +292,30 @@ export default {
     inject: ['reload'],
     methods: {
         async getStatistics() {
-            const runningFilter = JSON.parse(JSON.stringify(this.query))
-            runningFilter.dynamicFilter.filters.push({
-                field: 'status',
-                operator: 'eq',
-                value: 'running',
-            })
-            const res = await Promise.all([this.$API.sys_job.count.post(this.query), this.$API.sys_job.count.post(runningFilter)])
-            this.total = res[0].data
-            this.running = res[1].data
+            const res = await Promise.all([
+                this.$API.sys_job.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['Status'],
+                }),
+                this.$API.sys_job.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['Enabled'],
+                }),
+                this.$API.sys_job.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['LastStatusCode'],
+                }),
+            ])
+            this.statistics.total = this.$refs.table?.total
+            this.statistics.status = res[0].data
+            this.statistics.enabled = res[1].data
+            this.statistics.lastStatusCode = res[2].data
         },
         async copyJob(row) {
             let loading = this.$loading()
@@ -399,6 +429,14 @@ export default {
                 })
             }
 
+            if (typeof form.dy.lastStatusCode === 'string' && form.dy.lastStatusCode.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'lastStatusCode',
+                    operator: 'eq',
+                    value: form.dy.lastStatusCode,
+                })
+            }
+
             if (typeof form.dy.enabled === 'boolean') {
                 this.query.dynamicFilter.filters.push({
                     field: 'enabled',
@@ -414,8 +452,7 @@ export default {
                     value: form.dy.httpMethod,
                 })
             }
-            this.$refs.table.upData()
-            await this.getStatistics()
+            await this.$refs.table.upData()
         },
     },
     async mounted() {
@@ -435,7 +472,6 @@ export default {
             type: 'dy',
         })
         this.onReset()
-        await this.getStatistics()
     },
     props: ['keywords'],
     watch: {},

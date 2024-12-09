@@ -1,5 +1,5 @@
 <template>
-    <el-card :header="$t('账号信息')" shadow="never">
+    <el-card :header="$t('基本资料')" shadow="never">
         <el-form :model="form" label-width="15rem" ref="form">
             <el-form-item :label="$t('头像')">
                 <sc-upload v-model="form.avatar" :onSuccess="updateUser" :title="$t('上传头像')"></sc-upload>

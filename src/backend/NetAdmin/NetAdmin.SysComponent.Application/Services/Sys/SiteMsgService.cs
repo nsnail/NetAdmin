@@ -33,6 +33,21 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_SiteMsg>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_SiteMsg).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                            , x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public async Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req)
     {
         req.ThrowIfInvalid();

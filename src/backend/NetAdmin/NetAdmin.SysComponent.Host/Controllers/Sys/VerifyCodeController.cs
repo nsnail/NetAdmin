@@ -28,6 +28,15 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     }
 
     /// <summary>
+    ///     验证码分组计数
+    /// </summary>
+    [NonAction]
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建验证码
     /// </summary>
     [NonAction]

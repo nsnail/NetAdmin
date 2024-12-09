@@ -33,6 +33,21 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDocContentReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_DocContent>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(
+                                  y => y, y => typeof(Sys_DocContent).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Doctionary_directory_does_not_exist</exception>
     public async Task<QueryDocContentRsp> CreateAsync(CreateDocContentReq req)
     {

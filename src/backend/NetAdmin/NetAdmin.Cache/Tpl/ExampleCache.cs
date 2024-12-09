@@ -22,6 +22,12 @@ public sealed class ExampleCache(IDistributedCache cache, IExampleService servic
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryExampleReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
         return Service.CreateAsync(req);

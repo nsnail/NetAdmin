@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 文档内容分组计数
+     */
+    contentCountBy: {
+        url: `${config.API_URL}/api/sys/doc/content.count.by`,
+        name: `文档内容分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建文档分类
      */
     createCatalog: {

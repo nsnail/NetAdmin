@@ -520,11 +520,11 @@ export default {
             this.loading = false
         },
         //更新数据 合并上一次params
-        upData(params = null, page = 1) {
+        async upData(params = null, page = 1) {
             this.currentPage = page
             this.$refs.scTable.clearSelection()
             Object.assign(this.tableParams, params || {})
-            this.getData()
+            await this.getData()
         },
         //重载数据 替换params
         reload(params, page = 1) {

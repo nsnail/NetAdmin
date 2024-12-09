@@ -27,6 +27,14 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     }
 
     /// <summary>
+    ///     部门分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDeptReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建部门
     /// </summary>
     [Transaction]

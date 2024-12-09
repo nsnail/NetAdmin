@@ -19,6 +19,11 @@ public interface IDocModule
     Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req);
 
     /// <summary>
+    ///     文档内容分组计数
+    /// </summary>
+    Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDocContentReq> req);
+
+    /// <summary>
     ///     创建文档分类
     /// </summary>
     Task<QueryDocCatalogRsp> CreateCatalogAsync(CreateDocCatalogReq req);

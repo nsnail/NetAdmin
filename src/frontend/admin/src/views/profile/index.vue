@@ -47,8 +47,13 @@ export default {
                     list: [
                         {
                             icon: 'el-icon-postcard',
-                            title: '账号信息',
+                            title: '基本资料',
                             component: '/profile/account',
+                        },
+                        {
+                            icon: 'el-icon-user',
+                            title: '授权信息',
+                            component: '/profile/token',
                         },
                         {
                             icon: 'el-icon-operation',

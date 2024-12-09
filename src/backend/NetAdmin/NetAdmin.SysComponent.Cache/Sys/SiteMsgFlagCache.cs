@@ -19,6 +19,12 @@ public sealed class SiteMsgFlagCache(IDistributedCache cache, ISiteMsgFlagServic
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgFlagRsp> CreateAsync(CreateSiteMsgFlagReq req)
     {
         return Service.CreateAsync(req);

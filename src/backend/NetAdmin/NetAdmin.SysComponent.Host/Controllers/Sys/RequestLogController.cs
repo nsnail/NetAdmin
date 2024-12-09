@@ -29,6 +29,14 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     }
 
     /// <summary>
+    ///     请求日志分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建请求日志
     /// </summary>
     [NonAction]

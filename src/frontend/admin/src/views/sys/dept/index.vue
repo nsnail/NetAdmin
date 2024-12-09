@@ -1,15 +1,15 @@
 <template>
     <el-container>
-        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
-        <el-header style="height: auto; padding: 0 1rem">
+        <el-header class="el-header-select-filter">
             <sc-select-filter
                 :data="[
                     {
@@ -17,8 +17,8 @@
                         key: 'enabled',
                         options: [
                             { label: $t('全部'), value: '' },
-                            { label: $t('启用'), value: true },
-                            { label: $t('禁用'), value: false },
+                            { label: $t('启用'), value: true, badge: statistics.enabled?.find((x) => x.key.enabled === 'True')?.value },
+                            { label: $t('禁用'), value: false, badge: statistics.enabled?.find((x) => x.key.enabled === 'False')?.value },
                         ],
                     },
                 ]"
@@ -69,10 +69,10 @@
                 :context-menus="['id', 'name', 'sort', 'enabled', 'createdTime', 'summary']"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :export-api="$API.sys_dept.export"
-                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_dept.query"
                 :vue="this"
+                @data-change="getStatistics"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -85,7 +85,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection" />
+                <el-table-column type="selection" width="50" />
                 <na-col-id :label="$t('部门编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('部门名称')" min-width="150" prop="name" sortable="custom" />
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" width="100" />
@@ -101,7 +101,7 @@
                             icon: 'el-icon-delete',
                             confirm: true,
                             title: '删除部门',
-                            click: rowDel,
+                            click: this.rowDel,
                             type: 'danger',
                         })
                     "
@@ -140,7 +140,9 @@ export default {
     created() {},
     data() {
         return {
-            total: '...',
+            statistics: {
+                total: '...',
+            },
             dialog: {},
             loading: false,
             query: {
@@ -162,8 +164,17 @@ export default {
     inject: ['reload'],
     methods: {
         async getStatistics() {
-            const res = await this.$API.sys_dept.count.post(this.query)
-            this.total = res.data
+            this.statistics.total = this.$refs.table?.total
+            const res = await Promise.all([
+                this.$API.sys_dept.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['Enabled'],
+                }),
+            ])
+
+            this.statistics.enabled = res[0].data
         },
         async setEnabled(enabled) {
             let loading
@@ -239,8 +250,7 @@ export default {
                 })
             }
 
-            this.$refs.table.upData()
-            await this.getStatistics()
+            await this.$refs.table.upData()
         },
     },
     async mounted() {
@@ -260,7 +270,6 @@ export default {
             type: 'dy',
         })
         this.onReset()
-        await this.getStatistics()
     },
     props: ['keywords'],
     watch: {},

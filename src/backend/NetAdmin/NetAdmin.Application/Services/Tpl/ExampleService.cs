@@ -32,6 +32,21 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryExampleReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Tpl_Example>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Tpl_Example).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                            , x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public async Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
     {
         req.ThrowIfInvalid();

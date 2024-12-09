@@ -19,6 +19,12 @@ public sealed class LoginLogCache(IDistributedCache cache, ILoginLogService serv
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryLoginLogReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryLoginLogRsp> CreateAsync(CreateLoginLogReq req)
     {
         return Service.CreateAsync(req);

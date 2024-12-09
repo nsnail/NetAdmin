@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 计划作业分组计数
+     */
+    countBy: {
+        url: `${config.API_URL}/api/sys/job/count.by`,
+        name: `计划作业分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 作业记录计数
      */
     countRecord: {
@@ -187,6 +198,17 @@ export default {
     query: {
         url: `${config.API_URL}/api/sys/job/query`,
         name: `查询计划作业`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 作业记录分组计数
+     */
+    recordCountBy: {
+        url: `${config.API_URL}/api/sys/job/record.count.by`,
+        name: `作业记录分组计数`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

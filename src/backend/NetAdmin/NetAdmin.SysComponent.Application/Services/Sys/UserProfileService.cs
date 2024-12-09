@@ -44,7 +44,22 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public Task<long> CountAsync(QueryReq<QueryUserProfileReq> req)
     {
         req.ThrowIfInvalid();
-        return QueryInternal(req).WithNoLockNoWait().CountAsync();
+        return QueryInternalComplex(req).WithNoLockNoWait().CountAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_UserProfile>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(
+                                  y => y, y => typeof(Sys_UserProfile).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                  .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
@@ -71,7 +86,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
-            #else
+        #else
             await UpdateAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false) > 0
                 ? await GetAsync(new QueryUserProfileReq { Id = req.Id }).ConfigureAwait(false)
                 : null;
@@ -89,7 +104,9 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public async Task<QueryUserProfileRsp> GetAsync(QueryUserProfileReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryUserProfileReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternalComplex(new QueryReq<QueryUserProfileReq> { Filter = req, Order = Orders.None })
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryUserProfileRsp>();
     }
 
@@ -104,7 +121,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public async Task<PagedQueryRsp<QueryUserProfileRsp>> PagedQueryAsync(PagedQueryReq<QueryUserProfileReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req)
+        var list = await QueryInternalComplex(req)
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
@@ -131,7 +148,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     public async Task<IEnumerable<QueryUserProfileRsp>> QueryAsync(QueryReq<QueryUserProfileReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
+        var ret = await QueryInternalComplex(req)
                         .WithNoLockNoWait()
                         .Take(req.Count)
                         .ToListAsync((a, b, c, d, e) => new {
@@ -164,7 +181,28 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id, null, true);
     }
 
-    private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternal(QueryReq<QueryUserProfileReq> req)
+    private ISelect<Sys_UserProfile> QueryInternal(QueryReq<QueryUserProfileReq> req)
+    {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+
+        // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+        switch (req.Order) {
+            case Orders.None:
+                return ret;
+            case Orders.Random:
+                return ret.OrderByRandom();
+        }
+
+        ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
+        }
+
+        return ret;
+    }
+
+    private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternalComplex(
+        QueryReq<QueryUserProfileReq> req)
     {
         #pragma warning disable CA1305,IDE0072
         var ret = Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()

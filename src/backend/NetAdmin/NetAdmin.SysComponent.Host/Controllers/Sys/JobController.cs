@@ -29,6 +29,14 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     }
 
     /// <summary>
+    ///     计划作业分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     作业记录计数
     /// </summary>
     public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
@@ -149,6 +157,14 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     作业记录分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Cache.RecordCountByAsync(req);
     }
 
     /// <summary>

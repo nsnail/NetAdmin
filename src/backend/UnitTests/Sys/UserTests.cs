@@ -60,6 +60,17 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    [TestPriority(100400)]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(UserController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     [TestPriority(100000)]
     public async Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {

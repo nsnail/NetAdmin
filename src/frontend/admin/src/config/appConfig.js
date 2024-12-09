@@ -5,5 +5,5 @@ export default {
     //标题
     //APP_NAME: "标题",
     //接口地址，如遇跨域需使用nginx代理
-    //API_URL: import.meta.env.VITE_API_URL,
+    API_URL: import.meta.env.VITE_API_URL,
 }

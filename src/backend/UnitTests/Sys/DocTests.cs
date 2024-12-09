@@ -34,6 +34,17 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(
+        QueryReq<QueryDocContentReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(DocController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public async Task<QueryDocCatalogRsp> CreateCatalogAsync(CreateDocCatalogReq req)
     {
         var rsp = await PostJsonAsync(typeof(DocController), req);

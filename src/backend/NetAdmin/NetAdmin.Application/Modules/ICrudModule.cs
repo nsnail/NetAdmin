@@ -31,6 +31,11 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, in TEditReq, TQueryReq, 
     Task<long> CountAsync(QueryReq<TQueryReq> req);
 
     /// <summary>
+    ///     实体分组计数
+    /// </summary>
+    Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<TQueryReq> req);
+
+    /// <summary>
     ///     创建实体
     /// </summary>
     Task<TCreateRsp> CreateAsync(TCreateReq req);

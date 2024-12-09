@@ -25,6 +25,21 @@ public sealed class ApiService(
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryApiReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_Api>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Api).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                            , x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
         req.ThrowIfInvalid();
@@ -71,6 +86,14 @@ public sealed class ApiService(
     {
         req.ThrowIfInvalid();
         throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public async Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToListAsync().ConfigureAwait(false);
+        return ret.Adapt<IEnumerable<QueryApiRsp>>();
     }
 
     /// <inheritdoc />

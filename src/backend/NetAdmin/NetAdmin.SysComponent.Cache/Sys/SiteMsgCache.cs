@@ -20,6 +20,12 @@ public sealed class SiteMsgCache(IDistributedCache cache, ISiteMsgService servic
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req)
     {
         return Service.CreateAsync(req);

@@ -14,7 +14,7 @@ const DEFAULT_CONFIG = {
     API_URL: '',
 
     //请求超时
-    TIMEOUT: 10000,
+    TIMEOUT: 60 * 60 * 1000,
 
     //追加其他头
     HEADERS: {},

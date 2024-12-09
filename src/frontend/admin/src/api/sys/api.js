@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 平面查询接口
+     */
+    plainQuery: {
+        url: `${config.API_URL}/api/sys/api/plain.query`,
+        name: `平面查询接口`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 查询接口
      */
     query: {

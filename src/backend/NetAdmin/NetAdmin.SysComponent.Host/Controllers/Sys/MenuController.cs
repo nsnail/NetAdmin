@@ -27,6 +27,15 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     }
 
     /// <summary>
+    ///     菜单分组计数
+    /// </summary>
+    [NonAction]
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryMenuReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建菜单
     /// </summary>
     [Transaction]

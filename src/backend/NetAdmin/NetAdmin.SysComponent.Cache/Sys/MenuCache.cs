@@ -19,6 +19,12 @@ public sealed class MenuCache(IDistributedCache cache, IMenuService service) //
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryMenuReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
         return Service.CreateAsync(req);

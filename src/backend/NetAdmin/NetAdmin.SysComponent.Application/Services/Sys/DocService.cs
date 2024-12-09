@@ -22,6 +22,13 @@ public sealed class DocService(IDocCatalogService catalogService, IDocContentSer
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDocContentReq> req)
+    {
+        req.ThrowIfInvalid();
+        return contentService.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDocCatalogRsp> CreateCatalogAsync(CreateDocCatalogReq req)
     {
         req.ThrowIfInvalid();

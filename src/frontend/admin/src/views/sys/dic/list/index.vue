@@ -1,6 +1,15 @@
 <template>
     <el-container>
-        <el-header style="height: auto; padding: 0 1rem">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
+            <el-row :gutter="15">
+                <el-col :lg="24">
+                    <el-card shadow="never">
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
+        <el-header class="el-header-select-filter">
             <sc-select-filter
                 :data="[
                     {
@@ -8,8 +17,8 @@
                         key: 'enabled',
                         options: [
                             { label: $t('全部'), value: '' },
-                            { label: $t('启用'), value: true },
-                            { label: $t('禁用'), value: false },
+                            { label: $t('启用'), value: true, badge: statistics.enabled?.find((x) => x.key.enabled === 'True')?.value },
+                            { label: $t('禁用'), value: false, badge: statistics.enabled?.find((x) => x.key.enabled === 'False')?.value },
                         ],
                     },
                 ]"
@@ -70,6 +79,7 @@
                 :params="query"
                 :query-api="$API.sys_dic.pagedQueryContent"
                 :vue="this"
+                @data-change="getStatistics"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -95,7 +105,7 @@
                             icon: 'el-icon-delete',
                             confirm: true,
                             title: '删除字典项',
-                            click: rowDel,
+                            click: this.rowDel,
                             type: 'danger',
                         })
                     "
@@ -143,6 +153,9 @@ export default {
     created() {},
     data() {
         return {
+            statistics: {
+                total: '...',
+            },
             dialog: {},
             loading: false,
             query: {
@@ -157,6 +170,18 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async getStatistics() {
+            this.statistics.total = this.$refs.table?.total
+            const res = await Promise.all([
+                this.$API.sys_dic.contentCountBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['Enabled'],
+                }),
+            ])
+            this.statistics.enabled = res[0].data
+        },
         async batchsuccess(data, mode) {
             if (mode === 'batchedit') {
                 let loading
@@ -211,7 +236,7 @@ export default {
             Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
         },
         //搜索
-        onSearch(form) {
+        async onSearch(form) {
             this.query.dynamicFilter.filters.push({
                 field: 'catalogId',
                 value: this.catalogId,
@@ -234,7 +259,7 @@ export default {
                 })
             }
 
-            this.$refs.table.upData()
+            await this.$refs.table.upData()
         },
 
         //删除

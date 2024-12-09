@@ -19,6 +19,12 @@ public sealed class ConfigCache(IDistributedCache cache, IConfigService service)
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryConfigReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
         return Service.CreateAsync(req);

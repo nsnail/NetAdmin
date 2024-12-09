@@ -29,6 +29,14 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     }
 
     /// <summary>
+    ///     字典内容分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return Cache.ContentCountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建字典目录
     /// </summary>
     [Transaction]
