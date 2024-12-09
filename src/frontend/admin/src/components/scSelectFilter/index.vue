@@ -24,10 +24,13 @@
                         <el-icon v-if="option.icon">
                             <component :is="option.icon" />
                         </el-icon>
-                        <el-badge v-if="item.badgeMax" :max="item.badgeMax" :value="option.badge">
+                        <el-badge
+                            :max="item.badgeMax ?? 999999999"
+                            :show-zero="false"
+                            :type="option.badgeType ? option.badgeType : option.badge > 1 ? 'danger' : 'info'"
+                            :value="option.badge">
                             <span>{{ option.label }}</span>
                         </el-badge>
-                        <span v-else>{{ option.label }}</span>
                     </li>
                 </ul>
             </div>
@@ -54,12 +57,12 @@ export default {
         }
     },
     watch: {
-        data(val) {
-            val.forEach((item) => {
-                this.selected[item.key] =
-                    this.selectedValues[item.key] || (Array.isArray(item.options) && item.options.length) ? [item.options[0].value] : []
-            })
-        },
+        // data(val) {
+        //     val.forEach((item) => {
+        //         this.selected[item.key] =
+        //             this.selectedValues[item.key] || (Array.isArray(item.options) && item.options.length) ? [item.options[0].value] : []
+        //     })
+        // },
     },
     computed: {
         selectedString() {

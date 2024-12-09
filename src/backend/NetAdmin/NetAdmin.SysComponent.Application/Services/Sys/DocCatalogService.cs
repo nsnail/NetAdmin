@@ -29,6 +29,21 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDocCatalogReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_DocCatalog>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(
+                                  y => y, y => typeof(Sys_DocCatalog).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
     public async Task<QueryDocCatalogRsp> CreateAsync(CreateDocCatalogReq req)
     {
@@ -62,7 +77,7 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDocCatalogRsp>();
-            #else
+        #else
             await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDocCatalogReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }

@@ -19,6 +19,12 @@ public sealed class RequestLogDetailCache(IDistributedCache cache, IRequestLogDe
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogDetailReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryRequestLogDetailRsp> CreateAsync(CreateRequestLogDetailReq req)
     {
         return Service.CreateAsync(req);

@@ -20,6 +20,12 @@ public sealed class JobCache(IDistributedCache cache, IJobService service) : Dis
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
     {
         return Service.CountRecordAsync(req);
@@ -125,6 +131,12 @@ public sealed class JobCache(IDistributedCache cache, IJobService service) : Dis
     public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         return Service.QueryAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Service.RecordCountByAsync(req);
     }
 
     /// <inheritdoc />

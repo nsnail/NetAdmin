@@ -27,6 +27,14 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     }
 
     /// <summary>
+    ///     登录日志分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryLoginLogReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建登录日志
     /// </summary>
     [Transaction]

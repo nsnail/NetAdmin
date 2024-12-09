@@ -19,6 +19,12 @@ public sealed class JobRecordCache(IDistributedCache cache, IJobRecordService se
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryJobRecordRsp> CreateAsync(CreateJobRecordReq req)
     {
         return Service.CreateAsync(req);

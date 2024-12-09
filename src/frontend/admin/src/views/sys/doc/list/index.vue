@@ -1,6 +1,15 @@
 <template>
     <el-container>
-        <el-header style="height: auto; padding: 0 1rem">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
+            <el-row :gutter="15">
+                <el-col :lg="24">
+                    <el-card shadow="never">
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-header>
+        <el-header class="el-header-select-filter">
             <sc-select-filter
                 :data="[
                     {
@@ -8,8 +17,8 @@
                         key: 'enabled',
                         options: [
                             { label: $t('全部'), value: '' },
-                            { label: $t('启用'), value: true },
-                            { label: $t('禁用'), value: false },
+                            { label: $t('启用'), value: true, badge: statistics.enabled?.find((x) => x.key.enabled === 'True')?.value },
+                            { label: $t('禁用'), value: false, badge: statistics.enabled?.find((x) => x.key.enabled === 'False')?.value },
                         ],
                     },
                     {
@@ -18,7 +27,11 @@
                         options: [
                             { label: $t('全部'), value: '' },
                             ...Object.entries(this.$GLOBAL.enums.archiveVisibilities).map((x) => {
-                                return { value: x[0], label: x[1][1] }
+                                return {
+                                    value: x[0],
+                                    label: x[1][1],
+                                    badge: this.statistics.visibility?.find((y) => y.key.visibility.toLowerCase() === x[0].toLowerCase())?.value,
+                                }
                             }),
                         ],
                     },
@@ -77,6 +90,7 @@
                 :params="query"
                 :query-api="$API.sys_doc.pagedQueryContent"
                 :vue="this"
+                @data-change="getStatistics"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -128,7 +142,7 @@
                             icon: 'el-icon-delete',
                             confirm: true,
                             title: '删除文档',
-                            click: rowDel,
+                            click: this.rowDel,
                             type: 'danger',
                         },
                     ]"
@@ -167,6 +181,9 @@ export default {
     created() {},
     data() {
         return {
+            statistics: {
+                total: '...',
+            },
             dialog: {},
             loading: false,
             query: {
@@ -181,6 +198,25 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async getStatistics() {
+            this.statistics.total = this.$refs.table?.total
+            const res = await Promise.all([
+                this.$API.sys_doc.contentCountBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['Enabled'],
+                }),
+                this.$API.sys_doc.contentCountBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['Visibility'],
+                }),
+            ])
+            this.statistics.enabled = res[0].data
+            this.statistics.visibility = res[1].data
+        },
         viewClick(row) {
             window.open(window.location.origin + `/guest/view-doc/${row.id}`)
         },
@@ -219,7 +255,7 @@ export default {
             Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
         },
         //搜索
-        onSearch(form) {
+        async onSearch(form) {
             this.query.dynamicFilter.filters.push({
                 field: 'catalogId',
                 value: this.catalogId,
@@ -250,7 +286,7 @@ export default {
                 })
             }
 
-            this.$refs.table.upData()
+            await this.$refs.table.upData()
         },
         async share(row) {
             const textarea = document.createElement('textarea')

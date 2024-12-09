@@ -19,6 +19,11 @@ public interface IDicModule
     Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req);
 
     /// <summary>
+    ///     字典内容分组计数
+    /// </summary>
+    Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDicContentReq> req);
+
+    /// <summary>
     ///     创建字典目录
     /// </summary>
     Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req);

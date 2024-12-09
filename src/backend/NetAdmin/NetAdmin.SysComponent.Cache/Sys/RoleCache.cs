@@ -19,6 +19,12 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRoleReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
     {
         return Service.CreateAsync(req);

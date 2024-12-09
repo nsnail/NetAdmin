@@ -12,7 +12,7 @@ const routes = [
                 path: '/profile',
                 component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile'),
                 meta: {
-                    title: '账号信息',
+                    title: '基本资料',
                 },
                 children: [
                     {
@@ -33,7 +33,14 @@ const routes = [
                         path: '/profile/account',
                         component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/account/index.vue'),
                         meta: {
-                            title: '账号信息',
+                            title: '基本资料',
+                        },
+                    },
+                    {
+                        path: '/profile/token',
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/token/index.vue'),
+                        meta: {
+                            title: '授权信息',
                         },
                     },
                     {

@@ -1,15 +1,15 @@
 <template>
     <el-container>
-        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
-        <el-header style="height: auto; padding: 0 1rem">
+        <el-header class="el-header-select-filter">
             <sc-select-filter
                 v-if="showFilter"
                 :data="[
@@ -21,6 +21,51 @@
                             { label: $t('成功'), value: true },
                             { label: $t('失败'), value: false },
                         ],
+                    },
+                    {
+                        title: $t('错误码'),
+                        key: 'errorCode',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...(this.statistics.errorCode?.map((x) => {
+                                return {
+                                    value: x.key.errorCode,
+                                    label: x.key.errorCode,
+                                    badge: x.value,
+                                }
+                            }) ?? []),
+                        ],
+                        w100p: true,
+                    },
+                    {
+                        title: $t('登录用户名'),
+                        key: 'loginUserName',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...(this.statistics.loginUserName?.map((x) => {
+                                return {
+                                    value: x.key.loginUserName,
+                                    label: x.key.loginUserName,
+                                    badge: x.value,
+                                }
+                            }) ?? []),
+                        ],
+                        w100p: true,
+                    },
+                    {
+                        title: $t('客户端IP地址'),
+                        key: 'createdClientIp',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...(this.statistics.createdClientIp?.map((x) => {
+                                return {
+                                    value: x.key.createdClientIp,
+                                    label: x.key.createdClientIp,
+                                    badge: x.value,
+                                }
+                            }) ?? []),
+                        ],
+                        w100p: true,
                     },
                 ]"
                 :label-width="10"
@@ -54,7 +99,6 @@
                 :context-opers="['view']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_loginlog.export"
-                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_loginlog.pagedQuery"
                 :vue="this"
@@ -111,7 +155,9 @@ export default {
     created() {},
     data() {
         return {
-            total: '...',
+            statistics: {
+                total: '...',
+            },
             dialog: {
                 info: false,
             },
@@ -130,8 +176,42 @@ export default {
     inject: ['reload'],
     methods: {
         async getStatistics() {
-            const res = await this.$API.sys_loginlog.count.post(this.query)
-            this.total = res.data
+            this.statistics.total = this.$refs.table?.total
+            const res = await Promise.all([
+                this.$API.sys_loginlog.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['ErrorCode'],
+                }),
+                this.$API.sys_loginlog.countBy.post({
+                    dynamicFilter: {
+                        filters: [
+                            ...this.query.dynamicFilter.filters,
+                            {
+                                field: 'LoginUserName',
+                                operator: 'notEqual',
+                            },
+                        ],
+                    },
+                    requiredFields: ['LoginUserName'],
+                }),
+                this.$API.sys_loginlog.countBy.post({
+                    dynamicFilter: {
+                        filters: [
+                            ...this.query.dynamicFilter.filters,
+                            {
+                                field: 'CreatedClientIp',
+                                operator: 'notEqual',
+                            },
+                        ],
+                    },
+                    requiredFields: ['CreatedClientIp'],
+                }),
+            ])
+            this.statistics.errorCode = res[0].data
+            this.statistics.loginUserName = res[1].data.slice(0, 20)
+            this.statistics.createdClientIp = res[2].data.slice(0, 20)
         },
         async dataChange(data) {
             this.apis = []
@@ -140,6 +220,7 @@ export default {
                 ips && ips.length > 0 ? http.get(`https://ip.tools92.top/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
             ])
             this.ips = res[0]
+            await this.getStatistics()
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -175,8 +256,32 @@ export default {
                           },
                 )
             }
-            this.$refs.table.upData()
-            await this.getStatistics()
+
+            if (typeof form.dy.errorCode === 'string' && form.dy.errorCode.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'errorCode',
+                    operator: 'eq',
+                    value: form.dy.errorCode,
+                })
+            }
+
+            if (typeof form.dy.loginUserName === 'string' && form.dy.loginUserName.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'loginUserName',
+                    operator: 'eq',
+                    value: form.dy.loginUserName,
+                })
+            }
+
+            if (typeof form.dy.createdClientIp === 'string' && form.dy.createdClientIp.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'createdClientIp',
+                    operator: 'eq',
+                    value: form.dy.createdClientIp,
+                })
+            }
+
+            await this.$refs.table.upData()
         },
 
         async rowClick(row) {
@@ -200,7 +305,6 @@ export default {
                 type: 'root',
             })
         }
-        await this.getStatistics()
     },
     props: { keywords: { type: String }, showFilter: { type: Boolean, default: true } },
     watch: {},

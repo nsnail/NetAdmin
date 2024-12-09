@@ -19,6 +19,12 @@ public sealed class ApiCache(IDistributedCache cache, IApiService service) //
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryApiReq> req)
+    {
+        return Service.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
         return Service.CreateAsync(req);
@@ -52,6 +58,12 @@ public sealed class ApiCache(IDistributedCache cache, IApiService service) //
     public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
         return Service.PagedQueryAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req)
+    {
+        return Service.PlainQueryAsync(req);
     }
 
     /// <inheritdoc />

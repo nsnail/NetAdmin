@@ -33,6 +33,16 @@ public class DeptTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDeptReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public async Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
     {
         var rsp = await PostJsonAsync(typeof(DeptController), req);

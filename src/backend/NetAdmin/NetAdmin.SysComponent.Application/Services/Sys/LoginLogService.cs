@@ -29,6 +29,21 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryLoginLogReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_LoginLog>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_LoginLog).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                            , x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public async Task<QueryLoginLogRsp> CreateAsync(CreateLoginLogReq req)
     {
         req.ThrowIfInvalid();

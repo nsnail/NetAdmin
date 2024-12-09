@@ -1,13 +1,41 @@
 <template>
     <el-container>
-        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
             <el-row :gutter="15">
-                <el-col :lg="24">
+                <el-col :lg="12">
                     <el-card shadow="never">
-                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
+                    </el-card>
+                </el-col>
+                <el-col :lg="12">
+                    <el-card shadow="never">
+                        <sc-statistic :value="statistics.rate" suffix="%" title="成功率"></sc-statistic>
                     </el-card>
                 </el-col>
             </el-row>
+        </el-header>
+        <el-header class="el-header-select-filter">
+            <sc-select-filter
+                :data="[
+                    {
+                        title: $t('响应状态码'),
+                        key: 'httpStatusCode',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...(this.statistics.httpStatusCode?.map((x) => {
+                                return {
+                                    value: x.key.httpStatusCode,
+                                    label: x.key.httpStatusCode,
+                                    badge: x.value,
+                                }
+                            }) ?? []),
+                        ],
+                        w100p: true,
+                    },
+                ]"
+                :label-width="6"
+                @on-change="filterChange"
+                ref="selectFilter"></sc-select-filter>
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -74,10 +102,10 @@
                 :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId', 'responseBody']"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
                 :export-api="$API.sys_job.exportRecord"
-                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_job.pagedQueryRecord"
                 :vue="this"
+                @data-change="getStatistics"
                 ref="table"
                 remote-filter
                 remote-sort
@@ -193,7 +221,10 @@ export default {
     },
     data() {
         return {
-            total: '...',
+            statistics: {
+                total: '...',
+                rate: '...',
+            },
             dialog: {},
             loading: false,
             query: {
@@ -212,9 +243,39 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        filterChange(data) {
+            Object.entries(data).forEach(([key, value]) => {
+                this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
+            })
+            this.$refs.search.search()
+        },
         async getStatistics() {
-            const res = await this.$API.sys_job.countRecord.post(this.query)
-            this.total = res.data
+            this.statistics.total = this.$refs.table?.total
+            const res = await Promise.all([
+                this.$API.sys_job.recordCountBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['HttpStatusCode'],
+                }),
+            ])
+
+            this.statistics.httpStatusCode = res[0].data
+            try {
+                let rate =
+                    ((res[0].data
+                        ?.filter((x) => x.key.httpStatusCode.indexOf('2') === 0)
+                        ?.map((x) => x.value)
+                        ?.reduce((a, b) => a + b) ?? 0) /
+                        this.statistics.total) *
+                    100
+                if (rate > 100) {
+                    rate = 100
+                }
+                this.statistics.rate = rate.toFixed(2)
+            } catch {
+                this.statistics.rate = 0
+            }
         },
         jobClick(job) {
             this.dialog.job = { mode: 'view', row: { id: job.id } }
@@ -265,7 +326,7 @@ export default {
                 })
             }
 
-            if (typeof form.dy.jobId === 'string' && form.dy.jobId.trim() !== '') {
+            if (typeof form.dy.jobId === 'number' && form.dy.jobId !== 0) {
                 this.query.dynamicFilter.filters.push({
                     field: 'jobId',
                     operator: 'eq',
@@ -273,11 +334,11 @@ export default {
                 })
             }
 
-            if (typeof form.dy.jobId === 'number' && form.dy.jobId !== 0) {
+            if (typeof form.dy.httpStatusCode === 'string' && form.dy.httpStatusCode.trim() !== '') {
                 this.query.dynamicFilter.filters.push({
-                    field: 'jobId',
+                    field: 'httpStatusCode',
                     operator: 'eq',
-                    value: form.dy.jobId,
+                    value: form.dy.httpStatusCode,
                 })
             }
 
@@ -288,8 +349,7 @@ export default {
                     value: form.dy.httpMethod,
                 })
             }
-            this.$refs.table.upData()
-            await this.getStatistics()
+            await this.$refs.table.upData()
         },
     },
     async mounted() {
@@ -319,7 +379,6 @@ export default {
             value: this.$refs.search.form.dy.createdTime,
             type: 'dy',
         })
-        await this.getStatistics()
     },
     props: ['statusCodes', 'jobId'],
     watch: {},

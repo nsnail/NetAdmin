@@ -35,6 +35,16 @@ public class JobTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(JobController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public async Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
@@ -175,6 +185,16 @@ public class JobTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [InlineData(default)]
     [Theory]
     public async Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(JobController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);

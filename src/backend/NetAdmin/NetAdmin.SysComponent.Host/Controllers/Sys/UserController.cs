@@ -47,6 +47,14 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     }
 
     /// <summary>
+    ///     用户分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建用户
     /// </summary>
     [Transaction]

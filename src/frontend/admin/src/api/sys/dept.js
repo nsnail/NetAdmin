@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 部门分组计数
+     */
+    countBy: {
+        url: `${config.API_URL}/api/sys/dept/count.by`,
+        name: `部门分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建部门
      */
     create: {

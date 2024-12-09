@@ -34,6 +34,16 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
     {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);

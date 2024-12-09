@@ -27,6 +27,14 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     }
 
     /// <summary>
+    ///     角色分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRoleReq> req)
+    {
+        return Cache.CountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建角色
     /// </summary>
     [Transaction]

@@ -33,6 +33,16 @@ public class ConfigTests(WebTestApplicationFactory<Startup> factory, ITestOutput
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryConfigReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(ConfigController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public async Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);

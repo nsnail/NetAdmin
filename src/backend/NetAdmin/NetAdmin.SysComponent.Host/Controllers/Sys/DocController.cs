@@ -29,6 +29,14 @@ public sealed class DocController(IDocCache cache) : ControllerBase<IDocCache, I
     }
 
     /// <summary>
+    ///     文档内容分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDocContentReq> req)
+    {
+        return Cache.ContentCountByAsync(req);
+    }
+
+    /// <summary>
     ///     创建文档分类
     /// </summary>
     [Transaction]

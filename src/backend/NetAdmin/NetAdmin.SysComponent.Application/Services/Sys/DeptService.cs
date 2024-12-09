@@ -29,6 +29,21 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDeptReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_Dept>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Dept).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                            , x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Parent_department_does_not_exist</exception>
     public async Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
     {

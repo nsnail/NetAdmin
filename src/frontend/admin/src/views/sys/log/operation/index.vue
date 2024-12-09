@@ -1,15 +1,15 @@
 <template>
     <el-container>
-        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
-        <el-header style="height: auto; padding: 0 1rem">
+        <el-header class="el-header-select-filter">
             <sc-select-filter
                 :data="[
                     {
@@ -20,6 +20,37 @@
                             { label: $t('成功'), value: true },
                             { label: $t('失败'), value: false },
                         ],
+                    },
+                    {
+                        title: $t('响应状态码'),
+                        key: 'httpStatusCode',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...(this.statistics.httpStatusCode?.map((x) => {
+                                return {
+                                    value: x.key.httpStatusCode,
+                                    label: x.key.httpStatusCode,
+                                    badge: x.value,
+                                }
+                            }) ?? []),
+                        ],
+                        w100p: true,
+                    },
+                    {
+                        title: $t('请求服务'),
+                        key: 'apiPathCrc32',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...(this.statistics.apiPathCrc32?.map((x) => {
+                                let api = this.apis?.find((y) => y.pathCrc32.toString() === x.key.apiPathCrc32)
+                                return {
+                                    value: x.key.apiPathCrc32,
+                                    label: `${api?.summary} : ${api?.id}`,
+                                    badge: x.value,
+                                }
+                            }) ?? []),
+                        ],
+                        w100p: true,
                     },
                 ]"
                 :label-width="10"
@@ -201,17 +232,21 @@ export default {
         saveDialog,
     },
     computed: {},
-    created() {
+    async created() {
         if (this.ownerId) {
             this.query.dynamicFilter.filters.push({ field: 'ownerId', operator: 'eq', value: this.ownerId })
         }
         if (this.excludeApiPathCrc32) {
             this.query.dynamicFilter.filters.push({ field: 'apiPathCrc32', operator: 'notEqual', value: this.excludeApiPathCrc32 })
         }
+        const res = await this.$API.sys_api.plainQuery.post({ count: 1000 })
+        this.apis = res.data
     },
     data() {
         return {
-            total: '...',
+            statistics: {
+                total: '...',
+            },
             dialog: {
                 info: false,
             },
@@ -225,7 +260,10 @@ export default {
                         {
                             field: 'createdTime',
                             operator: 'dateRange',
-                            value: [this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'), this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')],
+                            value: [
+                                this.$TOOL.dateFormat(new Date(new Date() - 3600 * 1000), 'yyyy-MM-dd hh:mm:ss'),
+                                this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                            ],
                         },
                     ],
                 },
@@ -242,7 +280,6 @@ export default {
         },
         async dataChange(data) {
             this.owners = []
-            this.apis = []
             const ownerIds = data.data.rows?.filter((x) => x.ownerId).map((x) => x.ownerId)
             const apiCrcs = data.data.rows?.map((x) => x.apiPathCrc32)
             const ips = data.data.rows?.map((x) => x.createdClientIp) ?? []
@@ -257,22 +294,31 @@ export default {
                       })
                     : new Promise((x) => x({ data: [] })),
 
-                apiCrcs && apiCrcs.length > 0
-                    ? this.$API.sys_api.query.post({
-                          dynamicFilter: {
-                              field: 'pathCrc32',
-                              operator: 'any',
-                              value: apiCrcs,
-                          },
-                      })
-                    : new Promise((x) => x({ data: [] })),
-
                 ips && ips.length > 0 ? http.get(`https://ip.tools92.top/?ip=${ips.join('&ip=')}`) : new Promise((x) => x({ data: [] })),
             ])
             this.owners = res[0].data
-            this.apis = res[1].data
-            this.ips = res[2]
-            this.total = data.data.total
+            this.ips = res[1]
+            await this.getStatistics()
+        },
+        async getStatistics() {
+            this.statistics.total = this.$refs.table?.total
+
+            const res = await Promise.all([
+                this.$API.sys_requestlog.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['HttpStatusCode'],
+                }),
+                this.$API.sys_requestlog.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['ApiPathCrc32'],
+                }),
+            ])
+            this.statistics.httpStatusCode = res[0].data
+            this.statistics.apiPathCrc32 = res[1].data.slice(0, 20)
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -327,6 +373,21 @@ export default {
                     value: form.dy.ownerId,
                 })
             }
+
+            if (typeof form.dy.httpStatusCode === 'string' && form.dy.httpStatusCode.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'httpStatusCode',
+                    operator: 'eq',
+                    value: form.dy.httpStatusCode,
+                })
+            }
+            if (typeof form.dy.apiPathCrc32 === 'string' && form.dy.apiPathCrc32.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'apiPathCrc32',
+                    operator: 'eq',
+                    value: form.dy.apiPathCrc32,
+                })
+            }
             if (typeof form.dy.id === 'string' && form.dy.id.trim() !== '') {
                 this.query.dynamicFilter.filters.push({
                     field: 'id',
@@ -358,7 +419,7 @@ export default {
                           },
                 )
             }
-            this.$refs.table.upData()
+            await this.$refs.table.upData()
         },
 
         async rowClick(row) {
@@ -371,6 +432,33 @@ export default {
                         id: row.id,
                         createdTime: row.createdTime,
                     }),
+                {
+                    query: {
+                        bool: {
+                            must: [
+                                {
+                                    range: {
+                                        '@timestamp': {
+                                            gt: new Date(row.createdTime).getTime() - 1000 * 60 * 60,
+                                            lt: new Date(row.createdTime).getTime() + 1000 * 60 * 60,
+                                        },
+                                    },
+                                },
+                                {
+                                    match_phrase: {
+                                        log_message: row.traceId,
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    size: 1000,
+                    sort: [
+                        {
+                            '@timestamp': 'desc',
+                        },
+                    ],
+                },
             )
         },
     },
@@ -403,8 +491,8 @@ export default {
         }
 
         this.$refs.search.form.dy.createdTime = [
-            this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd 00:00:00'),
-            this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd 00:00:00'),
+            this.$TOOL.dateFormat(new Date(new Date() - 3600 * 1000), 'yyyy-MM-dd hh:mm:ss'),
+            this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
         ]
         this.$refs.search.keeps.push({
             field: 'createdTime',

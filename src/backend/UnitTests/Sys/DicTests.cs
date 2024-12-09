@@ -34,6 +34,17 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(default)]
     [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(
+        QueryReq<QueryDicContentReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(DicController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
     public async Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
     {
         var rsp = await PostJsonAsync(typeof(DicController), req);

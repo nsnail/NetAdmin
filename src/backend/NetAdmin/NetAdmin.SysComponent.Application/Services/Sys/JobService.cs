@@ -34,6 +34,21 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobReq> req)
+    {
+        req.ThrowIfInvalid();
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_Job>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Job).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                            , x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
     {
         return jobRecordService.CountAsync(req);
@@ -263,6 +278,13 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        req.ThrowIfInvalid();
+        return jobRecordService.CountByAsync(req);
     }
 
     /// <inheritdoc />

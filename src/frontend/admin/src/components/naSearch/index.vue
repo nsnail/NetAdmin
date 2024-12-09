@@ -250,17 +250,6 @@ export default {
                         return [start, end]
                     },
                 },
-                {
-                    text: this.$t('最近一年'),
-                    value: () => {
-                        const start = new Date()
-                        start.setHours(0, 0, 0, 0)
-                        start.setFullYear(start.getFullYear() - 1)
-                        const end = new Date()
-                        end.setHours(0, 0, 0, 0)
-                        return [start, end]
-                    },
-                },
             ],
             options: [
                 {
@@ -493,7 +482,7 @@ export default {
         async reSearch(sec) {
             const newParam = JSON.parse(this.aceEditorValue)
             this.vue.$refs.table.tableParams = newParam
-            this.vue.$refs.table.upData()
+            await this.vue.$refs.table.upData()
             await this.$nextTick()
             this.vue.$refs.table.tableParams = this.vue.query
             this.$emit('reSearch', newParam)

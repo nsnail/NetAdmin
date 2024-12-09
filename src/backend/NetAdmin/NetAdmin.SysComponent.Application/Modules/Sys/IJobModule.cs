@@ -54,6 +54,11 @@ public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类
     Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req);
 
     /// <summary>
+    ///     作业记录分组计数
+    /// </summary>
+    Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req);
+
+    /// <summary>
     ///     设置计划作业启用状态
     /// </summary>
     Task<int> SetEnabledAsync(SetJobEnabledReq req);

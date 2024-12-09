@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 站内信分组计数
+     */
+    countBy: {
+        url: `${config.API_URL}/api/sys/site.msg/count.by`,
+        name: `站内信分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建站内信
      */
     create: {

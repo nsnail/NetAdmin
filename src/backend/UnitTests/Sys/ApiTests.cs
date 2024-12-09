@@ -15,7 +15,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -25,7 +25,17 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<long> CountAsync(QueryReq<QueryApiReq> req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryApiReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -35,7 +45,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<QueryApiRsp> CreateAsync(CreateApiReq req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -45,7 +55,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<int> DeleteAsync(DelReq req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -55,7 +65,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<QueryApiRsp> EditAsync(EditApiReq req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -65,7 +75,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryApiReq> req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -75,7 +85,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<QueryApiRsp> GetAsync(QueryApiReq req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -85,7 +95,17 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -95,7 +115,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Theory]
     public async Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
-        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
     }
@@ -104,7 +124,7 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [Fact]
     public async Task SyncAsync()
     {
-        var rsp = await PostJsonAsync(typeof(DeptController));
+        var rsp = await PostJsonAsync(typeof(ApiController));
         Assert.True(rsp.IsSuccessStatusCode);
     }
 }

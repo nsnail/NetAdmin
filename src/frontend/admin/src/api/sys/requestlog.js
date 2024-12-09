@@ -17,6 +17,17 @@ export default {
     },
 
     /**
+     * 请求日志分组计数
+     */
+    countBy: {
+        url: `${config.API_URL}/api/sys/request.log/count.by`,
+        name: `请求日志分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 导出请求日志
      */
     export: {

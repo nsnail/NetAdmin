@@ -1,15 +1,15 @@
 <template>
     <el-container>
-        <el-header v-loading="total === '...'" style="height: auto; padding: 1rem 1rem 0 1rem; display: block">
+        <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="total" group-separator title="总数"></sc-statistic>
+                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
-        <el-header style="height: auto; padding: 0 1rem">
+        <el-header class="el-header-select-filter">
             <sc-select-filter
                 :data="[
                     {
@@ -17,8 +17,8 @@
                         key: 'enabled',
                         options: [
                             { label: $t('全部'), value: '' },
-                            { label: $t('启用'), value: true },
-                            { label: $t('禁用'), value: false },
+                            { label: $t('启用'), value: true, badge: statistics.enabled?.find((x) => x.key.enabled === 'True')?.value },
+                            { label: $t('禁用'), value: false, badge: statistics.enabled?.find((x) => x.key.enabled === 'False')?.value },
                         ],
                     },
                     {
@@ -26,8 +26,16 @@
                         key: 'ignorePermissionControl',
                         options: [
                             { label: $t('全部'), value: '' },
-                            { label: $t('是'), value: true },
-                            { label: $t('否'), value: false },
+                            {
+                                label: $t('是'),
+                                value: true,
+                                badge: statistics.ignorePermissionControl?.find((x) => x.key.ignorePermissionControl === 'True')?.value,
+                            },
+                            {
+                                label: $t('否'),
+                                value: false,
+                                badge: statistics.ignorePermissionControl?.find((x) => x.key.ignorePermissionControl === 'False')?.value,
+                            },
                         ],
                     },
                     {
@@ -35,9 +43,32 @@
                         key: 'displayDashboard',
                         options: [
                             { label: $t('全部'), value: '' },
-                            { label: $t('是'), value: true },
-                            { label: $t('否'), value: false },
+                            {
+                                label: $t('是'),
+                                value: true,
+                                badge: statistics.displayDashboard?.find((x) => x.key.displayDashboard === 'True')?.value,
+                            },
+                            {
+                                label: $t('否'),
+                                value: false,
+                                badge: statistics.displayDashboard?.find((x) => x.key.displayDashboard === 'False')?.value,
+                            },
                         ],
+                    },
+                    {
+                        title: $t('数据范围'),
+                        key: 'dataScope',
+                        options: [
+                            { label: $t('全部'), value: '' },
+                            ...Object.entries(this.$GLOBAL.enums.dataScopes).map((x) => {
+                                return {
+                                    value: x[0],
+                                    label: x[1][1],
+                                    badge: this.statistics.dataScope?.find((y) => y.key.dataScope.toLowerCase() === x[0])?.value,
+                                }
+                            }),
+                        ],
+                        w100p: true,
                     },
                 ]"
                 :label-width="15"
@@ -87,10 +118,10 @@
                 :context-menus="['id', 'name', 'sort', 'enabled', 'ignorePermissionControl', 'dataScope', 'displayDashboard', 'createdTime']"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :export-api="$API.sys_role.export"
-                :on-command="this.getStatistics"
                 :params="query"
                 :query-api="$API.sys_role.pagedQuery"
                 :vue="this"
+                @data-change="getStatistics"
                 @selection-change="
                     (items) => {
                         selection = items
@@ -101,7 +132,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <el-table-column type="selection" />
+                <el-table-column type="selection" width="50" />
                 <na-col-id :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('角色名称')" min-width="150" prop="name" sortable="custom" />
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" width="100" />
@@ -146,7 +177,7 @@
                                 icon: 'el-icon-delete',
                                 confirm: true,
                                 title: '删除角色',
-                                click: rowDel,
+                                click: this.rowDel,
                                 type: 'danger',
                             },
                         )
@@ -186,7 +217,9 @@ export default {
     created() {},
     data() {
         return {
-            total: '...',
+            statistics: {
+                total: '...',
+            },
             dialog: {},
             loading: false,
             query: {
@@ -208,8 +241,38 @@ export default {
     inject: ['reload'],
     methods: {
         async getStatistics() {
-            const res = await this.$API.sys_role.count.post(this.query)
-            this.total = res.data
+            this.statistics.total = this.$refs.table?.total
+            const res = await Promise.all([
+                this.$API.sys_role.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['Enabled'],
+                }),
+                this.$API.sys_role.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['DisplayDashboard'],
+                }),
+                this.$API.sys_role.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['IgnorePermissionControl'],
+                }),
+                this.$API.sys_role.countBy.post({
+                    dynamicFilter: {
+                        filters: this.query.dynamicFilter.filters,
+                    },
+                    requiredFields: ['DataScope'],
+                }),
+            ])
+
+            this.statistics.enabled = res[0].data
+            this.statistics.displayDashboard = res[1].data
+            this.statistics.ignorePermissionControl = res[2].data
+            this.statistics.dataScope = res[3].data
         },
         async copyRole(row) {
             const loading = this.$loading()
@@ -324,8 +387,16 @@ export default {
                     value: form.dy.displayDashboard,
                 })
             }
-            this.$refs.table.upData()
-            await this.getStatistics()
+
+            if (typeof form.dy.dataScope === 'string' && form.dy.dataScope.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'dataScope',
+                    operator: 'eq',
+                    value: form.dy.dataScope,
+                })
+            }
+
+            await this.$refs.table.upData()
         },
     },
     async mounted() {
@@ -345,7 +416,6 @@ export default {
             type: 'dy',
         })
         this.onReset()
-        await this.getStatistics()
     },
     props: ['keywords'],
     watch: {},

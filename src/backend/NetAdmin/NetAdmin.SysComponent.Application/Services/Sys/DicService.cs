@@ -22,6 +22,13 @@ public sealed class DicService(IDicCatalogService catalogService, IDicContentSer
     }
 
     /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDicContentReq> req)
+    {
+        req.ThrowIfInvalid();
+        return contentService.CountByAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
     {
         req.ThrowIfInvalid();

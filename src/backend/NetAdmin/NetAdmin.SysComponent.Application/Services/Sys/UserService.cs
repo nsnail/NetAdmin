@@ -73,6 +73,23 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserReq> req)
+    {
+        req.ThrowIfInvalid();
+        #pragma warning disable S6966
+        var ret = await QueryInternal(req with { Order = Orders.None })
+                        #pragma warning restore S6966
+                        .WithNoLockNoWait()
+                        .GroupBy(req.GetToListExp<Sys_User>())
+                        .ToDictionaryAsync(a => a.Count())
+                        .ConfigureAwait(false);
+        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_User).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                            , x.Value))
+                  .OrderByDescending(x => x.Value);
+    }
+
+    /// <inheritdoc />
     public async Task<QueryUserRsp> CreateAsync(CreateUserReq req)
     {
         req.ThrowIfInvalid();

@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 登录日志分组计数
+     */
+    countBy: {
+        url: `${config.API_URL}/api/sys/login.log/count.by`,
+        name: `登录日志分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建登录日志
      */
     create: {

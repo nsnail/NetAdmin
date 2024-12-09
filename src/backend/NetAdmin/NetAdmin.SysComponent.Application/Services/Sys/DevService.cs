@@ -71,6 +71,11 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                           ,           Path.Combine(dtoDir,     $"Create{req.ModuleName}Req.cs"), typeAbbr)
             .ConfigureAwait(false);
 
+        // EditReq
+        await WriteCodeFileAsync(req, Path.Combine(tplDataDir, "Dto", "Tpl", "Example", "EditExampleReq.cs")
+                          ,           Path.Combine(dtoDir,     $"Edit{req.ModuleName}Req.cs"), typeAbbr)
+            .ConfigureAwait(false);
+
         // QueryReq
         await WriteCodeFileAsync(req, Path.Combine(tplDataDir, "Dto", "Tpl", "Example", "QueryExampleReq.cs")
                           ,           Path.Combine(dtoDir,     $"Query{req.ModuleName}Req.cs"), typeAbbr)

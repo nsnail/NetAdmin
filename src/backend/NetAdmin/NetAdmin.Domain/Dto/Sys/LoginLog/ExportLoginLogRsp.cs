@@ -47,7 +47,7 @@ public sealed record ExportLoginLogRsp : QueryLoginLogRsp
     [CsvIgnore(false)]
     [CsvIndex(2)]
     [CsvName(nameof(Ln.登录名))]
-    public override string LoginUserName { get; protected init; }
+    public override string LoginUserName { get; init; }
 
     /// <inheritdoc />
     [CsvIgnore]

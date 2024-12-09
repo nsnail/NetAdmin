@@ -79,7 +79,7 @@
                 hide-refresh
                 pagination-layout="total"
                 stripe>
-                <el-table-column type="selection" />
+                <el-table-column type="selection" width="50" />
                 <el-table-column :label="$t('键名')" min-width="400" prop="key" />
                 <el-table-column :label="$t('数据类型')" align="center" prop="type" width="100" />
                 <el-table-column :label="$t('过期时间')" align="right" prop="expireTime" width="200" />
