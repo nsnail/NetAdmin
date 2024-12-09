@@ -20,10 +20,10 @@ public abstract record SqlCommandEvent : DataAbstraction, IEventSource
     public CancellationToken CancellationToken { get; init; }
 
     /// <inheritdoc />
-    public DateTime CreatedTime { get; init; }
+    public DateTime CreatedTime { get; protected init; }
 
     /// <inheritdoc />
-    public string EventId { get; init; }
+    public string EventId { get; protected init; }
 
     /// <inheritdoc />
     public object Payload { get; init; }
