@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Infrastructure.Enums;
+namespace NetAdmin.Infrastructure.Enums;
 
 /// <summary>
 ///     枚举扩展方法

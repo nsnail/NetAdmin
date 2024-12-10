@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.UserRole;
 
 namespace UnitTests.Sys;
 
@@ -134,6 +135,16 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     [InlineData(default)]
     [Theory]
     public async Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
+    {
+        var rsp = await PostJsonAsync(typeof(RoleController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return default;
+    }
+
+    /// <inheritdoc />
+    [InlineData(default)]
+    [Theory]
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
     {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);

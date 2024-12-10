@@ -1,18 +1,14 @@
-<!--
- * @Descripttion: 分类筛选器
- * @version: 1.0
- * @Author: sakuya
- * @Date: 2022年5月26日15:59:52
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-18 13:09:49
--->
-
 <template>
     <div class="sc-select-filter">
         <div v-if="data.length <= 0" class="sc-select-filter__no-data">{{ $t('暂无数据') }}</div>
         <div v-for="item in data" :class="`sc-select-filter__item${item.w100p ? ' sc-select-filter__item-w100p' : ''}`" :key="item.key">
-            <div :style="{ width: labelWidth + 'rem' }" class="sc-select-filter__item-title">
-                <label>{{ item.title }}</label>
+            <div :style="{ width: labelWidth + 'rem' }" @click="autoHeight" class="sc-select-filter__item-title">
+                <label>
+                    <span>{{ item.title }}</span>
+                    <el-icon style="display: none">
+                        <el-icon-arrow-up></el-icon-arrow-up>
+                    </el-icon>
+                </label>
             </div>
             <div class="sc-select-filter__item-options">
                 <ul>
@@ -20,15 +16,12 @@
                         v-for="option in item.options"
                         :class="{ active: selected[item.key] && selected[item.key].includes(option.value) }"
                         :key="option.value"
+                        :title="option.title"
                         @click="select(option, item)">
                         <el-icon v-if="option.icon">
                             <component :is="option.icon" />
                         </el-icon>
-                        <el-badge
-                            :max="item.badgeMax ?? 999999999"
-                            :show-zero="false"
-                            :type="option.badgeType ? option.badgeType : option.badge > 1 ? 'danger' : 'info'"
-                            :value="option.badge">
+                        <el-badge :max="item.badgeMax ?? 999999999" :show-zero="false" :value="option.badge" badge-class="badge-small">
                             <span>{{ option.label }}</span>
                         </el-badge>
                     </li>
@@ -54,6 +47,10 @@ export default {
     data() {
         return {
             selected: {},
+            svgIconUp:
+                '<svg data-v-a30f2a47="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="m488.832 344.32-339.84 356.672a32 32 0 0 0 0 44.16l.384.384a29.44 29.44 0 0 0 42.688 0l320-335.872 319.872 335.872a29.44 29.44 0 0 0 42.688 0l.384-.384a32 32 0 0 0 0-44.16L535.168 344.32a32 32 0 0 0-46.336 0"></path></svg>',
+            svgIconDown:
+                '<svg data-v-a30f2a47="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M831.872 340.864 512 652.672 192.128 340.864a30.592 30.592 0 0 0-42.752 0 29.12 29.12 0 0 0 0 41.6L489.664 714.24a32 32 0 0 0 44.672 0l340.288-331.712a29.12 29.12 0 0 0 0-41.728 30.592 30.592 0 0 0-42.752 0z"></path></svg>',
         }
     },
     watch: {
@@ -63,6 +60,25 @@ export default {
         //             this.selectedValues[item.key] || (Array.isArray(item.options) && item.options.length) ? [item.options[0].value] : []
         //     })
         // },
+
+        data: {
+            immediate: true,
+            handler() {
+                this.$nextTick(() => {
+                    for (const el of document.getElementsByClassName('sc-select-filter__item-options')) {
+                        if (el.children[0].clientHeight / el.clientHeight < 1.5) {
+                            el.previousSibling.children[0].children[1].style.display = 'none'
+                            el.previousSibling.children[0].style.cursor = 'unset'
+                            el.style.height = '3.5rem'
+                        } else {
+                            el.previousSibling.children[0].style.cursor = 'pointer'
+                            el.previousSibling.children[0].children[1].style.display = 'unset'
+                            el.previousSibling.children[0].children[1].innerHTML = this.svgIconUp
+                        }
+                    }
+                })
+            },
+        },
     },
     computed: {
         selectedString() {
@@ -81,6 +97,16 @@ export default {
         })
     },
     methods: {
+        autoHeight(e) {
+            if (e.currentTarget.nextSibling.style.height === 'auto') {
+                e.currentTarget.nextSibling.style.height = '3.5rem'
+                e.currentTarget.children[0].children[1].innerHTML = this.svgIconUp
+            } else {
+                if (e.currentTarget.nextSibling.children[0].clientHeight / e.currentTarget.nextSibling.clientHeight < 1.5) return
+                e.currentTarget.nextSibling.style.height = 'auto'
+                e.currentTarget.children[0].children[1].innerHTML = this.svgIconDown
+            }
+        },
         select(option, item) {
             //判断单选多选
             if (item.multiple) {
@@ -153,13 +179,18 @@ export default {
 .sc-select-filter__item-title label {
     font-size: 1.1rem;
     padding-top: 1rem;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 1rem;
     color: #999;
 }
 
 .sc-select-filter__item-options {
     flex: 1;
     border-bottom: 1px dashed var(--el-border-color-light);
+    height: 3.5rem;
+    overflow: hidden;
 }
 
 .sc-select-filter__item-options ul {
@@ -202,7 +233,14 @@ export default {
 .sc-select-filter__no-data {
     color: #999;
 }
+
 .sc-select-filter__item-w100p {
     width: 100%;
+}
+</style>
+<style>
+.badge-small {
+    font-size: 0.8rem;
+    height: 1.3rem;
 }
 </style>

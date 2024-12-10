@@ -88,6 +88,13 @@
                 <el-table-column type="selection" width="50" />
                 <na-col-id :label="$t('部门编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('部门名称')" min-width="150" prop="name" sortable="custom" />
+                <el-table-column :label="$t('用户数量')" align="right" width="100">
+                    <template #default="{ row }">
+                        <el-link @click.native="dialog.save = { mode: 'view', row, tabId: 'user' }"
+                            >{{ statistics.deptId?.find((x) => x.key.deptId === row.id.toString())?.value ?? '...' }}
+                        </el-link>
+                    </template>
+                </el-table-column>
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" width="100" />
                 <el-table-column label="备注" min-width="100" prop="summary" sortable="custom" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
@@ -172,9 +179,13 @@ export default {
                     },
                     requiredFields: ['Enabled'],
                 }),
+                this.$API.sys_user.countBy.post({
+                    requiredFields: ['DeptId'],
+                }),
             ])
 
             this.statistics.enabled = res[0].data
+            this.statistics.deptId = res[1].data
         },
         async setEnabled(enabled) {
             let loading

@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Domain.Dto.Tpl.Example;
+namespace NetAdmin.Domain.Dto.Tpl.Example;
 
 /// <summary>
 ///     请求：编辑示例

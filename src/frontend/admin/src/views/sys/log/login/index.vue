@@ -210,8 +210,8 @@ export default {
                 }),
             ])
             this.statistics.errorCode = res[0].data
-            this.statistics.loginUserName = res[1].data.slice(0, 20)
-            this.statistics.createdClientIp = res[2].data.slice(0, 20)
+            this.statistics.loginUserName = res[1].data
+            this.statistics.createdClientIp = res[2].data
         },
         async dataChange(data) {
             this.apis = []

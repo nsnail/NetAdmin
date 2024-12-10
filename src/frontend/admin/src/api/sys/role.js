@@ -147,4 +147,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 角色用户映射分组计数
+     */
+    userCountBy: {
+        url: `${config.API_URL}/api/sys/role/user.count.by`,
+        name: `角色用户映射分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

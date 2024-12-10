@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 表格选择器组件
- * @version: 1.3
- * @Author: sakuya
- * @Date: 2021年6月10日10:04:07
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-18 13:12:15
--->
-
 <template>
     <el-select
         v-model="defaultValue"
