@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 弹窗扩展组件
- * @version: 2.0
- * @Author: sakuya
- * @Date: 2021年8月27日08:51:52
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-18 13:04:33
--->
-
 <template>
     <div class="sc-dialog" ref="scDialog">
         <el-dialog v-bind="$attrs" v-model="dialogVisible" :fullscreen="isFullscreen" :show-close="false" draggable ref="dialog">

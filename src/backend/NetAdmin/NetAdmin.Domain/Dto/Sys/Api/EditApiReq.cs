@@ -1,4 +1,4 @@
-﻿using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.DbMaps.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.Api;
 

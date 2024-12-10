@@ -74,7 +74,7 @@
         <search @success="searchVisible = false"></search>
     </el-dialog>
 
-    <el-drawer v-model="tasksVisible" :size="450" :title="$t('作业中心')" destroy-on-close>
+    <el-drawer v-model="tasksVisible" :size="800" :title="$t('作业中心')" destroy-on-close>
         <tasks :fail="failJobCnt" @closed="tasksVisible = false"></tasks>
     </el-drawer>
 </template>
@@ -83,7 +83,7 @@
 import { defineAsyncComponent } from 'vue'
 import avatar from '../../utils/avatar'
 const search = defineAsyncComponent(() => import('./search.vue'))
-const tasks = defineAsyncComponent(() => import('./tasks.vue'))
+const tasks = defineAsyncComponent(() => import('./tasks/index.vue'))
 const message = defineAsyncComponent(() => import('@/views/profile/message/components/list.vue'))
 export default {
     components: {

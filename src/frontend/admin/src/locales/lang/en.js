@@ -461,7 +461,7 @@ export default {
     作业信息: 'Job information',
     查看作业记录: 'View job records',
     异常作业: 'Abnormal jobs',
-    所有作业: 'All jobs',
+    作业管理: 'Job management',
     用户列表: 'User list',
     是: 'Yes',
     否: 'No',

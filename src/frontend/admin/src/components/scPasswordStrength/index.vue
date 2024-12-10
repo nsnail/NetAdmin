@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 密码强度检测
- * @version: 1.0
- * @Author: sakuya
- * @Date: 2022年6月2日15:36:01
- * @LastEditors:
- * @LastEditTime:
--->
-
 <template>
     <div class="sc-password-strength">
         <div :class="`sc-password-strength-level-${level}`" class="sc-password-strength-bar"></div>

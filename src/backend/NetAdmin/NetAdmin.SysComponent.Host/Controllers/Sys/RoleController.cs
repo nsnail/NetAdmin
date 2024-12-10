@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.UserRole;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
@@ -115,5 +116,13 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
     {
         return Cache.SetIgnorePermissionControlAsync(req);
+    }
+
+    /// <summary>
+    ///     角色用户映射分组计数
+    /// </summary>
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
+    {
+        return Cache.UserCountByAsync(req);
     }
 }

@@ -135,6 +135,13 @@
                 <el-table-column type="selection" width="50" />
                 <na-col-id :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('角色名称')" min-width="150" prop="name" sortable="custom" />
+                <el-table-column :label="$t('用户数量')" align="right" width="100">
+                    <template #default="{ row }">
+                        <el-link @click.native="dialog.save = { mode: 'view', row, tabId: 'user' }"
+                            >{{ statistics.roleId?.find((x) => x.key.roleId === row.id.toString())?.value ?? '...' }}
+                        </el-link>
+                    </template>
+                </el-table-column>
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" width="100" />
                 <el-table-column :label="$t('无限权限')" align="center" prop="ignorePermissionControl" sortable="custom" width="100">
                     <template #default="{ row }">
@@ -267,12 +274,16 @@ export default {
                     },
                     requiredFields: ['DataScope'],
                 }),
+                this.$API.sys_role.userCountBy.post({
+                    requiredFields: ['RoleId'],
+                }),
             ])
 
             this.statistics.enabled = res[0].data
             this.statistics.displayDashboard = res[1].data
             this.statistics.ignorePermissionControl = res[2].data
             this.statistics.dataScope = res[3].data
+            this.statistics.roleId = res[4].data
         },
         async copyRole(row) {
             const loading = this.$loading()

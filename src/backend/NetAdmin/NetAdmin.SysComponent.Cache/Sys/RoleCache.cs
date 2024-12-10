@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.UserRole;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
 
@@ -82,5 +83,11 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
     {
         return Service.SetIgnorePermissionControlAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
+    {
+        return Service.UserCountByAsync(req);
     }
 }

@@ -1,10 +1,3 @@
-/*
- * @Descripttion: 工具集
- * @version: 1.2
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-19 11:17:54
- */
-
 import CryptoJS from 'crypto-js'
 import sysConfig from '@/config'
 

@@ -179,6 +179,9 @@ export default {
             await this.getTrees('api')
             await this.getTrees('dept')
             this.loading = false
+            if (data.tabId) {
+                this.tabId = data.tabId
+            }
             return this
         },
 

@@ -100,6 +100,9 @@ export default {
                 Object.assign(this.form, res.data)
             }
             this.loading = false
+            if (data.tabId) {
+                this.tabId = data.tabId
+            }
             return this
         },
         //加载树数据

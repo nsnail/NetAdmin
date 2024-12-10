@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 页面头部样式组件
- * @version: 1.0
- * @Author: sakuya
- * @Date: 2021年7月20日08:49:07
- * @LastEditors:
- * @LastEditTime:
--->
-
 <template>
     <div class="sc-page-header">
         <div v-if="icon" class="sc-page-header__icon">

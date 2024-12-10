@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 状态指示器
- * @version: 1.0
- * @Author: sakuya
- * @Date: 2021年11月11日09:30:12
- * @LastEditors:
- * @LastEditTime:
--->
-
 <template>
     <span :class="[{ 'sc-status-processing': pulse }, 'sc-state-bg--' + type]" class="sc-state"></span>
 </template>

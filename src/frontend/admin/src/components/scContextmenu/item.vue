@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: scContextmenuItem组件
- * @version: 1.3
- * @Author: sakuya
- * @Date: 2021年7月23日16:29:36
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-18 12:59:06
--->
-
 <template>
     <hr v-if="divided" />
     <li :class="disabled ? 'disabled' : ''" @click.stop="liClick" @mouseenter="openSubmenu($event)" @mouseleave="closeSubmenu($event)">

@@ -204,6 +204,7 @@ export default {
             this.statistics.total = this.$refs.table?.total
             const res = await Promise.all([
                 this.$API.sys_user.countBy.post({
+                    filter: this.query.filter,
                     dynamicFilter: {
                         filters: this.query.dynamicFilter.filters,
                     },
@@ -288,6 +289,23 @@ export default {
                 field: 'keywords',
                 value: this.keywords,
                 type: 'root',
+            })
+        }
+
+        if (this.roleId) {
+            this.$refs.search.form.filter.roleId = this.roleId
+            this.$refs.search.keeps.push({
+                field: 'roleId',
+                value: this.roleId,
+                type: 'filter',
+            })
+        }
+        if (this.deptId) {
+            this.$refs.search.form.filter.deptId = this.deptId
+            this.$refs.search.keeps.push({
+                field: 'deptId',
+                value: this.deptId,
+                type: 'filter',
             })
         }
 

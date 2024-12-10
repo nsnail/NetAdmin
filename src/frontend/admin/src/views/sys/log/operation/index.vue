@@ -45,7 +45,8 @@
                                 let api = this.apis?.find((y) => y.pathCrc32.toString() === x.key.apiPathCrc32)
                                 return {
                                     value: x.key.apiPathCrc32,
-                                    label: `${api?.summary} : ${api?.id}`,
+                                    label: api?.summary,
+                                    title: api?.id,
                                     badge: x.value,
                                 }
                             }) ?? []),
@@ -318,7 +319,7 @@ export default {
                 }),
             ])
             this.statistics.httpStatusCode = res[0].data
-            this.statistics.apiPathCrc32 = res[1].data.slice(0, 20)
+            this.statistics.apiPathCrc32 = res[1].data
         },
         filterChange(data) {
             Object.entries(data).forEach(([key, value]) => {

@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.UserRole;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 
@@ -25,4 +26,9 @@ public interface IRoleModule : ICrudModule<CreateRoleReq, QueryRoleRsp // 创建
     ///     设置是否忽略权限控制
     /// </summary>
     Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req);
+
+    /// <summary>
+    ///     角色用户映射分组计数
+    /// </summary>
+    Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req);
 }

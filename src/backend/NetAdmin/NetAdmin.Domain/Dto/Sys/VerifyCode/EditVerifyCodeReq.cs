@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
+namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 
 /// <summary>
 ///     请求：编辑验证码

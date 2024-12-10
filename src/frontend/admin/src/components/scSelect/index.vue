@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 异步选择器
- * @version: 1.1
- * @Author: sakuya
- * @Date: 2021年8月3日15:53:37
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-18 13:09:37
--->
-
 <template>
     <div class="sc-select">
         <div v-if="initLoading" class="sc-select-loading">

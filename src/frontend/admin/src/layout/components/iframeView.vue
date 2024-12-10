@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 处理iframe持久化，涉及store(VUEX)
- * @version: 1.0
- * @Author: sakuya
- * @Date: 2021年6月30日13:20:41
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-19 11:52:34
--->
-
 <template>
     <div v-show="$route.meta.type === 'iframe'" class="iframe-pages">
         <iframe

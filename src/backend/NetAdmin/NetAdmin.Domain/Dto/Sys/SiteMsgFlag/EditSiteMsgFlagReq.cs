@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
+namespace NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 
 /// <summary>
 ///     请求：编辑站内信标记

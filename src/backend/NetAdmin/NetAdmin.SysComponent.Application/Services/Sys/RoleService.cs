@@ -1,10 +1,11 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.UserRole;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IRoleService" />
-public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
+public sealed class RoleService(BasicRepository<Sys_Role, long> rpo, IUserRoleService userRoleService) //
     : RepositoryService<Sys_Role, long, IRoleService>(rpo), IRoleService
 {
     /// <inheritdoc />
@@ -132,6 +133,13 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo) //
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.IgnorePermissionControl)]);
+    }
+
+    /// <inheritdoc />
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
+    {
+        req.ThrowIfInvalid();
+        return userRoleService.CountByAsync(req);
     }
 
     private ISelect<Sys_Role> QueryInternal(QueryReq<QueryRoleReq> req)

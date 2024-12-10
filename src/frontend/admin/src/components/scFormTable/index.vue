@@ -1,12 +1,3 @@
-<!--
- * @Descripttion: 表单表格
- * @version: 1.3
- * @Author: sakuya
- * @Date: 2023年2月9日12:32:26
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-18 13:08:27
--->
-
 <template>
     <div class="sc-form-table" ref="scFormTable">
         <el-table :data="data" border ref="table" stripe>
