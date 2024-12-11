@@ -111,7 +111,11 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     public async Task<IEnumerable<QueryLoginLogRsp>> QueryAsync(QueryReq<QueryLoginLogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        .WithNoLockNoWait()
+                        .Take(req.Count)
+                        .ToListAsync(req.GetToListExp<Sys_LoginLog>() ?? (a => a))
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryLoginLogRsp>>();
     }
 

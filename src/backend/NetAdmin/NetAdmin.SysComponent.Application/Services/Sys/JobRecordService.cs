@@ -130,7 +130,12 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public async Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryAsync(PagedQueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .WithNoLockNoWait()
+                         .Count(out var total)
+                         .ToListAsync(req.GetToListExp<Sys_JobRecord>() ?? (a => a))
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryJobRecordRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryJobRecordRsp>>());
     }
@@ -139,7 +144,11 @@ public sealed class JobRecordService(BasicRepository<Sys_JobRecord, long> rpo) /
     public async Task<IEnumerable<QueryJobRecordRsp>> QueryAsync(QueryReq<QueryJobRecordReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        .WithNoLockNoWait()
+                        .Take(req.Count)
+                        .ToListAsync(req.GetToListExp<Sys_JobRecord>() ?? (a => a))
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRecordRsp>>();
     }
 

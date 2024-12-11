@@ -90,6 +90,36 @@ export default {
 
         // 设置语言
         this.$i18n.locale = this.$TOOL.data.get('APP_SET_LANG') || this.$CONFIG.APP_SET_LANG
+
+        //ctrl + enter 触发主按钮点击事件
+        document.onkeydown = (e) => {
+            if (e.ctrlKey && e.keyCode === 13) {
+                document
+                    .getElementsByClassName('el-dialog__footer')[0]
+                    ?.getElementsByClassName('el-button--primary')[0]
+                    ?.dispatchEvent(
+                        new MouseEvent('click', {
+                            view: window,
+                            bubbles: true,
+                            cancelable: false,
+                        }),
+                    )
+            }
+            if (!e.altKey && !e.ctrlKey && !e.shiftKey) {
+                for (const el of document.getElementsByClassName('sc-contextmenu__menu')[0]?.getElementsByTagName('li') ?? []) {
+                    if (el.getElementsByClassName('sc-contextmenu__suffix')[0]?.innerText === String.fromCharCode(e.keyCode)) {
+                        el.dispatchEvent(
+                            new MouseEvent('click', {
+                                view: window,
+                                bubbles: true,
+                                cancelable: false,
+                            }),
+                        )
+                        break
+                    }
+                }
+            }
+        }
     },
 }
 </script>

@@ -174,10 +174,32 @@
                 :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('非其一')"></sc-contextmenu-item>
         </sc-contextmenu-item>
-        <sc-contextmenu-item :title="$t('复制')" command="copy" divided icon="el-icon-copy-document"></sc-contextmenu-item>
-        <sc-contextmenu-item v-if="contextOpers.includes('view')" :title="$t('查看')" command="view" icon="el-icon-view"></sc-contextmenu-item>
-        <sc-contextmenu-item v-if="contextOpers.includes('edit')" :title="$t('编辑')" command="edit" icon="el-icon-edit"></sc-contextmenu-item>
-        <sc-contextmenu-item v-if="contextOpers.includes('del')" :title="$t('删除')" command="del" icon="el-icon-delete"></sc-contextmenu-item>
+        <sc-contextmenu-item :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C"></sc-contextmenu-item>
+        <sc-contextmenu-item
+            v-if="contextOpers.includes('add')"
+            :title="$t('新增')"
+            command="add"
+            divided
+            icon="el-icon-plus"
+            suffix="A"></sc-contextmenu-item>
+        <sc-contextmenu-item
+            v-if="contextOpers.includes('view')"
+            :title="$t('查看')"
+            command="view"
+            icon="el-icon-view"
+            suffix="V"></sc-contextmenu-item>
+        <sc-contextmenu-item
+            v-if="contextOpers.includes('edit')"
+            :title="$t('编辑')"
+            command="edit"
+            icon="el-icon-edit"
+            suffix="E"></sc-contextmenu-item>
+        <sc-contextmenu-item
+            v-if="contextOpers.includes('del')"
+            :title="$t('删除')"
+            command="del"
+            icon="el-icon-delete"
+            suffix="D"></sc-contextmenu-item>
         <sc-contextmenu-item
             v-for="(adv, index) in contextAdvs"
             :command="adv"
@@ -187,7 +209,7 @@
             :title="adv.label">
         </sc-contextmenu-item>
         <sc-contextmenu-item v-if="exportApi" :title="$t('导出文件')" command="export" divided icon="el-icon-download"></sc-contextmenu-item>
-        <sc-contextmenu-item :title="$t('重新加载')" command="refresh" icon="el-icon-refresh" suffix="Ctrl+R"></sc-contextmenu-item>
+        <sc-contextmenu-item :title="$t('重新加载')" command="refresh" divided icon="el-icon-refresh" suffix="R"></sc-contextmenu-item>
     </sc-contextmenu>
     <field-filter ref="fieldFilterDialog"></field-filter>
 </template>
@@ -211,7 +233,7 @@ export default {
     props: {
         vue: { type: Object },
         contextMenus: { type: Array },
-        contextOpers: { type: Array, default: ['copy', 'view', 'edit', 'del'] },
+        contextOpers: { type: Array, default: ['copy', 'add', 'view', 'edit', 'del'] },
         contextAdvs: { type: Array, default: [] },
         tableName: { type: String, default: '' },
         beforePost: {
@@ -371,6 +393,10 @@ export default {
             }
             if (command === 'export') {
                 await this.exportData()
+                return
+            }
+            if (command === 'add') {
+                this.vue.dialog.save = { mode: 'add' }
                 return
             }
             if (command === 'edit') {

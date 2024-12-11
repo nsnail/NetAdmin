@@ -91,7 +91,12 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     public async Task<PagedQueryRsp<QueryExampleRsp>> PagedQueryAsync(PagedQueryReq<QueryExampleReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .WithNoLockNoWait()
+                         .Count(out var total)
+                         .ToListAsync(req.GetToListExp<Tpl_Example>() ?? (a => a))
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryExampleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryExampleRsp>>());
     }
@@ -100,7 +105,11 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     public async Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        .WithNoLockNoWait()
+                        .Take(req.Count)
+                        .ToListAsync(req.GetToListExp<Tpl_Example>() ?? (a => a))
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryExampleRsp>>();
     }
 
