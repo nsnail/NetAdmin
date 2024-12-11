@@ -25,8 +25,9 @@ public abstract class ApiResultHandler<T>
     {
         var naException = context.Exception switch {
                               NetAdminException ex => ex
-                            , _ => context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT) ||
-                                   context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_UNIQUE_CONSTRAINT_CONFLICT)
+                            , _ => context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT)       ||
+                                   context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_UNIQUE_CONSTRAINT_CONFLICT) ||
+                                   context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_IDX)
                                   ? new NetAdminInvalidOperationException(Ln.记录已存在)
                                   : null
                           };

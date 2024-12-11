@@ -22,7 +22,7 @@
                         ],
                     },
                 ]"
-                :label-width="6"
+                :label-width="8"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>

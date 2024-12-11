@@ -84,7 +84,12 @@ public sealed class UserRoleService(BasicRepository<Sys_UserRole, long> rpo) //
     public async Task<PagedQueryRsp<QueryUserRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryUserRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .WithNoLockNoWait()
+                         .Count(out var total)
+                         .ToListAsync(req.GetToListExp<Sys_UserRole>() ?? (a => a))
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryUserRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRoleRsp>>());
     }
@@ -93,7 +98,11 @@ public sealed class UserRoleService(BasicRepository<Sys_UserRole, long> rpo) //
     public async Task<IEnumerable<QueryUserRoleRsp>> QueryAsync(QueryReq<QueryUserRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        .WithNoLockNoWait()
+                        .Take(req.Count)
+                        .ToListAsync(req.GetToListExp<Sys_UserRole>() ?? (a => a))
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryUserRoleRsp>>();
     }
 

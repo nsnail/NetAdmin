@@ -52,7 +52,9 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     {
         var select = selector(query).WithNoLockNoWait().Take(Numbers.MAX_LIMIT_EXPORT);
 
-        object list = listExp == null ? await select.ToListAsync().ConfigureAwait(false) : await select.ToListAsync(listExp).ConfigureAwait(false);
+        object list = listExp == null
+            ? await select.ToListAsync(a => a).ConfigureAwait(false)
+            : await select.ToListAsync(listExp).ConfigureAwait(false);
 
         return await GetExportFileStreamAsync<TExport>(fileName, list).ConfigureAwait(false);
     }

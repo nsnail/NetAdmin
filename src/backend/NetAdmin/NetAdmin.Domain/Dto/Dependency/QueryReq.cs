@@ -40,7 +40,7 @@ public record QueryReq<T> : DataAbstraction
     /// <summary>
     ///     所需字段
     /// </summary>
-    public string[] RequiredFields { get; set; }
+    public string[] RequiredFields { get; init; }
 
     /// <summary>
     ///     列表表达式

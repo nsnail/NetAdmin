@@ -101,7 +101,12 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
     public async Task<PagedQueryRsp<QueryDocCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDocCatalogReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .WithNoLockNoWait()
+                         .Count(out var total)
+                         .ToListAsync(req.GetToListExp<Sys_DocCatalog>() ?? (a => a))
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDocCatalogRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDocCatalogRsp>>());
     }

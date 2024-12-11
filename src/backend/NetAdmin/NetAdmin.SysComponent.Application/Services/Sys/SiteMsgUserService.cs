@@ -84,7 +84,12 @@ public sealed class SiteMsgUserService(BasicRepository<Sys_SiteMsgUser, long> rp
     public async Task<PagedQueryRsp<QuerySiteMsgUserRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgUserReq> req)
     {
         req.ThrowIfInvalid();
-        var list = await QueryInternal(req).Page(req.Page, req.PageSize).WithNoLockNoWait().Count(out var total).ToListAsync().ConfigureAwait(false);
+        var list = await QueryInternal(req)
+                         .Page(req.Page, req.PageSize)
+                         .WithNoLockNoWait()
+                         .Count(out var total)
+                         .ToListAsync(req.GetToListExp<Sys_SiteMsgUser>() ?? (a => a))
+                         .ConfigureAwait(false);
 
         return new PagedQueryRsp<QuerySiteMsgUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgUserRsp>>());
     }
@@ -93,7 +98,11 @@ public sealed class SiteMsgUserService(BasicRepository<Sys_SiteMsgUser, long> rp
     public async Task<IEnumerable<QuerySiteMsgUserRsp>> QueryAsync(QueryReq<QuerySiteMsgUserReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(req)
+                        .WithNoLockNoWait()
+                        .Take(req.Count)
+                        .ToListAsync(req.GetToListExp<Sys_SiteMsgUser>() ?? (a => a))
+                        .ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgUserRsp>>();
     }
 
