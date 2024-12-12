@@ -7,8 +7,8 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 /// <inheritdoc cref="ICaptchaService" />
 public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaService
 {
-    private static readonly Assembly _entryAsm     = Assembly.GetEntryAssembly();
-    private static readonly string   _entryAsmName = _entryAsm.FullName![.._entryAsm.FullName.IndexOf(',')];
+    private static readonly Assembly _currAsm     = Assembly.GetAssembly(typeof(CaptchaService));
+    private static readonly string   _currAsmName = _currAsm.FullName![.._currAsm.FullName.IndexOf(',')];
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CaptchaService" /> class.
@@ -19,8 +19,8 @@ public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaServi
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {
         var (backgroundImage, sliderImage, offsetSaw) = await CaptchaImageHelper.CreateSawSliderImageAsync(
-                                                                                    _entryAsm, $"{_entryAsmName}.Assets.Captcha.background"
-                                                                                  , $"{_entryAsmName}.Assets.Captcha.template", (1, 101), (1, 7)
+                                                                                    _currAsm, $"{_currAsmName}.Assets.Captcha.background"
+                                                                                  , $"{_currAsmName}.Assets.Captcha.template", (1, 101), (1, 7)
                                                                                   , new Size(50, 50))
                                                                                 .ConfigureAwait(false);
 

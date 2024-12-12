@@ -121,7 +121,7 @@ export default {
 
 .sc-contextmenu__menu > li.disabled {
     cursor: not-allowed;
-    color: #bbb;
+    color: var(--el-text-color-disabled);
     background: transparent;
 }
 
@@ -134,7 +134,7 @@ export default {
 
 .sc-contextmenu__suffix {
     margin-left: 3rem;
-    color: #999;
+    color: var(--el-color-info);
 }
 
 .sc-contextmenu__menu li ul {

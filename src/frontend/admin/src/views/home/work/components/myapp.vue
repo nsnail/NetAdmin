@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="myMods">
-            <li v-for="mod in myMods" :key="mod.path" :style="{ background: mod.meta.color || '#909399' }">
+            <li v-for="mod in myMods" :key="mod.path" :style="{ background: mod.meta.color || 'var(--el-text-color-secondary)' }">
                 <a v-if="mod.meta.type === 'link'" :href="mod.path" target="_blank">
                     <el-icon>
                         <component :is="mod.meta.icon || `el-icon-menu`" />
@@ -29,7 +29,7 @@
                 <h4>{{ $t('我的常用') }} ( {{ myMods.length }} )</h4>
                 <draggable v-model="myMods" animation="200" group="people" item-key="path" tag="ul">
                     <template #item="{ element }">
-                        <li :style="{ background: element.meta.color || '#909399' }">
+                        <li :style="{ background: element.meta.color || 'var(--el-text-color-secondary)' }">
                             <el-icon>
                                 <component :is="element.meta.icon || el - icon - menu" />
                             </el-icon>
@@ -42,7 +42,7 @@
                 <h4>{{ $t('全部应用') }} ( {{ filterMods.length }} )</h4>
                 <draggable v-model="filterMods" :sort="false" animation="200" group="people" item-key="path" tag="ul">
                     <template #item="{ element }">
-                        <li :style="{ background: element.meta.color || '#909399' }">
+                        <li :style="{ background: element.meta.color || 'var(--el-text-color-secondary)' }">
                             <el-icon>
                                 <component :is="element.meta.icon || el - icon - menu" />
                             </el-icon>
@@ -148,17 +148,17 @@ export default {
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 .myMods li i {
     font-size: 2rem;
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 .myMods li p {
     font-size: 0.9rem;
-    color: #fff;
+    color: var(--el-color-white);
     margin-top: 1rem;
     width: 100%;
     white-space: nowrap;
@@ -167,19 +167,19 @@ export default {
 }
 
 .modItem-add {
-    border: 1px dashed #ddd;
+    border: 1px dashed var(--el-border-color-darker);
     cursor: pointer;
 }
 
 .modItem-add i {
     font-size: 2.3rem;
-    color: #999 !important;
+    color: var(--el-color-info) !important;
 }
 
 .modItem-add:hover,
 .modItem-add:hover i {
-    border-color: var(--na-color-primary);
-    color: var(--na-color-primary) !important;
+    border-color: var(--el-color-primary);
+    color: var(--el-color-primary) !important;
 }
 
 .setMods {
@@ -202,7 +202,7 @@ export default {
     height: 6rem;
     text-align: center;
     margin: 0.4rem;
-    color: #fff;
+    color: var(--el-color-white);
     vertical-align: top;
     padding: 1rem 0.3rem 0.3rem;
     cursor: move;

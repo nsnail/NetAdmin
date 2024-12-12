@@ -308,7 +308,7 @@ export default {
     width: 1.9rem;
     height: 1.9rem;
     cursor: pointer;
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 .sc-upload__img-actions span i {
@@ -316,7 +316,7 @@ export default {
 }
 
 .sc-upload__img-actions .del {
-    background: #f56c6c;
+    background: var(--el-color-danger);
 }
 
 .sc-upload__img:hover .sc-upload__img-actions {
@@ -376,7 +376,7 @@ export default {
 .sc-upload .file-empty h4 {
     font-size: 0.9rem;
     font-weight: normal;
-    color: #8c939d;
+    color: var(--el-color-info);
     margin-top: 1rem;
 }
 

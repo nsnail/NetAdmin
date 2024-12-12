@@ -1,6 +1,5 @@
 import API from '@/api'
 import DEFAULT_CONFIG from '@/config/index'
-
 //文件选择器配置
 
 export default {
@@ -52,19 +51,19 @@ export default {
         },
         xls: {
             icon: 'sc-icon-file-excel-2-fill',
-            color: '#67C23A',
+            color: 'var(--el-color-success)',
         },
         xlsx: {
             icon: 'sc-icon-file-excel-2-fill',
-            color: '#67C23A',
+            color: 'var(--el-color-success)',
         },
         ppt: {
             icon: 'sc-icon-file-ppt-2-fill',
-            color: '#F56C6C',
+            color: 'var(--el-color-danger)',
         },
         pptx: {
             icon: 'sc-icon-file-ppt-2-fill',
-            color: '#F56C6C',
+            color: 'var(--el-color-danger)',
         },
     },
 }

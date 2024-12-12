@@ -5,7 +5,7 @@
                 <template #description>
                     <h2>{{ $t('没有正在执行的作业') }}</h2>
                 </template>
-                <p style="color: #999; line-height: 1.5; margin: 0 3rem">
+                <p style="color: var(--el-color-info); line-height: 1.5; margin: 0 3rem">
                     在处理耗时过久的作业时为了不阻碍正在处理的工作，可在作业中心进行异步执行。
                 </p>
             </el-empty>
@@ -205,7 +205,7 @@ export default {
 }
 
 .user-bar-jobs-item:hover {
-    border-color: var(--na-color-primary);
+    border-color: var(--el-color-primary);
 }
 
 .user-bar-jobs-item.alert:hover {
@@ -224,7 +224,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
     border-radius: 1.5rem;
 }
 
@@ -238,7 +238,7 @@ export default {
 
 .user-bar-jobs-item-body .title p {
     font-size: 1rem;
-    color: #999;
+    color: var(--el-color-info);
     margin-top: 0.5rem;
 }
 

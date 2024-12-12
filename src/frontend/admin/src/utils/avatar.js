@@ -20,7 +20,7 @@ export default {
         // <text> name
         const text = document.createElement('text')
 
-        text.setAttribute('fill', '#fff')
+        text.setAttribute('fill', 'white')
         text.setAttribute('x', '50%')
         text.setAttribute('y', '50%')
         text.setAttribute('text-anchor', 'middle')

@@ -2,9 +2,9 @@
     <!-- 通栏布局 -->
     <template v-if="layout === 'header'">
         <header class="adminui-header">
-            <div class="adminui-header-left">
+            <div @click="logoClick" class="adminui-header-left">
                 <div class="logo-bar">
-                    <img class="logo" src="@/assets/img/logo.png" />
+                    <img class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     <div>
                         <p>{{ $CONFIG.APP_NAME }}</p>
                         <p class="version color-secondary">{{ version }}</p>
@@ -62,9 +62,9 @@
     <!-- 经典布局 -->
     <template v-else-if="layout === 'menu'">
         <header class="adminui-header">
-            <div class="adminui-header-left">
+            <div @click="logoClick" class="adminui-header-left">
                 <div class="logo-bar">
-                    <img class="logo" src="@/assets/img/logo.png" />
+                    <img class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     <div>
                         <p>{{ $CONFIG.APP_NAME }}</p>
                         <p class="version">{{ version }}</p>
@@ -109,9 +109,9 @@
     <!-- 功能坞布局 -->
     <template v-else-if="layout === 'dock'">
         <header class="adminui-header">
-            <div class="adminui-header-left">
+            <div @click="logoClick" class="adminui-header-left">
                 <div class="logo-bar">
-                    <img class="logo" src="@/assets/img/logo.png" />
+                    <img class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     <div>
                         <p>{{ $CONFIG.APP_NAME }}</p>
                         <p class="version">{{ version }}</p>
@@ -122,7 +122,7 @@
                 <div v-if="!ismobile" class="adminui-header-menu">
                     <el-menu
                         :default-active="active"
-                        active-text-color="var(--na-color-primary)"
+                        active-text-color="var(--el-color-primary)"
                         mode="horizontal"
                         router
                         text-color="var(--el-text-color-primary)">
@@ -147,14 +147,13 @@
             </div>
         </section>
     </template>
-
     <!-- 默认布局 -->
     <template v-else>
         <section class="aminui-wrapper">
             <div v-if="!ismobile" class="aminui-side-split">
                 <div class="aminui-side-split-top">
                     <router-link :to="$CONFIG.DASHBOARD_URL">
-                        <img :title="$CONFIG.APP_NAME" class="logo" src="@/assets/img/logo-r.png" />
+                        <img :title="$CONFIG.APP_NAME" class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     </router-link>
                 </div>
                 <div class="adminui-side-split-scroll">
@@ -282,6 +281,9 @@ export default {
         },
     },
     methods: {
+        logoClick() {
+            this.$router.push({ path: '/' })
+        },
         onLayoutResize() {
             this.$store.commit('SET_ismobile', document.body.clientWidth < 992)
         },

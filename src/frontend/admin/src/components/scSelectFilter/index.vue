@@ -183,7 +183,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding-right: 1rem;
-    color: #999;
+    color: var(--el-color-info);
 }
 
 .sc-select-filter__item-options {
@@ -217,12 +217,12 @@ export default {
 }
 
 .sc-select-filter__item-options li:hover {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 
 .sc-select-filter__item-options li.active {
-    background: var(--na-color-primary);
-    color: #fff;
+    background: var(--el-color-primary);
+    color: var(--el-color-white);
     font-weight: bold;
 }
 
@@ -231,7 +231,7 @@ export default {
 }
 
 .sc-select-filter__no-data {
-    color: #999;
+    color: var(--el-color-info);
 }
 
 .sc-select-filter__item-w100p {

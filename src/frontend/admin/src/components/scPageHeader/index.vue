@@ -31,8 +31,8 @@ export default {
 
 <style scoped>
 .sc-page-header {
-    background: #fff;
-    border-bottom: 1px solid #e6e6e6;
+    background: var(--el-bg-color);
+    border-bottom: 1px solid var(--el-border-color-light);
     padding: 1.5rem 2rem;
     display: flex;
 }
@@ -44,7 +44,7 @@ export default {
 .sc-page-header__icon span {
     width: 2.5rem;
     height: 2.5rem;
-    background: var(--na-color-primary);
+    background: var(--el-color-primary);
     border-radius: 40%;
     display: flex;
     align-items: center;
@@ -52,7 +52,7 @@ export default {
 }
 
 .sc-page-header__icon span i {
-    color: #fff;
+    color: var(--el-color-white);
     font-size: 1.1rem;
 }
 
@@ -62,23 +62,14 @@ export default {
 
 .sc-page-header__title h2 {
     font-size: 1.3rem;
-    color: #3c4a54;
+    color: var(--el-text-color-primary);
     font-weight: bold;
     margin-top: 0.3rem;
 }
 
 .sc-page-header__title p {
     font-size: 1rem;
-    color: #999;
+    color: var(--el-color-info);
     margin-top: 1rem;
-}
-
-[data-theme='dark'] .sc-page-header {
-    background: #2b2b2b;
-    border-color: var(--el-border-color-base);
-}
-
-[data-theme='dark'] .sc-page-header__title h2 {
-    color: #c0c0c0;
 }
 </style>

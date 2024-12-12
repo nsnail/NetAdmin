@@ -34,7 +34,7 @@
             <div class="login-form">
                 <div class="login-header">
                     <div class="logo">
-                        <img :alt="$CONFIG.APP_NAME" src="@/assets/img/logo.png" />
+                        <img :alt="$CONFIG.APP_NAME" class="logo-fill-color" src="@/assets/img/logo.svg" />
                         <label>{{ $CONFIG.APP_NAME }}</label>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ export default {
 .login_bg {
     width: 100%;
     height: 100%;
-    background: #fff;
+    background: var(--el-color-white);
     display: flex;
 }
 
@@ -166,7 +166,7 @@ export default {
 }
 
 .login-form:deep(.login-forgot) a {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 
 .login-form:deep(.login-forgot) a:hover {
@@ -179,7 +179,7 @@ export default {
 }
 
 .login-form:deep(.login-reg) a {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 
 .login-form:deep(.login-reg) a:hover {

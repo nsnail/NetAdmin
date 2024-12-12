@@ -318,7 +318,7 @@ export default {
     width: 25px;
     height: 25px;
     cursor: pointer;
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 .sc-upload__item-actions span i {
@@ -326,7 +326,7 @@ export default {
 }
 
 .sc-upload__item-actions .del {
-    background: #f56c6c;
+    background: var(--el-color-danger);
 }
 
 .sc-upload__item-progress {

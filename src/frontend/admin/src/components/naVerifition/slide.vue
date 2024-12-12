@@ -4,7 +4,9 @@
             <div :style="{ width: setSize.imgWidth, height: setSize.imgHeight }" class="verify-img-panel">
                 <img :src="backImgBase" alt="" style="width: 100%; height: 100%; display: block" />
                 <div v-show="showRefresh" @click="refresh" class="verify-refresh">
-                    <i class="iconfont icon-refresh"></i>
+                    <el-icon>
+                        <el-icon-refresh></el-icon-refresh>
+                    </el-icon>
                 </div>
                 <transition name="tips">
                     <span v-if="tipWords" :class="passFlag ? 'suc-bg' : 'err-bg'" class="verify-tips">{{ tipWords }}</span>
@@ -40,7 +42,9 @@
                     @mousedown="start"
                     @touchstart="start"
                     class="verify-move-block">
-                    <i :class="['verify-icon iconfont', iconClass]" :style="{ color: iconColor }"></i>
+                    <el-icon>
+                        <el-icon-arrow-right></el-icon-arrow-right>
+                    </el-icon>
                     <div
                         v-if="type === '2'"
                         :style="{
@@ -144,7 +148,7 @@ export default {
             leftBarWidth = ref(undefined),
             // 移动中样式
             moveBlockBackgroundColor = ref(undefined),
-            leftBarBorderColor = ref('#ddd'),
+            leftBarBorderColor = ref('gainsboro'),
             iconColor = ref(undefined),
             iconClass = ref('icon-right'),
             status = ref(false), //鼠标状态
@@ -259,9 +263,9 @@ export default {
             startMoveTime.value = new Date() //开始滑动的时间
             if (isEnd.value === false) {
                 text.value = ''
-                moveBlockBackgroundColor.value = '#337ab7'
-                leftBarBorderColor.value = '#337AB7'
-                iconColor.value = '#fff'
+                moveBlockBackgroundColor.value = 'var(--el-color-primary)'
+                leftBarBorderColor.value = 'var(--el-color-primary)'
+                iconColor.value = 'white'
                 e.stopPropagation()
                 status.value = true
             }
@@ -308,7 +312,7 @@ export default {
                     if (res.data) {
                         moveBlockBackgroundColor.value = '#5cb85c'
                         leftBarBorderColor.value = '#5cb85c'
-                        iconColor.value = '#fff'
+                        iconColor.value = 'white'
                         iconClass.value = 'icon-check'
                         showRefresh.value = false
                         isEnd.value = true
@@ -328,7 +332,7 @@ export default {
                     } else {
                         moveBlockBackgroundColor.value = '#d9534f'
                         leftBarBorderColor.value = '#d9534f'
-                        iconColor.value = '#fff'
+                        iconColor.value = 'white'
                         iconClass.value = 'icon-close'
                         passFlag.value = false
                         setTimeout(function () {
@@ -352,9 +356,9 @@ export default {
             moveBlockLeft.value = 0
             leftBarWidth.value = undefined
             transitionWidth.value = 'width .3s'
-            leftBarBorderColor.value = '#ddd'
-            moveBlockBackgroundColor.value = '#fff'
-            iconColor.value = '#000'
+            leftBarBorderColor.value = 'gainsboro'
+            moveBlockBackgroundColor.value = 'white'
+            iconColor.value = 'black'
             iconClass.value = 'icon-right'
             isEnd.value = false
             getPicture()

@@ -1,7 +1,7 @@
 <template>
     <div class="router-err">
         <div class="router-err__icon">
-            <img src="@/assets/img/404.png" />
+            <img src="@/assets/img/404.svg" />
         </div>
         <div class="router-err__content">
             <h2>{{ $t('无权限或找不到页面') }}</h2>
@@ -56,7 +56,7 @@ export default {
 
 .router-err__content p {
     font-size: 1.1rem;
-    color: #999;
+    color: var(--el-color-info);
     margin: 1rem 0 2.5rem 0;
     line-height: 1.5;
 }

@@ -14,7 +14,7 @@ export default {
 <style scoped>
 .sc-state {
     display: inline-block;
-    background: #000;
+    background: var(--el-color-black);
     width: 0.6rem;
     height: 0.6rem;
     border-radius: 50%;
@@ -38,7 +38,7 @@ export default {
 }
 
 .sc-state-bg--primary {
-    background: var(--na-color-primary);
+    background: var(--el-color-primary);
 }
 
 .sc-state-bg--success {

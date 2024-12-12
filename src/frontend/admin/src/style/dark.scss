@@ -6,6 +6,7 @@ html.dark {
     --el-text-color-regular: #c0c0c0;
     --el-text-color-secondary: #666666;
     --el-mask-color: rgba(29, 30, 31, 0.9);
+    --el-color-primary: rgba(0, 0, 0, 0);
     --el-color-primary-dark-2: var(--el-color-primary-light-2) !important;
     --el-color-primary-light-9: var(--el-color-primary-dark-8) !important;
     --el-color-primary-light-8: var(--el-color-primary-dark-7) !important;
@@ -94,7 +95,7 @@ html.dark {
     }
 
     .el-table th.is-sortable:hover {
-        background: #111;
+        background: black;
     }
 
     .jv-container .jv-code.open {

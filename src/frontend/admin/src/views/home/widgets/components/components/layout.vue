@@ -84,14 +84,14 @@ export default {
 }
 
 .selectLayout-item:hover {
-    border-color: var(--na-color-primary);
+    border-color: var(--el-color-primary);
 }
 
 .selectLayout-item.active {
-    border-color: var(--na-color-primary);
+    border-color: var(--el-color-primary);
 }
 
 .selectLayout-item.active span {
-    background: var(--na-color-primary);
+    background: var(--el-color-primary);
 }
 </style>
