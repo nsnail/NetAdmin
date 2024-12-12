@@ -5,8 +5,6 @@
 <script>
 import * as echarts from 'echarts'
 import T from './echarts-theme-T.js'
-
-echarts.registerTheme('T', T)
 const unwarp = (obj) => obj && (obj.__v_raw || obj.valueOf() || obj)
 
 export default {
@@ -53,6 +51,7 @@ export default {
     mounted() {
         this.isActivat = true
         this.$nextTick(() => {
+            echarts.registerTheme('T', T.build())
             this.draw()
         })
     },

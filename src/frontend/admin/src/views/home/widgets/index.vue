@@ -153,7 +153,7 @@ export default {
         this.loadGrid()
     },
     mounted() {
-        this.$emit('on-mounted')
+        this.$nextTick(() => this.$emit('on-mounted'))
     },
     computed: {
         allCompsList() {
