@@ -2,6 +2,7 @@ using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.LoginLog;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -184,11 +185,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
     public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_RequestLog>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRequestLogRsp>>();
     }
 

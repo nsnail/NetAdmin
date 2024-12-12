@@ -2,6 +2,7 @@ using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Domain.Events.Sys;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -98,7 +99,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_VerifyCode>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryVerifyCodeRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryVerifyCodeRsp>>());
@@ -108,11 +109,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_VerifyCode>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryVerifyCodeRsp>>();
     }
 

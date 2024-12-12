@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.SiteMsgUser;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -88,7 +89,7 @@ public sealed class SiteMsgUserService(BasicRepository<Sys_SiteMsgUser, long> rp
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_SiteMsgUser>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QuerySiteMsgUserRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgUserRsp>>());
@@ -98,11 +99,7 @@ public sealed class SiteMsgUserService(BasicRepository<Sys_SiteMsgUser, long> rp
     public async Task<IEnumerable<QuerySiteMsgUserRsp>> QueryAsync(QueryReq<QuerySiteMsgUserReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_SiteMsgUser>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgUserRsp>>();
     }
 

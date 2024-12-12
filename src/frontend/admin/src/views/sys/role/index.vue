@@ -152,7 +152,7 @@
                     :label="$t('数据范围')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.dataScopes).map((x) => {
-                            return { value: x[0], text: x[1][1], type: x[1][2] }
+                            return { value: x[0], text: x[1][1], type: x[1][2], pulse: x[1][3] === 'true' }
                         })
                     "
                     align="center"

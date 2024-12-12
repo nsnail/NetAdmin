@@ -83,7 +83,7 @@
             <sc-table
                 :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime', 'lastLoginTime']"
                 :context-opers="['view', 'edit']"
-                :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_user.export"
                 :params="query"
                 :query-api="$API.sys_user.pagedQuery"

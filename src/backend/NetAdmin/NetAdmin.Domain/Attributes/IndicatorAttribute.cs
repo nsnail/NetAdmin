@@ -5,10 +5,15 @@ namespace NetAdmin.Domain.Attributes;
 /// </summary>
 /// <inheritdoc />
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Enum)]
-public sealed class IndicatorAttribute(string indicate) : Attribute
+public sealed class IndicatorAttribute(string indicate, bool pulse) : Attribute
 {
     /// <summary>
     ///     状态指示
     /// </summary>
     public string Indicate { get; } = indicate;
+
+    /// <summary>
+    ///     脉动
+    /// </summary>
+    public bool Pulse { get; } = pulse;
 }

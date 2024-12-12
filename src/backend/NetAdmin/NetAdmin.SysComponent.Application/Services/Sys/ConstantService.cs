@@ -35,8 +35,8 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
                 return [..ret, z.GetCallingCode().ToInvString()];
             }
 
-            var indicate = y.Attr<IndicatorAttribute>()?.Indicate.ToLowerInvariant();
-            return indicate.NullOrEmpty() ? ret : [..ret, indicate];
+            var indicate = y.Attr<IndicatorAttribute>();
+            return indicate == null ? ret : [..ret, indicate.Indicate.ToLowerInvariant(), indicate.Pulse.ToString().ToLowerInvariant()];
         }
 
         static string[] GetHttpStatusCodeDicValue(string name)

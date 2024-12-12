@@ -1,4 +1,3 @@
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 
 namespace NetAdmin.Domain.Dto.Sys.JobRecord;

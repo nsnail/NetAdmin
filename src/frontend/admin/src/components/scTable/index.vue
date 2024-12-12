@@ -120,7 +120,7 @@
     </div>
     <sc-contextmenu @command="contextMenuCommand" @visible-change="contextMenuVisibleChange" ref="contextmenu">
         <sc-contextmenu-item
-            v-for="(menu, index) in contextMenus.filter((x) => x === current.column.property)"
+            v-for="(menu, index) in contextMenus.filter((x) => x === current.column?.property)"
             :command="menu"
             :key="index"
             :title="`${menu}`">
@@ -370,7 +370,8 @@ export default {
                 return
             }
             if (command === 'copy') {
-                let data = this.current.row[this.current.column.property]
+                let data = this.current.row[this.current.column?.property]
+                if (!data) return
 
                 const textarea = document.createElement('textarea')
                 textarea.readOnly = 'readonly'

@@ -1,6 +1,7 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Role;
 using NetAdmin.Domain.Dto.Sys.UserRole;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -105,7 +106,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo, IUserRoleSe
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_Role>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryRoleRsp>>());
@@ -115,7 +116,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo, IUserRoleSe
     public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).WithNoLockNoWait().ToListAsync(req.GetToListExp<Sys_Role>() ?? (a => a)).ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRoleRsp>>();
     }
 
@@ -178,8 +179,8 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo, IUserRoleSe
             ret = ret.OrderByDescending(a => a.Sort);
         }
 
-        if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
-            ret = ret.OrderByDescending(a => a.CreatedTime);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
         }
 
         return ret;

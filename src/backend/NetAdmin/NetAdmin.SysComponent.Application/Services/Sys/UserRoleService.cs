@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.UserRole;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -88,7 +89,7 @@ public sealed class UserRoleService(BasicRepository<Sys_UserRole, long> rpo) //
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_UserRole>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryUserRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserRoleRsp>>());
@@ -98,11 +99,7 @@ public sealed class UserRoleService(BasicRepository<Sys_UserRole, long> rpo) //
     public async Task<IEnumerable<QueryUserRoleRsp>> QueryAsync(QueryReq<QueryUserRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_UserRole>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryUserRoleRsp>>();
     }
 

@@ -1,4 +1,3 @@
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
 
 namespace NetAdmin.Domain.Dto.Sys.User;

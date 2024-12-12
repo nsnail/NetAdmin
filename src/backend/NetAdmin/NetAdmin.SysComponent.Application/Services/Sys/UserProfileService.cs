@@ -2,6 +2,7 @@ using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 

@@ -2,6 +2,7 @@ global using NetAdmin.Domain.Attributes;
 global using NetAdmin.Domain.Attributes.DataValidation;
 global using NetAdmin.Domain.DbMaps.Dependency;
 global using NetAdmin.Domain.DbMaps.Dependency.Fields;
+global using NetAdmin.Domain.DbMaps.Sys;
 global using NetAdmin.Domain.Dto.Dependency;
 global using CsvIgnore = CsvHelper.Configuration.Attributes.IgnoreAttribute;
 global using CsvIndex = CsvHelper.Configuration.Attributes.IndexAttribute;

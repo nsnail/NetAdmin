@@ -5,6 +5,7 @@ using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Events.Sys;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -514,8 +515,8 @@ public sealed class UserService(
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
 
-        if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
-            ret = ret.OrderByDescending(a => a.CreatedTime);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
         }
 
         return ret;

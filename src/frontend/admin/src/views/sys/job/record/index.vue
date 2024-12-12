@@ -33,7 +33,7 @@
                         w100p: true,
                     },
                 ]"
-                :label-width="8"
+                :label-width="9"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -100,7 +100,7 @@
                     }
                 "
                 :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId', 'responseBody']"
-                :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_job.exportRecord"
                 :params="query"
                 :query-api="$API.sys_job.pagedQueryRecord"
@@ -119,7 +119,7 @@
                                 :data="row"
                                 :options="
                                     Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
-                                        return { value: x[0], text: `${x[1][1].toString().toUpperCase()}`, type: x[1][2] }
+                                        return { value: x[0], text: `${x[1][1].toString().toUpperCase()}`, type: x[1][2], pulse: x[1][3] === 'true' }
                                     })
                                 "
                                 prop="httpMethod" />
@@ -129,7 +129,7 @@
                                 :data="row"
                                 :options="
                                     Object.entries(this.$GLOBAL.enums.httpStatusCodes).map((x) => {
-                                        return { value: x[0], text: `${x[1][1]}`, type: x[1][2] }
+                                        return { value: x[0], text: `${x[1][1]}`, type: x[1][2], pulse: x[1][3] === 'true' }
                                     })
                                 "
                                 prop="httpStatusCode" />

@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Api;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -92,10 +93,7 @@ public sealed class ApiService(
     public async Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                           .WhereDynamic(req.Filter)
-                           .ToListAsync(req.GetToListExp<Sys_Api>() ?? (a => a))
-                           .ConfigureAwait(false);
+        var ret = await Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryApiRsp>>();
     }
 

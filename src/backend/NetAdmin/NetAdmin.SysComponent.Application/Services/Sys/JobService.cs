@@ -5,6 +5,7 @@ using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Domain.Enums.Sys;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -264,7 +265,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_Job>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryJobRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryJobRsp>>());
@@ -281,11 +282,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     public async Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_Job>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryJobRsp>>();
     }
 

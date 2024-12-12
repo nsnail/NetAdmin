@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -102,7 +103,7 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_DicContent>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDicContentRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDicContentRsp>>());
@@ -112,11 +113,7 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
     public async Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_DicContent>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicContentRsp>>();
     }
 
@@ -128,7 +125,7 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
                            .Include(a => a.Catalog)
                            .Where(a => a.Catalog.Code == catalogCode)
                            .Where(a => a.Enabled)
-                           .ToListAsync(a => a)
+                           .ToListAsync()
                            .ConfigureAwait(false);
         return ret.Adapt<List<QueryDicContentRsp>>();
     }
