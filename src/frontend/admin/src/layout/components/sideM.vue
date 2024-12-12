@@ -14,11 +14,7 @@
             </el-header>
             <el-main>
                 <el-scrollbar>
-                    <el-menu
-                        :active-text-color="DEFAULT_CONFIG.APP_SET_COLOR"
-                        :default-active="$route.meta.active || $route.fullPath"
-                        @select="select"
-                        router>
+                    <el-menu :default-active="$route.meta.active || $route.fullPath" @select="select" router>
                         <NavMenu :navMenus="menu"></NavMenu>
                     </el-menu>
                 </el-scrollbar>

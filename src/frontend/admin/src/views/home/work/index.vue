@@ -15,7 +15,7 @@ export default {
         return {}
     },
     mounted() {
-        this.$emit('on-mounted')
+        this.$nextTick(() => this.$emit('on-mounted'))
     },
     methods: {},
 }

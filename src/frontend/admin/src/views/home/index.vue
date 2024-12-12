@@ -1,8 +1,7 @@
 <template>
-    <div v-if="loading" v-loading="true" style="height: 100%"></div>
-    <el-main v-else :style="{ height: mainHeight }">
-        <widgets v-if="dashboard" @on-customizing="onCustomizing"></widgets>
-        <work v-else></work>
+    <el-main v-loading="loading" :style="{ height: mainHeight, minHeight: '100%' }">
+        <widgets v-if="dashboard" @on-customizing="onCustomizing" @on-mounted="this.loading = false"></widgets>
+        <work v-if="myapp" @on-mounted="this.loading = false"></work>
     </el-main>
 
     <el-tour v-model="tour.open" @close="$TOOL.data.set('TOUR_TIP_READ_INDEX', true)">
@@ -34,13 +33,14 @@ export default {
             loading: true,
             mainHeight: 'auto',
             dashboard: false,
+            myapp: false,
         }
     },
     async created() {
         //下载配置
         await this.$TOOL.data.downloadConfig()
         this.dashboard = this.$GLOBAL.user.roles.findIndex((x) => x.displayDashboard) >= 0
-        this.loading = false
+        this.myapp = !this.dashboard
     },
     mounted() {
         this.$nextTick(() => {

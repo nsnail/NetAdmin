@@ -245,7 +245,7 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, h } from 'vue'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
 import naIndicator from '@/components/naIndicator/index.vue'
@@ -380,7 +380,7 @@ export default {
                 await this.$API.sys_job.execute.post({ id: row.id })
                 this.$notify.success({
                     dangerouslyUseHTMLString: true,
-                    message: `<div id="countdown">${this.$t('已发起执行请求，5 秒后弹出执行结果')}</div>`,
+                    message: h('div', { id: 'countdown' }, this.$t('已发起执行请求，5 秒后弹出执行结果')),
                     onClose: async () => {
                         clearInterval(this.timer)
                         this.dialog.save = { row, mode: 'view', tabId: 'record' }
