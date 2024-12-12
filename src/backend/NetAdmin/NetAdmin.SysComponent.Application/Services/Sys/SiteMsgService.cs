@@ -4,6 +4,7 @@ using NetAdmin.Domain.Dto.Sys.SiteMsg;
 using NetAdmin.Domain.Dto.Sys.SiteMsgFlag;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Enums.Sys;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -170,11 +171,7 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
     public async Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_SiteMsg>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgRsp>>();
     }
 

@@ -4,7 +4,7 @@
         <div v-for="item in data" :class="`sc-select-filter__item${item.w100p ? ' sc-select-filter__item-w100p' : ''}`" :key="item.key">
             <div :style="{ width: labelWidth + 'rem' }" @click="autoHeight" class="sc-select-filter__item-title">
                 <label>
-                    <span>{{ item.title }}</span>
+                    <span>{{ item.title }}({{ item.options.length - 1 }})</span>
                     <el-icon style="display: none">
                         <el-icon-arrow-up></el-icon-arrow-up>
                     </el-icon>

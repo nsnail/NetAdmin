@@ -22,7 +22,7 @@
                         ],
                     },
                 ]"
-                :label-width="8"
+                :label-width="9"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -74,7 +74,7 @@
             <sc-table
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :context-menus="['key', 'value', 'enabled', 'createdTime', 'id', 'summary']"
-                :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_dic.exportContent"
                 :params="query"
                 :query-api="$API.sys_dic.pagedQueryContent"

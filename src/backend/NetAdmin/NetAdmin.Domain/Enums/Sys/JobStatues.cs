@@ -9,7 +9,7 @@ public enum JobStatues
     /// <summary>
     ///     空闲
     /// </summary>
-    [Indicator(nameof(Indicates.Success))]
+    [Indicator(nameof(Indicates.Success), false)]
     [ResourceDescription<Ln>(nameof(Ln.空闲))]
     Idle = 1
 
@@ -18,7 +18,7 @@ public enum JobStatues
     /// <summary>
     ///     运行
     /// </summary>
-    [Indicator(nameof(Indicates.Warning))]
+    [Indicator(nameof(Indicates.Warning), true)]
     [ResourceDescription<Ln>(nameof(Ln.运行))]
     Running = 2
 }

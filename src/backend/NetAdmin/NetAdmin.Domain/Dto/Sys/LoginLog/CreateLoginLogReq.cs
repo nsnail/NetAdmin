@@ -1,5 +1,4 @@
 using NetAdmin.Domain.Contexts;
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
 using NetAdmin.Domain.Dto.Sys.User;
 

@@ -156,7 +156,7 @@
                     :label="$t('作业状态')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.jobStatues).map((x) => {
-                            return { value: x[0], text: x[1][1], type: x[1][2] }
+                            return { value: x[0], text: x[1][1], type: x[1][2], pulse: x[1][3] === 'true' }
                         })
                     "
                     align="center"
@@ -167,7 +167,7 @@
                     :label="$t('请求方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
-                            return { value: x[0], text: x[1][1], type: x[1][2] }
+                            return { value: x[0], text: x[1][1], type: x[1][2], pulse: x[1][3] === 'true' }
                         })
                     "
                     align="center"
@@ -181,7 +181,7 @@
                                 :data="row"
                                 :options="
                                     Object.entries(this.$GLOBAL.enums.httpStatusCodes).map((x) => {
-                                        return { value: x[0], text: `${x[1][1]}`, type: x[1][2] }
+                                        return { value: x[0], text: `${x[1][1]}`, type: x[1][2], pulse: x[1][3] === 'true' }
                                     })
                                 "
                                 prop="lastStatusCode" />

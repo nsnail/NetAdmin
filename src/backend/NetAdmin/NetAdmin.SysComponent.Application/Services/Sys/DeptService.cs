@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dept;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -153,8 +154,8 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
             ret = ret.OrderByDescending(a => a.Sort);
         }
 
-        if (!req.Prop?.Equals(nameof(req.Filter.CreatedTime), StringComparison.OrdinalIgnoreCase) ?? true) {
-            ret = ret.OrderByDescending(a => a.CreatedTime);
+        if (!req.Prop?.Equals(nameof(req.Filter.Id), StringComparison.OrdinalIgnoreCase) ?? true) {
+            ret = ret.OrderByDescending(a => a.Id);
         }
 
         return ret;

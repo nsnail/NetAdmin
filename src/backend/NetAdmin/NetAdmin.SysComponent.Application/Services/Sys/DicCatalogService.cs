@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -104,7 +105,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_DicCatalog>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDicCatalogRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDicCatalogRsp>>());

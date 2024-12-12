@@ -1,4 +1,3 @@
-using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Captcha;
 using NetAdmin.Domain.Enums.Sys;
 

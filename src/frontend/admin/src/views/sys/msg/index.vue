@@ -58,7 +58,7 @@
         <el-main class="nopadding">
             <sc-table
                 :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
-                :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_sitemsg.export"
                 :params="query"
                 :query-api="$API.sys_sitemsg.pagedQuery"
@@ -81,7 +81,7 @@
                     :label="$t('消息类型')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.siteMsgTypes).map((x) => {
-                            return { value: x[0], text: x[1][1], type: x[1][2] }
+                            return { value: x[0], text: x[1][1], type: x[1][2], pulse: x[1][3] === 'true' }
                         })
                     "
                     align="center"

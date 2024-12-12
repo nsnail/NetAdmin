@@ -36,7 +36,7 @@
                         ],
                     },
                 ]"
-                :label-width="8"
+                :label-width="9"
                 @on-change="filterChange"
                 ref="selectFilter"></sc-select-filter>
         </el-header>
@@ -85,7 +85,7 @@
             <sc-table
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :context-menus="['title', 'enabled', 'createdTime', 'id', 'visibility']"
-                :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_doc.exportContent"
                 :params="query"
                 :query-api="$API.sys_doc.pagedQueryContent"
@@ -107,7 +107,7 @@
                     :label="$t('档案可见性')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.archiveVisibilities).map((x) => {
-                            return { value: x[0], text: x[1][1], type: x[1][2] }
+                            return { value: x[0], text: x[1][1], type: x[1][2], pulse: x[1][3] === 'true' }
                         })
                     "
                     align="center"

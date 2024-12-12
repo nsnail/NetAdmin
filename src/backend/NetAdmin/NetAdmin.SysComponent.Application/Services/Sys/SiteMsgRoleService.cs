@@ -1,5 +1,6 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.SiteMsgRole;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -88,7 +89,7 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_SiteMsgRole>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QuerySiteMsgRoleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>());
@@ -98,11 +99,7 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
     public async Task<IEnumerable<QuerySiteMsgRoleRsp>> QueryAsync(QueryReq<QuerySiteMsgRoleReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_SiteMsgRole>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>();
     }
 

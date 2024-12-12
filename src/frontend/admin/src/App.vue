@@ -8,6 +8,7 @@
 <script>
 import colorTool from '@/utils/color'
 import naVersionUpdater from '@/components/naVersionUpdater/index.vue'
+import UseTabs from '@/utils/useTabs'
 
 export default {
     name: 'App',
@@ -104,8 +105,7 @@ export default {
                             cancelable: false,
                         }),
                     )
-            }
-            if (!e.altKey && !e.ctrlKey && !e.shiftKey) {
+            } else if (!e.altKey && !e.ctrlKey && !e.shiftKey) {
                 for (const el of document.getElementsByClassName('sc-contextmenu__menu')[0]?.getElementsByTagName('li') ?? []) {
                     if (el.getElementsByClassName('sc-contextmenu__suffix')[0]?.innerText === String.fromCharCode(e.keyCode)) {
                         el.dispatchEvent(
@@ -118,6 +118,8 @@ export default {
                         break
                     }
                 }
+            } else if (e.altKey && e.keyCode === 81) {
+                UseTabs.close()
             }
         }
     },

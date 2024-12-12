@@ -1,6 +1,7 @@
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Doc.Content;
 using NetAdmin.Domain.Enums.Sys;
+using NetAdmin.Domain.Extensions;
 #if !DBTYPE_SQLSERVER
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 #endif
@@ -108,7 +109,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
-                         .ToListAsync(req.GetToListExp<Sys_DocContent>() ?? (a => a))
+                         .ToListAsync(req)
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDocContentRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDocContentRsp>>());
@@ -118,11 +119,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     public async Task<IEnumerable<QueryDocContentRsp>> QueryAsync(QueryReq<QueryDocContentReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req)
-                        .WithNoLockNoWait()
-                        .Take(req.Count)
-                        .ToListAsync(req.GetToListExp<Sys_DocContent>() ?? (a => a))
-                        .ConfigureAwait(false);
+        var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDocContentRsp>>();
     }
 

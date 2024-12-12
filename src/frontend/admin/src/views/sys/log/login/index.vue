@@ -97,7 +97,7 @@
             <sc-table
                 :context-menus="['id', 'httpStatusCode', 'loginUserName', 'createdClientIp', 'createdUserAgent', 'createdTime']"
                 :context-opers="['view']"
-                :default-sort="{ prop: 'createdTime', order: 'descending' }"
+                :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_loginlog.export"
                 :params="query"
                 :query-api="$API.sys_loginlog.pagedQuery"

@@ -5,6 +5,7 @@ using NetAdmin.Domain;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Dependency;
+using NetAdmin.Domain.Extensions;
 
 namespace NetAdmin.Application.Services;
 
@@ -53,7 +54,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         var select = selector(query).WithNoLockNoWait().Take(Numbers.MAX_LIMIT_EXPORT);
 
         object list = listExp == null
-            ? await select.ToListAsync(a => a).ConfigureAwait(false)
+            ? await select.ToListAsync().ConfigureAwait(false)
             : await select.ToListAsync(listExp).ConfigureAwait(false);
 
         return await GetExportFileStreamAsync<TExport>(fileName, list).ConfigureAwait(false);
