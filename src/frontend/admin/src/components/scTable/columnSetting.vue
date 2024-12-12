@@ -95,14 +95,14 @@ export default {
 
 <style scoped>
 .setting-column__title {
-    border-bottom: 1px solid #ebeef5;
+    border-bottom: 1px solid var(--el-border-color-lighter);
     padding-bottom: 1rem;
 }
 
 .setting-column__title span {
     display: inline-block;
     font-weight: bold;
-    color: #909399;
+    color: var(--el-text-color-secondary);
     font-size: 0.9rem;
 }
 
@@ -184,7 +184,7 @@ export default {
 }
 
 .setting-column__bottom {
-    border-top: 1px solid #ebeef5;
+    border-top: 1px solid var(--el-border-color-lighter);
     padding-top: 1rem;
     text-align: right;
 }

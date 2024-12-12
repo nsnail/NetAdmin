@@ -58,10 +58,6 @@
             </li>
         </ul>
     </transition>
-
-    <el-tour v-model="tourOpen" @close="$TOOL.data.set('TOUR_TIP_READ_TAGS', true)">
-        <el-tour-step :target="this.$refs.tags" :title="$t('小提示')"> {{ $t('按下 ALT+Q 可快速关闭当前标签页') }} </el-tour-step>
-    </el-tour>
 </template>
 
 <script>
@@ -71,7 +67,6 @@ export default {
     name: 'tags',
     data() {
         return {
-            tourOpen: false,
             refreshTimer: null,
             contextMenuVisible: false,
             contextMenuItem: null,
@@ -134,11 +129,6 @@ export default {
     mounted() {
         this.tagDrop()
         this.scrollInit()
-        this.$nextTick(() => {
-            if (!this.$TOOL.data.get('TOUR_TIP_READ_TAGS')) {
-                this.tourOpen = true
-            }
-        })
     },
     methods: {
         //查找树
@@ -343,7 +333,7 @@ export default {
     cursor: pointer;
     line-height: 2.5rem;
     padding: 0 1.3rem;
-    color: #606266;
+    color: var(--el-text-color-primary);
 }
 
 .contextmenu li i {
@@ -351,14 +341,9 @@ export default {
     margin-right: 1rem;
 }
 
-.contextmenu li:hover {
-    background-color: #ecf5ff;
-    color: #66b1ff;
-}
-
 .contextmenu li.disabled {
     cursor: not-allowed;
-    color: #bbb;
+    color: var(--el-text-color-disabled);
     background: transparent;
 }
 

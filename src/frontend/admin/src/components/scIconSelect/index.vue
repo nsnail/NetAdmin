@@ -168,7 +168,7 @@ export default {
     width: 100%;
     height: 100%;
     font-size: 2rem;
-    color: #6d7882;
+    color: var(--el-text-color-regular);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -176,11 +176,11 @@ export default {
 }
 
 .sc-icon-select__list li:hover {
-    box-shadow: 0 0 1px 0.3rem var(--na-color-primary);
+    box-shadow: 0 0 1px 0.3rem var(--el-color-primary);
     background: var(--el-color-primary-light-9);
 }
 
 .sc-icon-select__list li:hover i {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 </style>

@@ -89,7 +89,7 @@
                                     v-if="files[_getExt(item[fileProps.url])]"
                                     :class="files[_getExt(item[fileProps.url])].icon"
                                     :style="{ color: files[_getExt(item[fileProps.url])].color }"></i>
-                                <i v-else class="sc-icon-file-list-fill" style="color: #999"></i>
+                                <i v-else class="sc-icon-file-list-fill" style="color: var(--el-color-info)"></i>
                             </div>
                         </div>
                         <p :title="item[fileProps.fileName]">{{ item[fileProps.fileName] }}</p>
@@ -371,7 +371,7 @@ export default {
     right: 7px;
     z-index: 2;
     background: rgba(0, 0, 0, 0.2);
-    border: 1px solid #fff;
+    border: 1px solid var(--el-color-white);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -380,7 +380,7 @@ export default {
 
 .sc-file-select__item__checkbox i {
     font-size: 1.1rem;
-    color: #fff;
+    color: var(--el-color-white);
     font-weight: bold;
     display: none;
 }
@@ -401,7 +401,7 @@ export default {
 
 .sc-file-select__item__select i {
     font-size: 1.1rem;
-    color: #fff;
+    color: var(--el-color-white);
     font-weight: bold;
 }
 
@@ -431,7 +431,7 @@ export default {
 }
 
 .sc-file-select__item__file .item-file.item-file-doc {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 
 .sc-file-select__item__upload {
@@ -478,7 +478,7 @@ export default {
 .sc-file-select__top .tips {
     font-size: 0.9rem;
     margin-left: 10px;
-    color: #999;
+    color: var(--el-color-info);
 }
 
 .sc-file-select__top .tips i {

@@ -59,7 +59,7 @@ export default {
 <style scoped>
 .sc-statistic-title {
     font-size: 0.9rem;
-    color: #999;
+    color: var(--el-color-info);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -71,7 +71,7 @@ export default {
 
 .sc-statistic-content {
     font-size: 1.5rem;
-    color: #333;
+    color: var(--el-text-color-primary);
 }
 
 .sc-statistic-content-value {
@@ -90,11 +90,11 @@ export default {
 
 .sc-statistic-description {
     margin-top: 1rem;
-    color: #999;
+    color: var(--el-color-info);
 }
 
 .dark .sc-statistic-content {
-    color: #c0c0c0;
+    color: var(--el-text-color-primary);
 }
 
 .sc-statistic-icon {

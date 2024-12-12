@@ -9,7 +9,7 @@
         <el-container class="mobile-nav">
             <el-header>
                 <div class="logo-bar">
-                    <img class="logo" src="@/assets/img/logo.png" /><span>{{ $CONFIG.APP_NAME }}</span>
+                    <img class="logo logo-fill-color" src="@/assets/img/logo.svg" /><span>{{ $CONFIG.APP_NAME }}</span>
                 </div>
             </el-header>
             <el-main>
@@ -18,9 +18,7 @@
                         :active-text-color="DEFAULT_CONFIG.APP_SET_COLOR"
                         :default-active="$route.meta.active || $route.fullPath"
                         @select="select"
-                        background-color="#424c50"
-                        router
-                        text-color="#fff">
+                        router>
                         <NavMenu :navMenus="menu"></NavMenu>
                     </el-menu>
                 </el-scrollbar>
@@ -142,20 +140,19 @@ export default {
     z-index: 10;
     width: 4rem;
     height: 4rem;
-    background: var(--na-color-primary);
-    box-shadow: 0 0.2rem 1rem 0 var(--na-color-primary);
+    background: var(--el-color-primary);
+    box-shadow: 0 0.2rem 1rem 0 var(--el-color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .mobile-nav-button i {
-    color: #fff;
+    color: var(--el-color-white);
     font-size: 1.5rem;
 }
 
 .mobile-nav {
-    background: #424c50;
 }
 
 .mobile-nav .el-header {
@@ -172,7 +169,7 @@ export default {
     align-items: center;
     font-weight: bold;
     font-size: 1.5rem;
-    color: #fff;
+    color: var(--el-text-color-primary);
 }
 
 .mobile-nav .logo-bar img {

@@ -1,4 +1,5 @@
 export default {
+    colorSets: ['#6cd8aa', '#b1ecd3', '#7ca594', '#ff997f', '#ffccbf', '#dfb2a7', '#6caad8', '#b1d3ec', '#7c94a5', '#ffbf7f', '#ffdfbf', '#dfc3a7'],
     //hex颜色转rgb颜色
     HexToRgb(str) {
         str = str.replace('#', '')

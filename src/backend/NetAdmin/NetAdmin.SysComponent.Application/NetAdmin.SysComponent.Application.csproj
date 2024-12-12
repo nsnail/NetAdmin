@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)/build/code.quality.props"/>
     <ItemGroup>
+        <EmbeddedResource Include="$(SolutionDir)/assets/captcha/**" LinkBase="Assets/Captcha"/>
+    </ItemGroup>
+    <ItemGroup>
         <ProjectReference Include="../NetAdmin.Application/NetAdmin.Application.csproj"/>
     </ItemGroup>
 </Project>

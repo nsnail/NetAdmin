@@ -77,7 +77,7 @@ import DEFAULT_CONFIG from '@/config'
 export default {
     data() {
         return {
-            colorList: [DEFAULT_CONFIG.APP_SET_COLOR, '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'],
+            colorList: [DEFAULT_CONFIG.APP_SET_COLOR, ...colorTool.colorSets],
             config: {
                 layout: this.$TOOL.data.get('APP_SET_LAYOUT') || this.$CONFIG.APP_SET_LAYOUT,
                 menuIsCollapse: this.$TOOL.data.get('APP_SET_MENU_IS_COLLAPSE') || this.$CONFIG.APP_SET_MENU_IS_COLLAPSE,

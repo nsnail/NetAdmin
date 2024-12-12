@@ -56,7 +56,7 @@ export default {
 .iframe-pages {
     width: 100%;
     height: 100%;
-    background: #fff;
+    background: var(--el-color-white);
 }
 
 iframe {

@@ -1,26 +1,22 @@
 /* 全局 */
-:root {
-    --na-color-primary: #21a675;
-}
-
 #app,
 body,
 html {
     width: 100%;
     height: 100%;
-    background-color: #f6f8f9;
+    background-color: var(--el-bg-color);
     font-size: var(--el-font-size-base);
     font-family: 'Microsoft YaHei', sans-serif;
 }
 
 a {
-    color: #333;
+    color: var(--el-text-color-primary);
     text-decoration: none;
 }
 
 a:hover,
 a:focus {
-    color: #000;
+    color: var(--el-color-black);
     text-decoration: none;
 }
 
@@ -96,7 +92,7 @@ textarea {
     bottom: 10rem;
     right: 0;
     z-index: 100;
-    background: var(--na-color-primary);
+    background: var(--el-color-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,19 +102,20 @@ textarea {
 
 .layout-setting i {
     font-size: 1.3rem;
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 /* 头部 */
 .adminui-header {
     height: 4rem;
-    background: #fff;
+    background: var(--el-color-white);
     display: flex;
     justify-content: space-between;
-    border-bottom: #ebeef5 1px solid;
+    border-bottom: var(--el-border-color-lighter) 1px solid;
 }
 
 .adminui-header-left {
+    cursor: pointer;
     display: flex;
     align-items: center;
     padding-left: 1rem;
@@ -140,6 +137,12 @@ textarea {
     margin-right: 1rem;
     width: 3rem;
     height: 3rem;
+}
+
+.logo-fill-color {
+    position: relative;
+    left: -10000px;
+    filter: drop-shadow(var(--el-color-primary) 10000px 0);
 }
 
 .adminui-header .nav {
@@ -168,7 +171,7 @@ textarea {
 }
 
 .adminui-header .nav li.active {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 
 .adminui-header .user-bar .panel-item:hover {
@@ -183,11 +186,11 @@ textarea {
 .aminui-side-split {
     width: 5rem;
     flex-shrink: 0;
-    background: #fff;
+    background: var(--el-color-white);
     color: var(--el-menu-text-color);
     display: flex;
     flex-flow: column;
-    border-right: #ebeef5 1px solid;
+    border-right: var(--el-border-color-lighter) 1px solid;
 }
 
 .aminui-side-split-top {
@@ -238,8 +241,8 @@ textarea {
 }
 
 .aminui-side-split li.active {
-    background: var(--na-color-primary);
-    color: #fff;
+    background: var(--el-color-primary);
+    color: var(--el-color-white);
 }
 
 .adminui-side-split-scroll::-webkit-scrollbar-thumb {
@@ -264,13 +267,13 @@ textarea {
     flex-flow: column;
     flex-shrink: 0;
     width: 15rem;
-    background: #fff;
-    border-right: 1px solid #e6e6e6;
+    background: var(--el-color-white);
+    border-right: 1px solid var(--el-border-color-light);
     transition: width 0.3s;
 }
 
 .adminui-side-top {
-    border-bottom: 1px solid #ebeef5;
+    border-bottom: 1px solid var(--el-border-color-lighter);
     height: 4rem;
     line-height: 4rem;
 }
@@ -278,7 +281,7 @@ textarea {
 .adminui-side-top h2 {
     padding: 0 var(--el-menu-base-level-padding);
     font-size: 1.3rem;
-    color: #3c4a54;
+    color: var(--el-text-color-primary);
 }
 
 .adminui-side-scroll {
@@ -288,7 +291,7 @@ textarea {
 }
 
 .adminui-side-bottom {
-    border-top: 1px solid #ebeef5;
+    border-top: 1px solid var(--el-border-color-lighter);
     height: 4rem;
     cursor: pointer;
     display: flex;
@@ -301,7 +304,7 @@ textarea {
 }
 
 .adminui-side-bottom:hover {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 
 .aminui-side.isCollapse {
@@ -314,7 +317,7 @@ textarea {
     line-height: 1.4rem;
     background: var(--el-color-danger);
     font-size: 0.9rem;
-    color: #fff;
+    color: var(--el-color-white);
     right: 1rem;
     border-radius: 1.5rem;
     padding: 0 0.5rem;
@@ -333,8 +336,8 @@ textarea {
 
 .adminui-topbar {
     height: 3rem;
-    border-bottom: 1px solid #ebeef5;
-    background: #fff;
+    border-bottom: 1px solid var(--el-border-color-lighter);
+    background: var(--el-color-white);
     display: flex;
     justify-content: space-between;
 }
@@ -358,8 +361,8 @@ textarea {
 
 .adminui-tags {
     height: 3rem;
-    background: #fff;
-    border-bottom: 1px solid #e6e6e6;
+    background: var(--el-color-white);
+    border-bottom: 1px solid var(--el-border-color-light);
 }
 
 .adminui-tags ul {
@@ -382,14 +385,14 @@ textarea {
     height: 100%;
     position: absolute;
     right: 0;
-    background-image: linear-gradient(#fff, #e6e6e6);
+    background-image: linear-gradient(var(--el-color-white), var(--el-border-color-light));
 }
 
 .adminui-tags li a {
     padding: 0 1rem;
     width: 100%;
     height: 100%;
-    color: #999;
+    color: var(--el-color-info);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -407,19 +410,19 @@ textarea {
 
 .adminui-tags li i:hover {
     background: rgba(0, 0, 0, 0.2);
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 .adminui-tags li:hover {
-    background: #ecf5ff;
+    background: var(--el-fill-color-dark);
 }
 
 .adminui-tags li.active {
-    background: var(--na-color-primary);
+    background: var(--el-color-primary);
 }
 
 .adminui-tags li.active a {
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 .adminui-tags li.sortable-ghost {
@@ -428,7 +431,7 @@ textarea {
 
 .adminui-main {
     overflow: auto;
-    background-color: #f6f8f9;
+    background-color: var(--el-bg-color);
     flex: 1;
 }
 
@@ -465,7 +468,7 @@ textarea {
 .main-maximize-exit i {
     font-size: 1rem;
     margin-top: 1.5rem;
-    color: #fff;
+    color: var(--el-color-white);
 }
 
 .main-maximize-exit:hover {
@@ -556,7 +559,7 @@ textarea {
     &:after {
         content: '';
         margin: 2rem 0;
-        border-bottom: var(--na-color-primary) 1px dashed;
+        border-bottom: var(--el-color-primary) 1px dashed;
         display: block;
     }
 

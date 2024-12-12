@@ -87,10 +87,10 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #fff;
+    background: var(--el-color-white);
     z-index: 100;
     border-radius: 0.4rem;
-    border: 1px solid #ebeef5;
+    border: 1px solid var(--el-border-color-lighter);
     display: flex;
     align-items: center;
     padding-left: 1rem;

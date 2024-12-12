@@ -1,7 +1,12 @@
-import DEFAULT_CONFIG from '@/config'
+import colorTool from '@/utils/color'
+const style = getComputedStyle(document.documentElement)
+const el_color_primary = style.getPropertyValue('--el-color-primary')
+const el_color_info = style.getPropertyValue('--el-color-info')
+const el_text_color_primary = style.getPropertyValue('--el-text-color-primary')
+const el_border_color_lighter = style.getPropertyValue('--el-border-color-lighter')
 
 const T = {
-    color: [DEFAULT_CONFIG.APP_SET_COLOR, '#36CE9E', '#f56e6a', '#626c91', '#edb00d', '#909399'],
+    color: [el_color_primary, colorTool.lighten(el_color_primary, 0.5), ...colorTool.colorSets],
     grid: {
         left: '3%',
         right: '3%',
@@ -11,30 +16,30 @@ const T = {
     },
     pie: {
         label: {
-            color: '#999',
+            color: el_color_info,
         },
     },
     gauge: {
         axisTick: {
             lineStyle: {
-                color: '#999',
+                color: el_color_info,
             },
         },
         splitLine: {
             lineStyle: {
-                color: '#999',
+                color: el_color_info,
             },
         },
         axisLabel: {
-            color: '#999',
+            color: el_color_info,
         },
         title: {
-            color: '#999',
+            color: el_color_info,
         },
     },
     legend: {
         textStyle: {
-            color: '#999',
+            color: el_color_info,
         },
         inactiveColor: 'rgba(128,128,128,0.4)',
     },
@@ -49,16 +54,16 @@ const T = {
         axisTick: {
             show: false,
             lineStyle: {
-                color: '#333',
+                color: el_text_color_primary,
             },
         },
         axisLabel: {
-            color: '#999',
+            color: el_color_info,
         },
         splitLine: {
             show: false,
             lineStyle: {
-                color: ['#eee'],
+                color: [el_border_color_lighter],
             },
         },
         splitArea: {
@@ -72,7 +77,7 @@ const T = {
         axisLine: {
             show: false,
             lineStyle: {
-                color: '#999',
+                color: el_color_info,
             },
         },
         splitLine: {

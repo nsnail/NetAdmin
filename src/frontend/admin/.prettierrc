@@ -2,7 +2,7 @@
     "attributeGroups": ["^v-", "$DEFAULT"],
     "attributeSort": "ASC",
     "bracketSameLine": true,
-    "endOfLine": "auto",
+    "endOfLine": "lf",
     "plugins": ["prettier-plugin-organize-attributes"],
     "printWidth": 150,
     "semi": false,

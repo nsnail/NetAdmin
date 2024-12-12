@@ -1,32 +1,14 @@
 /* 覆盖element-plus样式 */
 
 :root {
-    --el-color-primary: #21a675;
-    --el-color-primary-light-1: #53a7ff;
-    --el-color-primary-light-2: #66b1ff;
-    --el-color-primary-light-3: #79bbff;
-    --el-color-primary-light-4: #8cc4ff;
-    --el-color-primary-light-5: #9fceff;
-    --el-color-primary-light-6: #b2d8ff;
-    --el-color-primary-light-7: #c5e1ff;
-    --el-color-primary-light-8: #d8ebff;
-    --el-color-primary-light-9: #ebf5ff;
-    --el-color-primary-dark-1: #398ee5;
-    --el-color-primary-dark-2: #337ecc;
-    --el-color-primary-dark-3: #2c6eb2;
-    --el-color-primary-dark-4: #265e99;
-    --el-color-primary-dark-5: #204f7f;
-    --el-color-primary-dark-6: #193f66;
-    --el-color-primary-dark-7: #132f4c;
-    --el-color-primary-dark-8: #0c1f32;
-    --el-color-primary-dark-9: #060f19;
+    --el-color-primary: rgba(0, 0, 0, 0);
     --el-font-size-base: 13px;
     --el-disabled-bg-color: --el-bg-color;
     --el-menu-horizontal-height: 4rem;
 }
 
 .el-menu--inline {
-    --el-menu-active-color: var(--na-color-primary) !important;
+    --el-menu-active-color: var(--el-color-primary) !important;
 }
 
 .el-form-item--default {
@@ -78,7 +60,7 @@
 
 .el-form-item-msg {
     font-size: 1rem;
-    color: #999;
+    color: var(--el-color-info);
     flex-grow: 1;
     line-height: 2rem;
 }
@@ -97,7 +79,7 @@
 }
 
 .el-header {
-    background: #fff;
+    background: var(--el-color-white);
     border-bottom: 1px solid var(--el-border-color-light);
     padding: 1rem 1rem;
     display: flex;
@@ -130,7 +112,7 @@
 
 .el-main.nopadding {
     padding: 0;
-    background: #fff;
+    background: var(--el-color-white);
 }
 
 .el-drawer__body {
@@ -156,7 +138,7 @@
 }
 
 .drawerBG {
-    background: #f6f8f9;
+    background: var(--el-bg-color);
 }
 
 .el-button + .el-dropdown {
@@ -205,11 +187,11 @@
 }
 
 .el-table th.is-sortable:hover {
-    background: #eee;
+    background: var(--el-fill-color-dark);
 }
 
 .el-table .el-table__body-wrapper {
-    background: #f6f8f9;
+    background: var(--el-bg-color);
 }
 
 .el-col .el-card {
@@ -269,7 +251,7 @@
 }
 
 .aminui-side-split li.active {
-    background-color: var(--na-color-primary);
+    background-color: var(--el-color-primary);
 }
 
 .adminui-tags li:hover {
@@ -277,7 +259,7 @@
 }
 
 .adminui-tags li.active {
-    background-color: var(--na-color-primary) !important;
+    background-color: var(--el-color-primary) !important;
 }
 
 .contextmenu li:hover {
@@ -286,12 +268,12 @@
 }
 
 .data-box .item-background {
-    background-color: var(--na-color-primary) !important;
+    background-color: var(--el-color-primary) !important;
 }
 
 .layout-setting,
 .diy-grid-setting {
-    background-color: var(--na-color-primary) !important;
+    background-color: var(--el-color-primary) !important;
 }
 
 .el-descriptions__body .el-descriptions__table {

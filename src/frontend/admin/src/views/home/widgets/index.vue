@@ -273,7 +273,7 @@ export default {
 
 .widgets-aside {
     width: 25rem;
-    background: #fff;
+    background: var(--el-color-white);
     position: relative;
     overflow: auto;
 }
@@ -335,7 +335,7 @@ export default {
 }
 
 .customizing .widgets-wrapper .draggable-box {
-    border: 1px dashed var(--na-color-primary);
+    border: 1px dashed var(--el-color-primary);
     padding: 1rem;
 }
 
@@ -364,8 +364,8 @@ export default {
 }
 
 .customize-overlay label {
-    background: var(--na-color-primary);
-    color: #fff;
+    background: var(--el-color-primary);
+    color: var(--el-color-white);
     height: 4rem;
     padding: 0 3rem;
     border-radius: 3rem;
@@ -409,7 +409,6 @@ export default {
     justify-content: center;
     font-size: 1.4rem;
     margin-right: 1rem;
-    color: #6a8bad;
 }
 
 .widgets-list-item .item-info {
@@ -424,7 +423,7 @@ export default {
 
 .widgets-list-item .item-info p {
     font-size: 0.9rem;
-    color: #999;
+    color: var(--el-color-info);
     cursor: default;
 }
 
@@ -442,10 +441,6 @@ export default {
 }
 
 .dark {
-    .widgets-aside {
-        background: #2b2b2b;
-    }
-
     .customize-overlay {
         background: rgba(43, 43, 43, 0.9);
     }

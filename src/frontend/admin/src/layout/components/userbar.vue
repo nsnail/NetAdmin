@@ -5,7 +5,7 @@
                 <component :is="config.dark ? 'el-icon-sunny' : 'el-icon-moon'" />
             </el-icon>
         </div>
-        <div @click="search" class="panel-item hidden-sm-and-down">
+        <div @click="search" class="panel-item hidden-sm-and-down userbar-btn-search">
             <el-icon>
                 <el-icon-search />
             </el-icon>
@@ -40,7 +40,7 @@
             </el-drawer>
         </div>
         <el-dropdown @command="handleUser" class="user panel-item" trigger="hover">
-            <div class="user-avatar">
+            <div class="user-avatar user-center">
                 <el-avatar
                     :size="30"
                     :src="

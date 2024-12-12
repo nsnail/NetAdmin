@@ -88,7 +88,7 @@ export default {
 }
 
 .sc-dialog__headerbtn button:hover .el-dialog__close {
-    color: var(--na-color-primary);
+    color: var(--el-color-primary);
 }
 
 .sc-dialog:deep(.el-dialog).is-fullscreen {
@@ -109,6 +109,6 @@ export default {
 
 .sc-dialog:deep(.el-dialog).is-fullscreen .el-dialog__footer {
     padding-bottom: 1rem;
-    border-top: 1px solid var(--el-border-color-base);
+    border-top: 1px solid var(--el-border-color);
 }
 </style>

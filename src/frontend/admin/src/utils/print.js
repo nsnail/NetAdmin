@@ -43,7 +43,7 @@ Print.prototype = {
             str += styles[i].outerHTML
         }
         str += '<style>' + (this.options.noPrint ? this.options.noPrint : '.no-print') + '{display:none;}</style>'
-        str += '<style>html,body{background-color:#fff;}</style>'
+        str += '<style>html,body{background-color:white;}</style>'
         return str
     },
 
