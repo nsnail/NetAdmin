@@ -2,12 +2,12 @@
     <el-container>
         <el-header v-loading="statistics.total === '...'" class="el-header-statistics">
             <el-row :gutter="15">
-                <el-col :lg="12">
+                <el-col :span="12">
                     <el-card shadow="never">
                         <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
                     </el-card>
                 </el-col>
-                <el-col :lg="12">
+                <el-col :span="12">
                     <el-card shadow="never">
                         <sc-statistic :value="statistics.rate" suffix="%" title="成功率"></sc-statistic>
                     </el-card>

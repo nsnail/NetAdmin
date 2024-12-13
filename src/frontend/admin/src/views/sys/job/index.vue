@@ -7,7 +7,7 @@
             </el-tabs>
         </el-header>
         <el-main class="nopadding">
-            <component :is="tabId" :status-codes="statusCodes" />
+            <component :is="tabId" :status-codes="statusCodes || dataStatusCode" />
         </el-main>
     </el-container>
 </template>
@@ -20,9 +20,20 @@ const all = defineAsyncComponent(() => import('@/views/sys/job/all/index.vue'))
 export default {
     components: { all, log },
     computed: {},
-    created() {},
+    created() {
+        if (this.$route.query.view === 'log') {
+            this.tabId = 'log'
+        }
+
+        if (this.$route.query.view === 'fail') {
+            this.tabId = 'log'
+            this.dataStatusCode = ['300,399', '400,499', '500,599', '900,999']
+            this.$TOOL.data.set('APP_SET_FAIL_JOB_VIEW_TIME', this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'))
+        }
+    },
     data() {
         return {
+            dataStatusCode: null,
             tabId: 'all',
         }
     },

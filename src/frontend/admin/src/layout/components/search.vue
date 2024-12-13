@@ -5,6 +5,8 @@
             :placeholder="$t('搜索')"
             :trigger-on-focus="false"
             @input="inputChange"
+            @keydown="inputKeyDown"
+            autofocus
             clearable
             prefix-icon="el-icon-search"
             ref="input"
@@ -25,7 +27,11 @@
             <div v-if="result.length <= 0" class="sc-search-no-result">{{ $t('暂无搜索结果') }}</div>
             <ul v-else>
                 <el-scrollbar max-height="30rem">
-                    <li v-for="item in result" :key="item.path" @click="to(item)">
+                    <li
+                        v-for="(item, i) in result"
+                        :class="{ 'sc-search-result-li-hover': this.cursor.index === i }"
+                        :key="item.path"
+                        @click="to(item)">
                         <el-icon>
                             <component :is="item.icon || 'el-icon-menu'" />
                         </el-icon>
@@ -41,18 +47,55 @@
 export default {
     data() {
         return {
+            cursor: {
+                position: 0,
+                index: 0,
+            },
             input: '',
             menu: [],
             result: [],
             history: [],
         }
     },
-    mounted() {
+    watch: {
+        result() {
+            this.cursor.position = 0
+            this.cursor.index = 0
+        },
+    },
+    async mounted() {
         this.history = this.$TOOL.data.get('SEARCH_HISTORY') || []
         this.filterMenu(this.$GLOBAL.menu)
+        await this.$nextTick()
+        await new Promise((x) => setTimeout(x, 200))
         this.$refs.input.focus()
     },
     methods: {
+        inputKeyDown(e) {
+            if (e.keyCode === 13) {
+                document
+                    .getElementsByClassName('sc-search-result')[0]
+                    ?.getElementsByClassName('el-scrollbar__view')[0]
+                    ?.children[this.cursor.index]?.dispatchEvent(
+                        new MouseEvent('click', {
+                            view: window,
+                            bubbles: true,
+                            cancelable: false,
+                        }),
+                    )
+                return
+            }
+            if (e.keyCode === 40) {
+                this.cursor.index = Math.abs(++this.cursor.position % this.result.length)
+                e.preventDefault()
+                return
+            }
+            if (e.keyCode === 38) {
+                this.cursor.index = Math.abs(--this.cursor.position % this.result.length)
+                e.preventDefault()
+                return
+            }
+        },
         inputChange(value) {
             if (value) {
                 this.result = this.menuFilter(value)
@@ -152,6 +195,9 @@ export default {
 }
 
 .sc-search-history {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-top: 1rem;
 }
 
@@ -182,9 +228,10 @@ export default {
     margin-right: 1rem;
 }
 
+.sc-search-result-li-hover,
 .sc-search-result li:hover {
-    background: var(--el-color-primary);
-    color: var(--el-color-white);
-    border-color: var(--el-color-primary);
+    background: var(--el-color-primary) !important;
+    color: var(--el-color-white) !important;
+    border-color: var(--el-color-primary) !important;
 }
 </style>

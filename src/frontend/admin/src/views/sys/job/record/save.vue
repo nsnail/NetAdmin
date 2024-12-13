@@ -10,22 +10,82 @@
             ref="dialogForm">
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
-                    <el-form-item :label="$t('唯一编码')" prop="id"><el-input v-model="form.id" clearable /></el-form-item
-                    ><el-form-item :label="$t('执行耗时（毫秒）')" prop="duration"><el-input v-model="form.duration" clearable /></el-form-item
-                    ><el-form-item :label="$t('请求方法')" prop="httpMethod"><el-input v-model="form.httpMethod" clearable /></el-form-item
-                    ><el-form-item :label="$t('响应状态码')" prop="httpStatusCode"><el-input v-model="form.httpStatusCode" clearable /></el-form-item
-                    ><el-form-item :label="$t('作业编号')" prop="jobId"><el-input v-model="form.jobId" clearable /></el-form-item
-                    ><el-form-item :label="$t('请求体')" prop="requestBody"
-                        ><el-input v-model="form.requestBody" clearable rows="5" type="textarea" /></el-form-item
-                    ><el-form-item :label="$t('请求头')" prop="requestHeader">
-                        <el-input v-model="form.requestHeader" clearable rows="5" type="textarea" /></el-form-item
-                    ><el-form-item :label="$t('请求的网络地址')" prop="requestUrl"><el-input v-model="form.requestUrl" clearable /></el-form-item
-                    ><el-form-item :label="$t('响应体')" prop="responseBody"
-                        ><el-input v-model="form.responseBody" clearable rows="5" type="textarea" /></el-form-item
-                    ><el-form-item :label="$t('响应头')" prop="responseHeader">
-                        <el-input v-model="form.responseHeader" clearable rows="5" type="textarea" /></el-form-item
-                    ><el-form-item :label="$t('执行时间编号')" prop="timeId"><el-input v-model="form.timeId" clearable /></el-form-item
-                    ><el-form-item :label="$t('创建时间')" prop="createdTime"><el-input v-model="form.createdTime" clearable /></el-form-item>
+                    <el-row :gutter="10">
+                        <el-col :lg="8">
+                            <el-form-item :label="$t('唯一编码')" prop="id">
+                                <el-input v-model="form.id" clearable />
+                            </el-form-item>
+                            <el-form-item :label="$t('执行耗时（毫秒）')" prop="duration">
+                                <el-input v-model="form.duration" clearable />
+                            </el-form-item>
+                            <el-form-item :label="$t('请求方法')" prop="httpMethod">
+                                <el-input v-model="form.httpMethod" clearable />
+                            </el-form-item>
+                            <el-form-item :label="$t('响应状态码')" prop="httpStatusCode">
+                                <el-input v-model="form.httpStatusCode" clearable />
+                            </el-form-item>
+                            <el-form-item :label="$t('作业编号')" prop="jobId">
+                                <el-input v-model="form.jobId" clearable />
+                            </el-form-item>
+                            <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
+                                <el-input v-model="form.requestUrl" clearable />
+                            </el-form-item>
+                            <el-form-item :label="$t('执行时间编号')" prop="timeId">
+                                <el-input v-model="form.timeId" clearable />
+                            </el-form-item>
+                            <el-form-item :label="$t('创建时间')" prop="createdTime">
+                                <el-input v-model="form.createdTime" clearable />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :lg="16">
+                            <el-form-item v-if="form.requestHeader" :label="$t('请求头')" prop="requestHeader">
+                                <json-viewer
+                                    v-if="mode === 'view'"
+                                    :expand-depth="1"
+                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
+                                    :value="JSON.parse(form.requestHeader)"
+                                    copyable
+                                    expanded
+                                    sort></json-viewer>
+                                <el-input v-else v-model="form.requestHeader" clearable rows="5" type="textarea" />
+                            </el-form-item>
+                            <el-form-item v-if="form.requestBody" :label="$t('请求体')" prop="requestBody">
+                                <json-viewer
+                                    v-if="mode === 'view'"
+                                    :expand-depth="5"
+                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
+                                    :value="JSON.parse(form.requestBody)"
+                                    copyable
+                                    expanded
+                                    sort></json-viewer>
+                                <el-input v-else v-model="form.requestBody" clearable rows="5" type="textarea" />
+                            </el-form-item>
+
+                            <el-form-item v-if="form.responseHeader" :label="$t('响应头')" prop="responseHeader">
+                                <json-viewer
+                                    v-if="mode === 'view'"
+                                    :expand-depth="1"
+                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
+                                    :value="JSON.parse(form.responseHeader)"
+                                    copyable
+                                    expanded
+                                    sort></json-viewer>
+                                <el-input v-else v-model="form.responseHeader" clearable rows="5" type="textarea" />
+                            </el-form-item>
+                            <el-form-item v-if="form.responseBody" :label="$t('响应体')" prop="responseBody">
+                                <json-viewer
+                                    v-if="mode === 'view'"
+                                    :expand-depth="5"
+                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
+                                    :value="JSON.parse(form.responseBody)"
+                                    copyable
+                                    expanded
+                                    sort>
+                                </json-viewer>
+                                <el-input v-else v-model="form.responseBody" clearable rows="5" type="textarea" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
                     <json-viewer

@@ -12,19 +12,16 @@ export function permissionAll(permissions) {
  * @returns {boolean}
  */
 export function judementSameArr(news, old) {
-    // console.log(news)
-    // console.log(old)
     let count = 0
     const len = news.length
     for (let i in news) {
         for (let j in old) {
             if (news[i] === old[j]) {
                 count++
-                // console.log(news[i])
             }
         }
     }
-    // console.log('相同的数量', count)
+
     return count === len
 }
 

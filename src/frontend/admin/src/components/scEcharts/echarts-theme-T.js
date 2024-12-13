@@ -1,13 +1,15 @@
 import colorTool from '@/utils/color'
 
 export default {
-    build() {
+    async build() {
         const style = getComputedStyle(document.documentElement)
-        const el_color_primary = style.getPropertyValue('--el-color-primary')
+        let el_color_primary
+        while ((el_color_primary = style.getPropertyValue('--el-color-primary')) === 'rgba(0, 0, 0, 0)') {
+            await new Promise((x) => setTimeout(x, 100))
+        }
         const el_color_info = style.getPropertyValue('--el-color-info')
         const el_text_color_primary = style.getPropertyValue('--el-text-color-primary')
         const el_border_color_lighter = style.getPropertyValue('--el-border-color-lighter')
-
         return {
             color: [el_color_primary, colorTool.lighten(el_color_primary, 0.5), ...colorTool.colorSets],
             grid: {

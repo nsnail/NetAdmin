@@ -29,7 +29,7 @@ export default {
         option: {
             deep: true,
             handler(v) {
-                unwarp(this.myChart).setOption(v, { notMerge: true })
+                unwarp(this.myChart)?.setOption(v, { notMerge: true })
             },
         },
     },
@@ -48,12 +48,11 @@ export default {
     deactivated() {
         this.isActivat = false
     },
-    mounted() {
+    async mounted() {
         this.isActivat = true
-        this.$nextTick(() => {
-            echarts.registerTheme('T', T.build())
-            this.draw()
-        })
+        await this.$nextTick()
+        echarts.registerTheme('T', await T.build())
+        this.draw()
     },
     methods: {
         draw() {

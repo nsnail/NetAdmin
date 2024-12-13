@@ -5,9 +5,13 @@
     </el-main>
 
     <el-tour v-model="tour.open" @close="$TOOL.data.set('TOUR_TIP_READ_INDEX', true)">
-        <el-tour-step :target="tour.targets.tags" :title="$t('操作指引')"> {{ $t('按下 ALT+Q 可快速关闭当前标签页') }} </el-tour-step>
-        <el-tour-step :target="tour.targets.search" :title="$t('操作指引')"> {{ $t('快速查找菜单功能') }} </el-tour-step>
-        <el-tour-step :target="tour.targets.userCenter" :title="$t('操作指引')"> {{ $t('修改个人信息和密码') }} </el-tour-step>
+        <el-tour-step :target="tour.targets.tags" :title="$t('操作指引')">
+            <p v-html="$t('按下 {key} 可关闭当前标签页', { key: '<b>Alt+Q</b>' })"></p>
+            <p v-html="$t('按下 {key} 可关闭其它标签页', { key: '<b>Ctrl+Alt+Q</b>' })"></p>
+        </el-tour-step>
+        <el-tour-step :target="tour.targets.search" :title="$t('操作指引')">
+            <p v-html="$t('按下 {key} 快速查找菜单功能', { key: '<b>Alt+A</b>' })"></p>
+        </el-tour-step>
         <el-tour-step v-if="dashboard" :target="tour.targets.layoutSetting" :title="$t('操作指引')">
             {{ $t('自定义首页布局') }}
         </el-tour-step>

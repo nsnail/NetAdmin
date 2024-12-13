@@ -92,8 +92,8 @@ export default {
         // 设置语言
         this.$i18n.locale = this.$TOOL.data.get('APP_SET_LANG') || this.$CONFIG.APP_SET_LANG
 
-        //ctrl + enter 触发主按钮点击事件
         document.onkeydown = (e) => {
+            //ctrl + enter 触发主按钮点击事件
             if (e.ctrlKey && e.keyCode === 13) {
                 document
                     .getElementsByClassName('el-dialog__footer')[0]
@@ -118,8 +118,22 @@ export default {
                         break
                     }
                 }
-            } else if (e.altKey && e.keyCode === 81) {
-                UseTabs.close()
+            } else if (e.altKey) {
+                if (e.keyCode === 81) {
+                    if (e.ctrlKey) {
+                        UseTabs.closeOther()
+                    } else {
+                        UseTabs.close()
+                    }
+                } else if (e.keyCode === 65) {
+                    document.getElementsByClassName('userbar-btn-search')[0]?.dispatchEvent(
+                        new MouseEvent('click', {
+                            view: window,
+                            bubbles: true,
+                            cancelable: false,
+                        }),
+                    )
+                }
             }
         }
     },
