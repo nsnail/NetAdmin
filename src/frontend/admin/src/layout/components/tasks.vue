@@ -11,6 +11,43 @@
             </el-empty>
             <el-row :gutter="10">
                 <el-col :lg="12">
+                    <el-empty v-if="!failJobs">
+                        <template #description>
+                            <p>{{ $TOOL.time.getFormatTime(new Date(failJobViewTime).getTime()) }}</p>
+                            <p>至今</p>
+                            <p>未发现新的异常作业</p>
+                        </template>
+                    </el-empty>
+                    <el-card v-else v-for="job in failJobs" :class="`user-bar-jobs-item alert`" :key="job.job.id" shadow="hover">
+                        <div class="user-bar-jobs-item-body">
+                            <div class="jobIcon">
+                                {{ job.httpStatusCode.toUpperCase().slice(0, 2) }}
+                            </div>
+                            <div class="jobMain">
+                                <div class="title">
+                                    <h2>{{ job.job.jobName }}</h2>
+                                    <p>{{ $t('出错时间：') }}<span v-time.tip="job.createdTime" :title="job.createdTime"></span></p>
+                                    <p>
+                                        执行耗时：<span>{{ $TOOL.groupSeparator(job.duration) }} ms</span>
+                                    </p>
+                                </div>
+                                <div class="bottom">
+                                    <div class="status failJobs">
+                                        {{ job.responseBody }}
+                                    </div>
+                                    <div class="handler">
+                                        <el-button
+                                            @click="dialog.jobRecordSave = { mode: 'view', row: { id: job.id } }"
+                                            circle
+                                            icon="el-icon-view"
+                                            type="danger"></el-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :lg="12">
                     <el-card
                         v-for="job in jobs"
                         :class="`user-bar-jobs-item ${job.lastStatusCode === 'oK' ? '' : 'alert'}`"
@@ -47,49 +84,36 @@
                         </div>
                     </el-card>
                 </el-col>
-                <el-col :lg="12">
-                    <el-empty v-if="!failJobs" description="未发现新的异常作业"></el-empty>
-                    <el-card v-else v-for="job in failJobs" :class="`user-bar-jobs-item alert`" :key="job.job.id" shadow="hover">
-                        <div class="user-bar-jobs-item-body">
-                            <div class="jobIcon">
-                                {{ job.httpStatusCode.toUpperCase().slice(0, 2) }}
-                            </div>
-                            <div class="jobMain">
-                                <div class="title">
-                                    <h2>{{ job.job.jobName }}</h2>
-                                    <p>{{ $t('出错时间：') }}<span v-time.tip="job.createdTime" :title="job.createdTime"></span></p>
-                                    <p>
-                                        执行耗时：<span>{{ $TOOL.groupSeparator(job.duration) }} ms</span>
-                                    </p>
-                                </div>
-                                <div class="bottom">
-                                    <div class="status failJobs">
-                                        {{ job.responseBody }}
-                                    </div>
-                                    <div class="handler">
-                                        <el-button
-                                            @click="dialog.jobRecordSave = { mode: 'view', row: { id: job.id } }"
-                                            circle
-                                            icon="el-icon-view"
-                                            type="danger"></el-button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </el-card>
-                </el-col>
             </el-row>
         </el-main>
         <el-footer class="flex" style="justify-content: space-evenly; height: unset">
-            <div>
-                <el-badge :hidden="jobsCnt === 0" :value="jobsCnt">
-                    <el-button @click="dialog.save = { tabId: 'all' }">{{ $t('作业管理') }}</el-button>
+            <div v-if="failJobs">
+                <el-badge :hidden="fail === 0" :value="`${$TOOL.time.getFormatTime(new Date(failJobViewTime).getTime())} 至今 ${fail}个`">
+                    <el-button
+                        @click="
+                            () => {
+                                this.$router.push({ path: '/sys/job', query: { view: 'fail' } })
+                                this.$emit('closed')
+                            }
+                        "
+                        plain
+                        type="danger"
+                        >{{ $t('异常日志') }}</el-button
+                    >
                 </el-badge>
             </div>
             <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
-            <div v-if="failJobs">
-                <el-badge :hidden="fail === 0" :value="fail">
-                    <el-button @click="dialog.save = { tabId: 'fail' }" plain type="danger">{{ $t('异常日志') }}</el-button>
+            <div>
+                <el-badge :hidden="jobsCnt === 0" :value="jobsCnt">
+                    <el-button
+                        @click="
+                            () => {
+                                this.$router.push({ path: '/sys/job' })
+                                this.$emit('closed')
+                            }
+                        "
+                        >{{ $t('作业管理') }}</el-button
+                    >
                 </el-badge>
             </div>
         </el-footer>
@@ -105,7 +129,6 @@
         @closed="dialog.jobRecordSave = null"
         @mounted="$refs.jobRecordSaveDialog.open(dialog.jobRecordSave)"
         ref="jobRecordSaveDialog"></jobRecordSaveDialog>
-    <saveDialog v-if="dialog.save" @closed="dialog.save = null" @mounted="$refs.saveDialog.open(dialog.save)" ref="saveDialog"></saveDialog>
 </template>
 
 <script>
@@ -113,12 +136,16 @@ import { defineAsyncComponent } from 'vue'
 
 const jobSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save.vue'))
 const jobRecordSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/record/save.vue'))
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+
 export default {
+    computed: {
+        failJobViewTime() {
+            return this.$TOOL.data.get('APP_SET_FAIL_JOB_VIEW_TIME') ?? this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd')
+        },
+    },
     components: {
         jobSaveDialog,
         jobRecordSaveDialog,
-        saveDialog,
     },
     data() {
         return {
@@ -175,7 +202,7 @@ export default {
                         ],
                         field: 'createdTime',
                         operator: 'greaterThan',
-                        value: this.$TOOL.data.get('APP_SET_FAIL_JOB_VIEW_TIME') ?? this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'),
+                        value: this.failJobViewTime,
                     },
                 }),
             ])

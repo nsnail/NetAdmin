@@ -83,7 +83,7 @@
 import { defineAsyncComponent } from 'vue'
 import avatar from '../../utils/avatar'
 const search = defineAsyncComponent(() => import('./search.vue'))
-const tasks = defineAsyncComponent(() => import('./tasks/index.vue'))
+const tasks = defineAsyncComponent(() => import('./tasks.vue'))
 const message = defineAsyncComponent(() => import('@/views/profile/message/components/list.vue'))
 export default {
     components: {
