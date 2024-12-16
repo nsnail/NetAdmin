@@ -47,7 +47,7 @@ public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldCreatedUse
     [Column(CanInsert = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]
-    public long? ModifiedUserId { get; init; }
+    public virtual long? ModifiedUserId { get; init; }
 
     /// <summary>
     ///     修改者用户名
@@ -55,5 +55,5 @@ public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldCreatedUse
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanInsert = false, Position = -1)]
     [CsvIgnore]
     [JsonIgnore]
-    public string ModifiedUserName { get; init; }
+    public virtual string ModifiedUserName { get; init; }
 }
