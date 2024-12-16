@@ -2,6 +2,7 @@ using CsvHelper;
 using Microsoft.Net.Http.Headers;
 using NetAdmin.Application.Repositories;
 using NetAdmin.Domain;
+using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Dependency;
 using NetAdmin.Domain.DbMaps.Dependency.Fields;
 using NetAdmin.Domain.Dto.Dependency;
@@ -53,9 +54,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     {
         var select = selector(query).WithNoLockNoWait().Take(Numbers.MAX_LIMIT_EXPORT);
 
-        object list = listExp == null
-            ? await select.ToListAsync().ConfigureAwait(false)
-            : await select.ToListAsync(listExp).ConfigureAwait(false);
+        object list = listExp == null ? await select.ToListAsync().ConfigureAwait(false) : await select.ToListAsync(listExp).ConfigureAwait(false);
 
         return await GetExportFileStreamAsync<TExport>(fileName, list).ConfigureAwait(false);
     }
@@ -135,6 +134,25 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
     }
 
+    private static Dictionary<string, object> IncludeToDictionary(TEntity entity, List<string> includeFields)
+    {
+        var ret = includeFields!.ToDictionary(
+            x => x, x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!.GetValue(entity));
+        if (entity is not IFieldModifiedUser) {
+            return ret;
+        }
+
+        var userInfo = App.GetService<ContextUserInfo>();
+        if (userInfo == null) {
+            return ret;
+        }
+
+        ret.Add(nameof(IFieldModifiedUser.ModifiedUserId),   userInfo.Id);
+        ret.Add(nameof(IFieldModifiedUser.ModifiedUserName), userInfo.UserName);
+
+        return ret;
+    }
+
     private IUpdate<TEntity> BuildUpdate(TEntity entity, List<string> includeFields, List<string> excludeFields, bool ignoreVersion)
     {
         IUpdate<TEntity> updateExp;
@@ -145,9 +163,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
             }
         }
         else {
-            updateExp = Rpo.UpdateDiy.SetDto(includeFields!.ToDictionary(
-                                                 x => x
-                                               , x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!.GetValue(entity)));
+            updateExp = Rpo.UpdateDiy.SetDto(IncludeToDictionary(entity, includeFields));
             if (!ignoreVersion && entity is IFieldVersion ver) {
                 updateExp = updateExp.Where($"{nameof(IFieldVersion.Version)} = {ver.Version}");
             }

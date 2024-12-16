@@ -60,7 +60,7 @@ export default {
 .sc-statistic-title {
     font-size: 0.9rem;
     color: var(--el-color-info);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
 }

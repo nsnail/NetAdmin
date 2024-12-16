@@ -27,9 +27,11 @@ public sealed class SafetyShopHostMiddleware(RequestDelegate next)
     public static void OnStopping()
     {
         Stop();
+        #if !DEBUG
         while (Interlocked.Read(ref _connections) > 0) {
             Thread.Sleep(10);
         }
+        #endif
     }
 
     /// <summary>
