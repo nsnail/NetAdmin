@@ -49,7 +49,7 @@
                 <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
-                        <keep-alive>
+                        <keep-alive :max="5">
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
@@ -96,7 +96,7 @@
                 <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
-                        <keep-alive>
+                        <keep-alive :max="5">
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
@@ -138,7 +138,7 @@
                 <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
-                        <keep-alive>
+                        <keep-alive :max="5">
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
@@ -197,7 +197,7 @@
                 <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
                 <div class="adminui-main" id="adminui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
-                        <keep-alive>
+                        <keep-alive :max="5">
                             <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>

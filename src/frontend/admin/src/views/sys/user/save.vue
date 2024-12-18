@@ -293,7 +293,7 @@ export default {
                 email: [
                     {
                         message: '您的电子邮箱',
-                        pattern: this.$GLOBAL.chars.RGX_EMAIL,
+                        pattern: this.$GLOBAL.chars.RGXL_EMAIL,
                     },
                 ],
                 passwordText: [

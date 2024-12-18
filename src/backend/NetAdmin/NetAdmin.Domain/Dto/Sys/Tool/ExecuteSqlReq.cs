@@ -14,4 +14,9 @@ public record ExecuteSqlReq : DataAbstraction
     ///     超时时间（秒）
     /// </summary>
     public int TimeoutSecs { get; init; }
+
+    /// <summary>
+    ///     等待结果
+    /// </summary>
+    public bool WaitResult { get; init; } = true;
 }

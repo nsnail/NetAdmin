@@ -196,58 +196,70 @@ export default {
                     },
                 },
                 {
-                    text: this.$t('最近三日'),
+                    text: this.$t('本周'),
                     value: () => {
-                        const start = new Date()
-                        start.setHours(0, 0, 0, 0)
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 2)
-                        const end = new Date()
-                        end.setHours(0, 0, 0, 0)
-                        return [start, end]
+                        // 获取当前日期对象
+                        const currentDate = new Date()
+                        currentDate.setHours(0, 0, 0, 0)
+
+                        // 获取当前日期是本周的第几天（0代表周日，1代表周一，...，6代表周六）
+                        const dayOfWeek = currentDate.getDay()
+
+                        // 获取当前日期距离本周第一天的天数差（负数代表本周之前的天数，正数或零代表本周之后的天数）
+                        const diffToFirstDay = dayOfWeek > 0 ? -(dayOfWeek - 1) : -6
+
+                        // 获取本周第一天的日期对象
+                        const firstDayOfWeek = new Date(currentDate)
+                        firstDayOfWeek.setDate(currentDate.getDate() + diffToFirstDay)
+                        return [firstDayOfWeek, new Date()]
                     },
                 },
                 {
-                    text: this.$t('最近一周'),
+                    text: this.$t('后退一周'),
                     value: () => {
-                        const start = new Date()
-                        start.setHours(0, 0, 0, 0)
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 6)
-                        const end = new Date()
-                        end.setHours(0, 0, 0, 0)
-                        return [start, end]
+                        try {
+                            const start = new Date(this.form.dy[this.dateField][0])
+                            const end = new Date(this.form.dy[this.dateField][1])
+                            start.setDate(start.getDate() - 7)
+                            end.setDate(end.getDate() - 7)
+                            return [start, end]
+                        } catch {}
                     },
                 },
                 {
-                    text: this.$t('最近一月'),
+                    text: this.$t('本月'),
                     value: () => {
                         const start = new Date()
                         start.setHours(0, 0, 0, 0)
-                        start.setMonth(start.getMonth() - 1)
-                        const end = new Date()
-                        end.setHours(0, 0, 0, 0)
-                        return [start, end]
+                        start.setDate(1)
+                        return [start, new Date()]
                     },
                 },
                 {
-                    text: this.$t('最近三月'),
+                    text: this.$t('后退一月'),
                     value: () => {
-                        const start = new Date()
-                        start.setHours(0, 0, 0, 0)
-                        start.setMonth(start.getMonth() - 3)
-                        const end = new Date()
-                        end.setHours(0, 0, 0, 0)
-                        return [start, end]
-                    },
-                },
-                {
-                    text: this.$t('最近六月'),
-                    value: () => {
-                        const start = new Date()
-                        start.setHours(0, 0, 0, 0)
-                        start.setMonth(start.getMonth() - 6)
-                        const end = new Date()
-                        end.setHours(0, 0, 0, 0)
-                        return [start, end]
+                        try {
+                            const start = new Date(this.form.dy[this.dateField][0])
+                            const end = new Date(this.form.dy[this.dateField][1])
+                            return [
+                                new Date(
+                                    start.getMonth() === 0 ? start.getFullYear() - 1 : start.getFullYear(),
+                                    start.getMonth() === 0 ? 11 : start.getMonth() - 1,
+                                    start.getDate(),
+                                    start.getHours(),
+                                    start.getMinutes(),
+                                    start.getSeconds(),
+                                ),
+                                new Date(
+                                    end.getMonth() === 0 ? end.getFullYear() - 1 : end.getFullYear(),
+                                    end.getMonth() === 0 ? 11 : end.getMonth() - 1,
+                                    end.getDate(),
+                                    end.getHours(),
+                                    end.getMinutes(),
+                                    end.getSeconds(),
+                                ),
+                            ]
+                        } catch {}
                     },
                 },
             ],
@@ -430,6 +442,16 @@ export default {
                         const end = new Date()
                         start.setTime(start.getTime() - 3600 * 1000)
                         return [start, end]
+                    },
+                },
+                {
+                    text: this.$t('最近整点'),
+                    value: () => {
+                        const start = new Date()
+                        return [
+                            new Date(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours(), 0, 0),
+                            new Date(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours() + 1, 0, 0),
+                        ]
                     },
                 },
                 {

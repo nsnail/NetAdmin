@@ -150,7 +150,7 @@ export default {
                 executionCron: [
                     {
                         required: true,
-                        pattern: this.$GLOBAL.chars.RGX_CRON,
+                        pattern: this.$GLOBAL.chars.RGXL_CRON,
                         message: this.$t('执行计划不正确'),
                     },
                 ],
