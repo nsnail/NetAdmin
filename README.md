@@ -14,7 +14,7 @@ https://na.tools92.top
 
 ```shell
 docker run -p 8080:8080 nsnail/netadmin
-# 需魔法上网
+# 墙内用户请自备梯子
 ```
 
 ## 构建步骤
