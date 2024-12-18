@@ -26,7 +26,7 @@ dotnet --list-sdks
 # 下载 dotnet：https://dotnet.microsoft.com/zh-cn/download/dotnet
 
 # 2. 克隆代码仓库
-git clone https://github.com/nsnail/NetAdmin.git && cd ./NetAdmin
+git clone --depth 1 https://github.com/nsnail/NetAdmin.git && cd ./NetAdmin
 
 # 3. 确认本机 redis 处于运行状态
 redis-server # 启动服务器
