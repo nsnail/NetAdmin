@@ -13,10 +13,11 @@ public sealed class ToolsService : ServiceBase<IToolsService>, IToolsService
     }
 
     /// <inheritdoc />
-    public Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
+    public async Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
     {
         req.ThrowIfInvalid();
-        return App.GetService<IFreeSql>().Ado.CommandFluent(req.Sql).CommandTimeout(req.TimeoutSecs).ExecuteArrayAsync();
+        var cmd = App.GetService<IFreeSql>().Ado.CommandFluent(req.Sql).CommandTimeout(req.TimeoutSecs).ExecuteArrayAsync();
+        return req.WaitResult ? await cmd.ConfigureAwait(false) : null;
     }
 
     /// <inheritdoc />

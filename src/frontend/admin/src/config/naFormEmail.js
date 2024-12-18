@@ -3,7 +3,7 @@ export default {
         return {
             required: true,
             message: '您的邮箱地址',
-            pattern: _this.$GLOBAL.chars.RGX_EMAIL,
+            pattern: _this.$GLOBAL.chars.RGXL_EMAIL,
         }
     },
     emailNoUsed: (_this, id) => {
