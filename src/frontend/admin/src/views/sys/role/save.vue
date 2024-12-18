@@ -38,19 +38,23 @@
                     <div class="treeMain">
                         <el-tree
                             :data="trees.api"
-                            :props="{ label: (data) => data.summary }"
+                            :props="{ label: (data) => `${data.summary} - ${data.id}` }"
                             default-expand-all
                             node-key="id"
                             ref="api"
                             show-checkbox></el-tree>
                     </div>
                 </el-tab-pane>
-                <el-tab-pane :label="$t('数据范围')">
+                <el-tab-pane :label="$t('数据权限')">
                     <el-form label-width="10rem">
-                        <el-form-item :label="$t('规则类型')">
-                            <el-select v-model="form.dataScope" :disabled="mode === 'view'">
-                                <el-option v-for="(item, i) in this.$GLOBAL.enums.dataScopes" :key="i" :label="item[1]" :value="i"></el-option>
-                            </el-select>
+                        <el-form-item :label="$t('数据权限')">
+                            <el-radio-group v-model="form.dataScope" :disabled="mode === 'view'">
+                                <el-radio-button
+                                    v-for="(item, i) in this.$GLOBAL.enums.dataScopes"
+                                    :key="i"
+                                    :label="item[1]"
+                                    :value="i"></el-radio-button>
+                            </el-radio-group>
                         </el-form-item>
                         <el-form-item v-show="form.dataScope === 'specificDept'" :label="$t('选择部门')">
                             <div class="treeMain" style="width: 100%">
@@ -63,16 +67,11 @@
                                     show-checkbox></el-tree>
                             </div>
                         </el-form-item>
-                    </el-form>
-                </el-tab-pane>
-                <el-tab-pane :label="$t('控制台')">
-                    <el-form label-width="10rem">
-                        <el-form-item :label="$t('控制台视图')">
-                            <el-select v-model="form.displayDashboard" :disabled="mode === 'view'">
-                                <el-option :label="$t('仪表板')" :value="true"></el-option>
-                                <el-option :label="$t('工作台')" :value="false"></el-option>
-                            </el-select>
-                            <div class="el-form-item-msg">{{ $t('用于控制角色登录后控制台的视图') }}</div>
+                        <el-form-item :label="$t('首页视图')">
+                            <el-radio-group v-model="form.displayDashboard" :disabled="mode === 'view'">
+                                <el-radio-button :label="$t('仪表板')" :value="true"></el-radio-button>
+                                <el-radio-button :label="$t('工作台')" :value="false"></el-radio-button>
+                            </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="form.displayDashboard" :label="$t('仪表板布局')">
                             <v-ace-editor
@@ -80,9 +79,9 @@
                                 :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                                 lang="json"
                                 style="height: 30rem; width: 100%" />
-                            <el-button @click="form.dashboardLayout = jsonFormat(form.dashboardLayout)" type="text">{{
-                                $t('JSON 格式化')
-                            }}</el-button>
+                            <el-button @click="form.dashboardLayout = jsonFormat(form.dashboardLayout)" type="text"
+                                >{{ $t('JSON 格式化') }}
+                            </el-button>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>

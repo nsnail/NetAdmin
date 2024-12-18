@@ -86,12 +86,12 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <na-col-id :label="$t('部门编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('部门名称')" min-width="150" prop="name" sortable="custom" />
+                <na-col-id :label="$t('部门编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('用户数量')" align="right" width="100">
                     <template #default="{ row }">
                         <el-link @click.native="dialog.save = { mode: 'view', row, tabId: 'user' }"
-                            >{{ statistics.deptId?.find((x) => x.key.deptId === row.id.toString())?.value ?? '...' }}
+                            >{{ statistics.deptId?.find((x) => x.key.deptId === row.id.toString())?.value ?? '0' }}
                         </el-link>
                     </template>
                 </el-table-column>

@@ -37,14 +37,6 @@
                             style: 'width:25rem',
                         },
                         {
-                            type: 'cascader',
-                            field: ['filter', 'deptId'],
-                            api: $API.sys_dept.query,
-                            props: { label: 'name', value: 'id', checkStrictly: true, expandTrigger: 'hover', emitPath: false },
-                            placeholder: $t('所属部门'),
-                            style: 'width:15rem',
-                        },
-                        {
                             type: 'remote-select',
                             field: ['filter', 'roleId'],
                             api: $API.sys_role.query,
@@ -80,54 +72,79 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <sc-table
-                :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime', 'lastLoginTime']"
-                :context-opers="['view', 'edit']"
-                :default-sort="{ prop: 'id', order: 'descending' }"
-                :export-api="$API.sys_user.export"
-                :params="query"
-                :query-api="$API.sys_user.pagedQuery"
-                :vue="this"
-                @data-change="getStatistics"
-                @selection-change="
-                    (items) => {
-                        selection = items
-                    }
-                "
-                ref="table"
-                remote-filter
-                remote-sort
-                row-key="id"
-                stripe>
-                <el-table-column type="selection" width="50" />
-                <na-col-id :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
-                <na-col-avatar :label="$t('用户名')" prop="userName" width="170" />
-                <el-table-column :label="$t('手机号')" align="center" prop="mobile" sortable="custom" width="120" />
-                <el-table-column :label="$t('邮箱')" align="right" prop="email" sortable="custom" width="250" />
-                <na-col-tags
-                    :label="$t('所属部门')"
-                    @click="(item) => (this.dialog.deptSave = { row: item, mode: 'view' })"
-                    field="name"
-                    prop="dept"
-                    width="120" />
-                <na-col-tags
-                    :label="$t('所属角色')"
-                    @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
-                    field="name"
-                    min-width="200"
-                    prop="roles" />
-                <el-table-column :label="$t('最后登录')" align="right" prop="lastLoginTime" sortable="custom" width="120">
-                    <template #default="{ row }">
-                        <span v-time.tip="row.lastLoginTime" :title="row.lastLoginTime"></span>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
-                    <template #default="{ row }">
-                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
-                    </template>
-                </el-table-column>
-                <na-col-operation :vue="this" width="120" />
-            </sc-table>
+            <el-row class="h100p">
+                <el-col :lg="4">
+                    <el-tree
+                        v-loading="!deptTree"
+                        :data="deptTree"
+                        :default-expand-all="true"
+                        :expand-on-click-node="false"
+                        :props="{
+                            label: (data) => {
+                                return data.name
+                            },
+                        }"
+                        @node-click="deptClick"
+                        highlight-current
+                        node-key="id"
+                        ref="tree">
+                    </el-tree>
+                </el-col>
+                <el-col :lg="20">
+                    <sc-table
+                        :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime', 'lastLoginTime']"
+                        :context-opers="['view', 'edit']"
+                        :default-sort="{ prop: 'id', order: 'descending' }"
+                        :export-api="$API.sys_user.export"
+                        :params="query"
+                        :query-api="$API.sys_user.pagedQuery"
+                        :vue="this"
+                        @data-change="getStatistics"
+                        @selection-change="
+                            (items) => {
+                                selection = items
+                            }
+                        "
+                        ref="table"
+                        remote-filter
+                        remote-sort
+                        row-key="id"
+                        stripe>
+                        <el-table-column type="selection" width="50" />
+                        <na-col-id :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
+                        <na-col-avatar :label="$t('用户名')" prop="userName" width="170" />
+                        <el-table-column :label="$t('手机号 / 邮箱')" align="right" prop="mobile" sortable="custom" width="250">
+                            <template #default="{ row }">
+                                <p>{{ row.mobile }}</p>
+                                <p>{{ row.email }}</p>
+                            </template>
+                        </el-table-column>
+                        <na-col-tags
+                            :label="$t('所属部门')"
+                            @click="(item) => (this.dialog.deptSave = { row: item, mode: 'view' })"
+                            field="name"
+                            prop="dept"
+                            width="120" />
+                        <na-col-tags
+                            :label="$t('所属角色')"
+                            @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
+                            field="name"
+                            min-width="200"
+                            prop="roles" />
+                        <el-table-column :label="$t('最后登录')" align="right" prop="lastLoginTime" sortable="custom" width="120">
+                            <template #default="{ row }">
+                                <span v-time.tip="row.lastLoginTime" :title="row.lastLoginTime"></span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
+                            <template #default="{ row }">
+                                <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
+                            </template>
+                        </el-table-column>
+                        <na-col-operation :vue="this" width="120" />
+                    </sc-table>
+                </el-col>
+            </el-row>
         </el-main>
     </el-container>
 
@@ -167,7 +184,17 @@ export default {
             return table
         },
     },
-    created() {
+    async created() {
+        const res = await this.$API.sys_dept.query.post({})
+
+        this.deptTree = [
+            {
+                id: 0,
+                name: '所有部门',
+                children: res.data,
+            },
+        ]
+
         if (this.roleId) {
             this.query.filter.roleId = this.roleId
         }
@@ -177,6 +204,7 @@ export default {
     },
     data() {
         return {
+            deptTree: null,
             statistics: {
                 total: '...',
             },
@@ -200,6 +228,10 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        deptClick(e) {
+            this.$refs.search.form.filter.deptId = e.id
+            this.$refs.search.search()
+        },
         async getStatistics() {
             this.statistics.total = this.$refs.table?.total
             const res = await Promise.all([
@@ -260,6 +292,7 @@ export default {
         onReset() {
             Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
             this.$refs.selectFilter.selected['enabled'] = [true]
+            this.$refs.tree.setCurrentKey(0)
         },
         //搜索
         async onSearch(form) {
@@ -322,4 +355,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+::v-deep .el-tree-node__content {
+    height: 3rem;
+}
+</style>
