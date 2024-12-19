@@ -105,7 +105,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <na-col-id label="日志编号" prop="id" sortable="custom" width="170" />
+                <naColId label="日志编号" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('结果')" align="center" prop="httpStatusCode" sortable="custom" width="100">
                     <template #default="{ row }">
                         <sc-status-indicator :type="row.httpStatusCode === 200 ? 'success' : 'danger'" />
@@ -123,7 +123,7 @@
                 </el-table-column>
                 <el-table-column :label="$t('操作系统')" align="center" prop="os" width="150" />
                 <el-table-column :label="$t('用户代理')" min-width="150" prop="createdUserAgent" show-overflow-tooltip sortable="custom" />
-                <na-col-operation
+                <naColOperation
                     :buttons="[
                         {
                             icon: 'el-icon-view',
@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import naInfo from '@/components/naInfo/index.vue'
+import naInfo from '@/components/naInfo'
 import http from '@/utils/request'
 
 export default {

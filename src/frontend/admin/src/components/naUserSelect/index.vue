@@ -1,5 +1,5 @@
 <template>
-    <sc-table-select
+    <scTableSelect
         v-model="user"
         :params="form"
         :props="{ label: 'userName', value: 'id' }"
@@ -21,10 +21,13 @@
         <el-table-column :label="$t('用户编号')" prop="id" />
         <el-table-column :label="$t('用户名')" prop="userName" />
         <el-table-column :label="$t('手机号')" prop="mobile" />
-    </sc-table-select>
+    </scTableSelect>
 </template>
 <style scoped></style>
 <script>
+import { defineAsyncComponent } from 'vue'
+
+const scTableSelect = defineAsyncComponent(() => import('@/components/scTableSelect'))
 export default {
     props: {
         modelValue: { type: Object },
@@ -52,7 +55,9 @@ export default {
     },
     mounted() {},
     created() {},
-    components: {},
+    components: {
+        scTableSelect,
+    },
     computed: {},
     methods: {
         onInput() {

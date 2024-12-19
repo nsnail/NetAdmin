@@ -1,5 +1,5 @@
 <template>
-    <sc-table-select
+    <scTableSelect
         v-model="area"
         :params="form"
         :props="{ label: 'key', value: 'value' }"
@@ -16,10 +16,13 @@
         </template>
         <el-table-column :label="$t('地区')" prop="key" width="400" />
         <el-table-column :label="$t('代码')" prop="value" />
-    </sc-table-select>
+    </scTableSelect>
 </template>
 <style scoped></style>
 <script>
+import { defineAsyncComponent } from 'vue'
+
+const scTableSelect = defineAsyncComponent(() => import('@/components/scTableSelect'))
 export default {
     props: {
         modelValue: { type: Object },
@@ -31,6 +34,9 @@ export default {
                 dynamicFilter: {
                     filters: [],
                     logic: 'or',
+                    field: 'catalogId',
+                    value: this.$GLOBAL.numbers.ID_DIC_CATALOG_GEO_AREA,
+                    operator: 'eq',
                 },
             },
         }
@@ -50,7 +56,9 @@ export default {
     },
     mounted() {},
     created() {},
-    components: {},
+    components: {
+        scTableSelect,
+    },
     computed: {},
     methods: {
         onInput() {

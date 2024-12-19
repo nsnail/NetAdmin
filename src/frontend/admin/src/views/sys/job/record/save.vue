@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-form
             v-loading="loading"
             :disabled="mode === 'view'"
@@ -11,7 +11,7 @@
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-row :gutter="10">
-                        <el-col :lg="8">
+                        <el-col :lg="6">
                             <el-form-item :label="$t('唯一编码')" prop="id">
                                 <el-input v-model="form.id" clearable />
                             </el-form-item>
@@ -28,7 +28,7 @@
                                 <el-input v-model="form.jobId" clearable />
                             </el-form-item>
                             <el-form-item :label="$t('请求的网络地址')" prop="requestUrl">
-                                <el-input v-model="form.requestUrl" clearable />
+                                <el-input v-model="form.requestUrl" clearable type="textarea" />
                             </el-form-item>
                             <el-form-item :label="$t('执行时间编号')" prop="timeId">
                                 <el-input v-model="form.timeId" clearable />
@@ -37,71 +37,86 @@
                                 <el-input v-model="form.createdTime" clearable />
                             </el-form-item>
                         </el-col>
-                        <el-col :lg="16">
-                            <el-form-item v-if="form.requestHeader" :label="$t('请求头')" prop="requestHeader">
-                                <json-viewer
-                                    v-if="mode === 'view'"
-                                    :expand-depth="1"
-                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
-                                    :value="JSON.parse(form.requestHeader)"
-                                    copyable
-                                    expanded
-                                    sort></json-viewer>
-                                <el-input v-else v-model="form.requestHeader" clearable rows="5" type="textarea" />
-                            </el-form-item>
+                        <el-col :lg="col2Width">
                             <el-form-item v-if="form.requestBody" :label="$t('请求体')" prop="requestBody">
-                                <json-viewer
+                                <JsonViewer
                                     v-if="mode === 'view'"
                                     :expand-depth="5"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                                     :value="JSON.parse(form.requestBody)"
+                                    class="w100p children-nopadding"
                                     copyable
                                     expanded
-                                    sort></json-viewer>
+                                    sort></JsonViewer>
                                 <el-input v-else v-model="form.requestBody" clearable rows="5" type="textarea" />
                             </el-form-item>
-
-                            <el-form-item v-if="form.responseHeader" :label="$t('响应头')" prop="responseHeader">
-                                <json-viewer
-                                    v-if="mode === 'view'"
-                                    :expand-depth="1"
-                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
-                                    :value="JSON.parse(form.responseHeader)"
-                                    copyable
-                                    expanded
-                                    sort></json-viewer>
-                                <el-input v-else v-model="form.responseHeader" clearable rows="5" type="textarea" />
-                            </el-form-item>
                             <el-form-item v-if="form.responseBody" :label="$t('响应体')" prop="responseBody">
-                                <json-viewer
+                                <JsonViewer
                                     v-if="mode === 'view'"
                                     :expand-depth="5"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                                     :value="JSON.parse(form.responseBody)"
+                                    class="w100p children-nopadding"
                                     copyable
                                     expanded
                                     sort>
-                                </json-viewer>
+                                </JsonViewer>
                                 <el-input v-else v-model="form.responseBody" clearable rows="5" type="textarea" />
                             </el-form-item>
+                            <el-form-item v-if="form.requestHeader" :label="$t('请求头')" prop="requestHeader">
+                                <JsonViewer
+                                    v-if="mode === 'view'"
+                                    :expand-depth="1"
+                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
+                                    :value="JSON.parse(form.requestHeader)"
+                                    class="w100p children-nopadding"
+                                    copyable
+                                    expanded
+                                    sort></JsonViewer>
+                                <el-input v-else v-model="form.requestHeader" clearable rows="5" type="textarea" />
+                            </el-form-item>
+                            <el-form-item v-if="form.responseHeader" :label="$t('响应头')" prop="responseHeader">
+                                <JsonViewer
+                                    v-if="mode === 'view'"
+                                    :expand-depth="1"
+                                    :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
+                                    :value="JSON.parse(form.responseHeader)"
+                                    class="w100p children-nopadding"
+                                    copyable
+                                    expanded
+                                    sort></JsonViewer>
+                                <el-input v-else v-model="form.responseHeader" clearable rows="5" type="textarea" />
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col v-if="this.esData" :lg="9">
+                            <JsonViewer
+                                v-if="mode === 'view'"
+                                :expand-depth="1"
+                                :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
+                                :value="this.esData"
+                                class="children-nopadding"
+                                copyable
+                                expanded
+                                sort></JsonViewer>
                         </el-col>
                     </el-row>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <json-viewer
+                    <JsonViewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></json-viewer>
+                        sort></JsonViewer>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
         </template>
-    </sc-dialog>
+    </scDialog>
 </template>
 
 <script>
@@ -109,6 +124,8 @@ export default {
     components: {},
     data() {
         return {
+            col2Width: 18,
+            esData: null,
             //表单数据
             form: {},
             loading: true,
@@ -131,8 +148,45 @@ export default {
             this.loading = true
             this.mode = data.mode
             if (data.row?.id) {
-                const res = await this.$API.sys_job.getRecord.post({ id: data.row.id })
+                let res = await this.$API.sys_job.getRecord.post({ id: data.row.id })
                 Object.assign(this.form, res.data)
+                const traceId = /"traceId":"(.+?)"/.exec(this.form.responseBody)
+                if (traceId && traceId[1]) {
+                    res = await this.$API.adm_tools.queryEsLog.post({
+                        query: {
+                            bool: {
+                                must: [
+                                    {
+                                        range: {
+                                            '@timestamp': {
+                                                gt: new Date(this.form.createdTime).getTime() - 1000 * 60 * 60,
+                                                lt: new Date(this.form.createdTime).getTime() + 1000 * 60 * 60,
+                                            },
+                                        },
+                                    },
+                                    {
+                                        match_phrase: {
+                                            log_source: 'NetAdmin.SysComponent.Host.Utils.RequestLogger',
+                                        },
+                                    },
+                                    {
+                                        match_phrase: {
+                                            log_message: traceId[1],
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                        size: 1000,
+                        sort: [
+                            {
+                                '@timestamp': 'desc',
+                            },
+                        ],
+                    })
+                    this.esData = res.data.hits.hits[0]._source
+                    this.col2Width = 9
+                }
             }
             this.loading = false
             return this

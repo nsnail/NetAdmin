@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-tabs v-model="tabId" tab-position="top">
             <el-tab-pane :label="$t('基本信息')">
                 <el-form
@@ -14,7 +14,7 @@
                         <el-input v-model="form.id" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('执行计划')" prop="executionCron">
-                        <sc-cron v-model="form.executionCron" class="font-monospace" clearable />
+                        <scCron v-model="form.executionCron" class="font-monospace" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求方法')" prop="httpMethod">
                         <el-select v-model="form.httpMethod" clearable filterable>
@@ -40,7 +40,7 @@
                         <el-input v-model="form.nextTimeId" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求头')" prop="requestHeader">
-                        <v-ace-editor
+                        <VAceEditor
                             v-model:value="form.requestHeader"
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
@@ -48,7 +48,7 @@
                         <el-button @click="form.requestHeader = jsonFormat(form.requestHeader)" type="text">{{ $t('JSON 格式化') }}</el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求体')" prop="requestBody">
-                        <v-ace-editor
+                        <VAceEditor
                             v-model:value="form.requestBody"
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
@@ -81,7 +81,7 @@
                         <el-input v-model="form.userId" clearable />
                     </el-form-item>
                     <el-form-item v-else :label="$t('执行用户')" prop="user">
-                        <na-user-select v-model="form.user"></na-user-select>
+                        <naUserSelect v-model="form.user"></naUserSelect>
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('创建时间')" prop="createdTime">
                         <el-input v-model="form.createdTime" clearable />
@@ -110,13 +110,13 @@
                 <record v-if="tabId === 'record'" :job-id="form.id" />
             </el-tab-pane>
             <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                <json-viewer
+                <JsonViewer
                     :expand-depth="5"
                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                     :value="form"
                     copyable
                     expanded
-                    sort></json-viewer>
+                    sort></JsonViewer>
             </el-tab-pane>
         </el-tabs>
 
@@ -124,16 +124,18 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </sc-dialog>
+    </scDialog>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import vkbeautify from 'vkbeautify/index'
 
-const Record = defineAsyncComponent(() => import('@/views/sys/job/record/index.vue'))
+const Record = defineAsyncComponent(() => import('@/views/sys/job/record'))
+const naUserSelect = defineAsyncComponent(() => import('@/components/naUserSelect'))
+const scCron = defineAsyncComponent(() => import('@/components/scCron'))
 export default {
-    components: { Record },
+    components: { Record, naUserSelect, scCron },
     data() {
         return {
             //表单数据

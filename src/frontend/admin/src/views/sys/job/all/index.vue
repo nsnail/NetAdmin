@@ -84,7 +84,7 @@
             </div>
             <div class="right-panel">
                 <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
-                <na-button-bulk-del :api="$API.sys_job.bulkDelete" :vue="this" />
+                <naButtonBulkDel :api="$API.sys_job.bulkDelete" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -143,7 +143,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <na-col-id :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
+                <naColId :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('执行计划')" align="right" prop="executionCron" sortable="custom" width="150">
                     <template #default="{ row }">
@@ -151,7 +151,7 @@
                         <p>{{ row.executionCron }}</p>
                     </template>
                 </el-table-column>
-                <na-col-indicator
+                <naColIndicator
                     :label="$t('作业状态')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.jobStatues).map((x) => {
@@ -162,7 +162,7 @@
                     prop="status"
                     sortable="custom"
                     width="100" />
-                <na-col-indicator
+                <naColIndicator
                     :label="$t('请求方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
@@ -206,7 +206,7 @@
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <na-col-operation
+                <naColOperation
                     :buttons="
                         naColOperation.buttons.concat(
                             {
@@ -220,13 +220,7 @@
                                 title: '复制作业',
                                 click: copyJob,
                             },
-                            {
-                                icon: 'el-icon-delete',
-                                confirm: true,
-                                title: '删除作业',
-                                click: this.rowDel,
-                                type: 'danger',
-                            },
+                            naColOperation.delButton('删除作业', $API.sys_job.delete),
                         )
                     "
                     :vue="this"
@@ -247,7 +241,7 @@
 import { defineAsyncComponent, h } from 'vue'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
-import naIndicator from '@/components/naIndicator/index.vue'
+import naIndicator from '@/components/naIndicator'
 
 const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 export default {
@@ -394,15 +388,6 @@ export default {
                         .innerText.replace(countdown, `${num < 0 ? 0 : num}`)
                 }, 1000)
             } catch {}
-            this.$refs.table.refresh()
-        },
-        async rowDel(row) {
-            try {
-                const res = await this.$API.sys_job.delete.post({ id: row.id })
-                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
-            } catch {
-                //
-            }
             this.$refs.table.refresh()
         },
         //重置

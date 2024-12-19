@@ -26,38 +26,19 @@ import 'ace-builds/src-noconflict/theme-github_dark' // Load the theme definitio
 import { VAceEditor } from 'vue3-ace-editor'
 
 // sc组件
-import scCron from '@/components/scCron/index.vue'
 import scDialog from '@/components/scDialog'
-import scFormTable from '@/components/scFormTable'
-import scPageHeader from '@/components/scPageHeader'
-import scSelect from '@/components/scSelect'
 import scSelectFilter from '@/components/scSelectFilter'
-import scStatistic from '@/components/scStatistic/index.vue'
+import scStatistic from '@/components/scStatistic'
 import scStatusIndicator from '@/components/scMini/scStatusIndicator'
 import scTable from '@/components/scTable'
-import scTableColumn from '@/components/scTable/column.js'
-import scTableSelect from '@/components/scTableSelect'
-import scTrend from '@/components/scMini/scTrend'
-import scUpload from '@/components/scUpload'
-import scUploadFile from '@/components/scUpload/file'
-import scUploadMultiple from '@/components/scUpload/multiple'
-import scWaterMark from '@/components/scWaterMark'
 
 // net-admin组件
-import naArea from '@/components/naArea/index.vue'
-import naButtonBulkDel from '@/components/naButtonBulkDel/index.vue'
-import naColAvatar from '@/components/naColAvatar'
-import naColId from '@/components/naColId/index.vue'
-import naColIndicator from '@/components/naColIndicator/index.vue'
+import naButtonBulkDel from '@/components/naButtonBulkDel'
+import naColId from '@/components/naColId'
+import naColIndicator from '@/components/naColIndicator'
 import naColOperation from '@/components/naColOperation'
-import naColTag from '@/components/naColTag/index.vue'
-import naColTags from '@/components/naColTags/index.vue'
-import naColTime from '@/components/naColTime/index.vue'
-import naColUser from '@/components/naColUser/index.vue'
-import naDept from '@/components/naDept/index.vue'
-import naFormEmail from '@/components/naFormEmail/index.vue'
+import naColUser from '@/components/naColUser'
 import naSearch from '@/components/naSearch'
-import naUserSelect from '@/components/naUserSelect/index.vue'
 
 export default {
     install(app) {
@@ -86,38 +67,19 @@ export default {
         app.component('VAceEditor', VAceEditor)
 
         // net-admin组件
-        app.component('naArea', naArea)
         app.component('naButtonBulkDel', naButtonBulkDel)
-        app.component('naColAvatar', naColAvatar)
         app.component('naColId', naColId)
         app.component('naColIndicator', naColIndicator)
         app.component('naColOperation', naColOperation)
-        app.component('naColTag', naColTag)
-        app.component('naColTags', naColTags)
-        app.component('naColTime', naColTime)
         app.component('naColUser', naColUser)
-        app.component('naDept', naDept)
-        app.component('naFormEmail', naFormEmail)
         app.component('naSearch', naSearch)
-        app.component('naUserSelect', naUserSelect)
 
         // sc组件
-        app.component('scCron', scCron)
         app.component('scDialog', scDialog)
-        app.component('scFormTable', scFormTable)
-        app.component('scPageHeader', scPageHeader)
-        app.component('scSelect', scSelect)
         app.component('scSelectFilter', scSelectFilter)
         app.component('scStatistic', scStatistic)
         app.component('scStatusIndicator', scStatusIndicator)
         app.component('scTable', scTable)
-        app.component('scTableColumn', scTableColumn)
-        app.component('scTableSelect', scTableSelect)
-        app.component('scTrend', scTrend)
-        app.component('scUpload', scUpload)
-        app.component('scUploadFile', scUploadFile)
-        app.component('scUploadMultiple', scUploadMultiple)
-        app.component('scWaterMark', scWaterMark)
 
         //注册全局指令
         app.directive('auth', auth)

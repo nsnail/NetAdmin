@@ -131,7 +131,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <na-col-id label="日志编号" prop="id" sortable="custom" width="170" />
+                <naColId label="日志编号" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="150">
                     <template #default="{ row }">
                         <sc-status-indicator :type="row.httpStatusCode >= 200 && row.httpStatusCode < 300 ? 'success' : 'danger'" />
@@ -196,7 +196,7 @@
                         </template>
                     </template>
                 </el-table-column>
-                <na-col-operation
+                <naColOperation
                     :buttons="[
                         {
                             icon: 'el-icon-view',
@@ -223,7 +223,7 @@
 import { defineAsyncComponent } from 'vue'
 import http from '@/utils/request'
 const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save.vue'))
-import naInfo from '@/components/naInfo/index.vue'
+import naInfo from '@/components/naInfo'
 
 export default {
     components: {

@@ -10,7 +10,7 @@
                         width="20rem">
                         <template #reference>
                             <el-button
-                                v-loading="loading"
+                                :disabled="disabled"
                                 :icon="item.icon"
                                 :title="item.title ? $t(item.title) : ''"
                                 :type="item.type"
@@ -20,7 +20,7 @@
                     </el-popconfirm>
                     <el-button
                         v-else
-                        v-loading="loading"
+                        :disabled="disabled"
                         :icon="item.icon"
                         :title="item.title ? $t(item.title) : ''"
                         :type="item.type"
@@ -47,7 +47,7 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            disabled: false,
         }
     },
     mounted() {},
@@ -56,9 +56,9 @@ export default {
     computed: {},
     methods: {
         async click(item, row, vue) {
-            this.loading = true
+            this.disabled = true
             await item.click(row, vue)
-            this.loading = false
+            this.disabled = false
         },
     },
 }

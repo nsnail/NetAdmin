@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import scPasswordStrength from '@/components/scPasswordStrength/index.vue'
+import scPasswordStrength from '@/components/scPasswordStrength'
 import naFormPassword from '@/config/naFormPassword'
 
 export default {

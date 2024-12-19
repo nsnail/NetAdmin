@@ -14,8 +14,8 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-const log = defineAsyncComponent(() => import('@/views/sys/job/record/index.vue'))
-const all = defineAsyncComponent(() => import('@/views/sys/job/all/index.vue'))
+const log = defineAsyncComponent(() => import('@/views/sys/job/record'))
+const all = defineAsyncComponent(() => import('@/views/sys/job/all'))
 
 export default {
     components: { all, log },

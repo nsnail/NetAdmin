@@ -7,7 +7,7 @@
 
 <script>
 import colorTool from '@/utils/color'
-import naVersionUpdater from '@/components/naVersionUpdater/index.vue'
+import naVersionUpdater from '@/components/naVersionUpdater'
 import UseTabs from '@/utils/useTabs'
 
 export default {
