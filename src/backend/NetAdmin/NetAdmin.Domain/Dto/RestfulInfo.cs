@@ -22,4 +22,9 @@ public record RestfulInfo<T> : DataAbstraction
     /// </summary>
     /// <example>请求成功</example>
     public object Msg { get; init; }
+
+    /// <summary>
+    ///     追踪标识
+    /// </summary>
+    public Guid? TraceId { get; set; }
 }

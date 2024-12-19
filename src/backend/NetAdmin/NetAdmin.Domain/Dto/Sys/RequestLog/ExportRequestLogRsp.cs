@@ -76,6 +76,6 @@ public sealed record ExportRequestLogRsp : QueryRequestLogRsp
     /// <inheritdoc />
     [CsvIndex(7)]
     [CsvIgnore(false)]
-    [CsvName(nameof(Ln.跟踪标识))]
+    [CsvName(nameof(Ln.追踪标识))]
     public override Guid TraceId { get; init; }
 }

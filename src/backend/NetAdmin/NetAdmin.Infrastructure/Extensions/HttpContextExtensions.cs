@@ -24,7 +24,7 @@ public static class HttpContextExtensions
     }
 
     /// <summary>
-    ///     获取跟踪标识
+    ///     获取追踪标识
     /// </summary>
     public static Guid GetTraceId(this HttpContext me)
     {
