@@ -35,7 +35,7 @@ public abstract class ApiResultHandler<T>
         var result = RestfulResult(errorCode, metadata.Data
                       ,                       naException is NetAdminValidateException vEx
                                        ? vEx.ValidateResults
-                                       : naException?.Message ?? errorCode.ResDesc<ErrorCodes>());
+                                       : naException?.Message ?? errorCode.ResDesc<ErrorCodes>(), context.HttpContext.GetTraceId());
 
         SetErrorCodeToHeader(context.HttpContext, errorCode);
 
@@ -95,9 +95,9 @@ public abstract class ApiResultHandler<T>
     /// <summary>
     ///     返回 RESTful 风格结果集
     /// </summary>
-    private static T RestfulResult(ErrorCodes errorCode, object data = default, object message = default)
+    private static T RestfulResult(ErrorCodes errorCode, object data = null, object message = null, Guid? traceId = null)
     {
-        return new T { Code = errorCode, Data = data, Msg = message };
+        return new T { Code = errorCode, Data = data, Msg = message, TraceId = traceId };
     }
 
     /// <summary>

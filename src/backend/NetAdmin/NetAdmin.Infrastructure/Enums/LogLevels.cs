@@ -7,10 +7,10 @@ namespace NetAdmin.Infrastructure.Enums;
 public enum LogLevels
 {
     /// <summary>
-    ///     跟踪
+    ///     追踪
     /// </summary>
     [Display(Name = "[gray]TCE[/]", ShortName = "TCE")]
-    [ResourceDescription<Ln>(nameof(Ln.跟踪))]
+    [ResourceDescription<Ln>(nameof(Ln.追踪))]
     Trace = 0
 
    ,

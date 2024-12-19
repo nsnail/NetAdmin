@@ -100,7 +100,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     public virtual long? OwnerId { get; init; }
 
     /// <summary>
-    ///     请求跟踪标识
+    ///     请求追踪标识
     /// </summary>
     [Column]
     [CsvIgnore]
