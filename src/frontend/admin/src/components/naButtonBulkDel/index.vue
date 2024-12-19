@@ -25,10 +25,12 @@ export default {
         //批量删除
         async bulkDel() {
             this.loading = true
+            let load
             try {
                 await this.$confirm(this.$t('确定删除选中的 {count} 项吗？', { count: this.vue.selection.length }), this.$t('提示'), {
                     type: 'warning',
                 })
+                load = this.$loading()
                 const res = await this.api.post({
                     items: this.vue.selection,
                 })
@@ -37,6 +39,7 @@ export default {
             } catch {
                 //
             }
+            load?.close()
             this.loading = false
         },
     },

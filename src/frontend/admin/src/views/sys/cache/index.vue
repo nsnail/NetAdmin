@@ -83,7 +83,7 @@
                 <el-table-column :label="$t('键名')" min-width="400" prop="key" />
                 <el-table-column :label="$t('数据类型')" align="center" prop="type" width="100" />
                 <el-table-column :label="$t('过期时间')" align="right" prop="expireTime" width="200" />
-                <na-col-operation
+                <naColOperation
                     :buttons="[
                         {
                             icon: 'el-icon-view',
@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import naInfo from '@/components/naInfo/index.vue'
+import naInfo from '@/components/naInfo'
 
 export default {
     components: {

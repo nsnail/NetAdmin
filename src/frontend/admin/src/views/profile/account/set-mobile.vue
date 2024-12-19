@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import naFormPhone from '@/components/naFormPhone/index.vue'
+import naFormPhone from '@/components/naFormPhone'
 import phoneConfig from '@/config/naFormPhone'
 
 export default {

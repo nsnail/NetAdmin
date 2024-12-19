@@ -7,7 +7,7 @@
     </el-table-column>
 </template>
 <script>
-import naIndicator from '@/components/naIndicator/index.vue'
+import naIndicator from '@/components/naIndicator'
 export default {
     emits: [],
     props: {

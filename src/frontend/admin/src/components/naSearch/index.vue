@@ -36,7 +36,7 @@
                     </el-select>
                 </template>
             </el-input>
-            <sc-select
+            <scSelect
                 v-else-if="item.type === 'remote-select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
                 v-role="item.role || '*/*/*'"
@@ -71,7 +71,7 @@
                 :style="item.style"
                 clearable
                 filterable />
-            <na-user-select
+            <naUserSelect
                 v-else-if="item.type === 'user-select' && (!item.condition || item.condition())"
                 v-model="form[item.field[0]][item.field[1]]"
                 v-role="item.role || '*/*/*'"
@@ -89,7 +89,7 @@
                     <template #reference>
                         <el-button @click="reset" icon="el-icon-refresh-left">{{ $t('重置') }}</el-button>
                     </template>
-                    <v-ace-editor
+                    <VAceEditor
                         v-model:value="aceEditorValue"
                         :theme="$TOOL.data.get('APP_SET_DARK') || $CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                         lang="json"
@@ -148,7 +148,14 @@
 import tool from '@/utils/tool'
 import vkbeautify from 'vkbeautify/index'
 
+import { defineAsyncComponent } from 'vue'
+const naUserSelect = defineAsyncComponent(() => import('@/components/naUserSelect'))
+const scSelect = defineAsyncComponent(() => import('@/components/scSelect'))
 export default {
+    components: {
+        naUserSelect,
+        scSelect,
+    },
     emits: ['search', 'reset', 'reSearch'],
     props: {
         dateField: { type: String, default: 'createdTime' },

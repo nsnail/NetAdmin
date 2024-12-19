@@ -630,3 +630,9 @@ textarea {
     height: auto;
     padding: 0 1rem;
 }
+
+.children-nopadding {
+    * {
+        padding: 0 !important;
+    }
+}

@@ -95,7 +95,7 @@
             </div>
             <div class="right-panel">
                 <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
-                <na-button-bulk-del :api="$API.sys_role.bulkDelete" :vue="this" />
+                <naButtonBulkDel :api="$API.sys_role.bulkDelete" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -132,7 +132,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <na-col-id :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
+                <naColId :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('角色名称')" min-width="150" prop="name" sortable="custom" />
                 <el-table-column :label="$t('用户数量')" align="right" width="100">
                     <template #default="{ row }">
@@ -147,7 +147,7 @@
                         <el-switch v-model="row.ignorePermissionControl" @change="changeIgnorePermissionControl($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <na-col-indicator
+                <naColIndicator
                     :label="$t('数据范围')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.dataScopes).map((x) => {
@@ -158,7 +158,7 @@
                     prop="dataScope"
                     sortable="custom"
                     width="120">
-                </na-col-indicator>
+                </naColIndicator>
 
                 <el-table-column :label="$t('显示仪表板')" align="center" prop="displayDashboard" sortable="custom" width="120">
                     <template #default="{ row }">
@@ -170,7 +170,7 @@
                         <el-switch v-model="row.enabled" @change="changeEnabled($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <na-col-operation
+                <naColOperation
                     :buttons="
                         naColOperation.buttons.concat(
                             {
@@ -179,13 +179,7 @@
                                 title: '复制角色',
                                 click: copyRole,
                             },
-                            {
-                                icon: 'el-icon-delete',
-                                confirm: true,
-                                title: '删除角色',
-                                click: this.rowDel,
-                                type: 'danger',
-                            },
+                            naColOperation.delButton('删除角色', $API.sys_role.delete),
                         )
                     "
                     :vue="this"
@@ -349,15 +343,6 @@ export default {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
             })
             this.$refs.search.search()
-        },
-        async rowDel(row) {
-            try {
-                const res = await this.$API.sys_role.delete.post({ id: row.id })
-                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
         },
         //重置
         onReset() {

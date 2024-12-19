@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
+    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs v-if="!loading" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
@@ -8,7 +8,7 @@
                             <el-collapse-item :title="$t('用户注册设置')" name="1">
                                 <div style="margin: 1rem">
                                     <el-form-item :label="$t('默认角色')" prop="userRegisterRoleId">
-                                        <sc-select
+                                        <scSelect
                                             v-model="form.userRegisterRoleId"
                                             :config="{ props: { label: 'name', value: 'id' } }"
                                             :export-api="$API.sys_role.export"
@@ -18,7 +18,7 @@
                                             style="width: 15rem" />
                                     </el-form-item>
                                     <el-form-item :label="$t('默认部门')" prop="userRegisterDeptId">
-                                        <na-dept v-model="form.userRegisterDeptId" style="width: 15rem"></na-dept>
+                                        <naDept v-model="form.userRegisterDeptId" style="width: 15rem"></naDept>
                                     </el-form-item>
                                     <el-form-item :label="$t('开启人工审核')" prop="userRegisterConfirm">
                                         <el-switch v-model="form.userRegisterConfirm"></el-switch>
@@ -33,13 +33,13 @@
                     </el-form>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <json-viewer
+                    <JsonViewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></json-viewer>
+                        sort></JsonViewer>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -47,12 +47,15 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </sc-dialog>
+    </scDialog>
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+const naDept = defineAsyncComponent(() => import('@/components/naDept'))
+const scSelect = defineAsyncComponent(() => import('@/components/scSelect'))
 export default {
-    components: {},
+    components: { naDept, scSelect },
     data() {
         return {
             //表单数据

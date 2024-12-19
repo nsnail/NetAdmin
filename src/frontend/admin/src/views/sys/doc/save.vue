@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
+    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
         <el-form v-loading="loading" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
             <el-form-item :label="$t('文档分类名称')" prop="name">
                 <el-input v-model="form.name" :placeholder="$t('文档分类名称')" clearable></el-input>
@@ -15,7 +15,7 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </sc-dialog>
+    </scDialog>
 </template>
 
 <script>

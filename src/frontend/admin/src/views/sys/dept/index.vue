@@ -47,7 +47,7 @@
             </div>
             <div class="right-panel">
                 <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
-                <na-button-bulk-del :api="$API.sys_dept.bulkDelete" :vue="this" />
+                <naButtonBulkDel :api="$API.sys_dept.bulkDelete" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -87,7 +87,7 @@
                 stripe>
                 <el-table-column type="selection" width="50" />
                 <el-table-column :label="$t('部门名称')" min-width="150" prop="name" sortable="custom" />
-                <na-col-id :label="$t('部门编号')" prop="id" sortable="custom" width="170" />
+                <naColId :label="$t('部门编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('用户数量')" align="right" width="100">
                     <template #default="{ row }">
                         <el-link @click.native="dialog.save = { mode: 'view', row, tabId: 'user' }"
@@ -102,16 +102,8 @@
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <na-col-operation
-                    :buttons="
-                        naColOperation.buttons.concat({
-                            icon: 'el-icon-delete',
-                            confirm: true,
-                            title: '删除部门',
-                            click: this.rowDel,
-                            type: 'danger',
-                        })
-                    "
+                <naColOperation
+                    :buttons="naColOperation.buttons.concat(naColOperation.delButton('删除部门', $API.sys_dept.delete))"
                     :vue="this"
                     width="120" />
             </sc-table>
@@ -228,15 +220,6 @@ export default {
                 this.$refs.search.form.dy[key] = value === 'true' ? true : value === 'false' ? false : value
             })
             this.$refs.search.search()
-        },
-        async rowDel(row) {
-            try {
-                const res = await this.$API.sys_dept.delete.post({ id: row.id })
-                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
         },
         //重置
         onReset() {

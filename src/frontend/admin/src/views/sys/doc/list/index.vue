@@ -64,7 +64,7 @@
                     @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
                     icon="el-icon-plus"
                     type="primary"></el-button>
-                <na-button-bulk-del :api="$API.sys_doc.bulkDeleteContent" :vue="this" />
+                <naButtonBulkDel :api="$API.sys_doc.bulkDeleteContent" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -101,9 +101,9 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
+                <naColId :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('文档标题')" min-width="200" prop="title" sortable="custom" />
-                <na-col-indicator
+                <naColIndicator
                     :label="$t('档案可见性')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.archiveVisibilities).map((x) => {
@@ -119,7 +119,7 @@
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <na-col-operation
+                <naColOperation
                     :buttons="[
                         {
                             icon: 'el-icon-view',
@@ -138,13 +138,7 @@
                             click: share,
                             title: '分享文档',
                         },
-                        {
-                            icon: 'el-icon-delete',
-                            confirm: true,
-                            title: '删除文档',
-                            click: this.rowDel,
-                            type: 'danger',
-                        },
+                        naColOperation.delButton('删除文档', $API.sys_doc.deleteContent),
                     ]"
                     :vue="this"
                     width="180" />
@@ -302,16 +296,6 @@ export default {
                 this.$message.success(this.$t('文档链接已复制'))
             }
             document.body.removeChild(textarea)
-        },
-        //删除
-        async rowDel(row) {
-            try {
-                const res = await this.$API.sys_doc.deleteContent.post({ id: row.id })
-                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
         },
     },
     mounted() {

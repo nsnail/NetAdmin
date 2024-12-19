@@ -37,9 +37,9 @@
 <script>
 import commonPage from './components/commonPage'
 import naFormPassword from '@/config/naFormPassword'
-import naFormPhone from '@/components/naFormPhone/index.vue'
+import naFormPhone from '@/components/naFormPhone'
 import phoneConfig from '@/config/naFormPhone'
-import scPasswordStrength from '@/components/scPasswordStrength/index.vue'
+import scPasswordStrength from '@/components/scPasswordStrength'
 
 export default {
     components: {

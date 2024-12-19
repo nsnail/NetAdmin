@@ -110,7 +110,7 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
+                <naColId :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('响应状态码')" prop="httpStatusCode" sortable="custom" width="200">
                     <template #default="{ row }">
                         <p>
@@ -155,7 +155,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('响应体')" min-width="300" prop="responseBody" show-overflow-tooltip sortable="custom" />
-                <na-col-operation :buttons="[naColOperation.buttons[0]]" :vue="this" width="50" />
+                <naColOperation :buttons="[naColOperation.buttons[0]]" :vue="this" width="50" />
             </sc-table>
         </el-main>
     </el-container>
@@ -179,7 +179,7 @@
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
 import naColOperation from '@/config/naColOperation'
-import naIndicator from '@/components/naIndicator/index.vue'
+import naIndicator from '@/components/naIndicator'
 
 const saveDialog = defineAsyncComponent(() => import('./save.vue'))
 const jobDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save.vue'))

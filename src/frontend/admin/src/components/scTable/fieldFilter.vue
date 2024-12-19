@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog v-model="visible" :title="$t('高级筛选')" destroy-on-close>
+    <scDialog v-model="visible" :title="$t('高级筛选')" destroy-on-close>
         <el-form :model="form" :rules="rules" label-width="10rem" ref="form">
             <el-form-item :label="$t('字段名')" prop="field">
                 <el-input v-model="form.field" :placeholder="$t('字段名')" clearable />
@@ -16,7 +16,7 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button @click="submit" type="primary">{{ $t('确定') }}</el-button>
         </template>
-    </sc-dialog>
+    </scDialog>
 </template>
 <script>
 export default {

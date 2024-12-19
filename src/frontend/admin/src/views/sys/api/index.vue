@@ -19,7 +19,7 @@
                 stripe>
                 <el-table-column :label="$t('接口路径')" min-width="400" prop="id" />
                 <el-table-column :label="$t('接口名称')" min-width="200" prop="name" />
-                <na-col-indicator
+                <naColIndicator
                     :label="$t('请求方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {

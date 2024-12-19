@@ -111,21 +111,21 @@
                         row-key="id"
                         stripe>
                         <el-table-column type="selection" width="50" />
-                        <na-col-id :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
-                        <na-col-avatar :label="$t('用户名')" prop="userName" width="170" />
+                        <naColId :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
+                        <naColAvatar :label="$t('用户名')" prop="userName" width="170" />
                         <el-table-column :label="$t('手机号 / 邮箱')" align="right" prop="mobile" sortable="custom" width="250">
                             <template #default="{ row }">
                                 <p>{{ row.mobile }}</p>
                                 <p>{{ row.email }}</p>
                             </template>
                         </el-table-column>
-                        <na-col-tags
+                        <naColTags
                             :label="$t('所属部门')"
                             @click="(item) => (this.dialog.deptSave = { row: item, mode: 'view' })"
                             field="name"
                             prop="dept"
                             width="120" />
-                        <na-col-tags
+                        <naColTags
                             :label="$t('所属角色')"
                             @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
                             field="name"
@@ -141,7 +141,7 @@
                                 <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                             </template>
                         </el-table-column>
-                        <na-col-operation :vue="this" width="120" />
+                        <naColOperation :vue="this" width="120" />
                     </sc-table>
                 </el-col>
             </el-row>
@@ -173,11 +173,15 @@ import table from '@/config/table'
 const roleSaveDialog = defineAsyncComponent(() => import('@/views/sys/role/save.vue'))
 const deptSaveDialog = defineAsyncComponent(() => import('@/views/sys/dept/save.vue'))
 const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const naColAvatar = defineAsyncComponent(() => import('@/components/naColAvatar'))
+const naColTags = defineAsyncComponent(() => import('@/components/naColTags'))
 export default {
     components: {
+        naColAvatar,
         deptSaveDialog,
         roleSaveDialog,
         saveDialog,
+        naColTags,
     },
     computed: {
         table() {

@@ -24,21 +24,21 @@ const routes = [
                     },
                     {
                         path: '/profile/message',
-                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/message/index.vue'),
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/message'),
                         meta: {
                             title: '消息中心',
                         },
                     },
                     {
                         path: '/profile/account',
-                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/account/index.vue'),
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/account'),
                         meta: {
                             title: '基本资料',
                         },
                     },
                     {
                         path: '/profile/token',
-                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/token/index.vue'),
+                        component: () => import(/* webpackChunkName: "userRegister" */ '@/views/profile/token'),
                         meta: {
                             title: '授权信息',
                         },

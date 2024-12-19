@@ -1,5 +1,5 @@
 <template>
-    <sc-dialog
+    <scDialog
         v-model="visible"
         :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
         @closed="$emit('closed')"
@@ -17,7 +17,7 @@
             <el-tabs v-model="tabId" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form-item prop="avatar">
-                        <sc-upload v-model="form.avatar" :title="$t('上传头像')"></sc-upload>
+                        <scUpload v-model="form.avatar" :title="$t('上传头像')"></scUpload>
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('唯一编码')" prop="id">
                         <el-input v-model="form.id" clearable></el-input>
@@ -51,7 +51,7 @@
                     </el-form-item>
 
                     <el-form-item :label="$t('所属角色')" prop="roleIds">
-                        <sc-select
+                        <scSelect
                             v-if="!this.loading"
                             v-model="form.roleIds"
                             :config="{ props: { label: 'name', value: 'id' } }"
@@ -62,7 +62,7 @@
                             multiple />
                     </el-form-item>
                     <el-form-item :label="$t('所属部门')" prop="deptId">
-                        <na-dept v-model="form.deptId" class="w100p"></na-dept>
+                        <naDept v-model="form.deptId" class="w100p"></naDept>
                     </el-form-item>
 
                     <template v-if="mode !== 'add'">
@@ -144,7 +144,7 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('籍贯')" prop="profile.nationArea">
-                                <na-area v-model="form.profile.nationArea"></na-area>
+                                <naArea v-model="form.profile.nationArea"></naArea>
                             </el-form-item>
                         </el-col>
 
@@ -166,7 +166,7 @@
                             <el-form-item :label="$t('住宅地址')" prop="profile.homeAddress">
                                 <el-input v-model="form.profile.homeAddress" clearable>
                                     <template v-slot:prepend>
-                                        <na-area v-model="form.profile.homeArea" style="width: 15rem"></na-area>
+                                        <naArea v-model="form.profile.homeArea" style="width: 15rem"></naArea>
                                     </template>
                                 </el-input>
                             </el-form-item>
@@ -187,7 +187,7 @@
                             <el-form-item :label="$t('工作地址')" prop="profile.companyAddress">
                                 <el-input v-model="form.profile.companyAddress" clearable>
                                     <template v-slot:prepend>
-                                        <na-area v-model="form.profile.companyArea" style="width: 15rem"></na-area>
+                                        <naArea v-model="form.profile.companyArea" style="width: 15rem"></naArea>
                                     </template>
                                 </el-input>
                             </el-form-item>
@@ -218,14 +218,14 @@
                             <el-form-item :label="$t('联系人地址')" prop="profile.emergencyContactAddress">
                                 <el-input v-model="form.profile.emergencyContactAddress" clearable>
                                     <template v-slot:prepend>
-                                        <na-area v-model="form.profile.emergencyContactArea" style="width: 15rem"></na-area>
+                                        <naArea v-model="form.profile.emergencyContactArea" style="width: 15rem"></naArea>
                                     </template>
                                 </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
                             <el-form-item :label="$t('应用配置')" prop="profile.appConfig">
-                                <v-ace-editor
+                                <VAceEditor
                                     v-model:value="form.profile.appConfig"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                                     lang="json"
@@ -238,13 +238,13 @@
                     <log v-if="tabId === 'log'" :owner-id="form.id"></log>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <json-viewer
+                    <JsonViewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></json-viewer>
+                        sort></JsonViewer>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -252,15 +252,19 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </sc-dialog>
+    </scDialog>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 
-const log = defineAsyncComponent(() => import('@/views/sys/log/operation/index.vue'))
+const log = defineAsyncComponent(() => import('@/views/sys/log/operation'))
+const naArea = defineAsyncComponent(() => import('@/components/naArea'))
+const naDept = defineAsyncComponent(() => import('@/components/naDept'))
+const scUpload = defineAsyncComponent(() => import('@/components/scUpload'))
+const scSelect = defineAsyncComponent(() => import('@/components/scSelect'))
 export default {
-    components: { log },
+    components: { log, naArea, naDept, scUpload, scSelect },
     data() {
         return {
             //表单数据

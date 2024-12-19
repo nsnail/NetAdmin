@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LoginLog from '@/views/sys/log/login/index.vue'
+import LoginLog from '@/views/sys/log/login'
 
 export default {
     components: { LoginLog },

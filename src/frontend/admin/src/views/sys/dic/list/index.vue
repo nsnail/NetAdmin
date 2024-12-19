@@ -50,7 +50,7 @@
                     @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
                     icon="el-icon-plus"
                     type="primary"></el-button>
-                <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
+                <naButtonBulkDel :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -90,7 +90,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
+                <naColId :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('项名')" min-width="150" prop="key" sortable="custom" />
                 <el-table-column :label="$t('项值')" min-width="150" prop="value" sortable="custom" />
                 <el-table-column :label="$t('备注')" min-width="150" prop="summary" sortable="custom" />
@@ -99,16 +99,8 @@
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
                     </template>
                 </el-table-column>
-                <na-col-operation
-                    :buttons="
-                        naColOperation.buttons.concat({
-                            icon: 'el-icon-delete',
-                            confirm: true,
-                            title: '删除字典项',
-                            click: this.rowDel,
-                            type: 'danger',
-                        })
-                    "
+                <naColOperation
+                    :buttons="naColOperation.buttons.concat(naColOperation.delButton('删除字典项', $API.sys_dic.deleteContent))"
                     :vue="this"
                     width="120" />
             </sc-table>
@@ -260,17 +252,6 @@ export default {
             }
 
             await this.$refs.table.upData()
-        },
-
-        //删除
-        async rowDel(row) {
-            try {
-                const res = await this.$API.sys_dic.deleteContent.post({ id: row.id })
-                this.$message.success(this.$t('删除 {count} 项', { count: res.data }))
-            } catch {
-                //
-            }
-            this.$refs.table.refresh()
         },
     },
     mounted() {

@@ -217,7 +217,7 @@
 import config from '@/config/table'
 import columnSetting from './columnSetting'
 import scContextmenuItem from '@/components/scContextmenu/item.vue'
-import scContextmenu from '@/components/scContextmenu/index.vue'
+import scContextmenu from '@/components/scContextmenu'
 import fieldFilter from './fieldFilter.vue'
 import { h } from 'vue'
 import tool from '@/utils/tool'

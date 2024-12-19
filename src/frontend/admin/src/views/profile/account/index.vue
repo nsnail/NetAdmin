@@ -2,7 +2,7 @@
     <el-card :header="$t('基本资料')" shadow="never">
         <el-form :model="form" label-width="15rem" ref="form">
             <el-form-item :label="$t('头像')">
-                <sc-upload v-model="form.avatar" :onSuccess="updateUser" :title="$t('上传头像')"></sc-upload>
+                <scUpload v-model="form.avatar" :onSuccess="updateUser" :title="$t('上传头像')"></scUpload>
             </el-form-item>
             <el-form-item :label="$t('用户编号')">
                 <el-input v-model="form.id" readonly></el-input>
@@ -58,9 +58,10 @@ import { defineAsyncComponent } from 'vue'
 const setMobileDialog = defineAsyncComponent(() => import('@/views/profile/account/set-mobile.vue'))
 const setPasswordDialog = defineAsyncComponent(() => import('@/views/profile/account/set-password.vue'))
 const setEmailDialog = defineAsyncComponent(() => import('@/views/profile/account/set-email.vue'))
+const scUpload = defineAsyncComponent(() => import('@/components/scUpload'))
 
 export default {
-    components: { setMobileDialog, setPasswordDialog, setEmailDialog },
+    components: { setMobileDialog, setPasswordDialog, setEmailDialog, scUpload },
     created() {
         this.form = this.$GLOBAL.user
     },

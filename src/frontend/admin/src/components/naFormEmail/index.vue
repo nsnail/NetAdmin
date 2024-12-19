@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import naVerify from '@/components/naVerifition/index.vue'
+import naVerify from '@/components/naVerifition'
 
 export default {
     emits: [],
