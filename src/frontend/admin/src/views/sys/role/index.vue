@@ -137,7 +137,7 @@
                 <el-table-column :label="$t('用户数量')" align="right" width="100">
                     <template #default="{ row }">
                         <el-link @click.native="dialog.save = { mode: 'view', row, tabId: 'user' }"
-                            >{{ statistics.roleId?.find((x) => x.key.roleId === row.id.toString())?.value ?? '...' }}
+                            >{{ statistics.roleId?.find((x) => x.key.roleId === row.id.toString())?.value ?? '0' }}
                         </el-link>
                     </template>
                 </el-table-column>

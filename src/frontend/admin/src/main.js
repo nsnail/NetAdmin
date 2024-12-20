@@ -8,12 +8,14 @@ import router from './router'
 import store from './store'
 import App from './App.vue'
 import preload from '@/utils/preload'
+import passiveEventListener from '@/utils/passiveEventListener'
 
 const app = createApp(App)
 app.use(ElementPlus)
 app.use(store)
 app.use(i18n)
 app.use(global)
+app.use(passiveEventListener)
 
 preload.install(app).then(() => {
     app.use(router)

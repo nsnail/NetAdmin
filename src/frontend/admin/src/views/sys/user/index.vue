@@ -189,6 +189,12 @@ export default {
         },
     },
     async created() {
+        if (this.roleId) {
+            this.query.filter.roleId = this.roleId
+        }
+        if (this.deptId) {
+            this.query.filter.deptId = this.deptId
+        }
         const res = await this.$API.sys_dept.query.post({})
 
         this.deptTree = [
@@ -198,13 +204,6 @@ export default {
                 children: res.data,
             },
         ]
-
-        if (this.roleId) {
-            this.query.filter.roleId = this.roleId
-        }
-        if (this.deptId) {
-            this.query.filter.deptId = this.deptId
-        }
     },
     data() {
         return {

@@ -44,9 +44,6 @@ export default {
                     show: true,
                     alignTo: 'labelLine',
                     formatter: '{b} {d}%',
-                    textStyle: {
-                        textBorderColor: 'transparent',
-                    },
                 },
                 radius: this.api[i++].radius,
                 type: 'pie',

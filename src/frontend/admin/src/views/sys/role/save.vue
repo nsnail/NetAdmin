@@ -79,7 +79,7 @@
                                 :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                                 lang="json"
                                 style="height: 30rem; width: 100%" />
-                            <el-button @click="form.dashboardLayout = jsonFormat(form.dashboardLayout)" type="text"
+                            <el-button @click="form.dashboardLayout = jsonFormat(form.dashboardLayout)" link type="primary"
                                 >{{ $t('JSON 格式化') }}
                             </el-button>
                         </el-form-item>
