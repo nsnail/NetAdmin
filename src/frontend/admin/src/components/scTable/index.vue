@@ -16,6 +16,7 @@
                 @cell-click="cellClickMethod"
                 @filter-change="filterChange"
                 @row-contextmenu="rowContextmenu"
+                @row-dblclick="dbClick"
                 @sort-change="sortChange"
                 ref="scTable"
                 tooltip-effect="light">
@@ -361,6 +362,11 @@ export default {
         this.isActivate = false
     },
     methods: {
+        dbClick(row) {
+            if (this.vue.dialog) {
+                this.vue.dialog.save = { mode: 'view', row: { id: row.id } }
+            }
+        },
         async contextMenuCommand(command) {
             if (typeof command === 'object') {
                 return command.action(this.vue, this.current.row)
