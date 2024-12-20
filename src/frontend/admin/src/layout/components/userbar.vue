@@ -74,7 +74,7 @@
         <search @success="searchVisible = false"></search>
     </el-dialog>
 
-    <el-drawer v-model="tasksVisible" :size="800" :title="$t('作业中心')" destroy-on-close>
+    <el-drawer v-model="tasksVisible" :size="800" :title="$t('作业中心')" @close="taskClose" destroy-on-close>
         <tasks :fail="failJobCnt" @closed="tasksVisible = false"></tasks>
     </el-drawer>
 </template>
@@ -100,49 +100,7 @@ export default {
         this.user = this.$GLOBAL.user
         let res = await this.$API.sys_sitemsg.unreadCount.post()
         this.unreadCnt = res.data
-
-        if (this.$GLOBAL.permissions.some((x) => x === '*/*/*' || x === 'sys/job/userbar')) {
-            res = await this.$API.sys_job.countRecord.post({
-                dynamicFilter: {
-                    filters: [
-                        {
-                            field: 'createdTime',
-                            operator: 'dateRange',
-                            value: [
-                                this.$TOOL.data.get('APP_SET_FAIL_JOB_VIEW_TIME') ?? this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'),
-                                this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
-                            ],
-                        },
-                        {
-                            logic: 'or',
-                            filters: [
-                                {
-                                    field: 'httpStatusCode',
-                                    operator: 'range',
-                                    value: '300,399',
-                                },
-                                {
-                                    field: 'httpStatusCode',
-                                    operator: 'range',
-                                    value: '400,499',
-                                },
-                                {
-                                    field: 'httpStatusCode',
-                                    operator: 'range',
-                                    value: '500,599',
-                                },
-                                {
-                                    field: 'httpStatusCode',
-                                    operator: 'range',
-                                    value: '900,999',
-                                },
-                            ],
-                        },
-                    ],
-                },
-            })
-            this.failJobCnt = res.data
-        }
+        await this.getFailJobsCnt()
     },
     data() {
         return {
@@ -160,6 +118,55 @@ export default {
         }
     },
     methods: {
+        async getFailJobsCnt() {
+            if (this.$GLOBAL.permissions.some((x) => x === '*/*/*' || x === 'sys/job/userbar')) {
+                const res = await this.$API.sys_job.countRecord.post({
+                    dynamicFilter: {
+                        filters: [
+                            {
+                                field: 'createdTime',
+                                operator: 'dateRange',
+                                value: [
+                                    this.$TOOL.data.get('APP_SET_FAIL_JOB_VIEW_TIME') ?? this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd'),
+                                    this.$TOOL.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss'),
+                                ],
+                            },
+                            {
+                                logic: 'or',
+                                filters: [
+                                    {
+                                        field: 'httpStatusCode',
+                                        operator: 'range',
+                                        value: '300,399',
+                                    },
+                                    {
+                                        field: 'httpStatusCode',
+                                        operator: 'range',
+                                        value: '400,499',
+                                    },
+                                    {
+                                        field: 'httpStatusCode',
+                                        operator: 'range',
+                                        value: '500,599',
+                                    },
+                                    {
+                                        field: 'httpStatusCode',
+                                        operator: 'range',
+                                        value: '900,999',
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                })
+                this.failJobCnt = res.data
+            }
+        },
+        taskClose() {
+            setTimeout(() => {
+                this.getFailJobsCnt()
+            }, 2000)
+        },
         clearData(fullClear) {
             const loading = this.$loading()
             this.$TOOL.cookie.clear()

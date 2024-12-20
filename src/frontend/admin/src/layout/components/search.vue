@@ -48,7 +48,6 @@ export default {
     data() {
         return {
             cursor: {
-                position: 0,
                 index: 0,
             },
             input: '',
@@ -59,7 +58,6 @@ export default {
     },
     watch: {
         result() {
-            this.cursor.position = 0
             this.cursor.index = 0
         },
     },
@@ -86,12 +84,15 @@ export default {
                 return
             }
             if (e.keyCode === 40) {
-                this.cursor.index = Math.abs(++this.cursor.position % this.result.length)
+                this.cursor.index = ++this.cursor.index % this.result.length
                 e.preventDefault()
                 return
             }
             if (e.keyCode === 38) {
-                this.cursor.index = Math.abs(--this.cursor.position % this.result.length)
+                this.cursor.index = --this.cursor.index % this.result.length
+                if (this.cursor.index < 0) {
+                    this.cursor.index += this.result.length
+                }
                 e.preventDefault()
                 return
             }

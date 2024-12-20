@@ -55,11 +55,11 @@
                     :page-size="scPageSize"
                     :page-sizes="pageSizes"
                     :pager-count="pagerCount"
-                    :small="true"
                     :total="total"
                     @current-change="paginationChange"
                     @update:page-size="pageSizeChange"
-                    background></el-pagination>
+                    background
+                    size="small"></el-pagination>
             </div>
             <div v-if="!hideDo" class="scTable-do">
                 <el-button
@@ -105,9 +105,9 @@
                     <el-form label-position="left" label-width="10rem">
                         <el-form-item :label="$t('表格尺寸')">
                             <el-radio-group v-model="config.size" @change="configSizeChange" size="small">
-                                <el-radio-button label="large">{{ $t('大') }}</el-radio-button>
-                                <el-radio-button label="default">{{ $t('正常') }}</el-radio-button>
-                                <el-radio-button label="small">{{ $t('小') }}</el-radio-button>
+                                <el-radio-button value="large">{{ $t('大') }}</el-radio-button>
+                                <el-radio-button value="default">{{ $t('正常') }}</el-radio-button>
+                                <el-radio-button value="small">{{ $t('小') }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item :label="$t('样式')">
@@ -232,6 +232,7 @@ export default {
         fieldFilter,
     },
     props: {
+        dblClickDisable: { type: Boolean, default: false },
         vue: { type: Object },
         contextMenus: { type: Array },
         contextOpers: { type: Array, default: ['copy', 'add', 'view', 'edit', 'del'] },
@@ -309,7 +310,7 @@ export default {
     },
     data() {
         return {
-            pagerCount: 10,
+            pagerCount: 11,
             current: {
                 row: null,
                 column: null,
@@ -338,7 +339,7 @@ export default {
         }
     },
     mounted() {
-        this.pagerCount = document.body.clientWidth < 1000 ? 3 : 10
+        this.pagerCount = document.body.clientWidth < 1000 ? 3 : 11
         //判断是否开启自定义列
         if (this.column) {
             this.getCustomColumn()
@@ -363,6 +364,9 @@ export default {
     },
     methods: {
         dbClick(row) {
+            if (this.dblClickDisable) {
+                return
+            }
             if (this.vue.dialog) {
                 this.vue.dialog.save = { mode: 'view', row: { id: row.id } }
             }

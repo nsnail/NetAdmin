@@ -1,13 +1,41 @@
 <template>
     <el-container v-loading="loading">
+        <el-header class="flex" style="justify-content: space-evenly; height: unset">
+            <div v-if="failJobs">
+                <el-badge :hidden="fail === 0" :value="`${$TOOL.time.getFormatTime(new Date(failJobViewTime).getTime())} 至今 ${fail}个`">
+                    <el-button
+                        @click="
+                            () => {
+                                this.$router.push({ path: '/sys/job', query: { view: 'fail' } })
+                                this.$emit('closed')
+                            }
+                        "
+                        plain
+                        type="danger"
+                        >{{ $t('异常日志') }}
+                    </el-button>
+                </el-badge>
+            </div>
+            <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
+            <div>
+                <el-badge :hidden="jobsCnt === 0" :value="jobsCnt" type="primary">
+                    <el-button
+                        @click="
+                            () => {
+                                this.$router.push({ path: '/sys/job' })
+                                this.$emit('closed')
+                            }
+                        "
+                        >{{ $t('作业管理') }}
+                    </el-button>
+                </el-badge>
+            </div>
+        </el-header>
         <el-main>
             <el-empty v-if="jobs.length === 0" :image-size="120">
                 <template #description>
                     <h2>{{ $t('没有正在执行的作业') }}</h2>
                 </template>
-                <p style="color: var(--el-color-info); line-height: 1.5; margin: 0 3rem">
-                    在处理耗时过久的作业时为了不阻碍正在处理的工作，可在作业中心进行异步执行。
-                </p>
             </el-empty>
             <el-row :gutter="10">
                 <el-col :lg="12">
@@ -18,7 +46,13 @@
                             <p>未发现新的异常作业</p>
                         </template>
                     </el-empty>
-                    <el-card v-else v-for="job in failJobs" :class="`user-bar-jobs-item alert`" :key="job.job.id" shadow="hover">
+                    <el-card
+                        v-else
+                        v-for="job in failJobs"
+                        :class="`user-bar-jobs-item alert`"
+                        :key="job.job.id"
+                        @click="dialog.jobRecordSave = { mode: 'view', row: { id: job.id } }"
+                        shadow="hover">
                         <div class="user-bar-jobs-item-body">
                             <div class="jobIcon">
                                 {{ job.httpStatusCode.toUpperCase().slice(0, 2) }}
@@ -32,15 +66,8 @@
                                     </p>
                                 </div>
                                 <div class="bottom">
-                                    <div class="status failJobs">
-                                        {{ job.responseBody }}
-                                    </div>
-                                    <div class="handler">
-                                        <el-button
-                                            @click="dialog.jobRecordSave = { mode: 'view', row: { id: job.id } }"
-                                            circle
-                                            icon="el-icon-view"
-                                            type="danger"></el-button>
+                                    <div class="status">
+                                        <el-tag type="danger">{{ job.responseBody }}</el-tag>
                                     </div>
                                 </div>
                             </div>
@@ -52,6 +79,7 @@
                         v-for="job in jobs"
                         :class="`user-bar-jobs-item ${job.lastStatusCode === 'oK' ? '' : 'alert'}`"
                         :key="job.id"
+                        @click="dialog.jobSave = { mode: 'view', row: { id: job.id }, tabId: 'record' }"
                         shadow="hover">
                         <div class="user-bar-jobs-item-body">
                             <div class="jobIcon">
@@ -72,13 +100,6 @@
                                             >{{ $t('空闲') }}
                                         </el-tag>
                                     </div>
-                                    <div class="handler">
-                                        <el-button
-                                            :type="job.lastStatusCode === 'oK' ? 'primary' : 'danger'"
-                                            @click="dialog.jobSave = { mode: 'view', row: { id: job.id }, tabId: 'record' }"
-                                            circle
-                                            icon="el-icon-view"></el-button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -86,37 +107,6 @@
                 </el-col>
             </el-row>
         </el-main>
-        <el-footer class="flex" style="justify-content: space-evenly; height: unset">
-            <div v-if="failJobs">
-                <el-badge :hidden="fail === 0" :value="`${$TOOL.time.getFormatTime(new Date(failJobViewTime).getTime())} 至今 ${fail}个`">
-                    <el-button
-                        @click="
-                            () => {
-                                this.$router.push({ path: '/sys/job', query: { view: 'fail' } })
-                                this.$emit('closed')
-                            }
-                        "
-                        plain
-                        type="danger"
-                        >{{ $t('异常日志') }}</el-button
-                    >
-                </el-badge>
-            </div>
-            <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
-            <div>
-                <el-badge :hidden="jobsCnt === 0" :value="jobsCnt">
-                    <el-button
-                        @click="
-                            () => {
-                                this.$router.push({ path: '/sys/job' })
-                                this.$emit('closed')
-                            }
-                        "
-                        >{{ $t('作业管理') }}</el-button
-                    >
-                </el-badge>
-            </div>
-        </el-footer>
     </el-container>
 
     <jobSaveDialog
@@ -133,6 +123,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import scPageHeader from '@/components/scPageHeader'
 
 const jobSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save.vue'))
 const jobRecordSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/record/save.vue'))
@@ -144,6 +135,7 @@ export default {
         },
     },
     components: {
+        scPageHeader,
         jobSaveDialog,
         jobRecordSaveDialog,
     },
@@ -170,6 +162,7 @@ export default {
                         value: true,
                         operator: 'eq',
                     },
+                    pageSize: 10,
                 }),
                 this.$API.sys_job.pagedQueryRecord.post({
                     dynamicFilter: {
@@ -204,6 +197,7 @@ export default {
                         operator: 'greaterThan',
                         value: this.failJobViewTime,
                     },
+                    pageSize: 10,
                 }),
             ])
 
@@ -229,6 +223,7 @@ export default {
 <style scoped>
 .user-bar-jobs-item {
     margin-bottom: 0.5rem;
+    cursor: pointer;
 }
 
 .user-bar-jobs-item:hover {
@@ -241,48 +236,44 @@ export default {
 
 .user-bar-jobs-item-body {
     display: flex;
+    gap: 1rem;
 }
 
 .user-bar-jobs-item-body .jobIcon {
     width: 3rem;
     height: 3rem;
     background: var(--el-color-primary-light-9);
-    margin-right: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--el-color-primary);
     border-radius: 1.5rem;
+    text-align: center;
+    color: var(--el-color-primary);
+    line-height: 3rem;
 }
 
 .user-bar-jobs-item-body .jobMain {
     flex: 1;
+    overflow: hidden;
 }
 
 .user-bar-jobs-item-body .title h2 {
     font-size: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .user-bar-jobs-item-body .title p {
     font-size: 1rem;
     color: var(--el-color-info);
-    margin-top: 0.5rem;
+    line-height: 1.5rem;
 }
 
 .user-bar-jobs-item-body .bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 0.5rem;
 }
 
 .user-bar-jobs-item.alert .jobIcon {
     background: var(--el-color-danger-light-9);
     color: var(--el-color-danger);
-}
-
-.status.failJobs {
-    color: var(--el-color-danger);
-    width: 18rem;
-    overflow: hidden;
 }
 </style>
