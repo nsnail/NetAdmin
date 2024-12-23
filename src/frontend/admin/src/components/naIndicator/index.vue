@@ -1,7 +1,7 @@
 <template>
     <template v-for="(item, i) in options" :key="i">
         <div v-if="this.$TOOL.getNestedProperty(data, this.prop)?.toString().toLowerCase() === item.value?.toString().toLowerCase()">
-            <sc-status-indicator
+            <scStatusIndicator
                 :pulse="item.pulse"
                 :style="item.type ? '' : `background: #${Math.abs(this.$TOOL.crypto.hashCode(item.value)).toString(16).substring(0, 6)}`"
                 :type="item.type" />

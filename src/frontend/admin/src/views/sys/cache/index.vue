@@ -5,48 +5,48 @@
                 <el-row :gutter="15">
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic :title="$t('Redis 版本')" :value="statistics.version" group-separator></sc-statistic>
+                            <scStatistic :title="$t('Redis 版本')" :value="statistics.version" group-separator></scStatistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic
+                            <scStatistic
                                 :suffix="$t('天')"
                                 :title="$t('Redis 运行时间')"
                                 :value="parseInt(statistics.upTime / 86400)"
-                                group-separator></sc-statistic>
+                                group-separator></scStatistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic
+                            <scStatistic
                                 :title="$t('CPU 使用率')"
                                 :value="statistics.upTime ? (statistics.usedCpu / statistics.upTime).toFixed(2) : 0"
                                 group-separator
-                                suffix="%"></sc-statistic>
+                                suffix="%"></scStatistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic
+                            <scStatistic
                                 :title="$t('内存使用量')"
                                 :value="(statistics.usedMemory / 1024 / 1024).toFixed(2)"
                                 group-separator
-                                suffix="MiB"></sc-statistic>
+                                suffix="MiB"></scStatistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic :title="$t('缓存数量')" :value="statistics.dbSize" group-separator></sc-statistic>
+                            <scStatistic :title="$t('缓存数量')" :value="statistics.dbSize" group-separator></scStatistic>
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <sc-statistic
+                            <scStatistic
                                 :title="$t('缓存命中率')"
                                 :value="((statistics.keyspaceHits / (statistics.keyspaceMisses + statistics.keyspaceHits)) * 100).toFixed(2)"
                                 group-separator
-                                suffix="%"></sc-statistic>
+                                suffix="%"></scStatistic>
                         </el-card>
                     </el-col>
                 </el-row>
@@ -67,7 +67,7 @@
             </div>
         </el-header>
         <el-main v-loading="loading" class="nopadding">
-            <sc-table
+            <scTable
                 v-if="tableData.length > 0"
                 :data="tableData"
                 :page-size="100"
@@ -100,7 +100,7 @@
                     ]"
                     :vue="this"
                     width="100" />
-            </sc-table>
+            </scTable>
             <el-empty v-else></el-empty>
         </el-main>
     </el-container>

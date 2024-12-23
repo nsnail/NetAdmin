@@ -49,7 +49,7 @@
         </el-upload>
         <span style="display: none !important"><el-input v-model="value"></el-input></span>
         <el-dialog v-model="cropperDialogVisible" :title="$t('剪裁')" :width="580" @closed="cropperClosed" destroy-on-close draggable>
-            <sc-cropper :aspectRatio="aspectRatio" :compress="compress" :src="cropperFile.tempCropperFile" ref="cropper"></sc-cropper>
+            <scCropper :aspectRatio="aspectRatio" :compress="compress" :src="cropperFile.tempCropperFile" ref="cropper"></scCropper>
             <template #footer>
                 <el-button @click="cropperDialogVisible = false">{{ $t('取消') }}</el-button>
                 <el-button @click="cropperSave" type="primary">{{ $t('确定') }}</el-button>
@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue'
 import { genFileId } from 'element-plus'
 import config from '@/config/upload'
 

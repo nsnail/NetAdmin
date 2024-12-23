@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
+                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <sc-select-filter
+            <scSelectFilter
                 v-if="showFilter"
                 :data="[
                     {
@@ -67,7 +67,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></sc-select-filter>
+                ref="selectFilter"></scSelectFilter>
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -91,7 +91,7 @@
             <div class="right-panel"></div>
         </el-header>
         <el-main class="nopadding">
-            <sc-table
+            <scTable
                 :context-menus="['id', 'httpStatusCode', 'loginUserName', 'createdClientIp', 'createdUserAgent', 'createdTime']"
                 :context-opers="['view']"
                 :default-sort="{ prop: 'id', order: 'descending' }"
@@ -108,7 +108,7 @@
                 <naColId label="日志编号" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('结果')" align="center" prop="httpStatusCode" sortable="custom" width="100">
                     <template #default="{ row }">
-                        <sc-status-indicator :type="row.httpStatusCode === 200 ? 'success' : 'danger'" />
+                        <scStatusIndicator :type="row.httpStatusCode === 200 ? 'success' : 'danger'" />
                         {{ row.httpStatusCode === 200 ? '成功' : '失败' }}
                     </template>
                 </el-table-column>
@@ -133,7 +133,7 @@
                     ]"
                     :vue="this"
                     width="70" />
-            </sc-table>
+            </scTable>
         </el-main>
     </el-container>
 

@@ -4,18 +4,18 @@
             <el-row :gutter="15">
                 <el-col :span="12">
                     <el-card shadow="never">
-                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
+                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
                     </el-card>
                 </el-col>
                 <el-col :span="12">
                     <el-card shadow="never">
-                        <sc-statistic :value="statistics.rate" suffix="%" title="成功率"></sc-statistic>
+                        <scStatistic :value="statistics.rate" suffix="%" title="成功率"></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <sc-select-filter
+            <scSelectFilter
                 :data="[
                     {
                         title: $t('响应状态码'),
@@ -34,7 +34,7 @@
                 ]"
                 :label-width="9"
                 @on-change="filterChange"
-                ref="selectFilter"></sc-select-filter>
+                ref="selectFilter"></scSelectFilter>
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -88,7 +88,7 @@
             <div class="right-panel"></div>
         </el-header>
         <el-main class="nopadding">
-            <sc-table
+            <scTable
                 :cell-style="
                     (row) => {
                         if (row.column.property === 'duration') {
@@ -156,7 +156,7 @@
                 </el-table-column>
                 <el-table-column :label="$t('响应体')" min-width="300" prop="responseBody" show-overflow-tooltip sortable="custom" />
                 <naColOperation :buttons="[naColOperation.buttons[0]]" :vue="this" width="50" />
-            </sc-table>
+            </scTable>
         </el-main>
     </el-container>
 

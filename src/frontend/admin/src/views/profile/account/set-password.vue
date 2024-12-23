@@ -19,7 +19,7 @@
                     maxlength="16"
                     show-password
                     type="password"></el-input>
-                <sc-password-strength v-model="form.newPassword"></sc-password-strength>
+                <scPasswordStrength v-model="form.newPassword"></scPasswordStrength>
                 <div class="el-form-item-msg">{{ $t('请输入包含英文、数字的8位以上密码') }}</div>
             </el-form-item>
             <el-form-item :label="$t('确认新密码')" prop="confirmNewPassword">
