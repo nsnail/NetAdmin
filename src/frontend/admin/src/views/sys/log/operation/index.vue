@@ -139,7 +139,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('请求服务')" align="center">
-                    <el-table-column :label="$t('路径')" prop="apiPathCrc32" show-overflow-tooltip sortable="custom">
+                    <el-table-column :label="$t('路径')" min-width="300" prop="apiPathCrc32" show-overflow-tooltip sortable="custom">
                         <template #default="{ row }">
                             <p>
                                 {{ apis?.find((x) => x.pathCrc32 === row.apiPathCrc32)?.id }}

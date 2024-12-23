@@ -338,17 +338,18 @@ export default {
             },
         }
     },
-    mounted() {
+    async mounted() {
         this.pagerCount = document.body.clientWidth < 1000 ? 3 : 11
         //判断是否开启自定义列
         if (this.column) {
-            this.getCustomColumn()
+            await this.getCustomColumn()
         } else {
             this.userColumn = this.column
         }
         //判断是否静态数据
         if (this.queryApi) {
-            this.getData()
+            const res = await this.getData()
+            this.$emit('dataChange', res, this.tableData)
         } else if (this.data) {
             this.tableData = this.data
             this.total = this.tableData.length
@@ -519,7 +520,7 @@ export default {
                 this.loading = false
             }
             this.$refs.scTable?.setScrollTop(0)
-            this.$emit('dataChange', res, this.tableData)
+            return res
         },
         //清空数据
         _clearData() {

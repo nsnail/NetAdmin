@@ -163,7 +163,7 @@ export default {
     inject: ['reload'],
     methods: {
         async getStatistics() {
-            this.statistics.total = this.$refs.table?.total
+            this.statistics.total = this.$refs.table?.tableData?.length
             const res = await Promise.all([
                 this.$API.sys_dept.countBy.post({
                     dynamicFilter: {
