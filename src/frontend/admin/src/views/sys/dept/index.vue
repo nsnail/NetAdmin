@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
+                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <sc-select-filter
+            <scSelectFilter
                 :data="[
                     {
                         title: $t('启用状态'),
@@ -24,7 +24,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></sc-select-filter>
+                ref="selectFilter"></scSelectFilter>
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -65,7 +65,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <sc-table
+            <scTable
                 :context-menus="['id', 'name', 'sort', 'enabled', 'createdTime', 'summary']"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :export-api="$API.sys_dept.export"
@@ -106,7 +106,7 @@
                     :buttons="naColOperation.buttons.concat(naColOperation.delButton('删除部门', $API.sys_dept.delete))"
                     :vue="this"
                     width="120" />
-            </sc-table>
+            </scTable>
         </el-main>
     </el-container>
 

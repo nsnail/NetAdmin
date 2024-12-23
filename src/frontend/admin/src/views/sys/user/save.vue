@@ -157,7 +157,7 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('住宅电话')" prop="profile.homeTelephone">
-                                <el-input v-model="form.profile.homeTelephone" clearable type="tel">
+                                <el-input v-model="form.profile.homeTelephone" clearable>
                                     <template v-slot:prepend>+86</template>
                                 </el-input>
                             </el-form-item>
@@ -178,7 +178,7 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('工作电话')" prop="profile.companyTelephone">
-                                <el-input v-model="form.profile.companyTelephone" clearable type="tel">
+                                <el-input v-model="form.profile.companyTelephone" clearable>
                                     <template v-slot:prepend>+86</template>
                                 </el-input>
                             </el-form-item>
@@ -211,7 +211,7 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('联系人手机号')" prop="profile.emergencyContactMobile">
-                                <el-input v-model="form.profile.emergencyContactMobile" clearable type="tel"></el-input>
+                                <el-input v-model="form.profile.emergencyContactMobile" clearable></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">

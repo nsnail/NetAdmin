@@ -15,8 +15,8 @@
         @visible-change="visibleChange"
         ref="select">
         <template #empty>
-            <div v-loading="loading" :style="{ width: tableWidth + 'rem' }" class="sc-table-select__table">
-                <div class="sc-table-select__header">
+            <div v-loading="loading" :style="{ width: tableWidth + 'rem' }" class="scTable-select__table">
+                <div class="scTable-select__header">
                     <slot :form="formData" :submit="formSubmit" name="header"></slot>
                 </div>
                 <el-table
@@ -35,7 +35,7 @@
                     </el-table-column>
                     <slot></slot>
                 </el-table>
-                <div class="sc-table-select__page">
+                <div class="scTable-select__page">
                     <el-pagination
                         v-model:currentPage="currentPage"
                         :page-size="pageSize"
@@ -265,11 +265,11 @@ export default {
 </script>
 
 <style scoped>
-.sc-table-select__table {
+.scTable-select__table {
     padding: 1rem;
 }
 
-.sc-table-select__page {
+.scTable-select__page {
     padding-top: 1rem;
 }
 </style>

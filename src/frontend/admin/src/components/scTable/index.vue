@@ -119,99 +119,76 @@
             </div>
         </div>
     </div>
-    <sc-contextmenu @command="contextMenuCommand" @visible-change="contextMenuVisibleChange" ref="contextmenu">
-        <sc-contextmenu-item
+    <scContextmenu @command="contextMenuCommand" @visible-change="contextMenuVisibleChange" ref="contextmenu">
+        <scContextmenuItem
             v-for="(menu, index) in contextMenus.filter((x) => x === current.column?.property)"
             :command="menu"
             :key="index"
             :title="`${menu}`">
-            <sc-contextmenu-item :command="`${menu}^|^Equal^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="="></sc-contextmenu-item>
-            <sc-contextmenu-item :command="`${menu}^|^NotEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="≠"></sc-contextmenu-item>
-            <sc-contextmenu-item
+            <scContextmenuItem :command="`${menu}^|^Equal^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="="></scContextmenuItem>
+            <scContextmenuItem :command="`${menu}^|^NotEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="≠"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^GreaterThan^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 divided
-                title="＞"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                title="＞"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^GreaterThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="≥"></sc-contextmenu-item>
-            <sc-contextmenu-item
-                :command="`${menu}^|^LessThan^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="＜"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                title="≥"></scContextmenuItem>
+            <scContextmenuItem :command="`${menu}^|^LessThan^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="＜"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^LessThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                title="≤"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                title="≤"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^Contains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('包含')"
-                divided></sc-contextmenu-item>
-            <sc-contextmenu-item
+                divided></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^NotContains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('不含')"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                :title="$t('不含')"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^StartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('以 x 开始')"
-                divided></sc-contextmenu-item>
-            <sc-contextmenu-item
+                divided></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^NotStartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('非 x 开始')"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                :title="$t('非 x 开始')"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^EndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('以 x 结束')"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                :title="$t('以 x 结束')"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^NotEndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('非 x 结束')"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                :title="$t('非 x 结束')"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^Range^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('数值范围')"
-                divided></sc-contextmenu-item>
-            <sc-contextmenu-item
+                divided></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^DateRange^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('日期范围')"></sc-contextmenu-item>
-            <sc-contextmenu-item
+                :title="$t('日期范围')"></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^Any^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('为其一')"
-                divided></sc-contextmenu-item>
-            <sc-contextmenu-item
+                divided></scContextmenuItem>
+            <scContextmenuItem
                 :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('非其一')"></sc-contextmenu-item>
-        </sc-contextmenu-item>
-        <sc-contextmenu-item :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C"></sc-contextmenu-item>
-        <sc-contextmenu-item
+                :title="$t('非其一')"></scContextmenuItem>
+        </scContextmenuItem>
+        <scContextmenuItem :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C"></scContextmenuItem>
+        <scContextmenuItem
             v-if="contextOpers.includes('add')"
             :title="$t('新增')"
             command="add"
             divided
             icon="el-icon-plus"
-            suffix="A"></sc-contextmenu-item>
-        <sc-contextmenu-item
-            v-if="contextOpers.includes('view')"
-            :title="$t('查看')"
-            command="view"
-            icon="el-icon-view"
-            suffix="V"></sc-contextmenu-item>
-        <sc-contextmenu-item
-            v-if="contextOpers.includes('edit')"
-            :title="$t('编辑')"
-            command="edit"
-            icon="el-icon-edit"
-            suffix="E"></sc-contextmenu-item>
-        <sc-contextmenu-item
-            v-if="contextOpers.includes('del')"
-            :title="$t('删除')"
-            command="del"
-            icon="el-icon-delete"
-            suffix="D"></sc-contextmenu-item>
-        <sc-contextmenu-item
-            v-for="(adv, index) in contextAdvs"
-            :command="adv"
-            :divided="adv.divided"
-            :icon="adv.icon"
-            :key="index"
-            :title="adv.label">
-        </sc-contextmenu-item>
-        <sc-contextmenu-item v-if="exportApi" :title="$t('导出文件')" command="export" divided icon="el-icon-download"></sc-contextmenu-item>
-        <sc-contextmenu-item :title="$t('重新加载')" command="refresh" divided icon="el-icon-refresh" suffix="R"></sc-contextmenu-item>
-    </sc-contextmenu>
+            suffix="A"></scContextmenuItem>
+        <scContextmenuItem v-if="contextOpers.includes('view')" :title="$t('查看')" command="view" icon="el-icon-view" suffix="V"></scContextmenuItem>
+        <scContextmenuItem v-if="contextOpers.includes('edit')" :title="$t('编辑')" command="edit" icon="el-icon-edit" suffix="E"></scContextmenuItem>
+        <scContextmenuItem v-if="contextOpers.includes('del')" :title="$t('删除')" command="del" icon="el-icon-delete" suffix="D"></scContextmenuItem>
+        <scContextmenuItem v-for="(adv, index) in contextAdvs" :command="adv" :divided="adv.divided" :icon="adv.icon" :key="index" :title="adv.label">
+        </scContextmenuItem>
+        <scContextmenuItem v-if="exportApi" :title="$t('导出文件')" command="export" divided icon="el-icon-download"></scContextmenuItem>
+        <scContextmenuItem :title="$t('重新加载')" command="refresh" divided icon="el-icon-refresh" suffix="R"></scContextmenuItem>
+    </scContextmenu>
     <field-filter ref="fieldFilterDialog"></field-filter>
 </template>
 <script>

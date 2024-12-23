@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <sc-statistic :value="statistics.total" group-separator title="总数"></sc-statistic>
+                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <sc-select-filter
+            <scSelectFilter
                 :data="[
                     {
                         title: $t('操作结果'),
@@ -54,7 +54,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></sc-select-filter>
+                ref="selectFilter"></scSelectFilter>
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -117,7 +117,7 @@
             <div class="right-panel"></div>
         </el-header>
         <el-main class="nopadding">
-            <sc-table
+            <scTable
                 :context-menus="['id', 'httpStatusCode', 'apiPathCrc32', 'ownerId', 'httpMethod', 'duration', 'createdClientIp', 'createdTime']"
                 :context-opers="[]"
                 :default-sort="{ prop: 'createdTime', order: 'descending' }"
@@ -134,7 +134,7 @@
                 <naColId label="日志编号" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="150">
                     <template #default="{ row }">
-                        <sc-status-indicator :type="row.httpStatusCode >= 200 && row.httpStatusCode < 300 ? 'success' : 'danger'" />
+                        <scStatusIndicator :type="row.httpStatusCode >= 200 && row.httpStatusCode < 300 ? 'success' : 'danger'" />
                         {{ row.httpStatusCode }}
                     </template>
                 </el-table-column>
@@ -151,7 +151,7 @@
                     </el-table-column>
                     <el-table-column :label="$t('方法')" align="center" prop="httpMethod" sortable="custom" width="100">
                         <template #default="{ row }">
-                            <sc-status-indicator
+                            <scStatusIndicator
                                 :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(row.httpMethod)).toString(16).substring(0, 6)}`" />
                             {{ row.httpMethod.toUpperCase() }}
                         </template>
@@ -206,7 +206,7 @@
                     ]"
                     :vue="this"
                     width="70" />
-            </sc-table>
+            </scTable>
         </el-main>
     </el-container>
 

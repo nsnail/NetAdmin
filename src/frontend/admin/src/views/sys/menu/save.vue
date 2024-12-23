@@ -33,7 +33,7 @@
                         <el-input v-model="form.name" :placeholder="$t('菜单别名')" clearable></el-input>
                     </el-form-item>
                     <el-form-item :label="$t('菜单图标')" prop="meta.icon">
-                        <sc-icon-select v-model="form.meta.icon" clearable></sc-icon-select>
+                        <scIconSelect v-model="form.meta.icon" clearable></scIconSelect>
                     </el-form-item>
                     <el-form-item :label="$t('路由地址')" prop="path">
                         <el-input v-model="form.path" clearable placeholder=""></el-input>

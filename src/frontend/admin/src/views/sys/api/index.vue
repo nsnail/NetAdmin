@@ -7,7 +7,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <sc-table
+            <scTable
                 :export-api="$API.sys_api.export"
                 :query-api="$API.sys_api.query"
                 :summary-method="(x) => ['接口总数', countTotalRows(x.data)]"
@@ -31,7 +31,7 @@
                     sortable="custom"
                     width="150" />
                 <el-table-column :label="$t('接口描述')" min-width="200" prop="summary" />
-            </sc-table>
+            </scTable>
         </el-main>
     </el-container>
 </template>
