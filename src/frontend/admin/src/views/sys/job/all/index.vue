@@ -300,7 +300,13 @@ export default {
                 }),
                 this.$API.sys_job.countBy.post({
                     dynamicFilter: {
-                        filters: this.query.dynamicFilter.filters,
+                        filters: [
+                            ...this.query.dynamicFilter.filters,
+                            {
+                                field: 'LastStatusCode',
+                                operator: 'notEqual',
+                            },
+                        ],
                     },
                     requiredFields: ['LastStatusCode'],
                 }),
