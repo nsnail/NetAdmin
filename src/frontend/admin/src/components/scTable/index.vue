@@ -325,8 +325,7 @@ export default {
         }
         //判断是否静态数据
         if (this.queryApi) {
-            const res = await this.getData()
-            this.$emit('dataChange', res, this.tableData)
+            await this.getData()
         } else if (this.data) {
             this.tableData = this.data
             this.total = this.tableData.length
@@ -460,44 +459,48 @@ export default {
         },
         //获取数据
         async getData() {
-            this.loading = true
+            const ret = await (async () => {
+                this.loading = true
 
-            let res
-            let response
-            try {
-                const reqData = this.getQueryParams()
-                if (!this.beforePost || this.beforePost(reqData)) res = await this.queryApi.post(reqData)
-            } catch (error) {
-                this._clearData()
-                this.loading = false
-                this.emptyText = error.statusText
-                return false
-            }
-            try {
-                response = config.parseData(res)
-            } catch (error) {
-                this._clearData()
-                this.loading = false
-                this.emptyText = '数据格式错误'
-                return false
-            }
-            if (response.code !== config.successCode) {
-                this._clearData()
-                this.loading = false
-                this.emptyText = response.msg
-            } else {
-                this.emptyText = '暂无数据'
-                if (this.hidePagination) {
-                    this.tableData = response.data || []
-                } else {
-                    this.tableData = response.rows || []
+                let res
+                let response
+                try {
+                    const reqData = this.getQueryParams()
+                    if (!this.beforePost || this.beforePost(reqData)) res = await this.queryApi.post(reqData)
+                } catch (error) {
+                    this._clearData()
+                    this.loading = false
+                    this.emptyText = error.statusText
+                    return false
                 }
-                this.total = response.total || 0
-                this.summary = response.summary || {}
-                this.loading = false
-            }
-            this.$refs.scTable?.setScrollTop(0)
-            return res
+                try {
+                    response = config.parseData(res)
+                } catch (error) {
+                    this._clearData()
+                    this.loading = false
+                    this.emptyText = '数据格式错误'
+                    return false
+                }
+                if (response.code !== config.successCode) {
+                    this._clearData()
+                    this.loading = false
+                    this.emptyText = response.msg
+                } else {
+                    this.emptyText = '暂无数据'
+                    if (this.hidePagination) {
+                        this.tableData = response.data || []
+                    } else {
+                        this.tableData = response.rows || []
+                    }
+                    this.total = response.total || 0
+                    this.summary = response.summary || {}
+                    this.loading = false
+                }
+                this.$refs.scTable?.setScrollTop(0)
+                return res
+            })()
+
+            this.$emit('dataChange', ret, this.tableData)
         },
         //清空数据
         _clearData() {
