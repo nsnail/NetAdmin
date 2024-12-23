@@ -132,7 +132,7 @@ axios.interceptors.response.use(
             } else if ([401, 403].includes(error.response.status)) {
                 // 如果token不存在，说明用户是第一次访问，直接跳转到登录页面
                 if (!tool.cookie.get('ACCESS-TOKEN') && window.location.href.indexOf('guest') < 0) {
-                    tool.data.set('LOGIN_REDIRECT', window.location.href)
+                    await tool.data.set('LOGIN_REDIRECT', window.location.href)
                     await router.replace({ path: '/guest/login' })
                     return
                 }
@@ -149,7 +149,7 @@ axios.interceptors.response.use(
                                 done()
                             },
                         })
-                        tool.data.set('LOGIN_REDIRECT', window.location.href)
+                        await tool.data.set('LOGIN_REDIRECT', window.location.href)
                         await router.replace({ path: '/guest/login' })
                     })
                 }

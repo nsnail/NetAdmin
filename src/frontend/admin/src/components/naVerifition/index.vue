@@ -223,11 +223,8 @@ export default {
     position: relative;
     background: var(--el-bg-color);
     text-align: center;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
     box-sizing: content-box;
     border: 1px solid var(--el-border-color);
-    -webkit-border-radius: 4px;
 }
 
 .verify-bar-area .verify-move-block {
@@ -236,8 +233,6 @@ export default {
     left: 0;
     background: var(--el-bg-color);
     cursor: pointer;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
 
@@ -252,16 +247,12 @@ export default {
     left: -1px;
     background: var(--el-bg-color);
     cursor: pointer;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
     box-sizing: content-box;
     border: 1px solid gainsboro;
 }
 
 .verify-img-panel {
     margin: 0;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
     box-sizing: content-box;
     border-radius: 3px;
     position: relative;

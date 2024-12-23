@@ -4,14 +4,14 @@ export default {
         const svg = document.createElement('svg')
         svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
 
-        svg.setAttribute('width', 50)
-        svg.setAttribute('height', 50)
+        svg.setAttribute('width', '50')
+        svg.setAttribute('height', '50')
 
         // <rect> background
         const rect = document.createElement('rect')
         rect.setAttribute('fill', color)
-        rect.setAttribute('x', 0)
-        rect.setAttribute('y', 0)
+        rect.setAttribute('x', '0')
+        rect.setAttribute('y', '0')
         rect.setAttribute('width', '100%')
         rect.setAttribute('height', '100%')
 

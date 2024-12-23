@@ -359,7 +359,6 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    -webkit-text-overflow: ellipsis;
     text-align: center;
 }
 

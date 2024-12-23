@@ -5,7 +5,7 @@ export default {
         el.$value = binding.value
         el.handler = () => {
             const textarea = document.createElement('textarea')
-            textarea.readOnly = 'readonly'
+            textarea.readOnly = true
             textarea.style.position = 'absolute'
             textarea.style.left = '-9999px'
             textarea.value = el.$value

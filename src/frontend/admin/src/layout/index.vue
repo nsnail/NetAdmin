@@ -161,7 +161,7 @@
                         <ul>
                             <li v-for="item in menu" :class="pmenu.path === item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
                                 <el-icon>
-                                    <component :is="item.meta.icon || el - icon - menu" />
+                                    <component :is="item.meta.icon || 'el-icon-menu'" />
                                 </el-icon>
                                 <p>{{ item.meta.title }}</p>
                             </li>

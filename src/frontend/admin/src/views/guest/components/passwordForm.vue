@@ -73,7 +73,7 @@ export default {
                 return false
             }
             const redirect = this.$TOOL.data.get('LOGIN_REDIRECT') ?? '/'
-            this.$TOOL.data.remove('LOGIN_REDIRECT')
+            await this.$TOOL.data.remove('LOGIN_REDIRECT')
             window.location.href = redirect
         },
     },
