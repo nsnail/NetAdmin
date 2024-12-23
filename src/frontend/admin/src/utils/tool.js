@@ -101,9 +101,8 @@ tool.data = {
             content: data,
             datetime: parseInt(datetime) === 0 ? 0 : new Date().getTime() + parseInt(datetime) * 1000,
         }
-        const ret = localStorage.setItem(key, JSON.stringify(cacheValue))
+        localStorage.setItem(key, JSON.stringify(cacheValue))
         await this.uploadConfig()
-        return ret
     },
     get(key) {
         try {
@@ -126,14 +125,12 @@ tool.data = {
         }
     },
     async remove(key) {
-        const ret = localStorage.removeItem(key)
+        localStorage.removeItem(key)
         await this.uploadConfig()
-        return ret
     },
     async clear() {
-        const ret = localStorage.clear()
+        localStorage.clear()
         await this.uploadConfig()
-        return ret
     },
 }
 

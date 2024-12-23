@@ -284,7 +284,7 @@ export default {
         },
         async share(row) {
             const textarea = document.createElement('textarea')
-            textarea.readOnly = 'readonly'
+            textarea.readOnly = true
             textarea.style.position = 'absolute'
             textarea.style.left = '-9999px'
             textarea.value = window.location.origin + `/guest/view-doc/${row.id}`

@@ -94,7 +94,6 @@ export default {
                     this.cursor.index += this.result.length
                 }
                 e.preventDefault()
-                return
             }
         },
         inputChange(value) {
@@ -160,7 +159,7 @@ export default {
             if (item.type === 'link') {
                 setTimeout(() => {
                     let a = document.createElement('a')
-                    a.style = 'display: none'
+                    a.style.display = 'none'
                     a.target = '_blank'
                     a.href = item.path
                     document.body.appendChild(a)

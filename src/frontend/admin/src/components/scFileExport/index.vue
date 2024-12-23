@@ -128,7 +128,7 @@ export default {
         },
         linkFile(url, fileName, data = {}) {
             let a = document.createElement('a')
-            a.style = 'display: none'
+            a.style.display = 'none'
             a.target = '_blank'
             //a.download = fileName
             a.href = url + this.toQueryString(data)
@@ -153,7 +153,7 @@ export default {
                     this.downLoadProgress = 0
                     let url = URL.createObjectURL(res)
                     let a = document.createElement('a')
-                    a.style = 'display: none'
+                    a.style.display = 'none'
                     a.target = '_blank'
                     a.download = fileName
                     a.href = url
