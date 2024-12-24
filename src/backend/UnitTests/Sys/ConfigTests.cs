@@ -11,83 +11,83 @@ public class ConfigTests(WebTestApplicationFactory<Startup> factory, ITestOutput
     : WebApiTestBase<Startup>(factory, testOutputHelper), IConfigModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<long> CountAsync(QueryReq<QueryConfigReq> req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryConfigReq> req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> DeleteAsync(DelReq req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryConfigRsp> EditAsync(EditConfigReq req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -96,36 +96,36 @@ public class ConfigTests(WebTestApplicationFactory<Startup> factory, ITestOutput
     {
         var rsp = await PostJsonAsync(typeof(ConfigController));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> SetEnabledAsync(SetConfigEnabledReq req)
     {
         var rsp = await PostJsonAsync(typeof(ConfigController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 }

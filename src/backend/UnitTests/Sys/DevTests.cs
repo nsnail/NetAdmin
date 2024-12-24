@@ -11,7 +11,7 @@ public class DevTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     : WebApiTestBase<Startup>(factory, testOutputHelper), IDevModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
     {
@@ -20,7 +20,7 @@ public class DevTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task GenerateIconCodeAsync(GenerateIconCodeReq req)
     {

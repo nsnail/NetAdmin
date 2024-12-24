@@ -16,16 +16,16 @@ public class CaptchaTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     {
         var rsp = await PostJsonAsync(typeof(CaptchaController));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
     {
         var rsp = await PostJsonAsync(typeof(CaptchaController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return false;
     }
 }

@@ -11,7 +11,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     : WebApiTestBase<Startup>(factory, testOutputHelper), IToolsModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public string AesDecode(AesDecodeReq req)
     {
@@ -19,17 +19,17 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
         var rsp = PostJsonAsync(typeof(ToolsController), req).Result;
         #pragma warning restore xUnit1031
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
     {
         var rsp = await PostJsonAsync(typeof(ToolsController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -38,7 +38,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     {
         var rsp = await PostJsonAsync(typeof(ToolsController));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -47,7 +47,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     {
         var rsp = await PostJsonAsync(typeof(ToolsController));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -65,6 +65,6 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     {
         var rsp = await PostJsonAsync(typeof(ToolsController));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 }

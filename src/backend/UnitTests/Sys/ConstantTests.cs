@@ -15,7 +15,7 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
     {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -24,7 +24,7 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
     {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -33,7 +33,7 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
     {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -42,6 +42,6 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
     {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 }

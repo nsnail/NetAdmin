@@ -10,7 +10,7 @@ public sealed record RequestLogEvent : DataAbstraction, IEventSourceGeneric<Crea
     /// <summary>
     ///     Initializes a new instance of the <see cref="RequestLogEvent" /> class.
     /// </summary>
-    public RequestLogEvent(CreateRequestLogReq data, bool isConsumeOnce = false, object payload = default, DateTime createdTime = default
+    public RequestLogEvent(CreateRequestLogReq data, bool isConsumeOnce = false, object payload = null, DateTime createdTime = default
                          , CancellationToken   cancellationToken = default)
     {
         Data              = data;
