@@ -13,77 +13,77 @@ public class JobTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     : WebApiTestBase<Startup>(factory, testOutputHelper), IJobModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<long> CountAsync(QueryReq<QueryJobReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryJobRsp> CreateAsync(CreateJobReq req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> DeleteAsync(DelReq req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryJobRsp> EditAsync(EditJobReq req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task ExecuteAsync(QueryJobReq req)
     {
@@ -92,122 +92,122 @@ public class JobTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IActionResult> ExportRecordAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryJobRsp> GetAsync(QueryJobReq req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryJobRecordRsp> GetRecordAsync(QueryJobRecordReq req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QueryJobRsp>> PagedQueryAsync(PagedQueryReq<QueryJobReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> SetEnabledAsync(SetJobEnabledReq req)
     {
         var rsp = await PostJsonAsync(typeof(JobController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 }

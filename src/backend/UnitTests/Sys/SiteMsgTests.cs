@@ -12,127 +12,127 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     : WebApiTestBase<Startup>(factory, testOutputHelper), ISiteMsgModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<long> CountAsync(QueryReq<QuerySiteMsgReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> DeleteAsync(DelReq req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QuerySiteMsgRsp> EditAsync(EditSiteMsgReq req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QuerySiteMsgRsp> GetAsync(QuerySiteMsgReq req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req)
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
@@ -146,6 +146,6 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     {
         var rsp = await PostJsonAsync(typeof(SiteMsgController));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 }

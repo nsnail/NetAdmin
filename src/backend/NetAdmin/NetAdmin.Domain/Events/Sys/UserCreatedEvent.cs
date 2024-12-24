@@ -10,7 +10,7 @@ public sealed record UserCreatedEvent : DataAbstraction, IEventSourceGeneric<Use
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserCreatedEvent" /> class.
     /// </summary>
-    public UserCreatedEvent(UserInfoRsp       data, DateTime createdTime = default, bool isConsumeOnce = false, object payload = default
+    public UserCreatedEvent(UserInfoRsp       data, DateTime createdTime = default, bool isConsumeOnce = false, object payload = null
                           , CancellationToken cancellationToken = default)
     {
         Data              = data;

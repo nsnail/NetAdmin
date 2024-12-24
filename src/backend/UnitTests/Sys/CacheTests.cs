@@ -11,13 +11,13 @@ public class CacheTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     : WebApiTestBase<Startup>(factory, testOutputHelper), ICacheModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req)
     {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
@@ -26,36 +26,36 @@ public class CacheTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     {
         var rsp = await PostJsonAsync(typeof(CacheController));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> DeleteEntryAsync(DelEntryReq req)
     {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req)
     {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req)
     {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 }

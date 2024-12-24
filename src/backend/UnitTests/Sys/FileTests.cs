@@ -9,12 +9,12 @@ public class FileTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     : WebApiTestBase<Startup>(factory, testOutputHelper), IFileModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<string> UploadAsync(IFormFile file)
     {
         var rsp = await PostJsonAsync(typeof(FileController), file);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 }

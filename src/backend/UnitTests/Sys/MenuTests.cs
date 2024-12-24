@@ -11,103 +11,103 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     : WebApiTestBase<Startup>(factory, testOutputHelper), IMenuModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<long> CountAsync(QueryReq<QueryMenuReq> req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryMenuReq> req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> DeleteAsync(DelReq req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryMenuRsp> EditAsync(EditMenuReq req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
@@ -116,6 +116,6 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     {
         var rsp = await PostJsonAsync(typeof(MenuTests));
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 }

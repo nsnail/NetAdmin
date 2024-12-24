@@ -11,122 +11,122 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     : WebApiTestBase<Startup>(factory, testOutputHelper), IVerifyCodeModule
 {
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<int> DeleteAsync(DelReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return 0;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return null;
     }
 
     /// <inheritdoc />
-    [InlineData(default)]
+    [InlineData(null)]
     [Theory]
     public async Task<bool> VerifyAsync(VerifyCodeReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
-        return default;
+        return false;
     }
 }
