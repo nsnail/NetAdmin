@@ -8,5 +8,5 @@ public interface IFieldModifiedClientIp
     /// <summary>
     ///     客户端IP
     /// </summary>
-    int ModifiedClientIp { get; init; }
+    int? ModifiedClientIp { get; init; }
 }

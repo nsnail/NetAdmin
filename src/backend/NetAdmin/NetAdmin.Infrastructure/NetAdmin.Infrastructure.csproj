@@ -3,9 +3,9 @@
     <Import Project="$(SolutionDir)/build/copy.pkg.xml.comment.files.targets"/>
     <Import Project="$(SolutionDir)/build/prebuild.targets"/>
     <ItemGroup>
-        <PackageReference Include="NetAdmin.FreeSql.DbContext" Version="1.0.7" Label="refs"/>
-        <PackageReference Include="NetAdmin.FreeSql.Provider.Sqlite" Version="1.0.7" Label="refs"/>
-        <PackageReference Include="Gurion" Version="1.2.6" Label="refs"/>
+        <PackageReference Include="NetAdmin.FreeSql.DbContext" Version="1.0.9" Label="refs"/>
+        <PackageReference Include="NetAdmin.FreeSql.Provider.Sqlite" Version="1.0.9" Label="refs"/>
+        <PackageReference Include="Gurion" Version="1.2.7" Label="refs"/>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0"/>
         <PackageReference Include="Minio" Version="6.0.4"/>
         <PackageReference Include="NSExt" Version="2.3.2"/>

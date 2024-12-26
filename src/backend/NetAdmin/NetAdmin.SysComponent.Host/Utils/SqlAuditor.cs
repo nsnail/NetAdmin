@@ -133,6 +133,12 @@ public sealed class SqlAuditor : ISingleton
 
                 break;
 
+            case nameof(IFieldModifiedClientIp.ModifiedClientIp):
+                if (e.Value is null or 0) {
+                    e.Value = App.HttpContext?.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32();
+                }
+
+                break;
             case nameof(IFieldModifiedUser.ModifiedUserName):
                 if (userInfo != null && e.Value is null or "") {
                     e.Value = userInfo.UserName;
