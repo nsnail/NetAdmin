@@ -138,17 +138,19 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     {
         var ret = includeFields!.ToDictionary(
             x => x, x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!.GetValue(entity));
-        if (entity is not IFieldModifiedUser) {
-            return ret;
+        if (entity is IFieldModifiedUser) {
+            var userInfo = App.GetService<ContextUserInfo>();
+            if (userInfo == null) {
+                return ret;
+            }
+
+            ret.Add(nameof(IFieldModifiedUser.ModifiedUserId),   userInfo.Id);
+            ret.Add(nameof(IFieldModifiedUser.ModifiedUserName), userInfo.UserName);
         }
 
-        var userInfo = App.GetService<ContextUserInfo>();
-        if (userInfo == null) {
-            return ret;
+        if (entity is IFieldModifiedClientIp) {
+            ret.Add(nameof(IFieldModifiedClientIp.ModifiedClientIp), App.HttpContext?.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32());
         }
-
-        ret.Add(nameof(IFieldModifiedUser.ModifiedUserId),   userInfo.Id);
-        ret.Add(nameof(IFieldModifiedUser.ModifiedUserName), userInfo.UserName);
 
         return ret;
     }
