@@ -33,7 +33,7 @@
                                                 <el-icon>
                                                     <component :is="allComps[element].icon" />
                                                 </el-icon>
-                                                {{ allComps[element].title }}</label
+                                                {{ $t(allComps[element].title) }}</label
                                             >
                                         </div>
                                     </div>
@@ -51,7 +51,7 @@
                         <el-icon>
                             <el-icon-circle-plus-filled />
                         </el-icon>
-                        添加部件
+                        {{ $t('添加部件') }}
                     </div>
                     <div>
                         <el-button v-if="customizing" @click="save" icon="el-icon-check" round type="primary">{{ $t('完成') }}</el-button>
@@ -77,7 +77,9 @@
                     </div>
                 </el-header>
                 <el-header style="height: auto">
-                    <el-button @click="this.dialog.customLayout = { title: '添加自定义布局' }" style="margin: 0 auto">添加自定义布局</el-button>
+                    <el-button @click="this.dialog.customLayout = { title: this.$t('添加自定义布局') }" style="margin: 0 auto">
+                        {{ this.$t('添加自定义布局') }}
+                    </el-button>
                 </el-header>
                 <el-main class="nopadding">
                     <div class="widgets-list">

@@ -4,7 +4,7 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
+                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>
@@ -211,16 +211,16 @@
                         naColOperation.buttons.concat(
                             {
                                 icon: 'el-icon-video-play',
-                                title: '立即执行',
+                                title: $t('立即执行'),
                                 click: execute,
                             },
                             {
                                 icon: 'el-icon-document-copy',
                                 confirm: true,
-                                title: '复制作业',
+                                title: $t('复制作业'),
                                 click: copyJob,
                             },
-                            naColOperation.delButton('删除作业', $API.sys_job.delete),
+                            naColOperation.delButton($t('删除作业'), $API.sys_job.delete),
                         )
                     "
                     :vue="this"

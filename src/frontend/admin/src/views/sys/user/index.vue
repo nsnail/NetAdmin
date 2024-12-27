@@ -4,7 +4,7 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
+                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>

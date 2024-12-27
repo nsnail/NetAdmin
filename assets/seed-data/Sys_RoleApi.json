@@ -42,5 +42,21 @@
   {
     "ApiId": "api/sys/user/set.session.user.app.config",
     "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/login.log/paged.query",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/login.log/get",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/login.log/count.by",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/login.log/export",
+    "RoleId": 371729946431493,
   }
 ]

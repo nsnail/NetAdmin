@@ -4,7 +4,7 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
+                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>
@@ -90,7 +90,7 @@
                     </template>
                 </el-table-column>
                 <naColOperation
-                    :buttons="naColOperation.buttons.concat(naColOperation.delButton('删除部门', $API.sys_config.delete))"
+                    :buttons="naColOperation.buttons.concat(naColOperation.delButton(this.$t('删除配置'), $API.sys_config.delete))"
                     :vue="this"
                     width="150" />
             </scTable>

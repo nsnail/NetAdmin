@@ -87,14 +87,14 @@
                     :buttons="[
                         {
                             icon: 'el-icon-view',
-                            title: '查看缓存',
+                            title: $t('查看缓存'),
                             click: viewClick,
                         },
                         {
                             icon: 'el-icon-delete',
                             type: 'danger',
                             confirm: true,
-                            title: '删除缓存',
+                            title: $t('删除缓存'),
                             click: delClick,
                         },
                     ]"

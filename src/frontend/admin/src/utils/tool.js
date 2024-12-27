@@ -37,7 +37,7 @@ tool.time = {
         return date.getFullYear() + '-' + month + '-' + day
     },
     //转换时间
-    getFormatTime: function (timestamp) {
+    getFormatTime: function (_this, timestamp) {
         timestamp = new Date(timestamp)
         const now = this.getUnix()
         const today = this.getTodayUnix()
@@ -46,15 +46,15 @@ tool.time = {
         let tip
 
         if (timer <= 0) {
-            tip = '刚刚'
+            tip = _this.$t('刚刚')
         } else if (Math.floor(timer / 60) <= 0) {
-            tip = '刚刚'
+            tip = _this.$t('刚刚')
         } else if (timer < 3600) {
-            tip = Math.floor(timer / 60) + '分钟前'
+            tip = _this.$t('{n} 分钟前', { n: Math.floor(timer / 60) })
         } else if (timer >= 3600 && (timestamp - today >= 0 || Math.floor(timer / 86400) <= 0)) {
-            tip = Math.floor(timer / 3600) + '小时前'
+            tip = _this.$t('{n} 小时前', { n: Math.floor(timer / 3600) })
         } else if (timer / 86400 <= 31) {
-            tip = Math.floor(timer / 86400) + '天前'
+            tip = _this.$t('{n} 天前', { n: Math.floor(timer / 86400) })
         } else {
             tip = this.getLastDate(timestamp)
         }

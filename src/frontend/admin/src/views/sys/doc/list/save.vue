@@ -60,10 +60,10 @@ export default {
             mode: 'add',
             //验证规则
             rules: {
-                catalogId: [{ required: true, message: '请选择所属文档分类' }],
-                title: [{ required: true, message: '请输入文档标题' }],
-                body: [{ required: true, message: '请输入文档内容' }],
-                visibility: [{ required: true, message: '请选择档案可见性' }],
+                catalogId: [{ required: true, message: this.$t('请选择所属文档分类') }],
+                title: [{ required: true, message: this.$t('请输入文档标题') }],
+                body: [{ required: true, message: this.$t('请输入文档内容') }],
+                visibility: [{ required: true, message: this.$t('请选择档案可见性') }],
             },
             titleMap: {
                 add: this.$t('新增文档'),

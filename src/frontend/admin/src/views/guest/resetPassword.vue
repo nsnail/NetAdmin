@@ -61,7 +61,7 @@ export default {
                     destDevice: phoneConfig.mobile(this),
                     code: phoneConfig.code(this),
                 },
-                passwordText2: naFormPassword.passwordText2(() => this.form.passwordText),
+                passwordText2: naFormPassword.passwordText2(this, () => this.form.passwordText),
                 passwordText: naFormPassword.passwordText(this),
             },
         }
