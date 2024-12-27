@@ -9,9 +9,9 @@ export default (el, binding) => {
         value = value * 1000
     }
     if (modifiers.tip) {
-        el.innerHTML = tool.time.getFormatTime(value)
+        el.innerHTML = tool.time.getFormatTime(binding.instance, value)
         el.__timeout__ = setInterval(() => {
-            el.innerHTML = tool.time.getFormatTime(value)
+            el.innerHTML = tool.time.getFormatTime(binding.instance, value)
         }, 60000)
     } else {
         const format = el.getAttribute('format') || undefined

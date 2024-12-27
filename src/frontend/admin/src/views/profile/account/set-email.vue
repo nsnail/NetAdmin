@@ -62,7 +62,7 @@ export default {
                 },
 
                 destDevice: [emailConfig.email(this)],
-                code: emailConfig.code(),
+                code: emailConfig.code(this),
             },
             visible: false,
         }

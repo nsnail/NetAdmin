@@ -7,7 +7,7 @@
                 :class="[isActive(tag) ? 'active' : '', tag.meta.affix ? 'affix' : '']"
                 @contextmenu.prevent="openContextMenu($event, tag)">
                 <router-link :to="tag">
-                    <span>{{ tag.meta.title }}</span>
+                    <span>{{ $t(tag.meta.title) }}</span>
                     <el-icon v-if="!tag.meta.affix" @click.prevent.stop="closeSelectedTag(tag)">
                         <el-icon-close />
                     </el-icon>
@@ -22,39 +22,39 @@
                 <el-icon>
                     <el-icon-refresh />
                 </el-icon>
-                刷新
+                {{ $t('刷新') }}
             </li>
             <li @click="scheduledRefresh()">
                 <el-icon>
                     <el-icon-alarm-clock />
                 </el-icon>
-                定时刷新
+                {{ $t('定时刷新') }}
             </li>
             <hr />
             <li :class="contextMenuItem.meta.affix ? 'disabled' : ''" @click="closeTabs()">
                 <el-icon>
                     <el-icon-close />
                 </el-icon>
-                关闭标签
+                {{ $t('关闭标签') }}
             </li>
             <li @click="closeOtherTabs()">
                 <el-icon>
                     <el-icon-folder-delete />
                 </el-icon>
-                关闭其他标签
+                {{ $t('关闭其他标签') }}
             </li>
             <hr />
             <li @click="maximize()">
                 <el-icon>
                     <el-icon-full-screen />
                 </el-icon>
-                最大化
+                {{ $t('最大化') }}
             </li>
             <li @click="openWindow()">
                 <el-icon>
                     <el-icon-copy-document />
                 </el-icon>
-                在新的窗口中打开
+                {{ $t('在新的窗口中打开') }}
             </li>
         </ul>
     </transition>
@@ -200,9 +200,9 @@ export default {
         async scheduledRefresh() {
             this.closeMenu()
             try {
-                const sleep = await this.$prompt('刷新时间间隔（秒）', '定时刷新', {
+                const sleep = await this.$prompt(this.$t('刷新时间间隔（秒）'), this.$t('定时刷新'), {
                     inputPattern: /^[1-9]\d*$/,
-                    inputErrorMessage: '时间必须为数字',
+                    inputErrorMessage: this.$t('时间必须为数字'),
                     inputValue: '10',
                 })
                 const sleepSecs = parseInt(sleep.value)

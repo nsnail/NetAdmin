@@ -10,7 +10,7 @@
             <scTable
                 :export-api="$API.sys_api.export"
                 :query-api="$API.sys_api.query"
-                :summary-method="(x) => ['接口总数', countTotalRows(x.data)]"
+                :summary-method="(x) => [$t('接口总数'), countTotalRows(x.data)]"
                 default-expand-all
                 hidePagination
                 ref="table"
@@ -68,7 +68,7 @@ export default {
             this.loading = true
             try {
                 await this.$API.sys_api.sync.post()
-                this.$message.success('同步成功')
+                this.$message.success(this.$t('同步成功'))
             } catch {
                 //
             }

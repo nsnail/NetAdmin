@@ -3,19 +3,21 @@
         <el-form :model="form" ref="form">
             <el-form-item
                 v-for="(row, index) in form.rows"
-                :label="`第${index + 1}行`"
+                :label="$t('第 {n} 行', { n: index + 1 })"
                 :prop="'rows.' + index + '.value'"
                 :rules="{
                     required: true,
-                    message: '请输入以空格分隔的24分栏布局：如【24】或【12 12】或【8 8 8】',
+                    message: $t('请输入以空格分隔的24分栏布局：如【24】或【12 12】或【8 8 8】'),
                     trigger: 'blur',
                 }">
                 <el-input
                     v-model="form.rows[index].value"
                     :input="form.rows[index].value = form.rows[index].value.replace(/[^0-9 ]/g, '')"
-                    placeholder="请输入以空格分隔的24分栏布局：如【24】或【12 12】或【8 8 8】">
+                    :placeholder="$t('请输入以空格分隔的24分栏布局：如【24】或【12 12】或【8 8 8】')">
                     <template #append>
-                        <el-button @click.prevent="form.rows.splice(index, 1)" icon="delete">删除</el-button>
+                        <el-button @click.prevent="form.rows.splice(index, 1)" icon="el-icon-delete">
+                            {{ $t('删除') }}
+                        </el-button>
                     </template>
                 </el-input>
             </el-form-item>
@@ -32,7 +34,7 @@ export default {
     components: {},
     data() {
         return {
-            title: '添加自定义布局',
+            title: this.$t('添加自定义布局'),
             visible: false,
             form: {
                 rows: [{ value: '' }],

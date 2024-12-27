@@ -4,7 +4,7 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :value="statistics.total" group-separator title="总数"></scStatistic>
+                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
                     </el-card>
                 </el-col>
             </el-row>
@@ -100,7 +100,7 @@
                     </template>
                 </el-table-column>
                 <naColOperation
-                    :buttons="naColOperation.buttons.concat(naColOperation.delButton('删除字典项', $API.sys_dic.deleteContent))"
+                    :buttons="naColOperation.buttons.concat(naColOperation.delButton(this.$t('删除字典项'), $API.sys_dic.deleteContent))"
                     :vue="this"
                     width="120" />
             </scTable>

@@ -2,7 +2,7 @@
     <el-container v-loading="loading">
         <el-header class="flex" style="justify-content: space-evenly; height: unset">
             <div v-if="failJobs">
-                <el-badge :hidden="fail === 0" :value="`${$TOOL.time.getFormatTime(new Date(failJobViewTime).getTime())} 至今 ${fail}个`">
+                <el-badge :hidden="fail === 0" :value="`${$TOOL.time.getFormatTime(this, new Date(failJobViewTime).getTime())} 至今 ${fail}个`">
                     <el-button
                         @click="
                             () => {
@@ -41,9 +41,9 @@
                 <el-col :lg="12">
                     <el-empty v-if="!failJobs">
                         <template #description>
-                            <p>{{ $TOOL.time.getFormatTime(new Date(failJobViewTime).getTime()) }}</p>
-                            <p>至今</p>
-                            <p>未发现新的异常作业</p>
+                            <p>{{ $TOOL.time.getFormatTime(this, new Date(failJobViewTime).getTime()) }}</p>
+                            <p>{{ $t('至今') }}</p>
+                            <p>{{ $t('未发现新的异常作业') }}</p>
                         </template>
                     </el-empty>
                     <el-card
@@ -88,9 +88,9 @@
                             <div class="jobMain">
                                 <div class="title">
                                     <h2>{{ job.jobName }}</h2>
-                                    <p>{{ $t('上次执行：') }}<span v-time.tip="job.lastExecTime" :title="job.lastExecTime"></span></p>
+                                    <p>{{ $t('上次执行') }}：<span v-time.tip="job.lastExecTime" :title="job.lastExecTime"></span></p>
                                     <p>
-                                        下次执行：<span>{{ job.nextExecTime }}</span>
+                                        {{ $t('下次执行') }}：<span>{{ job.nextExecTime }}</span>
                                     </p>
                                 </div>
                                 <div class="bottom">

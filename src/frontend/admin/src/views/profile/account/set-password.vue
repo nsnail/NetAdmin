@@ -58,7 +58,7 @@ export default {
             rules: {
                 oldPassword: naFormPassword.passwordText(this),
                 newPassword: naFormPassword.passwordText(this),
-                confirmNewPassword: naFormPassword.passwordText2(() => this.form.newPassword),
+                confirmNewPassword: naFormPassword.passwordText2(this, () => this.form.newPassword),
             },
             visible: false,
         }

@@ -2,7 +2,7 @@ export default {
     mobile: (_this) => {
         return {
             required: true,
-            message: '您的手机号码',
+            message: _this.$t('您的手机号码'),
             pattern: _this.$GLOBAL.chars.RGX_MOBILE,
         }
     },
@@ -20,16 +20,16 @@ export default {
                 } catch {
                     //
                 }
-                callback(new Error('手机号已被使用'))
+                callback(new Error(_this.$t('手机号已被使用')))
             },
             trigger: 'blur',
         }
     },
 
-    code: () => {
+    code: (_this) => {
         return {
             required: true,
-            message: '请输入4位数字验证码',
+            message: _this.$t('请输入4位数字验证码'),
         }
     },
 }

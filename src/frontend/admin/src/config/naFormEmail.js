@@ -2,7 +2,7 @@ export default {
     email: (_this) => {
         return {
             required: true,
-            message: '您的邮箱地址',
+            message: _this.$t('您的邮箱地址'),
             pattern: _this.$GLOBAL.chars.RGXL_EMAIL,
         }
     },
@@ -20,16 +20,16 @@ export default {
                 } catch {
                     //
                 }
-                callback(new Error('邮箱已被使用'))
+                callback(new Error(_this.$t('邮箱已被使用')))
             },
             trigger: 'blur',
         }
     },
 
-    code: () => {
+    code: (_this) => {
         return {
             required: true,
-            message: '请输入4位数字验证码',
+            message: _this.$t('请输入4位数字验证码'),
         }
     },
 }

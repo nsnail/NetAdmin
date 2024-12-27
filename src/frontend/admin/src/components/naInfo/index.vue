@@ -56,9 +56,11 @@ export default {
             this.data = this.$TOOL.sortProperties(res.data)
             if (queryEs) {
                 this.esData = {}
-                this.$API.adm_tools.queryEsLog.post(queryEs).then((res) => {
-                    this.esData = res.data
-                })
+                try {
+                    this.$API.adm_tools.queryEsLog.post(queryEs).then((res) => {
+                        this.esData = res.data
+                    })
+                } catch {}
             }
             return this
         },

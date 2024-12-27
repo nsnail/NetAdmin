@@ -26,7 +26,9 @@
                     </el-form-item>
                     <el-form-item :label="$t('类型')" prop="meta.type">
                         <el-radio-group v-model="form.meta.type">
-                            <el-radio-button v-for="(item, i) in this.$GLOBAL.enums.menuTypes" :key="i" :label="i">{{ item[1] }}</el-radio-button>
+                            <el-radio-button v-for="(item, i) in this.$GLOBAL.enums.menuTypes" :key="i" :label="i">{{
+                                this.$t(item[1])
+                            }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item :label="$t('别名')" prop="name">

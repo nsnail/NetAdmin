@@ -109,7 +109,7 @@ export default {
                         },
                     },
                 ],
-                passwordText2: naFormPassword.passwordText2(() => this.form.passwordText),
+                passwordText2: naFormPassword.passwordText2(this, () => this.form.passwordText),
                 passwordText: naFormPassword.passwordText(this),
                 userName: [
                     { required: true, message: this.$t('请输入用户名') },

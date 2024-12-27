@@ -9,7 +9,7 @@
                 <component :is="navMenu.meta.icon || 'el-icon-menu'" />
             </el-icon>
             <template #title>
-                <span>{{ navMenu.meta.title }}</span>
+                <span>{{ this.$t(navMenu.meta.title) }}</span>
                 <span v-if="navMenu.meta.tag" class="menu-tag">{{ navMenu.meta.tag }}</span>
             </template>
         </el-menu-item>
@@ -18,7 +18,7 @@
                 <el-icon v-if="navMenu.meta && navMenu.meta.icon">
                     <component :is="navMenu.meta.icon || 'el-icon-menu'" />
                 </el-icon>
-                <span>{{ navMenu.meta.title }}</span>
+                <span>{{ this.$t(navMenu.meta.title) }}</span>
                 <span v-if="navMenu.meta.tag" class="menu-tag">{{ navMenu.meta.tag }}</span>
             </template>
             <NavMenu :navMenus="navMenu.children"></NavMenu>
