@@ -1,4 +1,6 @@
+#if DBTYPE_SQLSERVER
 using FreeSql.Provider.SqlServer;
+#endif
 
 namespace NetAdmin.Domain.Extensions;
 
