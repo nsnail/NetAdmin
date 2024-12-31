@@ -129,7 +129,7 @@ public sealed class UserService(
         var ret = await Rpo.DeleteAsync(req.Id).ConfigureAwait(false);
 
         // 删除分表
-        _ = await Rpo.Orm.Delete<Sys_UserRole>(new { UserId = req.Id }).ExecuteAffrowsAsync().ConfigureAwait(false);
+        _ = await Rpo.Orm.Delete<Sys_UserRole>(new { UserId = req.Id }).ExecuteEffectsAsync().ConfigureAwait(false);
 
         // 删除档案表
         _ = await userProfileService.DeleteAsync(req).ConfigureAwait(false);

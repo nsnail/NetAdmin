@@ -97,7 +97,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
         #if DBTYPE_SQLSERVER
         return (await update.ExecuteUpdatedAsync().ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryJobRsp>();
         #else
-        return await update.ExecuteAffrowsAsync().ConfigureAwait(false) <= 0
+        return await update.ExecuteEffectsAsync().ConfigureAwait(false) <= 0
             ? null
             : await GetAsync(new QueryJobReq { Id = req.Id }).ConfigureAwait(false);
         #endif
