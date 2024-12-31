@@ -57,7 +57,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     {
         req.ThrowIfInvalid();
         var ret = await Rpo.DeleteAsync(a => a.Id == req.Id).ConfigureAwait(false);
-        _ = await Rpo.Orm.Delete<Sys_RoleMenu>().Where(a => a.MenuId == req.Id).ExecuteAffrowsAsync().ConfigureAwait(false);
+        _ = await Rpo.Orm.Delete<Sys_RoleMenu>().Where(a => a.MenuId == req.Id).ExecuteEffectsAsync().ConfigureAwait(false);
         return ret;
     }
 

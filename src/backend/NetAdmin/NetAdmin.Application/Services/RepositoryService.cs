@@ -80,7 +80,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         // 默认匹配主键
         whereExp ??= a => a.Id.Equals(newValue.Id);
         var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql);
-        return update.ExecuteAffrowsAsync();
+        return update.ExecuteEffectsAsync();
     }
 
     #if DBTYPE_SQLSERVER

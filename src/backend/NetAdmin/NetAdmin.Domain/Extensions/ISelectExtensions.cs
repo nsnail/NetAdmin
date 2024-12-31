@@ -1,3 +1,5 @@
+using FreeSql.Provider.SqlServer;
+
 namespace NetAdmin.Domain.Extensions;
 
 /// <summary>
