@@ -1,5 +1,6 @@
 #if !DEBUG && DBTYPE_SQLSERVER
 using System.Collections.Concurrent;
+using FreeSql.Provider.SqlServer;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.LoginLog;
 using NetAdmin.Domain.Dto.Sys.RequestLog;
