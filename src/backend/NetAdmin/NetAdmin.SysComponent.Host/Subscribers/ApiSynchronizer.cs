@@ -10,8 +10,8 @@ public sealed class ApiSynchronizer(ILogger<ApiSynchronizer> logger) : IEventSub
     /// <summary>
     ///     同步Api接口
     /// </summary>
-    [EventSubscribe(nameof(SyncStructureAfterEvent))]
-    public async Task SyncApiAsync(EventHandlerExecutingContext _)
+    [EventSubscribe]
+    public async Task SyncApiAsync(SyncStructureAfterEvent _)
     {
         var logService = App.GetService<IApiService>();
         await logService.SyncAsync().ConfigureAwait(false);

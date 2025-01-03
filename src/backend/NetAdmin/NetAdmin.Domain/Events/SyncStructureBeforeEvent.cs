@@ -8,11 +8,9 @@ public record SyncStructureBeforeEvent : SqlCommandEvent
     /// <summary>
     ///     Initializes a new instance of the <see cref="SyncStructureBeforeEvent" /> class.
     /// </summary>
-    public SyncStructureBeforeEvent(SyncStructureBeforeEventArgs e)
+    public SyncStructureBeforeEvent(SyncStructureBeforeEventArgs e) //
+        : base(null, e.Identifier)
     {
-        Identifier  = e.Identifier;
-        EventId     = nameof(SyncStructureBeforeEvent);
-        CreatedTime = DateTime.Now;
         EntityTypes = e.EntityTypes;
     }
 

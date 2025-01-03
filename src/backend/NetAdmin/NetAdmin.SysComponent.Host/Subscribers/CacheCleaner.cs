@@ -9,23 +9,15 @@ namespace NetAdmin.SysComponent.Host.Subscribers;
 public sealed class CacheCleaner : IEventSubscriber
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="CacheCleaner" /> class.
-    /// </summary>
-    public CacheCleaner() { }
-
-    /// <summary>
     ///     用户缓存清理
     /// </summary>
-    [EventSubscribe(nameof(UserUpdatedEvent))]
-    public Task RemoveUserInfoAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    #pragma warning disable CA1822
+    public Task RemoveUserInfoAsync(UserUpdatedEvent @event)
+        #pragma warning restore CA1822
     {
-        if (context.Source is not UserUpdatedEvent userUpdatedEvent) {
-            return Task.CompletedTask;
-        }
-
         var cache = App.GetService<IUserCache>();
-        cache.Service.UserToken = ContextUserToken.Create(userUpdatedEvent.Data.Id, userUpdatedEvent.Data.Token, userUpdatedEvent.Data.UserName
-                                                        , userUpdatedEvent.Data.DeptId);
+        cache.Service.UserToken = ContextUserToken.Create(@event.PayLoad.Id, @event.PayLoad.Token, @event.PayLoad.UserName, @event.PayLoad.DeptId);
         return cache.RemoveUserInfoAsync();
     }
 }

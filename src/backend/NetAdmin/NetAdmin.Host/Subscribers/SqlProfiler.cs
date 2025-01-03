@@ -10,55 +10,50 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     /// <summary>
     ///     Sql命令执行后
     /// </summary>
-    [EventSubscribe(nameof(SqlCommandAfterEvent))]
-    public Task CommandAfterAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    public Task CommandAfterAsync(SqlCommandAfterEvent @event)
     {
-        var source = context.Source as SqlCommandAfterEvent;
-        logger.Info(source);
+        logger.Info(@event);
         return Task.CompletedTask;
     }
 
     /// <summary>
     ///     Sql命令执行前
     /// </summary>
-    [EventSubscribe(nameof(SqlCommandBeforeEvent))]
-    public Task CommandBeforeAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    public Task CommandBeforeAsync(SqlCommandBeforeEvent @event)
     {
-        var source = context.Source as SqlCommandBeforeEvent;
-        logger.Debug(source);
+        logger.Debug(@event);
         return Task.CompletedTask;
     }
 
     /// <summary>
     ///     种子数据插入完毕
     /// </summary>
-    [EventSubscribe(nameof(SeedDataInsertedEvent))]
-    public Task SeedDataInsertedEventAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    public Task SeedDataInsertedEventAsync(SeedDataInsertedEvent @event)
     {
-        var source = context.Source as SeedDataInsertedEvent;
-        logger.Info(source);
+        logger.Info(@event);
         return Task.CompletedTask;
     }
 
     /// <summary>
     ///     同步数据库结构之后
     /// </summary>
-    [EventSubscribe(nameof(SyncStructureAfterEvent))]
-    public Task SyncStructureAfterAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    public Task SyncStructureAfterAsync(SyncStructureAfterEvent @event)
     {
-        var source = context.Source as SyncStructureAfterEvent;
-        logger.Info(source);
+        logger.Info(@event);
         return Task.CompletedTask;
     }
 
     /// <summary>
     ///     同步数据库结构之前
     /// </summary>
-    [EventSubscribe(nameof(SyncStructureBeforeEvent))]
-    public Task SyncStructureBeforeAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    public Task SyncStructureBeforeAsync(SyncStructureBeforeEvent @event)
     {
-        var source = context.Source as SyncStructureBeforeEvent;
-        logger.Info(source);
+        logger.Info(@event);
         return Task.CompletedTask;
     }
 }

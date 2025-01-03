@@ -9,10 +9,7 @@ public sealed record SyncStructureAfterEvent : SyncStructureBeforeEvent
     ///     Initializes a new instance of the <see cref="SyncStructureAfterEvent" /> class.
     /// </summary>
     public SyncStructureAfterEvent(SyncStructureBeforeEventArgs e) //
-        : base(e)
-    {
-        EventId = nameof(SyncStructureAfterEvent);
-    }
+        : base(e) { }
 
     /// <inheritdoc />
     public override string ToString()

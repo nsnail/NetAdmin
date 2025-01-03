@@ -8,11 +8,6 @@ namespace NetAdmin.Domain.Dto.Sys.Cache;
 public sealed record GetEntryRsp : DataAbstraction
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="GetEntryRsp" /> class.
-    /// </summary>
-    public GetEntryRsp() { }
-
-    /// <summary>
     ///     缓存值
     /// </summary>
     public string Data { get; set; }

@@ -8,13 +8,8 @@ public record SqlCommandBeforeEvent : SqlCommandEvent
     /// <summary>
     ///     Initializes a new instance of the <see cref="SqlCommandBeforeEvent" /> class.
     /// </summary>
-    public SqlCommandBeforeEvent(CommandBeforeEventArgs e)
-    {
-        Identifier  = e.Identifier;
-        Sql         = e.Command.ParameterFormat().RemoveWrapped();
-        EventId     = nameof(SqlCommandBeforeEvent);
-        CreatedTime = DateTime.Now;
-    }
+    public SqlCommandBeforeEvent(CommandBeforeEventArgs e) //
+        : base(e.Command.ParameterFormat().RemoveWrapped(), e.Identifier) { }
 
     /// <inheritdoc />
     public override string ToString()
