@@ -133,7 +133,11 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddEventBus(this IServiceCollection me)
     {
-        return me.AddEventBus(builder => builder.AddSubscribers(App.Assemblies.ToArray()));
+        foreach (var type in App.EffectiveTypes.Where(x => typeof(IEventSubscriber).IsAssignableFrom(x) && x.IsClass && !x.IsAbstract)) {
+            _ = me.AddSingleton(type);
+        }
+
+        return me.AddSingleton<IEventPublisher>(new DefaultEventPublisher());
     }
 
     /// <summary>

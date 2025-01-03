@@ -18,11 +18,6 @@ public sealed record CacheStatisticsRsp : DataAbstraction
     /// <summary>
     ///     Initializes a new instance of the <see cref="CacheStatisticsRsp" /> class.
     /// </summary>
-    public CacheStatisticsRsp() { }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CacheStatisticsRsp" /> class.
-    /// </summary>
     public CacheStatisticsRsp(string redisResult)
     {
         KeyspaceHits = _regexes[0].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);

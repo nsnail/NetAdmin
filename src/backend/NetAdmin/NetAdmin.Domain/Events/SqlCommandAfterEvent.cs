@@ -12,7 +12,6 @@ public sealed record SqlCommandAfterEvent : SqlCommandBeforeEvent
         : base(e)
     {
         ElapsedMilliseconds = (long)((double)e.ElapsedTicks / Stopwatch.Frequency * 1_000);
-        EventId             = nameof(SqlCommandAfterEvent);
     }
 
     /// <summary>
@@ -24,6 +23,6 @@ public sealed record SqlCommandAfterEvent : SqlCommandBeforeEvent
     /// <inheritdoc />
     public override string ToString()
     {
-        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {2} ms {1}", Id, Sql, ElapsedMilliseconds);
+        return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {2} ms {1}", Id, PayLoad, ElapsedMilliseconds);
     }
 }

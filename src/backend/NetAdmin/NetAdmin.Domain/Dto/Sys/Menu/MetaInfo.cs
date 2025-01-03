@@ -10,11 +10,6 @@ public sealed record MetaInfo : DataAbstraction
     /// <summary>
     ///     Initializes a new instance of the <see cref="MetaInfo" /> class.
     /// </summary>
-    public MetaInfo() { }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="MetaInfo" /> class.
-    /// </summary>
     public MetaInfo(string color, bool fullPage, bool hidden, bool hiddenBreadCrumb, string icon, string tag, string title, MenuTypes type)
     {
         Color            = color;

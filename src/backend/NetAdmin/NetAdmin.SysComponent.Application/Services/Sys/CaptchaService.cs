@@ -10,11 +10,6 @@ public sealed class CaptchaService : ServiceBase<ICaptchaService>, ICaptchaServi
     private static readonly Assembly _currAsm     = Assembly.GetAssembly(typeof(CaptchaService));
     private static readonly string   _currAsmName = _currAsm.FullName![.._currAsm.FullName.IndexOf(',')];
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="CaptchaService" /> class.
-    /// </summary>
-    public CaptchaService() { }
-
     /// <inheritdoc />
     public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
     {

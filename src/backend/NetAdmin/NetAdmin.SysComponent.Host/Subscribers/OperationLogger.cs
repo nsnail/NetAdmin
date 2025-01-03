@@ -18,18 +18,16 @@ public sealed class OperationLogger : IEventSubscriber
     /// <summary>
     ///     保存请求日志到数据库
     /// </summary>
-    [EventSubscribe(nameof(RequestLogEvent))]
-    public async Task OperationEventDbRecordAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    #pragma warning disable CA1822
+    public async Task OperationEventDbRecordAsync(RequestLogEvent @event)
+        #pragma warning restore CA1822
     {
-        if (context.Source is not RequestLogEvent operationEvent) {
-            return;
-        }
-
         if (_requestLogs.Count > Numbers.REQUEST_LOG_BUFF_SIZE) {
             await WriteToDbAsync().ConfigureAwait(false);
         }
         else {
-            _requestLogs.Enqueue(operationEvent.Data);
+            _requestLogs.Enqueue(@event.PayLoad);
         }
     }
 
@@ -81,14 +79,12 @@ public sealed class OperationLogger : IEventSubscriber
     /// <summary>
     ///     保存请求日志到数据库
     /// </summary>
-    [EventSubscribe(nameof(RequestLogEvent))]
-    public async Task OperationEventDbRecordAsync(EventHandlerExecutingContext context)
+    [EventSubscribe]
+    #pragma warning disable CA1822
+    public async Task OperationEventDbRecordAsync(RequestLogEvent @event)
+        #pragma warning restore CA1822
     {
-        if (context.Source is not RequestLogEvent operationEvent) {
-            return;
-        }
-
-        _ = await App.GetService<IRequestLogCache>().CreateAsync(operationEvent.Data).ConfigureAwait(false);
+        _ = await App.GetService<IRequestLogCache>().CreateAsync(@event.PayLoad).ConfigureAwait(false);
     }
 }
 #endif
