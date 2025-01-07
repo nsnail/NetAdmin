@@ -1,12 +1,12 @@
-using Gurion.Schedule;
 using NetAdmin.Host.BackgroundRunning;
-using NetAdmin.Host.Middlewares;
+using NetAdmin.Infrastructure.Schedule;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
 
 /// <summary>
 ///     释放计划作业
 /// </summary>
+[JobConfig(TriggerCron = "0 * * * * *")]
 public sealed class FreeScheduledJob : WorkBase<FreeScheduledJob>, IJob
 {
     private readonly IJobService _jobService;
@@ -22,17 +22,11 @@ public sealed class FreeScheduledJob : WorkBase<FreeScheduledJob>, IJob
     /// <summary>
     ///     具体处理逻辑
     /// </summary>
-    /// <param name="context">作业执行前上下文</param>
-    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <param name="cancelToken">取消任务 Token</param>
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
-    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    public async Task ExecuteAsync(CancellationToken cancelToken)
     {
-        if (SafetyShopHostMiddleware.IsShutdown) {
-            Console.WriteLine(Ln.此节点已下线);
-            return;
-        }
-
-        await WorkflowAsync(true, stoppingToken).ConfigureAwait(false);
+        await WorkflowAsync(true, cancelToken).ConfigureAwait(false);
     }
 
     /// <summary>
