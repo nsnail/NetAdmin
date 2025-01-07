@@ -1,8 +1,9 @@
-using Gurion.Schedule;
+using Cronos;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Events;
 using NetAdmin.Host.Filters;
-using NetAdmin.SysComponent.Host.Jobs;
+using NetAdmin.Host.Middlewares;
+using NetAdmin.Infrastructure.Schedule;
 using NetAdmin.SysComponent.Host.Utils;
 using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
 
@@ -62,17 +63,58 @@ public static class ServiceCollectionExtensions
     /// <summary>
     ///     添加定时任务
     /// </summary>
-    public static IServiceCollection AddSchedules(this IServiceCollection me, bool force = false, Action<ScheduleOptionsBuilder> optionsAction = null)
+    public static IServiceCollection AddSchedules(this IServiceCollection me, bool force = false)
     {
-        return App.WebHostEnvironment.IsProduction() || force
-            ? me.AddSchedule( //
-                builder => {
-                    _ = builder //
-                        .AddJob<ScheduledJob>(true,     Triggers.PeriodSeconds(1).SetRunOnStart(true))
-                        .AddJob<FreeScheduledJob>(true, Triggers.PeriodMinutes(1).SetRunOnStart(true));
+        if (!App.WebHostEnvironment.IsProduction() && !force) {
+            return me;
+        }
 
-                    optionsAction?.Invoke(builder);
-                })
-            : me;
+        var jobTypes = App.EffectiveTypes
+                          .Where(x => typeof(IJob).IsAssignableFrom(x) && x.IsClass && !x.IsAbstract && x.IsDefined(typeof(JobConfigAttribute)))
+                          .ToDictionary(x => x, x => x.GetCustomAttribute<JobConfigAttribute>());
+        var runOnStartJobTypes = jobTypes.Where(x => //
+                                                    x.Value.RunOnStart);
+        RunJob(runOnStartJobTypes);
+        _ = Task.Run(LoopTaskAsync);
+        return me;
+
+        #pragma warning disable S2190
+        async Task LoopTaskAsync()
+            #pragma warning restore S2190
+        {
+            while (true) {
+                await Task.Delay(1000).ConfigureAwait(false);
+                if (SafetyShopHostMiddleware.IsShutdown) {
+                    Console.WriteLine(Ln.此节点已下线);
+                }
+                else {
+                    RunJob(jobTypes.Where(Filter));
+                }
+            }
+
+            bool Filter(KeyValuePair<Type, JobConfigAttribute> x)
+            {
+                return !x.Value.TriggerCron.NullOrEmpty() &&
+                       CronExpression.Parse(x.Value.TriggerCron, CronFormat.IncludeSeconds)
+                                     .GetNextOccurrence(x.Value.LastExecutionTime ?? DateTime.UtcNow.AddDays(-1), TimeZoneInfo.Local)
+                                     ?.ToLocalTime() <= DateTime.Now;
+            }
+
+            // ReSharper disable once FunctionNeverReturns
+        }
+    }
+
+    private static void RunJob(IEnumerable<KeyValuePair<Type, JobConfigAttribute>> jobTypes)
+    {
+        foreach (var job in jobTypes) {
+            try {
+                _ = typeof(IJob).GetMethod(nameof(IJob.ExecuteAsync))!.Invoke( //
+                    Activator.CreateInstance(job.Key), [CancellationToken.None]);
+                job.Value.LastExecutionTime = DateTime.UtcNow;
+            }
+            catch (Exception ex) {
+                LogHelper.Get<IServiceCollection>().Error(ex);
+            }
+        }
     }
 }

@@ -18,11 +18,13 @@ public sealed class DefaultEventPublisher : IEventPublisher
         _ = new TaskFactory<Task>().StartNew( //
             async state => {
                 var subscribers = (List<MethodInfo>)state;
-                await foreach (var msg in _eventChannel.Reader.ReadAllAsync()) {
-                    _ = Parallel.ForEach( //
-                        subscribers.Where(x => x.GetParameters().FirstOrDefault()?.ParameterType == msg.GetType())
-                      , (x, _) => x.Invoke(App.GetService(x.DeclaringType), [msg]));
-                }
+                await Parallel.ForEachAsync(_eventChannel.Reader.ReadAllAsync(), (msg, __) => {
+                                  _ = Parallel.ForEach( //
+                                      subscribers.Where(x => x.GetParameters().FirstOrDefault()?.ParameterType == msg.GetType())
+                                    , (x, _) => x.Invoke(App.GetService(x.DeclaringType), [msg]));
+                                  return ValueTask.CompletedTask;
+                              })
+                              .ConfigureAwait(false);
             }, App.EffectiveTypes.Where(x => typeof(IEventSubscriber).IsAssignableFrom(x) && x.IsClass && !x.IsAbstract).SelectMany(x => x.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(y => y.IsDefined(typeof(EventSubscribeAttribute)))).ToList());
     }
 

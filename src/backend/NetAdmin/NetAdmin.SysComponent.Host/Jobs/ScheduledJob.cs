@@ -1,18 +1,18 @@
 using FreeSql.Internal;
 using Gurion.RemoteRequest;
 using Gurion.RemoteRequest.Extensions;
-using Gurion.Schedule;
 using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.Dto.Sys.Job;
 using NetAdmin.Domain.Dto.Sys.JobRecord;
 using NetAdmin.Host.BackgroundRunning;
-using NetAdmin.Host.Middlewares;
+using NetAdmin.Infrastructure.Schedule;
 
 namespace NetAdmin.SysComponent.Host.Jobs;
 
 /// <summary>
 ///     计划作业
 /// </summary>
+[JobConfig(TriggerCron = "* * * * * *")]
 public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
 {
     private static   string                _accessToken;
@@ -30,19 +30,12 @@ public sealed class ScheduledJob : WorkBase<ScheduledJob>, IJob
     /// <summary>
     ///     具体处理逻辑
     /// </summary>
-    /// <param name="context">作业执行前上下文</param>
-    /// <param name="stoppingToken">取消任务 Token</param>
+    /// <param name="cancelToken">取消任务 Token</param>
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
-    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    public Task ExecuteAsync(CancellationToken cancelToken)
     {
-        if (SafetyShopHostMiddleware.IsShutdown) {
-            Console.WriteLine(Ln.此节点已下线);
-            return;
-        }
-
-        // ReSharper disable once MethodSupportsCancellation
-        await Parallel.ForAsync(0, Numbers.SCHEDULED_JOB_PARALLEL_NUM, async (_, _) => await WorkflowAsync(stoppingToken).ConfigureAwait(false))
-                      .ConfigureAwait(false);
+        return Parallel.ForAsync(0, Numbers.SCHEDULED_JOB_PARALLEL_NUM, cancelToken
+                               , async (_, _) => await WorkflowAsync(cancelToken).ConfigureAwait(false));
     }
 
     /// <summary>
