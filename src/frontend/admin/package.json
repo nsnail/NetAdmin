@@ -10,12 +10,12 @@
     },
     "dependencies": {
         "@element-plus/icons-vue": "2.3.1",
-        "ace-builds": "1.37.1",
-        "aieditor": "1.3.3",
+        "ace-builds": "1.37.4",
+        "aieditor": "1.3.4",
         "axios": "1.7.9",
         "crypto-js": "4.2.0",
         "echarts": "5.6.0",
-        "element-plus": "2.9.1",
+        "element-plus": "2.9.3",
         "json-bigint": "1.0.0",
         "markdown-it": "14.1.0",
         "markdown-it-emoji": "3.0.0",
@@ -34,9 +34,9 @@
         "@vitejs/plugin-vue": "5.2.1",
         "prettier": "3.4.2",
         "prettier-plugin-organize-attributes": "1.0.0",
-        "sass": "1.83.0",
+        "sass": "1.83.1",
         "terser": "5.37.0",
-        "vite": "6.0.6"
+        "vite": "6.0.7"
     },
     "browserslist": [
         "> 1%",
