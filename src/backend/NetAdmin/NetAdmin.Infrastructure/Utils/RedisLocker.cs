@@ -49,7 +49,9 @@ public sealed class RedisLocker : IAsyncDisposable
                 return new RedisLocker(redisDatabase, lockerName);
             }
 
-            await Task.Delay(retryDelay).ConfigureAwait(false);
+            if (retryCount > 1) {
+                await Task.Delay(retryDelay).ConfigureAwait(false);
+            }
         }
 
         throw new NetAdminGetLockerException(lockerName);

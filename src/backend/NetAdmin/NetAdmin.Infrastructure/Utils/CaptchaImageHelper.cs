@@ -37,12 +37,12 @@ public static class CaptchaImageHelper
         await using var tranStream = resAsm.GetManifestResourceStream($"{tempPath}._{templateIndex}.transparent.png");
 
         // 底图
-        using var backgroundImage = await Image.LoadAsync<Rgba32>(bgStream).ConfigureAwait(false);
+        using var backgroundImage = await Image.LoadAsync<Rgba32>(bgStream!).ConfigureAwait(false);
 
-        using var darkTemplateImage = await Image.LoadAsync<Rgba32>(darkStream).ConfigureAwait(false);
+        using var darkTemplateImage = await Image.LoadAsync<Rgba32>(darkStream!).ConfigureAwait(false);
 
         // 透明模板图
-        using var transparentTemplateImage = await Image.LoadAsync<Rgba32>(tranStream).ConfigureAwait(false);
+        using var transparentTemplateImage = await Image.LoadAsync<Rgba32>(tranStream!).ConfigureAwait(false);
 
         // 调整模板图大小
         darkTemplateImage.Mutate(x => x.Resize(sliderSize));

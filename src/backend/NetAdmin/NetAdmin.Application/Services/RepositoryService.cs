@@ -138,6 +138,8 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     {
         var ret = includeFields!.ToDictionary(
             x => x, x => typeof(TEntity).GetProperty(x, BindingFlags.Public | BindingFlags.Instance)!.GetValue(entity));
+
+        // ReSharper disable once ConvertIfStatementToSwitchStatement
         if (entity is IFieldModifiedUser) {
             var userInfo = App.GetService<ContextUserInfo>();
             if (userInfo == null) {
@@ -148,6 +150,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
             ret.Add(nameof(IFieldModifiedUser.ModifiedUserName), userInfo.UserName);
         }
 
+        // ReSharper disable once SuspiciousTypeConversion.Global
         if (entity is IFieldModifiedClientIp) {
             ret.Add(nameof(IFieldModifiedClientIp.ModifiedClientIp), App.HttpContext?.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32());
         }
