@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 cd ..
 $types = @{
     '1' = @('major', '主版本')

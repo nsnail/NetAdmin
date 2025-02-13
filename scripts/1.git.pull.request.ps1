@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 $branch = $( git branch --show-current )
 git add ../
 $skipFormat = Read-Host "输入 n 跳过代码整理"
