@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Host.Middlewares;
+namespace NetAdmin.Host.Middlewares;
 
 /// <summary>
 ///     输出环境信息到 http header

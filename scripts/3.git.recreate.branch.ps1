@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 $branch = $( git branch --show-current )
 git checkout main
 git pull

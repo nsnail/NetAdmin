@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Infrastructure.Schedule;
+namespace NetAdmin.Infrastructure.Schedule;
 
 /// <summary>
 ///     作业处理程序
