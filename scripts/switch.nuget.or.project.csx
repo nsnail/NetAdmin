@@ -5,18 +5,13 @@ while (!new[] { "1", "2" }.Contains(input))
     Console.WriteLine("1.nuget 2.project");
     input = Console.ReadLine();
 }
-var slnFile = Directory.GetFiles(@"../", "*.sln").First();
+var slnxFile = Directory.GetFiles(@"../", "*.slnx").First();
 var csprojFiles = Directory.GetFiles(@"../src", "*.csproj", new EnumerationOptions { RecurseSubdirectories = true });
-var slnContent = File.ReadAllText(slnFile);
+var slnContent = File.ReadAllText(slnxFile);
 
 if (input == "1")
 {
-    slnContent = Regex.Replace(slnContent, "\\nProject\\((.*)#refs", "\n##Project($1#refs");
-    slnContent = Regex.Replace(slnContent, "\\nEndProject#refs", "\n##EndProject#refs");
-    foreach (Match m in Regex.Matches(slnContent, "\"(\\{[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}\\})\"#refs"))
-    {
-        slnContent = slnContent.Replace($" {m.Groups[1].Value}.", $" ##{m.Groups[1].Value}.");
-    }
+    slnContent = Regex.Replace(slnContent, "<Project Type=\"Refs\"(.*)>", "<!--<Project Type=\"Refs\"$1>-->");
     foreach (var csprojFile in csprojFiles)
     {
         var csprojContent = File.ReadAllText(csprojFile);
@@ -27,7 +22,7 @@ if (input == "1")
 }
 else
 {
-    slnContent = Regex.Replace(slnContent, "##", "");
+    slnContent = Regex.Replace(slnContent, "<!--(.*)-->", "$1");
     foreach (var csprojFile in csprojFiles)
     {
         var csprojContent = File.ReadAllText(csprojFile);
@@ -39,4 +34,4 @@ else
 
 
 Console.WriteLine(slnContent);
-File.WriteAllText(slnFile, slnContent);
+File.WriteAllText(slnxFile, slnContent);

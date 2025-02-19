@@ -8,10 +8,10 @@ public interface IEventData<T>
     /// <summary>
     ///     事件发生时间
     /// </summary>
-    public DateTime CreatedTime { get; init; }
+    DateTime CreatedTime { get; init; }
 
     /// <summary>
     ///     负载
     /// </summary>
-    public T PayLoad { get; init; }
+    T PayLoad { get; init; }
 }

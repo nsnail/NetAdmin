@@ -14,7 +14,7 @@ public interface IApiModule : ICrudModule<CreateApiReq, QueryApiRsp // 创建类
     /// <summary>
     ///     平面查询接口
     /// </summary>
-    public Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req);
+    Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req);
 
     /// <summary>
     ///     同步接口

@@ -1,0 +1,93 @@
+<Solution>
+    <Folder Name="/.drone/"/>
+    <Folder Name="/.drone/workflows/">
+        <File Path=".drone/workflows/README.md"/>
+    </Folder>
+    <Folder Name="/.github/"/>
+    <Folder Name="/.github/workflows/">
+        <File Path=".github/workflows/nightly-build.yml"/>
+        <File Path=".github/workflows/README.md"/>
+        <File Path=".github/workflows/release.yml"/>
+    </Folder>
+    <Folder Name="/build/">
+        <File Path="build/code.quality.props"/>
+        <File Path="build/copy.pkg.xml.comment.files.targets"/>
+        <File Path="build/minver.targets"/>
+        <File Path="build/prebuild.targets"/>
+        <File Path="build/stylecop.analyzers.ruleset"/>
+    </Folder>
+    <Folder Name="/docker/">
+        <File Path="docker/README.md"/>
+    </Folder>
+    <Folder Name="/meta/">
+        <File Path=".commitlintrc.js"/>
+        <File Path=".editorconfig"/>
+        <File Path=".gitattributes"/>
+        <File Path=".gitignore"/>
+        <File Path=".gitmodules"/>
+        <File Path="CHANGELOG.md"/>
+        <File Path="Directory.Build.props"/>
+        <File Path="Dockerfile"/>
+        <File Path="dotnet-tools.json"/>
+        <File Path="global.json"/>
+        <File Path="LICENSE"/>
+        <File Path="NetAdmin.slnx.DotSettings"/>
+        <File Path="nuget.config"/>
+        <File Path="package.json"/>
+        <File Path="README.md"/>
+    </Folder>
+    <Folder Name="/scripts/">
+        <File Path="scripts/1.git.pull.request.ps1"/>
+        <File Path="scripts/2.git.release.ps1"/>
+        <File Path="scripts/3.git.recreate.branch.ps1"/>
+        <File Path="scripts/4.git.del.obsolete.tags.ps1"/>
+        <File Path="scripts/5.git.update.submodule.ps1"/>
+        <File Path="scripts/clean.ln.csx"/>
+        <File Path="scripts/code.clean.csx"/>
+        <File Path="scripts/code.clean.ps1"/>
+        <File Path="scripts/find.unused.ln.csx"/>
+        <File Path="scripts/gen.cs.tt"/>
+        <File Path="scripts/gen.id.linq"/>
+        <File Path="scripts/gen.ln.cmd"/>
+        <File Path="scripts/gen.resx.tt"/>
+        <File Path="scripts/git.config.cmd"/>
+        <File Path="scripts/image.optimize.csx"/>
+        <File Path="scripts/install.as.tpl.ps1"/>
+        <File Path="scripts/rename.csx"/>
+        <File Path="scripts/resharper.full.ps1"/>
+        <File Path="scripts/switch.nuget.or.project.csx"/>
+        <File Path="scripts/sync.slnx.files.csx"/>
+        <File Path="scripts/wait.server.stop.sh"/>
+    </Folder>
+    <Folder Name="/src/"/>
+    <Folder Name="/src/backend/"/>
+    <Folder Name="/src/backend/01.frameworks/">
+        <!--<Project Type="Refs" Path="refs/Gurion/src/Gurion/Gurion.csproj"/>-->
+        <!--<Project Type="Refs" Path="refs/NetAdmin.FreeSql/src/FreeSql.DbContext/FreeSql.DbContext.csproj"/>-->
+        <!--<Project Type="Refs" Path="refs/NetAdmin.FreeSql/src/FreeSql.Provider.Sqlite/FreeSql.Provider.Sqlite.csproj"/>-->
+        <!--<Project Type="Refs" Path="refs/NetAdmin.FreeSql/src/FreeSql/FreeSql.csproj"/>-->
+        <Project Path="src/backend/NetAdmin/NetAdmin.Application/NetAdmin.Application.csproj"/>
+        <Project Path="src/backend/NetAdmin/NetAdmin.Cache/NetAdmin.Cache.csproj"/>
+        <Project Path="src/backend/NetAdmin/NetAdmin.Domain/NetAdmin.Domain.csproj"/>
+        <Project Path="src/backend/NetAdmin/NetAdmin.Host/NetAdmin.Host.csproj"/>
+        <Project Path="src/backend/NetAdmin/NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
+        <Project Path="src/backend/NetAdmin/NetAdmin.Tests/NetAdmin.Tests.csproj"/>
+    </Folder>
+    <Folder Name="/src/backend/02.components/">
+        <Project Path="src/backend/NetAdmin/NetAdmin.SysComponent.Application/NetAdmin.SysComponent.Application.csproj"/>
+        <Project Path="src/backend/NetAdmin/NetAdmin.SysComponent.Cache/NetAdmin.SysComponent.Cache.csproj"/>
+        <Project Path="src/backend/NetAdmin/NetAdmin.SysComponent.Host/NetAdmin.SysComponent.Host.csproj"/>
+    </Folder>
+    <Folder Name="/src/backend/03.hosted-servers/">
+        <Project Path="src/backend/YourSolution.AdmServer.Application/YourSolution.AdmServer.Application.csproj"/>
+        <Project Path="src/backend/YourSolution.AdmServer.Cache/YourSolution.AdmServer.Cache.csproj"/>
+        <Project Path="src/backend/YourSolution.AdmServer.Domain/YourSolution.AdmServer.Domain.csproj"/>
+        <Project Path="src/backend/YourSolution.AdmServer.Host/YourSolution.AdmServer.Host.csproj"/>
+        <Project Path="src/backend/YourSolution.AdmServer.Infrastructure/YourSolution.AdmServer.Infrastructure.csproj"/>
+    </Folder>
+    <Folder Name="/src/backend/04.tests/">
+        <Project Path="src/backend/UnitTests/UnitTests.csproj"/>
+    </Folder>
+    <Folder Name="/src/backend/05.tools/">
+    </Folder>
+</Solution>

@@ -16,5 +16,5 @@ public interface ICache<out TCacheLoad, out TService>
     /// <summary>
     ///     关联的服务
     /// </summary>
-    public TService Service { get; }
+    TService Service { get; }
 }

@@ -10,7 +10,7 @@ public interface IApiService : IService, IApiModule
     /// <summary>
     ///     接口是否存在
     /// </summary>
-    public Task<bool> ExistAsync(QueryReq<QueryApiReq> req);
+    Task<bool> ExistAsync(QueryReq<QueryApiReq> req);
 
     /// <summary>
     ///     反射接口列表
