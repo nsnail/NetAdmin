@@ -58,7 +58,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     {
         return typeof(IBaseRepository<>).MakeGenericType(entityType)
                                         .GetMethod(                                             //
-                                            nameof(IBaseRepository<dynamic>.Insert)             //
+                                            nameof(IBaseRepository<>.Insert)                    //
                                           , BindingFlags.Public | BindingFlags.Instance         //
                                           , null                                                //
                                           , CallingConventions.Any                              //
@@ -119,7 +119,7 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
 
             // 如果表存在数据，跳过
             var select = typeof(IFreeSql).GetMethod(nameof(freeSql.Select), 1, Type.EmptyTypes)?.MakeGenericMethod(entityType).Invoke(freeSql, null);
-            if (select?.GetType().GetMethod(nameof(ISelect<dynamic>.Any), 0, Type.EmptyTypes)?.Invoke(select, null) as bool? ?? true) {
+            if (select?.GetType().GetMethod(nameof(ISelect<>.Any), 0, Type.EmptyTypes)?.Invoke(select, null) as bool? ?? true) {
                 continue;
             }
 
