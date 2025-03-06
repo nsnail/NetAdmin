@@ -29,6 +29,9 @@ public sealed class DefaultEventPublisher : IEventPublisher
     }
 
     /// <inheritdoc />
+    public int ChannelCount => _eventChannel.Reader.Count;
+
+    /// <inheritdoc />
     public async Task PublishAsync<T>(IEventData<T> eventData)
     {
         await _eventChannel.Writer.WriteAsync(eventData).ConfigureAwait(false);
