@@ -134,8 +134,8 @@ export default {
         //默认值转换为数组
         toArr(str) {
             const _arr = []
-            const arr = str.split(',')
-            arr.forEach((item) => {
+            const arr = str?.split(',')
+            arr?.forEach((item) => {
                 if (item) {
                     const urlArr = item.split('/')
                     const fileName = urlArr[urlArr.length - 1]

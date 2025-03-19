@@ -11,7 +11,7 @@ public sealed record SetAvatarReq : Sys_User
     [Url(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.网络地址不正确))]
     public override string Avatar { get; init; }
 
-    /// <inheritdoc cref="System.Version" />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

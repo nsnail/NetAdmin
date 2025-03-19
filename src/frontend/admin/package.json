@@ -10,12 +10,12 @@
     },
     "dependencies": {
         "@element-plus/icons-vue": "2.3.1",
-        "ace-builds": "1.38.0",
+        "ace-builds": "1.39.0",
         "aieditor": "1.3.5",
-        "axios": "1.7.9",
+        "axios": "1.8.1",
         "crypto-js": "4.2.0",
         "echarts": "5.6.0",
-        "element-plus": "2.9.4",
+        "element-plus": "2.9.5",
         "json-bigint": "1.0.0",
         "markdown-it": "14.1.0",
         "markdown-it-emoji": "3.0.0",
@@ -23,7 +23,7 @@
         "sortablejs": "1.15.6",
         "vkbeautify": "0.99.3",
         "vue": "3.5.13",
-        "vue-i18n": "11.1.1",
+        "vue-i18n": "11.1.2",
         "vue-router": "4.5.0",
         "vue3-ace-editor": "2.2.4",
         "vue3-json-viewer": "2.2.2",
@@ -32,11 +32,11 @@
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "5.2.1",
-        "prettier": "3.5.0",
+        "prettier": "3.5.3",
         "prettier-plugin-organize-attributes": "1.0.0",
-        "sass": "1.84.0",
-        "terser": "5.38.2",
-        "vite": "6.1.0"
+        "sass": "1.85.1",
+        "terser": "5.39.0",
+        "vite": "6.2.1"
     },
     "browserslist": [
         "> 1%",

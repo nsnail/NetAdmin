@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Dto.Sys.File;
+
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
 
 /// <summary>
@@ -10,7 +12,7 @@ public sealed class FileController(IFileCache cache) : ControllerBase<IFileCache
     /// <summary>
     ///     文件上传
     /// </summary>
-    public Task<string> UploadAsync(IFormFile file)
+    public Task<UploadFileRsp> UploadAsync(IFormFile file)
     {
         return Cache.UploadAsync(file);
     }

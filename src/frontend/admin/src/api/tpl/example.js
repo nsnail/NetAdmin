@@ -28,6 +28,17 @@ export default {
     },
 
     /**
+     * 示例分组计数
+     */
+    countBy: {
+        url: `${config.API_URL}/api/tpl/example/count.by`,
+        name: `示例分组计数`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 创建示例
      */
     create: {
