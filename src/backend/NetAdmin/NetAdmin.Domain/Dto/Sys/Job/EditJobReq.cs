@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.Job;
 /// </summary>
 public sealed record EditJobReq : CreateJobReq
 {
-    /// <inheritdoc cref="System.Version" />
+    /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
 }

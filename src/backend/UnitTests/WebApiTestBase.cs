@@ -52,9 +52,9 @@ public abstract class WebApiTestBase<T>(WebTestApplicationFactory<T> factory, IT
             var req = new LoginByPwdReq //
                       {
                           Password
-                              = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<T>.TEST_PASSWORD)) ??
+                              = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<>.TEST_PASSWORD)) ??
                                 WebTestApplicationFactory<T>.TEST_PASSWORD
-                        , Account = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<T>.TEST_ACCOUNT)) ??
+                        , Account = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<>.TEST_ACCOUNT)) ??
                                     WebTestApplicationFactory<T>.TEST_ACCOUNT
                       };
             var loginAccount = JsonContent.Create(req);

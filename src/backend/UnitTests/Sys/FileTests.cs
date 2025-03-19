@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Dto.Sys.File;
+
 namespace UnitTests.Sys;
 
 /// <summary>
@@ -11,7 +13,7 @@ public class FileTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<string> UploadAsync(IFormFile file)
+    public async Task<UploadFileRsp> UploadAsync(IFormFile file)
     {
         var rsp = await PostJsonAsync(typeof(FileController), file);
         Assert.True(rsp.IsSuccessStatusCode);

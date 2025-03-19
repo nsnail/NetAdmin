@@ -15,8 +15,8 @@ public sealed class MinioHelper(IOptions<UploadOptions> uploadOptions) : IScoped
     /// <param name="fileStream">文件流</param>
     /// <param name="contentType">文件类型</param>
     /// <param name="fileSize">文件大小</param>
-    /// <returns>可访问的url地址</returns>
-    public async Task<string> UploadAsync(string objectName, Stream fileStream, string contentType, long fileSize)
+    /// <returns>文件名,可访问的url地址</returns>
+    public async Task<(string FileName, string Url)> UploadAsync(string objectName, Stream fileStream, string contentType, long fileSize)
     {
         using var minio = new MinioClient().WithEndpoint(uploadOptions.Value.Minio.ServerAddress)
                                            .WithCredentials( //
@@ -38,6 +38,6 @@ public sealed class MinioHelper(IOptions<UploadOptions> uploadOptions) : IScoped
                                          .WithContentType(contentType);
         _ = await minio.PutObjectAsync(putArgs).ConfigureAwait(false);
 
-        return $"{uploadOptions.Value.Minio.AccessUrl}/{uploadOptions.Value.Minio.BucketName}/{objectName}";
+        return (objectName, $"{uploadOptions.Value.Minio.AccessUrl}/{uploadOptions.Value.Minio.BucketName}/{objectName}");
     }
 }

@@ -19,7 +19,7 @@
             :on-success="success"
             :show-file-list="showFileList">
             <slot>
-                <el-button :disabled="disabled" type="primary">Click to upload</el-button>
+                <el-button :disabled="disabled" type="primary">点击上传</el-button>
             </slot>
             <template #tip>
                 <div v-if="tip" class="el-upload__tip">{{ tip }}</div>

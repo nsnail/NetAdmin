@@ -34,7 +34,6 @@ public sealed class ExampleController(IExampleCache cache) : ControllerBase<IExa
     /// <summary>
     ///     示例分组计数
     /// </summary>
-    [NonAction]
     public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryExampleReq> req)
     {
         return Cache.CountByAsync(req);

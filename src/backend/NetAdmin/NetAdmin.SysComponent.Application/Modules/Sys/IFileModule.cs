@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Dto.Sys.File;
+
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
 
 /// <summary>
@@ -8,5 +10,5 @@ public interface IFileModule
     /// <summary>
     ///     文件上传
     /// </summary>
-    Task<string> UploadAsync(IFormFile file);
+    Task<UploadFileRsp> UploadAsync(IFormFile file);
 }
