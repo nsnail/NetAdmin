@@ -46,33 +46,12 @@ public static class GlobalStatic
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public static string SqlRandomSorting =>
         App.GetOptions<DatabaseOptions>().DbType switch {
-            DataType.MySql            => "RAND()"
-          , DataType.SqlServer        => "NEWID()"
-          , DataType.PostgreSQL       => "RANDOM()"
-          , DataType.Oracle           => "DBMS_RANDOM.value"
-          , DataType.Sqlite           => "RANDOM()"
-          , DataType.OdbcOracle       => throw new NotImplementedException()
-          , DataType.OdbcSqlServer    => throw new NotImplementedException()
-          , DataType.OdbcMySql        => throw new NotImplementedException()
-          , DataType.OdbcPostgreSQL   => throw new NotImplementedException()
-          , DataType.Odbc             => throw new NotImplementedException()
-          , DataType.OdbcDameng       => throw new NotImplementedException()
-          , DataType.MsAccess         => throw new NotImplementedException()
-          , DataType.Dameng           => throw new NotImplementedException()
-          , DataType.OdbcKingbaseES   => throw new NotImplementedException()
-          , DataType.ShenTong         => throw new NotImplementedException()
-          , DataType.KingbaseES       => throw new NotImplementedException()
-          , DataType.Firebird         => throw new NotImplementedException()
-          , DataType.Custom           => throw new NotImplementedException()
-          , DataType.ClickHouse       => throw new NotImplementedException()
-          , DataType.GBase            => throw new NotImplementedException()
-          , DataType.QuestDb          => throw new NotImplementedException()
-          , DataType.Xugu             => throw new NotImplementedException()
-          , DataType.CustomOracle     => throw new NotImplementedException()
-          , DataType.CustomSqlServer  => throw new NotImplementedException()
-          , DataType.CustomMySql      => throw new NotImplementedException()
-          , DataType.CustomPostgreSQL => throw new NotImplementedException()
-          , _                         => throw new NotImplementedException()
+            DataType.MySql      => "RAND()"
+          , DataType.SqlServer  => "NEWID()"
+          , DataType.PostgreSQL => "RANDOM()"
+          , DataType.Oracle     => "DBMS_RANDOM.value"
+          , DataType.Sqlite     => "RANDOM()"
+          , _                   => throw new NotImplementedException()
         };
 
     /// <summary>
