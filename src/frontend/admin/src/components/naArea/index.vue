@@ -4,7 +4,6 @@
         :params="form"
         :props="{ label: 'key', value: 'value' }"
         :query-api="$API.sys_dic.pagedQueryContent"
-        :table-width="60"
         clearable
         ref="area">
         <template #header>

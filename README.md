@@ -29,8 +29,8 @@ dotnet --list-sdks
 git clone --depth 1 https://github.com/nsnail/NetAdmin.git && cd ./NetAdmin
 
 # 3. 确认本机 redis 处于运行状态
-redis-server # 启动服务器
-redis-cli    # 连接测试
+redis-server      # 启动服务器
+redis-cli ping    # 连接测试
 # 下载 redis for windows：https://github.com/redis-windows/redis-windows/releases
 # 下载 redis for linux/mac：https://redis.io/download
 
@@ -41,7 +41,7 @@ dotnet run --project ./src/backend/YourSolution.AdmServer.Host/YourSolution.AdmS
 
 # 5. 检查 nodejs 版本 >=20
 node -v
-# 下载 nodejs：https://nodejs.org/en/download
+# 下载 nodejs：https://nodejs.org/zh-cn/download
 
 # 6. 安装 npm 依赖包
 cd ./src/frontend/admin && npm install

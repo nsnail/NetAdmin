@@ -4,7 +4,6 @@
         :params="form"
         :props="{ label: 'userName', value: 'id' }"
         :query-api="$API.sys_user.pagedQuery"
-        :table-width="60"
         clearable
         ref="user">
         <template #header>

@@ -15,7 +15,7 @@
         @visible-change="visibleChange"
         ref="select">
         <template #empty>
-            <div v-loading="loading" :style="{ width: tableWidth + 'rem' }" class="scTable-select__table">
+            <div v-loading="loading" class="scTable-select__table">
                 <div class="scTable-select__header">
                     <slot :form="formData" :submit="formSubmit" name="header"></slot>
                 </div>
