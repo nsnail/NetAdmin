@@ -18,7 +18,7 @@
         <LangVersion>preview</LangVersion>
         <MinVerDefaultPreReleaseIdentifiers>beta</MinVerDefaultPreReleaseIdentifiers>
         <MinVerTagPrefix>v</MinVerTagPrefix>
-        <NoWarn>CA1707;IDE0005;IDE0008;IDE0010;IDE0028;IDE0055;IDE0072;IDE0160;IDE0300;IDE0305;RCS1141;RCS1142;RCS1181;S101;S1121;S1135;S125;S2094;S3604;S4663;S6561;SA1010;SYSLIB1045</NoWarn>
+        <NoWarn>CA1707;IDE0005;IDE0008;IDE0010;IDE0028;IDE0055;IDE0160;IDE0300;IDE0305;RCS1141;RCS1142;RCS1181;S101;S1121;S1135;S125;S2094;S3604;S4663;S6561;SYSLIB1045;SA1010</NoWarn>
         <Product>NetAdmin</Product>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/nsnail/NetAdmin.git</RepositoryUrl>

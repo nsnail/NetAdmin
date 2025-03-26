@@ -2,8 +2,9 @@
     <el-table-column :label="label" :prop="prop" sortable="custom">
         <template #default="{ row }">
             <div class="avatar">
-                <el-avatar :src="getAvatar(row, prop)" size="small"></el-avatar>
-                <span>{{ tool.getNestedProperty(row, prop) }}</span>
+                <el-avatar :src="getAvatar(row, prop, avatar)" size="small"></el-avatar>
+                <el-link v-if="this.click" @click="this.click(row)"> {{ tool.getNestedProperty(row, prop) }}</el-link>
+                <span v-else> {{ tool.getNestedProperty(row, prop) }}</span>
             </div>
         </template>
     </el-table-column>
@@ -22,6 +23,8 @@ export default {
     props: {
         label: { type: String },
         prop: { type: String },
+        avatar: { type: String },
+        click: { type: Function },
     },
     data() {
         return {}
@@ -36,8 +39,12 @@ export default {
     },
     methods: {
         //获取头像
-        getAvatar(row, prop) {
-            return row.avatar ? row.avatar : this.$CONFIG.DEFAULT_AVATAR(tool.getNestedProperty(row, prop))
+        getAvatar(row, prop, avatar) {
+            return avatar
+                ? tool.getNestedProperty(row, avatar)
+                : row.avatar
+                  ? row.avatar
+                  : this.$CONFIG.DEFAULT_AVATAR(tool.getNestedProperty(row, prop))
         },
     },
 }
