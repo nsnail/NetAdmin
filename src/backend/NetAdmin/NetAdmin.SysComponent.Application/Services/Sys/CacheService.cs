@@ -88,10 +88,7 @@ public sealed class CacheService(IConnectionMultiplexer connectionMultiplexer) /
                                     , ExpireTime = DateTime.Now + await database.KeyTimeToLiveAsync(req.Key).ConfigureAwait(false)
                                   };
 
-        #pragma warning disable IDE0072
-        ret.Data = ret.Type switch
-                   #pragma warning restore IDE0072
-                   {
+        ret.Data = ret.Type switch {
                        RedisType.String    => await database.StringGetAsync(req.Key).ConfigureAwait(false)
                      , RedisType.List      => string.Join(", ", await database.ListRangeAsync(req.Key).ConfigureAwait(false))
                      , RedisType.Set       => string.Join(", ", await database.SetMembersAsync(req.Key).ConfigureAwait(false))
