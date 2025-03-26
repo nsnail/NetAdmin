@@ -205,7 +205,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternalComplex(
         QueryReq<QueryUserProfileReq> req)
     {
-        #pragma warning disable CA1305,IDE0072
+        #pragma warning disable CA1305
         var ret = Rpo.Orm.Select<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent>()
                      .LeftJoin((a, b, _,  __,  ___) => a.NationArea.ToString()         == b.Value && b.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
                      .LeftJoin((a, _, c,  __,  ___) => a.CompanyArea.ToString()        == c.Value && c.CatalogId == Numbers.ID_DIC_CATALOG_GEO_AREA)
@@ -219,6 +219,6 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                  , _ => ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
                            .OrderByDescending((a, _, __, ___, ____) => a.Id)
                };
-        #pragma warning restore CA1305,IDE0072
+        #pragma warning restore CA1305
     }
 }

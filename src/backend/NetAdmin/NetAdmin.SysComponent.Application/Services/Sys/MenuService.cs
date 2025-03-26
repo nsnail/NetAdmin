@@ -129,7 +129,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     private ISelect<Sys_Menu> QueryInternal(QueryReq<QueryMenuReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
-        #pragma warning disable IDE0072
+
         return req.Order switch {
                    Orders.None   => ret
                  , Orders.Random => ret.OrderByRandom()
@@ -138,6 +138,5 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
                            .OrderBy(a => a.Name)
                            .OrderBy(a => a.Id)
                };
-        #pragma warning restore IDE0072
     }
 }
