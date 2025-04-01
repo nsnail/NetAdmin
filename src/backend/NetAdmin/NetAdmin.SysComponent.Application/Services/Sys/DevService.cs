@@ -168,7 +168,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
             }
 
             var file = Path.Combine(dir, $"{item.Name.Replace(".", string.Empty)}.js");
-
             var content = tplOuter.Replace("$controllerDesc$", item.Summary)
                                   .Replace("$controllerPath$", item.Id)
                                   .Replace( //
