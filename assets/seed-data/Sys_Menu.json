@@ -116,7 +116,7 @@
     "Path": "/sys/msg",
     "Sort": 97,
     "Title": "消息管理",
-    "Type": 1,
+    "Type": 1
   },
   {
     "Component": "sys/api",
@@ -180,7 +180,7 @@
     "Path": "/sys/log/operation",
     "Sort": 100,
     "Title": "操作日志",
-    "Type": 1,
+    "Type": 1
   },
   {
     "Component": "sys/log/login",
@@ -191,7 +191,7 @@
     "Path": "/sys/log/login",
     "Sort": 99,
     "Title": "登录日志",
-    "Type": 1,
+    "Type": 1
   },
   // ------------------------------  开发管理 ------------------------------
   {
@@ -222,7 +222,7 @@
     "Path": "https://element-plus.org/zh-CN/component/overview.html",
     "Sort": 99,
     "Title": "Element",
-    "Type": 3,
+    "Type": 3
   },
   {
     "Id": 560217289232398,
@@ -232,6 +232,15 @@
     "Path": "https://freesql.net/guide",
     "Sort": 99,
     "Title": "FreeSql",
-    "Type": 3,
+    "Type": 3
+  },
+  {
+    "Component": "adm/girlfriends",
+    "Id": 660358859751429,
+    "Name": "adm/girlfriends",
+    "Path": "/adm/girlfriends",
+    "Sort": 1,
+    "Title": "女朋友管理",
+    "Type": 1
   }
 ]
