@@ -70,19 +70,19 @@ npm run dev
 
 ```mermaid
 flowchart TD
-sys-host["NetAdmin.SysComponent.Host\n系统组件：主机层"]
-sys-cache["NetAdmin.SysComponent.Cache\n系统组件：缓存层"]
-sys-app["NetAdmin.SysComponent.Application\n系统组件：应用层"]
-host["<b>NetAdmin.Host</b>\n框架：主机层\n（.Net自托管主机程序）\n（输入输出格式化）\n（数据校验、鉴权）\n（...所有HTTP管道过滤器中间件）"]
-cache["<b>NetAdmin.Cache</b>\n框架：缓存层\n（基于Redis或MemoryCache的缓存策略实现）"]
-app["<b>NetAdmin.Application</b>\n框架：业务应用层\n（内部服务增删改查）\n（外部服务增删改查）\n（...所有业务用例的计算与组合逻辑的模块化）"]
-domain["<b>NetAdmin.Domain</b>\n框架：数据实体层\n（数据库关系实体映射）\n（DTO数据传输对象）\n（...所有数据模型的抽象与封装）"]
-infra["<b>NetAdmin.Infrastructure</b>\n框架：基础设施层\n（第三方组件和Nuget包引用）\n（公共构建和程序运行配置）\n（公共常量枚举异常定义）\n（全球化化和多语言）\n（...所有公共Utility工具）"]
-biz-host["YourSolution.XXX.Host\n业务实例：主机层"]
-biz-cache["YourSolution.XXX.Cache\n业务实例：缓存层"]
-biz-app["YourSolution.XXX.Application\n业务实例：应用层"]
-biz-domain["YourSolution.XXX.Domain\n业务实例：数据实体层"]
-biz-infra["YourSolution.XXX.Infrastructure\n业务实例：基础设施层"]
+sys-host["NetAdmin.SysComponent.Host<br>系统组件：主机层"]
+sys-cache["NetAdmin.SysComponent.Cache<br>系统组件：缓存层"]
+sys-app["NetAdmin.SysComponent.Application<br>系统组件：应用层"]
+host["<b>NetAdmin.Host</b><br>框架：主机层<br>（.Net自托管主机程序）<br>（输入输出格式化）<br>（数据校验、鉴权）<br>（...所有HTTP管道过滤器中间件）"]
+cache["<b>NetAdmin.Cache</b><br>框架：缓存层<br>（基于Redis或MemoryCache的缓存策略实现）"]
+app["<b>NetAdmin.Application</b><br>框架：业务应用层<br>（内部服务增删改查）<br>（外部服务增删改查）<br>（...所有业务用例的计算与组合逻辑的模块化）"]
+domain["<b>NetAdmin.Domain</b><br>框架：数据实体层<br>（数据库关系实体映射）<br>（DTO数据传输对象）<br>（...所有数据模型的抽象与封装）"]
+infra["<b>NetAdmin.Infrastructure</b><br>框架：基础设施层<br>（第三方组件和Nuget包引用）<br>（公共构建和程序运行配置）<br>（公共常量枚举异常定义）<br>（全球化化和多语言）<br>（...所有公共Utility工具）"]
+biz-host["YourSolution.XXX.Host<br>业务实例：主机层"]
+biz-cache["YourSolution.XXX.Cache<br>业务实例：缓存层"]
+biz-app["YourSolution.XXX.Application<br>业务实例：应用层"]
+biz-domain["YourSolution.XXX.Domain<br>业务实例：数据实体层"]
+biz-infra["YourSolution.XXX.Infrastructure<br>业务实例：基础设施层"]
 biz-host-->biz-cache-->biz-app-->biz-domain-->biz-infra
 sys-host-->sys-cache-->sys-app-->domain-->infra
 host-->cache-->app-->domain-->infra
