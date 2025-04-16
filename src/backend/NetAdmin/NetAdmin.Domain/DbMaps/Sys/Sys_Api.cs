@@ -71,7 +71,7 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleApi))]
-    public ICollection<Sys_Role> Roles { get; init; }
+    public IReadOnlyCollection<Sys_Role> Roles { get; init; }
 
     /// <summary>
     ///     服务描述

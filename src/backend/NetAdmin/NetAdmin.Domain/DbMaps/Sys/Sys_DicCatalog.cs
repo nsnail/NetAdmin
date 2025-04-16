@@ -29,7 +29,7 @@ public record Sys_DicCatalog : VersionEntity
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(Sys_DicContent.CatalogId))]
-    public ICollection<Sys_DicContent> Contents { get; init; }
+    public IReadOnlyCollection<Sys_DicContent> Contents { get; init; }
 
     /// <summary>
     ///     字典目录名称

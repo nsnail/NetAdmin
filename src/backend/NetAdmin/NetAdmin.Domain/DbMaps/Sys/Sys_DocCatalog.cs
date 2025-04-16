@@ -29,7 +29,7 @@ public record Sys_DocCatalog : VersionEntity, IFieldOwner
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(Sys_DocContent.CatalogId))]
-    public ICollection<Sys_DocContent> Contents { get; init; }
+    public IReadOnlyCollection<Sys_DocContent> Contents { get; init; }
 
     /// <summary>
     ///     文档分类名称

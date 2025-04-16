@@ -44,7 +44,7 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleDept))]
-    public ICollection<Sys_Role> Roles { get; init; }
+    public IReadOnlyCollection<Sys_Role> Roles { get; init; }
 
     /// <summary>
     ///     发送给此部门的站内信集合
@@ -52,7 +52,7 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgDept))]
-    public ICollection<Sys_SiteMsg> SiteMsgs { get; init; }
+    public IReadOnlyCollection<Sys_SiteMsg> SiteMsgs { get; init; }
 
     /// <summary>
     ///     排序值，越大越前

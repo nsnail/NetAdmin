@@ -8,6 +8,7 @@
             :before-upload="before"
             :data="data"
             :disabled="disabled"
+            :drag="drag"
             :http-request="request"
             :limit="limit"
             :multiple="multiple"
@@ -70,6 +71,7 @@ export default {
             type: Object,
             default: () => {},
         },
+        drag: { type: Boolean, default: false },
         name: { type: String, default: config.filename },
         data: {
             type: Object,
