@@ -38,4 +38,11 @@ public enum Indicates
     ///     危险
     /// </summary>
     Danger = 5
+
+   ,
+
+    /// <summary>
+    ///     无
+    /// </summary>
+    None = 6
 }
