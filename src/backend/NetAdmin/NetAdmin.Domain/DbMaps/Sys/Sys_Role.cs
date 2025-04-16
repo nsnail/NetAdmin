@@ -16,7 +16,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleApi))]
-    public ICollection<Sys_Api> Apis { get; init; }
+    public IReadOnlyCollection<Sys_Api> Apis { get; init; }
 
     /// <summary>
     ///     仪表板布局
@@ -40,7 +40,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleDept))]
-    public ICollection<Sys_Dept> Depts { get; init; }
+    public IReadOnlyCollection<Sys_Dept> Depts { get; init; }
 
     /// <summary>
     ///     是否显示仪表板
@@ -72,7 +72,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleMenu))]
-    public ICollection<Sys_Menu> Menus { get; init; }
+    public IReadOnlyCollection<Sys_Menu> Menus { get; init; }
 
     /// <summary>
     ///     角色名称
@@ -88,7 +88,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
-    public ICollection<Sys_SiteMsg> SiteMsgs { get; init; }
+    public IReadOnlyCollection<Sys_SiteMsg> SiteMsgs { get; init; }
 
     /// <summary>
     ///     排序值，越大越前
@@ -112,7 +112,7 @@ public record Sys_Role : VersionEntity, IFieldSort, IFieldEnabled, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_UserRole))]
-    public ICollection<Sys_User> Users { get; init; }
+    public IReadOnlyCollection<Sys_User> Users { get; init; }
 
     /// <inheritdoc />
     public virtual void Register(TypeAdapterConfig config)

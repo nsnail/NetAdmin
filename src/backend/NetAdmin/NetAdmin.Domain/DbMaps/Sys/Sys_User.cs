@@ -97,7 +97,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgUser))]
-    public ICollection<Sys_SiteMsg> SiteMsgs { get; init; }
+    public IReadOnlyCollection<Sys_SiteMsg> SiteMsgs { get; init; }
 
     /// <summary>
     ///     备注

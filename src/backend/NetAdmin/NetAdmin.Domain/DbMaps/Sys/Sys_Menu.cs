@@ -111,7 +111,7 @@ public record Sys_Menu : VersionEntity, IFieldSort
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleMenu))]
-    public ICollection<Sys_Role> Roles { get; init; }
+    public IReadOnlyCollection<Sys_Role> Roles { get; init; }
 
     /// <summary>
     ///     排序值，越大越前

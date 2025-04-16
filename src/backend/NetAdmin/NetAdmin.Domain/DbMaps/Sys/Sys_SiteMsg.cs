@@ -31,7 +31,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgDept))]
-    public ICollection<Sys_Dept> Depts { get; init; }
+    public IReadOnlyCollection<Sys_Dept> Depts { get; init; }
 
     /// <summary>
     ///     消息-标记映射
@@ -39,7 +39,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(Sys_SiteMsgFlag.SiteMsgId))]
-    public ICollection<Sys_SiteMsgFlag> Flags { get; init; }
+    public IReadOnlyCollection<Sys_SiteMsgFlag> Flags { get; init; }
 
     /// <summary>
     ///     消息类型
@@ -54,7 +54,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgRole))]
-    public ICollection<Sys_Role> Roles { get; init; }
+    public IReadOnlyCollection<Sys_Role> Roles { get; init; }
 
     /// <summary>
     ///     消息摘要
@@ -78,7 +78,7 @@ public record Sys_SiteMsg : VersionEntity, IRegister, IFieldSummary
     [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgUser))]
-    public ICollection<Sys_User> Users { get; init; }
+    public IReadOnlyCollection<Sys_User> Users { get; init; }
 
     /// <inheritdoc />
     public void Register(TypeAdapterConfig config)
