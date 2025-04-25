@@ -5,7 +5,7 @@
                 <el-icon-loading />
             </el-icon>
         </div>
-        <el-select v-bind="$attrs" :loading="loading" @visible-change="visibleChange">
+        <el-select v-bind="$attrs" :allow-create="allowCreate" :loading="loading" @visible-change="visibleChange">
             <el-option v-for="item in options" :key="item[props.value]" :label="item[props.label]" :value="objValueType ? item : item[props.value]">
                 <slot :data="item" name="option"></slot>
             </el-option>
@@ -24,6 +24,7 @@ export default {
         },
         dic: { type: String, default: '' },
         objValueType: { type: Boolean, default: false },
+        allowCreate: { type: Boolean, default: false },
         params: { type: Object, default: () => ({}) },
         config: { type: Object },
     },

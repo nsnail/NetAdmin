@@ -4,7 +4,7 @@
         <ProjectReference Include="../NetAdmin.Infrastructure/NetAdmin.Infrastructure.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="CronExpressionDescriptor" Version="2.40.0"/>
+        <PackageReference Include="CronExpressionDescriptor" Version="2.41.0"/>
         <PackageReference Include="Cronos" Version="0.10.0"/>
         <PackageReference Include="NetAdmin.CsvHelper" Version="1.0.0"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
