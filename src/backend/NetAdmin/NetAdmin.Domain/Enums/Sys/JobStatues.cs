@@ -9,7 +9,7 @@ public enum JobStatues
     /// <summary>
     ///     空闲
     /// </summary>
-    [EnumDecoration(nameof(Indicates.Success), false)]
+    [EnumDecoration(nameof(Indicates.Success))]
     [ResourceDescription<Ln>(nameof(Ln.空闲))]
     Idle = 1
 
