@@ -9,7 +9,7 @@
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.4"/>
         <PackageReference Include="Minio" Version="6.0.4"/>
         <PackageReference Include="NSExt" Version="2.3.5"/>
-        <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.5"/>
+        <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.6"/>
     </ItemGroup>
     <ItemGroup>
         <!--<ProjectReference Include="$(SolutionDir)/refs/NetAdmin.FreeSql/src/FreeSql.DbContext/FreeSql.DbContext.csproj" Label="refs"/>-->
