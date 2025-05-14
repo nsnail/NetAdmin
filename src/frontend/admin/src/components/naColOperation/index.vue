@@ -1,5 +1,5 @@
 <template>
-    <el-table-column align="right">
+    <el-table-column align="right" fixed="right">
         <template #default="{ row }">
             <el-button-group>
                 <template v-for="(item, i) in buttons?.filter((x) => !x.condition || x.condition(row))" :key="i">

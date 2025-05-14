@@ -21,9 +21,8 @@ export default (error, vm) => {
     const errorName = errorMap[error.name] || '未知错误'
 
     console.warn(`[error]: ${error}`)
-    if (error.name === 'TypeError') {
-        window.location.reload()
-    }
+    console.error(error)
+    //throw error;
 
     vm.$nextTick(() => {
         vm.$notify.error({
