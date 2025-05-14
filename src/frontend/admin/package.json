@@ -15,7 +15,7 @@
         "axios": "1.9.0",
         "crypto-js": "4.2.0",
         "echarts": "5.6.0",
-        "element-plus": "2.9.9",
+        "element-plus": "2.9.10",
         "json-bigint": "1.0.0",
         "markdown-it": "14.1.0",
         "markdown-it-emoji": "3.0.0",
@@ -31,11 +31,11 @@
         "vuex": "4.1.0"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue": "5.2.3",
+        "@vitejs/plugin-vue": "5.2.4",
         "prettier": "3.5.3",
         "prettier-plugin-organize-attributes": "1.0.0",
-        "sass": "1.87.0",
-        "terser": "5.39.0",
+        "sass": "1.88.0",
+        "terser": "5.39.1",
         "vite": "6.3.5"
     },
     "browserslist": [
