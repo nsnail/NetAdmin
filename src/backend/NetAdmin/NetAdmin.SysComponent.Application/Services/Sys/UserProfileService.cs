@@ -87,7 +87,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
-        #else
+            #else
             await UpdateAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false) > 0
                 ? await GetAsync(new QueryUserProfileReq { Id = req.Id }).ConfigureAwait(false)
                 : null;
@@ -136,13 +136,12 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                          .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryUserProfileRsp>(req.Page, req.PageSize, total
-                                                    , list.ConvertAll(
-                                                          x => x.a.Adapt<QueryUserProfileRsp>() with {
-                                                                   NationArea = x.b.Adapt<QueryDicContentRsp>()
-                                                                 , CompanyArea = x.c.Adapt<QueryDicContentRsp>()
-                                                                 , HomeArea = x.d.Adapt<QueryDicContentRsp>()
-                                                                 , EmergencyContactArea = x.e.Adapt<QueryDicContentRsp>()
-                                                               }));
+                                                    , list.ConvertAll(x => x.a.Adapt<QueryUserProfileRsp>() with {
+                                                                               NationArea = x.b.Adapt<QueryDicContentRsp>()
+                                                                             , CompanyArea = x.c.Adapt<QueryDicContentRsp>()
+                                                                             , HomeArea = x.d.Adapt<QueryDicContentRsp>()
+                                                                             , EmergencyContactArea = x.e.Adapt<QueryDicContentRsp>()
+                                                                           }));
     }
 
     /// <inheritdoc />

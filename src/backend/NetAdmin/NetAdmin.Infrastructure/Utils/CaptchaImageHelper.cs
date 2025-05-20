@@ -4,6 +4,11 @@ using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+#if WINDOWS
+using Image = SixLabors.ImageSharp.Image;
+using Point = SixLabors.ImageSharp.Point;
+using Size = SixLabors.ImageSharp.Size;
+#endif
 
 namespace NetAdmin.Infrastructure.Utils;
 

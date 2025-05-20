@@ -22,7 +22,9 @@
         <Product>NetAdmin</Product>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/nsnail/NetAdmin.git</RepositoryUrl>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework Condition="'$(OS)' != 'Windows_NT'">net9.0</TargetFramework>
+        <TargetFramework Condition="'$(OS)' == 'Windows_NT'">net9.0-windows</TargetFramework>
+        <UseWindowsForms Condition="'$(OS)' == 'Windows_NT'">true</UseWindowsForms>
         <Title>$(AssemblyName)</Title>
     </PropertyGroup>
     <ItemGroup>

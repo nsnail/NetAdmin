@@ -77,7 +77,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDicCatalogRsp>();
-        #else
+            #else
             await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDicCatalogReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }

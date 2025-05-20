@@ -1,5 +1,9 @@
 using Spectre.Console;
 using Spectre.Console.Cli;
+#if WINDOWS
+using Color = Spectre.Console.Color;
+using Panel = Spectre.Console.Panel;
+#endif
 
 namespace NetAdmin.Host;
 
