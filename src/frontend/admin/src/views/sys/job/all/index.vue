@@ -70,7 +70,7 @@
                         {
                             type: 'input',
                             field: ['root', 'keywords'],
-                            placeholder: $t('作业编号 / 作业名称'),
+                            placeholder: $t('作业编号 / 作业名称 / 请求地址'),
                             style: 'width:20rem',
                         },
                     ]"
@@ -144,7 +144,12 @@
                 stripe>
                 <el-table-column type="selection" width="50" />
                 <naColId :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
-                <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom" />
+                <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom" >
+                    <template #default="{ row }">
+                        <p>{{ row.jobName }}</p>
+                        <p>{{ row.requestUrl.substring(row.requestUrl.lastIndexOf('/') + 1) }}</p>
+                    </template>
+                </el-table-column>
                 <el-table-column :label="$t('执行计划')" align="right" prop="executionCron" sortable="custom" width="150">
                     <template #default="{ row }">
                         <p>{{ row.cronDescription }}</p>
