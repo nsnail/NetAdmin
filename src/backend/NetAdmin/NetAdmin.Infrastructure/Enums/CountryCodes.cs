@@ -330,7 +330,7 @@ public enum CountryCodes
                      "United States", "USA", "Vereinigte Staaten von Amerika", "États-Unis", "Estados Unidos", "アメリカ合衆国", "Verenigde Staten"
                    , "Соединенные Штаты Америки", "美国"
                  ], IsPreferred = true
-         ,       Timezones = [
+            ,       Timezones = [
                      "America/Adak,-1000", "America/Anchorage,-0900", "America/Boise,-0700", "America/Chicago,-0600", "America/Denver,-0700"
                    , "America/Detroit,-0500", "America/Indiana/Indianapolis,-0500", "America/Indiana/Knox,-0600", "America/Indiana/Marengo,-0500"
                    , "America/Indiana/Petersburg,-0500", "America/Indiana/Tell_City,-0600", "America/Indiana/Vevay,-0500"

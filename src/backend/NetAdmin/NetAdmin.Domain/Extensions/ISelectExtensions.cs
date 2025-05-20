@@ -26,7 +26,7 @@ public static class ISelectExtensions
         where T1 : class
     {
         return me
-                #if DBTYPE_SQLSERVER
+            #if DBTYPE_SQLSERVER
                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             ;
@@ -40,7 +40,7 @@ public static class ISelectExtensions
         where T2 : class
     {
         return me
-                #if DBTYPE_SQLSERVER
+            #if DBTYPE_SQLSERVER
                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             ;
@@ -55,7 +55,7 @@ public static class ISelectExtensions
         where T3 : class
     {
         return me
-                #if DBTYPE_SQLSERVER
+            #if DBTYPE_SQLSERVER
                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             ;
@@ -71,7 +71,7 @@ public static class ISelectExtensions
         where T4 : class
     {
         return me
-                #if DBTYPE_SQLSERVER
+            #if DBTYPE_SQLSERVER
                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             ;
@@ -88,7 +88,7 @@ public static class ISelectExtensions
         where T5 : class
     {
         return me
-                #if DBTYPE_SQLSERVER
+            #if DBTYPE_SQLSERVER
                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             ;
@@ -106,7 +106,7 @@ public static class ISelectExtensions
         where T6 : class
     {
         return me
-                #if DBTYPE_SQLSERVER
+            #if DBTYPE_SQLSERVER
                 .WithLock(SqlServerLock.NoLock | SqlServerLock.NoWait)
             #endif
             ;

@@ -4,6 +4,6 @@
         <ProjectReference Include="../NetAdmin/NetAdmin.Tests/NetAdmin.Tests.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0-preview-25107-01"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0"/>
     </ItemGroup>
 </Project>
