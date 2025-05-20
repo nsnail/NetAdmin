@@ -336,7 +336,8 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
         ret = ret.WhereDynamicFilter(req.DynamicFilter)
                  .WhereDynamic(req.Filter)
                  .WhereIf( //
-                     req.Keywords?.Length > 0, a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords));
+                     req.Keywords?.Length > 0
+                   , a => a.Id == req.Keywords.Int64Try(0) || a.JobName.Contains(req.Keywords) || a.RequestUrl.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
