@@ -2,6 +2,9 @@ using NetAdmin.Domain.Dto.Sys.Captcha;
 using Yitter.IdGenerator;
 #if WINDOWS
 using Size = SixLabors.ImageSharp.Size;
+
+#else
+using SixLabors.ImageSharp;
 #endif
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
