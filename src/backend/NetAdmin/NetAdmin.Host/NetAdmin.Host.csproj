@@ -5,7 +5,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NetAdmin.ApiSkin" Condition="'$(Configuration)' == 'Debug'" Version="1.0.0"/>
-        <PackageReference Include="NetAdmin.Spectre.Console.Cli" Version="1.0.0"/>
+        <PackageReference Include="NetAdmin.Spectre.Console.Cli" Version="1.0.1"/>
         <PackageReference Include="prometheus-net.AspNetCore" Condition="'$(Configuration)' != 'Debug'" Version="8.2.1"/>
     </ItemGroup>
 </Project>

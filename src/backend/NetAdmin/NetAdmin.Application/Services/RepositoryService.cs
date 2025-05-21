@@ -98,8 +98,8 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         TEntity                         newValue             //
       , List<string>                    includeFields = null //
       , List<string>                    excludeFields = null //
-      , Expression<Func<TEntity, bool>> whereExp = null //
-      , string                          whereSql = null //
+      , Expression<Func<TEntity, bool>> whereExp      = null //
+      , string                          whereSql      = null //
       , bool                            ignoreVersion = false)
     {
         // 默认匹配主键
