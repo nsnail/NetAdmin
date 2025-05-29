@@ -45,6 +45,11 @@ public sealed class CountryInfoAttribute : Attribute
     public string LongName { get; set; }
 
     /// <summary>
+    ///     移动国家代码
+    /// </summary>
+    public string[] Mcc { get; set; }
+
+    /// <summary>
     ///     国家简称
     /// </summary>
     public string ShortName { get; set; }
