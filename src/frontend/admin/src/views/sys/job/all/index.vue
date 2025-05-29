@@ -144,7 +144,7 @@
                 stripe>
                 <el-table-column type="selection" width="50" />
                 <naColId :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
-                <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom" >
+                <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom">
                     <template #default="{ row }">
                         <p>{{ row.jobName }}</p>
                         <p>{{ row.requestUrl.substring(row.requestUrl.lastIndexOf('/') + 1) }}</p>
