@@ -93,6 +93,7 @@
                 <el-col :lg="20">
                     <scTable
                         :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime', 'lastLoginTime']"
+                        :context-multi="{ id: ['createdTime'] }"
                         :context-opers="['view', 'edit']"
                         :default-sort="{ prop: 'id', order: 'descending' }"
                         :export-api="$API.sys_user.export"

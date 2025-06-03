@@ -121,7 +121,12 @@
     </div>
     <scContextmenu @command="contextMenuCommand" @visible-change="contextMenuVisibleChange" ref="contextmenu">
         <scContextmenuItem
-            v-for="(menu, index) in contextMenus.filter((x) => x === current.column?.property)"
+            v-for="(menu, index) in contextMenus.filter((x) => {
+                if (current.column?.property === x) {
+                    return true
+                }
+                return this.contextMulti && !!this.contextMulti[current.column?.property]?.find((y) => y === x)
+            })"
             :command="menu"
             :key="index"
             :title="`${menu}`">
@@ -214,6 +219,7 @@ export default {
         contextMenus: { type: Array },
         contextOpers: { type: Array, default: ['copy', 'add', 'view', 'edit', 'del'] },
         contextAdvs: { type: Array, default: [] },
+        contextMulti: { type: Object },
         tableName: { type: String, default: '' },
         beforePost: {
             type: Function,

@@ -115,6 +115,7 @@
         <el-main class="nopadding">
             <scTable
                 :context-menus="['id', 'name', 'sort', 'enabled', 'ignorePermissionControl', 'dataScope', 'displayDashboard', 'createdTime']"
+                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :export-api="$API.sys_role.export"
                 :params="query"

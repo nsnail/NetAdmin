@@ -4,7 +4,7 @@ namespace NetAdmin.Infrastructure.Enums;
 ///     性别
 /// </summary>
 [Export]
-public enum Sexes
+public enum Genders
 {
     /// <summary>
     ///     男

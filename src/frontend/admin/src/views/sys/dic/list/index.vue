@@ -74,6 +74,7 @@
             <scTable
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :context-menus="['key', 'value', 'enabled', 'createdTime', 'id', 'summary']"
+                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_dic.exportContent"
                 :params="query"

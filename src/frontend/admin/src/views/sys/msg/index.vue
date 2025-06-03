@@ -58,6 +58,7 @@
         <el-main class="nopadding">
             <scTable
                 :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
+                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_sitemsg.export"
                 :params="query"
