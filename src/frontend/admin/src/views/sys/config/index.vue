@@ -60,6 +60,7 @@
         <el-main class="nopadding">
             <scTable
                 :context-menus="['id', 'userRegisterConfirm', 'userRegisterDept.name', 'userRegisterRole.name', 'enabled', 'createdTime']"
+                :context-multi="{ id: ['createdTime'] }"
                 :export-api="$API.sys_config.export"
                 :params="query"
                 :query-api="$API.sys_config.pagedQuery"

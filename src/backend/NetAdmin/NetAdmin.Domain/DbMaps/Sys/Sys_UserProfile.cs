@@ -113,6 +113,14 @@ public record Sys_UserProfile : VersionEntity, IRegister
     public virtual string EmergencyContactName { get; init; }
 
     /// <summary>
+    ///     性别
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual Genders? Gender { get; init; }
+
+    /// <summary>
     ///     毕业学校
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
@@ -200,14 +208,6 @@ public record Sys_UserProfile : VersionEntity, IRegister
     [CsvIgnore]
     [JsonIgnore]
     public virtual string RealName { get; init; }
-
-    /// <summary>
-    ///     性别
-    /// </summary>
-    [Column]
-    [CsvIgnore]
-    [JsonIgnore]
-    public virtual Sexes? Sex { get; init; }
 
     /// <summary>
     ///     用户基本信息

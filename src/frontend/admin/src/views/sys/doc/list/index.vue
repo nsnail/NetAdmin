@@ -85,6 +85,7 @@
             <scTable
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :context-menus="['title', 'enabled', 'createdTime', 'id', 'visibility']"
+                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_doc.exportContent"
                 :params="query"

@@ -93,6 +93,7 @@
         <el-main class="nopadding">
             <scTable
                 :context-menus="['id', 'httpStatusCode', 'loginUserName', 'createdClientIp', 'createdUserAgent', 'createdTime']"
+                :context-multi="{ id: ['createdTime'] }"
                 :context-opers="['view']"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_loginlog.export"

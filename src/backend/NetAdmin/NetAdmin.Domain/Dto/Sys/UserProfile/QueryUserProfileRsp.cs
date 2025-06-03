@@ -57,6 +57,10 @@ public sealed record QueryUserProfileRsp : Sys_UserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactName { get; init; }
 
+    /// <inheritdoc cref="Sys_UserProfile.Gender" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override Genders? Gender { get; init; }
+
     /// <inheritdoc cref="Sys_UserProfile.GraduateSchool" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string GraduateSchool { get; init; }
@@ -102,10 +106,6 @@ public sealed record QueryUserProfileRsp : Sys_UserProfile
     /// <inheritdoc cref="Sys_UserProfile.RealName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string RealName { get; init; }
-
-    /// <inheritdoc cref="Sys_UserProfile.Sex" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override Sexes? Sex { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

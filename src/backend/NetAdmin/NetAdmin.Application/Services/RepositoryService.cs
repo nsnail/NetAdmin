@@ -49,12 +49,15 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     ///     导出实体
     /// </summary>
     protected static async Task<IActionResult> ExportAsync<TQuery, TExport>( //
-        Func<QueryReq<TQuery>, ISelect<TEntity>> selector, QueryReq<TQuery> query, string fileName, Expression<Func<TEntity, object>> listExp = null)
+        Func<QueryReq<TQuery>, ISelect<TEntity>> selector, QueryReq<TQuery> query, string fileName, Expression<Func<TEntity, object>> listExp = null
+      , Func<object, object>                     listHandle = null)
         where TQuery : DataAbstraction, new()
     {
         var select = selector(query).WithNoLockNoWait().Take(Numbers.MAX_LIMIT_EXPORT);
 
         object list = listExp == null ? await select.ToListAsync().ConfigureAwait(false) : await select.ToListAsync(listExp).ConfigureAwait(false);
+
+        list = listHandle?.Invoke(list) ?? list;
 
         return await GetExportFileStreamAsync<TExport>(fileName, list).ConfigureAwait(false);
     }

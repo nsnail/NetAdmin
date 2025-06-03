@@ -58,6 +58,11 @@ public record CreateUserProfileReq : Sys_UserProfile
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string EmergencyContactName { get; init; }
 
+    /// <inheritdoc cref="Sys_UserProfile.Gender" />
+    [EnumDataType(typeof(Genders), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.性别不正确))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override Genders? Gender { get; init; }
+
     /// <inheritdoc cref="Sys_UserProfile.GraduateSchool" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string GraduateSchool { get; init; }
@@ -104,9 +109,4 @@ public record CreateUserProfileReq : Sys_UserProfile
     /// <inheritdoc cref="Sys_UserProfile.RealName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string RealName { get; init; }
-
-    /// <inheritdoc cref="Sys_UserProfile.Sex" />
-    [EnumDataType(typeof(Sexes), ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.性别不正确))]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override Sexes? Sex { get; init; }
 }

@@ -86,9 +86,9 @@
                         </el-col>
 
                         <el-col :lg="12">
-                            <el-form-item :label="$t('性别')" prop="profile.sex">
-                                <el-select v-model="form.profile.sex" clearable filterable>
-                                    <el-option v-for="(item, i) in $GLOBAL.enums.sexes" :key="i" :label="item[1]" :value="i" />
+                            <el-form-item :label="$t('性别')" prop="profile.gender">
+                                <el-select v-model="form.profile.gender" clearable filterable>
+                                    <el-option v-for="(item, i) in $GLOBAL.enums.genders" :key="i" :label="item[1]" :value="i" />
                                 </el-select>
                             </el-form-item>
                         </el-col>
@@ -104,7 +104,7 @@
                         </el-col>
 
                         <el-col :lg="12">
-                            <el-form-item :label="$t('婚姻状况')" prop="profile.sex">
+                            <el-form-item :label="$t('婚姻状况')" prop="profile.gender">
                                 <el-select v-model="form.profile.marriageStatus" clearable filterable>
                                     <el-option v-for="(item, i) in $GLOBAL.enums.marriageStatues" :key="i" :label="item[1]" :value="i" />
                                 </el-select>

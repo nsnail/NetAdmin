@@ -125,6 +125,7 @@
                     'createdTime',
                     'lastDuration',
                 ]"
+                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'lastExecTime', order: 'descending' }"
                 :export-api="$API.sys_job.export"
                 :page-size="100"

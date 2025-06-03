@@ -99,6 +99,7 @@
                     }
                 "
                 :context-menus="['id', 'duration', 'httpMethod', 'requestUrl', 'httpStatusCode', 'createdTime', 'jobId', 'responseBody']"
+                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_job.exportRecord"
                 :params="query"

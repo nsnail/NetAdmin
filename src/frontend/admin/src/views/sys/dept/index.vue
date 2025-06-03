@@ -67,6 +67,7 @@
         <el-main class="nopadding">
             <scTable
                 :context-menus="['id', 'name', 'sort', 'enabled', 'createdTime', 'summary']"
+                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :export-api="$API.sys_dept.export"
                 :params="query"
