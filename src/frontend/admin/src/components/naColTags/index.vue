@@ -2,7 +2,11 @@
     <el-table-column :label="label" :prop="`${prop}.${field}`">
         <template #default="{ row }">
             <div class="flex">
-                <template v-for="(item, i) in Array.isArray(row[prop]) ? row[prop] : [row[prop]]" :key="i">
+                <template
+                    v-for="(item, i) in Array.isArray(tool.getNestedProperty(row, prop))
+                        ? tool.getNestedProperty(row, prop)
+                        : [tool.getNestedProperty(row, prop)]"
+                    :key="i">
                     <el-tag
                         v-if="item"
                         :type="['success', 'danger', 'info', 'primary', 'warning'][$TOOL.crypto.hashCode(item[field]) % 5]"
@@ -15,6 +19,8 @@
     </el-table-column>
 </template>
 <script>
+import tool from '@/utils/tool'
+
 export default {
     emits: ['click'],
     props: {
@@ -28,7 +34,11 @@ export default {
     mounted() {},
     created() {},
     components: {},
-    computed: {},
+    computed: {
+        tool() {
+            return tool
+        },
+    },
     methods: {},
 }
 </script>

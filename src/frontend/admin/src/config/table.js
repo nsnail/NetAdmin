@@ -75,7 +75,7 @@ export default {
         } else if (mode === 'edit') {
             function func(items) {
                 items.forEach((item) => {
-                    if (item.id === data.id) {
+                    if (item.id === data?.id) {
                         Object.keys(item).forEach((x) => delete item[x])
                         Object.assign(item, data)
                     } else if (item.children) return func(item.children)

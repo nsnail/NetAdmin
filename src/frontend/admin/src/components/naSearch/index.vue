@@ -10,7 +10,8 @@
             :start-placeholder="$t('开始日期')"
             :teleported="false"
             :type="dateType"
-            :value-format="dateValueFormat"></el-date-picker>
+            :value-format="dateValueFormat"
+            @change="dateChange"></el-date-picker>
 
         <template v-for="(item, i) in controls" :key="i">
             <el-input
@@ -42,6 +43,8 @@
                 v-role="item.role || '*/*/*'"
                 :class="item.class"
                 :config="item.config"
+                :multiple="item.multiple"
+                :params="item.params"
                 :placeholder="item.placeholder"
                 :query-api="item.api"
                 :style="item.style"
@@ -501,6 +504,9 @@ export default {
         },
     },
     methods: {
+        dateChange(val) {
+            this.$emit('dateChange', val)
+        },
         jsonFormat() {
             try {
                 this.aceEditorValue = vkbeautify.json(this.aceEditorValue, 2)

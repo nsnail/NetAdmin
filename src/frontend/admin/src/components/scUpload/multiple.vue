@@ -77,7 +77,7 @@ export default {
             type: Object,
             default: () => {},
         },
-        accept: { type: String, default: 'image/gif, image/jpeg, image/png' },
+        accept: { type: String, default: 'image/gif,image/jpeg,image/jpg,image/png' },
         maxSize: { type: Number, default: config.maxSizeFile },
         limit: { type: Number, default: 0 },
         autoUpload: { type: Boolean, default: true },
@@ -182,7 +182,7 @@ export default {
             })
         },
         before(file) {
-            if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+            if (!this.accept.split(',').includes(file.type)) {
                 this.$message.warning(`选择的文件类型 ${file.type} 非图像类文件`)
                 return false
             }

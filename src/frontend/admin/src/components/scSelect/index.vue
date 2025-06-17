@@ -47,7 +47,7 @@ export default {
     methods: {
         //选项显示隐藏事件
         visibleChange(isOpen) {
-            if (isOpen && this.options.length === 0 && (this.dic || this.queryApi)) {
+            if (isOpen && (this.dic || this.queryApi)) {
                 this.getRemoteData()
             }
         },
