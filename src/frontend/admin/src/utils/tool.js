@@ -1,6 +1,12 @@
 import CryptoJS from 'crypto-js'
 import sysConfig from '@/config'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+// 扩展插件和语言设置
+dayjs.extend(relativeTime)
+
 const tool = {}
 
 tool.time = {
@@ -38,27 +44,35 @@ tool.time = {
     },
     //转换时间
     getFormatTime: function (_this, timestamp) {
-        timestamp = new Date(timestamp)
-        const now = this.getUnix()
-        const today = this.getTodayUnix()
-        //var year = this.getYearUnix();
-        const timer = (now - timestamp) / 1000
-        let tip
+        if (!timestamp) return '--'
 
-        if (timer <= 0) {
-            tip = _this.$t('刚刚')
-        } else if (Math.floor(timer / 60) <= 0) {
-            tip = _this.$t('刚刚')
-        } else if (timer < 3600) {
-            tip = _this.$t('{n} 分钟前', { n: Math.floor(timer / 60) })
-        } else if (timer >= 3600 && (timestamp - today >= 0 || Math.floor(timer / 86400) <= 0)) {
-            tip = _this.$t('{n} 小时前', { n: Math.floor(timer / 3600) })
-        } else if (timer / 86400 <= 31) {
-            tip = _this.$t('{n} 天前', { n: Math.floor(timer / 86400) })
-        } else {
-            tip = this.getLastDate(timestamp)
+        const now = dayjs()
+        const target = dayjs(timestamp)
+        const diffSeconds = now.diff(target, 'second', true)
+        const isFuture = diffSeconds < 0 // 是否未来时间
+        const absDiff = Math.abs(diffSeconds) // 时间差绝对值
+
+        // 超过10天（10 * 24 * 60 * 60 秒）显示具体日期
+        if (absDiff > 10 * 86400) {
+            return target.format('YYYY-MM-DD')
         }
-        return tip
+
+        let result = ''
+        if (absDiff < 60) {
+            // 1分钟内
+            result = _this.$t(`{n} 秒`, { n: Math.floor(absDiff) })
+        } else if (absDiff < 3600) {
+            // 1小时内
+            result = _this.$t(`{n} 分钟`, { n: Math.floor(absDiff / 60) })
+        } else if (absDiff < 86400) {
+            // 24小时内
+            result = _this.$t(`{n} 小时`, { n: Math.floor(absDiff / 3600) })
+        } else {
+            // 10天内
+            result = _this.$t(`{n} 天`, { n: Math.floor(absDiff / 86400) })
+        }
+        // 未来时间加“后”，过去时间加“前”
+        return isFuture ? `${result}${_this.$t('后')}` : `${result}${_this.$t('前')}`
     },
 }
 

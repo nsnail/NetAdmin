@@ -23,8 +23,8 @@ public enum Genders
    ,
 
     /// <summary>
-    ///     保密
+    ///     密
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.保密))]
+    [ResourceDescription<Ln>(nameof(Ln.密))]
     Secrecy = 3
 }
