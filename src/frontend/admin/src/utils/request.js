@@ -118,6 +118,7 @@ axios.interceptors.response.use(
         return response
     },
     async (error) => {
+        if (error.config.ignoreError) return Promise.reject(error.response)
         if (error.response) {
             if (error.response.status === 404) {
                 ElNotification.error({
