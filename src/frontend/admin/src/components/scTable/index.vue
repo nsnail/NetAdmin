@@ -363,7 +363,7 @@ export default {
                 return
             }
             if (command === 'copy') {
-                let data = this.current.row[this.current.column?.property]
+                let data = tool.getNestedProperty(this.current.row, this.current.column?.property)
                 if (!data) return
 
                 const textarea = document.createElement('textarea')

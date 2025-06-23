@@ -193,10 +193,8 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
 
     private static void CreateDir(params string[] dirs)
     {
-        foreach (var dir in dirs) {
-            if (!Directory.Exists(dir)) {
-                _ = Directory.CreateDirectory(dir!);
-            }
+        foreach (var dir in dirs.Where(x => !Directory.Exists(x))) {
+            _ = Directory.CreateDirectory(dir!);
         }
     }
 

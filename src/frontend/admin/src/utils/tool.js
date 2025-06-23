@@ -253,6 +253,7 @@ tool.objCopy = function (obj) {
 
 /* 获取嵌套属性 */
 tool.getNestedProperty = function (obj, path) {
+    if (!path) return null
     const keys = path.split('.') // 将属性路径分割为键的数组
     let current = obj
 
