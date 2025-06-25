@@ -177,6 +177,13 @@
             <scContextmenuItem
                 :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('非其一')"></scContextmenuItem>
+            <scContextmenuItem
+                :command="`${menu}^|^order-ascending^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                :title="$t('顺序排序')"
+                divided></scContextmenuItem>
+            <scContextmenuItem
+                :command="`${menu}^|^order-descending^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
+                :title="$t('倒序排序')"></scContextmenuItem>
         </scContextmenuItem>
         <scContextmenuItem :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C"></scContextmenuItem>
         <scContextmenuItem
@@ -409,18 +416,24 @@ export default {
                 return
             }
             const kv = command.split('^|^')
-            this.$refs.fieldFilterDialog.open({ field: kv[0], operator: kv[1], value: kv[2] }, (data) => {
-                const value = data.value?.split('\n') ?? ['']
-                this.vue.query.dynamicFilter.filters.push({
-                    field: data.field,
-                    operator: data.operator,
-                    value: value.length === 1 ? value[0] : value,
-                })
-                if (this.onCommand) {
-                    this.onCommand(this.vue.query.dynamicFilter.filters)
-                }
+            if (kv[1].indexOf('order-') === 0) {
+                this.vue.query.prop = kv[0]
+                this.vue.query.order = kv[1].substring(6)
                 this.upData()
-            })
+            } else {
+                this.$refs.fieldFilterDialog.open({ field: kv[0], operator: kv[1], value: kv[2] }, (data) => {
+                    const value = data.value?.split('\n') ?? ['']
+                    this.vue.query.dynamicFilter.filters.push({
+                        field: data.field,
+                        operator: data.operator,
+                        value: value.length === 1 ? value[0] : value,
+                    })
+                    if (this.onCommand) {
+                        this.onCommand(this.vue.query.dynamicFilter.filters)
+                    }
+                    this.upData()
+                })
+            }
         },
         contextMenuVisibleChange(visible) {
             if (!visible) {
