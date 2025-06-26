@@ -45,21 +45,21 @@ public sealed class OperationLogger : IEventSubscriber
 
             // 插入登录日志
             if (log.ApiPathCrc32 == Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD.Crc32()) {
-                _ = await App.GetService<ILoginLogCache>().CreateAsync(log.Adapt<CreateLoginLogReq>()).ConfigureAwait(false);
+                _ = await S<ILoginLogCache>().CreateAsync(log.Adapt<CreateLoginLogReq>()).ConfigureAwait(false);
             }
         }
 
         // 如果首尾日期不一致，要分别插入不同的日期分表
         if (inserts[0].CreatedTime.Date != inserts[^1].CreatedTime.Date) {
             foreach (var dayInserts in inserts.GroupBy(x => x.CreatedTime.Date)) {
-                await App.GetService<IFreeSql>()
+                await S<IFreeSql>()
                          .Insert<Sys_RequestLog>(dayInserts.Select(x => x))
                          .ExecuteSqlBulkCopyAsync(tableName: $"{nameof(Sys_RequestLog)}_{dayInserts.Key:yyyyMMdd}")
                          .ConfigureAwait(false);
             }
         }
         else {
-            await App.GetService<IFreeSql>()
+            await S<IFreeSql>()
                      .Insert<Sys_RequestLog>(inserts)
                      .ExecuteSqlBulkCopyAsync(tableName: $"{nameof(Sys_RequestLog)}_{inserts[0].CreatedTime:yyyyMMdd}")
                      .ConfigureAwait(false);

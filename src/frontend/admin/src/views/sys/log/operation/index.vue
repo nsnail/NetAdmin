@@ -67,7 +67,7 @@
                             config: { props: { label: 'userName', value: 'id' } },
                             placeholder: '用户',
                             style: 'width:15rem',
-                            condition: () => $GLOBAL.hasPermission('sys/log/operation/user'),
+                            condition: () => $GLOBAL.hasApiPermission('api/sys/user/query'),
                         },
                         {
                             multiple: true,

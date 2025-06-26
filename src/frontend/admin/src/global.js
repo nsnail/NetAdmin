@@ -60,6 +60,9 @@ export default {
             hasPermission: function (p) {
                 return this.permissions.includes('*/*/*') || this.permissions.some((a) => a === p)
             },
+            hasApiPermission: function (p) {
+                return this.apiPermissions.includes('*/*/*') || this.apiPermissions.some((a) => a === p)
+            },
         }
 
         app.use(JsonViewer)

@@ -624,6 +624,6 @@ export default {
     链接: 'Link',
     框架: 'IFrame',
     按钮: 'Button',
-    倒序排序:'Sort-Descending',
-    顺序排序:'Sort-Ascending',
+    倒序排序: 'Sort-Descending',
+    顺序排序: 'Sort-Ascending',
 }

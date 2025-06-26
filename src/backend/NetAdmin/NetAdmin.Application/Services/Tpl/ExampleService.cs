@@ -42,8 +42,9 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Tpl_Example).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Tpl_Example).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
+                  .Where(x => x.Key.Any(y => !y.Value.NullOrEmpty()))
                   .OrderByDescending(x => x.Value);
     }
 

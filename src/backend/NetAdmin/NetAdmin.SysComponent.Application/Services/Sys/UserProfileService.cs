@@ -175,7 +175,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
 
         // 默认仪表版
         if (req.AppConfig == "[]") {
-            req.AppConfig = BuildAppConfig(App.GetService<ContextUserInfo>().Roles.ToDictionary(x => x.Id, x => x.DashboardLayout));
+            req.AppConfig = BuildAppConfig(S<ContextUserInfo>().Roles.ToDictionary(x => x.Id, x => x.DashboardLayout));
         }
 
         return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id, null, true);

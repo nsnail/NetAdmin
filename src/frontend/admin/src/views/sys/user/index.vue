@@ -116,8 +116,8 @@
                         <naColAvatar :label="$t('用户名')" prop="userName" width="170" />
                         <el-table-column :label="$t('手机号 / 邮箱')" align="right" prop="mobile" sortable="custom" width="250">
                             <template #default="{ row }">
-                                <p>{{ row.mobile }}</p>
-                                <p>{{ row.email }}</p>
+                                <p>{{ row.mobile ?? '-' }}</p>
+                                <p>{{ row.email ?? '-' }}</p>
                             </template>
                         </el-table-column>
                         <naColTags

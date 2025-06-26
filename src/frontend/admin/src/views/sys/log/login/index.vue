@@ -74,10 +74,19 @@
                 <na-search
                     :controls="[
                         {
-                            type: 'input',
-                            field: ['root', 'keywords'],
-                            placeholder: $t('日志编号 / 登录名 / 客户端IP'),
+                            type: 'select-input',
+                            field: [
+                                'dy',
+                                [
+                                    { label: $t('日志编号'), key: 'id' },
+                                    { label: $t('用户编号'), key: 'owner.id' },
+                                    { label: $t('登录名'), key: 'loginUserName' },
+                                    { label: $t('客户端IP'), key: 'createdClientIp' },
+                                ],
+                            ],
+                            placeholder: $t('匹配内容'),
                             style: 'width:25rem',
+                            selectStyle: 'width:8rem',
                         },
                     ]"
                     :vue="this"
@@ -150,7 +159,15 @@ export default {
         naInfo,
     },
     computed: {},
-    created() {},
+    created() {
+        if (this.ownerId) {
+            this.query.dynamicFilter.filters.push({
+                field: 'owner.id',
+                operator: 'eq',
+                value: this.ownerId,
+            })
+        }
+    },
     data() {
         return {
             statistics: {
@@ -227,8 +244,11 @@ export default {
             this.$refs.search.search()
         },
         onReset() {
-            if (!this.showFilter) return
-            Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
+            if (this.showFilter) {
+                Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))
+            }
+            this.$refs.search.selectInputKey = 'id'
+            if (this.ownerId) this.$refs.search.selectInputKey = 'owner.id'
         },
         //搜索
         async onSearch(form) {
@@ -255,6 +275,13 @@ export default {
                 )
             }
 
+            if (typeof form.dy.id === 'string' && form.dy.id.trim() !== '') {
+                this.query.dynamicFilter.filters.push({
+                    field: 'id',
+                    operator: 'eq',
+                    value: form.dy.id,
+                })
+            }
             if (typeof form.dy.errorCode === 'string' && form.dy.errorCode.trim() !== '') {
                 this.query.dynamicFilter.filters.push({
                     field: 'errorCode',
@@ -279,6 +306,15 @@ export default {
                 })
             }
 
+            if (typeof form.dy['owner.id'] === 'string' && form.dy['owner.id'].trim() !== '') {
+                this.$refs.search.selectInputKey = 'owner.id'
+                this.query.dynamicFilter.filters.push({
+                    field: 'owner.id',
+                    operator: 'eq',
+                    value: form.dy['owner.id'],
+                })
+            }
+
             await this.$refs.table.upData()
         },
 
@@ -295,6 +331,15 @@ export default {
         },
     },
     async mounted() {
+        if (this.ownerId) {
+            this.$refs.search.selectInputKey = 'owner.id'
+            this.$refs.search.form.dy['owner.id'] = this.ownerId
+            this.$refs.search.keeps.push({
+                field: 'owner.id',
+                value: this.ownerId,
+                type: 'dy',
+            })
+        }
         if (this.keywords) {
             this.$refs.search.form.root.keywords = this.keywords
             this.$refs.search.keeps.push({
@@ -303,8 +348,9 @@ export default {
                 type: 'root',
             })
         }
+        this.onReset()
     },
-    props: { keywords: { type: String }, showFilter: { type: Boolean, default: true } },
+    props: { keywords: { type: String }, showFilter: { type: Boolean, default: true }, ownerId: { type: String } },
     watch: {},
 }
 </script>
