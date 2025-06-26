@@ -3,6 +3,7 @@ using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
+using NetAdmin.Domain.Dto.Sys.UserWallet;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.Domain.Extensions;
@@ -13,6 +14,7 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class UserService(
     BasicRepository<Sys_User, long> rpo                //
   , IUserProfileService             userProfileService //
+  , IUserWalletService              userWalletService  //
   , IVerifyCodeService              verifyCodeService  //
   , IEventPublisher                 eventPublisher)    //
     : RepositoryService<Sys_User, long, IUserService>(rpo), IUserService
@@ -112,6 +114,14 @@ public sealed class UserService(
                                                    , AppConfig = appConfig
                                                  })
                                     .ConfigureAwait(false);
+
+        // 钱包表
+        _ = await userWalletService.CreateAsync(new CreateUserWalletReq() with //
+                                                {
+                                                    Id = dbUser.Id, OwnerId = dbUser.Id, OwnerDeptId = dbUser.DeptId
+                                                })
+                                   .ConfigureAwait(false);
+
         var userList = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } }).ConfigureAwait(false);
 
         // 发布用户创建事件

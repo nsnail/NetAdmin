@@ -58,5 +58,25 @@
   {
     "ApiId": "api/sys/login.log/export",
     "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/user.wallet/paged.query",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/user.wallet/get",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/wallet.trade/paged.query",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/wallet.trade/count.by",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/wallet.trade/get",
+    "RoleId": 371729946431493,
   }
 ]

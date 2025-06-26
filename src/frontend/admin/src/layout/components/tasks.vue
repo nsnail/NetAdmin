@@ -6,7 +6,7 @@
                     <el-button
                         @click="
                             () => {
-                                this.$router.push({ path: '/sys/job', query: { view: 'fail' } })
+                                this.$router.push({ path: '/system/job', query: { view: 'fail' } })
                                 this.$emit('closed')
                             }
                         "
@@ -22,7 +22,7 @@
                     <el-button
                         @click="
                             () => {
-                                this.$router.push({ path: '/sys/job' })
+                                this.$router.push({ path: '/system/job' })
                                 this.$emit('closed')
                             }
                         "

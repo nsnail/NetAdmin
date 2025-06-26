@@ -40,7 +40,7 @@ public record Sys_DocCatalog : VersionEntity, IFieldOwner
     public virtual string Name { get; init; }
 
     /// <summary>
-    ///     拥有者
+    ///     所有者
     /// </summary>
     [CsvIgnore]
     [JsonIgnore]
@@ -48,7 +48,7 @@ public record Sys_DocCatalog : VersionEntity, IFieldOwner
     public Sys_User Owner { get; init; }
 
     /// <summary>
-    ///     拥有者部门编号
+    ///     所有者部门编号
     /// </summary>
     [Column]
     [CsvIgnore]
@@ -56,7 +56,7 @@ public record Sys_DocCatalog : VersionEntity, IFieldOwner
     public virtual long? OwnerDeptId { get; init; }
 
     /// <summary>
-    ///     拥有者用户编号
+    ///     所有者用户编号
     /// </summary>
     [Column]
     [CsvIgnore]

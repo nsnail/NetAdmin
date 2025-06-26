@@ -10,7 +10,7 @@ public abstract class ServiceBase<TLogger> : ServiceBase
     /// </summary>
     protected ServiceBase() //
     {
-        Logger = App.GetService<ILogger<TLogger>>();
+        Logger = S<ILogger<TLogger>>();
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public abstract class ServiceBase : IScoped, IService
     /// </summary>
     protected ServiceBase()
     {
-        UserToken = App.GetService<ContextUserToken>();
+        UserToken = S<ContextUserToken>();
         ServiceId = Guid.NewGuid();
     }
 
@@ -38,4 +38,19 @@ public abstract class ServiceBase : IScoped, IService
 
     /// <inheritdoc />
     public ContextUserToken UserToken { get; set; }
+
+    /// <summary>
+    ///     获取服务
+    /// </summary>
+    #pragma warning disable RCS1036
+    #pragma warning restore RCS1036
+
+    // ReSharper disable once MemberCanBeMadeStatic.Global
+    #pragma warning disable CA1822, S2325
+    protected T S<T>()
+        #pragma warning restore S2325, CA1822
+        where T : class
+    {
+        return App.GetService<T>();
+    }
 }

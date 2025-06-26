@@ -7,7 +7,7 @@
         destroy-on-close
         full-screen>
         <el-form
-            :disabled="mode === 'view' && tabId !== 'log'"
+            :disabled="mode === 'view' && tabId !== 'log' && tabId !== 'wallet' && tabId !== 'trade'"
             :model="form"
             :rules="rules"
             label-position="right"
@@ -234,6 +234,12 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view'" :label="$t('钱包信息')" name="wallet">
+                    <wallet v-if="tabId === 'wallet'" :id="form.id.toString()" />
+                </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view'" :label="$t('交易流水')" name="trade">
+                    <trade v-if="tabId === 'trade'" :ownerId="form.id.toString()" />
+                </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('操作日志')" name="log">
                     <log v-if="tabId === 'log'" :owner-id="form.id"></log>
                 </el-tab-pane>
@@ -259,12 +265,14 @@
 import { defineAsyncComponent } from 'vue'
 
 const log = defineAsyncComponent(() => import('@/views/sys/log/operation'))
+const trade = defineAsyncComponent(() => import('@/views/sys/trade'))
+const wallet = defineAsyncComponent(() => import('@/views/sys/wallet'))
 const naArea = defineAsyncComponent(() => import('@/components/naArea'))
 const naDept = defineAsyncComponent(() => import('@/components/naDept'))
 const scUpload = defineAsyncComponent(() => import('@/components/scUpload'))
 const scSelect = defineAsyncComponent(() => import('@/components/scSelect'))
 export default {
-    components: { log, naArea, naDept, scUpload, scSelect },
+    components: { log, naArea, naDept, scUpload, scSelect, trade, wallet },
     data() {
         return {
             //表单数据
