@@ -76,7 +76,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     public virtual int HttpStatusCode { get; init; }
 
     /// <summary>
-    ///     所有者
+    ///     归属用户
     /// </summary>
     [CsvIgnore]
     [JsonIgnore]
@@ -84,7 +84,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     public Sys_User Owner { get; init; }
 
     /// <summary>
-    ///     所有者部门编号
+    ///     归属部门编号
     /// </summary>
     [Column]
     [CsvIgnore]
@@ -92,7 +92,7 @@ public record Sys_RequestLog : SimpleEntity, IFieldCreatedTime, IFieldOwner, IFi
     public virtual long? OwnerDeptId { get; init; }
 
     /// <summary>
-    ///     所有者用户编号
+    ///     归属用户编号
     /// </summary>
     [Column]
     [CsvIgnore]

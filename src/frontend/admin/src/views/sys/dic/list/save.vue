@@ -4,7 +4,7 @@
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
-                        <el-form-item :label="$t('所属字典目录')" prop="catalogId">
+                        <el-form-item :label="$t('归属字典目录')" prop="catalogId">
                             <catalog-select v-model="form.catalogId" class="w100p" />
                         </el-form-item>
                         <el-form-item :label="$t('项名')" prop="key">
@@ -49,12 +49,12 @@ export default {
             mode: 'add',
             //验证规则
             rules: {
-                catalogId: [{ required: true, message: '请选择所属字典目录' }],
+                catalogId: [{ required: true, message: '请选择归属字典目录' }],
                 key: [{ required: true, message: '请输入项名' }],
                 value: [{ required: true, message: '请输入项值' }],
             },
             titleMap: {
-                add: this.$t('新增字典项'),
+                add: this.$t('新建字典项'),
                 edit: this.$t('编辑字典项'),
                 view: this.$t('查看字典项'),
             },

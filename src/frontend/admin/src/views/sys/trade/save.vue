@@ -22,16 +22,16 @@
                         <el-form-item :label="$t('交易后余额')">
                             <el-input :value="form.balanceBefore + form.amount" clearable />
                         </el-form-item>
-                        <el-form-item :label="$t('所有者部门编号')" prop="ownerDeptId">
+                        <el-form-item :label="$t('归属部门编号')" prop="ownerDeptId">
                             <el-input v-model="form.ownerDeptId" clearable />
                         </el-form-item>
-                        <el-form-item :label="$t('所有者用户编号')" prop="ownerId">
+                        <el-form-item :label="$t('归属用户编号')" prop="ownerId">
                             <el-input v-model="form.ownerId" clearable />
                         </el-form-item>
                         <el-form-item :label="$t('创建者用户编号')" prop="createdUserId">
                             <el-input v-model="form.createdUserId" clearable />
                         </el-form-item>
-                        <el-form-item :label="$t('所有者用户名')" prop="createdUserName">
+                        <el-form-item :label="$t('归属用户名')" prop="createdUserName">
                             <el-input v-model="form.createdUserName" clearable />
                         </el-form-item>
                         <el-form-item :label="$t('创建时间')" prop="createdTime">
@@ -70,7 +70,7 @@ export default {
             rules: {},
             tabId: 'basic',
             titleMap: {
-                add: this.$t('新增交易'),
+                add: this.$t('新建交易'),
                 edit: this.$t('编辑交易'),
                 view: this.$t('查看交易'),
             },

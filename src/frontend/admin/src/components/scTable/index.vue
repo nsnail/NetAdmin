@@ -188,7 +188,7 @@
         <scContextmenuItem :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C"></scContextmenuItem>
         <scContextmenuItem
             v-if="contextOpers.includes('add')"
-            :title="$t('新增')"
+            :title="$t('新建')"
             command="add"
             divided
             icon="el-icon-plus"

@@ -95,6 +95,7 @@ namespace YourSolution.AdmServer.Host
                         .AddContextUserInfo()  // 添加上下文用户信息
                         .AddRedisCache()       // 添加 Redis 缓存
                         .AddSchedules()        // 添加计划任务
+                        .AddTronScanClient()   // 添加 TronScan 客户端
 
                         // IMvcBuilder
                         .AddControllers()             // 添加控制器

@@ -90,6 +90,8 @@ export default {
             //         Object.keys(item).forEach((x) => delete item[x])
             //         Object.assign(item, data)
             //     })
+        } else {
+            table.refresh()
         }
     },
 }

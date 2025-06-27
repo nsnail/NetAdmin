@@ -204,7 +204,7 @@ export default {
             },
             tabId: '0',
             titleMap: {
-                add: this.$t('新增作业'),
+                add: this.$t('新建作业'),
                 edit: this.$t('编辑作业'),
                 view: this.$t('查看作业'),
             },

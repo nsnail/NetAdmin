@@ -10,7 +10,7 @@ public enum TradeDirections
     ///     收入
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.收入))]
-    Income = 4
+    Income = 1
 
    ,
 
@@ -18,5 +18,5 @@ public enum TradeDirections
     ///     支出
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.支出))]
-    Expense = 5
+    Expense = 2
 }

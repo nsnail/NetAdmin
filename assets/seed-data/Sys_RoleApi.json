@@ -78,5 +78,29 @@
   {
     "ApiId": "api/sys/wallet.trade/get",
     "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/deposit.order/paged.query",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/deposit.order/count.by",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/deposit.order/create",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/deposit.order/get",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/deposit.order/get.deposit.config",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/deposit.order/pay.confirm",
+    "RoleId": 371729946431493,
   }
 ]

@@ -35,7 +35,7 @@ export default {
                 name: [{ required: true, message: '请输入文档分类名称' }],
             },
             titleMap: {
-                add: this.$t('新增文档分类'),
+                add: this.$t('新建文档分类'),
                 edit: this.$t('编辑文档分类'),
             },
             visible: false,

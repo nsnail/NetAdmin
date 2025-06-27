@@ -28,5 +28,6 @@ public static class Numbers
     public const int  SECS_CACHE_LOGIN_BY_USER_ID    = 3600 * 24 * 30;  // 缓存时间（秒）：通过用户编号登录的用户信息
     public const int  SECS_REDIS_LOCK_EXPIRY         = 60;              // 秒：Redis锁过期时间
     public const int  SECS_REDIS_LOCK_RETRY_DELAY    = 1;               // 秒：Redis锁重试间隔
+    public const int  SECS_TIMEOUT_HTTP_CLIENT       = 15;              // 超时时间（秒）：HTTP 客户端
     public const int  SECS_TIMEOUT_JOB               = 180;             // 超时时间（秒）：作业
 }

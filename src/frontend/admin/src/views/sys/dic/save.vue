@@ -35,7 +35,7 @@ export default {
                 name: [{ required: true, message: '请输入字典目录名称' }],
             },
             titleMap: {
-                add: this.$t('新增字典目录'),
+                add: this.$t('新建字典目录'),
                 edit: this.$t('编辑字典目录'),
             },
             visible: false,

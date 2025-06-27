@@ -19,10 +19,10 @@ public sealed record ExportUserRsp : QueryUserRsp
     public override QueryDeptRsp Dept { get; init; }
 
     /// <summary>
-    ///     所属部门
+    ///     归属部门
     /// </summary>
     [CsvIndex(5)]
-    [CsvName(nameof(Ln.所属部门))]
+    [CsvName(nameof(Ln.归属部门))]
     public string DeptName { get; init; }
 
     /// <inheritdoc />
@@ -56,10 +56,10 @@ public sealed record ExportUserRsp : QueryUserRsp
     public override string Mobile { get; init; }
 
     /// <summary>
-    ///     所属角色
+    ///     归属角色
     /// </summary>
     [CsvIndex(4)]
-    [CsvName(nameof(Ln.所属角色))]
+    [CsvName(nameof(Ln.归属角色))]
     public string RoleNames { get; init; }
 
     /// <inheritdoc />

@@ -37,7 +37,7 @@ public sealed class JwtHandler : AppAuthorizeHandler
                 return true;
             }
 
-            // 获取所属角色接口权限 进行核对
+            // 获取归属角色接口权限 进行核对
             if (role.ApiIds?.Contains(path) ?? false) {
                 return true;
             }

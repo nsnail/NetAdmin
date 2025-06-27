@@ -33,7 +33,7 @@
                             field: ['filter', 'deptId'],
                             api: $API.sys_dept.query,
                             config: { props: { label: 'name', value: 'id' } },
-                            placeholder: $t('所属部门'),
+                            placeholder: $t('归属部门'),
                             style: 'width:15rem',
                             condition: () => $GLOBAL.hasApiPermission('api/sys/dept/query'),
                         },
@@ -42,7 +42,7 @@
                             field: ['filter', 'roleId'],
                             api: $API.sys_role.query,
                             config: { props: { label: 'name', value: 'id' } },
-                            placeholder: $t('所属角色'),
+                            placeholder: $t('归属角色'),
                             style: 'width:15rem',
                             condition: () => $GLOBAL.hasApiPermission('api/sys/dept/query'),
                         },
@@ -92,7 +92,7 @@
                 <naColId :label="$t('钱包编号')" prop="id" sortable="custom" width="170" />
                 <naColUser
                     :clickOpenDialog="$GLOBAL.hasApiPermission('api/sys/user/get')"
-                    :label="$t('所属用户')"
+                    :label="$t('归属用户')"
                     nestProp="owner.userName"
                     nestProp2="ownerId"
                     prop="ownerId"

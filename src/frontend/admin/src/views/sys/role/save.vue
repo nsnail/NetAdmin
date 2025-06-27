@@ -134,7 +134,7 @@ export default {
             },
             tabId: '0',
             titleMap: {
-                add: this.$t('新增角色'),
+                add: this.$t('新建角色'),
                 edit: this.$t('编辑角色'),
                 view: this.$t('查看角色'),
             },

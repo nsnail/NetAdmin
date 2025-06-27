@@ -14,5 +14,13 @@
     "Password": "A8E87D23-49BC-25A1-1C7C-59186BEF5D15",
     "Token": "4208EA97-B32F-4E39-A290-4C0D27B61EBF",
     "UserName": "user"
+  },
+  {
+    "DeptId": 372119301627909,
+    "Enabled": true,
+    "Id": 664362432344581,
+    "Password": "A8E87D23-49BC-25A1-1C7C-59186BEF5D15",
+    "Token": "751D599B-2B8C-417C-9565-CCF2363F5F6F",
+    "UserName": "jobs"
   }
 ]

@@ -3,6 +3,7 @@ using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Events;
 using NetAdmin.Host.Filters;
 using NetAdmin.Host.Middlewares;
+using NetAdmin.Infrastructure.Configuration.Dependency;
 using NetAdmin.Infrastructure.Schedule;
 using NetAdmin.SysComponent.Host.Utils;
 using FreeSqlBuilder = NetAdmin.Infrastructure.Utils.FreeSqlBuilder;
@@ -102,6 +103,31 @@ public static class ServiceCollectionExtensions
 
             // ReSharper disable once FunctionNeverReturns
         }
+    }
+
+    /// <summary>
+    ///     添加 TronScan 客户端
+    /// </summary>
+    public static IServiceCollection AddTronScanClient(this IServiceCollection me)
+    {
+        _ = me.AddHttpClient(nameof(TronScanOptions), ConfigClient<TronScanOptions>);
+        return me;
+    }
+
+    private static void ConfigClient<T>(HttpClient client)
+        where T : ApiClientOptions, new()
+    {
+        ConfigClient<T>(client, Numbers.SECS_TIMEOUT_HTTP_CLIENT);
+    }
+
+    private static void ConfigClient<T>(HttpClient client, int timeoutSecs)
+        where T : ApiClientOptions, new()
+    {
+        var options = App.GetOptions<T>();
+
+        client.Timeout = TimeSpan.FromSeconds(options.TimeoutSecs > 0 ? options.TimeoutSecs : timeoutSecs);
+        client.DefaultRequestHeaders.Add("User-Agent", nameof(NetAdmin));
+        client.BaseAddress = new Uri($"{options.Gateway}/");
     }
 
     private static void RunJob(IEnumerable<KeyValuePair<Type, JobConfigAttribute>> jobTypes)

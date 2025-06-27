@@ -81,7 +81,7 @@ export default {
             },
             tabId: '0',
             titleMap: {
-                add: this.$t('新增部门'),
+                add: this.$t('新建部门'),
                 edit: this.$t('编辑部门'),
                 view: this.$t('查看部门'),
             },

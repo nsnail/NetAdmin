@@ -25,6 +25,19 @@
                                     </el-form-item>
                                 </div>
                             </el-collapse-item>
+                            <el-collapse-item :title="$t('财务配置')" name="2">
+                                <div style="margin: 1rem">
+                                    <el-form-item :label="$t('人民币兑点数比率')" prop="cnyToPointRate">
+                                        <el-input-number v-model="form.cnyToPointRate" :max="999999999" :min="1"></el-input-number>
+                                    </el-form-item>
+                                    <el-form-item :label="$t('美元兑点数比率')" prop="usdToPointRate">
+                                        <el-input-number v-model="form.usdToPointRate" :max="999999999" :min="1"></el-input-number>
+                                    </el-form-item>
+                                    <el-form-item :label="$t('USDT 收款地址')" prop="trc20ReceiptAddress">
+                                        <el-input v-model="form.trc20ReceiptAddress" maxlength="34" placeholder="placeholder"></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-collapse-item>
                         </el-collapse>
 
                         <el-form-item :label="$t('启用')" prop="enabled">
@@ -70,7 +83,7 @@ export default {
                 userRegisterRoleId: [{ required: true, message: '请选择默认角色' }],
             },
             titleMap: {
-                add: this.$t('新增配置'),
+                add: this.$t('新建配置'),
                 edit: this.$t('编辑配置'),
                 view: this.$t('查看配置'),
             },

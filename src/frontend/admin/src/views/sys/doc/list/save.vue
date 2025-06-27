@@ -4,7 +4,7 @@
             <el-tabs tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
-                        <el-form-item :label="$t('所属文档分类')" prop="catalogId">
+                        <el-form-item :label="$t('归属文档分类')" prop="catalogId">
                             <catalog-select v-model="form.catalogId" class="w100p" />
                         </el-form-item>
                         <el-form-item :label="$t('文档标题')" prop="title">
@@ -60,13 +60,13 @@ export default {
             mode: 'add',
             //验证规则
             rules: {
-                catalogId: [{ required: true, message: this.$t('请选择所属文档分类') }],
+                catalogId: [{ required: true, message: this.$t('请选择归属文档分类') }],
                 title: [{ required: true, message: this.$t('请输入文档标题') }],
                 body: [{ required: true, message: this.$t('请输入文档内容') }],
                 visibility: [{ required: true, message: this.$t('请选择档案可见性') }],
             },
             titleMap: {
-                add: this.$t('新增文档'),
+                add: this.$t('新建文档'),
                 edit: this.$t('编辑文档'),
                 view: this.$t('查看文档'),
             },

@@ -1,8 +1,11 @@
 [
   {
+    "CnyToPointRate": 100,
     "Enabled": true,
+    "Trc20ReceiptAddress": "TMTByCrcZkY7o8YMax1pXiYV5SUQBZEnCu",
+    "UsdToPointRate": 700,
     "UserRegisterConfirm": false,
     "UserRegisterDeptId": 372119301627909,
-    "UserRegisterRoleId": 371729946431493
+    "UserRegisterRoleId": 371729946431493,
   }
 ]
