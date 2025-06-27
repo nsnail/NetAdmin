@@ -94,4 +94,9 @@
       "Secure": false
     }
   },
+  // TronScan 客户端配置
+  "TronScan": {
+    "Gateway": "https://apilist.tronscanapi.com",
+    "Token": "fc6629dc-0139-4238-bead-8db7c45ec1e2"
+  },
 }

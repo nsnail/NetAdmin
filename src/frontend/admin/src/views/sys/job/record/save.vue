@@ -133,7 +133,7 @@ export default {
             //验证规则
             rules: {},
             titleMap: {
-                add: this.$t('新增作业记录'),
+                add: this.$t('新建作业记录'),
                 edit: this.$t('编辑作业记录'),
                 view: this.$t('查看作业记录'),
             },

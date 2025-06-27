@@ -41,7 +41,7 @@
                             field: ['filter', 'roleId'],
                             api: $API.sys_role.query,
                             config: { props: { label: 'name', value: 'id' } },
-                            placeholder: $t('所属角色'),
+                            placeholder: $t('归属角色'),
                             style: 'width:15rem',
                         },
                     ]"
@@ -121,13 +121,13 @@
                             </template>
                         </el-table-column>
                         <naColTags
-                            :label="$t('所属部门')"
+                            :label="$t('归属部门')"
                             @click="(item) => (this.dialog.deptSave = { row: item, mode: 'view' })"
                             field="name"
                             prop="dept"
                             width="120" />
                         <naColTags
-                            :label="$t('所属角色')"
+                            :label="$t('归属角色')"
                             @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
                             field="name"
                             min-width="200"

@@ -8,6 +8,10 @@ namespace NetAdmin.Domain.Dto.Sys.Config;
 /// </summary>
 public record QueryConfigRsp : Sys_Config
 {
+    /// <inheritdoc cref="Sys_Config.CnyToPointRate" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override int CnyToPointRate { get; init; }
+
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
@@ -19,6 +23,14 @@ public record QueryConfigRsp : Sys_Config
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
+
+    /// <inheritdoc cref="Sys_Config.Trc20ReceiptAddress" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string Trc20ReceiptAddress { get; init; }
+
+    /// <inheritdoc cref="Sys_Config.UsdToPointRate" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override int UsdToPointRate { get; init; }
 
     /// <inheritdoc cref="Sys_Config.UserRegisterConfirm" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

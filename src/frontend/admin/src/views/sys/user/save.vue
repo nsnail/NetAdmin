@@ -50,7 +50,7 @@
                         </div>
                     </el-form-item>
 
-                    <el-form-item :label="$t('所属角色')" prop="roleIds">
+                    <el-form-item :label="$t('归属角色')" prop="roleIds">
                         <scSelect
                             v-if="!this.loading"
                             v-model="form.roleIds"
@@ -61,7 +61,7 @@
                             filterable
                             multiple />
                     </el-form-item>
-                    <el-form-item :label="$t('所属部门')" prop="deptId">
+                    <el-form-item :label="$t('归属部门')" prop="deptId">
                         <naDept v-model="form.deptId" class="w100p"></naDept>
                     </el-form-item>
 
@@ -315,18 +315,18 @@ export default {
                         pattern: this.$GLOBAL.chars.RGX_PASSWORD,
                     },
                 ],
-                deptId: [{ required: true, message: '请选择所属部门' }],
+                deptId: [{ required: true, message: '请选择归属部门' }],
                 roleIds: [
                     {
                         required: true,
-                        message: '请选择所属角色',
+                        message: '请选择归属角色',
                         trigger: 'change',
                     },
                 ],
             },
             tabId: '0',
             titleMap: {
-                add: this.$t('新增用户'),
+                add: this.$t('新建用户'),
                 edit: this.$t('编辑用户'),
                 view: this.$t('查看用户'),
             },

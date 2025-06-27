@@ -117,7 +117,7 @@ export default {
                 ],
             },
             titleMap: {
-                add: this.$t('新增消息'),
+                add: this.$t('新建消息'),
                 edit: this.$t('编辑消息'),
                 view: this.$t('查看消息'),
             },

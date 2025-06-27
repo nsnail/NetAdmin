@@ -109,7 +109,7 @@
                 <naColId :label="$t('交易编号')" prop="id" sortable="custom" width="170" />
                 <naColUser
                     :clickOpenDialog="$GLOBAL.hasApiPermission('api/sys/user/get')"
-                    :label="$t('所属用户')"
+                    :label="$t('归属用户')"
                     header-align="center"
                     nestProp="owner.userName"
                     nestProp2="ownerId"

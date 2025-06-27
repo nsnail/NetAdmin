@@ -11,6 +11,11 @@ public abstract record ApiClientOptions : OptionAbstraction
     public string Gateway { get; set; }
 
     /// <summary>
+    ///     超时时间
+    /// </summary>
+    public int TimeoutSecs { get; set; }
+
+    /// <summary>
     ///     密钥
     /// </summary>
     public string Token { get; set; }

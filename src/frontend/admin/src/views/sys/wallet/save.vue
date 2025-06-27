@@ -22,10 +22,10 @@
                         <el-form-item :label="$t('总支出')" prop="totalExpenditure">
                             <el-input v-model="form.totalExpenditure" clearable />
                         </el-form-item>
-                        <el-form-item :label="$t('所有者部门编号')" prop="ownerDeptId">
+                        <el-form-item :label="$t('归属部门编号')" prop="ownerDeptId">
                             <el-input v-model="form.ownerDeptId" clearable />
                         </el-form-item>
-                        <el-form-item :label="$t('所有者用户编号')" prop="ownerId">
+                        <el-form-item :label="$t('归属用户编号')" prop="ownerId">
                             <el-input v-model="form.ownerId" clearable />
                         </el-form-item>
                         <el-form-item :label="$t('创建时间')" prop="createdTime">
@@ -75,7 +75,7 @@ export default {
             rules: {},
             tabId: 'basic',
             titleMap: {
-                add: this.$t('新增钱包'),
+                add: this.$t('新建钱包'),
                 edit: this.$t('编辑钱包'),
                 view: this.$t('查看钱包'),
             },

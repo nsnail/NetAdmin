@@ -7,12 +7,36 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 public record Sys_Config : VersionEntity, IFieldEnabled
 {
     /// <summary>
+    ///     人民币兑点数比率
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual int CnyToPointRate { get; init; }
+
+    /// <summary>
     ///     是否启用
     /// </summary>
     [Column]
     [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
+
+    /// <summary>
+    ///     Trc20收款地址
+    /// </summary>
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_CHAR_34)]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual string Trc20ReceiptAddress { get; init; }
+
+    /// <summary>
+    ///     美元兑点数比率
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual int UsdToPointRate { get; init; }
 
     /// <summary>
     ///     用户注册是否需要人工确认

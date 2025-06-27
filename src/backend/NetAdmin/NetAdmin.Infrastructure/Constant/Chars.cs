@@ -18,6 +18,7 @@ public static class Chars
     public const string FLG_DB_EXCEPTION_IDX                           = "idx_";
     public const string FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT          = "PRIMARY KEY";
     public const string FLG_DB_EXCEPTION_UNIQUE_CONSTRAINT_CONFLICT    = "UNIQUE constraint";
+    public const string FLG_DB_FIELD_TYPE_CHAR_34                      = "char(34)";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR                     = "nvarchar";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_1022                = "nvarchar(1022)";
     public const string FLG_DB_FIELD_TYPE_NVARCHAR_127                 = "nvarchar(127)";
@@ -53,6 +54,7 @@ public static class Chars
     public const string FLG_HTTP_HEADER_KEY_ACCESS_TOKEN               = "ACCESS-TOKEN";
     public const string FLG_HTTP_HEADER_KEY_AUTHORIZATION              = "Authorization";
     public const string FLG_HTTP_HEADER_KEY_REFERER                    = "Referer";
+    public const string FLG_HTTP_HEADER_KEY_TRON_PRO_API_KEY           = "TRON-PRO-API-KEY";
     public const string FLG_HTTP_HEADER_KEY_USER_AGENT                 = "User-Agent";
     public const string FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN             = "X-ACCESS-TOKEN";
     public const string FLG_HTTP_HEADER_KEY_X_ACCESS_TOKEN_HEADER_KEY  = "X-Authorization";

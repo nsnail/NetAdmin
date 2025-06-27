@@ -20,7 +20,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     public virtual string Avatar { get; init; }
 
     /// <summary>
-    ///     所属部门
+    ///     归属部门
     /// </summary>
     [CsvIgnore]
     [JsonIgnore]
@@ -84,7 +84,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     public Sys_UserProfile Profile { get; init; }
 
     /// <summary>
-    ///     所属角色
+    ///     归属角色
     /// </summary>
     [CsvIgnore]
     [JsonIgnore]

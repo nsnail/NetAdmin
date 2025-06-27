@@ -48,7 +48,7 @@ export default {
             },
             tabId: '0',
             titleMap: {
-                add: this.$t('新增用户'),
+                add: this.$t('新建用户'),
                 edit: this.$t('编辑用户'),
                 view: this.$t('查看用户'),
             },

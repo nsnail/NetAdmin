@@ -149,7 +149,7 @@ public sealed class SqlAuditor : ISingleton
     }
 
     /// <summary>
-    ///     设置所有者
+    ///     设置归属
     /// </summary>
     private static void SetOwner(AuditValueEventArgs e, ContextUserInfo userInfo)
     {

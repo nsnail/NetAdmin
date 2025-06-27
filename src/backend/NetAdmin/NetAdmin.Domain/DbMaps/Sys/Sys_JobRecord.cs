@@ -35,7 +35,7 @@ public record Sys_JobRecord : LiteImmutableEntity
     public int HttpStatusCode { get; init; }
 
     /// <summary>
-    ///     所有者信息
+    ///     归属信息
     /// </summary>
     [CsvIgnore]
     [JsonIgnore]

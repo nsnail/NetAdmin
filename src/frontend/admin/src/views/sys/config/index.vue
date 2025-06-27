@@ -85,6 +85,11 @@
                         </template>
                     </el-table-column>
                 </el-table-column>
+                <el-table-column :label="$t('财务配置')" align="center">
+                    <el-table-column :label="$t('人民币兑点数比率')" align="center" prop="cnyToPointRate" width="150" />
+                    <el-table-column :label="$t('美元兑点数比率')" align="center" prop="usdToPointRate" width="150" />
+                    <el-table-column :label="$t('USDT 收款地址')" align="center" prop="trc20ReceiptAddress" width="300" />
+                </el-table-column>
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
                         <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
@@ -93,7 +98,7 @@
                 <naColOperation
                     :buttons="naColOperation.buttons.concat(naColOperation.delButton(this.$t('删除配置'), $API.sys_config.delete))"
                     :vue="this"
-                    width="150" />
+                    width="120" />
             </scTable>
         </el-main>
     </el-container>
