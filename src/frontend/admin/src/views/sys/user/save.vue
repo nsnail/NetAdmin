@@ -25,6 +25,9 @@
                     <el-form-item :label="$t('登录账号')" prop="userName">
                         <el-input v-model="form.userName" :placeholder="$t('用于登录系统')" clearable></el-input>
                     </el-form-item>
+                    <el-form-item v-if="mode === 'view'" :label="$t('邀请码')" prop="inviteCode">
+                        <el-input v-model="form.inviteCode" clearable></el-input>
+                    </el-form-item>
                     <el-row :gutter="10">
                         <el-col :lg="12">
                             <el-form-item :label="$t('手机号')" prop="mobile">

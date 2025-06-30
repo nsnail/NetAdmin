@@ -102,5 +102,9 @@
   {
     "ApiId": "api/sys/deposit.order/pay.confirm",
     "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/user.invite/query",
+    "RoleId": 371729946431493,
   }
 ]

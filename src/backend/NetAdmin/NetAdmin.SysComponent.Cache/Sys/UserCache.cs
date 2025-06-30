@@ -14,6 +14,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<bool> CheckInviterAvailableAsync(CheckInviterAvailableReq req)
+    {
+        return Service.CheckInviterAvailableAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req)
     {
         return Service.CheckMobileAvailableAsync(req);

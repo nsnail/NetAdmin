@@ -6,6 +6,17 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
+     * 检查邀请码是否正确
+     */
+    checkInviterAvailable: {
+        url: `${config.API_URL}/api/sys/user/check.inviter.available`,
+        name: `检查邀请码是否正确`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 检查手机号码是否可用
      */
     checkMobileAvailable: {

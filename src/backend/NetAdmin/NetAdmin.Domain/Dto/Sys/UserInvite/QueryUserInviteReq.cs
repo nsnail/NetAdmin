@@ -1,9 +1,9 @@
-namespace NetAdmin.Domain.Dto.Sys.WalletTrade;
+namespace NetAdmin.Domain.Dto.Sys.UserInvite;
 
 /// <summary>
-///     请求：查询钱包交易
+///     请求：查询用户邀请
 /// </summary>
-public sealed record QueryWalletTradeReq : Sys_WalletTrade
+public sealed record QueryUserInviteReq : Sys_UserInvite
 {
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

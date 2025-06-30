@@ -46,7 +46,7 @@ public sealed class CollectionJsonTypeInfoResolver : DefaultJsonTypeInfoResolver
     /// </summary>
     private static PropertyInfo GetNewProperty(string memberName, object obj)
     {
-        return obj.GetType().GetProperties().Where(x => x.Name == memberName).First(x => x.DeclaringType == x.ReflectedType);
+        return obj.GetType().GetProperties().Where(x => x.Name == memberName).FirstOrDefault(x => x.DeclaringType == x.ReflectedType);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public sealed class CollectionJsonTypeInfoResolver : DefaultJsonTypeInfoResolver
             }
             catch (AmbiguousMatchException) {
                 // 这里处理子类new隐藏父类同名属性， 取得多个同名属性的问题
-                prop = GetNewProperty(memberName, obj).GetValue(obj);
+                prop = GetNewProperty(memberName, obj)?.GetValue(obj);
             }
 
             return prop switch { string => prop, ICollection { Count: > 0 } => prop, _ => null };
@@ -79,7 +79,7 @@ public sealed class CollectionJsonTypeInfoResolver : DefaultJsonTypeInfoResolver
                 obj.GetType().GetProperty(memberName!)?.SetValue(obj, val);
             }
             catch (AmbiguousMatchException) {
-                GetNewProperty(memberName, obj).SetValue(obj, val);
+                GetNewProperty(memberName, obj)?.SetValue(obj, val);
             }
         };
     }

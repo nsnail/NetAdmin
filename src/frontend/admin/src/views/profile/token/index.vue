@@ -1,9 +1,6 @@
 <template>
     <el-card :header="$t('授权信息')" shadow="never">
         <el-form :model="form" :rules="rules" label-width="10rem" ref="form">
-            <el-form-item :label="$t('用户标识')">
-                <el-input v-model="form.id" class="font-monospace" readonly></el-input>
-            </el-form-item>
             <el-form-item :label="$t('授权令牌')">
                 <el-input v-model="form.token" class="font-monospace" readonly rows="10" type="textarea"></el-input>
             </el-form-item>

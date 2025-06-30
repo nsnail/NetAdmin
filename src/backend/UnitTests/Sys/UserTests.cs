@@ -28,6 +28,17 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     [InlineData(null)]
     [Theory]
     [TestPriority(100200)]
+    public async Task<bool> CheckInviterAvailableAsync(CheckInviterAvailableReq req)
+    {
+        var rsp = await PostJsonAsync(typeof(UserController), new CheckInviterAvailableReq { Code = "111111" });
+        Assert.True(rsp.IsSuccessStatusCode);
+        return false;
+    }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    [TestPriority(100200)]
     public async Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req)
     {
         var rsp = await PostJsonAsync(typeof(UserController), new CheckMobileAvailableReq { Mobile = "13838381438" });
@@ -189,6 +200,17 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     [Theory]
     [TestPriority(101600)]
     public async Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(UserController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return null;
+    }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    [TestPriority(101600)]
+    public async Task<IEnumerable<QueryUserRsp>> QueryRelationAsync(QueryReq<QueryUserReq> req)
     {
         var rsp = await PostJsonAsync(typeof(UserController), req);
         Assert.True(rsp.IsSuccessStatusCode);

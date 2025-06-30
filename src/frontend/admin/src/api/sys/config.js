@@ -105,6 +105,17 @@ export default {
     },
 
     /**
+     * 获取注册配置
+     */
+    getRegisterConfig: {
+        url: `${config.API_URL}/api/sys/config/get.register.config`,
+        name: `获取注册配置`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询配置
      */
     pagedQuery: {

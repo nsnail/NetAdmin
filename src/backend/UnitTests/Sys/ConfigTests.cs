@@ -100,6 +100,14 @@ public class ConfigTests(WebTestApplicationFactory<Startup> factory, ITestOutput
     }
 
     /// <inheritdoc />
+    public async Task<QueryConfigRsp> GetRegisterConfigAsync()
+    {
+        var rsp = await PostJsonAsync(typeof(ConfigController));
+        Assert.True(rsp.IsSuccessStatusCode);
+        return null;
+    }
+
+    /// <inheritdoc />
     [InlineData(null)]
     [Theory]
     public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)

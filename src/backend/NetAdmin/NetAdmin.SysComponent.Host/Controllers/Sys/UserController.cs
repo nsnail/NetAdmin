@@ -21,6 +21,15 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     }
 
     /// <summary>
+    ///     检查邀请码是否正确
+    /// </summary>
+    [AllowAnonymous]
+    public Task<bool> CheckInviterAvailableAsync(CheckInviterAvailableReq req)
+    {
+        return Cache.CheckInviterAvailableAsync(req);
+    }
+
+    /// <summary>
     ///     检查手机号码是否可用
     /// </summary>
     [AllowAnonymous]

@@ -5,9 +5,10 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 /// <summary>
 ///     用户基本信息表
 /// </summary>
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Email),    nameof(Email),    true)]
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Mobile),   nameof(Mobile),   true)]
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(UserName), nameof(UserName), true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Email),      nameof(Email),      true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(Mobile),     nameof(Mobile),     true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(InviteCode), nameof(InviteCode), true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(UserName),   nameof(UserName),   true)]
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_User))]
 public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
 {
@@ -50,6 +51,21 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
+
+    /// <summary>
+    ///     用户邀请
+    /// </summary>
+    [CsvIgnore]
+    [JsonIgnore]
+    public Sys_UserInvite Invite { get; init; }
+
+    /// <summary>
+    ///     邀请码
+    /// </summary>
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_CHAR_6)]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual string InviteCode { get; init; }
 
     /// <summary>
     ///     最后登录时间

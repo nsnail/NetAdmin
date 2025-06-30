@@ -8,6 +8,11 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 public sealed record RegisterUserReq : Sys_User
 {
     /// <summary>
+    ///     邀请者的邀请码
+    /// </summary>
+    public string Inviter { get; init; }
+
+    /// <summary>
     ///     密码
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

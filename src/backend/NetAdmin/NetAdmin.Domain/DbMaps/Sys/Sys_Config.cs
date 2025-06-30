@@ -23,6 +23,22 @@ public record Sys_Config : VersionEntity, IFieldEnabled
     public virtual bool Enabled { get; init; }
 
     /// <summary>
+    ///     必须邀请注册
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual bool RegisterInviteRequired { get; init; }
+
+    /// <summary>
+    ///     必须手机号注册
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual bool RegisterMobileRequired { get; init; }
+
+    /// <summary>
     ///     Trc20收款地址
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_CHAR_34)]

@@ -61,6 +61,12 @@ public sealed class ConfigCache(IDistributedCache cache, IConfigService service)
     }
 
     /// <inheritdoc />
+    public Task<QueryConfigRsp> GetRegisterConfigAsync()
+    {
+        return Service.GetRegisterConfigAsync();
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
         return Service.PagedQueryAsync(req);
