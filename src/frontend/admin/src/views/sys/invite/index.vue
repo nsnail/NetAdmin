@@ -44,14 +44,16 @@
                         </el-icon>
                     </el-button>
                     <template #dropdown>
-                        <el-dropdown-menu> </el-dropdown-menu>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click="setCommissionRatio">设置返佣比率</el-dropdown-item>
+                        </el-dropdown-menu>
                     </template>
                 </el-dropdown>
             </div>
         </el-header>
         <el-main class="nopadding">
             <scTable
-                :context-menus="['id', 'user.userName', 'createdTime']"
+                :context-menus="['id', 'user.userName', 'createdTime', 'commissionRatio']"
                 :context-opers="[]"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :params="query"
@@ -73,7 +75,13 @@
                 <el-table-column type="selection" width="50" />
                 <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" />
                 <naColAvatar :label="$t('用户名')" prop="user.userName" />
-                <el-table-column :label="$t('注册时间')" prop="createdTime" sortable="custom" />
+                <el-table-column
+                    :formatter="(row) => `${(row.commissionRatio / 100).toFixed(2)}%`"
+                    :label="$t('返佣比率')"
+                    align="right"
+                    prop="commissionRatio"
+                    sortable="custom" />
+                <el-table-column :label="$t('注册时间')" align="right" prop="createdTime" sortable="custom" />
             </scTable>
         </el-main>
     </el-container>
@@ -117,6 +125,29 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async setCommissionRatio() {
+            let loading
+            try {
+                const prompt = await this.$prompt(this.$t('1 代表 0.01%'), this.$t('设置返佣比率'), {
+                    inputPattern: /^[0-9]\d*$/,
+                    inputErrorMessage: this.$t('返佣比率不正确'),
+                })
+                loading = this.$loading()
+                const res = await Promise.all(
+                    this.selection.map((x) => this.$API.sys_userinvite.setCommissionRatio.post(Object.assign(x, { commissionRatio: prompt.value }))),
+                )
+                this.$message.success(
+                    this.$t(`操作成功 {count}/{total} 项`, {
+                        count: this.selection.length,
+                        total: res.map((x) => x.data ?? 0).reduce((a, b) => a + b, 0),
+                    }),
+                )
+                this.$refs.table.refresh()
+            } catch {
+                //
+            }
+            loading?.close()
+        },
         async getStatistics() {
             this.statistics.total = this.$refs.table?.tableData?.length
         },

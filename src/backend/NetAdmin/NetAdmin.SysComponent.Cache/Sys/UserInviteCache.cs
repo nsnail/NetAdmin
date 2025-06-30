@@ -65,4 +65,10 @@ public sealed class UserInviteCache(IDistributedCache cache, IUserInviteService 
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req)
+    {
+        return Service.SetCommissionRatioAsync(req);
+    }
 }

@@ -93,4 +93,12 @@ public sealed class UserInviteController(IUserInviteCache cache) : ControllerBas
     {
         return Cache.QueryAsync(req);
     }
+
+    /// <summary>
+    ///     设置返佣比率
+    /// </summary>
+    public Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req)
+    {
+        return Cache.SetCommissionRatioAsync(req);
+    }
 }

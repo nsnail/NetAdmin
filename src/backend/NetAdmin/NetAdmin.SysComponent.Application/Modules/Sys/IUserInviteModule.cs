@@ -9,4 +9,10 @@ public interface IUserInviteModule : ICrudModule<CreateUserInviteReq, QueryUserI
   , EditUserInviteReq                                                                    // 编辑类型
   , QueryUserInviteReq, QueryUserInviteRsp                                               // 查询类型
   , DelReq                                                                               // 删除类型
->;
+>
+{
+    /// <summary>
+    ///     设置返佣比率
+    /// </summary>
+    Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req);
+}

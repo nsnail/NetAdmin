@@ -10,6 +10,10 @@ public record QueryUserInviteRsp : Sys_UserInvite
     /// <inheritdoc cref="Sys_UserInvite.Children" />
     public new virtual IEnumerable<QueryUserInviteRsp> Children { get; init; }
 
+    /// <inheritdoc cref="Sys_UserInvite.CommissionRatio" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override int CommissionRatio { get; init; }
+
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }

@@ -15,6 +15,14 @@ public record Sys_UserInvite : VersionEntity, IFieldOwner
     public IEnumerable<Sys_UserInvite> Children { get; init; }
 
     /// <summary>
+    ///     返佣比率
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual int CommissionRatio { get; init; }
+
+    /// <summary>
     ///     归属
     /// </summary>
     [CsvIgnore]
