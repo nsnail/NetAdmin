@@ -71,6 +71,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     /// <param name="whereExp">查询表达式</param>
     /// <param name="whereSql">查询sql</param>
     /// <param name="ignoreVersion">是否忽略版本锁</param>
+    /// <param name="disableGlobalDataFilter">是否忽略全局数据权限过滤</param>
     /// <returns>更新行数</returns>
     protected Task<int> UpdateAsync(                         //
         TEntity                         newValue             //
@@ -78,11 +79,15 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
       , List<string>                    excludeFields = null //
       , Expression<Func<TEntity, bool>> whereExp      = null //
       , string                          whereSql      = null //
-      , bool                            ignoreVersion = false)
+      , bool                            ignoreVersion = false, bool disableGlobalDataFilter = false)
     {
         // 默认匹配主键
         whereExp ??= a => a.Id.Equals(newValue.Id);
         var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql);
+        if (disableGlobalDataFilter) {
+            update = update.DisableGlobalFilter(nameof(Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA));
+        }
+
         return update.ExecuteEffectsAsync();
     }
 
@@ -101,8 +106,8 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         TEntity                         newValue             //
       , List<string>                    includeFields = null //
       , List<string>                    excludeFields = null //
-      , Expression<Func<TEntity, bool>> whereExp      = null //
-      , string                          whereSql      = null //
+      , Expression<Func<TEntity, bool>> whereExp = null //
+      , string                          whereSql = null //
       , bool                            ignoreVersion = false)
     {
         // 默认匹配主键

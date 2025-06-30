@@ -13,6 +13,11 @@ public partial interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp /
 >
 {
     /// <summary>
+    ///     检查邀请码是否正确
+    /// </summary>
+    Task<bool> CheckInviterAvailableAsync(CheckInviterAvailableReq req);
+
+    /// <summary>
     ///     检查手机号码是否可用
     /// </summary>
     Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req);

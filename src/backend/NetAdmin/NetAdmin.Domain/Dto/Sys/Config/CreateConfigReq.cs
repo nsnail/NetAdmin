@@ -14,6 +14,14 @@ public record CreateConfigReq : Sys_Config
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override bool Enabled { get; init; }
 
+    /// <inheritdoc cref="Sys_Config.RegisterInviteRequired" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool RegisterInviteRequired { get; init; }
+
+    /// <inheritdoc cref="Sys_Config.RegisterMobileRequired" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool RegisterMobileRequired { get; init; }
+
     /// <inheritdoc cref="Sys_Config.Trc20ReceiptAddress" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Length(34, 34)]

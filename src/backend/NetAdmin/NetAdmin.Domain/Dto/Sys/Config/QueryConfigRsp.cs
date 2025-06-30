@@ -24,6 +24,14 @@ public record QueryConfigRsp : Sys_Config
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 
+    /// <inheritdoc cref="Sys_Config.RegisterInviteRequired" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool RegisterInviteRequired { get; init; }
+
+    /// <inheritdoc cref="Sys_Config.RegisterMobileRequired" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool RegisterMobileRequired { get; init; }
+
     /// <inheritdoc cref="Sys_Config.Trc20ReceiptAddress" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Trc20ReceiptAddress { get; init; }

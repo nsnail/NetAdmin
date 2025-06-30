@@ -23,6 +23,12 @@
                                     <el-form-item :label="$t('开启人工审核')" prop="userRegisterConfirm">
                                         <el-switch v-model="form.userRegisterConfirm"></el-switch>
                                     </el-form-item>
+                                    <el-form-item :label="$t('邀请注册')" prop="registerInviteRequired">
+                                        <el-switch v-model="form.registerInviteRequired"></el-switch>
+                                    </el-form-item>
+                                    <el-form-item :label="$t('手机注册')" prop="registerMobileRequired">
+                                        <el-switch v-model="form.registerMobileRequired"></el-switch>
+                                    </el-form-item>
                                 </div>
                             </el-collapse-item>
                             <el-collapse-item :title="$t('财务配置')" name="2">

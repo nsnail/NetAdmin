@@ -114,4 +114,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 到账确认
+     */
+    receivedConfirmation: {
+        url: `${config.API_URL}/api/sys/deposit.order/received.confirmation`,
+        name: `到账确认`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

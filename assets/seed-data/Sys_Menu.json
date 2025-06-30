@@ -107,6 +107,27 @@
     "Title": "充值订单",
     "Type": 1
   },
+  // ------------------------------  营销管理 ------------------------------
+  {
+    "Icon": "el-icon-share",
+    "Id": 692575802241032,
+    "Name": "market",
+    "Path": "/market",
+    "Sort": 98,
+    "Title": "营销管理",
+    "Type": 1
+  },
+  {
+    "Component": "sys/invite",
+    "Icon": "el-icon-connection",
+    "Id": 692575802245126,
+    "Name": "sys/invite",
+    "ParentId": 692575802241032,
+    "Path": "/market/invite",
+    "Sort": 100,
+    "Title": "邀请管理",
+    "Type": 1
+  },
   // ------------------------------  系统管理 ------------------------------
   {
     "Icon": "sc-icon-App",

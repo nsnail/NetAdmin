@@ -86,6 +86,15 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     }
 
     /// <summary>
+    ///     获取注册配置
+    /// </summary>
+    [AllowAnonymous]
+    public Task<QueryConfigRsp> GetRegisterConfigAsync()
+    {
+        return Cache.GetRegisterConfigAsync();
+    }
+
+    /// <summary>
     ///     分页查询配置
     /// </summary>
     public Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)

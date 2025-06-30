@@ -79,9 +79,19 @@
                 <el-table-column :label="$t('用户注册')" align="center">
                     <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150" />
                     <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150" />
-                    <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="120">
+                    <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="100">
                         <template #default="{ row }">
                             <el-switch v-model="row.userRegisterConfirm" @change="changeSwitch($event, row)"></el-switch>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('邀请注册')" align="center" prop="registerInviteRequired" width="100">
+                        <template #default="{ row }">
+                            <el-switch v-model="row.registerInviteRequired" @change="changeSwitch($event, row)"></el-switch>
+                        </template>
+                    </el-table-column>
+                    <el-table-column :label="$t('手机注册')" align="center" prop="registerMobileRequired" width="100">
+                        <template #default="{ row }">
+                            <el-switch v-model="row.registerMobileRequired" @change="changeSwitch($event, row)"></el-switch>
                         </template>
                     </el-table-column>
                 </el-table-column>

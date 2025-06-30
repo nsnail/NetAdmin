@@ -5,9 +5,18 @@
                 <scUpload v-model="form.avatar" :onSuccess="updateUser" :title="$t('上传头像')"></scUpload>
             </el-form-item>
             <el-form-item :label="$t('用户编号')">
-                <el-input v-model="form.id" readonly></el-input>
+                <div class="flex w100p gap05">
+                    <el-input v-model="form.id" readonly></el-input>
+                    <el-button v-copy="form.id">{{ $t('复制') }}</el-button>
+                </div>
             </el-form-item>
-            <el-form-item :label="$t('用户名称')">
+            <el-form-item :label="$t('邀请码')">
+                <div class="flex w100p gap05">
+                    <el-input v-model="form.inviteCode" readonly></el-input>
+                    <el-button v-copy="form.inviteCode">{{ $t('复制') }}</el-button>
+                </div>
+            </el-form-item>
+            <el-form-item :label="$t('用户名')">
                 <el-input v-model="form.userName" readonly></el-input>
             </el-form-item>
             <el-form-item :label="$t('密码')">

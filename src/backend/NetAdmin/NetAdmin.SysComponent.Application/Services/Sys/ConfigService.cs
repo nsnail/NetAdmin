@@ -93,6 +93,16 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<QueryConfigRsp> GetRegisterConfigAsync()
+    {
+        var latestConfigAsync = await GetLatestConfigAsync().ConfigureAwait(false);
+        return new QueryConfigRsp {
+                                      RegisterInviteRequired = latestConfigAsync.RegisterInviteRequired
+                                    , RegisterMobileRequired = latestConfigAsync.RegisterMobileRequired
+                                  };
+    }
+
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
     {
         req.ThrowIfInvalid();

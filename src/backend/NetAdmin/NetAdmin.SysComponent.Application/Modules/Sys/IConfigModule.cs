@@ -17,6 +17,11 @@ public interface IConfigModule : ICrudModule<CreateConfigReq, QueryConfigRsp // 
     Task<QueryConfigRsp> GetLatestConfigAsync();
 
     /// <summary>
+    ///     获取注册配置
+    /// </summary>
+    Task<QueryConfigRsp> GetRegisterConfigAsync();
+
+    /// <summary>
     ///     设置配置启用状态
     /// </summary>
     Task<int> SetEnabledAsync(SetConfigEnabledReq req);

@@ -2,6 +2,7 @@ using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserInvite;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
 using NetAdmin.Domain.Dto.Sys.UserWallet;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
@@ -14,6 +15,7 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class UserService(
     BasicRepository<Sys_User, long> rpo                //
   , IUserProfileService             userProfileService //
+  , IUserInviteService              userInviteService  //
   , IUserWalletService              userWalletService  //
   , IVerifyCodeService              verifyCodeService  //
   , IEventPublisher                 eventPublisher)    //
@@ -50,6 +52,13 @@ public sealed class UserService(
         }
 
         return ret;
+    }
+
+    /// <inheritdoc />
+    public Task<bool> CheckInviterAvailableAsync(CheckInviterAvailableReq req)
+    {
+        req.ThrowIfInvalid();
+        return Rpo.Select.Where(a => a.InviteCode == req.Code && a.Enabled).AnyAsync();
     }
 
     /// <inheritdoc />
@@ -116,13 +125,13 @@ public sealed class UserService(
                                     .ConfigureAwait(false);
 
         // 钱包表
-        _ = await userWalletService.CreateAsync(new CreateUserWalletReq() with //
-                                                {
-                                                    Id = dbUser.Id, OwnerId = dbUser.Id, OwnerDeptId = dbUser.DeptId
-                                                })
+        _ = await userWalletService.CreateAsync(new CreateUserWalletReq { Id = dbUser.Id, OwnerId = dbUser.Id, OwnerDeptId = dbUser.DeptId })
                                    .ConfigureAwait(false);
 
         var userList = await QueryAsync(new QueryReq<QueryUserReq> { Filter = new QueryUserReq { Id = dbUser.Id } }).ConfigureAwait(false);
+
+        // 邀请表
+        _ = await userInviteService.CreateAsync((req.Invite ?? new CreateUserInviteReq()) with { Id = dbUser.Id }).ConfigureAwait(false);
 
         // 发布用户创建事件
         var ret = userList.First();
@@ -295,12 +304,34 @@ public sealed class UserService(
     public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
     {
         req.ThrowIfInvalid();
-        if (!await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq).ConfigureAwait(false)) {
+        var config = await S<IConfigService>().GetLatestConfigAsync().ConfigureAwait(false);
+
+        if (config.RegisterMobileRequired && !await verifyCodeService.VerifyAsync(req.VerifySmsCodeReq).ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.验证码不正确);
         }
 
-        var createReq = req.Adapt<CreateUserReq>() with { Profile = new CreateUserProfileReq() };
-        return (await CreateAsync(createReq).ConfigureAwait(false)).Adapt<UserInfoRsp>();
+        long? inviterId     = null;
+        long? inviterDeptId = null;
+        if (!req.Inviter.NullOrEmpty() || config.RegisterInviteRequired) {
+            if (req.Inviter.NullOrEmpty()) {
+                throw new NetAdminInvalidOperationException(Ln.邀请码不正确);
+            }
+
+            var inviter = await GetAsync(new QueryUserReq { InviteCode = req.Inviter }).ConfigureAwait(false);
+            if (inviter?.Enabled != true) {
+                throw new NetAdminInvalidOperationException(Ln.邀请码不正确);
+            }
+
+            inviterId     = inviter.Id;
+            inviterDeptId = inviter.DeptId;
+        }
+
+        var createReq = req.Adapt<CreateUserReq>() with {
+                                                            Profile = new CreateUserProfileReq()
+                                                          , Invite = new CreateUserInviteReq { OwnerId = inviterId, OwnerDeptId = inviterDeptId }
+                                                        };
+        return (await CreateAsync(createReq with { Mobile = config.RegisterMobileRequired ? createReq.Mobile : null }).ConfigureAwait(false))
+            .Adapt<UserInfoRsp>();
     }
 
     /// <inheritdoc />
@@ -505,6 +536,8 @@ public sealed class UserService(
                  .WhereIf(deptIds != null, a => deptIds.Contains(a.DeptId))
                  .WhereIf( //
                      req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
+                 .WhereIf( //
+                     req.Filter?.InviteCode?.Length > 0, a => a.InviteCode == req.Filter.InviteCode)
                  .WhereIf( //
                      req.Filter?.RoleId > 0, a => Enumerable.Any(a.Roles, b => b.Id == req.Filter.RoleId))
                  .WhereIf( //
