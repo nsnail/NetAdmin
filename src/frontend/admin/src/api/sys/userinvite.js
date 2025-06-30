@@ -103,4 +103,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 设置返佣比率
+     */
+    setCommissionRatio: {
+        url: `${config.API_URL}/api/sys/user.invite/set.commission.ratio`,
+        name: `设置返佣比率`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

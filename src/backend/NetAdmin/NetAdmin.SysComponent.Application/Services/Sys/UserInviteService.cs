@@ -108,6 +108,13 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
         return ret.Adapt<IEnumerable<QueryUserInviteRsp>>();
     }
 
+    /// <inheritdoc />
+    public Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req with { CommissionRatio = req.CommissionRatio }, [nameof(req.CommissionRatio)], null, a => a.Id == req.Id, null, true);
+    }
+
     private ISelect<Sys_UserInvite> QueryInternal(QueryReq<QueryUserInviteReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
