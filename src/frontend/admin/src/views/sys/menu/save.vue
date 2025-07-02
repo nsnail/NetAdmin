@@ -1,14 +1,14 @@
 <template>
     <el-row :gutter="40">
         <el-col v-if="!form.id">
-            <el-empty :description="$t('请选择左侧菜单后操作')" :image-size="100"></el-empty>
+            <el-empty :description="$t('请选择左侧菜单后操作')" :image-size="100" />
         </el-col>
         <template v-else>
             <el-col>
                 <h2>{{ form.meta.title || '新建菜单' }}</h2>
                 <el-form :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
                     <el-form-item :label="$t('显示名称')" prop="meta.title">
-                        <el-input v-model="form.meta.title" :placeholder="$t('菜单显示名字')" clearable></el-input>
+                        <el-input v-model="form.meta.title" :placeholder="$t('菜单显示名字')" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('上级菜单')" prop="parentId">
                         <el-cascader
@@ -22,7 +22,7 @@
                                 checkStrictly: true,
                             }"
                             :show-all-levels="false"
-                            clearable></el-cascader>
+                            clearable />
                     </el-form-item>
                     <el-form-item :label="$t('类型')" prop="meta.type">
                         <el-radio-group v-model="form.meta.type">
@@ -32,22 +32,22 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item :label="$t('别名')" prop="name">
-                        <el-input v-model="form.name" :placeholder="$t('菜单别名')" clearable></el-input>
+                        <el-input v-model="form.name" :placeholder="$t('菜单别名')" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('菜单图标')" prop="meta.icon">
-                        <scIconSelect v-model="form.meta.icon" clearable></scIconSelect>
+                        <sc-icon-select v-model="form.meta.icon" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('路由地址')" prop="path">
-                        <el-input v-model="form.path" clearable placeholder=""></el-input>
+                        <el-input v-model="form.path" clearable placeholder="" />
                     </el-form-item>
                     <el-form-item :label="$t('排序')" prop="sort">
-                        <el-input-number v-model="form.sort" :min="0" controls-position="right" style="width: 100%"></el-input-number>
+                        <el-input-number v-model="form.sort" :min="0" controls-position="right" style="width: 100%" />
                     </el-form-item>
                     <el-form-item :label="$t('重定向')" prop="redirect">
-                        <el-input v-model="form.redirect" clearable placeholder=""></el-input>
+                        <el-input v-model="form.redirect" clearable placeholder="" />
                     </el-form-item>
                     <el-form-item :label="$t('菜单高亮')" prop="active">
-                        <el-input v-model="form.active" clearable placeholder=""></el-input>
+                        <el-input v-model="form.active" clearable placeholder="" />
                     </el-form-item>
                     <el-form-item :label="$t('视图')" prop="component">
                         <el-input v-model="form.component" clearable placeholder="">
@@ -55,7 +55,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item :label="$t('颜色')" prop="color">
-                        <el-color-picker v-model="form.meta.color" :predefine="predefineColors"></el-color-picker>
+                        <el-color-picker v-model="form.meta.color" :predefine="predefineColors" />
                     </el-form-item>
                     <el-form-item :label="$t('是否隐藏')" prop="meta.hidden">
                         <el-checkbox v-model="form.meta.hidden">{{ $t('隐藏菜单') }}</el-checkbox>
@@ -65,7 +65,7 @@
                         <el-switch v-model="form.meta.fullPage" />
                     </el-form-item>
                     <el-form-item :label="$t('标签')" prop="tag">
-                        <el-input v-model="form.meta.tag" clearable placeholder=""></el-input>
+                        <el-input v-model="form.meta.tag" clearable placeholder="" />
                     </el-form-item>
                     <el-form-item>
                         <el-button :loading="loading" @click="save" type="primary">{{ $t('保存') }}</el-button>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import scIconSelect from '@/components/scIconSelect'
+import scIconSelect from '@/components/sc-icon-select'
 
 export default {
     components: { scIconSelect },

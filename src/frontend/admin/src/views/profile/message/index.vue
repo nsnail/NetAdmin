@@ -4,7 +4,7 @@
     </el-card>
 </template>
 <script>
-import list from '@/views/profile/message/components/list.vue'
+import list from '@/views/profile/message/components/list'
 
 export default {
     components: {

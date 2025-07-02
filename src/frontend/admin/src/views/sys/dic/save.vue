@@ -1,11 +1,11 @@
 <template>
-    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
         <el-form v-loading="loading" :model="form" :rules="rules" label-width="10rem" ref="dialogForm">
             <el-form-item :label="$t('字典目录名称')" prop="name">
-                <el-input v-model="form.name" :placeholder="$t('字典目录名称')" clearable></el-input>
+                <el-input v-model="form.name" :placeholder="$t('字典目录名称')" clearable />
             </el-form-item>
             <el-form-item :label="$t('字典目录编码')" prop="code">
-                <el-input v-model="form.code" :placeholder="$t('字典目录编码')" clearable></el-input>
+                <el-input v-model="form.code" :placeholder="$t('字典目录编码')" clearable />
             </el-form-item>
             <el-form-item :label="$t('父路径')" prop="parentId">
                 <catalog-select v-model="form.parentId" class="w100p" />
@@ -15,12 +15,12 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
-const catalogSelect = defineAsyncComponent(() => import('./components/catalog-select.vue'))
+const catalogSelect = defineAsyncComponent(() => import('./components/catalog-select'))
 export default {
     components: { catalogSelect },
     data() {
@@ -81,4 +81,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

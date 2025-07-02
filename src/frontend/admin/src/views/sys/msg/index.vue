@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('消息类型'),
@@ -29,7 +29,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -46,17 +46,17 @@
                     @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
-                <naButtonBulkDel :api="$API.sys_sitemsg.bulkDelete" :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary" />
+                <na-button-bulk-del :api="$API.sys_sitemsg.bulkDelete" :vue="this" />
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
                 :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'id', order: 'descending' }"
@@ -76,9 +76,9 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <naColId :label="$t('消息编号')" prop="id" sortable="custom" width="170" />
-                <naColAvatar :label="$t('用户名')" min-width="100" prop="createdUserName" />
-                <naColIndicator
+                <na-col-id :label="$t('消息编号')" prop="id" sortable="custom" width="170" />
+                <na-col-avatar :label="$t('用户名')" min-width="100" prop="createdUserName" />
+                <na-col-indicator
                     :label="$t('消息类型')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.siteMsgTypes).map((x) => {
@@ -92,11 +92,11 @@
                 <el-table-column :label="$t('消息主题')" min-width="200" prop="title" show-overflow-tooltip sortable="custom" />
                 <el-table-column :label="$t('消息摘要')" min-width="400" prop="summary" show-overflow-tooltip sortable="custom" />
 
-                <naColOperation
+                <na-col-operation
                     :buttons="naColOperation.buttons.concat(naColOperation.delButton($t('删除消息'), $API.sys_sitemsg.delete))"
                     :vue="this"
                     width="120" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -105,15 +105,15 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
-const naColAvatar = defineAsyncComponent(() => import('@/components/naColAvatar'))
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+import naColOperation from '@/config/na-col-operation'
+const naColAvatar = defineAsyncComponent(() => import('@/components/na-col-avatar'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         saveDialog,
@@ -201,4 +201,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

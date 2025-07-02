@@ -1,5 +1,5 @@
-import MY_CONFIG from './myConfig'
-import APP_CONFIG from './appConfig'
+import MY_CONFIG from './my-config'
+import APP_CONFIG from './app-config'
 import avatar from '@/utils/avatar'
 import tool from '@/utils/tool'
 
@@ -61,9 +61,9 @@ const DEFAULT_CONFIG = {
         compsList: [
             ['chart-bar-request'],
             ['ver'],
-            ['chart-bar-jobrecord'],
+            ['chart-bar-job-record'],
             ['chart-pie-request'],
-            ['chart-pie-jobrecord'],
+            ['chart-pie-job-record'],
             ['modules'],
             ['change-log'],
         ],

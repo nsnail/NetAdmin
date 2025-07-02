@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('订单状态'),
@@ -45,7 +45,7 @@
                 ]"
                 :label-width="15"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -71,16 +71,16 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary" />
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="[
                     'id',
                     'ownerId',
@@ -111,8 +111,8 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <naColId :label="$t('订单编号')" prop="id" sortable="custom" width="170" />
-                <naColUser
+                <na-col-id :label="$t('订单编号')" prop="id" sortable="custom" width="170" />
+                <na-col-user
                     :clickOpenDialog="$GLOBAL.hasApiPermission('api/sys/user/get')"
                     :label="$t('归属用户')"
                     header-align="center"
@@ -120,8 +120,8 @@
                     nestProp2="ownerId"
                     prop="ownerId"
                     sortable="custom"
-                    width="170"></naColUser>
-                <naColIndicator
+                    width="170" />
+                <na-col-indicator
                     :label="$t('订单状态')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.depositOrderStatues).map((x) => {
@@ -149,7 +149,7 @@
                     align="right"
                     prop="actualPayAmount"
                     sortable="custom" />
-                <naColIndicator
+                <na-col-indicator
                     :label="$t('支付方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.paymentModes).map((x) => {
@@ -159,7 +159,7 @@
                     align="center"
                     prop="paymentMode"
                     sortable="custom" />
-                <naColOperation
+                <na-col-operation
                     :buttons="[
                         naColOperation.buttons[0],
                         {
@@ -175,7 +175,7 @@
                     ]"
                     :vue="this"
                     width="120" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -184,15 +184,15 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
-const naColUser = defineAsyncComponent(() => import('@/components/naColUser'))
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+import naColOperation from '@/config/na-col-operation'
+const naColUser = defineAsyncComponent(() => import('@/components/na-col-user'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         naColUser,
@@ -348,4 +348,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

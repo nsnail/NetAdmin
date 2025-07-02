@@ -1,13 +1,13 @@
 <template>
     <el-container>
         <el-header>
-            <div class="left-panel"></div>
+            <div class="left-panel" />
             <div class="right-panel">
                 <el-button :loading="loading" @click="sync" icon="sc-icon-sync" type="primary">{{ $t('同步接口') }}</el-button>
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :export-api="$API.sys_api.export"
                 :query-api="$API.sys_api.query"
                 :summary-method="(x) => [$t('接口总数'), countTotalRows(x.data)]"
@@ -19,7 +19,7 @@
                 stripe>
                 <el-table-column :label="$t('接口路径')" min-width="400" prop="id" />
                 <el-table-column :label="$t('接口名称')" min-width="200" prop="name" />
-                <naColIndicator
+                <na-col-indicator
                     :label="$t('请求方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
@@ -31,7 +31,7 @@
                     sortable="custom"
                     width="150" />
                 <el-table-column :label="$t('接口描述')" min-width="200" prop="summary" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 </template>
@@ -79,4 +79,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style />

@@ -5,48 +5,48 @@
                 <el-row :gutter="15">
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <scStatistic :title="$t('Redis 版本')" :value="statistics.version" group-separator></scStatistic>
+                            <sc-statistic :title="$t('Redis 版本')" :value="statistics.version" group-separator />
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <scStatistic
+                            <sc-statistic
                                 :suffix="$t('天')"
                                 :title="$t('Redis 运行时间')"
                                 :value="parseInt(statistics.upTime / 86400)"
-                                group-separator></scStatistic>
+                                group-separator />
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <scStatistic
+                            <sc-statistic
                                 :title="$t('CPU 使用率')"
                                 :value="statistics.upTime ? (statistics.usedCpu / statistics.upTime).toFixed(2) : 0"
                                 group-separator
-                                suffix="%"></scStatistic>
+                                suffix="%" />
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <scStatistic
+                            <sc-statistic
                                 :title="$t('内存使用量')"
                                 :value="(statistics.usedMemory / 1024 / 1024).toFixed(2)"
                                 group-separator
-                                suffix="MiB"></scStatistic>
+                                suffix="MiB" />
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <scStatistic :title="$t('缓存数量')" :value="statistics.dbSize" group-separator></scStatistic>
+                            <sc-statistic :title="$t('缓存数量')" :value="statistics.dbSize" group-separator />
                         </el-card>
                     </el-col>
                     <el-col :lg="4">
                         <el-card shadow="never">
-                            <scStatistic
+                            <sc-statistic
                                 :title="$t('缓存命中率')"
                                 :value="((statistics.keyspaceHits / (statistics.keyspaceMisses + statistics.keyspaceHits)) * 100).toFixed(2)"
                                 group-separator
-                                suffix="%"></scStatistic>
+                                suffix="%" />
                         </el-card>
                     </el-col>
                 </el-row>
@@ -63,11 +63,11 @@
                 </form>
             </div>
             <div class="right-panel">
-                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger"></el-button>
+                <el-button :disabled="selection.length === 0" @click="batchDel" icon="el-icon-delete" plain type="danger" />
             </div>
         </el-header>
         <el-main v-loading="loading" class="nopadding">
-            <scTable
+            <sc-table
                 v-if="tableData.length > 0"
                 :data="tableData"
                 :page-size="100"
@@ -83,7 +83,7 @@
                 <el-table-column :label="$t('键名')" min-width="400" prop="key" />
                 <el-table-column :label="$t('数据类型')" align="center" prop="type" width="100" />
                 <el-table-column :label="$t('过期时间')" align="right" prop="expireTime" width="200" />
-                <naColOperation
+                <na-col-operation
                     :buttons="[
                         {
                             icon: 'el-icon-view',
@@ -100,15 +100,15 @@
                     ]"
                     :vue="this"
                     width="100" />
-            </scTable>
-            <el-empty v-else></el-empty>
+            </sc-table>
+            <el-empty v-else />
         </el-main>
     </el-container>
-    <na-info v-if="dialog.info" ref="info"></na-info>
+    <na-info v-if="dialog.info" ref="info" />
 </template>
 
 <script>
-import naInfo from '@/components/naInfo'
+import naInfo from '@/components/na-info'
 
 export default {
     components: {

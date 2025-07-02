@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('交易方向'),
@@ -44,7 +44,7 @@
                 ]"
                 :label-width="15"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -69,14 +69,14 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel"></div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="[
                     'id',
                     'ownerId',
@@ -106,8 +106,8 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <naColId :label="$t('交易编号')" prop="id" sortable="custom" width="170" />
-                <naColUser
+                <na-col-id :label="$t('交易编号')" prop="id" sortable="custom" width="170" />
+                <na-col-user
                     :clickOpenDialog="$GLOBAL.hasApiPermission('api/sys/user/get')"
                     :label="$t('归属用户')"
                     header-align="center"
@@ -115,8 +115,8 @@
                     nestProp2="ownerId"
                     prop="ownerId"
                     sortable="custom"
-                    width="170"></naColUser>
-                <naColIndicator
+                    width="170" />
+                <na-col-indicator
                     :label="$t('交易方向')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.tradeDirections).map((x) => {
@@ -126,7 +126,7 @@
                     align="center"
                     prop="tradeDirection"
                     sortable="custom" />
-                <naColIndicator
+                <na-col-indicator
                     :label="$t('交易类型')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.tradeTypes).map((x) => {
@@ -154,8 +154,8 @@
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('备注')" min-width="100" prop="summary" show-overflow-tooltip sortable="custom" />
-                <naColOperation :buttons="[naColOperation.buttons[0]]" :vue="this" width="50" />
-            </scTable>
+                <na-col-operation :buttons="[naColOperation.buttons[0]]" :vue="this" width="50" />
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -164,15 +164,15 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => $refs.table.refresh()"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
-const naColUser = defineAsyncComponent(() => import('@/components/naColUser'))
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+import naColOperation from '@/config/na-col-operation'
+const naColUser = defineAsyncComponent(() => import('@/components/na-col-user'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         naColUser,
@@ -320,4 +320,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

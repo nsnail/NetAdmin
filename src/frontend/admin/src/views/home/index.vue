@@ -1,7 +1,7 @@
 <template>
     <el-main v-loading="loading" :style="{ height: mainHeight, minHeight: '100%' }">
-        <widgets v-if="dashboard" @on-customizing="onCustomizing" @on-mounted="this.loading = false"></widgets>
-        <work v-if="myapp" @on-mounted="this.loading = false"></work>
+        <widgets v-if="dashboard" @on-customizing="onCustomizing" @on-mounted="this.loading = false" />
+        <work v-if="myApp" @on-mounted="this.loading = false" />
     </el-main>
 
     <el-tour v-model="tour.open" @close="$TOOL.data.set('TOUR_TIP_READ_INDEX', true)">
@@ -37,14 +37,14 @@ export default {
             loading: true,
             mainHeight: 'auto',
             dashboard: false,
-            myapp: false,
+            myApp: false,
         }
     },
     async created() {
         //下载配置
         await this.$TOOL.data.downloadConfig()
         this.dashboard = this.$GLOBAL.user.roles.findIndex((x) => x.displayDashboard) >= 0
-        this.myapp = !this.dashboard
+        this.myApp = !this.dashboard
     },
     mounted() {
         this.$nextTick(() => {
@@ -53,8 +53,8 @@ export default {
             }
 
             const timer = setInterval(() => {
-                this.tour.targets.tags = document.getElementsByClassName('adminui-tags')[0]
-                this.tour.targets.search = document.getElementsByClassName('userbar-btn-search')[0]
+                this.tour.targets.tags = document.getElementsByClassName('admin-ui-tags')[0]
+                this.tour.targets.search = document.getElementsByClassName('user-bar-btn-search')[0]
                 this.tour.targets.userCenter = document.getElementsByClassName('user-center')[0]
                 if (this.dashboard) {
                     this.tour.targets.layoutSetting = document.getElementsByClassName('layout-setting')[0]
@@ -77,4 +77,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

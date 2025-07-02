@@ -246,15 +246,15 @@
     font-size: 0.9rem;
 }
 
-.aminui-side-split li.active {
+.admin-ui-side-split li.active {
     background-color: var(--el-color-primary);
 }
 
-.adminui-tags li:hover {
+.admin-ui-tags li:hover {
     background-color: var(--el-color-primary-light-9);
 }
 
-.adminui-tags li.active {
+.admin-ui-tags li.active {
     background-color: var(--el-color-primary) !important;
 }
 
@@ -333,6 +333,6 @@
     color: var(--el-text-color-regular);
 }
 
-.adminui-header .el-drawer__header {
+.admin-ui-header .el-drawer__header {
     margin-bottom: 0;
 }

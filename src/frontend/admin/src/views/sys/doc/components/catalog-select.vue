@@ -11,9 +11,9 @@
             checkStrictly: true,
             expandTrigger: 'hover',
         }"
-        clearable></el-cascader>
+        clearable />
 </template>
-<style scoped></style>
+<style scoped />
 <script>
 export default {
     props: {

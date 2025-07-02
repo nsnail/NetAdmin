@@ -4,7 +4,7 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
@@ -31,7 +31,7 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
@@ -52,7 +52,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="['id', 'user.userName', 'createdTime', 'commissionRatio']"
                 :context-opers="[]"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
@@ -74,7 +74,7 @@
                 stripe>
                 <el-table-column type="selection" width="50" />
                 <el-table-column :label="$t('用户编号')" prop="id" sortable="custom" />
-                <naColAvatar :label="$t('用户名')" prop="user.userName" />
+                <na-col-avatar :label="$t('用户名')" prop="user.userName" />
                 <el-table-column
                     :formatter="(row) => `${(row.commissionRatio / 100).toFixed(2)}%`"
                     :label="$t('返佣比率')"
@@ -82,7 +82,7 @@
                     prop="commissionRatio"
                     sortable="custom" />
                 <el-table-column :label="$t('注册时间')" align="right" prop="createdTime" sortable="custom" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 </template>
@@ -90,9 +90,9 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
+import naColOperation from '@/config/na-col-operation'
 
-const naColAvatar = defineAsyncComponent(() => import('@/components/naColAvatar'))
+const naColAvatar = defineAsyncComponent(() => import('@/components/na-col-avatar'))
 export default {
     components: {
         naColAvatar,
@@ -199,4 +199,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

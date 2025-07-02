@@ -1,5 +1,5 @@
 <template>
-    <scDialog
+    <sc-dialog
         v-model="visible"
         :title="`${titleMap[mode]}：${form?.id ?? '...'}`"
         @closed="$emit('closed')"
@@ -17,26 +17,26 @@
             <el-tabs v-model="tabId" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form-item prop="avatar">
-                        <scUpload v-model="form.avatar" :title="$t('上传头像')"></scUpload>
+                        <sc-upload v-model="form.avatar" :title="$t('上传头像')" />
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('唯一编码')" prop="id">
-                        <el-input v-model="form.id" clearable></el-input>
+                        <el-input v-model="form.id" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('登录账号')" prop="userName">
-                        <el-input v-model="form.userName" :placeholder="$t('用于登录系统')" clearable></el-input>
+                        <el-input v-model="form.userName" :placeholder="$t('用于登录系统')" clearable />
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('邀请码')" prop="inviteCode">
-                        <el-input v-model="form.inviteCode" clearable></el-input>
+                        <el-input v-model="form.inviteCode" clearable />
                     </el-form-item>
                     <el-row :gutter="10">
                         <el-col :lg="12">
                             <el-form-item :label="$t('手机号')" prop="mobile">
-                                <el-input v-model="form.mobile" :placeholder="$t('请输入手机号')" clearable></el-input>
+                                <el-input v-model="form.mobile" :placeholder="$t('请输入手机号')" clearable />
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('邮箱')" prop="email">
-                                <el-input v-model="form.email" :placeholder="$t('请输入邮箱')" clearable></el-input>
+                                <el-input v-model="form.email" :placeholder="$t('请输入邮箱')" clearable />
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -48,13 +48,13 @@
                                 clearable
                                 maxlength="16"
                                 oninput="value=value.replace(/[^\w]/g,'')"
-                                placeholder="8位以上数字字母组合"></el-input>
+                                placeholder="8位以上数字字母组合" />
                             <el-button @click="form.passwordText = '1234qwer'">{{ $t('初始密码') }}</el-button>
                         </div>
                     </el-form-item>
 
                     <el-form-item :label="$t('归属角色')" prop="roleIds">
-                        <scSelect
+                        <sc-select
                             v-if="!this.loading"
                             v-model="form.roleIds"
                             :config="{ props: { label: 'name', value: 'id' } }"
@@ -65,26 +65,26 @@
                             multiple />
                     </el-form-item>
                     <el-form-item :label="$t('归属部门')" prop="deptId">
-                        <naDept v-model="form.deptId" class="w100p"></naDept>
+                        <na-dept v-model="form.deptId" class="w100p" />
                     </el-form-item>
 
                     <template v-if="mode !== 'add'">
                         <el-form-item :label="$t('启用')" prop="enabled">
-                            <el-switch v-model="form.enabled"></el-switch>
+                            <el-switch v-model="form.enabled" />
                         </el-form-item>
                     </template>
                     <el-form-item v-if="mode === 'view'" :label="$t('最后登录')" prop="summary">
-                        <el-input v-model="form.lastLoginTime" clearable></el-input>
+                        <el-input v-model="form.lastLoginTime" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('备注')" prop="summary">
-                        <el-input v-model="form.summary" clearable type="textarea"></el-input>
+                        <el-input v-model="form.summary" clearable type="textarea" />
                     </el-form-item>
                 </el-tab-pane>
                 <el-tab-pane :label="$t('档案信息')">
                     <el-row :gutter="10">
                         <el-col :lg="12">
                             <el-form-item :label="$t('真实姓名')" prop="profile.realName">
-                                <el-input v-model="form.profile.realName" clearable></el-input>
+                                <el-input v-model="form.profile.realName" clearable />
                             </el-form-item>
                         </el-col>
 
@@ -102,7 +102,7 @@
                                     :placeholder="$t('出生日期')"
                                     :teleported="false"
                                     type="date"
-                                    value-format="YYYY-MM-DD"></el-date-picker>
+                                    value-format="YYYY-MM-DD" />
                             </el-form-item>
                         </el-col>
 
@@ -122,7 +122,7 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('职业')" prop="profile.profession">
-                                <el-input v-model="form.profile.profession" clearable></el-input>
+                                <el-input v-model="form.profile.profession" clearable />
                             </el-form-item>
                         </el-col>
 
@@ -135,7 +135,7 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('证件号码')" prop="profile.certificateNumber">
-                                <el-input v-model="form.profile.certificateNumber" clearable type="text"></el-input>
+                                <el-input v-model="form.profile.certificateNumber" clearable type="text" />
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
@@ -147,7 +147,7 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('籍贯')" prop="profile.nationArea">
-                                <naArea v-model="form.profile.nationArea"></naArea>
+                                <na-area v-model="form.profile.nationArea" />
                             </el-form-item>
                         </el-col>
 
@@ -169,14 +169,14 @@
                             <el-form-item :label="$t('住宅地址')" prop="profile.homeAddress">
                                 <el-input v-model="form.profile.homeAddress" clearable>
                                     <template v-slot:prepend>
-                                        <naArea v-model="form.profile.homeArea" style="width: 15rem"></naArea>
+                                        <na-area v-model="form.profile.homeArea" style="width: 15rem" />
                                     </template>
                                 </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('工作单位')" prop="profile.companyName">
-                                <el-input v-model="form.profile.companyName" clearable></el-input>
+                                <el-input v-model="form.profile.companyName" clearable />
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
@@ -190,7 +190,7 @@
                             <el-form-item :label="$t('工作地址')" prop="profile.companyAddress">
                                 <el-input v-model="form.profile.companyAddress" clearable>
                                     <template v-slot:prepend>
-                                        <naArea v-model="form.profile.companyArea" style="width: 15rem"></naArea>
+                                        <na-area v-model="form.profile.companyArea" style="width: 15rem" />
                                     </template>
                                 </el-input>
                             </el-form-item>
@@ -204,31 +204,31 @@
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('毕业学校')" prop="profile.graduateSchool">
-                                <el-input v-model="form.profile.graduateSchool" clearable></el-input>
+                                <el-input v-model="form.profile.graduateSchool" clearable />
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('紧急联系人')" prop="profile.emergencyContactName">
-                                <el-input v-model="form.profile.emergencyContactName" clearable></el-input>
+                                <el-input v-model="form.profile.emergencyContactName" clearable />
                             </el-form-item>
                         </el-col>
                         <el-col :lg="12">
                             <el-form-item :label="$t('联系人手机号')" prop="profile.emergencyContactMobile">
-                                <el-input v-model="form.profile.emergencyContactMobile" clearable></el-input>
+                                <el-input v-model="form.profile.emergencyContactMobile" clearable />
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
                             <el-form-item :label="$t('联系人地址')" prop="profile.emergencyContactAddress">
                                 <el-input v-model="form.profile.emergencyContactAddress" clearable>
                                     <template v-slot:prepend>
-                                        <naArea v-model="form.profile.emergencyContactArea" style="width: 15rem"></naArea>
+                                        <na-area v-model="form.profile.emergencyContactArea" style="width: 15rem" />
                                     </template>
                                 </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
                             <el-form-item :label="$t('应用配置')" prop="profile.appConfig">
-                                <VAceEditor
+                                <v-ace-editor
                                     v-model:value="form.profile.appConfig"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                                     lang="json"
@@ -244,16 +244,16 @@
                     <trade v-if="tabId === 'trade'" :ownerId="form.id.toString()" />
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('操作日志')" name="log">
-                    <log v-if="tabId === 'log'" :owner-id="form.id"></log>
+                    <log v-if="tabId === 'log'" :owner-id="form.id" />
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <JsonViewer
+                    <json-viewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></JsonViewer>
+                        sort />
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -261,7 +261,7 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
@@ -270,10 +270,10 @@ import { defineAsyncComponent } from 'vue'
 const log = defineAsyncComponent(() => import('@/views/sys/log/operation'))
 const trade = defineAsyncComponent(() => import('@/views/sys/trade'))
 const wallet = defineAsyncComponent(() => import('@/views/sys/wallet'))
-const naArea = defineAsyncComponent(() => import('@/components/naArea'))
-const naDept = defineAsyncComponent(() => import('@/components/naDept'))
-const scUpload = defineAsyncComponent(() => import('@/components/scUpload'))
-const scSelect = defineAsyncComponent(() => import('@/components/scSelect'))
+const naArea = defineAsyncComponent(() => import('@/components/na-area'))
+const naDept = defineAsyncComponent(() => import('@/components/na-dept'))
+const scUpload = defineAsyncComponent(() => import('@/components/sc-upload'))
+const scSelect = defineAsyncComponent(() => import('@/components/sc-select'))
 export default {
     components: { log, naArea, naDept, scUpload, scSelect, trade, wallet },
     data() {

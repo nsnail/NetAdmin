@@ -3,16 +3,10 @@
         <el-container v-if="msgList.length > 0" class="nopadding">
             <el-header style="border: none">
                 <div class="right-panel">
-                    <el-button
-                        v-loading="readLoading"
-                        :disabled="readLoading"
-                        @click="batchRead"
-                        icon="el-icon-message"
-                        plain
-                        type="success"></el-button>
+                    <el-button v-loading="readLoading" :disabled="readLoading" @click="batchRead" icon="el-icon-message" plain type="success" />
                     <el-popconfirm :title="`确定清空本页消息吗？`" @confirm="batchDel" width="15rem">
                         <template #reference>
-                            <el-button v-loading="delLoading" :disabled="delLoading" icon="el-icon-delete" plain type="danger"></el-button>
+                            <el-button v-loading="delLoading" :disabled="delLoading" icon="el-icon-delete" plain type="danger" />
                         </template>
                     </el-popconfirm>
                 </div>
@@ -31,12 +25,9 @@
                                 <div :class="`msg-title ${msg.myFlags.userSiteMsgStatus === 'read' ? 'msg-wrapper-read' : ''}`">
                                     <div>
                                         <el-badge v-if="msg.myFlags.userSiteMsgStatus === 0" is-dot type="primary">
-                                            <el-avatar :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR(msg.sender.userName)"></el-avatar>
+                                            <el-avatar :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR(msg.sender.userName)" />
                                         </el-badge>
-                                        <el-avatar
-                                            v-else
-                                            :size="40"
-                                            :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR(msg.sender.userName)"></el-avatar>
+                                        <el-avatar v-else :size="40" :src="msg.sender.avatar ?? $CONFIG.DEFAULT_AVATAR(msg.sender.userName)" />
                                     </div>
                                     <div>
                                         <h2>{{ msg.title }}</h2>
@@ -59,7 +50,7 @@
                 </div>
             </el-main>
         </el-container>
-        <el-empty v-else></el-empty>
+        <el-empty v-else />
     </div>
 </template>
 

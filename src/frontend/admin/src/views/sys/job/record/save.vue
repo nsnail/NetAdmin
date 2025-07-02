@@ -1,5 +1,5 @@
 <template>
-    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-form
             v-loading="loading"
             :disabled="mode === 'view'"
@@ -39,7 +39,7 @@
                         </el-col>
                         <el-col :lg="col2Width">
                             <el-form-item v-if="form.requestBody" :label="$t('请求体')" prop="requestBody">
-                                <JsonViewer
+                                <json-viewer
                                     v-if="mode === 'view'"
                                     :expand-depth="5"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
@@ -47,11 +47,11 @@
                                     class="w100p children-nopadding"
                                     copyable
                                     expanded
-                                    sort></JsonViewer>
+                                    sort />
                                 <el-input v-else v-model="form.requestBody" clearable rows="5" type="textarea" />
                             </el-form-item>
                             <el-form-item v-if="form.responseBody" :label="$t('响应体')" prop="responseBody">
-                                <JsonViewer
+                                <json-viewer
                                     v-if="mode === 'view'"
                                     :expand-depth="5"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
@@ -59,12 +59,11 @@
                                     class="w100p children-nopadding"
                                     copyable
                                     expanded
-                                    sort>
-                                </JsonViewer>
+                                    sort />
                                 <el-input v-else v-model="form.responseBody" clearable rows="5" type="textarea" />
                             </el-form-item>
                             <el-form-item v-if="form.requestHeader" :label="$t('请求头')" prop="requestHeader">
-                                <JsonViewer
+                                <json-viewer
                                     v-if="mode === 'view'"
                                     :expand-depth="1"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
@@ -72,11 +71,11 @@
                                     class="w100p children-nopadding"
                                     copyable
                                     expanded
-                                    sort></JsonViewer>
+                                    sort />
                                 <el-input v-else v-model="form.requestHeader" clearable rows="5" type="textarea" />
                             </el-form-item>
                             <el-form-item v-if="form.responseHeader" :label="$t('响应头')" prop="responseHeader">
-                                <JsonViewer
+                                <json-viewer
                                     v-if="mode === 'view'"
                                     :expand-depth="1"
                                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
@@ -84,13 +83,13 @@
                                     class="w100p children-nopadding"
                                     copyable
                                     expanded
-                                    sort></JsonViewer>
+                                    sort />
                                 <el-input v-else v-model="form.responseHeader" clearable rows="5" type="textarea" />
                             </el-form-item>
                         </el-col>
 
                         <el-col v-if="this.esData" :lg="9">
-                            <JsonViewer
+                            <json-viewer
                                 v-if="mode === 'view'"
                                 :expand-depth="1"
                                 :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
@@ -98,25 +97,25 @@
                                 class="children-nopadding"
                                 copyable
                                 expanded
-                                sort></JsonViewer>
+                                sort />
                         </el-col>
                     </el-row>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <JsonViewer
+                    <json-viewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></JsonViewer>
+                        sort />
                 </el-tab-pane>
             </el-tabs>
         </el-form>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
@@ -198,4 +197,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

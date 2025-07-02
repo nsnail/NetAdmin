@@ -1,11 +1,11 @@
 <template>
     <div v-loading="loading">
-        <scEcharts v-bind="$attrs" :option="option"></scEcharts>
+        <sc-echarts v-bind="$attrs" :option="option" />
     </div>
 </template>
 
 <script>
-import scEcharts from '@/components/scEcharts'
+import scEcharts from '@/components/sc-echarts'
 
 export default {
     components: {

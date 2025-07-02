@@ -7,17 +7,11 @@
         </el-steps>
         <el-form v-if="stepActive === 0" :model="form" :rules="rules" @keyup.enter="next" label-width="15rem" ref="stepForm_0" size="large">
             <el-form-item :label="$t('登录账号')" prop="userName">
-                <el-input v-model="form.userName" :placeholder="$t('请输入登录账号')" clearable maxlength="16"></el-input>
+                <el-input v-model="form.userName" :placeholder="$t('请输入登录账号')" clearable maxlength="16" />
             </el-form-item>
             <el-form-item :label="$t('登录密码')" prop="passwordText">
-                <el-input
-                    v-model="form.passwordText"
-                    :placeholder="$t('请输入登录密码')"
-                    clearable
-                    maxlength="16"
-                    show-password
-                    type="password"></el-input>
-                <scPasswordStrength v-model="form.passwordText"></scPasswordStrength>
+                <el-input v-model="form.passwordText" :placeholder="$t('请输入登录密码')" clearable maxlength="16" show-password type="password" />
+                <sc-password-strength v-model="form.passwordText" />
                 <div class="el-form-item-msg">{{ $t('请输入包含英文、数字的8位以上密码') }}</div>
             </el-form-item>
             <el-form-item :label="$t('确认密码')" prop="passwordText2">
@@ -27,10 +21,10 @@
                     clearable
                     maxlength="16"
                     show-password
-                    type="password"></el-input>
+                    type="password" />
             </el-form-item>
             <el-form-item :label="$t('邀请码')" prop="inviter">
-                <el-input v-model="form.inviter" :placeholder="$t('请输入邀请码')" clearable maxlength="6"></el-input>
+                <el-input v-model="form.inviter" :placeholder="$t('请输入邀请码')" clearable maxlength="6" />
             </el-form-item>
             <el-form-item label="" prop="agree">
                 <el-checkbox v-model="form.agree" label="">{{ $t('我已阅读并同意') }}</el-checkbox>
@@ -44,7 +38,7 @@
                 :phone-field="['verifySmsCodeReq.destDevice', 'destDevice']"
                 :phone-place-holder="$t('手机号码')"
                 :vue="this"
-                form-name="stepForm_1"></na-form-phone>
+                form-name="stepForm_1" />
         </el-form>
         <div v-if="stepActive >= 2">
             <el-result :sub-title="$t('可以使用登录账号以及手机号登录系统')" :title="$t('注册成功')" icon="success">
@@ -85,11 +79,11 @@
     </common-page>
 </template>
 <script>
-import commonPage from './components/commonPage'
-import naFormPassword from '@/config/naFormPassword'
-import naFormPhone from '@/components/naFormPhone'
-import phoneConfig from '@/config/naFormPhone'
-import scPasswordStrength from '@/components/scPasswordStrength'
+import commonPage from './components/common-page'
+import naFormPassword from '@/config/na-form-password'
+import naFormPhone from '@/components/na-form-phone'
+import phoneConfig from '@/config/na-form-phone'
+import scPasswordStrength from '@/components/sc-password-strength'
 
 export default {
     components: {
@@ -214,4 +208,4 @@ export default {
     },
 }
 </script>
-<style scoped></style>
+<style scoped />

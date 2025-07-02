@@ -4,7 +4,7 @@
             <div class="widgets" ref="widgets">
                 <div class="widgets-wrapper">
                     <div v-if="nowCompsList.length <= 0" class="no-widgets">
-                        <el-empty :description="$t('没有部件啦')" :image-size="280"></el-empty>
+                        <el-empty :description="$t('没有部件啦')" :image-size="280" />
                     </div>
                     <el-row :gutter="15">
                         <el-col v-bind:key="index" v-for="(item, index) in grid.layout" :md="item" :xs="24">
@@ -20,15 +20,9 @@
                                 item-key="com">
                                 <template #item="{ element }">
                                     <div class="widgets-item">
-                                        <component :is="allComps[element]"></component>
+                                        <component :is="allComps[element]" />
                                         <div v-if="customizing" class="customize-overlay">
-                                            <el-button
-                                                @click="remove(element)"
-                                                class="close"
-                                                icon="el-icon-close"
-                                                plain
-                                                size="small"
-                                                type="danger"></el-button>
+                                            <el-button @click="remove(element)" class="close" icon="el-icon-close" plain size="small" type="danger" />
                                             <label>
                                                 <el-icon>
                                                     <component :is="allComps[element].icon" />
@@ -68,12 +62,12 @@
                             v-for="l in layouts"
                             :active="grid.layout.join(',') === l.replaceAll('-', ',')"
                             :layout="l"
-                            @onSetLayout="setLayout"></layout>
+                            @onSetLayout="setLayout" />
                         <layout
                             v-for="l in customLayouts"
                             :active="grid.layout.join(',') === l.replaceAll('-', ',')"
                             :layout="l"
-                            @onSetLayout="setLayout"></layout>
+                            @onSetLayout="setLayout" />
                     </div>
                 </el-header>
                 <el-header style="height: auto">
@@ -84,7 +78,7 @@
                 <el-main class="nopadding">
                     <div class="widgets-list">
                         <div v-if="myCompsList.length <= 0" class="widgets-list-nodata">
-                            <el-empty :description="$t('没有部件啦')" :image-size="60"></el-empty>
+                            <el-empty :description="$t('没有部件啦')" :image-size="60" />
                         </div>
                         <div v-for="item in myCompsList" :key="item.title" class="widgets-list-item">
                             <div class="item-logo">
@@ -97,7 +91,7 @@
                                 <p>{{ item.description }}</p>
                             </div>
                             <div class="item-actions">
-                                <el-button @click="push(item)" icon="el-icon-plus" size="small" type="primary"></el-button>
+                                <el-button @click="push(item)" icon="el-icon-plus" size="small" type="primary" />
                             </div>
                         </div>
                     </div>
@@ -120,14 +114,14 @@
         @closed="dialog.customLayout = null"
         @mounted="$refs.customLayoutDialog.open(dialog.customLayout)"
         @onCustomLayout="(l) => (customLayouts = [l])"
-        ref="customLayoutDialog"></custom-layout-dialog>
+        ref="customLayoutDialog" />
 </template>
 
 <script>
 import draggable from 'vuedraggable'
 import allComps from './components'
-import customLayoutDialog from './dialog/custom-layout-dialog.vue'
-import layout from './components/components/layout.vue'
+import customLayoutDialog from './dialog/custom-layout-dialog'
+import layout from './components/components/layout'
 
 export default {
     components: {

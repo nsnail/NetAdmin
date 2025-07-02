@@ -46,12 +46,12 @@ textarea {
 }
 
 /* 大布局样式 */
-.aminui {
+.admin-ui {
     display: flex;
     flex-flow: column;
 }
 
-.aminui-wrapper {
+.admin-ui-wrapper {
     display: flex;
     flex: 1;
     overflow: auto;
@@ -106,7 +106,7 @@ textarea {
 }
 
 /* 头部 */
-.adminui-header {
+.admin-ui-header {
     height: 4rem;
     background: var(--el-color-white);
     display: flex;
@@ -114,26 +114,26 @@ textarea {
     border-bottom: var(--el-border-color-lighter) 1px solid;
 }
 
-.adminui-header-left {
+.admin-ui-header-left {
     cursor: pointer;
     display: flex;
     align-items: center;
     padding-left: 1rem;
 }
 
-.adminui-header-right {
+.admin-ui-header-right {
     display: flex;
     align-items: center;
 }
 
-.adminui-header .logo-bar {
+.admin-ui-header .logo-bar {
     font-size: 1.5rem;
     font-weight: bold;
     display: flex;
     align-items: center;
 }
 
-.adminui-header .logo-bar .logo {
+.admin-ui-header .logo-bar .logo {
     margin-right: 1rem;
     width: 3rem;
     height: 3rem;
@@ -145,13 +145,13 @@ textarea {
     filter: drop-shadow(var(--el-color-primary) 10000px 0);
 }
 
-.adminui-header .nav {
+.admin-ui-header .nav {
     display: flex;
     height: 100%;
     margin-left: 3rem;
 }
 
-.adminui-header .nav li {
+.admin-ui-header .nav li {
     padding: 0 1rem;
     margin: 0 1rem 0 0;
     font-size: 1.1rem;
@@ -163,18 +163,18 @@ textarea {
     cursor: pointer;
 }
 
-.adminui-header .nav li i {
+.admin-ui-header .nav li i {
     margin-right: 0.3rem;
 }
 
-.adminui-header .nav li:hover {
+.admin-ui-header .nav li:hover {
 }
 
-.adminui-header .nav li.active {
+.admin-ui-header .nav li.active {
     color: var(--el-color-primary);
 }
 
-.adminui-header .user-bar .panel-item:hover {
+.admin-ui-header .user-bar .panel-item:hover {
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -183,7 +183,7 @@ textarea {
 }
 
 /* 左侧菜单 */
-.aminui-side-split {
+.admin-ui-side-split {
     width: 5rem;
     flex-shrink: 0;
     background: var(--el-color-white);
@@ -193,11 +193,11 @@ textarea {
     border-right: var(--el-border-color-lighter) 1px solid;
 }
 
-.aminui-side-split-top {
+.admin-ui-side-split-top {
     height: 4rem;
 }
 
-.aminui-side-split-top a {
+.admin-ui-side-split-top a {
     width: 100%;
     height: 100%;
     display: flex;
@@ -205,19 +205,19 @@ textarea {
     justify-content: center;
 }
 
-.aminui-side-split-top .logo {
+.admin-ui-side-split-top .logo {
     height: 3rem;
     vertical-align: bottom;
 }
 
-.adminui-side-split-scroll {
+.admin-ui-side-split-scroll {
     overflow: auto;
     overflow-x: hidden;
     height: 100%;
     flex: 1;
 }
 
-.aminui-side-split li {
+.admin-ui-side-split li {
     cursor: pointer;
     width: 5rem;
     height: 5rem;
@@ -228,41 +228,41 @@ textarea {
     justify-content: center;
 }
 
-.aminui-side-split li i {
+.admin-ui-side-split li i {
     font-size: 1.5rem;
 }
 
-.aminui-side-split li p {
+.admin-ui-side-split li p {
     margin-top: 0.5rem;
 }
 
-.aminui-side-split li:hover {
+.admin-ui-side-split li:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
-.aminui-side-split li.active {
+.admin-ui-side-split li.active {
     background: var(--el-color-primary);
     color: var(--el-color-white);
 }
 
-.adminui-side-split-scroll::-webkit-scrollbar-thumb {
+.admin-ui-side-split-scroll::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.4);
     border-radius: 0.4rem;
 }
 
-.adminui-side-split-scroll::-webkit-scrollbar-thumb:hover {
+.admin-ui-side-split-scroll::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.adminui-side-split-scroll::-webkit-scrollbar-track {
+.admin-ui-side-split-scroll::-webkit-scrollbar-track {
     background-color: rgba(255, 255, 255, 0);
 }
 
-.adminui-side-split-scroll::-webkit-scrollbar-track:hover {
+.admin-ui-side-split-scroll::-webkit-scrollbar-track:hover {
     background-color: rgba(255, 255, 255, 0);
 }
 
-.aminui-side {
+.admin-ui-side {
     display: flex;
     flex-flow: column;
     flex-shrink: 0;
@@ -272,25 +272,25 @@ textarea {
     transition: width 0.3s;
 }
 
-.adminui-side-top {
+.admin-ui-side-top {
     border-bottom: 1px solid var(--el-border-color-lighter);
     height: 4rem;
     line-height: 4rem;
 }
 
-.adminui-side-top h2 {
+.admin-ui-side-top h2 {
     padding: 0 var(--el-menu-base-level-padding);
     font-size: 1.3rem;
     color: var(--el-text-color-primary);
 }
 
-.adminui-side-scroll {
+.admin-ui-side-scroll {
     overflow: auto;
     overflow-x: hidden;
     flex: 1;
 }
 
-.adminui-side-bottom {
+.admin-ui-side-bottom {
     border-top: 1px solid var(--el-border-color-lighter);
     height: 4rem;
     cursor: pointer;
@@ -299,15 +299,15 @@ textarea {
     justify-content: center;
 }
 
-.adminui-side-bottom i {
+.admin-ui-side-bottom i {
     font-size: 1.3rem;
 }
 
-.adminui-side-bottom:hover {
+.admin-ui-side-bottom:hover {
     color: var(--el-color-primary);
 }
 
-.aminui-side.isCollapse {
+.admin-ui-side.isCollapse {
     width: 5rem;
 }
 
@@ -328,13 +328,13 @@ textarea {
 }
 
 /* 右侧内容 */
-.aminui-body {
+.admin-ui-body {
     flex: 1;
     display: flex;
     flex-flow: column;
 }
 
-.adminui-topbar {
+.admin-ui-topbar {
     height: 3rem;
     border-bottom: 1px solid var(--el-border-color-lighter);
     background: var(--el-color-white);
@@ -342,12 +342,12 @@ textarea {
     justify-content: space-between;
 }
 
-.adminui-topbar .left-panel {
+.admin-ui-topbar .left-panel {
     display: flex;
     align-items: center;
 }
 
-.adminui-topbar .right-panel {
+.admin-ui-topbar .right-panel {
     display: flex;
     align-items: center;
 }
@@ -359,18 +359,18 @@ textarea {
     gap: 0.5rem;
 }
 
-.adminui-tags {
+.admin-ui-tags {
     height: 3rem;
     background: var(--el-color-white);
     border-bottom: 1px solid var(--el-border-color-light);
 }
 
-.adminui-tags ul {
+.admin-ui-tags ul {
     display: flex;
     overflow: hidden;
 }
 
-.adminui-tags li {
+.admin-ui-tags li {
     cursor: pointer;
     display: inline-block;
     height: calc(3rem - 1px);
@@ -379,7 +379,7 @@ textarea {
     flex-shrink: 0;
 }
 
-.adminui-tags li::after {
+.admin-ui-tags li::after {
     content: ' ';
     width: 1px;
     height: 100%;
@@ -388,7 +388,7 @@ textarea {
     background-image: linear-gradient(var(--el-color-white), var(--el-border-color-light));
 }
 
-.adminui-tags li a {
+.admin-ui-tags li a {
     padding: 0 1rem;
     width: 100%;
     height: 100%;
@@ -398,7 +398,7 @@ textarea {
     align-items: center;
 }
 
-.adminui-tags li i {
+.admin-ui-tags li i {
     margin-left: 1rem;
     border-radius: 0.3rem;
     width: 1.3rem;
@@ -408,44 +408,44 @@ textarea {
     justify-content: center;
 }
 
-.adminui-tags li i:hover {
+.admin-ui-tags li i:hover {
     background: rgba(0, 0, 0, 0.2);
     color: var(--el-color-white);
 }
 
-.adminui-tags li:hover {
+.admin-ui-tags li:hover {
     background: var(--el-fill-color-dark);
 }
 
-.adminui-tags li.active {
+.admin-ui-tags li.active {
     background: var(--el-color-primary);
 }
 
-.adminui-tags li.active a {
+.admin-ui-tags li.active a {
     color: var(--el-color-white);
 }
 
-.adminui-tags li.sortable-ghost {
+.admin-ui-tags li.sortable-ghost {
     opacity: 0;
 }
 
-.adminui-main {
+.admin-ui-main {
     overflow: auto;
     background-color: var(--el-bg-color);
     flex: 1;
 }
 
 /*页面最大化*/
-.aminui.main-maximize {
+.admin-ui.main-maximize {
     .main-maximize-exit {
         display: block;
     }
 
-    .aminui-side-split,
-    .aminui-side,
-    .adminui-header,
-    .adminui-topbar,
-    .adminui-tags {
+    .admin-ui-side-split,
+    .admin-ui-side,
+    .admin-ui-header,
+    .admin-ui-topbar,
+    .admin-ui-tags {
         display: none;
     }
 }

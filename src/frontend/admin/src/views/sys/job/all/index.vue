@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('作业状态'),
@@ -52,7 +52,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -78,13 +78,13 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
-                <naButtonBulkDel :api="$API.sys_job.bulkDelete" :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary" />
+                <na-button-bulk-del :api="$API.sys_job.bulkDelete" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -102,7 +102,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :cell-style="
                     (row) => {
                         if (row.column.property === 'lastDuration') {
@@ -144,7 +144,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <naColId :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
+                <na-col-id :label="$t('作业编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('作业名称')" min-width="150" prop="jobName" show-overflow-tooltip sortable="custom">
                     <template #default="{ row }">
                         <p>{{ row.jobName }}</p>
@@ -157,7 +157,7 @@
                         <p>{{ row.executionCron }}</p>
                     </template>
                 </el-table-column>
-                <naColIndicator
+                <na-col-indicator
                     :label="$t('作业状态')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.jobStatues).map((x) => {
@@ -168,7 +168,7 @@
                     prop="status"
                     sortable="custom"
                     width="100" />
-                <naColIndicator
+                <na-col-indicator
                     :label="$t('请求方式')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.httpMethods).map((x) => {
@@ -209,10 +209,10 @@
                 <el-table-column :label="$t('下次执行时间')" align="right" prop="nextExecTime" sortable="custom" width="170" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
-                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)" />
                     </template>
                 </el-table-column>
-                <naColOperation
+                <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat(
                             {
@@ -231,7 +231,7 @@
                     "
                     :vue="this"
                     width="220" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -240,16 +240,16 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent, h } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
-import naIndicator from '@/components/naIndicator'
+import naColOperation from '@/config/na-col-operation'
+import naIndicator from '@/components/na-indicator'
 
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         naIndicator,
@@ -474,4 +474,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />
 <style lang="scss">
 .change-log {
     min-height: 30rem;

@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import naFormPhone from '@/components/naFormPhone'
-import phoneConfig from '@/config/naFormPhone'
+import naFormPhone from '@/components/na-form-phone'
+import phoneConfig from '@/config/na-form-phone'
 
 export default {
     components: {

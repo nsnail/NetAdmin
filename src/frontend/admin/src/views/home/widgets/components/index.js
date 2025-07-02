@@ -1,10 +1,3 @@
-/*
- * @Author: Xujianchen
- * @Date: 2023-02-28 14:12:15
- * @LastEditors: Xujianchen
- * @LastEditTime: 2023-03-18 12:45:04
- * @Description:
- */
 import { markRaw } from 'vue'
 
 const resultComps = {}

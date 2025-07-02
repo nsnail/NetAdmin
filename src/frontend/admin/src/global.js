@@ -4,7 +4,7 @@ import * as elIcons from '@element-plus/icons-vue'
 import * as scIcons from '@/assets/icons'
 import api from '@/api'
 import config from '@/config'
-import errorHandler from '@/utils/errorHandler'
+import errorHandler from '@/utils/error-handler'
 import http from '@/utils/request'
 import tool from '@/utils/tool'
 
@@ -16,7 +16,7 @@ import time from '@/directives/time'
 
 // vue3-json-viewer
 import 'vue3-json-viewer/dist/vue3-json-viewer.css'
-import JsonViewer from 'vue3-json-viewer'
+import jsonViewer from 'vue3-json-viewer'
 
 // VAceEditor
 import ace from 'ace-builds'
@@ -26,19 +26,19 @@ import 'ace-builds/src-noconflict/theme-github_dark' // Load the theme definitio
 import { VAceEditor } from 'vue3-ace-editor'
 
 // sc组件
-import scDialog from '@/components/scDialog'
-import scSelectFilter from '@/components/scSelectFilter'
-import scStatistic from '@/components/scStatistic'
-import scStatusIndicator from '@/components/scMini/scStatusIndicator'
-import scTable from '@/components/scTable'
+import scDialog from '@/components/sc-dialog'
+import scSelectFilter from '@/components/sc-select-filter'
+import scStatistic from '@/components/sc-statistic'
+import scStatusIndicator from '@/components/sc-mini/sc-status-indicator'
+import scTable from '@/components/sc-table'
 
 // net-admin组件
-import naButtonBulkDel from '@/components/naButtonBulkDel'
-import naColId from '@/components/naColId'
-import naColIndicator from '@/components/naColIndicator'
-import naColOperation from '@/components/naColOperation'
-import naColUser from '@/components/naColUser'
-import naSearch from '@/components/naSearch'
+import naButtonBulkDel from '@/components/na-button-bulk-del'
+import naColId from '@/components/na-col-id'
+import naColIndicator from '@/components/na-col-indicator'
+import naColOperation from '@/components/na-col-operation'
+import naColUser from '@/components/na-col-user'
+import naSearch from '@/components/na-search'
 
 export default {
     install(app) {
@@ -65,9 +65,9 @@ export default {
             },
         }
 
-        app.use(JsonViewer)
+        app.use(jsonViewer)
 
-        app.component('VAceEditor', VAceEditor)
+        app.component('vAceEditor', VAceEditor)
 
         // net-admin组件
         app.component('naButtonBulkDel', naButtonBulkDel)
@@ -96,7 +96,7 @@ export default {
         }
         //统一注册sc-icon图标
         for (let icon in scIcons) {
-            app.component(`ScIcon${icon}`, scIcons[icon])
+            app.component(`sc-icon-${icon}`, scIcons[icon])
         }
 
         //关闭async-validator全局控制台警告

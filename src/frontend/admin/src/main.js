@@ -6,9 +6,9 @@ import global from './global'
 import i18n from './locales'
 import router from './router'
 import store from './store'
-import App from './App.vue'
+import App from './app'
 import preload from '@/utils/preload'
-import passiveEventListener from '@/utils/passiveEventListener'
+import passiveEventListener from '@/utils/passive-event-listener'
 
 const app = createApp(App)
 app.use(ElementPlus)

@@ -141,8 +141,8 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                       indexJsFile, Environment.NewLine + tplExport.Replace("$iconName$", req.IconName).Replace(_REPLACE_TO_EMPTY, string.Empty))
                   .ConfigureAwait(false);
 
-        // 修改iconSelect.js
-        var iconSelectFile    = Path.Combine(_clientProjectPath, "src", "config", "iconSelect.js");
+        // 修改icon-select.js
+        var iconSelectFile    = Path.Combine(_clientProjectPath, "src", "config", "icon-select.js");
         var iconSelectContent = await File.ReadAllTextAsync(iconSelectFile).ConfigureAwait(false);
         iconSelectContent = iconSelectContent.Replace("export default", "exportDefault:").Replace("'", "\"");
         iconSelectContent = _regex2.Replace(iconSelectContent, "\"$1\":");

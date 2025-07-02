@@ -28,13 +28,13 @@
         "vue-i18n": "11.1.7",
         "vue-router": "4.5.1",
         "vue3-ace-editor": "2.2.4",
-        "vue3-json-viewer": "2.4.0",
+        "vue3-json-viewer": "2.4.1",
         "vuedraggable": "4.0.3",
         "vuex": "4.1.0"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "6.0.0",
-        "prettier": "3.6.1",
+        "prettier": "3.6.2",
         "prettier-plugin-organize-attributes": "1.0.0",
         "sass": "1.89.2",
         "terser": "5.43.1",

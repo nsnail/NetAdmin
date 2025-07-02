@@ -14,7 +14,7 @@
                         form-name="form" />
                 </el-col>
                 <el-col :lg="10">
-                    <naFormEmail
+                    <na-form-email
                         v-model="form"
                         :code-label="$t('邮箱验证码')"
                         :email-label="$t('邮箱地址')"
@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import naFormPhone from '@/components/naFormPhone'
-import phoneConfig from '@/config/naFormPhone'
-import emailConfig from '@/config/naFormEmail'
+import naFormPhone from '@/components/na-form-phone'
+import phoneConfig from '@/config/na-form-phone'
+import emailConfig from '@/config/na-form-email'
 import { defineAsyncComponent } from 'vue'
-const naFormEmail = defineAsyncComponent(() => import('@/components/naFormEmail'))
+const naFormEmail = defineAsyncComponent(() => import('@/components/na-form-email'))
 export default {
     components: {
         naFormPhone,

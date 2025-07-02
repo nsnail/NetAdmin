@@ -16,7 +16,7 @@
                     </el-button>
                 </el-badge>
             </div>
-            <el-button @click="refresh" circle icon="el-icon-refresh"></el-button>
+            <el-button @click="refresh" circle icon="el-icon-refresh" />
             <div>
                 <el-badge :hidden="jobsCnt === 0" :value="jobsCnt" type="primary">
                     <el-button
@@ -109,24 +109,20 @@
         </el-main>
     </el-container>
 
-    <jobSaveDialog
-        v-if="dialog.jobSave"
-        @closed="dialog.jobSave = null"
-        @mounted="$refs.jobSaveDialog.open(dialog.jobSave)"
-        ref="jobSaveDialog"></jobSaveDialog>
-    <jobRecordSaveDialog
+    <job-save-dialog v-if="dialog.jobSave" @closed="dialog.jobSave = null" @mounted="$refs.jobSaveDialog.open(dialog.jobSave)" ref="jobSaveDialog" />
+    <job-record-save-dialog
         v-if="dialog.jobRecordSave"
         @closed="dialog.jobRecordSave = null"
         @mounted="$refs.jobRecordSaveDialog.open(dialog.jobRecordSave)"
-        ref="jobRecordSaveDialog"></jobRecordSaveDialog>
+        ref="jobRecordSaveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import scPageHeader from '@/components/scPageHeader'
+import scPageHeader from '@/components/sc-page-header'
 
-const jobSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save.vue'))
-const jobRecordSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/record/save.vue'))
+const jobSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save'))
+const jobRecordSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/record/save'))
 
 export default {
     computed: {

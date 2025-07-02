@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('启用状态'),
@@ -72,7 +72,7 @@
                 ]"
                 :label-width="15"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -89,13 +89,13 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
-                <naButtonBulkDel :api="$API.sys_role.bulkDelete" :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary" />
+                <na-button-bulk-del :api="$API.sys_role.bulkDelete" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -113,7 +113,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="['id', 'name', 'sort', 'enabled', 'ignorePermissionControl', 'dataScope', 'displayDashboard', 'createdTime']"
                 :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
@@ -133,7 +133,7 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <naColId :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
+                <na-col-id :label="$t('角色编号')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('角色名称')" min-width="150" prop="name" sortable="custom" />
                 <el-table-column :label="$t('用户数量')" align="right" width="100">
                     <template #default="{ row }">
@@ -145,10 +145,10 @@
                 <el-table-column :label="$t('排序')" align="right" prop="sort" sortable="custom" width="100" />
                 <el-table-column :label="$t('无限权限')" align="center" prop="ignorePermissionControl" sortable="custom" width="100">
                     <template #default="{ row }">
-                        <el-switch v-model="row.ignorePermissionControl" @change="changeIgnorePermissionControl($event, row)"></el-switch>
+                        <el-switch v-model="row.ignorePermissionControl" @change="changeIgnorePermissionControl($event, row)" />
                     </template>
                 </el-table-column>
-                <naColIndicator
+                <na-col-indicator
                     :label="$t('数据范围')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.dataScopes).map((x) => {
@@ -158,20 +158,18 @@
                     align="center"
                     prop="dataScope"
                     sortable="custom"
-                    width="120">
-                </naColIndicator>
-
+                    width="120" />
                 <el-table-column :label="$t('显示仪表板')" align="center" prop="displayDashboard" sortable="custom" width="120">
                     <template #default="{ row }">
-                        <el-switch v-model="row.displayDashboard" @change="changeDisplayDashboard($event, row)"></el-switch>
+                        <el-switch v-model="row.displayDashboard" @change="changeDisplayDashboard($event, row)" />
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
-                        <el-switch v-model="row.enabled" @change="changeEnabled($event, row)"></el-switch>
+                        <el-switch v-model="row.enabled" @change="changeEnabled($event, row)" />
                     </template>
                 </el-table-column>
-                <naColOperation
+                <na-col-operation
                     :buttons="
                         naColOperation.buttons.concat(
                             {
@@ -185,7 +183,7 @@
                     "
                     :vue="this"
                     width="200" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -194,15 +192,15 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
+import naColOperation from '@/config/na-col-operation'
 
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         saveDialog,
@@ -418,4 +416,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

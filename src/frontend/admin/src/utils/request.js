@@ -6,7 +6,7 @@ import router from '@/router'
 import { h } from 'vue'
 import jsonBigInt from 'json-bigint'
 
-import i18 from '@/locales/index'
+import i18 from '@/locales'
 
 axios.defaults.baseURL = ''
 

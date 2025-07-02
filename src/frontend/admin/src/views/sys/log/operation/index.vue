@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('操作结果'),
@@ -54,7 +54,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -110,14 +110,14 @@
                     @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel"></div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="['id', 'httpStatusCode', 'apiPathCrc32', 'ownerId', 'httpMethod', 'duration', 'createdClientIp', 'createdTime']"
                 :context-multi="{ id: ['createdTime'] }"
                 :context-opers="[]"
@@ -132,10 +132,10 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <naColId label="日志编号" prop="id" sortable="custom" width="170" />
+                <na-col-id label="日志编号" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('响应码')" align="center" prop="httpStatusCode" sortable="custom" width="150">
                     <template #default="{ row }">
-                        <scStatusIndicator :type="row.httpStatusCode >= 200 && row.httpStatusCode < 300 ? 'success' : 'danger'" />
+                        <sc-status-indicator :type="row.httpStatusCode >= 200 && row.httpStatusCode < 300 ? 'success' : 'danger'" />
                         {{ row.httpStatusCode }}
                     </template>
                 </el-table-column>
@@ -152,7 +152,7 @@
                     </el-table-column>
                     <el-table-column :label="$t('方法')" align="center" prop="httpMethod" sortable="custom" width="100">
                         <template #default="{ row }">
-                            <scStatusIndicator
+                            <sc-status-indicator
                                 :style="`background: #${Math.abs(this.$TOOL.crypto.hashCode(row.httpMethod)).toString(16).substring(0, 6)}`" />
                             {{ row.httpMethod.toUpperCase() }}
                         </template>
@@ -181,7 +181,7 @@
                                     owners?.find((x) => x.id === row.ownerId)?.avatar ??
                                     $CONFIG.DEFAULT_AVATAR(owners?.find((x) => x.id === row.ownerId)?.userName)
                                 "
-                                size="small"></el-avatar>
+                                size="small" />
                             <div>
                                 <p>{{ owners?.find((x) => x.id === row.ownerId)?.userName }}</p>
                                 <p>{{ owners?.find((x) => x.id === row.ownerId)?.id }}</p>
@@ -197,7 +197,7 @@
                         </template>
                     </template>
                 </el-table-column>
-                <naColOperation
+                <na-col-operation
                     :buttons="[
                         {
                             icon: 'el-icon-view',
@@ -207,24 +207,24 @@
                     ]"
                     :vue="this"
                     width="70" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
-    <na-info v-if="dialog.info" ref="info"></na-info>
+    <na-info v-if="dialog.info" ref="info" />
     <save-dialog
         v-if="dialog.save"
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import http from '@/utils/request'
-const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save.vue'))
-import naInfo from '@/components/naInfo'
+const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save'))
+import naInfo from '@/components/na-info'
 
 export default {
     components: {
@@ -505,4 +505,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

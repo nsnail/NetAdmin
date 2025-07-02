@@ -3,15 +3,15 @@ import { ElNotification } from 'element-plus'
 import config from '@/config'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import systemRouter from './systemRouter'
+import systemRouter from './system-router'
 import userRoutes from '@/config/route'
-import { afterEach, beforeEach } from './scrollBehavior'
+import { afterEach, beforeEach } from './scroll-behavior'
 
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../views/**/*.vue')
 const otherModules = {
-    404: () => import('../layout/other/404.vue'),
-    empty: () => import('../layout/other/empty.vue'),
+    404: () => import('../layout/other/404'),
+    empty: () => import('../layout/other/empty'),
 }
 
 //系统路由
@@ -85,8 +85,8 @@ router.beforeEach(async (to, from, next) => {
     next()
 })
 
-router.afterEach((to, from) => {
-    afterEach(to, from)
+router.afterEach(async (to, from) => {
+    await afterEach(to, from)
     NProgress.done()
 })
 

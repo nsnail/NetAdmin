@@ -1,15 +1,15 @@
 <template>
     <el-card :header="$t('我的常用')" shadow="never">
-        <myapp></myapp>
+        <my-app />
     </el-card>
 </template>
 
 <script>
-import myapp from './components/myapp'
+import myApp from './components/my-app'
 
 export default {
     components: {
-        myapp,
+        myApp,
     },
     data() {
         return {}
@@ -21,4 +21,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

@@ -4,7 +4,7 @@
             :class="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'aie-theme-dark' : 'aie-theme-light'"
             ref="editor"></section>
     </article>
-    <not-found v-else></not-found>
+    <not-found v-else />
 </template>
 
 <script>
@@ -14,7 +14,7 @@ import { defineAsyncComponent } from 'vue'
 import sysConfig from '@/config'
 import tool from '@/utils/tool'
 
-const notFound = defineAsyncComponent(() => import('@/layout/other/404.vue'))
+const notFound = defineAsyncComponent(() => import('@/layout/other/404'))
 
 export default {
     components: { notFound },
