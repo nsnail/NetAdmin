@@ -5,10 +5,11 @@
 </template>
 
 <script>
-import LoginLog from '@/views/sys/log/login'
+import { defineAsyncComponent } from 'vue'
+const loginLog = defineAsyncComponent(() => import('@/views/sys/log/login'))
 
 export default {
-    components: { LoginLog },
+    components: { loginLog },
     data() {
         return {}
     },

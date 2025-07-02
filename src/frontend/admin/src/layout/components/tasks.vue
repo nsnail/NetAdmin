@@ -119,8 +119,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import scPageHeader from '@/components/sc-page-header'
-
+const scPageHeader = defineAsyncComponent(() => import('@/components/sc-page-header'))
 const jobSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save'))
 const jobRecordSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/record/save'))
 

@@ -1,11 +1,11 @@
-import API from '@/api'
-import DEFAULT_CONFIG from '@/config'
+import api from '@/api'
+import defaultConfig from '@/config'
 //文件选择器配置
 
 export default {
-    apiObj: API.common.upload,
-    menuApiObj: API.common.file.menu,
-    listApiObj: API.common.file.list,
+    apiObj: api.common.upload,
+    menuApiObj: api.common.file.menu,
+    listApiObj: api.common.file.list,
     successCode: 200,
     maxSize: 30,
     max: 99,
@@ -43,11 +43,11 @@ export default {
     files: {
         doc: {
             icon: 'sc-icon-file-word-2-fill',
-            color: DEFAULT_CONFIG.APP_SET_COLOR,
+            color: defaultConfig.APP_SET_COLOR,
         },
         docx: {
             icon: 'sc-icon-file-word-2-fill',
-            color: DEFAULT_CONFIG.APP_SET_COLOR,
+            color: defaultConfig.APP_SET_COLOR,
         },
         xls: {
             icon: 'sc-icon-file-excel-2-fill',

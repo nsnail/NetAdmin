@@ -72,12 +72,12 @@
 
 <script>
 import colorTool from '@/utils/color'
-import DEFAULT_CONFIG from '@/config'
+import defaultConfig from '@/config'
 
 export default {
     data() {
         return {
-            colorList: [DEFAULT_CONFIG.APP_SET_COLOR, ...colorTool.colorSets],
+            colorList: [defaultConfig.APP_SET_COLOR, ...colorTool.colorSets],
             config: {
                 layout: this.$TOOL.data.get('APP_SET_LAYOUT') || this.$CONFIG.APP_SET_LAYOUT,
                 menuIsCollapse: this.$TOOL.data.get('APP_SET_MENU_IS_COLLAPSE') || this.$CONFIG.APP_SET_MENU_IS_COLLAPSE,
@@ -85,7 +85,7 @@ export default {
                 layoutTags: this.$TOOL.data.get('APP_SET_MULTI_TAGS') || this.$CONFIG.APP_SET_MULTI_TAGS,
                 lang: this.$TOOL.data.get('APP_SET_LANG') || this.$CONFIG.APP_SET_LANG,
                 dark: this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK,
-                colorPrimary: this.$TOOL.data.get('APP_SET_COLOR') || this.$CONFIG.APP_SET_COLOR || DEFAULT_CONFIG.APP_SET_COLOR,
+                colorPrimary: this.$TOOL.data.get('APP_SET_COLOR') || this.$CONFIG.APP_SET_COLOR || defaultConfig.APP_SET_COLOR,
                 autoExit: this.$TOOL.data.get('APP_SET_AUTO_EXIT') || this.$CONFIG.APP_SET_AUTO_EXIT,
             },
         }
@@ -137,8 +137,8 @@ export default {
         },
         'config.colorPrimary'(val) {
             if (!val) {
-                val = DEFAULT_CONFIG.APP_SET_COLOR
-                this.config.colorPrimary = DEFAULT_CONFIG.APP_SET_COLOR
+                val = defaultConfig.APP_SET_COLOR
+                this.config.colorPrimary = defaultConfig.APP_SET_COLOR
             }
             document.documentElement.style.setProperty('--el-color-primary', val)
             for (let i = 1; i <= 9; i++) {

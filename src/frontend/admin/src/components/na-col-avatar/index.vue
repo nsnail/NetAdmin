@@ -16,7 +16,7 @@
 }
 </style>
 <script>
-import tool from '../../utils/tool'
+import tool from '@/utils/tool'
 
 export default {
     emits: [],

@@ -224,11 +224,9 @@
 import { defineAsyncComponent } from 'vue'
 import http from '@/utils/request'
 const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save'))
-import naInfo from '@/components/na-info'
 
 export default {
     components: {
-        naInfo,
         saveDialog,
     },
     computed: {},

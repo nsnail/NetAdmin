@@ -180,13 +180,11 @@
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
 import naColOperation from '@/config/na-col-operation'
-import naIndicator from '@/components/na-indicator'
 
 const saveDialog = defineAsyncComponent(() => import('./save'))
 const jobDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save'))
 export default {
     components: {
-        naIndicator,
         saveDialog,
         jobDialog,
     },

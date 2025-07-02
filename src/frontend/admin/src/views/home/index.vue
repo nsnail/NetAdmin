@@ -21,8 +21,8 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 
-const work = defineAsyncComponent(() => import('./work'))
-const widgets = defineAsyncComponent(() => import('./widgets'))
+const work = defineAsyncComponent(() => import('@/views/home/work'))
+const widgets = defineAsyncComponent(() => import('@/views/home/widgets'))
 
 export default {
     components: {

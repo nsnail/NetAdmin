@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import myApp from './components/my-app'
+import { defineAsyncComponent } from 'vue'
+const myApp = defineAsyncComponent(() => import('./components/my-app'))
 
 export default {
     components: {

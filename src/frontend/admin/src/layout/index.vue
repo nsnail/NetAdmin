@@ -217,13 +217,14 @@
 </template>
 
 <script>
-import sideM from './components/side-m'
-import topbar from './components/topbar'
-import tags from './components/tags'
-import navMenu from './components/nav-menu'
-import userBar from './components/user-bar'
-import iframeView from './components/iframe-view'
-import autoExit from './other/auto-exit'
+import { defineAsyncComponent } from 'vue'
+const sideM = defineAsyncComponent(() => import('./components/side-m'))
+const topbar = defineAsyncComponent(() => import('./components/topbar'))
+const tags = defineAsyncComponent(() => import('./components/tags'))
+const navMenu = defineAsyncComponent(() => import('./components/nav-menu'))
+const userBar = defineAsyncComponent(() => import('./components/user-bar'))
+const iframeView = defineAsyncComponent(() => import('./components/iframe-view'))
+const autoExit = defineAsyncComponent(() => import('./other/auto-exit'))
 
 export default {
     name: 'index',

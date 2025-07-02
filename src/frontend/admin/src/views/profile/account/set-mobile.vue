@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import naFormPhone from '@/components/na-form-phone'
+import { defineAsyncComponent } from 'vue'
+const naFormPhone = defineAsyncComponent(() => import('@/components/na-form-phone'))
 import phoneConfig from '@/config/na-form-phone'
 
 export default {

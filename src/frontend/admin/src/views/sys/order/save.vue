@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import QRCode from 'qrcode-svg'
+import qrCode from 'qrcode-svg'
 
 export default {
     computed: {},
@@ -164,7 +164,7 @@ export default {
                 const res = await this.$API.sys_depositorder.get.post({ id: data.row.id })
                 if (res.data) {
                     Object.assign(this.form, res.data)
-                    this.form.receiptAccountQrCode = new QRCode(this.form.receiptAccount).svg()
+                    this.form.receiptAccountQrCode = new qrCode(this.form.receiptAccount).svg()
                     this.loading = false
                     return this
                 }

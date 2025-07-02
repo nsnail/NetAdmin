@@ -35,11 +35,12 @@
 </template>
 
 <script>
-import commonPage from './components/common-page'
+import { defineAsyncComponent } from 'vue'
+const commonPage = defineAsyncComponent(() => import('@/views/guest/components/common-page'))
+const naFormPhone = defineAsyncComponent(() => import('@/components/na-form-phone'))
+const scPasswordStrength = defineAsyncComponent(() => import('@/components/sc-password-strength'))
 import naFormPassword from '@/config/na-form-password'
-import naFormPhone from '@/components/na-form-phone'
 import phoneConfig from '@/config/na-form-phone'
-import scPasswordStrength from '@/components/sc-password-strength'
 
 export default {
     components: {

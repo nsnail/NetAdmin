@@ -52,7 +52,8 @@
 </template>
 
 <script>
-import columnSet from './column'
+import { defineAsyncComponent } from 'vue'
+const columnSet = defineAsyncComponent(() => import('@/components/sc-file-export/column'))
 
 export default {
     components: {

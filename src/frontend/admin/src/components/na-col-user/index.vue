@@ -16,7 +16,8 @@
     </el-table-column>
 </template>
 <script>
-import saveDialog from '@/views/sys/user/save'
+import { defineAsyncComponent } from 'vue'
+const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save'))
 
 export default {
     components: { saveDialog },

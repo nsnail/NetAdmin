@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js'
+import cryptoJS from 'crypto-js'
 import sysConfig from '@/config'
 
 import dayjs from 'dayjs'
@@ -430,15 +430,15 @@ tool.crypto = {
 
     //MD5加密
     MD5(data) {
-        return CryptoJS.MD5(data).toString()
+        return cryptoJS.MD5(data).toString()
     },
     //BASE64加解密
     BASE64: {
         encrypt(data) {
-            return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data))
+            return cryptoJS.enc.Base64.stringify(cryptoJS.enc.Utf8.parse(data))
         },
         decrypt(cipher) {
-            return CryptoJS.enc.Base64.parse(cipher).toString(CryptoJS.enc.Utf8)
+            return cryptoJS.enc.Base64.parse(cipher).toString(cryptoJS.enc.Utf8)
         },
     },
     //AES加解密
@@ -447,20 +447,20 @@ tool.crypto = {
             if (secretKey.length % 8 !== 0) {
                 console.warn('[error]: 秘钥长度需为8的倍数，否则解密将会失败。')
             }
-            const result = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(secretKey), {
-                iv: CryptoJS.enc.Utf8.parse(config.iv || ''),
-                mode: CryptoJS.mode[config.mode || 'ECB'],
-                padding: CryptoJS.pad[config.padding || 'Pkcs7'],
+            const result = cryptoJS.AES.encrypt(data, cryptoJS.enc.Utf8.parse(secretKey), {
+                iv: cryptoJS.enc.Utf8.parse(config.iv || ''),
+                mode: cryptoJS.mode[config.mode || 'ECB'],
+                padding: cryptoJS.pad[config.padding || 'Pkcs7'],
             })
             return result.toString()
         },
         decrypt(cipher, secretKey, config = {}) {
-            const result = CryptoJS.AES.decrypt(cipher, CryptoJS.enc.Utf8.parse(secretKey), {
-                iv: CryptoJS.enc.Utf8.parse(config.iv || ''),
-                mode: CryptoJS.mode[config.mode || 'ECB'],
-                padding: CryptoJS.pad[config.padding || 'Pkcs7'],
+            const result = cryptoJS.AES.decrypt(cipher, cryptoJS.enc.Utf8.parse(secretKey), {
+                iv: cryptoJS.enc.Utf8.parse(config.iv || ''),
+                mode: cryptoJS.mode[config.mode || 'ECB'],
+                padding: cryptoJS.pad[config.padding || 'Pkcs7'],
             })
-            return CryptoJS.enc.Utf8.stringify(result)
+            return cryptoJS.enc.Utf8.stringify(result)
         },
     },
 }

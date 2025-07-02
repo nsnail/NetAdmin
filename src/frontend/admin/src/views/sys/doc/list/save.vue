@@ -49,7 +49,7 @@ import { defineAsyncComponent } from 'vue'
 import { AiEditor } from 'aieditor'
 import 'aieditor/dist/style.css'
 import sysConfig from '@/config'
-const catalogSelect = defineAsyncComponent(() => import('../components/catalog-select'))
+const catalogSelect = defineAsyncComponent(() => import('@/views/sys/doc/components/catalog-select'))
 export default {
     components: { catalogSelect },
     data() {

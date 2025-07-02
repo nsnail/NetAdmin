@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import NProgress from 'nprogress'
+import nProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import router from '@/router'
 import store from '@/store'
@@ -7,14 +7,14 @@ import store from '@/store'
 export default {
     //刷新标签
     refresh() {
-        NProgress.start()
+        nProgress.start()
         const route = router.currentRoute.value
         store.commit('removeKeepLive', route.name)
         store.commit('setRouteShow', false)
         nextTick(() => {
             store.commit('pushKeepLive', route.name)
             store.commit('setRouteShow', true)
-            NProgress.done()
+            nProgress.done()
         })
     },
     //关闭标签

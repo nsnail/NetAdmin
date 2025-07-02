@@ -35,10 +35,10 @@
 </template>
 
 <script>
-import naFormPhone from '@/components/na-form-phone'
+import { defineAsyncComponent } from 'vue'
 import phoneConfig from '@/config/na-form-phone'
 import emailConfig from '@/config/na-form-email'
-import { defineAsyncComponent } from 'vue'
+const naFormPhone = defineAsyncComponent(() => import('@/components/na-form-phone'))
 const naFormEmail = defineAsyncComponent(() => import('@/components/na-form-email'))
 export default {
     components: {

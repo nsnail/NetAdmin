@@ -18,7 +18,7 @@
         <div v-auth="'system/job/user-bar'" @click="tasks" class="tasks panel-item">
             <el-badge :hidden="failJobCnt === 0" :value="failJobCnt">
                 <el-icon>
-                    <sc-icon-ScheduledJob />
+                    <sc-icon-scheduled-job />
                 </el-icon>
             </el-badge>
         </div>
@@ -81,9 +81,9 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import avatar from '../../utils/avatar'
-const search = defineAsyncComponent(() => import('./search'))
-const tasks = defineAsyncComponent(() => import('./tasks'))
+import avatar from '@/utils/avatar'
+const search = defineAsyncComponent(() => import('@/layout/components/search'))
+const tasks = defineAsyncComponent(() => import('@/layout/components/tasks'))
 const message = defineAsyncComponent(() => import('@/views/profile/message/components/list'))
 export default {
     components: {

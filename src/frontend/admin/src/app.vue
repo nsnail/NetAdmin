@@ -7,11 +7,11 @@
 
 <script>
 import colorTool from '@/utils/color'
-import naVersionUpdater from '@/components/na-version-updater'
-import UseTabs from '@/utils/use-tabs'
+import { defineAsyncComponent } from 'vue'
+const naVersionUpdater = defineAsyncComponent(() => import('@/components/na-version-updater'))
+import useTabs from '@/utils/use-tabs'
 
 export default {
-    name: 'App',
     components: { naVersionUpdater },
     provide() {
         return {
@@ -121,9 +121,9 @@ export default {
             } else if (e.altKey) {
                 if (e.keyCode === 81) {
                     if (e.ctrlKey) {
-                        UseTabs.closeOther()
+                        useTabs.closeOther()
                     } else {
-                        UseTabs.close()
+                        useTabs.close()
                     }
                 } else if (e.keyCode === 65) {
                     document.getElementsByClassName('user-bar-btn-search')[0]?.dispatchEvent(

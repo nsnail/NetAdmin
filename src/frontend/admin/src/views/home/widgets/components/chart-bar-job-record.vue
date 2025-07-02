@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import ChartBar from '@/views/home/widgets/components/components/chart-bar'
+import { defineAsyncComponent } from 'vue'
+const chartBar = defineAsyncComponent(() => import('./components/chart-bar'))
 import tool from '@/utils/tool'
 
 export default {
@@ -33,7 +34,7 @@ export default {
     icon: 'el-icon-data-line',
     description: '作业趋势(Today)',
     components: {
-        ChartBar,
+        chartBar,
     },
     data() {
         return {}

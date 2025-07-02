@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import Sortable from 'sortablejs'
+import sortable from 'sortablejs'
 
 export default {
     components: {
-        Sortable,
+        sortable,
     },
     props: {
         column: {
@@ -72,7 +72,7 @@ export default {
         rowDrop() {
             const _this = this
             const tbody = this.$refs.list.querySelector('ul')
-            Sortable.create(tbody, {
+            sortable.create(tbody, {
                 handle: '.move',
                 animation: 300,
                 ghostClass: 'ghost',

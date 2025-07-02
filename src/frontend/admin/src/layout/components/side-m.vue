@@ -24,8 +24,9 @@
 </template>
 
 <script>
-import navMenu from './nav-menu'
-import DEFAULT_CONFIG from '@/config'
+import { defineAsyncComponent } from 'vue'
+const navMenu = defineAsyncComponent(() => import('./nav-menu'))
+import defaultConfig from '@/config'
 
 export default {
     components: {
@@ -38,8 +39,8 @@ export default {
         }
     },
     computed: {
-        DEFAULT_CONFIG() {
-            return DEFAULT_CONFIG
+        defaultConfig() {
+            return defaultConfig
         },
     },
     created() {

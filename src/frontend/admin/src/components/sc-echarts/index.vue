@@ -4,7 +4,7 @@
 
 <script>
 import * as echarts from 'echarts'
-import t from './echarts-theme-t.js'
+import t from '@/components/sc-echarts/echarts-theme-t.js'
 const unwarp = (obj) => obj && (obj.__v_raw || obj.valueOf() || obj)
 
 export default {

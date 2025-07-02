@@ -1,4 +1,4 @@
-import API from '@/api'
+import api from '@/api'
 
 //审批工作流人员/组织选择器配置
 
@@ -8,7 +8,7 @@ export default {
     //配置组织
     group: {
         //请求接口对象
-        apiObj: API.system.dept.list,
+        apiObj: api.system.dept.list,
         //接受数据字段映射
         parseData: function (res) {
             return {
@@ -26,7 +26,7 @@ export default {
     },
     //配置用户
     user: {
-        apiObj: API.demo.page,
+        apiObj: api.demo.page,
         pageSize: 20,
         parseData: function (res) {
             return {
@@ -50,7 +50,7 @@ export default {
     //配置角色
     role: {
         //请求接口对象
-        apiObj: API.system.dept.list,
+        apiObj: api.system.dept.list,
         //接受数据字段映射
         parseData: function (res) {
             return {
