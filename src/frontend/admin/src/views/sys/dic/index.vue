@@ -56,8 +56,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import list from './list'
-
+const list = defineAsyncComponent(() => import('./list'))
 const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {

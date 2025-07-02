@@ -4,8 +4,8 @@
     </el-card>
 </template>
 <script>
-import list from '@/views/profile/message/components/list'
-
+import { defineAsyncComponent } from 'vue'
+const list = defineAsyncComponent(() => import('./components/list'))
 export default {
     components: {
         list,

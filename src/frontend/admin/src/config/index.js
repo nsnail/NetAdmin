@@ -1,9 +1,9 @@
-import MY_CONFIG from './my-config'
-import APP_CONFIG from './app-config'
+import myConfig from '@/config/my-config'
+import appConfig from '@/config/app-config'
 import avatar from '@/utils/avatar'
 import tool from '@/utils/tool'
 
-const DEFAULT_CONFIG = {
+const defaultConfig = {
     //标题
     APP_NAME: 'NetAdmin',
 
@@ -81,12 +81,12 @@ const DEFAULT_CONFIG = {
 }
 
 //合并业务配置
-Object.assign(DEFAULT_CONFIG, MY_CONFIG)
+Object.assign(defaultConfig, myConfig)
 
-// 如果生产模式，就合并动态的APP_CONFIG
+// 如果生产模式，就合并动态的appConfig
 // public/config.js
 if (import.meta.env.MODE === 'production' || import.meta.env.MODE === 'test') {
-    Object.assign(DEFAULT_CONFIG, APP_CONFIG)
+    Object.assign(defaultConfig, appConfig)
 }
 
-export default DEFAULT_CONFIG
+export default defaultConfig

@@ -170,10 +170,13 @@
 </template>
 <script>
 import config from '@/config/table'
-import columnSetting from './column-setting'
-import scContextmenuItem from '@/components/sc-context-menu/item'
-import scContextmenu from '@/components/sc-context-menu'
-import fieldFilter from './field-filter'
+import { defineAsyncComponent } from 'vue'
+
+const columnSetting = defineAsyncComponent(() => import('./column-setting'))
+const scContextmenuItem = defineAsyncComponent(() => import('@/components/sc-context-menu/item'))
+const scContextmenu = defineAsyncComponent(() => import('@/components/sc-context-menu'))
+const fieldFilter = defineAsyncComponent(() => import('./field-filter'))
+
 import { h } from 'vue'
 import tool from '@/utils/tool'
 

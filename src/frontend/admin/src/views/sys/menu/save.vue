@@ -77,7 +77,8 @@
 </template>
 
 <script>
-import scIconSelect from '@/components/sc-icon-select'
+import { defineAsyncComponent } from 'vue'
+const scIconSelect = defineAsyncComponent(() => import('@/components/sc-icon-select'))
 
 export default {
     components: { scIconSelect },

@@ -51,8 +51,9 @@
 </template>
 
 <script>
-import passwordForm from './components/password-form'
-import phoneForm from './components/phone-form'
+import { defineAsyncComponent } from 'vue'
+const passwordForm = defineAsyncComponent(() => import('./components/password-form'))
+const phoneForm = defineAsyncComponent(() => import('./components/phone-form'))
 import $CONFIG from '@/config'
 
 export default {

@@ -35,7 +35,7 @@
  * Verify 验证码组件
  * @description 分发验证码使用
  * */
-import slide from './slide'
+import slide from '@/components/na-verifition/slide'
 import { computed, ref, toRefs, watchEffect } from 'vue'
 
 export default {

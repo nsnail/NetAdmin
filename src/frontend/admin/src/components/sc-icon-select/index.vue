@@ -48,7 +48,7 @@
 
 <script>
 import config from '@/config/icon-select'
-import { error } from '../../assets/icons'
+import { error } from '@/assets/icon'
 
 export default {
     computed: {

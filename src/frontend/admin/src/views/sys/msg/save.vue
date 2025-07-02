@@ -74,7 +74,7 @@
 <script>
 import { AiEditor } from 'aieditor'
 import 'aieditor/dist/style.css'
-import sysConfig from '../../../config'
+import sysConfig from '@/config'
 import { defineAsyncComponent } from 'vue'
 const naDept = defineAsyncComponent(() => import('@/components/na-dept'))
 const naUserSelect = defineAsyncComponent(() => import('@/components/na-user-select'))

@@ -120,8 +120,9 @@
 <script>
 import draggable from 'vuedraggable'
 import allComps from './components'
-import customLayoutDialog from './dialog/custom-layout-dialog'
-import layout from './components/components/layout'
+import { defineAsyncComponent } from 'vue'
+const customLayoutDialog = defineAsyncComponent(() => import('./dialog/custom-layout-dialog'))
+const layout = defineAsyncComponent(() => import('./components/components/layout'))
 
 export default {
     components: {

@@ -108,12 +108,8 @@
 </template>
 
 <script>
-import naInfo from '@/components/na-info'
-
 export default {
-    components: {
-        naInfo,
-    },
+    components: {},
     data() {
         return {
             selection: [],

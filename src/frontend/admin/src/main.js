@@ -1,24 +1,24 @@
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
+import elementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
-import global from './global'
-import i18n from './locales'
-import router from './router'
-import store from './store'
-import App from './app'
+import global from '@/global'
+import i18n from '@/locales'
+import router from '@/router'
+import store from '@/store'
+import app from '@/app'
 import preload from '@/utils/preload'
 import passiveEventListener from '@/utils/passive-event-listener'
 
-const app = createApp(App)
-app.use(ElementPlus)
-app.use(store)
-app.use(i18n)
-app.use(global)
-app.use(passiveEventListener)
+const appInstance = createApp(app)
+appInstance.use(elementPlus)
+appInstance.use(store)
+appInstance.use(i18n)
+appInstance.use(global)
+appInstance.use(passiveEventListener)
 
-preload.install(app).then(() => {
-    app.use(router)
-    //挂载app
-    app.mount('#app')
+preload.install(appInstance).then(() => {
+    appInstance.use(router)
+    //挂载appInstance
+    appInstance.mount('#app')
 })

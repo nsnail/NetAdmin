@@ -58,7 +58,8 @@
     </el-container>
 </template>
 <script>
-import save from './save'
+import { defineAsyncComponent } from 'vue'
+const save = defineAsyncComponent(() => import('./save'))
 
 export default {
     components: { save },

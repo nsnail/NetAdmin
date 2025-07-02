@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import scPasswordStrength from '@/components/sc-password-strength'
-import naFormPassword from '@/config/na-form-password'
+import { defineAsyncComponent } from 'vue'
+const scPasswordStrength = defineAsyncComponent(() => import('@/components/sc-password-strength'))
+const naFormPassword = defineAsyncComponent(() => import('@/config/na-form-password'))
 
 export default {
     components: {

@@ -1,4 +1,4 @@
-import Api from '@/api'
+import api from '@/api'
 import tool from '@/utils/tool'
 
 export default {
@@ -6,35 +6,35 @@ export default {
         const preloads = await Promise.all([
             (async () => {
                 try {
-                    return await Api.sys_menu.userMenus.post()
+                    return await api.sys_menu.userMenus.post()
                 } catch {
                     //
                 }
             })(),
             (async () => {
                 try {
-                    return await Api.sys_user.userInfo.post()
+                    return await api.sys_user.userInfo.post()
                 } catch {
                     //
                 }
             })(),
             (async () => {
                 try {
-                    return await Api.sys_constant.getEnums.post()
+                    return await api.sys_constant.getEnums.post()
                 } catch {
                     //
                 }
             })(),
             (async () => {
                 try {
-                    return await Api.sys_constant.getNumbers.post()
+                    return await api.sys_constant.getNumbers.post()
                 } catch {
                     //
                 }
             })(),
             (async () => {
                 try {
-                    return await Api.sys_constant.getChars.post()
+                    return await api.sys_constant.getChars.post()
                 } catch {
                     //
                 }

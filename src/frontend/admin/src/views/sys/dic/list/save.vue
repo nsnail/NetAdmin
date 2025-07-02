@@ -38,7 +38,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-const catalogSelect = defineAsyncComponent(() => import('../components/catalog-select'))
+const catalogSelect = defineAsyncComponent(() => import('@/views/sys/dic/components/catalog-select'))
 export default {
     components: { catalogSelect },
     data() {

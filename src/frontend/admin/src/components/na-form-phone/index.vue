@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import naVerify from '@/components/na-verifition'
+import { defineAsyncComponent } from 'vue'
+const naVerify = defineAsyncComponent(() => import('@/components/na-verifition'))
 
 export default {
     emits: [],

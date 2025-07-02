@@ -151,13 +151,10 @@
 </template>
 
 <script>
-import naInfo from '@/components/na-info'
 import http from '@/utils/request'
 
 export default {
-    components: {
-        naInfo,
-    },
+    components: {},
     computed: {},
     created() {
         if (this.ownerId) {

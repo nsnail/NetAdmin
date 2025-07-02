@@ -1,7 +1,7 @@
 // noinspection ES6UnusedImports
 
 import * as elIcons from '@element-plus/icons-vue'
-import * as scIcons from '@/assets/icons'
+import * as scIcons from '@/assets/icon'
 import api from '@/api'
 import config from '@/config'
 import errorHandler from '@/utils/error-handler'
@@ -38,7 +38,9 @@ import naColId from '@/components/na-col-id'
 import naColIndicator from '@/components/na-col-indicator'
 import naColOperation from '@/components/na-col-operation'
 import naColUser from '@/components/na-col-user'
+import naIndicator from '@/components/na-indicator'
 import naSearch from '@/components/na-search'
+import naInfo from '@/components/na-info'
 
 export default {
     install(app) {
@@ -75,6 +77,8 @@ export default {
         app.component('naColIndicator', naColIndicator)
         app.component('naColOperation', naColOperation)
         app.component('naColUser', naColUser)
+        app.component('naIndicator', naIndicator)
+        app.component('naInfo', naInfo)
         app.component('naSearch', naSearch)
 
         // sc组件

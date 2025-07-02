@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import ChartPie from '@/views/home/widgets/components/components/chart-pie'
+import { defineAsyncComponent } from 'vue'
+const chartPie = defineAsyncComponent(() => import('./components/chart-pie'))
 import tool from '@/utils/tool'
 
 export default {
@@ -33,7 +34,7 @@ export default {
     icon: 'el-icon-data-line',
     description: '作业分布(Today)',
     components: {
-        ChartPie,
+        chartPie,
     },
     data() {
         return {}

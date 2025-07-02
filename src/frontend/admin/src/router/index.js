@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import config from '@/config'
-import NProgress from 'nprogress'
+import nProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import systemRouter from './system-router'
+import systemRouter from '@/router/system-router'
 import userRoutes from '@/config/route'
-import { afterEach, beforeEach } from './scroll-behavior'
+import { afterEach, beforeEach } from '@/router/scroll-behavior'
 
 // 匹配views里面所有的.vue文件
-const modules = import.meta.glob('./../views/**/*.vue')
+const modules = import.meta.glob('@/views/**/*.vue')
 const otherModules = {
-    404: () => import('../layout/other/404'),
-    empty: () => import('../layout/other/empty'),
+    404: () => import('@/layout/other/404'),
+    empty: () => import('@/layout/other/empty'),
 }
 
 //系统路由
@@ -37,7 +37,7 @@ document.title = config.APP_NAME
 let isGetRouter = false
 
 router.beforeEach(async (to, from, next) => {
-    NProgress.start()
+    nProgress.start()
     //动态标题
     document.title = to.meta.title ? `${to.meta.title} - ${config.APP_NAME}` : `${config.APP_NAME}`
 
@@ -87,11 +87,11 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach(async (to, from) => {
     await afterEach(to, from)
-    NProgress.done()
+    nProgress.done()
 })
 
 router.onError((error) => {
-    NProgress.done()
+    nProgress.done()
     ElNotification.error({
         title: '路由错误',
         message: error.message,

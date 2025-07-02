@@ -7,7 +7,6 @@
     </el-table-column>
 </template>
 <script>
-import naIndicator from '@/components/na-indicator'
 export default {
     emits: [],
     props: {
@@ -18,7 +17,7 @@ export default {
     },
     mounted() {},
     created() {},
-    components: { naIndicator },
+    components: {},
     computed: {},
     methods: {},
 }

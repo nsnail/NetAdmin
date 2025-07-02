@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import Sortable from 'sortablejs'
+import sortable from 'sortablejs'
 
 export default {
     name: 'tags',
@@ -145,7 +145,7 @@ export default {
         //标签拖拽排序
         tagDrop() {
             const target = this.$refs.tags
-            Sortable.create(target, {
+            sortable.create(target, {
                 draggable: 'li',
                 animation: 300,
             })

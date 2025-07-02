@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Sortable from 'sortablejs'
+import sortable from 'sortablejs'
 
 export default {
     props: {
@@ -75,7 +75,7 @@ export default {
         rowDrop() {
             const _this = this
             const tbody = this.$refs.table.$el.querySelector('.el-table__body-wrapper tbody')
-            Sortable.create(tbody, {
+            sortable.create(tbody, {
                 handle: '.move',
                 animation: 300,
                 ghostClass: 'ghost',

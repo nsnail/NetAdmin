@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import scEcharts from '@/components/sc-echarts'
+import { defineAsyncComponent } from 'vue'
+const scEcharts = defineAsyncComponent(() => import('@/components/sc-echarts'))
 
 export default {
     components: {
