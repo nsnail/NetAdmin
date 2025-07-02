@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('启用状态'),
@@ -38,7 +38,7 @@
                 ]"
                 :label-width="9"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -55,16 +55,13 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button
-                    @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
-                    icon="el-icon-plus"
-                    type="primary"></el-button>
-                <naButtonBulkDel :api="$API.sys_doc.bulkDeleteContent" :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }" icon="el-icon-plus" type="primary" />
+                <na-button-bulk-del :api="$API.sys_doc.bulkDeleteContent" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -82,7 +79,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :context-menus="['title', 'enabled', 'createdTime', 'id', 'visibility']"
                 :context-multi="{ id: ['createdTime'] }"
@@ -102,9 +99,9 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <naColId :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
+                <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('文档标题')" min-width="200" prop="title" sortable="custom" />
-                <naColIndicator
+                <na-col-indicator
                     :label="$t('档案可见性')"
                     :options="
                         Object.entries(this.$GLOBAL.enums.archiveVisibilities).map((x) => {
@@ -117,10 +114,10 @@
                     width="150" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
-                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)" />
                     </template>
                 </el-table-column>
-                <naColOperation
+                <na-col-operation
                     :buttons="[
                         {
                             icon: 'el-icon-view',
@@ -143,7 +140,7 @@
                     ]"
                     :vue="this"
                     width="180" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -152,15 +149,15 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
+import naColOperation from '@/config/na-col-operation'
 
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         saveDialog,
@@ -318,4 +315,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

@@ -3,7 +3,7 @@ import config from '@/config'
 export default {
     state: {
         //移动端布局
-        ismobile: false,
+        isMobile: false,
         //布局
         layout: config.APP_SET_LAYOUT,
         //菜单是否折叠 toggle
@@ -14,8 +14,8 @@ export default {
         theme: config.THEME,
     },
     mutations: {
-        SET_ismobile(state, key) {
-            state.ismobile = key
+        SET_isMobile(state, key) {
+            state.isMobile = key
         },
         SET_layout(state, key) {
             state.layout = key

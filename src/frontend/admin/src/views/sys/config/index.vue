@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('启用状态'),
@@ -24,7 +24,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -34,13 +34,13 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
-                <naButtonBulkDel :api="$API.sys_config.bulkDelete" :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary" />
+                <na-button-bulk-del :api="$API.sys_config.bulkDelete" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -58,7 +58,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="['id', 'userRegisterConfirm', 'userRegisterDept.name', 'userRegisterRole.name', 'enabled', 'createdTime']"
                 :context-multi="{ id: ['createdTime'] }"
                 :export-api="$API.sys_config.export"
@@ -75,23 +75,23 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <naColId :label="$t('配置编号')" min-width="170" prop="id" />
+                <na-col-id :label="$t('配置编号')" min-width="170" prop="id" />
                 <el-table-column :label="$t('用户注册')" align="center">
                     <el-table-column :label="$t('默认部门')" align="center" prop="userRegisterDept.name" width="150" />
                     <el-table-column :label="$t('默认角色')" align="center" prop="userRegisterRole.name" width="150" />
                     <el-table-column :label="$t('人工审核')" align="center" prop="userRegisterConfirm" width="100">
                         <template #default="{ row }">
-                            <el-switch v-model="row.userRegisterConfirm" @change="changeSwitch($event, row)"></el-switch>
+                            <el-switch v-model="row.userRegisterConfirm" @change="changeSwitch($event, row)" />
                         </template>
                     </el-table-column>
                     <el-table-column :label="$t('邀请注册')" align="center" prop="registerInviteRequired" width="100">
                         <template #default="{ row }">
-                            <el-switch v-model="row.registerInviteRequired" @change="changeSwitch($event, row)"></el-switch>
+                            <el-switch v-model="row.registerInviteRequired" @change="changeSwitch($event, row)" />
                         </template>
                     </el-table-column>
                     <el-table-column :label="$t('手机注册')" align="center" prop="registerMobileRequired" width="100">
                         <template #default="{ row }">
-                            <el-switch v-model="row.registerMobileRequired" @change="changeSwitch($event, row)"></el-switch>
+                            <el-switch v-model="row.registerMobileRequired" @change="changeSwitch($event, row)" />
                         </template>
                     </el-table-column>
                 </el-table-column>
@@ -102,14 +102,14 @@
                 </el-table-column>
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
-                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)" />
                     </template>
                 </el-table-column>
-                <naColOperation
+                <na-col-operation
                     :buttons="naColOperation.buttons.concat(naColOperation.delButton(this.$t('删除配置'), $API.sys_config.delete))"
                     :vue="this"
                     width="120" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -118,15 +118,15 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => $refs.table.upData()"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
+import naColOperation from '@/config/na-col-operation'
 
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         saveDialog,
@@ -269,4 +269,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

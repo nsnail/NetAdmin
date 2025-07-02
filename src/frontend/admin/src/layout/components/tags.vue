@@ -1,5 +1,5 @@
 <template>
-    <div class="adminui-tags">
+    <div class="admin-ui-tags">
         <ul ref="tags">
             <li
                 v-bind:key="tag"
@@ -72,7 +72,7 @@ export default {
             contextMenuItem: null,
             left: 0,
             top: 0,
-            tagList: this.$store.state.viewTags.viewTags,
+            tagList: this.$store.state['view-tags']['view-tags'],
             tipDisplayed: false,
         }
     },

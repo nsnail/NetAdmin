@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('启用状态'),
@@ -24,7 +24,7 @@
                 ]"
                 :label-width="9"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -41,16 +41,13 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button
-                    @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }"
-                    icon="el-icon-plus"
-                    type="primary"></el-button>
-                <naButtonBulkDel :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
+                <el-button @click="this.dialog.save = { mode: 'add', data: { catalogId: this.catalogId } }" icon="el-icon-plus" type="primary" />
+                <na-button-bulk-del :api="$API.sys_dic.bulkDeleteContent" :vue="this" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -62,7 +59,7 @@
                         <el-dropdown-menu>
                             <el-dropdown-item @click="setEnabled(true)">{{ $t('启用') }}</el-dropdown-item>
                             <el-dropdown-item @click="setEnabled(false)">{{ $t('禁用') }}</el-dropdown-item>
-                            <el-dropdown-item @click="this.dialog.savebatch = { mode: 'batchedit', data: { catalogId: this.catalogId } }">{{
+                            <el-dropdown-item @click="this.dialog.saveBatch = { mode: 'batchedit', data: { catalogId: this.catalogId } }">{{
                                 $t('设置项值')
                             }}</el-dropdown-item>
                         </el-dropdown-menu>
@@ -71,7 +68,7 @@
             </div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
                 :context-menus="['key', 'value', 'enabled', 'createdTime', 'id', 'summary']"
                 :context-multi="{ id: ['createdTime'] }"
@@ -91,20 +88,20 @@
                 row-key="id"
                 stripe>
                 <el-table-column type="selection" width="50" />
-                <naColId :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
+                <na-col-id :label="$t('唯一编码')" prop="id" sortable="custom" width="170" />
                 <el-table-column :label="$t('项名')" min-width="150" prop="key" sortable="custom" />
                 <el-table-column :label="$t('项值')" min-width="150" prop="value" sortable="custom" />
                 <el-table-column :label="$t('备注')" min-width="150" prop="summary" sortable="custom" />
                 <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                     <template #default="{ row }">
-                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
+                        <el-switch v-model="row.enabled" @change="changeSwitch($event, row)" />
                     </template>
                 </el-table-column>
-                <naColOperation
+                <na-col-operation
                     :buttons="naColOperation.buttons.concat(naColOperation.delButton(this.$t('删除字典项'), $API.sys_dic.deleteContent))"
                     :vue="this"
                     width="120" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -113,27 +110,27 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 
-    <savebatch-dialog
-        v-if="dialog.savebatch"
-        @closed="dialog.savebatch = null"
-        @mounted="$refs.savebatchDialog.open(dialog.savebatch)"
-        @success="(data, mode) => batchsuccess(data, mode)"
-        ref="savebatchDialog"></savebatch-dialog>
+    <save-batch-dialog
+        v-if="dialog.saveBatch"
+        @closed="dialog.saveBatch = null"
+        @mounted="$refs.saveBatchDialog.open(dialog.saveBatch)"
+        @success="(data, mode) => batchSuccess(data, mode)"
+        ref="saveBatchDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
+import naColOperation from '@/config/na-col-operation'
 
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
-const savebatchDialog = defineAsyncComponent(() => import('./savebatch.vue'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
+const saveBatchDialog = defineAsyncComponent(() => import('./save-batch'))
 export default {
     components: {
         saveDialog,
-        savebatchDialog,
+        saveBatchDialog,
     },
     computed: {
         naColOperation() {
@@ -175,7 +172,7 @@ export default {
             ])
             this.statistics.enabled = res[0].data
         },
-        async batchsuccess(data, mode) {
+        async batchSuccess(data, mode) {
             if (mode === 'batchedit') {
                 let loading
                 try {
@@ -274,4 +271,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

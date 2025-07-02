@@ -2,7 +2,7 @@
     <div class="login_bg">
         <div class="login_main">
             <div class="login_config">
-                <el-button :icon="config.dark ? 'el-icon-sunny' : 'el-icon-moon'" @click="configDark" circle type="info"></el-button>
+                <el-button :icon="config.dark ? 'el-icon-sunny' : 'el-icon-moon'" @click="configDark" circle type="info" />
                 <el-dropdown @command="configLang" placement="bottom-end" trigger="click">
                     <el-button circle>
                         <svg
@@ -39,10 +39,10 @@
                 </div>
                 <el-tabs>
                     <el-tab-pane :label="$t('账号登录')" lazy>
-                        <password-form></password-form>
+                        <password-form />
                     </el-tab-pane>
                     <el-tab-pane :label="$t('手机号登录')" lazy>
-                        <phone-form></phone-form>
+                        <phone-form />
                     </el-tab-pane>
                 </el-tabs>
             </div>
@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import passwordForm from './components/passwordForm'
-import phoneForm from './components/phoneForm'
+import passwordForm from './components/password-form'
+import phoneForm from './components/phone-form'
 import $CONFIG from '@/config'
 
 export default {

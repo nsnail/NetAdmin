@@ -130,7 +130,7 @@
   },
   // ------------------------------  系统管理 ------------------------------
   {
-    "Icon": "sc-icon-App",
+    "Icon": "sc-icon-app",
     "Id": 485278637670422,
     "Name": "sys",
     "Path": "/sys",
@@ -151,7 +151,7 @@
   },
   {
     "Component": "sys/job",
-    "Icon": "sc-icon-ScheduledJob",
+    "Icon": "sc-icon-scheduled-job",
     "Id": 510067557638158,
     "Name": "sys/job",
     "ParentId": 485278637670422,
@@ -206,7 +206,7 @@
   },
   // ------------------------------  档案管理 ------------------------------
   {
-    "Icon": "sc-icon-Archive",
+    "Icon": "sc-icon-archive",
     "Id": 616214756757512,
     "Name": "archive",
     "Path": "/archive",
@@ -248,7 +248,7 @@
   },
   {
     "Component": "sys/log/login",
-    "Icon": "sc-icon-OpenDoor",
+    "Icon": "sc-icon-open-door",
     "Id": 485285246504970,
     "Name": "sys/log/login",
     "ParentId": 374792687640581,
@@ -291,7 +291,7 @@
   {
     "Id": 560217289232398,
     "ParentId": 373838105399301,
-    "Icon": "sc-icon-FreeSql",
+    "Icon": "sc-icon-free-sql",
     "Name": "dev/freesql",
     "Path": "https://freesql.net/guide",
     "Sort": 99,

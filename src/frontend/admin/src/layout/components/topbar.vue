@@ -1,5 +1,5 @@
 <template>
-    <div class="adminui-topbar">
+    <div class="admin-ui-topbar">
         <div class="left-panel">
             <el-breadcrumb class="hidden-sm-and-down" separator-icon="el-icon-arrow-right">
                 <transition-group name="breadcrumb">
@@ -16,7 +16,7 @@
         </div>
         <div class="center-panel"></div>
         <div class="right-panel">
-            <slot></slot>
+            <slot />
         </div>
     </div>
 </template>

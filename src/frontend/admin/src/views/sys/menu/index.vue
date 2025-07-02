@@ -3,7 +3,7 @@
         <el-aside v-loading="loading" width="30rem">
             <el-container>
                 <el-header>
-                    <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable></el-input>
+                    <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable />
                 </el-header>
                 <el-main class="nopadding">
                     <el-tree
@@ -28,14 +28,14 @@
                                 <span>{{ node.label }}</span>
                                 <span class="btn">
                                     <el-button-group size="small">
-                                        <el-button @click.stop="add(node, data)" icon="el-icon-plus"></el-button>
-                                        <el-button @click.stop="copy(data)" icon="el-icon-copy-document"></el-button>
+                                        <el-button @click.stop="add(node, data)" icon="el-icon-plus" />
+                                        <el-button @click.stop="copy(data)" icon="el-icon-copy-document" />
                                         <el-popconfirm
                                             :title="this.$t('确定删除 {item} 吗？', { item: data.meta.title })"
                                             @confirm="del(node, data)"
                                             width="20rem">
                                             <template #reference>
-                                                <el-button @click.stop="() => {}" icon="el-icon-delete"></el-button>
+                                                <el-button @click.stop="() => {}" icon="el-icon-delete" />
                                             </template>
                                         </el-popconfirm>
                                     </el-button-group>
@@ -45,14 +45,14 @@
                     </el-tree>
                 </el-main>
                 <el-footer>
-                    <el-button @click="add()" icon="el-icon-plus" size="small" type="primary"></el-button>
-                    <el-button @click="batchDel" icon="el-icon-delete" plain size="small" type="danger"></el-button>
+                    <el-button @click="add()" icon="el-icon-plus" size="small" type="primary" />
+                    <el-button @click="batchDel" icon="el-icon-delete" plain size="small" type="danger" />
                 </el-footer>
             </el-container>
         </el-aside>
         <el-container>
             <el-main class="main" ref="main">
-                <save :tree="treeList" @success="handleSuccess" ref="save"></save>
+                <save :tree="treeList" @success="handleSuccess" ref="save" />
             </el-main>
         </el-container>
     </el-container>

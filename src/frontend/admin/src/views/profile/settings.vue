@@ -9,20 +9,20 @@
             </el-form-item>
             <el-form-item :label="$t('框架布局')">
                 <el-select v-model="config.layout">
-                    <el-option :label="$t('默认')" value="default"></el-option>
-                    <el-option :label="$t('通栏')" value="header"></el-option>
-                    <el-option :label="$t('经典')" value="menu"></el-option>
-                    <el-option :label="$t('功能坞')" value="dock"></el-option>
+                    <el-option :label="$t('默认')" value="default" />
+                    <el-option :label="$t('通栏')" value="header" />
+                    <el-option :label="$t('经典')" value="menu" />
+                    <el-option :label="$t('功能坞')" value="dock" />
                 </el-select>
             </el-form-item>
             <el-form-item :label="$t('折叠菜单')">
-                <el-switch v-model="config.menuIsCollapse"></el-switch>
+                <el-switch v-model="config.menuIsCollapse" />
             </el-form-item>
             <el-form-item :label="$t('手风琴菜单')">
-                <el-switch v-model="config.menuUniqueOpened"></el-switch>
+                <el-switch v-model="config.menuUniqueOpened" />
             </el-form-item>
             <el-form-item :label="$t('标签栏')">
-                <el-switch v-model="config.layoutTags"></el-switch>
+                <el-switch v-model="config.layoutTags" />
             </el-form-item>
             <el-form-item>
                 <el-popconfirm :title="$t('确定将当前主题设置恢复默认值吗？')" @confirm="themeReset" width="20rem">
@@ -182,4 +182,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

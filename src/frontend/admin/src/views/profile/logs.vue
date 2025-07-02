@@ -1,6 +1,6 @@
 <template>
     <el-card :header="$t('登录日志')" shadow="never">
-        <login-log :ownerId="$GLOBAL.user.id.toString()" :show-filter="false"></login-log>
+        <login-log :ownerId="$GLOBAL.user.id.toString()" :show-filter="false" />
     </el-card>
 </template>
 
@@ -15,4 +15,4 @@ export default {
 }
 </script>
 
-<style></style>
+<style />

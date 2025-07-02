@@ -3,7 +3,7 @@
         <el-aside v-loading="loading" width="40rem">
             <el-container>
                 <el-header>
-                    <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable></el-input>
+                    <el-input v-model="filterText" :placeholder="$t('输入关键字进行过滤')" clearable />
                 </el-header>
                 <el-main class="nopadding">
                     <el-tree
@@ -23,11 +23,11 @@
                                 <span>{{ data.name }} {{ data.code }}</span>
                                 <span class="btn">
                                     <el-button-group size="small">
-                                        <el-button @click.stop="add(data.id, data.code)" icon="el-icon-plus"></el-button>
-                                        <el-button @click.stop="edit(data)" icon="el-icon-edit"></el-button>
+                                        <el-button @click.stop="add(data.id, data.code)" icon="el-icon-plus" />
+                                        <el-button @click.stop="edit(data)" icon="el-icon-edit" />
                                         <el-popconfirm :title="$t('确定删除 {item} 吗？', { item: data.name })" @confirm="del(data)" width="20rem">
                                             <template #reference>
-                                                <el-button @click.stop="() => {}" icon="el-icon-delete"></el-button>
+                                                <el-button @click.stop="() => {}" icon="el-icon-delete" />
                                             </template>
                                         </el-popconfirm>
                                     </el-button-group>
@@ -51,14 +51,14 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => getData()"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import list from './list'
 
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
 export default {
     components: {
         list,

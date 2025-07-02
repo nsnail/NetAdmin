@@ -1,5 +1,5 @@
 <template>
-    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
             <el-tabs v-model="tabId" @tab-change="tabChange" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')" name="basic">
@@ -57,13 +57,13 @@
                     </el-form>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <JsonViewer
+                    <json-viewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></JsonViewer>
+                        sort />
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -90,7 +90,7 @@
                 >{{ $t('确认已支付') }}</el-button
             >
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
@@ -194,4 +194,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

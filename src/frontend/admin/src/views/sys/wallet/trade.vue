@@ -1,5 +1,5 @@
 <template>
-    <scDialog v-model="visible" :title="$t('新建交易')" @closed="$emit('closed')" append-to-body destroy-on-close>
+    <sc-dialog v-model="visible" :title="$t('新建交易')" @closed="$emit('closed')" append-to-body destroy-on-close>
         <el-form :model="form" :rules="rules" label-position="right" label-width="12rem" ref="dialogForm" style="height: 100%">
             <el-form-item>
                 <el-descriptions border column="1">
@@ -16,7 +16,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item :label="$t('交易金额')" prop="amount">
-                <el-input-number v-model="form.amount" :max="999999999" :min="-999999999" precision="0" style="width: 15rem"></el-input-number>
+                <el-input-number v-model="form.amount" :max="999999999" :min="-999999999" precision="0" style="width: 15rem" />
             </el-form-item>
             <el-form-item :label="$t('备注')" prop="summary">
                 <el-input v-model="form.summary" rows="3" type="textarea" />
@@ -26,12 +26,10 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue'
-
 export default {
     components: {},
     data() {
@@ -88,4 +86,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

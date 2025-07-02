@@ -1,5 +1,5 @@
 <template>
-    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-form
             v-loading="loading"
             :disabled="mode === 'view'"
@@ -29,7 +29,7 @@
                     </el-form-item>
 
                     <el-form-item :label="$t('送至角色')" prop="roleIds">
-                        <scSelect
+                        <sc-select
                             v-if="!this.loading"
                             v-model="form.roleIds"
                             :config="{ props: { label: 'name', value: 'id' } }"
@@ -40,10 +40,10 @@
                             multiple />
                     </el-form-item>
                     <el-form-item :label="$t('送至部门')" prop="deptIds">
-                        <naDept v-model="form.deptIds" :multiple="true" class="w100p"></naDept>
+                        <na-dept v-model="form.deptIds" :multiple="true" class="w100p" />
                     </el-form-item>
                     <el-form-item :label="$t('送至用户')" prop="userIds">
-                        <naUserSelect v-model="form.userIds" :multiple="true" class="w100p"></naUserSelect>
+                        <na-user-select v-model="form.userIds" :multiple="true" class="w100p" />
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('创建时间')" prop="createdTime">
                         <el-input v-model="form.createdTime" clearable />
@@ -54,13 +54,13 @@
                 </el-tab-pane>
 
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <JsonViewer
+                    <json-viewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></JsonViewer>
+                        sort />
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -68,7 +68,7 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
@@ -76,9 +76,9 @@ import { AiEditor } from 'aieditor'
 import 'aieditor/dist/style.css'
 import sysConfig from '../../../config'
 import { defineAsyncComponent } from 'vue'
-const naDept = defineAsyncComponent(() => import('@/components/naDept'))
-const naUserSelect = defineAsyncComponent(() => import('@/components/naUserSelect'))
-const scSelect = defineAsyncComponent(() => import('@/components/scSelect'))
+const naDept = defineAsyncComponent(() => import('@/components/na-dept'))
+const naUserSelect = defineAsyncComponent(() => import('@/components/na-user-select'))
+const scSelect = defineAsyncComponent(() => import('@/components/sc-select'))
 export default {
     components: {
         naDept,
@@ -177,4 +177,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

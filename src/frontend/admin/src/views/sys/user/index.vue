@@ -4,13 +4,13 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
         </el-header>
         <el-header class="el-header-select-filter">
-            <scSelectFilter
+            <sc-select-filter
                 :data="[
                     {
                         title: $t('启用状态'),
@@ -24,7 +24,7 @@
                 ]"
                 :label-width="10"
                 @on-change="filterChange"
-                ref="selectFilter"></scSelectFilter>
+                ref="selectFilter" />
         </el-header>
         <el-header>
             <div class="left-panel">
@@ -49,12 +49,12 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary"></el-button>
+                <el-button @click="this.dialog.save = { mode: 'add' }" icon="el-icon-plus" type="primary" />
                 <el-dropdown v-show="this.selection.length > 0">
                     <el-button type="primary">
                         {{ $t('批量操作') }}
@@ -91,7 +91,7 @@
                     </el-tree>
                 </el-col>
                 <el-col :lg="20">
-                    <scTable
+                    <sc-table
                         :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime', 'lastLoginTime']"
                         :context-multi="{ id: ['createdTime'] }"
                         :context-opers="['view', 'edit']"
@@ -112,21 +112,21 @@
                         row-key="id"
                         stripe>
                         <el-table-column type="selection" width="50" />
-                        <naColId :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
-                        <naColAvatar :label="$t('用户名')" prop="userName" width="170" />
+                        <na-col-id :label="$t('用户编号')" prop="id" sortable="custom" width="170" />
+                        <na-col-avatar :label="$t('用户名')" prop="userName" width="170" />
                         <el-table-column :label="$t('手机号 / 邮箱')" align="right" prop="mobile" sortable="custom" width="250">
                             <template #default="{ row }">
                                 <p>{{ row.mobile ?? '-' }}</p>
                                 <p>{{ row.email ?? '-' }}</p>
                             </template>
                         </el-table-column>
-                        <naColTags
+                        <na-col-tags
                             :label="$t('归属部门')"
                             @click="(item) => (this.dialog.deptSave = { row: item, mode: 'view' })"
                             field="name"
                             prop="dept"
                             width="120" />
-                        <naColTags
+                        <na-col-tags
                             :label="$t('归属角色')"
                             @click="(item) => (this.dialog.roleSave = { row: item, mode: 'view' })"
                             field="name"
@@ -139,11 +139,11 @@
                         </el-table-column>
                         <el-table-column :label="$t('启用')" align="center" prop="enabled" sortable="custom" width="100">
                             <template #default="{ row }">
-                                <el-switch v-model="row.enabled" @change="changeSwitch($event, row)"></el-switch>
+                                <el-switch v-model="row.enabled" @change="changeSwitch($event, row)" />
                             </template>
                         </el-table-column>
-                        <naColOperation :vue="this" width="120" />
-                    </scTable>
+                        <na-col-operation :vue="this" width="120" />
+                    </sc-table>
                 </el-col>
             </el-row>
         </el-main>
@@ -154,28 +154,28 @@
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => table.handleUpdate($refs.table, data, mode)"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
     <role-save-dialog
         v-if="dialog.roleSave"
         @closed="dialog.roleSave = null"
         @mounted="$refs.roleSaveDialog.open(dialog.roleSave)"
-        ref="roleSaveDialog"></role-save-dialog>
+        ref="roleSaveDialog" />
     <dept-save-dialog
         v-if="dialog.deptSave"
         @closed="dialog.deptSave = null"
         @mounted="$refs.deptSaveDialog.open(dialog.deptSave)"
-        ref="deptSaveDialog"></dept-save-dialog>
+        ref="deptSaveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
 
-const roleSaveDialog = defineAsyncComponent(() => import('@/views/sys/role/save.vue'))
-const deptSaveDialog = defineAsyncComponent(() => import('@/views/sys/dept/save.vue'))
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
-const naColAvatar = defineAsyncComponent(() => import('@/components/naColAvatar'))
-const naColTags = defineAsyncComponent(() => import('@/components/naColTags'))
+const roleSaveDialog = defineAsyncComponent(() => import('@/views/sys/role/save'))
+const deptSaveDialog = defineAsyncComponent(() => import('@/views/sys/dept/save'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
+const naColAvatar = defineAsyncComponent(() => import('@/components/na-col-avatar'))
+const naColTags = defineAsyncComponent(() => import('@/components/na-col-tags'))
 export default {
     components: {
         naColAvatar,

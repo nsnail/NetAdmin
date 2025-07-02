@@ -25,42 +25,42 @@ html.dark {
     }
 
     //框架
-    .adminui-header {
+    .admin-ui-header {
         background: var(--el-bg-color-overlay);
         border-bottom: 1px solid var(--el-border-color-light);
         height: 4rem;
     }
 
-    .aminui-side-split {
+    .admin-ui-side-split {
         background: var(--el-bg-color);
         border-color: var(--el-bg-color);
     }
 
-    .aminui-side-split li {
+    .admin-ui-side-split li {
         color: var(--el-text-color-primary);
     }
 
-    .aminui-side {
+    .admin-ui-side {
         background: var(--el-bg-color-overlay);
         border-color: var(--el-border-color-light);
     }
 
-    .adminui-side-top,
-    .adminui-side-bottom {
+    .admin-ui-side-top,
+    .admin-ui-side-bottom {
         border-color: var(--el-border-color-light);
     }
 
-    .adminui-side-top h2 {
+    .admin-ui-side-top h2 {
         color: var(--el-text-color-primary);
     }
 
-    .adminui-topbar,
-    .adminui-tags {
+    .admin-ui-topbar,
+    .admin-ui-tags {
         background: var(--el-bg-color-overlay);
         border-color: var(--el-border-color-light);
     }
 
-    .adminui-main {
+    .admin-ui-main {
         background: var(--el-bg-color);
     }
 
@@ -68,7 +68,7 @@ html.dark {
         background: var(--el-bg-color);
     }
 
-    .adminui-header-menu .el-menu {
+    .admin-ui-header-menu .el-menu {
         --el-menu-bg-color: var(--el-bg-color-overlay) !important;
         --el-menu-hover-bg-color: #171819 !important;
     }

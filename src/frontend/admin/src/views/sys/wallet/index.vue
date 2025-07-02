@@ -4,7 +4,7 @@
             <el-row :gutter="15">
                 <el-col :lg="24">
                     <el-card shadow="never">
-                        <scStatistic :title="$t('总数')" :value="statistics.total" group-separator></scStatistic>
+                        <sc-statistic :title="$t('总数')" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
@@ -51,14 +51,14 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetimerange"
+                    dateType="datetime-range"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel"></div>
         </el-header>
         <el-main class="nopadding">
-            <scTable
+            <sc-table
                 :context-menus="[
                     'id',
                     'ownerId',
@@ -89,15 +89,15 @@
                 remote-sort
                 row-key="id"
                 stripe>
-                <naColId :label="$t('钱包编号')" prop="id" sortable="custom" width="170" />
-                <naColUser
+                <na-col-id :label="$t('钱包编号')" prop="id" sortable="custom" width="170" />
+                <na-col-user
                     :clickOpenDialog="$GLOBAL.hasApiPermission('api/sys/user/get')"
                     :label="$t('归属用户')"
                     nestProp="owner.userName"
                     nestProp2="ownerId"
                     prop="ownerId"
                     sortable="custom"
-                    width="170"></naColUser>
+                    width="170" />
                 <el-table-column
                     :formatter="(row) => $TOOL.groupSeparator(row.totalBalance)"
                     :label="$t('总余额')"
@@ -133,7 +133,7 @@
                         <span v-if="row.modifiedTime" v-time.tip="row.modifiedTime" :title="row.modifiedTime"></span>
                     </template>
                 </el-table-column>
-                <naColOperation
+                <na-col-operation
                     :buttons="[
                         naColOperation.buttons[0],
                         {
@@ -149,7 +149,7 @@
                     ]"
                     :vue="this"
                     width="120" />
-            </scTable>
+            </sc-table>
         </el-main>
     </el-container>
 
@@ -158,23 +158,23 @@
         @closed="dialog.trade = null"
         @mounted="$refs.tradeDialog.open(dialog.trade)"
         @success="(data, mode) => $refs.table.refresh()"
-        ref="tradeDialog"></trade-dialog>
+        ref="tradeDialog" />
 
     <save-dialog
         v-if="dialog.save"
         @closed="dialog.save = null"
         @mounted="$refs.saveDialog.open(dialog.save)"
         @success="(data, mode) => $refs.table.refresh()"
-        ref="saveDialog"></save-dialog>
+        ref="saveDialog" />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
 import table from '@/config/table'
-import naColOperation from '@/config/naColOperation'
-const tradeDialog = defineAsyncComponent(() => import('./trade.vue'))
-const saveDialog = defineAsyncComponent(() => import('./save.vue'))
-const naColUser = defineAsyncComponent(() => import('@/components/naColUser'))
+import naColOperation from '@/config/na-col-operation'
+const tradeDialog = defineAsyncComponent(() => import('./trade'))
+const saveDialog = defineAsyncComponent(() => import('./save'))
+const naColUser = defineAsyncComponent(() => import('@/components/na-col-user'))
 export default {
     components: {
         tradeDialog,
@@ -312,4 +312,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

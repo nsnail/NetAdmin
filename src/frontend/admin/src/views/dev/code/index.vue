@@ -1,5 +1,5 @@
 <template>
-    <router-view></router-view>
+    <router-view />
     <el-main>
         <el-row :gutter="15">
             <el-col :lg="6" :md="8" :sm="12" :xl="6" :xs="24">
@@ -30,13 +30,13 @@
                         <div class="title">
                             <h2>{{ $t('生成后端代码') }}</h2>
                             <p>
-                                <el-input v-model="formCs.type" :placeholder="$t('模块类型')"></el-input>
+                                <el-input v-model="formCs.type" :placeholder="$t('模块类型')" />
                             </p>
                             <p>
-                                <el-input v-model="formCs.moduleName" :placeholder="$t('模块名称')"></el-input>
+                                <el-input v-model="formCs.moduleName" :placeholder="$t('模块名称')" />
                             </p>
                             <p>
-                                <el-input v-model="formCs.moduleRemark" :placeholder="$t('模块说明')"></el-input>
+                                <el-input v-model="formCs.moduleRemark" :placeholder="$t('模块说明')" />
                             </p>
                             <p>
                                 <el-button @click="generateCsCode()">{{ $t('生成') }}</el-button>
@@ -56,10 +56,10 @@
                         <div class="title">
                             <h2>{{ $t('生成图标代码') }}</h2>
                             <p>
-                                <el-input v-model="form.iconName" :placeholder="$t('图标名称')"></el-input>
+                                <el-input v-model="form.iconName" :placeholder="$t('图标名称')" />
                             </p>
                             <p>
-                                <el-input v-model="form.svgCode" :placeholder="$t('粘贴SVG代码')"></el-input>
+                                <el-input v-model="form.svgCode" :placeholder="$t('粘贴SVG代码')" />
                             </p>
                             <p>
                                 <el-row align="middle">
@@ -86,13 +86,13 @@
                         <div class="title">
                             <h2>{{ $t('生成表格代码') }}</h2>
                             <p>
-                                <el-input v-model="form.summaryInfo" :placeholder="$t('注释信息')" type="textarea"></el-input>
+                                <el-input v-model="form.summaryInfo" :placeholder="$t('注释信息')" type="textarea" />
                             </p>
                             <p>
-                                <el-input v-model="form.tableCode" :placeholder="$t('表格代码')" type="textarea"></el-input>
+                                <el-input v-model="form.tableCode" :placeholder="$t('表格代码')" type="textarea" />
                             </p>
                             <p>
-                                <el-input v-model="form.formCode" :placeholder="$t('表单代码')" type="textarea"></el-input>
+                                <el-input v-model="form.formCode" :placeholder="$t('表单代码')" type="textarea" />
                             </p>
                             <p>
                                 <el-button @click="generateTableCode()">{{ $t('生成') }}</el-button>

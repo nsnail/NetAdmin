@@ -1,5 +1,5 @@
 <template>
-    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <el-tabs v-model="tabId" tab-position="top">
             <el-tab-pane :label="$t('基本信息')">
                 <el-form
@@ -14,7 +14,7 @@
                         <el-input v-model="form.id" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('执行计划')" prop="executionCron">
-                        <scCron v-model="form.executionCron" class="font-monospace" clearable />
+                        <sc-cron v-model="form.executionCron" class="font-monospace" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求方法')" prop="httpMethod">
                         <el-select v-model="form.httpMethod" clearable filterable>
@@ -40,7 +40,7 @@
                         <el-input v-model="form.nextTimeId" clearable />
                     </el-form-item>
                     <el-form-item :label="$t('请求头')" prop="requestHeader">
-                        <VAceEditor
+                        <v-ace-editor
                             v-model:value="form.requestHeader"
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
@@ -50,7 +50,7 @@
                         </el-button>
                     </el-form-item>
                     <el-form-item :label="$t('请求体')" prop="requestBody">
-                        <VAceEditor
+                        <v-ace-editor
                             v-model:value="form.requestBody"
                             :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                             lang="json"
@@ -83,7 +83,7 @@
                         <el-input v-model="form.userId" clearable />
                     </el-form-item>
                     <el-form-item v-else :label="$t('执行用户')" prop="user">
-                        <naUserSelect v-model="form.user"></naUserSelect>
+                        <na-user-select v-model="form.user" />
                     </el-form-item>
                     <el-form-item v-if="mode === 'view'" :label="$t('创建时间')" prop="createdTime">
                         <el-input v-model="form.createdTime" clearable />
@@ -112,13 +112,13 @@
                 <record v-if="tabId === 'record'" :job-id="form.id" />
             </el-tab-pane>
             <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                <JsonViewer
+                <json-viewer
                     :expand-depth="5"
                     :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                     :value="form"
                     copyable
                     expanded
-                    sort></JsonViewer>
+                    sort />
             </el-tab-pane>
         </el-tabs>
 
@@ -126,16 +126,16 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import vkbeautify from 'vkbeautify/index'
+import vkbeautify from 'vkbeautify'
 
 const Record = defineAsyncComponent(() => import('@/views/sys/job/record'))
-const naUserSelect = defineAsyncComponent(() => import('@/components/naUserSelect'))
-const scCron = defineAsyncComponent(() => import('@/components/scCron'))
+const naUserSelect = defineAsyncComponent(() => import('@/components/na-user-select'))
+const scCron = defineAsyncComponent(() => import('@/components/sc-cron'))
 export default {
     components: { Record, naUserSelect, scCron },
     data() {
@@ -267,4 +267,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

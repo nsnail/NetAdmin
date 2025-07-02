@@ -193,7 +193,6 @@ export default {
     用于登录系统: 'Used to log in to the system',
     用户代理: 'User agent',
     用户名: 'Username',
-    用户名: 'User name',
     用户注册: 'User registration',
     用户注册设置: 'User registration settings',
     用户编号: 'User ID',

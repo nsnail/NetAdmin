@@ -4,7 +4,7 @@
             <el-container>
                 <el-header>
                     <div class="user-info-top">
-                        <el-avatar :size="70" :src="user.avatar ? user.avatar : $CONFIG.DEFAULT_AVATAR(user.userName)"></el-avatar>
+                        <el-avatar :size="70" :src="user.avatar ? user.avatar : $CONFIG.DEFAULT_AVATAR(user.userName)" />
                         <h2>{{ user.userName }}</h2>
                         <p>
                             <el-tag v-for="(item, i) in user.roles" :key="i" effect="dark" round size="large">{{ item.name }}</el-tag>
@@ -93,7 +93,7 @@ export default {
 </script>
 <style scoped>
 @media (max-width: 77rem) {
-    .adminui-main > .el-container {
+    .admin-ui-main > .el-container {
         height: 100%;
     }
 

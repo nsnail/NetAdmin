@@ -15,12 +15,12 @@
                     value: ['DateTime.Now.Date.AddDays(-1)', 'DateTime.Now.Date'],
                 },
             ]"
-            height="20rem"></chart-bar>
+            height="20rem" />
     </el-card>
 </template>
 
 <script>
-import ChartBar from '@/views/home/widgets/components/components/chart-bar.vue'
+import ChartBar from '@/views/home/widgets/components/components/chart-bar'
 import tool from '@/utils/tool'
 
 export default {

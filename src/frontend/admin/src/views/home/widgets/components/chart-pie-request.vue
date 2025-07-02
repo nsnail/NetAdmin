@@ -15,12 +15,12 @@
                     radius: [0, '30%'],
                 },
             ]"
-            height="20rem"></chart-pie>
+            height="20rem" />
     </el-card>
 </template>
 
 <script>
-import ChartPie from '@/views/home/widgets/components/components/chart-pie.vue'
+import ChartPie from '@/views/home/widgets/components/components/chart-pie'
 import tool from '@/utils/tool'
 
 export default {

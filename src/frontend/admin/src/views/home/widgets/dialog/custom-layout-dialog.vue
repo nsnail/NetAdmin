@@ -1,5 +1,5 @@
 <template>
-    <scDialog v-model="visible" :title="`${title}`" @closed="$emit('closed')" destroy-on-close>
+    <sc-dialog v-model="visible" :title="`${title}`" @closed="$emit('closed')" destroy-on-close>
         <el-form :model="form" ref="form">
             <el-form-item
                 v-for="(row, index) in form.rows"
@@ -26,7 +26,7 @@
             <el-button @click="this.form.rows.push({ value: '' })">{{ $t('添加一行') }}</el-button>
             <el-button @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
@@ -77,4 +77,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

@@ -1,23 +1,23 @@
 <template>
-    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <div v-loading="loading">
             <el-tabs v-model="tabId" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
                     <el-form :disabled="mode === 'view'" :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
                         <el-form-item :label="$t('角色名称')" prop="name">
-                            <el-input v-model="form.name" clearable></el-input>
+                            <el-input v-model="form.name" clearable />
                         </el-form-item>
                         <el-form-item :label="$t('排序')" prop="sort">
-                            <el-input-number v-model="form.sort" :min="0" controls-position="right" style="width: 100%"></el-input-number>
+                            <el-input-number v-model="form.sort" :min="0" controls-position="right" style="width: 100%" />
                         </el-form-item>
                         <el-form-item :label="$t('启用')" prop="enabled">
-                            <el-switch v-model="form.enabled"></el-switch>
+                            <el-switch v-model="form.enabled" />
                         </el-form-item>
                         <el-form-item :label="$t('无限权限')" prop="ignorePermissionControl">
-                            <el-switch v-model="form.ignorePermissionControl"></el-switch>
+                            <el-switch v-model="form.ignorePermissionControl" />
                         </el-form-item>
                         <el-form-item :label="$t('备注')" prop="summary">
-                            <el-input v-model="form.summary" clearable type="textarea"></el-input>
+                            <el-input v-model="form.summary" clearable type="textarea" />
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -31,7 +31,7 @@
                             default-expand-all
                             node-key="id"
                             ref="menu"
-                            show-checkbox></el-tree>
+                            show-checkbox />
                     </div>
                 </el-tab-pane>
                 <el-tab-pane :label="$t('接口权限')">
@@ -42,18 +42,14 @@
                             default-expand-all
                             node-key="id"
                             ref="api"
-                            show-checkbox></el-tree>
+                            show-checkbox />
                     </div>
                 </el-tab-pane>
                 <el-tab-pane :label="$t('数据权限')">
                     <el-form label-width="10rem">
                         <el-form-item :label="$t('数据权限')">
                             <el-radio-group v-model="form.dataScope" :disabled="mode === 'view'">
-                                <el-radio-button
-                                    v-for="(item, i) in this.$GLOBAL.enums.dataScopes"
-                                    :key="i"
-                                    :label="item[1]"
-                                    :value="i"></el-radio-button>
+                                <el-radio-button v-for="(item, i) in this.$GLOBAL.enums.dataScopes" :key="i" :label="item[1]" :value="i" />
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-show="form.dataScope === 'specificDept'" :label="$t('选择部门')">
@@ -64,17 +60,17 @@
                                     default-expand-all
                                     node-key="id"
                                     ref="dept"
-                                    show-checkbox></el-tree>
+                                    show-checkbox />
                             </div>
                         </el-form-item>
                         <el-form-item :label="$t('首页视图')">
                             <el-radio-group v-model="form.displayDashboard" :disabled="mode === 'view'">
-                                <el-radio-button :label="$t('仪表板')" :value="true"></el-radio-button>
-                                <el-radio-button :label="$t('工作台')" :value="false"></el-radio-button>
+                                <el-radio-button :label="$t('仪表板')" :value="true" />
+                                <el-radio-button :label="$t('工作台')" :value="false" />
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item v-if="form.displayDashboard" :label="$t('仪表板布局')">
-                            <VAceEditor
+                            <v-ace-editor
                                 v-model:value="form.dashboardLayout"
                                 :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'github_dark' : 'github'"
                                 lang="json"
@@ -86,16 +82,16 @@
                     </el-form>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('用户列表')" name="user">
-                    <user v-if="tabId === 'user'" :role-id="form.id"></user>
+                    <user v-if="tabId === 'user'" :role-id="form.id" />
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <JsonViewer
+                    <json-viewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></JsonViewer>
+                        sort />
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -103,13 +99,13 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import vkbeautify from 'vkbeautify/index'
-import config from '@/config/index'
+import vkbeautify from 'vkbeautify'
+import config from '@/config'
 
 const User = defineAsyncComponent(() => import('@/views/sys/user'))
 export default {
@@ -212,4 +208,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

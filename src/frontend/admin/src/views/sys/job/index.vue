@@ -2,8 +2,8 @@
     <el-container>
         <el-header style="border: none">
             <el-tabs v-model="tabId" class="w100p">
-                <el-tab-pane :label="$t('作业管理')" name="all"></el-tab-pane>
-                <el-tab-pane :label="$t('作业日志')" name="log"></el-tab-pane>
+                <el-tab-pane :label="$t('作业管理')" name="all" />
+                <el-tab-pane :label="$t('作业日志')" name="log" />
             </el-tabs>
         </el-header>
         <el-main class="nopadding">
@@ -61,4 +61,4 @@ export default {
     },
 }
 </script>
-<style scoped></style>
+<style scoped />

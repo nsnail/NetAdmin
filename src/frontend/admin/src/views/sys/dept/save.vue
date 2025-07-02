@@ -1,5 +1,5 @@
 <template>
-    <scDialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
+    <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close full-screen>
         <div v-loading="loading">
             <el-tabs v-model="tabId" tab-position="top">
                 <el-tab-pane :label="$t('基本信息')">
@@ -11,33 +11,33 @@
                                 :props="deptsProps"
                                 :show-all-levels="false"
                                 clearable
-                                style="width: 100%"></el-cascader>
+                                style="width: 100%" />
                         </el-form-item>
                         <el-form-item :label="$t('部门名称')" prop="name">
-                            <el-input v-model="form.name" :placeholder="$t('请输入部门名称')" clearable></el-input>
+                            <el-input v-model="form.name" :placeholder="$t('请输入部门名称')" clearable />
                         </el-form-item>
                         <el-form-item :label="$t('排序')" prop="sort">
-                            <el-input-number v-model="form.sort" :min="0" controls-position="right" style="width: 100%"></el-input-number>
+                            <el-input-number v-model="form.sort" :min="0" controls-position="right" style="width: 100%" />
                         </el-form-item>
                         <el-form-item :label="$t('启用')" prop="enabled">
-                            <el-switch v-model="form.enabled"></el-switch>
+                            <el-switch v-model="form.enabled" />
                         </el-form-item>
                         <el-form-item :label="$t('备注')" prop="summary">
-                            <el-input v-model="form.summary" clearable type="textarea"></el-input>
+                            <el-input v-model="form.summary" clearable type="textarea" />
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('用户列表')" name="user">
-                    <user v-if="tabId === 'user'" :dept-id="form.id"></user>
+                    <user v-if="tabId === 'user'" :dept-id="form.id" />
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <JsonViewer
+                    <json-viewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
                         :value="form"
                         copyable
                         expanded
-                        sort></JsonViewer>
+                        sort />
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -45,7 +45,7 @@
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
-    </scDialog>
+    </sc-dialog>
 </template>
 
 <script>
@@ -134,4 +134,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

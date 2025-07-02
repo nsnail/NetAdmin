@@ -69,9 +69,9 @@ export default {
             }, 1000)
         })
     },
-    handleUpdate: function (table, data, mode) {
+    handleUpdate: async function (table, data, mode) {
         if (mode === 'add') {
-            table.upData()
+            await table.upData()
         } else if (mode === 'edit') {
             function func(items) {
                 items.forEach((item) => {

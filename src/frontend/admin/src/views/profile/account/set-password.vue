@@ -2,24 +2,12 @@
     <el-dialog v-model="visible" :title="$t('修改密码')" @closed="$emit('closed')" destroy-on-close>
         <el-form :model="form" :rules="rules" label-width="15rem" ref="form">
             <el-form-item :label="$t('旧密码')" prop="oldPassword">
-                <el-input
-                    v-model="form.oldPassword"
-                    :placeholder="$t('请输入当前密码')"
-                    clearable
-                    maxlength="16"
-                    show-password
-                    type="password"></el-input>
+                <el-input v-model="form.oldPassword" :placeholder="$t('请输入当前密码')" clearable maxlength="16" show-password type="password" />
                 <div class="el-form-item-msg">{{ $t('必须提供当前登录用户密码才能进行更改') }}</div>
             </el-form-item>
             <el-form-item :label="$t('新密码')" prop="newPassword">
-                <el-input
-                    v-model="form.newPassword"
-                    :placeholder="$t('请输入新密码')"
-                    clearable
-                    maxlength="16"
-                    show-password
-                    type="password"></el-input>
-                <scPasswordStrength v-model="form.newPassword"></scPasswordStrength>
+                <el-input v-model="form.newPassword" :placeholder="$t('请输入新密码')" clearable maxlength="16" show-password type="password" />
+                <sc-password-strength v-model="form.newPassword" />
                 <div class="el-form-item-msg">{{ $t('请输入包含英文、数字的8位以上密码') }}</div>
             </el-form-item>
             <el-form-item :label="$t('确认新密码')" prop="confirmNewPassword">
@@ -29,7 +17,7 @@
                     clearable
                     maxlength="16"
                     show-password
-                    type="password"></el-input>
+                    type="password" />
             </el-form-item>
         </el-form>
 
@@ -41,8 +29,8 @@
 </template>
 
 <script>
-import scPasswordStrength from '@/components/scPasswordStrength'
-import naFormPassword from '@/config/naFormPassword'
+import scPasswordStrength from '@/components/sc-password-strength'
+import naFormPassword from '@/config/na-form-password'
 
 export default {
     components: {
@@ -92,4 +80,4 @@ export default {
     },
 }
 </script>
-<style scoped></style>
+<style scoped />

@@ -57,7 +57,7 @@ tool.time = {
             return target.format('YYYY-MM-DD')
         }
 
-        let result = ''
+        let result
         if (absDiff < 60) {
             // 1分钟内
             result = _this.$t(`{n} 秒`, { n: Math.floor(absDiff) })
@@ -221,11 +221,11 @@ tool.cookie = {
 }
 
 /* Fullscreen */
-tool.screen = function (element) {
+tool.screen = async function (element) {
     const isFull = !!(document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement || document.fullscreenElement)
     if (isFull) {
         if (document.exitFullscreen) {
-            document.exitFullscreen()
+            await document.exitFullscreen()
         } else if (document.msExitFullscreen) {
             document.msExitFullscreen()
         } else if (document.mozCancelFullScreen) {
@@ -365,7 +365,7 @@ tool.recursiveFindProperty = function (obj, propName, propValue, result = [], vi
 tool.refreshTab = function (_this) {
     _this.$parent.keepAliveList = []
     _this.contextMenuVisible = false
-    const tag = _this.$store.state.viewTags.viewTags.find((x) => x.fullPath === _this.$route.fullPath)
+    const tag = _this.$store.state['view-tags']['view-tags'].find((x) => x.fullPath === _this.$route.fullPath)
     //判断是否当前路由，否的话跳转
     if (_this.$route.fullPath !== tag.fullPath) {
         _this.$router.push({

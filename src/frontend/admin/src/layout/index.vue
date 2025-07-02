@@ -1,8 +1,8 @@
 <template>
     <!-- 通栏布局 -->
     <template v-if="layout === 'header'">
-        <header class="adminui-header">
-            <div @click="logoClick" class="adminui-header-left">
+        <header class="admin-ui-header">
+            <div @click="logoClick" class="admin-ui-header-left">
                 <div class="logo-bar">
                     <img class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     <div>
@@ -10,7 +10,7 @@
                         <p class="version color-secondary">{{ version }}</p>
                     </div>
                 </div>
-                <ul v-if="!ismobile" class="nav">
+                <ul v-if="!isMobile" class="nav">
                     <li v-for="item in menu" :class="pmenu.path === item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
                         <el-icon>
                             <component :is="item.meta.icon || 'el-icon-menu'" />
@@ -19,41 +19,41 @@
                     </li>
                 </ul>
             </div>
-            <div class="adminui-header-right">
-                <userbar></userbar>
+            <div class="admin-ui-header-right">
+                <user-bar />
             </div>
         </header>
-        <section class="aminui-wrapper">
+        <section class="admin-ui-wrapper">
             <div
-                v-if="(!ismobile && nextMenu.length > 0) || (!pmenu.component && pmenu.meta)"
-                :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
-                <div v-if="!menuIsCollapse" class="adminui-side-top">
+                v-if="(!isMobile && nextMenu.length > 0) || (!pmenu.component && pmenu.meta)"
+                :class="menuIsCollapse ? 'admin-ui-side isCollapse' : 'admin-ui-side'">
+                <div v-if="!menuIsCollapse" class="admin-ui-side-top">
                     <h2>{{ pmenu.meta.title }}</h2>
                 </div>
-                <div class="adminui-side-scroll">
+                <div class="admin-ui-side-scroll">
                     <el-scrollbar>
                         <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.APP_SET_MENU_UNIQUE_OPENED" router>
-                            <NavMenu :navMenus="nextMenu"></NavMenu>
+                            <nav-menu :navMenus="nextMenu" />
                         </el-menu>
                     </el-scrollbar>
                 </div>
-                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="adminui-side-bottom">
+                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="admin-ui-side-bottom">
                     <el-icon>
                         <el-icon-expand v-if="menuIsCollapse" />
                         <el-icon-fold v-else />
                     </el-icon>
                 </div>
             </div>
-            <Side-m v-if="ismobile"></Side-m>
-            <div class="aminui-body el-container">
-                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
-                <div class="adminui-main" id="adminui-main">
+            <side-m v-if="isMobile" />
+            <div class="admin-ui-body el-container">
+                <tags v-if="!isMobile && layoutTags" :vue="this" />
+                <div class="admin-ui-main" id="admin-ui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive :max="5">
-                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
+                            <component v-if="$store.state['keep-alive'].routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
-                    <iframe-view></iframe-view>
+                    <iframe-view />
                 </div>
             </div>
         </section>
@@ -61,8 +61,8 @@
 
     <!-- 经典布局 -->
     <template v-else-if="layout === 'menu'">
-        <header class="adminui-header">
-            <div @click="logoClick" class="adminui-header-left">
+        <header class="admin-ui-header">
+            <div @click="logoClick" class="admin-ui-header-left">
                 <div class="logo-bar">
                     <img class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     <div>
@@ -71,36 +71,36 @@
                     </div>
                 </div>
             </div>
-            <div class="adminui-header-right">
-                <userbar></userbar>
+            <div class="admin-ui-header-right">
+                <user-bar />
             </div>
         </header>
-        <section class="aminui-wrapper">
-            <div v-if="!ismobile" :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
-                <div class="adminui-side-scroll">
+        <section class="admin-ui-wrapper">
+            <div v-if="!isMobile" :class="menuIsCollapse ? 'admin-ui-side isCollapse' : 'admin-ui-side'">
+                <div class="admin-ui-side-scroll">
                     <el-scrollbar>
                         <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.APP_SET_MENU_UNIQUE_OPENED" router>
-                            <NavMenu :navMenus="menu"></NavMenu>
+                            <nav-menu :navMenus="menu" />
                         </el-menu>
                     </el-scrollbar>
                 </div>
-                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="adminui-side-bottom">
+                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="admin-ui-side-bottom">
                     <el-icon>
                         <el-icon-expand v-if="menuIsCollapse" />
                         <el-icon-fold v-else />
                     </el-icon>
                 </div>
             </div>
-            <Side-m v-if="ismobile"></Side-m>
-            <div class="aminui-body el-container">
-                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
-                <div class="adminui-main" id="adminui-main">
+            <side-m v-if="isMobile" />
+            <div class="admin-ui-body el-container">
+                <tags v-if="!isMobile && layoutTags" :vue="this" />
+                <div class="admin-ui-main" id="admin-ui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive :max="5">
-                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
+                            <component v-if="$store.state['keep-alive'].routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
-                    <iframe-view></iframe-view>
+                    <iframe-view />
                 </div>
             </div>
         </section>
@@ -108,8 +108,8 @@
 
     <!-- 功能坞布局 -->
     <template v-else-if="layout === 'dock'">
-        <header class="adminui-header">
-            <div @click="logoClick" class="adminui-header-left">
+        <header class="admin-ui-header">
+            <div @click="logoClick" class="admin-ui-header-left">
                 <div class="logo-bar">
                     <img class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     <div>
@@ -118,45 +118,45 @@
                     </div>
                 </div>
             </div>
-            <div class="adminui-header-right">
-                <div v-if="!ismobile" class="adminui-header-menu">
+            <div class="admin-ui-header-right">
+                <div v-if="!isMobile" class="admin-ui-header-menu">
                     <el-menu
                         :default-active="active"
                         active-text-color="var(--el-color-primary)"
                         mode="horizontal"
                         router
                         text-color="var(--el-text-color-primary)">
-                        <NavMenu :navMenus="menu"></NavMenu>
+                        <nav-menu :navMenus="menu" />
                     </el-menu>
                 </div>
-                <Side-m v-if="ismobile"></Side-m>
-                <userbar></userbar>
+                <side-m v-if="isMobile" />
+                <user-bar />
             </div>
         </header>
-        <section class="aminui-wrapper">
-            <div class="aminui-body el-container">
-                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
-                <div class="adminui-main" id="adminui-main">
+        <section class="admin-ui-wrapper">
+            <div class="admin-ui-body el-container">
+                <tags v-if="!isMobile && layoutTags" :vue="this" />
+                <div class="admin-ui-main" id="admin-ui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive :max="5">
-                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
+                            <component v-if="$store.state['keep-alive'].routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
-                    <iframe-view></iframe-view>
+                    <iframe-view />
                 </div>
             </div>
         </section>
     </template>
     <!-- 默认布局 -->
     <template v-else>
-        <section class="aminui-wrapper">
-            <div v-if="!ismobile" class="aminui-side-split">
-                <div class="aminui-side-split-top">
+        <section class="admin-ui-wrapper">
+            <div v-if="!isMobile" class="admin-ui-side-split">
+                <div class="admin-ui-side-split-top">
                     <router-link :to="$CONFIG.DASHBOARD_URL">
                         <img :title="$CONFIG.APP_NAME" class="logo logo-fill-color" src="@/assets/img/logo.svg" />
                     </router-link>
                 </div>
-                <div class="adminui-side-split-scroll">
+                <div class="admin-ui-side-split-scroll">
                     <el-scrollbar>
                         <ul>
                             <li v-for="item in menu" :class="pmenu.path === item.path ? 'active' : ''" :key="item" @click="showMenu(item)">
@@ -170,38 +170,38 @@
                 </div>
             </div>
             <div
-                v-if="(!ismobile && nextMenu.length > 0) || (!pmenu.component && pmenu.meta)"
-                :class="menuIsCollapse ? 'aminui-side isCollapse' : 'aminui-side'">
-                <div v-if="!menuIsCollapse" class="adminui-side-top">
+                v-if="(!isMobile && nextMenu.length > 0) || (!pmenu.component && pmenu.meta)"
+                :class="menuIsCollapse ? 'admin-ui-side isCollapse' : 'admin-ui-side'">
+                <div v-if="!menuIsCollapse" class="admin-ui-side-top">
                     <h2>{{ pmenu.meta.title }}</h2>
                 </div>
-                <div class="adminui-side-scroll">
+                <div class="admin-ui-side-scroll">
                     <el-scrollbar>
                         <el-menu :collapse="menuIsCollapse" :default-active="active" :unique-opened="$CONFIG.APP_SET_MENU_UNIQUE_OPENED" router>
-                            <NavMenu :navMenus="nextMenu"></NavMenu>
+                            <nav-menu :navMenus="nextMenu" />
                         </el-menu>
                     </el-scrollbar>
                 </div>
-                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="adminui-side-bottom">
+                <div @click="$store.commit('TOGGLE_menuIsCollapse')" class="admin-ui-side-bottom">
                     <el-icon>
                         <el-icon-expand v-if="menuIsCollapse" />
                         <el-icon-fold v-else />
                     </el-icon>
                 </div>
             </div>
-            <Side-m v-if="ismobile"></Side-m>
-            <div class="aminui-body el-container">
-                <Topbar>
-                    <userbar></userbar>
-                </Topbar>
-                <Tags v-if="!ismobile && layoutTags" :vue="this"></Tags>
-                <div class="adminui-main" id="adminui-main">
+            <side-m v-if="isMobile" />
+            <div class="admin-ui-body el-container">
+                <topbar>
+                    <user-bar />
+                </topbar>
+                <tags v-if="!isMobile && layoutTags" :vue="this" />
+                <div class="admin-ui-main" id="admin-ui-main">
                     <router-view v-slot="{ Component }" :key="routerViewKey">
                         <keep-alive :max="5">
-                            <component v-if="$store.state.keepAlive.routeShow" :is="Component" :key="$route.fullPath" />
+                            <component v-if="$store.state['keep-alive'].routeShow" :is="Component" :key="$route.fullPath" />
                         </keep-alive>
                     </router-view>
-                    <iframe-view></iframe-view>
+                    <iframe-view />
                 </div>
             </div>
         </section>
@@ -213,26 +213,26 @@
         </el-icon>
     </div>
 
-    <auto-exit></auto-exit>
+    <auto-exit />
 </template>
 
 <script>
-import SideM from './components/sideM.vue'
-import Topbar from './components/topbar.vue'
-import Tags from './components/tags.vue'
-import NavMenu from './components/NavMenu.vue'
-import userbar from './components/userbar.vue'
-import iframeView from './components/iframeView.vue'
-import autoExit from './other/autoExit.js'
+import sideM from './components/side-m'
+import topbar from './components/topbar'
+import tags from './components/tags'
+import navMenu from './components/nav-menu'
+import userBar from './components/user-bar'
+import iframeView from './components/iframe-view'
+import autoExit from './other/auto-exit'
 
 export default {
     name: 'index',
     components: {
-        SideM,
-        Topbar,
-        Tags,
-        NavMenu,
-        userbar,
+        sideM,
+        topbar,
+        tags,
+        navMenu,
+        userBar,
         iframeView,
         autoExit,
     },
@@ -247,8 +247,8 @@ export default {
         }
     },
     computed: {
-        ismobile() {
-            return this.$store.state.global.ismobile
+        isMobile() {
+            return this.$store.state.global.isMobile
         },
         layout() {
             return this.$store.state.global.layout
@@ -285,7 +285,7 @@ export default {
             this.$router.push({ path: '/' })
         },
         onLayoutResize() {
-            this.$store.commit('SET_ismobile', document.body.clientWidth < 992)
+            this.$store.commit('SET_isMobile', document.body.clientWidth < 992)
         },
         //路由监听高亮
         showThis() {
