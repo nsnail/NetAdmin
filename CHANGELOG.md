@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/nsnail/NetAdmin/compare/v2.1.0...v2.4.0) (2025-07-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* [skip ci]
+
+### Features
+
+* ✨ 表格操作栏按钮下拉菜单 ([51cc9fa](https://github.com/nsnail/NetAdmin/commit/51cc9fa80ca296fa6c320d0a47ed51ee0aaef1ce))
+* ✨ 表格右键菜单增加排序功能 ([a202595](https://github.com/nsnail/NetAdmin/commit/a2025956878d4e8fb935659f4db0adee02cd8071))
+* ✨ 财务管理 ([94d0b70](https://github.com/nsnail/NetAdmin/commit/94d0b7028f8a0d31af67b435f5ed14f7eb2de0b4))
+* ✨ 菜单复制 ([#214](https://github.com/nsnail/NetAdmin/issues/214)) ([81d9b0b](https://github.com/nsnail/NetAdmin/commit/81d9b0b3bb280661ceffa61aa6e9d612fb7ec52c))
+* ✨ 分组统计功能 ([0b036e9](https://github.com/nsnail/NetAdmin/commit/0b036e9d67ffdf7a07c772606009f02744e6a3c3))
+* ✨ 框架代码同步 ([098cfc1](https://github.com/nsnail/NetAdmin/commit/098cfc135e781a0cf172cd1289e5e871c7a76419))
+* ✨ 框架代码同步 ([7256626](https://github.com/nsnail/NetAdmin/commit/725662693b7b47f6fae4c1917dd8d80220c7640a))
+* ✨ 文档管理 ([#221](https://github.com/nsnail/NetAdmin/issues/221)) ([7ed3040](https://github.com/nsnail/NetAdmin/commit/7ed30406c9f721a12f0b756ec8884a1882242b93))
+* ✨ 移动国家代码 ([2ff1466](https://github.com/nsnail/NetAdmin/commit/2ff146664e539c395d98530856783f33d3bbd6f2))
+* ✨ 营销管理 ([62ac779](https://github.com/nsnail/NetAdmin/commit/62ac7790e80408c9194a71b032f7597c5d8c16cf))
+* ✨ 营销管理-返佣比率 ([e5a0f92](https://github.com/nsnail/NetAdmin/commit/e5a0f925a0650a263b79de0e5793b8db2348a7ae))
+* ✨ 自助充值 ([e621532](https://github.com/nsnail/NetAdmin/commit/e62153289fd13c5588518a5ee7cfc05c799df6b9))
+* ✨ 作业增加请求地址显示查询 ([585f8f4](https://github.com/nsnail/NetAdmin/commit/585f8f4e43ae7fe0c9c387cc41f629f4f279740a))
+* ✨ select-filter badge icon ([#217](https://github.com/nsnail/NetAdmin/issues/217)) ([4d857f1](https://github.com/nsnail/NetAdmin/commit/4d857f1861b1256980e7cc59e2ab6a5f7d966da2))
+
+
+### Bug Fixes
+
+* 🐛 按钮文字提示 ([#227](https://github.com/nsnail/NetAdmin/issues/227)) ([c88c8d2](https://github.com/nsnail/NetAdmin/commit/c88c8d293d44f2707f3b5232e6a40a141af9981c))
+* 🐛 初次访问时前端js错误 ([9b6e053](https://github.com/nsnail/NetAdmin/commit/9b6e053721c95cf5fbdfa11112892a51e047af59))
+* 🐛 档案管理空列表loading状态 ([ac4bb50](https://github.com/nsnail/NetAdmin/commit/ac4bb50b66034f9841ba2398a168ed746c673aea))
+* 🐛 导出界面报错 ([#213](https://github.com/nsnail/NetAdmin/issues/213)) ([ef2f0de](https://github.com/nsnail/NetAdmin/commit/ef2f0de095e314f34bec21c0a2ccdb51423a163b))
+* 🐛 导出文件的responseType ([#205](https://github.com/nsnail/NetAdmin/issues/205)) ([841a419](https://github.com/nsnail/NetAdmin/commit/841a4195e77aa96e3c6c72626c1add3f71a310aa))
+* 🐛 个性主题色冲突 ([4e4a1d0](https://github.com/nsnail/NetAdmin/commit/4e4a1d0dff7f3698e9a9cfcf46368260cfd70cbd))
+* 🐛 前端警告 ([9c81ce6](https://github.com/nsnail/NetAdmin/commit/9c81ce6f9fe9573c33a99eb86fcf727ed0cbf9f0))
+* 🐛 请求日志批量插入，漏写了登录日志 ([#210](https://github.com/nsnail/NetAdmin/issues/210)) ([6c71c74](https://github.com/nsnail/NetAdmin/commit/6c71c74a27617c7d0530a5f6eaff650ecfd4eaec))
+* 🐛 文件下载编码匹配 ([541c061](https://github.com/nsnail/NetAdmin/commit/541c0616bf5d405a62eac0c5eb967f0ddd4c5139))
+* 🐛 修复一些样式问题 ([442a69f](https://github.com/nsnail/NetAdmin/commit/442a69f90de179539f78c01d967572f83bd2eff8))
+* 🐛 样式问题 ([377c28c](https://github.com/nsnail/NetAdmin/commit/377c28c57049d453108f9da41b168e1fdb64d7e1))
+* 🐛 用户选择器报错 ([#220](https://github.com/nsnail/NetAdmin/issues/220)) ([71bfdaa](https://github.com/nsnail/NetAdmin/commit/71bfdaafa8176cf686b03244ee758de058080a71))
+* 🐛 种子数据 ([f6aee1b](https://github.com/nsnail/NetAdmin/commit/f6aee1be0f05113cf1b798e23a176c02686348b5))
+* 🐛 build err ([60e8451](https://github.com/nsnail/NetAdmin/commit/60e8451048a42cfa47d7c82b038eb8db7e017697))
+* 🐛 build error ([278e10d](https://github.com/nsnail/NetAdmin/commit/278e10d8fc750eeb0933a86b64d69f5cc7e0b1cb))
+* 🐛 editUser ([ef2a0c3](https://github.com/nsnail/NetAdmin/commit/ef2a0c3280532ac24889279e4780a1b1a2561a6b))
+* 🐛 idd ([#208](https://github.com/nsnail/NetAdmin/issues/208)) ([4e9f605](https://github.com/nsnail/NetAdmin/commit/4e9f605ea2cc6fe394068cfea5638e51920b9096))
+* 🐛 scTable dataChanged ([52e7f93](https://github.com/nsnail/NetAdmin/commit/52e7f93cc2de967a7a90448813b4c1030996d170))
+* 🐛 version 条件重复指定 ([01058ba](https://github.com/nsnail/NetAdmin/commit/01058ba7288bcc645f66de2f78e1d659d55333cf))
+* 🐛 version lock ([4eecc0b](https://github.com/nsnail/NetAdmin/commit/4eecc0b4ce09f620f83109949e4c2b67b7f8ba90))
+* 🐛 vue3-json-viewer 升级出现问题 ([0a03e27](https://github.com/nsnail/NetAdmin/commit/0a03e27b0e7a62de0d836de2dea061adc392cf0f))
+* flowchart显示问题 ([eef6661](https://github.com/nsnail/NetAdmin/commit/eef6661c9233c88b3447cc94b44c025b7b87ff8a))
+
 ### [2.3.1](https://github.com/nsnail/NetAdmin/compare/v2.1.0...v2.3.1) (2024-12-13)
 
 
