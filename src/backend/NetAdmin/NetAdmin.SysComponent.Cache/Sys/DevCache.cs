@@ -23,4 +23,28 @@ public sealed class DevCache(IDistributedCache cache, IDevService service) //
     {
         return Service.GenerateJsCodeAsync();
     }
+
+    /// <inheritdoc />
+    public Task<IEnumerable<Tuple<string, string>>> GetDomainProjectsAsync()
+    {
+        return Service.GetDomainProjectsAsync();
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<string> GetDotnetDataTypes(GetDotnetDataTypesReq req)
+    {
+        return Service.GetDotnetDataTypes(req);
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<Tuple<string, string>> GetEntityBaseClasses()
+    {
+        return Service.GetEntityBaseClasses();
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<Tuple<string, string>> GetFieldInterfaces()
+    {
+        return Service.GetFieldInterfaces();
+    }
 }

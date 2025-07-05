@@ -45,16 +45,13 @@ public abstract class ApiResultHandler<T>
     /// <summary>
     ///     HTTP状态码处理
     /// </summary>
-    #pragma warning disable ASA001, VSTHRD200
-    public Task OnResponseStatusCodes( //
+    public Task OnResponseStatusCodesAsync( //
         HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings = null)
     {
         // 设置响应状态码
         UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
         return Task.CompletedTask;
     }
-
-    #pragma warning restore ASA001, VSTHRD200
 
     /// <summary>
     ///     请求成功

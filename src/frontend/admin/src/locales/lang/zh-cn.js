@@ -623,4 +623,9 @@ export default {
     按钮: '按钮',
     倒序排序: '倒序排序',
     顺序排序: '顺序排序',
+    '查看{summary}: {id}': '查看{summary}: {id}',
+    '新建{summary}': '新建{summary}',
+    '编辑{summary}: {id}': '编辑{summary}: {id}',
+    '{field} 不能为空': '{field} 不能为空',
+    '{field} 不正确': '{field} 不正确',
 }

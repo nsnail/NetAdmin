@@ -34,7 +34,7 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetime-range"
+                    dateType="datetimerange"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
@@ -59,8 +59,8 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
+                :context-extra="{ id: ['createdTime'] }"
                 :context-menus="['id', 'userRegisterConfirm', 'userRegisterDept.name', 'userRegisterRole.name', 'enabled', 'createdTime']"
-                :context-multi="{ id: ['createdTime'] }"
                 :export-api="$API.sys_config.export"
                 :params="query"
                 :query-api="$API.sys_config.pagedQuery"

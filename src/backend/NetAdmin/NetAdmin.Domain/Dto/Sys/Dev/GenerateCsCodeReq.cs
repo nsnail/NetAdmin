@@ -1,4 +1,4 @@
-namespace NetAdmin.Domain.Dto.Sys.Dev;
+﻿namespace NetAdmin.Domain.Dto.Sys.Dev;
 
 /// <summary>
 ///     请求：生成后端代码
@@ -6,20 +6,32 @@ namespace NetAdmin.Domain.Dto.Sys.Dev;
 public sealed record GenerateCsCodeReq : DataAbstraction
 {
     /// <summary>
-    ///     模块名称
+    ///     基类
     /// </summary>
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.模块名称不能为空))]
-    public string ModuleName { get; init; }
+    public string BaseClass { get; init; }
 
     /// <summary>
-    ///     模块说明
+    ///     实体名称
     /// </summary>
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.模块说明不能为空))]
-    public string ModuleRemark { get; init; }
+    public string EntityName { get; init; }
 
     /// <summary>
-    ///     模块类型
+    ///     字段列表
     /// </summary>
-    [Required(ErrorMessageResourceType = typeof(Ln), ErrorMessageResourceName = nameof(Ln.模块类型不能为空))]
-    public string Type { get; init; }
+    public IReadOnlyCollection<FieldItemInfo> FieldList { get; init; }
+
+    /// <summary>
+    ///     接口列表
+    /// </summary>
+    public string[] Interfaces { get; init; }
+
+    /// <summary>
+    ///     项目
+    /// </summary>
+    public string Project { get; init; }
+
+    /// <summary>
+    ///     描述
+    /// </summary>
+    public string Summary { get; init; }
 }

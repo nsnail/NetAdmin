@@ -78,7 +78,7 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetime-range"
+                    dateType="datetimerange"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
@@ -112,6 +112,7 @@
                         }
                     }
                 "
+                :context-extra="{ id: ['createdTime'] }"
                 :context-menus="[
                     'id',
                     'jobName',
@@ -125,7 +126,6 @@
                     'createdTime',
                     'lastDuration',
                 ]"
-                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'lastExecTime', order: 'descending' }"
                 :export-api="$API.sys_job.export"
                 :page-size="100"

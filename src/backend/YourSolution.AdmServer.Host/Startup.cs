@@ -105,9 +105,13 @@ namespace YourSolution.AdmServer.Host
         }
 
         /// <inheritdoc />
-        #pragma warning disable ASA001
-        public async Task<int> Execute(CommandContext context, CommandLineArgs settings)
-            #pragma warning restore ASA001
+        public Task<int> ExecuteAsync(CommandContext context, CommandSettings settings)
+        {
+            return ExecuteAsync(context, (settings as CommandLineArgs)!);
+        }
+
+        /// <inheritdoc />
+        public async Task<int> ExecuteAsync(CommandContext context, CommandLineArgs settings)
         {
             Args = settings;
             var webOpt = new WebApplicationOptions //
@@ -118,14 +122,6 @@ namespace YourSolution.AdmServer.Host
             Serve.BuildApplication(RunOptions.Default.ConfigureOptions(webOpt), null, out var startUrl, out var app);
             await app.RunAsync(startUrl).ConfigureAwait(false);
             return 0;
-        }
-
-        /// <inheritdoc />
-        #pragma warning disable ASA001
-        public Task<int> Execute(CommandContext context, CommandSettings settings)
-            #pragma warning restore ASA001
-        {
-            return Execute(context, (settings as CommandLineArgs)!);
         }
 
         /// <inheritdoc />

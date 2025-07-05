@@ -279,12 +279,23 @@
     "Type": 1
   },
   {
+    "Component": "sys/template",
+    "Icon": "sc-icon-template",
+    "Id": 694076641718288,
+    "Name": "dev/template",
+    "ParentId": 373838105399301,
+    "Path": "/dev/template",
+    "Sort": 99,
+    "Title": "页面模板",
+    "Type": 1
+  },
+  {
     "Id": 482777529417739,
     "ParentId": 373838105399301,
     "Icon": "el-icon-eleme-filled",
     "Name": "dev/element",
     "Path": "https://element-plus.org/zh-CN/component/overview.html",
-    "Sort": 99,
+    "Sort": 98,
     "Title": "Element",
     "Type": 3,
   },
@@ -294,7 +305,7 @@
     "Icon": "sc-icon-free-sql",
     "Name": "dev/freesql",
     "Path": "https://freesql.net/guide",
-    "Sort": 99,
+    "Sort": 97,
     "Title": "FreeSql",
     "Type": 3,
   }

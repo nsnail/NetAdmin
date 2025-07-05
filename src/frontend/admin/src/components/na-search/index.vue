@@ -443,7 +443,7 @@ export default {
         }
         this.aceEditorValue = this.vkbeautify.json(this.vue.query, 2)
         this.selectInputKey = this.controls.find((x) => x.type === 'select-input')?.field[1][0].key
-        if (this.dateType === 'datetime-range') {
+        if (this.dateType === 'datetimerange') {
             this.dateShortCuts.unshift(
                 {
                     text: this.$t('最近一时'),

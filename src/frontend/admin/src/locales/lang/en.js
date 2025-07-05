@@ -625,4 +625,9 @@ export default {
     按钮: 'Button',
     倒序排序: 'Sort-Descending',
     顺序排序: 'Sort-Ascending',
+    '查看{summary}: {id}': 'View {summary}: {id}',
+    '新建{summary}': 'Add {summary}',
+    '编辑{summary}: {id}': 'Edit {summary}: {id}',
+    '{field} 不能为空': '{field} Must not be empty',
+    '{field} Incorrect': '{field} Incorrect',
 }

@@ -28,6 +28,7 @@ public sealed class RequestAuditMiddleware(
            ) {
             #pragma warning restore SA1009
             await next(context).ConfigureAwait(false);
+
             return;
         }
 
