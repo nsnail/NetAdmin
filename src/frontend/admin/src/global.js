@@ -31,6 +31,7 @@ import scSelectFilter from '@/components/sc-select-filter'
 import scStatistic from '@/components/sc-statistic'
 import scStatusIndicator from '@/components/sc-mini/sc-status-indicator'
 import scTable from '@/components/sc-table'
+import scSelect from '@/components/sc-select'
 
 // net-admin组件
 import naButtonBulkDel from '@/components/na-button-bulk-del'
@@ -39,8 +40,9 @@ import naColIndicator from '@/components/na-col-indicator'
 import naColOperation from '@/components/na-col-operation'
 import naColUser from '@/components/na-col-user'
 import naIndicator from '@/components/na-indicator'
-import naSearch from '@/components/na-search'
 import naInfo from '@/components/na-info'
+import naSearch from '@/components/na-search'
+import naTablePage from '@/components/na-table-page'
 
 export default {
     install(app) {
@@ -80,6 +82,7 @@ export default {
         app.component('naIndicator', naIndicator)
         app.component('naInfo', naInfo)
         app.component('naSearch', naSearch)
+        app.component('naTablePage', naTablePage)
 
         // sc组件
         app.component('scDialog', scDialog)
@@ -87,6 +90,7 @@ export default {
         app.component('scStatistic', scStatistic)
         app.component('scStatusIndicator', scStatusIndicator)
         app.component('scTable', scTable)
+        app.component('scSelect', scSelect)
 
         //注册全局指令
         app.directive('auth', auth)

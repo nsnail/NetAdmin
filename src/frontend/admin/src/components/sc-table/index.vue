@@ -117,9 +117,12 @@
         <sc-contextmenu-item
             v-for="(menu, index) in contextMenus.filter((x) => {
                 if (current.column?.property === x) {
+                    this.showCopy = true
                     return true
                 }
-                return this.contextMulti && !!this.contextMulti[current.column?.property]?.find((y) => y === x)
+                const ret = this.contextExtra && !!this.contextExtra[current.column?.property]?.find((y) => y === x)
+                if (ret) this.showCopy = true
+                return ret
             })"
             :command="menu"
             :key="index"
@@ -151,9 +154,15 @@
                 :command="`${menu}^|^order-descending^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
                 :title="$t('倒序排序')" />
         </sc-contextmenu-item>
-        <sc-contextmenu-item :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C" />
-        <sc-contextmenu-item v-if="contextOpers.includes('add')" :title="$t('新建')" command="add" divided icon="el-icon-plus" suffix="A" />
-        <sc-contextmenu-item v-if="contextOpers.includes('view')" :title="$t('查看')" command="view" icon="el-icon-view" suffix="V" />
+        <sc-contextmenu-item v-if="showCopy" :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C" />
+        <sc-contextmenu-item
+            v-if="contextOpers.includes('add')"
+            :divided="showCopy"
+            :title="$t('新建')"
+            command="add"
+            icon="el-icon-plus"
+            suffix="A" />
+        <sc-contextmenu-item :title="$t('查看')" command="view" icon="el-icon-view" suffix="V" />
         <sc-contextmenu-item v-if="contextOpers.includes('edit')" :title="$t('编辑')" command="edit" icon="el-icon-edit" suffix="E" />
         <sc-contextmenu-item v-if="contextOpers.includes('del')" :title="$t('删除')" command="del" icon="el-icon-delete" suffix="D" />
         <sc-contextmenu-item
@@ -179,6 +188,7 @@ const fieldFilter = defineAsyncComponent(() => import('./field-filter'))
 
 import { h } from 'vue'
 import tool from '@/utils/tool'
+import iframe from '@/store/modules/iframe'
 
 export default {
     name: 'scTable',
@@ -192,9 +202,9 @@ export default {
         dblClickDisable: { type: Boolean, default: false },
         vue: { type: Object },
         contextMenus: { type: Array },
-        contextOpers: { type: Array, default: ['copy', 'add', 'view', 'edit', 'del'] },
+        contextOpers: { type: Array, default: [] },
         contextAdvs: { type: Array, default: [] },
-        contextMulti: { type: Object },
+        contextExtra: { type: Object },
         tableName: { type: String, default: '' },
         beforePost: {
             type: Function,
@@ -256,6 +266,9 @@ export default {
         },
     },
     computed: {
+        iframe() {
+            return iframe
+        },
         tool() {
             return tool
         },
@@ -268,6 +281,7 @@ export default {
     },
     data() {
         return {
+            showCopy: false,
             pagerCount: 11,
             current: {
                 row: null,
@@ -326,7 +340,7 @@ export default {
                 return
             }
             if (this.vue.dialog) {
-                this.vue.dialog.save = { mode: 'view', row: { id: row.id } }
+                this.vue.dialog.detail = { mode: 'view', row: { id: row.id } }
             }
         },
         async contextMenuCommand(command) {
@@ -357,7 +371,7 @@ export default {
                 return
             }
             if (command === 'view') {
-                this.vue.dialog.save = { mode: 'view', row: { id: this.current.row.id } }
+                await this.vue.onViewClick(this.current.row)
                 return
             }
             if (command === 'export') {
@@ -365,22 +379,15 @@ export default {
                 return
             }
             if (command === 'add') {
-                this.vue.dialog.save = { mode: 'add' }
+                await this.vue.onAddClick()
                 return
             }
             if (command === 'edit') {
-                this.vue.dialog.save = { mode: 'edit', row: { id: this.current.row.id } }
+                await this.vue.onEditClick(this.current.row)
                 return
             }
             if (command === 'del') {
-                try {
-                    await this.$confirm(h('div', [h('p', this.$t('是否确认删除？')), h('p', this.current.row.id)]), this.$t('提示'), {
-                        type: 'warning',
-                    })
-                } catch {
-                    return
-                }
-                await this.vue.rowDel(this.current.row)
+                await this.vue.onDeleteClick(this.current.row)
                 return
             }
             const kv = command.split('^|^')
@@ -404,6 +411,7 @@ export default {
             }
         },
         contextMenuVisibleChange(visible) {
+            this.showCopy = false
             if (!visible) {
                 this.setCurrentRow()
             }

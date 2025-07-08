@@ -1,15 +1,12 @@
-using NetAdmin.Application.Repositories;
-using NetAdmin.Application.Services.Tpl.Dependency;
-using NetAdmin.Domain.DbMaps.Tpl;
-using NetAdmin.Domain.Dto.Dependency;
-using NetAdmin.Domain.Dto.Tpl.Example;
+using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.CodeTemplate;
 using NetAdmin.Domain.Extensions;
 
-namespace NetAdmin.Application.Services.Tpl;
+namespace NetAdmin.SysComponent.Application.Services.Sys;
 
-/// <inheritdoc cref="IExampleService" />
-public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
-    : RepositoryService<Tpl_Example, long, IExampleService>(rpo), IExampleService
+/// <inheritdoc cref="ICodeTemplateService" />
+public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> rpo) //
+    : RepositoryService<Sys_CodeTemplate, long, ICodeTemplateService>(rpo), ICodeTemplateService
 {
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -26,34 +23,34 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryExampleReq> req)
+    public Task<long> CountAsync(QueryReq<QueryCodeTemplateReq> req)
     {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryExampleReq> req)
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryCodeTemplateReq> req)
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
                         .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Tpl_Example>())
+                        .GroupBy(req.GetToListExp<Sys_CodeTemplate>())
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Tpl_Example).GetProperty(y)!.GetValue(x.Key)?.ToString())
-                            , x.Value))
+                              req.RequiredFields.ToImmutableDictionary(
+                                  y => y, y => typeof(Sys_CodeTemplate).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .Where(x => x.Key.Any(y => !y.Value.NullOrEmpty()))
                   .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
-    public async Task<QueryExampleRsp> CreateAsync(CreateExampleReq req)
+    public async Task<QueryCodeTemplateRsp> CreateAsync(CreateCodeTemplateReq req)
     {
         req.ThrowIfInvalid();
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
-        return ret.Adapt<QueryExampleRsp>();
+        return ret.Adapt<QueryCodeTemplateRsp>();
     }
 
     /// <inheritdoc />
@@ -64,33 +61,35 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
     }
 
     /// <inheritdoc />
-    public async Task<QueryExampleRsp> EditAsync(EditExampleReq req)
+    public async Task<QueryCodeTemplateRsp> EditAsync(EditCodeTemplateReq req)
     {
         req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryExampleRsp>();
         #else
-        return await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryExampleReq { Id = req.Id }).ConfigureAwait(false) : null;
+        return await UpdateAsync(req).ConfigureAwait(false) > 0
+            ? await GetAsync(new QueryCodeTemplateReq { Id = req.Id }).ConfigureAwait(false)
+            : null;
         #endif
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryExampleReq> req)
+    public Task<IActionResult> ExportAsync(QueryReq<QueryCodeTemplateReq> req)
     {
         req.ThrowIfInvalid();
-        return ExportAsync<QueryExampleReq, QueryExampleRsp>(QueryInternal, req, Ln.示例导出);
+        return ExportAsync<QueryCodeTemplateReq, QueryCodeTemplateRsp>(QueryInternal, req, Ln.代码模板导出);
     }
 
     /// <inheritdoc />
-    public async Task<QueryExampleRsp> GetAsync(QueryExampleReq req)
+    public async Task<QueryCodeTemplateRsp> GetAsync(QueryCodeTemplateReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryExampleReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
-        return ret.Adapt<QueryExampleRsp>();
+        var ret = await QueryInternal(new QueryReq<QueryCodeTemplateReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
+        return ret.Adapt<QueryCodeTemplateRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryExampleRsp>> PagedQueryAsync(PagedQueryReq<QueryExampleReq> req)
+    public async Task<PagedQueryRsp<QueryCodeTemplateRsp>> PagedQueryAsync(PagedQueryReq<QueryCodeTemplateReq> req)
     {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
@@ -100,18 +99,18 @@ public sealed class ExampleService(BasicRepository<Tpl_Example, long> rpo) //
                          .ToListAsync(req)
                          .ConfigureAwait(false);
 
-        return new PagedQueryRsp<QueryExampleRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryExampleRsp>>());
+        return new PagedQueryRsp<QueryCodeTemplateRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryCodeTemplateRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryExampleRsp>> QueryAsync(QueryReq<QueryExampleReq> req)
+    public async Task<IEnumerable<QueryCodeTemplateRsp>> QueryAsync(QueryReq<QueryCodeTemplateReq> req)
     {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
-        return ret.Adapt<IEnumerable<QueryExampleRsp>>();
+        return ret.Adapt<IEnumerable<QueryCodeTemplateRsp>>();
     }
 
-    private ISelect<Tpl_Example> QueryInternal(QueryReq<QueryExampleReq> req)
+    private ISelect<Sys_CodeTemplate> QueryInternal(QueryReq<QueryCodeTemplateReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
 

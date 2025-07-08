@@ -41,7 +41,7 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetime-range"
+                    dateType="datetimerange"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
@@ -66,8 +66,8 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
+                :context-extra="{ id: ['createdTime'] }"
                 :context-menus="['id', 'name', 'sort', 'enabled', 'createdTime', 'summary']"
-                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'sort', order: 'descending' }"
                 :export-api="$API.sys_dept.export"
                 :params="query"

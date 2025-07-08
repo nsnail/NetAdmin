@@ -46,7 +46,7 @@
                     @reset="Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = ['']))"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetime-range"
+                    dateType="datetimerange"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
@@ -57,8 +57,8 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
+                :context-extra="{ id: ['createdTime'] }"
                 :context-menus="['id', 'createdUserName', 'msgType', 'title', 'summary', 'createdTime']"
-                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_sitemsg.export"
                 :params="query"

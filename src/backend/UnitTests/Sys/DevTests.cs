@@ -35,4 +35,45 @@ public class DevTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
         var rsp = await PostJsonAsync(typeof(DevController));
         Assert.True(rsp.IsSuccessStatusCode);
     }
+
+    /// <inheritdoc />
+    [Fact]
+    public async Task<IEnumerable<Tuple<string, string>>> GetDomainProjectsAsync()
+    {
+        var rsp = await PostJsonAsync(typeof(DevController));
+        Assert.True(rsp.IsSuccessStatusCode);
+        return null;
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<string> GetDotnetDataTypes(GetDotnetDataTypesReq req)
+    {
+        #pragma warning disable xUnit1031
+        var rsp = PostJsonAsync(typeof(DevController)).GetAwaiter().GetResult();
+        #pragma warning restore xUnit1031
+        Assert.True(rsp.IsSuccessStatusCode);
+        return null;
+    }
+
+    /// <inheritdoc />
+    [Fact]
+    public IEnumerable<Tuple<string, string>> GetEntityBaseClasses()
+    {
+        #pragma warning disable xUnit1031
+        var rsp = PostJsonAsync(typeof(DevController)).GetAwaiter().GetResult();
+        #pragma warning restore xUnit1031
+        Assert.True(rsp.IsSuccessStatusCode);
+        return null;
+    }
+
+    /// <inheritdoc />
+    [Fact]
+    public IEnumerable<Tuple<string, string>> GetFieldInterfaces()
+    {
+        #pragma warning disable xUnit1031
+        var rsp = PostJsonAsync(typeof(DevController)).GetAwaiter().GetResult();
+        #pragma warning restore xUnit1031
+        Assert.True(rsp.IsSuccessStatusCode);
+        return null;
+    }
 }

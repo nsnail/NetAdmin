@@ -41,7 +41,7 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetime-range"
+                    dateType="datetimerange"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
@@ -70,8 +70,8 @@
         <el-main class="nopadding">
             <sc-table
                 :before-post="(data) => data.dynamicFilter.filters.length > 0"
+                :context-extra="{ id: ['createdTime'] }"
                 :context-menus="['key', 'value', 'enabled', 'createdTime', 'id', 'summary']"
-                :context-multi="{ id: ['createdTime'] }"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_dic.exportContent"
                 :params="query"

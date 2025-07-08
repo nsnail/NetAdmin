@@ -69,7 +69,7 @@
                     @reset="onReset"
                     @search="onSearch"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
-                    dateType="datetime-range"
+                    dateType="datetimerange"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
@@ -77,6 +77,7 @@
         </el-header>
         <el-main class="nopadding">
             <sc-table
+                :context-extra="{ id: ['createdTime'], ownerId: ['owner.userName'] }"
                 :context-menus="[
                     'id',
                     'ownerId',
@@ -88,7 +89,6 @@
                     'owner.userName',
                     'tradeDirection',
                 ]"
-                :context-multi="{ id: ['createdTime'], ownerId: ['owner.userName'] }"
                 :context-opers="['view']"
                 :default-sort="{ prop: 'id', order: 'descending' }"
                 :export-api="$API.sys_wallettrade.export"
