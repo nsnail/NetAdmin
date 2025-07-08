@@ -24,7 +24,12 @@
                             v-else-if="typeof form[i] === `boolean` || item.isBoolean"
                             v-model="form[i]"
                             :disabled="item.disabled?.includes(mode)" />
-                        <el-input v-else v-model="form[i]" :disabled="item.disabled?.includes(mode)" />
+                        <component
+                            v-bind="item.detail?.props"
+                            v-else
+                            v-model="form[i]"
+                            :disabled="item.disabled?.includes(mode)"
+                            :is="item.detail?.is ?? `el-input`" />
                     </el-form-item>
                 </template>
             </el-form>

@@ -74,8 +74,8 @@
                         "
                         :prop="i"
                         :sortable="item.sortable ?? `custom`">
-                        <template v-if="i === `enabled`" #default="{ row }">
-                            <el-switch v-model="row.enabled" @change="onEnabledChange($event, row)"></el-switch>
+                        <template v-if="item.isBoolean" #default="{ row }">
+                            <el-switch v-model="row[i]" @change="onSwitchChange(row, i === `enabled` ? `setEnabled` : item.onChange)"></el-switch>
                         </template>
                     </component>
                 </template>
@@ -279,9 +279,9 @@ export default {
         async onAddClick() {
             this.dialog.detail = { mode: 'add' }
         },
-        async onEnabledChange(event, row) {
+        async onSwitchChange(row, method) {
             try {
-                await this.$API[this.entityName].setEnabled.post(row)
+                await this.$API[this.entityName][method].post(row)
                 this.$message.success(this.$t('操作成功'))
             } catch {
                 //
@@ -306,9 +306,10 @@ export default {
             for (const item of res) {
                 for (const item2 of item.data) {
                     const key = Object.entries(item2.key)[0]
-                    this.selectFilterData
+                    const filter = this.selectFilterData
                         .find((x) => x.key.toString().toLowerCase() === key[0].toLowerCase())
-                        .options.find((x) => x.value.toString().toLowerCase() === key[1].toLowerCase()).badge = item2.value
+                        ?.options.find((x) => x.value.toString().toLowerCase() === key[1].toLowerCase())
+                    if (filter) filter.badge = item2.value
                 }
             }
         },

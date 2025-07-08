@@ -28,7 +28,7 @@
                 show: [`list`, `view`, `add`, `edit`],
             },
             sort: {
-                label: $t(`排序值`),
+                label: $t(`排序`),
                 align: `right`,
                 width: 100,
                 show: [`list`, `view`, `add`, `edit`],
