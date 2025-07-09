@@ -65,7 +65,7 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
     {
         req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
-        return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryExampleRsp>();
+        return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryCodeTemplateRsp>();
         #else
         return await UpdateAsync(req).ConfigureAwait(false) > 0
             ? await GetAsync(new QueryCodeTemplateReq { Id = req.Id }).ConfigureAwait(false)
