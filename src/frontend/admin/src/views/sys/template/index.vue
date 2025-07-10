@@ -7,29 +7,33 @@
                 extra: [`createdTime`],
                 width: 170,
                 show: [`list`, `view`],
-                searchable: `eq`,
+                searchable: true,
             },
             name: {
-                label: $t(`名字`),
-                width: 150,
-                show: [`list`, `view`, `add`, `edit`],
+                label: $t(`名称`),
                 rule: {
                     required: true,
                 },
-                searchable: `eq`,
+                show: [`list`, `view`, `add`, `edit`],
+                searchable: true,
+                operator: `contains`,
             },
             gender: {
                 label: $t(`性别`),
                 is: `na-col-indicator`,
                 enum: `genders`,
-                width: 100,
+                width: 200,
                 align: `center`,
+                rule: {
+                    required: true,
+                },
                 countBy: true,
                 show: [`list`, `view`, `add`, `edit`],
             },
             sort: {
                 label: $t(`排序`),
                 align: `right`,
+                thousands: true,
                 width: 100,
                 show: [`list`, `view`, `add`, `edit`],
                 rule: {
@@ -43,7 +47,8 @@
             summary: {
                 label: $t(`备注`),
                 show: [`list`, `view`, `add`, `edit`],
-                searchable: `contains`,
+                searchable: true,
+                operator: `contains`,
             },
             enabled: {
                 label: $t(`启用`),
@@ -62,33 +67,31 @@
                 show: [`view`],
             },
         }"
-        :operations="[`add`, `del`, `edit`]"
-        :search-controls="[
-            {
-                type: `input`,
-                field: [`root`, `keywords`],
-                placeholder: $t(`消息编号 / 消息主题 / 消息内容`),
-                style: `width:25rem`,
-            },
-        ]"
-        :select-filters="[
-            {
-                title: $t(`是否启用`),
-                key: `Enabled`,
-                enumName: `Enabled`,
-                isBoolean: [
-                    { label: $t(`启用`), value: true },
-                    { label: $t(`禁用`), value: false },
-                ],
-            },
-            {
-                title: $t(`性别`),
-                key: `Gender`,
-                enumName: `genders`,
-            },
-        ]"
-        :summary="$t(`代码模板`)"
+        :operations="operations"
+        :summary="$t(`页面模板`)"
         entity-name="sys_codetemplate" />
 </template>
-
+<script>
+export default {
+    created() {
+        if (this.$GLOBAL.hasApiPermission(`api/sys/code.template/get`)) {
+            this.operations.push(`view`)
+        }
+        if (this.$GLOBAL.hasApiPermission(`api/sys/code.template/edit`)) {
+            this.operations.push(`edit`)
+        }
+        if (this.$GLOBAL.hasApiPermission(`api/sys/code.template/create`)) {
+            this.operations.push(`add`)
+        }
+        if (this.$GLOBAL.hasApiPermission(`api/sys/code.template/delete`)) {
+            this.operations.push(`del`)
+        }
+    },
+    data() {
+        return {
+            operations: [],
+        }
+    },
+}
+</script>
 <style scoped />
