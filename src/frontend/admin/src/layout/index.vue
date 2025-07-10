@@ -220,7 +220,8 @@
 import { defineAsyncComponent } from 'vue'
 const sideM = defineAsyncComponent(() => import('./components/side-m'))
 const topbar = defineAsyncComponent(() => import('./components/topbar'))
-const tags = defineAsyncComponent(() => import('./components/tags'))
+// 这里直接import避免闪烁
+import tags from '@/layout/components/tags.vue'
 const navMenu = defineAsyncComponent(() => import('./components/nav-menu'))
 const userBar = defineAsyncComponent(() => import('./components/user-bar'))
 const iframeView = defineAsyncComponent(() => import('./components/iframe-view'))

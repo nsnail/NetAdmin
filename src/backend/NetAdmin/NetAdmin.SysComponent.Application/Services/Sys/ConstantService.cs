@@ -31,15 +31,13 @@ public sealed class ConstantService : ServiceBase<IConstantService>, IConstantSe
         static string[] GetDicValue(Enum y)
         {
             var ret = new[] { Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture), y.ResDesc<Ln>() };
-            if (y is CountryCodes z) {
-                return [..ret, z.GetCallingCode().ToInvString()];
-            }
 
             var decorationAttribute = y.Attr<EnumDecorationAttribute>() ?? new EnumDecorationAttribute();
-            return [
+            ret = [
                 ..ret, decorationAttribute.Indicate.ToLowerInvariant(), decorationAttribute.Pulse.ToString().ToLowerInvariant()
               , decorationAttribute.Sort.ToInvString()
             ];
+            return y is CountryCodes z ? [..ret, z.GetCallingCode().ToInvString()] : ret;
         }
 
         static string[] GetHttpStatusCodeDicValue(string name)

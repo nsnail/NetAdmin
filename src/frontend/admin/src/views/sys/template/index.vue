@@ -91,18 +91,4 @@
         entity-name="sys_codetemplate" />
 </template>
 
-<script>
-export default {
-    components: {},
-    computed: {},
-    created() {},
-    data() {},
-    inject: [`reload`],
-    methods: {},
-    mounted() {},
-    props: [`keywords`],
-    watch: {},
-}
-</script>
-
 <style scoped />

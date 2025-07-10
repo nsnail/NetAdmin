@@ -52,21 +52,25 @@ public record QueryReq<T> : DataAbstraction
         }
 
         var expParameter = Expression.Parameter(typeof(TEntity), "a");
-        var bindings     = new List<MemberBinding>();
+        var bindings     = new List<(PropertyInfo, MemberInitExpression)>();
 
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var field in RequiredFields) {
-            var prop = typeof(TEntity).GetProperty(field);
+            var prop = typeof(TEntity).GetRecursiveProperty(field);
             if (prop == null || prop.GetCustomAttribute<DangerFieldAttribute>() != null) {
                 continue;
             }
 
-            var propExp = Expression.Property(expParameter, prop);
-            var binding = Expression.Bind(prop, propExp);
-            bindings.Add(binding);
+            var parentPath     = field[..field.LastIndexOf('.').Is(-1, field.Length)];
+            var parentProperty = typeof(TEntity).GetRecursiveProperty(parentPath);
+            var propExp        = Expression.Property(Expression.Parameter(prop.DeclaringType!, parentPath), prop);
+
+            bindings.Add((parentProperty, Expression.MemberInit(Expression.New(prop.DeclaringType), Expression.Bind(prop, propExp))));
         }
 
-        var expBody = Expression.MemberInit(Expression.New(typeof(TEntity)), bindings);
+        var expBody = Expression.MemberInit( //
+            Expression.New(typeof(TEntity))
+          , bindings.SelectMany(x => x.Item1.PropertyType == x.Item2.Type ? [Expression.Bind(x.Item1, x.Item2)] : x.Item2.Bindings.ToArray()));
         return Expression.Lambda<Func<TEntity, TEntity>>(expBody, expParameter);
     }
 }

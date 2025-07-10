@@ -1,17 +1,19 @@
 <template>
     <el-table-column v-bind="$attrs">
         <template #default="{ row }">
-            <div
-                :style="{ display: $TOOL.getNestedProperty(row, $attrs.prop) ? 'flex' : 'none' }"
-                @click="click($TOOL.getNestedProperty(row, $attrs.prop))"
-                class="el-table-column-avatar">
-                <el-avatar v-if="$TOOL.getNestedProperty(row, $attrs.nestProp)" :src="getAvatar(row, $attrs.nestProp)" size="small" />
+            <div :style="{ display: $TOOL.getNestedProperty(row, $attrs.prop) ? 'flex' : 'none' }" class="el-table-column-avatar">
+                <el-avatar
+                    v-if="$TOOL.getNestedProperty(row, $attrs.nestProp)"
+                    :src="getAvatar(row, $attrs.nestProp)"
+                    @click="click($TOOL.getNestedProperty(row, $attrs.prop))"
+                    size="small"
+                    style="cursor: pointer" />
                 <div>
                     <p>{{ $TOOL.getNestedProperty(row, $attrs.nestProp) }}</p>
                     <p v-if="$attrs.nestProp2">{{ $TOOL.getNestedProperty(row, $attrs.nestProp2) }}</p>
                 </div>
             </div>
-            <save-dialog v-if="dialog.save" @closed="dialog.save = false" ref="saveDialog" />
+            <save-dialog v-if="dialog.save" @closed="dialog.save = null" @mounted="$refs.saveDialog.open(dialog.save)" ref="saveDialog" />
         </template>
     </el-table-column>
 </template>
@@ -25,7 +27,7 @@ export default {
     created() {},
     data() {
         return {
-            dialog: { save: false },
+            dialog: {},
         }
     },
     emits: ['click'],
@@ -34,9 +36,7 @@ export default {
             if (!this.clickOpenDialog) {
                 return
             }
-            this.dialog.save = true
-            await this.$nextTick()
-            await this.$refs.saveDialog.open({ mode: 'view', row: { id: id } })
+            this.dialog.save = { mode: 'view', row: { id: id } }
         },
         //获取头像
         getAvatar(row, prop) {

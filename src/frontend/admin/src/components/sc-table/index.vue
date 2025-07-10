@@ -7,7 +7,7 @@
                 :data="tableData"
                 :default-expand-all="config.defaultExpandAll"
                 :default-sort="defaultSort"
-                :height="height === 'auto' ? null : '100%'"
+                :height="height === `auto` ? null : `100%`"
                 :key="toggleIndex"
                 :row-key="rowKey"
                 :size="config.size"
@@ -64,18 +64,18 @@
             <div v-if="!hideDo" class="scTable-do">
                 <el-button
                     v-if="exportApi"
-                    :title="$t('导出文件')"
+                    :title="$t(`导出文件`)"
                     @click="exportData"
                     circle
                     icon="el-icon-download"
                     plain
                     style="margin-left: 1rem"
                     type="primary" />
-                <el-button v-if="!hideRefresh" :title="$t('刷新')" @click="refresh" circle icon="el-icon-refresh" style="margin-left: 1rem" />
+                <el-button v-if="!hideRefresh" :title="$t(`刷新`)" @click="refresh" circle icon="el-icon-refresh" style="margin-left: 1rem" />
                 <el-popover
                     v-if="column"
                     :hide-after="0"
-                    :title="$t('列设置')"
+                    :title="$t(`列设置`)"
                     :width="500"
                     @after-leave="customColumnShow = false"
                     @show="customColumnShow = true"
@@ -92,21 +92,21 @@
                         @userChange="columnSettingChange"
                         ref="columnSetting" />
                 </el-popover>
-                <el-popover v-if="!hideSetting" :hide-after="0" :title="$t('表格设置')" :width="400" placement="top" trigger="click">
+                <el-popover v-if="!hideSetting" :hide-after="0" :title="$t(`表格设置`)" :width="400" placement="top" trigger="click">
                     <template #reference>
                         <el-button circle icon="el-icon-setting" style="margin-left: 1rem" />
                     </template>
                     <el-form label-position="left" label-width="10rem">
-                        <el-form-item :label="$t('表格尺寸')">
+                        <el-form-item :label="$t(`表格尺寸`)">
                             <el-radio-group v-model="config.size" @change="configSizeChange" size="small">
-                                <el-radio-button value="large">{{ $t('大') }}</el-radio-button>
-                                <el-radio-button value="default">{{ $t('正常') }}</el-radio-button>
-                                <el-radio-button value="small">{{ $t('小') }}</el-radio-button>
+                                <el-radio-button value="large">{{ $t(`大`) }}</el-radio-button>
+                                <el-radio-button value="default">{{ $t(`正常`) }}</el-radio-button>
+                                <el-radio-button value="small">{{ $t(`小`) }}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item :label="$t('样式')">
-                            <el-checkbox v-model="config.border" :label="$t('纵向边框')" />
-                            <el-checkbox v-model="config.stripe" :label="$t('斑马纹')" />
+                        <el-form-item :label="$t(`样式`)">
+                            <el-checkbox v-model="config.border" :label="$t(`纵向边框`)" />
+                            <el-checkbox v-model="config.stripe" :label="$t(`斑马纹`)" />
                         </el-form-item>
                     </el-form>
                 </el-popover>
@@ -127,44 +127,44 @@
             :command="menu"
             :key="index"
             :title="`${menu}`">
-            <sc-contextmenu-item :command="`${menu}^|^Equal^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="=" />
-            <sc-contextmenu-item :command="`${menu}^|^NotEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="≠" />
-            <sc-contextmenu-item :command="`${menu}^|^GreaterThan^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" divided title="＞" />
-            <sc-contextmenu-item :command="`${menu}^|^GreaterThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="≥" />
-            <sc-contextmenu-item :command="`${menu}^|^LessThan^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="＜" />
-            <sc-contextmenu-item :command="`${menu}^|^LessThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" title="≤" />
-            <sc-contextmenu-item :command="`${menu}^|^Contains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('包含')" divided />
-            <sc-contextmenu-item :command="`${menu}^|^NotContains^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('不含')" />
+            <sc-contextmenu-item :command="`${menu}^|^Equal^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" title="=" />
+            <sc-contextmenu-item :command="`${menu}^|^NotEqual^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" title="≠" />
+            <sc-contextmenu-item :command="`${menu}^|^GreaterThan^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" divided title="＞" />
+            <sc-contextmenu-item :command="`${menu}^|^GreaterThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" title="≥" />
+            <sc-contextmenu-item :command="`${menu}^|^LessThan^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" title="＜" />
+            <sc-contextmenu-item :command="`${menu}^|^LessThanOrEqual^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" title="≤" />
+            <sc-contextmenu-item :command="`${menu}^|^Contains^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`包含`)" divided />
+            <sc-contextmenu-item :command="`${menu}^|^NotContains^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`不含`)" />
             <sc-contextmenu-item
-                :command="`${menu}^|^StartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('以 x 开始')"
+                :command="`${menu}^|^StartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ``}`"
+                :title="$t(`以 x 开始`)"
                 divided />
-            <sc-contextmenu-item :command="`${menu}^|^NotStartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('非 x 开始')" />
-            <sc-contextmenu-item :command="`${menu}^|^EndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('以 x 结束')" />
-            <sc-contextmenu-item :command="`${menu}^|^NotEndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('非 x 结束')" />
-            <sc-contextmenu-item :command="`${menu}^|^Range^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('数值范围')" divided />
-            <sc-contextmenu-item :command="`${menu}^|^DateRange^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('日期范围')" />
-            <sc-contextmenu-item :command="`${menu}^|^Any^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('为其一')" divided />
-            <sc-contextmenu-item :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ''}`" :title="$t('非其一')" />
+            <sc-contextmenu-item :command="`${menu}^|^NotStartsWith^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`非 x 开始`)" />
+            <sc-contextmenu-item :command="`${menu}^|^EndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`以 x 结束`)" />
+            <sc-contextmenu-item :command="`${menu}^|^NotEndsWith^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`非 x 结束`)" />
+            <sc-contextmenu-item :command="`${menu}^|^Range^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`数值范围`)" divided />
+            <sc-contextmenu-item :command="`${menu}^|^DateRange^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`日期范围`)" />
+            <sc-contextmenu-item :command="`${menu}^|^Any^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`为其一`)" divided />
+            <sc-contextmenu-item :command="`${menu}^|^NotAny^|^${tool.getNestedProperty(current.row, menu) ?? ``}`" :title="$t(`非其一`)" />
             <sc-contextmenu-item
-                :command="`${menu}^|^order-ascending^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('顺序排序')"
+                :command="`${menu}^|^order-ascending^|^${tool.getNestedProperty(current.row, menu) ?? ``}`"
+                :title="$t(`顺序排序`)"
                 divided />
             <sc-contextmenu-item
-                :command="`${menu}^|^order-descending^|^${tool.getNestedProperty(current.row, menu) ?? ''}`"
-                :title="$t('倒序排序')" />
+                :command="`${menu}^|^order-descending^|^${tool.getNestedProperty(current.row, menu) ?? ``}`"
+                :title="$t(`倒序排序`)" />
         </sc-contextmenu-item>
-        <sc-contextmenu-item v-if="showCopy" :title="$t('复制')" command="copy" divided icon="el-icon-copy-document" suffix="C" />
+        <sc-contextmenu-item v-if="showCopy" :title="$t(`复制`)" command="copy" divided icon="el-icon-copy-document" suffix="C" />
         <sc-contextmenu-item
-            v-if="contextOpers.includes('add')"
+            v-if="contextOpers.includes(`add`)"
             :divided="showCopy"
-            :title="$t('新建')"
+            :title="$t(`新建`)"
             command="add"
             icon="el-icon-plus"
             suffix="A" />
-        <sc-contextmenu-item :title="$t('查看')" command="view" icon="el-icon-view" suffix="V" />
-        <sc-contextmenu-item v-if="contextOpers.includes('edit')" :title="$t('编辑')" command="edit" icon="el-icon-edit" suffix="E" />
-        <sc-contextmenu-item v-if="contextOpers.includes('del')" :title="$t('删除')" command="del" icon="el-icon-delete" suffix="D" />
+        <sc-contextmenu-item v-if="contextOpers.includes(`view`)" :title="$t(`查看`)" command="view" icon="el-icon-view" suffix="V" />
+        <sc-contextmenu-item v-if="contextOpers.includes(`edit`)" :title="$t(`编辑`)" command="edit" icon="el-icon-edit" suffix="E" />
+        <sc-contextmenu-item v-if="contextOpers.includes(`del`)" :title="$t(`删除`)" command="del" icon="el-icon-delete" suffix="D" />
         <sc-contextmenu-item
             v-for="(adv, index) in contextAdvs"
             :command="adv"
@@ -172,8 +172,8 @@
             :icon="adv.icon"
             :key="index"
             :title="adv.label" />
-        <sc-contextmenu-item v-if="exportApi" :title="$t('导出文件')" command="export" divided icon="el-icon-download" />
-        <sc-contextmenu-item :title="$t('重新加载')" command="refresh" divided icon="el-icon-refresh" suffix="R" />
+        <sc-contextmenu-item v-if="exportApi" :title="$t(`导出文件`)" command="export" divided icon="el-icon-download" />
+        <sc-contextmenu-item :title="$t(`重新加载`)" command="refresh" divided icon="el-icon-refresh" suffix="R" />
     </sc-contextmenu>
     <field-filter ref="fieldFilterDialog" />
 </template>
@@ -186,7 +186,6 @@ const scContextmenuItem = defineAsyncComponent(() => import('@/components/sc-con
 const scContextmenu = defineAsyncComponent(() => import('@/components/sc-context-menu'))
 const fieldFilter = defineAsyncComponent(() => import('./field-filter'))
 
-import { h } from 'vue'
 import tool from '@/utils/tool'
 import iframe from '@/store/modules/iframe'
 
@@ -205,7 +204,7 @@ export default {
         contextOpers: { type: Array, default: [] },
         contextAdvs: { type: Array, default: [] },
         contextExtra: { type: Object },
-        tableName: { type: String, default: '' },
+        tableName: { type: String, default: `` },
         beforePost: {
             type: Function,
         },
@@ -222,14 +221,14 @@ export default {
             type: Object,
             default: () => {},
         },
-        height: { type: [String, Number], default: '100%' },
-        size: { type: String, default: 'default' },
+        height: { type: [String, Number], default: `100%` },
+        size: { type: String, default: `default` },
         border: { type: Boolean, default: false },
         stripe: { type: Boolean, default: false },
         defaultExpandAll: { type: Boolean, default: false },
         pageSize: { type: Number, default: config.pageSize },
         pageSizes: { type: Array, default: config.pageSizes },
-        rowKey: { type: String, default: '' },
+        rowKey: { type: String, default: `` },
         summaryMethod: { type: Function, default: null },
         filterMethod: { type: Function, default: null },
         cellClickMethod: { type: Function, default: null },
@@ -273,10 +272,10 @@ export default {
             return tool
         },
         _height() {
-            return Number(this.height) ? Number(this.height) + 'px' : this.height
+            return Number(this.height) ? Number(this.height) + `px` : this.height
         },
         _table_height() {
-            return this.hidePagination && this.hideDo ? '100%' : 'calc(100% - 4rem)'
+            return this.hidePagination && this.hideDo ? `100%` : `calc(100% - 4rem)`
         },
     },
     data() {
@@ -289,7 +288,7 @@ export default {
             },
             scPageSize: this.pageSize,
             isActivate: true,
-            emptyText: '暂无数据',
+            emptyText: `暂无数据`,
             toggleIndex: 0,
             tableData: [],
             total: 0,
@@ -297,7 +296,7 @@ export default {
             prop: null,
             order: null,
             loading: false,
-            tableHeight: '100%',
+            tableHeight: `100%`,
             tableParams: this.params,
             userColumn: [],
             customColumnShow: false,
@@ -336,68 +335,68 @@ export default {
     },
     methods: {
         dbClick(row) {
-            if (this.dblClickDisable) {
+            if (this.dblClickDisable || !this.contextOpers.includes(`view`)) {
                 return
             }
             if (this.vue.dialog) {
-                this.vue.dialog.detail = { mode: 'view', row: { id: row.id } }
+                this.vue.dialog.detail = { mode: `view`, row: { id: row.id } }
             }
         },
         async contextMenuCommand(command) {
-            if (typeof command === 'object') {
+            if (typeof command === `object`) {
                 return command.action(this.vue, this.current.row)
             }
-            if (command === 'refresh') {
+            if (command === `refresh`) {
                 this.vue.reload()
                 return
             }
-            if (command === 'copy') {
+            if (command === `copy`) {
                 let data = tool.getNestedProperty(this.current.row, this.current.column?.property)
                 if (!data) return
 
-                const textarea = document.createElement('textarea')
+                const textarea = document.createElement(`textarea`)
                 textarea.readOnly = true
-                textarea.style.position = 'absolute'
-                textarea.style.left = '-9999px'
+                textarea.style.position = `absolute`
+                textarea.style.left = `-9999px`
                 textarea.value = data
                 document.body.appendChild(textarea)
                 textarea.select()
                 textarea.setSelectionRange(0, textarea.value.length)
-                const result = document.execCommand('Copy')
+                const result = document.execCommand(`Copy`)
                 if (result) {
-                    this.$message.success(this.$t('复制成功'))
+                    this.$message.success(this.$t(`复制成功`))
                 }
                 document.body.removeChild(textarea)
                 return
             }
-            if (command === 'view') {
+            if (command === `view`) {
                 await this.vue.onViewClick(this.current.row)
                 return
             }
-            if (command === 'export') {
+            if (command === `export`) {
                 await this.exportData()
                 return
             }
-            if (command === 'add') {
+            if (command === `add`) {
                 await this.vue.onAddClick()
                 return
             }
-            if (command === 'edit') {
+            if (command === `edit`) {
                 await this.vue.onEditClick(this.current.row)
                 return
             }
-            if (command === 'del') {
+            if (command === `del`) {
                 await this.vue.onDeleteClick(this.current.row)
                 return
             }
-            const kv = command.split('^|^')
-            if (kv[1].indexOf('order-') === 0) {
+            const kv = command.split(`^|^`)
+            if (kv[1].indexOf(`order-`) === 0) {
                 this.vue.query.prop = kv[0]
                 this.vue.query.order = kv[1].substring(6)
                 await this.upData()
             } else {
                 this.$refs.fieldFilterDialog.open({ field: kv[0], operator: kv[1], value: kv[2] }, (data) => {
-                    const value = data.value?.split('\n') ?? ['']
+                    const value = data.value?.split(`\n`) ?? [``]
                     this.vue.query.dynamicFilter.filters.push({
                         field: data.field,
                         operator: data.operator,
@@ -445,8 +444,8 @@ export default {
             if (ids.length > 0) {
                 reqData.dynamicFilter = {
                     filters: [reqData.dynamicFilter],
-                    field: 'id',
-                    operator: 'Any',
+                    field: `id`,
+                    operator: `Any`,
                     value: ids,
                 }
             }
@@ -473,7 +472,7 @@ export default {
                 } catch (error) {
                     this._clearData()
                     this.loading = false
-                    this.emptyText = '数据格式错误'
+                    this.emptyText = `数据格式错误`
                     return false
                 }
                 if (response.code !== config.successCode) {
@@ -481,7 +480,7 @@ export default {
                     this.loading = false
                     this.emptyText = response.msg
                 } else {
-                    this.emptyText = '暂无数据'
+                    this.emptyText = `暂无数据`
                     if (this.hidePagination) {
                         this.tableData = response.data || []
                     } else {
@@ -495,7 +494,7 @@ export default {
                 return res
             })()
 
-            this.$emit('dataChange', ret, this.tableData)
+            this.$emit(`dataChange`, ret, this.tableData)
         },
         //清空数据
         _clearData() {
@@ -519,8 +518,8 @@ export default {
         async exportData() {
             this.loading = true
             try {
-                await this.exportApi.post(this.getQueryParams(), { responseType: 'blob' })
-                this.$message.success(this.$t('数据已导出（上限 {n} 条）', { n: 50000 }))
+                await this.exportApi.post(this.getQueryParams(), { responseType: `blob` })
+                this.$message.success(this.$t(`数据已导出（上限 {n} 条）`, { n: 50000 }))
             } catch {}
             this.loading = false
         },
@@ -551,10 +550,10 @@ export default {
             try {
                 await config.columnSettingSave(this.tableName, userColumn)
             } catch (error) {
-                this.$message.error('保存失败')
+                this.$message.error(`保存失败`)
                 this.$refs.columnSetting.isSave = false
             }
-            this.$message.success('保存成功')
+            this.$message.success(`保存成功`)
             this.$refs.columnSetting.isSave = false
         },
         //自定义列重置
@@ -564,7 +563,7 @@ export default {
                 this.userColumn = await config.columnSettingReset(this.tableName, this.column)
                 this.$refs.columnSetting.userColumn = JSON.parse(JSON.stringify(this.userColumn || []))
             } catch (error) {
-                this.$message.error('重置失败')
+                this.$message.error(`重置失败`)
                 this.$refs.columnSetting.isSave = false
             }
             this.$refs.columnSetting.isSave = false
@@ -597,7 +596,7 @@ export default {
                 return this.filterMethod(filters)
             }
             Object.keys(filters).forEach((key) => {
-                filters[key] = filters[key].join(',')
+                filters[key] = filters[key].join(`,`)
             })
             this.upData(filters)
         },
@@ -607,14 +606,14 @@ export default {
             const sums = []
             columns.forEach((column, index) => {
                 if (index === 0) {
-                    sums[index] = '合计'
+                    sums[index] = `合计`
                     return
                 }
                 const values = this.summary[column.property]
                 if (values) {
                     sums[index] = values
                 } else {
-                    sums[index] = ''
+                    sums[index] = ``
                 }
             })
             return sums
