@@ -1,3 +1,6 @@
+using NetAdmin.Domain.DbMaps.Dependency;
+using NetAdmin.Domain.DbMaps.Dependency.Fields;
+using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.User;
 
 namespace NetAdmin.Domain.Dto.Sys.CodeTemplate;
@@ -7,9 +10,17 @@ namespace NetAdmin.Domain.Dto.Sys.CodeTemplate;
 /// </summary>
 public record QueryCodeTemplateRsp : Sys_CodeTemplate
 {
+    /// <inheritdoc cref="IFieldEnabled.Enabled" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool Enabled { get; init; }
+
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override DateTime CreatedTime { get; init; }
+
+    /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override DateTime? ModifiedTime { get; init; }
 
     /// <inheritdoc cref="IFieldCreatedUser.CreatedUserId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -19,22 +30,6 @@ public record QueryCodeTemplateRsp : Sys_CodeTemplate
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string CreatedUserName { get; init; }
 
-    /// <inheritdoc cref="IFieldEnabled.Enabled" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override bool Enabled { get; init; }
-
-    /// <inheritdoc cref="Sys_CodeTemplate.Gender" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override Genders? Gender { get; init; }
-
-    /// <inheritdoc cref="Sys_CodeTemplate.Id" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Id { get; init; }
-
-    /// <inheritdoc cref="IFieldModifiedTime.ModifiedTime" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override DateTime? ModifiedTime { get; init; }
-
     /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override long? ModifiedUserId { get; init; }
@@ -42,10 +37,6 @@ public record QueryCodeTemplateRsp : Sys_CodeTemplate
     /// <inheritdoc cref="IFieldModifiedUser.ModifiedUserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string ModifiedUserName { get; init; }
-
-    /// <inheritdoc cref="Sys_CodeTemplate.Name" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Name { get; init; }
 
     /// <inheritdoc cref="Sys_CodeTemplate.Owner" />
     public new virtual QueryUserRsp Owner { get; init; }
@@ -69,4 +60,16 @@ public record QueryCodeTemplateRsp : Sys_CodeTemplate
     /// <inheritdoc cref="IFieldVersion.Version" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Version { get; init; }
+
+    /// <inheritdoc cref="Sys_CodeTemplate.Id" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override long Id { get; init; }
+
+    /// <inheritdoc cref="Sys_CodeTemplate.Name" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override string Name { get; init; }
+
+    /// <inheritdoc cref="Sys_CodeTemplate.Gender" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override Genders? Gender { get; init; }
 }

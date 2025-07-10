@@ -113,6 +113,13 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
         return ret.Adapt<IEnumerable<QueryCodeTemplateRsp>>();
     }
 
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetCodeTemplateEnabledReq req)
+    {
+        req.ThrowIfInvalid();
+        return UpdateAsync(req, [nameof(req.Enabled)]);
+    }
+
     private ISelect<Sys_CodeTemplate> QueryInternal(QueryReq<QueryCodeTemplateReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);

@@ -65,4 +65,10 @@ public sealed class CodeTemplateCache(IDistributedCache cache, ICodeTemplateServ
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<int> SetEnabledAsync(SetCodeTemplateEnabledReq req)
+    {
+        return Service.SetEnabledAsync(req);
+    }
 }

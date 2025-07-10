@@ -92,4 +92,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 设置代码模板启用状态
+     */
+    setEnabled: {
+        url: `${config.API_URL}/api/sys/code.template/set.enabled`,
+        name: `设置代码模板启用状态`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

@@ -9,4 +9,10 @@ public interface ICodeTemplateModule : ICrudModule<CreateCodeTemplateReq, QueryC
   , EditCodeTemplateReq                                                                        // 编辑类型
   , QueryCodeTemplateReq, QueryCodeTemplateRsp                                                 // 查询类型
   , DelReq                                                                                     // 删除类型
->;
+>
+{
+    /// <summary>
+    ///     设置代码模板启用状态
+    /// </summary>
+    Task<int> SetEnabledAsync(SetCodeTemplateEnabledReq req);
+}
