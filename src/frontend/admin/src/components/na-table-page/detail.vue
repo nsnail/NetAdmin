@@ -11,10 +11,13 @@
                 <template v-for="(item, i) in columns" :key="i">
                     <el-form-item v-if="item.show?.includes(mode)" :label="item.label" :prop="i">
                         <el-date-picker v-if="i.endsWith(`Time`)" v-model="form[i]" :disabled="item.disabled?.includes(mode)" type="datetime" />
-                        <el-select v-else-if="item.enum" v-model="form[i]" :disabled="item.disabled?.includes(mode)">
+                        <el-select v-else-if="item.enum" v-model="form[i]" :disabled="item.disabled?.includes(mode)" clearable filterable>
                             <el-option
                                 v-for="e in Object.entries(this.$GLOBAL.enums[item.enum]).map((x) => {
-                                    return { value: x[0], text: x[1][1] }
+                                    return {
+                                        value: x[0],
+                                        text: item.enumSelectText ? item.enumSelectText(x) : item.enumText ? item.enumText(x) : x[1][1],
+                                    }
                                 })"
                                 :key="e.value"
                                 :label="e.text"
@@ -74,7 +77,11 @@ export default {
                                 x[0],
                                 [
                                     { required: true, message: this.$t(`{field} 不能为空`, { field: x[1].label }) },
-                                    { validator: x[1].rule.validator, message: this.$t(`{field} 不正确`, { field: x[1].label }) },
+                                    {
+                                        type: x[1].rule.type ?? 'string',
+                                        validator: x[1].rule.validator,
+                                        message: this.$t(`{field} 不正确`, { field: x[1].label }),
+                                    },
                                 ],
                             ]
                         }

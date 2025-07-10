@@ -104,7 +104,11 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     public async Task<IEnumerable<QueryUserInviteRsp>> QueryAsync(QueryReq<QueryUserInviteReq> req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(req).Include(a => a.Owner).Include(a => a.User).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
+        var query = QueryInternal(req).Include(a => a.Owner).Include(a => a.User).WithNoLockNoWait();
+        var ret = req.Filter?.IsPlainQuery == true
+            ? await query.ToListAsync().ConfigureAwait(false)
+            : await query.ToTreeListAsync().ConfigureAwait(false);
+
         return ret.Adapt<IEnumerable<QueryUserInviteRsp>>();
     }
 
@@ -117,7 +121,9 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
 
     private ISelect<Sys_UserInvite> QueryInternal(QueryReq<QueryUserInviteReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereIf( //
+                         req.Filter?.Id > 0, a => a.Id == req.Filter.Id);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

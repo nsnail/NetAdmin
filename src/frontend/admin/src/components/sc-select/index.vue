@@ -6,7 +6,11 @@
             </el-icon>
         </div>
         <el-select v-bind="$attrs" :allow-create="allowCreate" :loading="loading" @visible-change="visibleChange">
-            <el-option v-for="item in options" :key="item[props.value]" :label="item[props.label]" :value="objValueType ? item : item[props.value]">
+            <el-option
+                v-for="item in options"
+                :key="$TOOL.getNestedProperty(item, props.value)"
+                :label="typeof props.label === `function` ? props.label(item) : $TOOL.getNestedProperty(item, props.label)"
+                :value="objValueType ? item : $TOOL.getNestedProperty(item, props.value)">
                 <slot :data="item" name="option" />
             </el-option>
         </el-select>

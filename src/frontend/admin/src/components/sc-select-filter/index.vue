@@ -4,7 +4,7 @@
         <div v-for="item in data" :class="`sc-select-filter__item${item.w100p ? ' sc-select-filter__item-w100p' : ''}`" :key="item.key">
             <div :style="{ width: labelWidth + 'rem' }" @click="autoHeight" class="sc-select-filter__item-title">
                 <label>
-                    <span>{{ item.title }}({{ item.options?.length - 1 }})</span>
+                    <span>{{ item.title }}({{ item.options?.filter((x) => x.badge).length }})</span>
                     <el-icon style="display: none">
                         <el-icon-arrow-up />
                     </el-icon>
@@ -54,13 +54,6 @@ export default {
         }
     },
     watch: {
-        // data(val) {
-        //     val.forEach((item) => {
-        //         this.selected[item.key] =
-        //             this.selectedValues[item.key] || (Array.isArray(item.options) && item.options.length) ? [item.options[0].value] : []
-        //     })
-        // },
-
         data: {
             immediate: true,
             handler() {

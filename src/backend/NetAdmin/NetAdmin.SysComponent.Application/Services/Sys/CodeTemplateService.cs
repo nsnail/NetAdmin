@@ -40,8 +40,11 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_CodeTemplate).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
-                  .Where(x => x.Key.Any(y => !y.Value.NullOrEmpty()))
+                                  y => y
+                                , y => y.Contains('.')
+                                      ? typeof(Sys_CodeTemplate).GetRecursiveProperty(y)!.GetValue(
+                                          x.Key.GetType().GetRecursiveProperty(y[..y.LastIndexOf('.')]).GetValue(x.Key))!.ToString()
+                                      : typeof(Sys_CodeTemplate).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
