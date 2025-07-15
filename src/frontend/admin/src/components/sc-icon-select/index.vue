@@ -26,7 +26,7 @@
                             <el-scrollbar>
                                 <ul @click="selectIcon">
                                     <el-empty v-if="item.icons.length === 0" :description="$t('未查询到相关图标')" :image-size="100" />
-                                    <li v-for="icon in item.icons" :key="icon">
+                                    <li v-copy="icon" v-for="icon in item.icons" :key="icon">
                                         <span :data-icon="icon"></span>
                                         <el-icon>
                                             <component :is="icon" />

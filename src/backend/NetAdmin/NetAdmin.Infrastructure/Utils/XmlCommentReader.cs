@@ -17,7 +17,7 @@ public sealed class XmlCommentReader : ISingleton
     public XmlCommentReader(IOptions<SpecificationDocumentSettingsOptions> specificationDocumentSettings)
     {
         var xmlComments = specificationDocumentSettings.Value.XmlComments //
-                          ?? App.GetConfig<SpecificationDocumentSettingsOptions>(nameof(SpecificationDocumentSettingsOptions).TrimSuffixOptions())
+                          ?? App.GetConfig<SpecificationDocumentSettingsOptions>(nameof(SpecificationDocumentSettingsOptions).TrimOptionsSuffix())
                                 .XmlComments;
         foreach (var commentFile in xmlComments) {
             var xmlDoc      = new XmlDocument();

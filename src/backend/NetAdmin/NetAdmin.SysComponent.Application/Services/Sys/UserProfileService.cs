@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Content;
@@ -87,7 +88,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryUserProfileRsp>();
-            #else
+        #else
             await UpdateAsync(req.Adapt<Sys_UserProfile>()).ConfigureAwait(false) > 0
                 ? await GetAsync(new QueryUserProfileReq { Id = req.Id }).ConfigureAwait(false)
                 : null;
@@ -188,9 +189,9 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
-                return ret.OrderByRandom();
+                return ret.OrderByRandom().AppendOtherFilters(req);
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
@@ -198,7 +199,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 
     private ISelect<Sys_UserProfile, Sys_DicContent, Sys_DicContent, Sys_DicContent, Sys_DicContent> QueryInternalComplex(

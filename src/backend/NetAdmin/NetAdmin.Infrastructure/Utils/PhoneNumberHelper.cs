@@ -27,8 +27,9 @@ public static class PhoneNumberHelper
     /// <summary>
     ///     电话号码转国家代码
     /// </summary>
-    public static CountryCodes PhoneNumberToCountryCode(string phoneNumber)
+    public static CountryCodes? PhoneNumberToCountryCode(string phoneNumber)
     {
-        return _countryList.First(x => phoneNumber.Replace("+", string.Empty).Trim().StartsWith(x.CallingCode, StringComparison.Ordinal)).CountryCode;
+        return _countryList.FirstOrDefault(x => phoneNumber.Replace("+", string.Empty).Trim().StartsWith(x.CallingCode, StringComparison.Ordinal))
+                           .CountryCode;
     }
 }

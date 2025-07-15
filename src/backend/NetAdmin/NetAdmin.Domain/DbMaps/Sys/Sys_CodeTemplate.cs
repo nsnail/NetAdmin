@@ -1,15 +1,10 @@
-using NetAdmin.Domain.Attributes;
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.DbMaps.Sys;
 
 /// <summary>
 ///     代码模板表
 /// </summary>
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_CodeTemplate))]
-public record Sys_CodeTemplate : VersionEntity, IFieldSummary, IFieldOwner, IFieldSort, IFieldEnabled
+public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFieldEnabled, IFieldOwner
 {
     /// <summary>
     ///     是否启用
@@ -19,6 +14,34 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSummary, IFieldOwner, IFie
     [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
+
+    /// <summary>
+    ///     性别
+    /// </summary>
+    /// <example>Male</example>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual Genders? Gender { get; init; }
+
+    /// <summary>
+    ///     唯一编码
+    /// </summary>
+    /// <example>123456</example>
+    [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
+    [CsvIgnore]
+    [JsonIgnore]
+    [Snowflake]
+    public override long Id { get; init; }
+
+    /// <summary>
+    ///     名称
+    /// </summary>
+    /// <example>老王</example>
+    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual string Name { get; init; }
 
     /// <summary>
     ///     归属用户
@@ -63,32 +86,4 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSummary, IFieldOwner, IFie
     [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; init; }
-
-    /// <summary>
-    ///     代码模板编号
-    /// </summary>
-    /// <example>123456</example>
-    [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
-    [JsonIgnore]
-    [Snowflake]
-    public override long Id { get; init; }
-
-    /// <summary>
-    ///     名称
-    /// </summary>
-    /// <example>老王</example>
-    [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [CsvIgnore]
-    [JsonIgnore]
-    public virtual string Name { get; init; }
-
-    /// <summary>
-    ///     性别
-    /// </summary>
-    /// <example>Male</example>
-    [Column]
-    [CsvIgnore]
-    [JsonIgnore]
-    public virtual Genders? Gender { get; init; }
 }

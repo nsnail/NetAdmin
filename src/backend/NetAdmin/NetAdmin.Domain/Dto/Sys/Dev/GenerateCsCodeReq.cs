@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Domain.Dto.Sys.Dev;
+namespace NetAdmin.Domain.Dto.Sys.Dev;
 
 /// <summary>
 ///     请求：生成后端代码

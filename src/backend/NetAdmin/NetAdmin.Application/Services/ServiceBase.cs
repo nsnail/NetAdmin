@@ -42,12 +42,7 @@ public abstract class ServiceBase : IScoped, IService
     /// <summary>
     ///     获取服务
     /// </summary>
-    #pragma warning disable RCS1036
-    #pragma warning restore RCS1036
-
-    // ReSharper disable once MemberCanBeMadeStatic.Global
-    #pragma warning disable CA1822, S2325
-    protected T S<T>()
+    protected static T S<T>()
         #pragma warning restore S2325, CA1822
         where T : class
     {

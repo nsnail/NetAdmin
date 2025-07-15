@@ -302,6 +302,87 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
         await WriteCsCodeAsync(Path.Combine(dir, $"{req.EntityName}Cache.cs"), templateContent).ConfigureAwait(false);
     }
 
+    private static Task GenerateDomainCreateReqFileAsync(GenerateCsCodeReq req, string project, string prefix)
+    {
+        var sb = new StringBuilder();
+        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"using {project}.DbMaps.{prefix};");
+        if (!req.Interfaces.NullOrEmpty()) {
+            _ = sb.AppendLine("using NetAdmin.Domain.DbMaps.Dependency.Fields;");
+        }
+
+        _ = sb.AppendLine();
+        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"namespace {project}.Dto.{prefix}.{req.EntityName};");
+        _ = sb.AppendLine();
+        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"""
+                                                         /// <summary>
+                                                         ///     请求：创建{req.Summary}
+                                                         /// </summary>
+                                                         """);
+        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"public record Create{req.EntityName}Req : {prefix}_{req.EntityName}");
+        _ = sb.Append('{');
+        if (req.Interfaces?.Contains(nameof(IFieldEnabled)) == true) {
+            _ = sb.AppendLine("""
+
+                                  /// <inheritdoc cref="IFieldEnabled.Enabled" />
+                                  public override bool Enabled { get; init; } = true;
+                              """);
+        }
+
+        if (req.BaseClass != nameof(SimpleEntity) && req.FieldList.Single(x => x.IsPrimary).Type == "string") {
+            _ = sb.AppendLine("""
+
+                                  /// <inheritdoc cref="EntityBase{T}.Id" />
+                                  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+                                  [Required]
+                                  public override string Id { get; init; }
+                              """);
+        }
+
+        if (req.Interfaces?.Contains(nameof(IFieldSort)) == true) {
+            _ = sb.AppendLine("""
+
+                                  /// <inheritdoc cref="IFieldSort.Sort" />
+                                  [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+                                  public override long Sort { get; init; }
+                              """);
+        }
+
+        if (req.Interfaces?.Contains(nameof(IFieldSummary)) == true) {
+            _ = sb.AppendLine("""
+
+                                  /// <inheritdoc cref="IFieldSummary.Summary" />
+                                  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+                                  public override string Summary { get; init; }
+                              """);
+        }
+
+        foreach (var field in req.FieldList) {
+            var    condition      = field.IsStruct ? "Never" : "WhenWritingNull";
+            var    nul            = field.IsStruct && field.IsNullable ? "?" : null;
+            var    isEnum         = S<IConstantService>().GetEnums().FirstOrDefault(x => x.Key == field.Type);
+            string enumConstraint = null;
+            if (!isEnum.Key.NullOrEmpty()) {
+                enumConstraint = $"""
+
+                                      [EnumDataType(typeof({field.Type}))]
+                                  """;
+            }
+
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $$"""
+
+                                                                  /// <inheritdoc cref="{{prefix}}_{{req.EntityName}}.{{field.Name}}" />
+                                                                  [JsonIgnore(Condition = JsonIgnoreCondition.{{condition}})]{{enumConstraint}}
+                                                                  public override {{field.Type}}{{nul}} {{field.Name}} { get; init; }
+                                                              """);
+        }
+
+        _ = sb.Append('}');
+
+        var outPath = Path.Combine(Path.GetDirectoryName(req.Project)!, "Dto", prefix, req.EntityName);
+        _ = Directory.CreateDirectory(outPath);
+        return WriteCsCodeAsync(Path.Combine(outPath, $"Create{req.EntityName}Req.cs"), sb.ToString());
+    }
+
     private static Task GenerateDomainEditReqFileAsync(GenerateCsCodeReq req, string project, string prefix)
     {
         var sb = new StringBuilder();
@@ -1001,86 +1082,5 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
 
         content = string.Join('\n', usings) + sb;
         return File.WriteAllTextAsync(path, usings.Count == 0 ? content.Trim() : content);
-    }
-
-    private Task GenerateDomainCreateReqFileAsync(GenerateCsCodeReq req, string project, string prefix)
-    {
-        var sb = new StringBuilder();
-        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"using {project}.DbMaps.{prefix};");
-        if (!req.Interfaces.NullOrEmpty()) {
-            _ = sb.AppendLine("using NetAdmin.Domain.DbMaps.Dependency.Fields;");
-        }
-
-        _ = sb.AppendLine();
-        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"namespace {project}.Dto.{prefix}.{req.EntityName};");
-        _ = sb.AppendLine();
-        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"""
-                                                         /// <summary>
-                                                         ///     请求：创建{req.Summary}
-                                                         /// </summary>
-                                                         """);
-        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"public record Create{req.EntityName}Req : {prefix}_{req.EntityName}");
-        _ = sb.Append('{');
-        if (req.Interfaces?.Contains(nameof(IFieldEnabled)) == true) {
-            _ = sb.AppendLine("""
-
-                                  /// <inheritdoc cref="IFieldEnabled.Enabled" />
-                                  public override bool Enabled { get; init; } = true;
-                              """);
-        }
-
-        if (req.BaseClass != nameof(SimpleEntity) && req.FieldList.Single(x => x.IsPrimary).Type == "string") {
-            _ = sb.AppendLine("""
-
-                                  /// <inheritdoc cref="EntityBase{T}.Id" />
-                                  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-                                  [Required]
-                                  public override string Id { get; init; }
-                              """);
-        }
-
-        if (req.Interfaces?.Contains(nameof(IFieldSort)) == true) {
-            _ = sb.AppendLine("""
-
-                                  /// <inheritdoc cref="IFieldSort.Sort" />
-                                  [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-                                  public override long Sort { get; init; }
-                              """);
-        }
-
-        if (req.Interfaces?.Contains(nameof(IFieldSummary)) == true) {
-            _ = sb.AppendLine("""
-
-                                  /// <inheritdoc cref="IFieldSummary.Summary" />
-                                  [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-                                  public override string Summary { get; init; }
-                              """);
-        }
-
-        foreach (var field in req.FieldList) {
-            var    condition      = field.IsStruct ? "Never" : "WhenWritingNull";
-            var    nul            = field.IsStruct && field.IsNullable ? "?" : null;
-            var    isEnum         = S<IConstantService>().GetEnums().FirstOrDefault(x => x.Key == field.Type);
-            string enumConstraint = null;
-            if (!isEnum.Key.NullOrEmpty()) {
-                enumConstraint = $"""
-
-                                      [EnumDataType(typeof({field.Type}))]
-                                  """;
-            }
-
-            _ = sb.AppendLine(CultureInfo.InvariantCulture, $$"""
-
-                                                                  /// <inheritdoc cref="{{prefix}}_{{req.EntityName}}.{{field.Name}}" />
-                                                                  [JsonIgnore(Condition = JsonIgnoreCondition.{{condition}})]{{enumConstraint}}
-                                                                  public override {{field.Type}}{{nul}} {{field.Name}} { get; init; }
-                                                              """);
-        }
-
-        _ = sb.Append('}');
-
-        var outPath = Path.Combine(Path.GetDirectoryName(req.Project)!, "Dto", prefix, req.EntityName);
-        _ = Directory.CreateDirectory(outPath);
-        return WriteCsCodeAsync(Path.Combine(outPath, $"Create{req.EntityName}Req.cs"), sb.ToString());
     }
 }

@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.UserInvite;
 using NetAdmin.Domain.Extensions;
@@ -79,6 +80,16 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     }
 
     /// <inheritdoc />
+    public Task<List<long>> GetAssociatedUserIdAsync(long userId)
+    {
+        return Rpo.Orm.Select<Sys_UserInvite>()
+                  .DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA)
+                  .Where(a => a.Id == userId)
+                  .AsTreeCte(up: true, disableGlobalFilters: [Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA])
+                  .ToListAsync(a => a.Id);
+    }
+
+    /// <inheritdoc />
     public async Task<QueryUserInviteRsp> GetAsync(QueryUserInviteReq req)
     {
         req.ThrowIfInvalid();
@@ -128,9 +139,9 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
-                return ret.OrderByRandom();
+                return ret.OrderByRandom().AppendOtherFilters(req);
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
@@ -138,6 +149,6 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

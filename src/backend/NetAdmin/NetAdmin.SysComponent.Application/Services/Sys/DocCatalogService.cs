@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Doc.Catalog;
 using NetAdmin.Domain.Extensions;
@@ -78,7 +79,7 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDocCatalogRsp>();
-            #else
+        #else
             await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDocCatalogReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }
@@ -127,7 +128,7 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -137,6 +138,6 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

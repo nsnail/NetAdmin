@@ -47,14 +47,6 @@ public record Sys_UserWallet : LiteVersionEntity, IFieldOwner
     public virtual long? OwnerId { get; init; }
 
     /// <summary>
-    ///     总余额
-    /// </summary>
-    [Column]
-    [CsvIgnore]
-    [JsonIgnore]
-    public virtual long TotalBalance { get; init; }
-
-    /// <summary>
     ///     总支出
     /// </summary>
     [Column]

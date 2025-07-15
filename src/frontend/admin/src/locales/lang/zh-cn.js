@@ -628,4 +628,5 @@ export default {
     '编辑{summary}: {id}': '编辑{summary}: {id}',
     '{field} 不能为空': '{field} 不能为空',
     '{field} 不正确': '{field} 不正确',
+    '上传文件大小不能超过 {maxSize}MB': '上传文件大小不能超过 {maxSize}MB',
 }

@@ -24,9 +24,7 @@ public static class StringExtensions
     /// <summary>
     ///     去掉尾部字符串“Async”
     /// </summary>
-    #pragma warning disable RCS1047, ASA002, VSTHRD200
-    public static string TrimSuffixAsync(this string me)
-        #pragma warning restore VSTHRD200, ASA002, RCS1047
+    public static string TrimAsyncSuffix(this string me)
     {
         return me.TrimSuffix("Async");
     }
@@ -34,7 +32,7 @@ public static class StringExtensions
     /// <summary>
     ///     去掉尾部字符串“Options”
     /// </summary>
-    public static string TrimSuffixOptions(this string me)
+    public static string TrimOptionsSuffix(this string me)
     {
         return me.TrimSuffix("Options");
     }

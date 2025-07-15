@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Dic.Catalog;
 using NetAdmin.Domain.Extensions;
@@ -77,7 +78,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDicCatalogRsp>();
-            #else
+        #else
             await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDicCatalogReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }
@@ -126,7 +127,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -136,6 +137,6 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

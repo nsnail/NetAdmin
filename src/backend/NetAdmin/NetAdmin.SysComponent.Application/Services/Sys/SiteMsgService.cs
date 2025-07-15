@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.SiteMsg;
@@ -271,7 +272,7 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -281,7 +282,7 @@ public sealed class SiteMsgService(BasicRepository<Sys_SiteMsg, long> rpo, Conte
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 
     private ISelectGrouping //

@@ -19,7 +19,7 @@
             :on-success="success"
             :show-file-list="showFileList">
             <slot>
-                <el-button :disabled="disabled" type="primary">点击上传</el-button>
+                <el-button :disabled="disabled" type="primary">{{ $t(`点击上传`) }}</el-button>
             </slot>
             <template #tip>
                 <div v-if="tip" class="el-upload__tip">{{ tip }}</div>
@@ -34,9 +34,9 @@ import config from '@/config/upload'
 
 export default {
     props: {
-        modelValue: { type: [String, Array], default: '' },
-        tip: { type: String, default: '' },
-        action: { type: String, default: '' },
+        modelValue: { type: [String, Array], default: `` },
+        tip: { type: String, default: `` },
+        action: { type: String, default: `` },
         apiObj: {
             type: Object,
             default: () => {},
@@ -46,7 +46,7 @@ export default {
             type: Object,
             default: () => {},
         },
-        accept: { type: String, default: '' },
+        accept: { type: String, default: `` },
         maxSize: { type: Number, default: config.maxSizeFile },
         limit: { type: Number, default: 0 },
         autoUpload: { type: Boolean, default: true },
@@ -63,7 +63,7 @@ export default {
     },
     data() {
         return {
-            value: '',
+            value: ``,
             defaultFileList: [],
         }
     },
@@ -83,7 +83,7 @@ export default {
         },
         defaultFileList: {
             handler(val) {
-                this.$emit('update:modelValue', Array.isArray(this.modelValue) ? this.formatArr(val) : this.toStr(val))
+                this.$emit(`update:modelValue`, Array.isArray(this.modelValue) ? this.formatArr(val) : this.toStr(val))
                 this.value = this.toStr(val)
             },
             deep: true,
@@ -97,10 +97,10 @@ export default {
         //默认值转换为数组
         toArr(str) {
             const _arr = []
-            const arr = str.split(',')
+            const arr = str.split(`,`)
             arr.forEach((item) => {
                 if (item) {
-                    const urlArr = item.split('/')
+                    const urlArr = item.split(`/`)
                     const fileName = urlArr[urlArr.length - 1]
                     _arr.push({
                         name: fileName,
@@ -112,7 +112,7 @@ export default {
         },
         //数组转换为原始值
         toStr(arr) {
-            return arr.map((v) => v.url).join(',')
+            return arr.map((v) => v.url).join(`,`)
         },
         //格式化数组值
         formatArr(arr) {
@@ -130,7 +130,7 @@ export default {
         before(file) {
             const maxSize = file.size / 1024 / 1024 < this.maxSize
             if (!maxSize) {
-                this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`)
+                this.$message.warning(this.$t(`上传文件大小不能超过 {maxSize}MB`, { maxSize: this.maxSize }))
                 return false
             }
         },
@@ -145,13 +145,13 @@ export default {
         },
         error(err) {
             this.$notify.error({
-                title: '上传文件未成功',
+                title: this.$t(`上传文件未成功`),
                 message: err,
             })
         },
         beforeRemove(uploadFile) {
-            return this.$confirm(`是否移除 ${uploadFile.name} ?`, '提示', {
-                type: 'warning',
+            return this.$confirm(this.$t(`是否移除 {name} ?`, { name: uploadFile.name }), `提示`, {
+                type: `warning`,
             })
                 .then(() => {
                     return true
@@ -161,7 +161,7 @@ export default {
                 })
         },
         handleExceed() {
-            this.$message.warning(`当前设置最多上传 ${this.limit} 个文件，请移除后上传!`)
+            this.$message.warning(this.$t(`当前设置最多上传 {limit} 个文件，请移除后上传!`, { limit: this.limit }))
         },
         handlePreview(uploadFile) {
             window.open(uploadFile.url)
@@ -188,7 +188,7 @@ export default {
                     if (response.code === config.successCode) {
                         param.onSuccess(res)
                     } else {
-                        param.onError(response.msg || '未知错误')
+                        param.onError(response.msg || this.$t(`未知错误`))
                     }
                 })
                 .catch((err) => {

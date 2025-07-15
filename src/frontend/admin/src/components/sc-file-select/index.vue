@@ -3,7 +3,7 @@
         <div v-loading="menuLoading" class="sc-file-select__side">
             <div class="sc-file-select__side-menu">
                 <el-tree
-                    :current-node-key="menu.length > 0 ? menu[0][treeProps.key] : ''"
+                    :current-node-key="menu.length > 0 ? menu[0][treeProps.key] : ``"
                     :data="menu"
                     :node-key="treeProps.key"
                     :props="treeProps"
@@ -37,16 +37,16 @@
                         action=""
                         class="sc-file-select__upload"
                         multiple>
-                        <el-button icon="el-icon-upload" type="primary">{{ $t('本地上传') }}</el-button>
+                        <el-button icon="el-icon-upload" type="primary">{{ $t(`本地上传`) }}</el-button>
                     </el-upload>
                     <span class="tips"
-                        ><el-icon><el-icon-warning />{{ $t('大小不超过{{ maxSize }}MB') }} </el-icon></span
+                        ><el-icon><el-icon-warning />{{ $t(`大小不超过 {maxSize} MB`) }} </el-icon></span
                     >
                 </div>
                 <div class="keyword">
                     <el-input
                         v-model="keyword"
-                        :placeholder="$t('文件名搜索')"
+                        :placeholder="$t(`文件名搜索`)"
                         @clear="search"
                         @keyup.enter="search"
                         clearable
@@ -55,7 +55,7 @@
             </div>
             <div class="sc-file-select__list">
                 <el-scrollbar ref="scrollbar">
-                    <el-empty v-if="fileList.length === 0 && data.length === 0" :description="$t('无数据')" :image-size="80" />
+                    <el-empty v-if="fileList.length === 0 && data.length === 0" :description="$t(`无数据`)" :image-size="80" />
                     <div v-for="(file, index) in fileList" :key="index" class="sc-file-select__item">
                         <div class="sc-file-select__item__file">
                             <div class="sc-file-select__item__upload">
@@ -108,7 +108,7 @@
             </div>
             <div class="sc-file-select__do">
                 <slot name="do" />
-                <el-button :disabled="value.length <= 0" @click="submit" type="primary">{{ $t('确定') }}</el-button>
+                <el-button :disabled="value.length <= 0" @click="submit" type="primary">{{ $t(`确定`) }}</el-button>
             </div>
         </div>
     </div>
@@ -134,10 +134,10 @@ export default {
             currentPage: 1,
             data: [],
             menu: [],
-            menuId: '',
-            value: this.multiple ? [] : '',
+            menuId: ``,
+            value: this.multiple ? [] : ``,
             fileList: [],
-            accept: this.onlyImage ? 'image/gif, image/jpeg, image/png' : '',
+            accept: this.onlyImage ? `image/gif, image/jpeg, image/png` : ``,
             listLoading: false,
             menuLoading: false,
             treeProps: config.menuProps,
@@ -147,8 +147,8 @@ export default {
     },
     watch: {
         multiple() {
-            this.value = this.multiple ? [] : ''
-            this.$emit('update:modelValue', JSON.parse(JSON.stringify(this.value)))
+            this.value = this.multiple ? [] : ``
+            this.$emit(`update:modelValue`, JSON.parse(JSON.stringify(this.value)))
         },
     },
     mounted() {
@@ -173,7 +173,7 @@ export default {
                 [config.request.keyword]: this.keyword,
             }
             if (this.onlyImage) {
-                reqData.type = 'image'
+                reqData.type = `image`
             }
             const res = await config.listApiObj.get(reqData)
             const parseData = config.listParseData(res)
@@ -210,7 +210,7 @@ export default {
                 }
             } else {
                 if (this.value.includes(itemUrl)) {
-                    this.value = ''
+                    this.value = ``
                 } else {
                     this.value = itemUrl
                 }
@@ -218,8 +218,8 @@ export default {
         },
         submit() {
             const value = JSON.parse(JSON.stringify(this.value))
-            this.$emit('update:modelValue', value)
-            this.$emit('submit', value)
+            this.$emit(`update:modelValue`, value)
+            this.$emit(`submit`, value)
         },
         //上传处理
         uploadChange(file, fileList) {
@@ -229,14 +229,14 @@ export default {
         uploadBefore(file) {
             const maxSize = file.size / 1024 / 1024 < this.maxSize
             if (!maxSize) {
-                this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`)
+                this.$message.warning(this.$t(`上传文件大小不能超过 {maxSize}MB`, { maxSize: this.maxSize }))
                 return false
             }
         },
         uploadRequest(param) {
             const apiObj = config.apiObj
             const data = new FormData()
-            data.append('file', param.file)
+            data.append(`file`, param.file)
             data.append([config.request.menuKey], this.menuId)
             apiObj
                 .post(data, {
@@ -271,18 +271,18 @@ export default {
         },
         uploadError(err) {
             this.$notify.error({
-                title: '上传文件错误',
+                title: this.$t(`上传文件错误`),
                 message: err,
             })
         },
         //内置函数
         _isImg(fileUrl) {
-            const imgExt = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
-            const fileExt = fileUrl.substring(fileUrl.lastIndexOf('.'))
+            const imgExt = [`.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`]
+            const fileExt = fileUrl.substring(fileUrl.lastIndexOf(`.`))
             return imgExt.indexOf(fileExt) !== -1
         },
         _getExt(fileUrl) {
-            return fileUrl.substring(fileUrl.lastIndexOf('.') + 1)
+            return fileUrl.substring(fileUrl.lastIndexOf(`.`) + 1)
         },
     },
 }

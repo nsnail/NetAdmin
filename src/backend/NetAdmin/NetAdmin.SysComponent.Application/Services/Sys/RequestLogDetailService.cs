@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.RequestLogDetail;
 using NetAdmin.Domain.Extensions;
@@ -113,7 +114,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -123,6 +124,6 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

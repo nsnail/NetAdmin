@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.SiteMsgDept;
 using NetAdmin.Domain.Extensions;
@@ -110,7 +111,7 @@ public sealed class SiteMsgDeptService(BasicRepository<Sys_SiteMsgDept, long> rp
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -120,6 +121,6 @@ public sealed class SiteMsgDeptService(BasicRepository<Sys_SiteMsgDept, long> rp
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

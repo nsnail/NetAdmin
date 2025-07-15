@@ -1,6 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency;
-using NetAdmin.Domain.DbMaps.Sys;
-
 namespace NetAdmin.Domain.Dto.Sys.CodeTemplate;
 
 /// <summary>
@@ -8,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.CodeTemplate;
 /// </summary>
 public sealed record QueryCodeTemplateReq : Sys_CodeTemplate
 {
-    /// <inheritdoc cref="EntityBase{T}.Id" />
+    /// <inheritdoc cref="Sys_CodeTemplate.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
 }

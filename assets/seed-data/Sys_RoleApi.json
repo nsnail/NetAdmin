@@ -106,5 +106,17 @@
   {
     "ApiId": "api/sys/user.invite/query",
     "RoleId": 371729946431493,
-  }
+  },
+  {
+    "ApiId": "api/sys/wallet.frozen/get",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/wallet.frozen/paged.query",
+    "RoleId": 371729946431493,
+  },
+  {
+    "ApiId": "api/sys/wallet.frozen/count.by",
+    "RoleId": 371729946431493,
+  },
 ]

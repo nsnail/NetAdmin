@@ -65,7 +65,6 @@
                     'ownerId',
                     'owner.userName',
                     'createdTime',
-                    'totalBalance',
                     'availableBalance',
                     'frozenBalance',
                     'totalIncome',
@@ -98,12 +97,6 @@
                     prop="ownerId"
                     sortable="custom"
                     width="170" />
-                <el-table-column
-                    :formatter="(row) => $TOOL.groupSeparator(row.totalBalance)"
-                    :label="$t('总余额')"
-                    align="right"
-                    prop="totalBalance"
-                    sortable="custom" />
                 <el-table-column
                     :formatter="(row) => $TOOL.groupSeparator(row.availableBalance)"
                     :label="$t('可用余额')"
