@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
@@ -551,9 +552,9 @@ public sealed class UserService(
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
-                return ret.OrderByRandom();
+                return ret.OrderByRandom().AppendOtherFilters(req);
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
@@ -562,7 +563,7 @@ public sealed class UserService(
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 
     private ISelect<Sys_User> QueryInternal(QueryReq<QueryUserReq> req)

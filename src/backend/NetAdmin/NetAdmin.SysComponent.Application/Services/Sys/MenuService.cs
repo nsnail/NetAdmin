@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Menu;
 using NetAdmin.Domain.Extensions;
@@ -130,13 +131,14 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
 
-        return req.Order switch {
-                   Orders.None   => ret
-                 , Orders.Random => ret.OrderByRandom()
-                 , _ => ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
-                           .OrderByDescending(a => a.Sort)
-                           .OrderBy(a => a.Name)
-                           .OrderBy(a => a.Id)
-               };
+        ret = req.Order switch {
+                  Orders.None   => ret
+                , Orders.Random => ret.OrderByRandom()
+                , _ => ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending)
+                          .OrderByDescending(a => a.Sort)
+                          .OrderBy(a => a.Name)
+                          .OrderBy(a => a.Id)
+              };
+        return ret.AppendOtherFilters(req);
     }
 }

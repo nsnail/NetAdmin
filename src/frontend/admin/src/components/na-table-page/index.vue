@@ -1,4 +1,4 @@
-﻿<template>
+<template>
     <el-container>
         <!--        仪表板-->
         <el-header v-loading="statistics.total === `...`" class="el-header-statistics">
@@ -30,6 +30,7 @@
                     ref="search" />
             </div>
             <div class="right-panel">
+                <el-button v-bind="item" v-for="(item, i) in rightButtons" :key="i">{{ item.title }}</el-button>
                 <el-button v-if="operations.includes(`add`)" @click="onAddClick" icon="el-icon-plus" type="primary" />
                 <el-button
                     v-if="operations.includes(`del`)"
@@ -64,7 +65,7 @@
                     <component
                         v-bind="item"
                         v-if="item.show.includes(`list`)"
-                        :formatter="item.thousands ? (row) => $TOOL.groupSeparator(row[i]) : undefined"
+                        :formatter="item.thousands ? (row) => $TOOL.groupSeparator($TOOL.getNestedProperty(row, i)) : undefined"
                         :is="item.is ?? `el-table-column`"
                         :options="
                             item.options ??
@@ -96,11 +97,25 @@
 
                 <el-table-column :label="$t(`操作`)" align="right" fixed="right" width="150">
                     <template #default="{ row }">
-                        <el-button-group size="small">
-                            <el-button v-if="operations.includes(`view`)" @click="onViewClick(row)" icon="el-icon-view" />
-                            <el-button v-if="operations.includes(`edit`)" @click="onEditClick(row)" icon="el-icon-edit" />
-                            <el-button v-if="operations.includes(`del`)" @click="onDeleteClick(row)" icon="el-icon-delete" type="danger" />
-                        </el-button-group>
+                        <div class="flex justify-content-right">
+                            <el-button-group size="small">
+                                <el-button v-if="operations.includes(`view`)" @click="onViewClick(row)" icon="el-icon-view" />
+                                <el-button v-if="operations.includes(`edit`)" @click="onEditClick(row)" icon="el-icon-edit" />
+                                <el-button v-if="operations.includes(`del`)" @click="onDeleteClick(row)" icon="el-icon-delete" type="danger" />
+                            </el-button-group>
+                            <el-dropdown>
+                                <el-button size="small">...</el-button>
+                                <template #dropdown>
+                                    <el-dropdown-menu>
+                                        <template v-for="(button, j) in rowButtons?.filter((x) => !x.condition || x.condition(row))" :key="j">
+                                            <el-dropdown-item v-bind="button.props" @click="onRowButtonClick(row, button)" size="small">{{
+                                                button.title
+                                            }}</el-dropdown-item>
+                                        </template>
+                                    </el-dropdown-menu>
+                                </template>
+                            </el-dropdown>
+                        </div>
                     </template>
                 </el-table-column>
             </sc-table>
@@ -122,6 +137,7 @@ import { defineAsyncComponent } from 'vue'
 import tableConfig from '@/config/table'
 import naColOperation from '@/config/na-col-operation'
 import config from '@/config'
+import naColTags from '@/components/na-col-tags'
 const naColAvatar = defineAsyncComponent(() => import('@/components/na-col-avatar'))
 const detailDialog = defineAsyncComponent(() => import('./detail'))
 const naColUser = defineAsyncComponent(() => import('@/components/na-col-user'))
@@ -130,6 +146,7 @@ export default {
         detailDialog,
         naColAvatar,
         naColUser,
+        naColTags,
     },
     computed: {
         config() {
@@ -287,6 +304,12 @@ export default {
         // ---------------------------- 搜索栏事件 ↑ ----------------------------
 
         // ---------------------------- ↓ 表格事件 ----------------------------
+        async onRowButtonClick(row, button) {
+            if (await button.click(row)) {
+                this.$message.success(this.$t(`操作成功`))
+                await this.$refs.table.upData()
+            }
+        },
         async onViewClick(row) {
             this.dialog.detail = { mode: `view`, row }
         },
@@ -352,6 +375,7 @@ export default {
 
                     calls.push(
                         this.$API[this.entityName].countBy.post({
+                            filter: this.query.filter,
                             dynamicFilter: { filters: this.query.dynamicFilter.filters },
                             requiredFields: [col.replace(/(?:^|\.)[a-z]/g, (m) => m.toUpperCase())],
                         }),
@@ -370,7 +394,16 @@ export default {
                 }
             }
             for (const item of this.selectFilterData) {
-                item.options.sort((x, y) => (y.label === this.$t(`全部`) ? 999999999 : (y.badge ?? 0 - x.badge ?? 0)))
+                while (!this.$t) {
+                    await new Promise((x) => setTimeout(x, 100))
+                }
+                item.options.sort((x, y) => {
+                    if (y.label === this.$t(`全部`)) {
+                        return 999999999
+                    } else {
+                        return (y.badge ?? 0) - (x.badge ?? 0)
+                    }
+                })
             }
         },
         onSelectionChange(data) {
@@ -396,7 +429,10 @@ export default {
         customSearchControls: { type: Array, default: [] },
         columns: { type: Object },
         operations: { type: Array, default: [`view`, `add`, `edit`, `del`] },
+        rowButtons: { type: Array, default: [] },
+        rightButtons: { type: Array, default: [] },
         dialogFullScreen: { type: Boolean },
+        tabs: { type: Array },
     },
     watch: {},
 }

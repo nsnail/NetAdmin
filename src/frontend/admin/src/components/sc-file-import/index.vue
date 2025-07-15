@@ -1,8 +1,8 @@
 <template>
     <slot :open="open">
-        <el-button @click="open" plain type="primary">{{ $t('导入') }}</el-button>
+        <el-button @click="open" plain type="primary">{{ $t(`导入`) }}</el-button>
     </slot>
-    <el-dialog v-model="dialog" :close-on-click-modal="false" :title="$t('导入')" :width="550" append-to-body destroy-on-close>
+    <el-dialog v-model="dialog" :close-on-click-modal="false" :title="$t(`导入`)" :width="550" append-to-body destroy-on-close>
         <el-progress v-if="loading" :percentage="percentage" :stroke-width="20" :text-inside="true" style="margin-bottom: 1rem" />
         <div v-loading="loading">
             <el-upload
@@ -23,15 +23,15 @@
                         <el-icon-upload-filled />
                     </el-icon>
                     <div class="el-upload__text">
-                        {{ $t('将文件拖到此处或 ') }}<em>{{ $t('点击选择文件上传') }}</em>
+                        {{ $t(`将文件拖到此处或 `) }}<em>{{ $t(`点击选择文件上传`) }}</em>
                     </div>
                 </slot>
                 <template #tip>
                     <div class="el-upload__tip">
                         <template v-if="tip">{{ tip }}</template>
-                        <template v-else>{{ $t('请上传小于或等于 {{ maxSize }}M 的 {{ accept }} 格式文件') }}</template>
+                        <template v-else>{{ $t(`请上传小于或等于 {maxSize}M 的 {accept} 格式文件`) }}</template>
                         <p v-if="templateUrl" style="margin-top: 7px">
-                            <el-link :href="templateUrl" :underline="false" target="_blank" type="primary">{{ $t('下载导入模板') }}</el-link>
+                            <el-link :href="templateUrl" :underline="false" target="_blank" type="primary">{{ $t(`下载导入模板`) }}</el-link>
                         </p>
                     </div>
                 </template>
@@ -45,7 +45,7 @@
 
 <script>
 export default {
-    emits: ['success'],
+    emits: [`success`],
     props: {
         apiObj: {
             type: Object,
@@ -55,10 +55,10 @@ export default {
             type: Object,
             default: () => {},
         },
-        accept: { type: String, default: '.xls, .xlsx' },
+        accept: { type: String, default: `.xls, .xlsx` },
         maxSize: { type: Number, default: 10 },
-        tip: { type: String, default: '' },
-        templateUrl: { type: String, default: '' },
+        tip: { type: String, default: `` },
+        templateUrl: { type: String, default: `` },
     },
     data() {
         return {
@@ -80,7 +80,7 @@ export default {
         before(file) {
             const maxSize = file.size / 1024 / 1024 < this.maxSize
             if (!maxSize) {
-                this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`)
+                this.$message.warning(this.$t(`上传文件大小不能超过 {maxSize}MB`, { maxSize: this.maxSize }))
                 return false
             }
             this.loading = true
@@ -93,13 +93,13 @@ export default {
             this.$refs.uploader.clearFiles()
             this.loading = false
             this.percentage = 0
-            this.$emit('success', res, this.close)
+            this.$emit(`success`, res, this.close)
         },
         error(err) {
             this.loading = false
             this.percentage = 0
             this.$notify.error({
-                title: '上传文件未成功',
+                title: `上传文件未成功`,
                 message: err,
             })
         },

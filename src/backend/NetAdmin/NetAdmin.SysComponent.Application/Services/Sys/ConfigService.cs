@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Config;
 using NetAdmin.Domain.Extensions;
@@ -142,7 +143,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -152,6 +153,6 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

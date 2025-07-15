@@ -220,7 +220,7 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -230,6 +230,6 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

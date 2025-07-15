@@ -199,7 +199,7 @@ export default {
             }
             const maxSize = file.size / 1024 / 1024 < this.maxSize
             if (!maxSize) {
-                this.$message.warning(`上传文件大小不能超过 ${this.maxSize}MB!`)
+                this.$message.warning(this.$t(`上传文件大小不能超过 {maxSize}MB`, { maxSize: this.maxSize }))
                 this.clearFiles()
                 return false
             }

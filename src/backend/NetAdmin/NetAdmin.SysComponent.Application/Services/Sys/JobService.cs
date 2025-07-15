@@ -1,5 +1,6 @@
 using Cronos;
 using FreeSql.Internal;
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.Job;
@@ -342,7 +343,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -352,6 +353,6 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
             ret = ret.OrderByDescending(a => a.LastExecTime);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

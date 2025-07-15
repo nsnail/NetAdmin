@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.UserWallet;
 using NetAdmin.Domain.Dto.Sys.WalletTrade;
@@ -53,13 +54,10 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
         var userWalletService = S<IUserWalletService>();
         var wallet            = await userWalletService.GetAsync(new QueryUserWalletReq { Id = req.OwnerId!.Value }).ConfigureAwait(false);
         if (wallet.AvailableBalance + req.Amount < 0) {
-            throw new NetAdminInvalidOperationException(Ln.钱包余额不足);
+            throw new NetAdminInvalidOperationException(Ln.钱包可用余额不足);
         }
 
-        _ = await userWalletService.EditAsync(wallet.Adapt<EditUserWalletReq>() with {
-                                                                                         AvailableBalance = wallet.AvailableBalance + req.Amount
-                                                                                       , TotalBalance = wallet.TotalBalance         + req.Amount
-                                                                                     })
+        _ = await userWalletService.EditAsync(wallet.Adapt<EditUserWalletReq>() with { AvailableBalance = wallet.AvailableBalance + req.Amount })
                                    .ConfigureAwait(false) ?? throw new NetAdminUnexpectedException(Ln.交易失败);
         var ret = await Rpo.InsertAsync(req with { BalanceBefore = wallet.AvailableBalance, OwnerDeptId = wallet.OwnerDeptId }).ConfigureAwait(false);
         return ret.Adapt<QueryWalletTradeRsp>();
@@ -130,9 +128,9 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
-                return ret.OrderByRandom();
+                return ret.OrderByRandom().AppendOtherFilters(req);
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
@@ -140,6 +138,6 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

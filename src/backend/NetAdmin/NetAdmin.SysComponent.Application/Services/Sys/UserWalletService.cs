@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.UserWallet;
 using NetAdmin.Domain.Extensions;
@@ -65,7 +66,8 @@ public sealed class UserWalletService(BasicRepository<Sys_UserWallet, long> rpo)
     {
         req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
-        return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryUserWalletRsp>();
+        return (await UpdateReturnListAsync(req, [nameof(req.FrozenBalance), nameof(req.AvailableBalance)]).ConfigureAwait(false)).FirstOrDefault()
+            ?.Adapt<QueryUserWalletRsp>();
         #else
         return await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryUserWalletReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
@@ -130,9 +132,9 @@ public sealed class UserWalletService(BasicRepository<Sys_UserWallet, long> rpo)
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
-                return ret.OrderByRandom();
+                return ret.OrderByRandom().AppendOtherFilters(req);
         }
 
         ret = ret.OrderByPropertyNameIf(req.Prop?.Length > 0, req.Prop, req.Order == Orders.Ascending);
@@ -140,6 +142,6 @@ public sealed class UserWalletService(BasicRepository<Sys_UserWallet, long> rpo)
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

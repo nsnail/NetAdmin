@@ -1,4 +1,4 @@
-﻿namespace NetAdmin.Domain.Dto.Sys.Dev;
+namespace NetAdmin.Domain.Dto.Sys.Dev;
 
 /// <summary>
 ///     信息：字段项信息

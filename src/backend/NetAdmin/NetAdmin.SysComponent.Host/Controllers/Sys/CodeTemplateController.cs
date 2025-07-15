@@ -95,12 +95,4 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     {
         return Cache.QueryAsync(req);
     }
-
-    /// <summary>
-    ///     设置代码模板启用状态
-    /// </summary>
-    public Task<int> SetEnabledAsync(SetCodeTemplateEnabledReq req)
-    {
-        return Cache.SetEnabledAsync(req);
-    }
 }

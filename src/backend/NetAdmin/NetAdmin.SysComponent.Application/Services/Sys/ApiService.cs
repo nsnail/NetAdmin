@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.Api;
 using NetAdmin.Domain.Extensions;
@@ -176,7 +177,7 @@ public sealed class ApiService(
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -187,6 +188,6 @@ public sealed class ApiService(
             ret = ret.OrderByDescending(a => a.CreatedTime);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

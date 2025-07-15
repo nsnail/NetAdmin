@@ -7,9 +7,6 @@
                         <el-form-item :label="$t('唯一编码')" prop="id">
                             <el-input v-model="form.id" clearable />
                         </el-form-item>
-                        <el-form-item :label="$t('总余额')" prop="totalBalance">
-                            <el-input v-model="form.totalBalance" clearable />
-                        </el-form-item>
                         <el-form-item :label="$t('可用余额')" prop="availableBalance">
                             <el-input v-model="form.availableBalance" clearable />
                         </el-form-item>

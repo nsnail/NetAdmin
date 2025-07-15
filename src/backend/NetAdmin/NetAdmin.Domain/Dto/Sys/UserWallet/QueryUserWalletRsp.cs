@@ -38,10 +38,6 @@ public record QueryUserWalletRsp : Sys_UserWallet
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override long? OwnerId { get; init; }
 
-    /// <inheritdoc cref="Sys_UserWallet.TotalBalance" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long TotalBalance { get; init; }
-
     /// <inheritdoc cref="Sys_UserWallet.TotalExpenditure" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long TotalExpenditure { get; init; }

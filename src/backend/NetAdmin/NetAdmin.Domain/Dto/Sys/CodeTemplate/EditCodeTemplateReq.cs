@@ -1,5 +1,3 @@
-using NetAdmin.Domain.DbMaps.Dependency.Fields;
-
 namespace NetAdmin.Domain.Dto.Sys.CodeTemplate;
 
 /// <summary>

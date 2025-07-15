@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.CodeTemplate;
 using NetAdmin.Domain.Extensions;
@@ -113,13 +114,6 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
         return ret.Adapt<IEnumerable<QueryCodeTemplateRsp>>();
     }
 
-    /// <inheritdoc />
-    public Task<int> SetEnabledAsync(SetCodeTemplateEnabledReq req)
-    {
-        req.ThrowIfInvalid();
-        return UpdateAsync(req, [nameof(req.Enabled)]);
-    }
-
     private ISelect<Sys_CodeTemplate> QueryInternal(QueryReq<QueryCodeTemplateReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
@@ -127,7 +121,7 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -137,6 +131,6 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
             ret = ret.OrderByDescending(a => a.Id);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

@@ -1,41 +1,60 @@
 <template>
     <sc-dialog v-model="visible" :full-screen="dialogFullScreen" :title="titleMap[mode]" @closed="$emit(`closed`)" destroy-on-close>
         <div v-loading="loading">
-            <el-form
-                :disabled="![`edit`, `add`].includes(mode)"
-                :model="form"
-                :rules="rules"
-                label-position="right"
-                label-width="12rem"
-                ref="dialogForm">
-                <template v-for="(item, i) in columns" :key="i">
-                    <el-form-item v-if="item.show?.includes(mode)" :label="item.label" :prop="i">
-                        <el-date-picker v-if="i.endsWith(`Time`)" v-model="form[i]" :disabled="item.disabled?.includes(mode)" type="datetime" />
-                        <el-select v-else-if="item.enum" v-model="form[i]" :disabled="item.disabled?.includes(mode)" clearable filterable>
-                            <el-option
-                                v-for="e in Object.entries(this.$GLOBAL.enums[item.enum]).map((x) => {
-                                    return {
-                                        value: x[0],
-                                        text: item.enumSelectText ? item.enumSelectText(x) : item.enumText ? item.enumText(x) : x[1][1],
-                                    }
-                                })"
-                                :key="e.value"
-                                :label="e.text"
-                                :value="e.value" />
-                        </el-select>
-                        <el-switch
-                            v-else-if="typeof form[i] === `boolean` || item.isBoolean"
-                            v-model="form[i]"
-                            :disabled="item.disabled?.includes(mode)" />
-                        <component
-                            v-bind="item.detail?.props"
-                            v-else
-                            v-model="form[i]"
-                            :disabled="item.disabled?.includes(mode)"
-                            :is="item.detail?.is ?? `el-input`" />
-                    </el-form-item>
-                </template>
-            </el-form>
+            <el-tabs v-model="tabId" :class="{ 'hide-tabs': !tabs || !tabs[mode] || tabs[mode].length === 0 }">
+                <el-tab-pane :label="$t(`基本信息`)" name="basic">
+                    <el-form
+                        :disabled="![`edit`, `add`].includes(mode)"
+                        :model="form"
+                        :rules="rules"
+                        label-position="right"
+                        label-width="12rem"
+                        ref="dialogForm">
+                        <template v-for="(item, i) in columns" :key="i">
+                            <el-form-item v-if="item.show?.includes(mode)" :label="item.label" :prop="i">
+                                <el-date-picker
+                                    v-bind="item.detail?.props"
+                                    v-if="i.endsWith(`Time`)"
+                                    v-model="form[i]"
+                                    :disabled="item.disabled?.includes(mode)"
+                                    type="datetime"
+                                    value-format="YYYY-MM-DD HH:mm:ss" />
+                                <el-select v-else-if="item.enum" v-model="form[i]" :disabled="item.disabled?.includes(mode)" clearable filterable>
+                                    <el-option
+                                        v-for="e in Object.entries(this.$GLOBAL.enums[item.enum]).map((x) => {
+                                            return {
+                                                value: x[0],
+                                                text: item.enumSelectText ? item.enumSelectText(x) : item.enumText ? item.enumText(x) : x[1][1],
+                                            }
+                                        })"
+                                        :key="e.value"
+                                        :label="e.text"
+                                        :value="e.value" />
+                                </el-select>
+                                <el-switch
+                                    v-else-if="typeof form[i] === `boolean` || item.isBoolean"
+                                    v-model="form[i]"
+                                    :disabled="item.disabled?.includes(mode)" />
+                                <component
+                                    v-bind="item.detail?.props"
+                                    v-else-if="item.detail?.vModelValue"
+                                    v-model:value="form[i]"
+                                    :disabled="item.disabled?.includes(mode)"
+                                    :is="item.detail?.is ?? `el-input`" />
+                                <component
+                                    v-bind="item.detail?.props"
+                                    v-else
+                                    v-model="form[i]"
+                                    :disabled="item.disabled?.includes(mode)"
+                                    :is="item.detail?.is ?? `el-input`" />
+                            </el-form-item>
+                        </template>
+                    </el-form>
+                </el-tab-pane>
+                <el-tab-pane v-bind="item" v-for="(item, i) in tabs[mode]" v-if="tabs" :key="i" :name="item.name">
+                    <component v-if="item.name === tabId" :is="item.component" :ref="item.ref" @closed="paneClosed" />
+                </el-tab-pane>
+            </el-tabs>
         </div>
         <template #footer>
             <el-button @click="visible = false">{{ $t(`取消`) }}</el-button>
@@ -49,6 +68,7 @@ export default {
     components: {},
     data() {
         return {
+            tabId: `basic`,
             rules: {},
             visible: false,
             mode: `add`,
@@ -64,6 +84,9 @@ export default {
     created() {},
     emits: [`success`, `closed`, `mounted`],
     methods: {
+        async paneClosed() {
+            this.visible = false
+        },
         //显示
         async open(data) {
             this.visible = true
@@ -102,18 +125,26 @@ export default {
 
         //表单提交方法
         async submit() {
-            const valid = await this.$refs.dialogForm.validate().catch(() => {})
-            if (!valid) {
-                return false
-            }
             this.loading = true
-            const method = this.mode === `add` ? this.$API[this.entityName].create : this.$API[this.entityName].edit
-            try {
-                const res = await method.post(this.form)
-                this.$emit(`success`, res.data, this.mode)
-                this.visible = false
-                this.$message.success(this.$t(`操作成功`))
-            } catch {}
+            if (this.tabId === `basic`) {
+                const valid = await this.$refs.dialogForm.validate().catch(() => {})
+                if (!valid) {
+                    this.loading = false
+                    return false
+                }
+                const method = this.mode === `add` ? this.$API[this.entityName].create : this.$API[this.entityName].edit
+                try {
+                    const res = await method.post(this.form)
+                    this.$emit(`success`, res.data, this.mode)
+                    this.visible = false
+                    this.$message.success(this.$t(`操作成功`))
+                } catch {}
+            } else {
+                if (await this.tabs.submit(this.$refs, this.tabId)) {
+                    this.visible = false
+                }
+            }
+
             this.loading = false
         },
     },
@@ -125,8 +156,13 @@ export default {
         summary: { type: String },
         columns: { type: Array },
         dialogFullScreen: { type: Boolean },
+        tabs: { type: Array },
     },
 }
 </script>
 
-<style scoped />
+<style scoped>
+.hide-tabs :deep(.el-tabs__nav-scroll) {
+    display: none;
+}
+</style>

@@ -1,3 +1,4 @@
+using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.LoginLog;
@@ -215,7 +216,7 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {
             case Orders.None:
-                return ret;
+                return ret.AppendOtherFilters(req);
             case Orders.Random:
                 return ret.OrderByRandom();
         }
@@ -226,6 +227,6 @@ public sealed class RequestLogService(BasicRepository<Sys_RequestLog, long> rpo,
             ret = ret.OrderByDescending(a => a.CreatedTime);
         }
 
-        return ret;
+        return ret.AppendOtherFilters(req);
     }
 }

@@ -5,8 +5,6 @@ namespace NetAdmin.Domain.Dto.Sys.WalletTrade;
 /// </summary>
 public record CreateWalletTradeReq : Sys_WalletTrade, IValidatableObject
 {
-    private readonly TradeTypes _tradeType;
-
     /// <inheritdoc cref="Sys_WalletTrade.Amount" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Amount { get; init; }
@@ -33,9 +31,9 @@ public record CreateWalletTradeReq : Sys_WalletTrade, IValidatableObject
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(TradeTypes))]
     public override TradeTypes TradeType {
-        get => _tradeType;
+        get;
         init {
-            _tradeType     = value;
+            field          = value;
             TradeDirection = value.Attr<TradeAttribute>().Direction;
         }
     }

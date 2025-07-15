@@ -23,6 +23,12 @@ public record QueryReq<T> : DataAbstraction
     public T Filter { get; init; }
 
     /// <summary>
+    ///     忽略归属
+    /// </summary>
+    [JsonIgnore]
+    public bool IgnoreOwner { get; init; }
+
+    /// <summary>
     ///     查询关键字
     /// </summary>
     public string Keywords { get; init; }
