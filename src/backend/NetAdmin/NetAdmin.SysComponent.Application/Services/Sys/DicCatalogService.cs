@@ -122,7 +122,9 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
 
     private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereIf(req.Filter?.Id           > 0, a => a.Id   == req.Filter.Id)
+                     .WhereIf(req.Filter?.Code?.Length > 0, a => a.Code == req.Filter.Code);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

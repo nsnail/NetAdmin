@@ -55,7 +55,7 @@ export default {
             global.user?.roles.findIndex((x) => x.ignorePermissionControl) >= 0
                 ? ['*/*/*']
                 : preloads[1]?.data?.roles
-                      ?.map((x) => x.apiIds.join(','))
+                      ?.map((x) => (x.apiIds ?? []).join(','))
                       ?.join(',')
                       .split(',')
     },

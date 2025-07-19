@@ -5,7 +5,7 @@ namespace NetAdmin.Infrastructure.Utils;
 /// </summary>
 public static class PhoneNumberHelper
 {
-    private static readonly IEnumerable<(string CallingCode, CountryCodes CountryCode)> _countryList;
+    private static readonly ImmutableList<(string CallingCode, CountryCodes CountryCode)> _countryList;
 
     #pragma warning disable S3963
     static PhoneNumberHelper()
@@ -21,7 +21,8 @@ public static class PhoneNumberHelper
                            .OrderBy(x => x.Item1)
                            .ThenByDescending(x => x.x.Attr<CountryInfoAttribute>().IsPreferred)
                            .DistinctBy(x => x.Item1)
-                           .OrderByDescending(x => x.Item1.Length);
+                           .OrderByDescending(x => x.Item1.Length)
+                           .ToImmutableList();
     }
 
     /// <summary>
@@ -29,7 +30,11 @@ public static class PhoneNumberHelper
     /// </summary>
     public static CountryCodes? PhoneNumberToCountryCode(string phoneNumber)
     {
-        return _countryList.FirstOrDefault(x => phoneNumber.Replace("+", string.Empty).Trim().StartsWith(x.CallingCode, StringComparison.Ordinal))
-                           .CountryCode;
+        phoneNumber = phoneNumber.Trim();
+        if (phoneNumber.StartsWith('+')) {
+            phoneNumber = phoneNumber[1..];
+        }
+
+        return _countryList.FirstOrDefault(x => phoneNumber.StartsWith(x.CallingCode, StringComparison.Ordinal)).CountryCode;
     }
 }

@@ -5,9 +5,8 @@ namespace NetAdmin.Domain.Dto.Sys.Dept;
 /// </summary>
 public record CreateDeptReq : Sys_Dept
 {
-    /// <inheritdoc cref="IFieldEnabled.Enabled" />
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override bool Enabled { get; init; }
+    /// <inheritdoc />
+    public override bool Enabled { get; init; } = true;
 
     /// <inheritdoc cref="Sys_Dept.Name" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

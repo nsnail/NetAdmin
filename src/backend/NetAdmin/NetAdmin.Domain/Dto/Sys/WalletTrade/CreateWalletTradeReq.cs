@@ -3,7 +3,7 @@ namespace NetAdmin.Domain.Dto.Sys.WalletTrade;
 /// <summary>
 ///     请求：创建钱包交易
 /// </summary>
-public record CreateWalletTradeReq : Sys_WalletTrade, IValidatableObject
+public record CreateWalletTradeReq : Sys_WalletTrade
 {
     /// <inheritdoc cref="Sys_WalletTrade.Amount" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -39,7 +39,7 @@ public record CreateWalletTradeReq : Sys_WalletTrade, IValidatableObject
     }
 
     /// <inheritdoc />
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
     {
         var tradeDirection = TradeType.Attr<TradeAttribute>().Direction;
         if (Amount == 0 || (tradeDirection == TradeDirections.Income && Amount < 0) || (tradeDirection == TradeDirections.Expense && Amount > 0)) {

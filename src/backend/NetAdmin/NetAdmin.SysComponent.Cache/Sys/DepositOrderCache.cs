@@ -79,7 +79,7 @@ public sealed class DepositOrderCache(IDistributedCache cache, IDepositOrderServ
     }
 
     /// <inheritdoc />
-    public Task<int> ReceivedConfirmationAsync(ReceivedConfirmationReq req)
+    public Task<int> ReceivedConfirmationAsync(JobReq req)
     {
         return Service.ReceivedConfirmationAsync(req);
     }

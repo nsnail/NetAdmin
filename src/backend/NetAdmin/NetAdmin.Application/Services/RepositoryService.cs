@@ -63,6 +63,23 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     }
 
     /// <summary>
+    ///     唯一索引冲突处理
+    /// </summary>
+    protected static async Task OnUniqueIndexConflictAsync(Func<Task> actionTry, Func<Task> actionCatch = null)
+    {
+        try {
+            await actionTry().ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex.Message.Contains(Chars.FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT)       ||
+                                   ex.Message.Contains(Chars.FLG_DB_EXCEPTION_UNIQUE_CONSTRAINT_CONFLICT) ||
+                                   ex.Message.Contains(Chars.FLG_DB_EXCEPTION_IDX)) {
+            if (actionCatch != null) {
+                await actionCatch().ConfigureAwait(false);
+            }
+        }
+    }
+
+    /// <summary>
     ///     更新实体
     /// </summary>
     /// <param name="newValue">新的值</param>
@@ -85,7 +102,8 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         whereExp ??= a => a.Id.Equals(newValue.Id);
         var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql);
         if (disableGlobalDataFilter) {
-            update = update.DisableGlobalFilter(nameof(Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA));
+            update = update.DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
+                                              , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD);
         }
 
         return update.ExecuteEffectsAsync();
@@ -106,8 +124,8 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         TEntity                         newValue             //
       , List<string>                    includeFields = null //
       , List<string>                    excludeFields = null //
-      , Expression<Func<TEntity, bool>> whereExp = null //
-      , string                          whereSql = null //
+      , Expression<Func<TEntity, bool>> whereExp      = null //
+      , string                          whereSql      = null //
       , bool                            ignoreVersion = false)
     {
         // 默认匹配主键

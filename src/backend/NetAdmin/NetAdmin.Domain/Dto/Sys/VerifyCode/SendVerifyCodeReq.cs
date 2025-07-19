@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.VerifyCode;
 /// <summary>
 ///     请求：发送验证码
 /// </summary>
-public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
+public sealed record SendVerifyCodeReq : Sys_VerifyCode
 {
     /// <inheritdoc cref="Sys_VerifyCode.DestDevice" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -35,7 +35,7 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode, IValidatableObject
     public VerifyCaptchaReq VerifyCaptchaReq { get; init; }
 
     /// <inheritdoc />
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
     {
         ValidationResult validationResult;
         switch (DeviceType) {

@@ -5,7 +5,7 @@ namespace NetAdmin.Domain.Dto.Sys.Role;
 /// <summary>
 ///     请求：创建角色
 /// </summary>
-public record CreateRoleReq : Sys_Role, IValidatableObject
+public record CreateRoleReq : Sys_Role
 {
     /// <summary>
     ///     角色-接口映射
@@ -58,7 +58,7 @@ public record CreateRoleReq : Sys_Role, IValidatableObject
     public override string Summary { get; init; }
 
     /// <inheritdoc />
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
     {
         if (validationContext.MemberName != null) {
             DashboardLayout = JsonSerializer.Serialize(JsonDocument.Parse(DashboardLayout));

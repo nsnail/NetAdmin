@@ -105,6 +105,12 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     }
 
     /// <inheritdoc />
+    public async Task<IEnumerable<long>> GetChildDeptIdsAsync(long deptId)
+    {
+        return await Rpo.Where(a => a.Id == deptId).AsTreeCte().ToListAsync(a => a.Id).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryDeptRsp>> PagedQueryAsync(PagedQueryReq<QueryDeptReq> req)
     {
         req.ThrowIfInvalid();

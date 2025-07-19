@@ -19,7 +19,7 @@ public sealed class UserNameAttribute : RegexAttribute
     public override bool IsValid(object value)
     {
         if (!base.IsValid(value)) {
-            ErrorMessageResourceName = nameof(Ln.用户名长度4位以上);
+            ErrorMessageResourceName = nameof(Ln.用户名不符合要求);
             return false;
         }
 

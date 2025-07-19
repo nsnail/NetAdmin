@@ -2,7 +2,7 @@
     <common-page :title="$t('注册新账号')">
         <el-steps :active="stepActive" finish-status="success" simple>
             <el-step :title="$t('填写账号')" />
-            <el-step v-if="config.registerInviteRequired" :title="$t('验证手机')" />
+            <el-step v-if="config.registerMobileRequired" :title="$t('验证手机')" />
             <el-step :title="$t('注册成功')" />
         </el-steps>
         <el-form v-if="stepActive === 0" :model="form" :rules="rules" @keyup.enter="next" label-width="15rem" ref="stepForm_0" size="large">
@@ -49,11 +49,11 @@
         </div>
         <el-form size="large" style="text-align: center">
             <el-button v-if="stepActive > 0 && stepActive < 2" @click="pre" size="large">{{ $t('上一步') }}</el-button>
-            <el-button v-if="stepActive < (this.config.registerInviteRequired ? 1 : 0)" @click="next" size="large" type="primary">{{
+            <el-button v-if="stepActive < (this.config.registerMobileRequired ? 1 : 0)" @click="next" size="large" type="primary">{{
                 $t('下一步')
             }}</el-button>
             <el-button
-                v-if="stepActive === (this.config.registerInviteRequired ? 1 : 0)"
+                v-if="stepActive === (this.config.registerMobileRequired ? 1 : 0)"
                 :loading="loading"
                 @click="save"
                 size="large"

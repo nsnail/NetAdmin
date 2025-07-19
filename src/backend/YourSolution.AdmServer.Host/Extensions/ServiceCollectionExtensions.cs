@@ -21,9 +21,21 @@ public static class ServiceCollectionExtensions
             (Startup.Args.SyncStructure ? FreeSqlInitMethods.SyncStructure : FreeSqlInitMethods.None) |
             (Startup.Args.InsertSeedData ? FreeSqlInitMethods.InsertSeedData : FreeSqlInitMethods.None), freeSql => {
                 // 数据权限过滤器
+                // 本人
                 _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
-                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA, () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.Self) ?? false
+                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.Self) ?? false
                   , a => a.OwnerId == ContextUserInfo.Create().Id);
+
+                // 本部门
+                _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
+                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT, () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.Dept) ?? false
+                  , a => ContextUserInfo.Create().DeptId == a.OwnerDeptId);
+
+                // 本部门和子部门
+                _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
+                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD
+                  , () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.DeptWithChild) ?? false
+                  , a => ContextUserInfo.Create().DeptIds.Contains(a.OwnerDeptId));
             });
     }
 

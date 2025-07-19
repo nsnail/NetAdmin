@@ -24,5 +24,5 @@ public interface IDepositOrderModule : ICrudModule<CreateDepositOrderReq, QueryD
     /// <summary>
     ///     到账确认
     /// </summary>
-    Task<int> ReceivedConfirmationAsync(ReceivedConfirmationReq req);
+    Task<int> ReceivedConfirmationAsync(JobReq req);
 }

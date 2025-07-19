@@ -1,5 +1,11 @@
 <template>
-    <sc-dialog v-model="visible" :full-screen="dialogFullScreen" :title="titleMap[mode]" @closed="$emit(`closed`)" destroy-on-close>
+    <sc-dialog
+        v-model="visible"
+        :full-screen="dialogFullScreen.includes(mode)"
+        :title="titleMap[mode]"
+        @closed="$emit(`closed`)"
+        destroy-on-close
+        ref="dialog">
         <div v-loading="loading">
             <el-tabs v-model="tabId" :class="{ 'hide-tabs': !tabs || !tabs[mode] || tabs[mode].length === 0 }">
                 <el-tab-pane :label="$t(`基本信息`)" name="basic">
@@ -35,12 +41,14 @@
                                     v-else-if="typeof form[i] === `boolean` || item.isBoolean"
                                     v-model="form[i]"
                                     :disabled="item.disabled?.includes(mode)" />
-                                <component
-                                    v-bind="item.detail?.props"
-                                    v-else-if="item.detail?.vModelValue"
-                                    v-model:value="form[i]"
-                                    :disabled="item.disabled?.includes(mode)"
-                                    :is="item.detail?.is ?? `el-input`" />
+                                <template v-else-if="item.detail?.vModelValue">
+                                    <component
+                                        v-bind="item.detail?.props"
+                                        v-if="this.opened"
+                                        v-model:value="form[i]"
+                                        :disabled="item.disabled?.includes(mode)"
+                                        :is="item.detail.is" />
+                                </template>
                                 <component
                                     v-bind="item.detail?.props"
                                     v-else
@@ -52,7 +60,7 @@
                     </el-form>
                 </el-tab-pane>
                 <el-tab-pane v-bind="item" v-for="(item, i) in tabs[mode]" v-if="tabs" :key="i" :name="item.name">
-                    <component v-if="item.name === tabId" :is="item.component" :ref="item.ref" @closed="paneClosed" />
+                    <component v-bind="item.props" v-if="item.name === tabId" :is="item.component" :row="form" @closed="paneClosed" />
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -66,12 +74,20 @@
 <script>
 export default {
     components: {},
+    watch: {
+        mode(n) {
+            if (this.dialogFullScreen.includes(n) && !this.$refs.dialog.isFullscreen) {
+                this.$refs.dialog.setFullscreen()
+            }
+        },
+    },
     data() {
         return {
+            mode: '',
+            opened: false,
             tabId: `basic`,
             rules: {},
             visible: false,
-            mode: `add`,
             loading: false,
             form: {},
             titleMap: {
@@ -115,11 +131,14 @@ export default {
 
             if (data.row?.id) {
                 const res = await this.$API[this.entityName].get.post({ id: data.row.id })
-                Object.assign(this.form, res.data)
+                Object.assign(this.form, this.$TOOL.nestedToDotNotation(res.data))
                 this.titleMap.edit = this.$t(`编辑{summary}: {id}`, { summary: this.summary, id: this.form.id })
                 this.titleMap.view = this.$t(`查看{summary}: {id}`, { summary: this.summary, id: this.form.id })
+            } else {
+                Object.assign(this.form, this.$TOOL.nestedToDotNotation(data.row))
             }
             this.loading = false
+            this.opened = true
             return this
         },
 
@@ -134,7 +153,7 @@ export default {
                 }
                 const method = this.mode === `add` ? this.$API[this.entityName].create : this.$API[this.entityName].edit
                 try {
-                    const res = await method.post(this.form)
+                    const res = await method.post(this.$TOOL.dotNotationToNested(this.form))
                     this.$emit(`success`, res.data, this.mode)
                     this.visible = false
                     this.$message.success(this.$t(`操作成功`))
@@ -155,7 +174,7 @@ export default {
         entityName: { type: String },
         summary: { type: String },
         columns: { type: Array },
-        dialogFullScreen: { type: Boolean },
+        dialogFullScreen: { type: Array },
         tabs: { type: Array },
     },
 }

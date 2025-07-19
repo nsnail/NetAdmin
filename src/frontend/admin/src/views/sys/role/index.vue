@@ -158,7 +158,7 @@
                     align="center"
                     prop="dataScope"
                     sortable="custom"
-                    width="120" />
+                    width="180" />
                 <el-table-column :label="$t('显示仪表板')" align="center" prop="displayDashboard" sortable="custom" width="120">
                     <template #default="{ row }">
                         <el-switch v-model="row.displayDashboard" @change="changeDisplayDashboard($event, row)" />

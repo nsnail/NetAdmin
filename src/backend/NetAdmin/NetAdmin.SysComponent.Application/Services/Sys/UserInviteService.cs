@@ -83,9 +83,15 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     public Task<List<long>> GetAssociatedUserIdAsync(long userId)
     {
         return Rpo.Orm.Select<Sys_UserInvite>()
-                  .DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA)
+                  .DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
+,                                                                             Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD)
                   .Where(a => a.Id == userId)
-                  .AsTreeCte(up: true, disableGlobalFilters: [Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA])
+                  .AsTreeCte( //
+                      up: true
+                    , disableGlobalFilters: [
+                          Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
+                        , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD
+                      ])
                   .ToListAsync(a => a.Id);
     }
 
