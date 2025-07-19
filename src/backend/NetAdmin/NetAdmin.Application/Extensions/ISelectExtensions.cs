@@ -15,7 +15,8 @@ public static class ISelectExtensions
         where TQuery : DataAbstraction, new()
     {
         if (req.IgnoreOwner) {
-            me = me.DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_DATA);
+            me = me.DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
+                                      , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD);
         }
 
         return me;

@@ -24,6 +24,12 @@ public sealed class UserRoleService(BasicRepository<Sys_UserRole, long> rpo) //
     }
 
     /// <inheritdoc />
+    public Task<int> BulkDeleteByUserIdAsync(long userId)
+    {
+        return Rpo.DeleteAsync(a => a.UserId == userId);
+    }
+
+    /// <inheritdoc />
     public Task<long> CountAsync(QueryReq<QueryUserRoleReq> req)
     {
         req.ThrowIfInvalid();

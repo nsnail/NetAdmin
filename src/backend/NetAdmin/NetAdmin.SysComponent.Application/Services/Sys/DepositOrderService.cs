@@ -146,7 +146,7 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
     }
 
     /// <inheritdoc />
-    public async Task<int> ReceivedConfirmationAsync(ReceivedConfirmationReq req)
+    public async Task<int> ReceivedConfirmationAsync(JobReq req)
     {
         req.ThrowIfInvalid();
         var ret    = 0;
@@ -165,7 +165,7 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
                                                                                    })
             .ConfigureAwait(false)).ToList();
         var apiResult = await S<ITronScanClient>()
-                              .TransfersAsync(S<IOptions<TronScanOptions>>().Value.Token, req.ReadRecordCount, config.Trc20ReceiptAddress)
+                              .TransfersAsync(S<IOptions<TronScanOptions>>().Value.Token, req.Count!.Value, config.Trc20ReceiptAddress)
                               .ConfigureAwait(false);
         foreach (var apiItem in apiResult.TokenTransfers.Where(x => x.TokenInfo.TokenAbbr == "USDT" && x.Confirmed && x.ContractRet == "SUCCESS" &&
                                                                     x.FinalResult         == "SUCCESS")) {

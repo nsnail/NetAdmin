@@ -295,7 +295,7 @@ export default {
                 userName: [
                     {
                         required: true,
-                        message: '4位以上字母、数字或下划线',
+                        message: '2位以上中文数字或字母',
                         pattern: this.$GLOBAL.chars.RGX_USERNAME,
                     },
                 ],

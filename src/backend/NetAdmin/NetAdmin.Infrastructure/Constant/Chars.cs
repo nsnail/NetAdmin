@@ -46,10 +46,11 @@ public static class Chars
     public const string FLG_DB_FIELD_TYPE_VARCHAR_7                    = "varchar(7)";
     public const string FLG_DB_INDEX_PREFIX                            = "idx_{tablename}_";
     public const string FLG_DB_TABLE_NAME_PREFIX                       = "";
-    public const string FLG_FREE_SQL_GLOBAL_FILTER_DATA                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DATA);
+    public const string FLG_FREE_SQL_GLOBAL_FILTER_SELF                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_SELF);
+    public const string FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD     = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD);
+    public const string FLG_FREE_SQL_GLOBAL_FILTER_DEPT                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DEPT);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_DELETE              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DELETE);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_MEMBER              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_MEMBER);
-    public const string FLG_FREE_SQL_GLOBAL_FILTER_SELF                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_SELF);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_TENANT              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_TENANT);
     public const string FLG_FRONT_APP_SET_HOME_GRID                    = "APP_SET_HOME_GRID";
     public const string FLG_HTTP_HEADER_KEY_ACCESS_TOKEN               = "ACCESS-TOKEN";
@@ -108,7 +109,7 @@ public static class Chars
     public const string RGX_TELEPHONE           = """^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$""";
     public const string RGX_UP_AND_LOWER_NUMBER = """^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$""";
     public const string RGX_URL                 = """^(https?|ftp):\/\/[^\s/$.?#].[^\s]*\.[^\s]{2,}$""";
-    public const string RGX_USERNAME            = "^[a-zA-Z0-9_]{4,16}$";
+    public const string RGX_USERNAME            = """^[\u4e00-\u9fa5a-zA-Z0-9_-]{2,16}$""";
     public const string RGX_VERIFY_CODE         = """^\d{4}$""";
 
     public const string RGXL_CHINESE_NAME

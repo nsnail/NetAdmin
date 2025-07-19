@@ -45,21 +45,29 @@
         <!--        表格主体-->
         <el-main class="nopadding">
             <sc-table
+                v-bind="
+                    Object.assign(
+                        {
+                            queryApi: $API[entityName].pagedQuery,
+                            exportApi: $API[entityName].export,
+                            remoteFilter: true,
+                            remoteSort: true,
+                            rowKey: `id`,
+                            stripe: true,
+                            pageSize: 20,
+                            defaultSort: { prop: `id`, order: `descending` },
+                        },
+                        tableProps,
+                    )
+                "
                 :context-extra="this.table.menu.extra"
                 :context-menus="Object.keys(this.columns)"
                 :context-opers="this.operations"
-                :default-sort="{ prop: `id`, order: `descending` }"
-                :export-api="$API[entityName].export"
                 :params="query"
-                :query-api="$API[entityName].pagedQuery"
                 :vue="this"
                 @data-change="onDataChange"
                 @selection-change="onSelectionChange"
-                ref="table"
-                remote-filter
-                remote-sort
-                row-key="id"
-                stripe>
+                ref="table">
                 <el-table-column type="selection" width="50" />
                 <template v-for="(item, i) in columns" :key="i">
                     <component
@@ -160,6 +168,10 @@ export default {
         },
     },
     created() {
+        for (const f of this.dyFilters) {
+            this.query.dynamicFilter.filters.push(f)
+        }
+
         const searchFields = []
         this.searchControls = []
         for (const item in this.columns) {
@@ -274,7 +286,7 @@ export default {
 
         // ---------------------------- ↓ 搜索栏事件 ----------------------------
         async onReset() {
-            Object.entries(this.$refs.selectFilter.selected).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = [``]))
+            Object.entries(this.$refs.selectFilter?.selected ?? []).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = [``]))
         },
         async onSearch(form) {
             if (Array.isArray(form.dy.createdTime)) {
@@ -297,6 +309,13 @@ export default {
                     operator: this.columns[item].operator ?? `eq`,
                     value: field,
                 })
+            }
+
+            for (const item of this.dyFilters) {
+                const exists = this.query.dynamicFilter.filters.find((x) => x.field === item.field)
+                if (!exists) {
+                    this.query.dynamicFilter.filters.push(item)
+                }
             }
 
             await this.$refs.table.upData()
@@ -352,7 +371,13 @@ export default {
             loading?.close()
         },
         async onAddClick() {
-            this.dialog.detail = { mode: `add` }
+            const row = {}
+            for (const i in this.columns) {
+                if (this.columns[i].default) {
+                    Object.assign(row, Object.fromEntries([[i, this.columns[i].default]]))
+                }
+            }
+            this.dialog.detail = { mode: `add`, row }
         },
         async onSwitchChange(row, method) {
             try {
@@ -420,8 +445,19 @@ export default {
                 type: `root`,
             })
         }
+
+        for (const f of this.dyFilters) {
+            this.$refs.search.selectInputKey = f.field
+            this.$refs.search.form.dy[f.field] = f.value
+            this.$refs.search.keeps.push({
+                field: f.field,
+                value: f.value,
+                type: 'dy',
+            })
+        }
     },
     props: {
+        dyFilters: { type: Array, default: [] },
         keywords: { type: String },
         entityName: { type: String },
         summary: { type: String },
@@ -431,8 +467,9 @@ export default {
         operations: { type: Array, default: [`view`, `add`, `edit`, `del`] },
         rowButtons: { type: Array, default: [] },
         rightButtons: { type: Array, default: [] },
-        dialogFullScreen: { type: Boolean },
+        dialogFullScreen: { type: Array, default: [] },
         tabs: { type: Array },
+        tableProps: { type: Object, default: {} },
     },
     watch: {},
 }

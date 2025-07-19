@@ -115,7 +115,7 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     /// <summary>
     ///     到账确认
     /// </summary>
-    public Task<int> ReceivedConfirmationAsync(ReceivedConfirmationReq req)
+    public Task<int> ReceivedConfirmationAsync(JobReq req)
     {
         return Cache.ReceivedConfirmationAsync(req);
     }

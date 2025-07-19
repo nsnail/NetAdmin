@@ -2,6 +2,7 @@ using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.Attributes.DataValidation;
 using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserInvite;
 using NetAdmin.Domain.Dto.Sys.UserProfile;
@@ -9,6 +10,7 @@ using NetAdmin.Domain.Dto.Sys.UserWallet;
 using NetAdmin.Domain.Dto.Sys.VerifyCode;
 using NetAdmin.Domain.Events.Sys;
 using NetAdmin.Domain.Extensions;
+using Yitter.IdGenerator;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
@@ -108,8 +110,10 @@ public sealed class UserService(
         req.ThrowIfInvalid();
         var roles = await CreateEditCheckAsync(req).ConfigureAwait(false);
 
+        var newDeptId = YitIdHelper.NextId();
+
         // 主表
-        var entity = req.Adapt<Sys_User>();
+        var entity = req.Adapt<Sys_User>() with { DeptId = newDeptId };
         var dbUser = await Rpo.InsertAsync(entity).ConfigureAwait(false);
 
         // 分表
@@ -133,6 +137,9 @@ public sealed class UserService(
 
         // 邀请表
         _ = await userInviteService.CreateAsync((req.Invite ?? new CreateUserInviteReq()) with { Id = dbUser.Id }).ConfigureAwait(false);
+
+        // 创建一个用户自己的部门
+        _ = S<IDeptService>().CreateAsync(new CreateDeptReq { Id = newDeptId, Name = $"{req.UserName}的部门", ParentId = req.Invite?.OwnerDeptId ?? 0 });
 
         // 发布用户创建事件
         var ret = userList.First();
@@ -477,7 +484,9 @@ public sealed class UserService(
                               .IncludeMany(a => a.Roles, OtherIncludes)
                               .ToOneAsync()
                               .ConfigureAwait(false);
-        return dbUser.Adapt<UserInfoRsp>();
+
+        var deptIds = await S<IDeptService>().GetChildDeptIdsAsync(dbUser.DeptId).ConfigureAwait(false);
+        return dbUser.Adapt<UserInfoRsp>() with { DeptIds = deptIds.ToList().ConvertAll(x => (long?)x) };
 
         static void OtherIncludes(ISelect<Sys_Role> select)
         {

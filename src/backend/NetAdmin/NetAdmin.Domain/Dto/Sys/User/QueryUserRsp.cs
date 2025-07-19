@@ -27,6 +27,11 @@ public record QueryUserRsp : Sys_User
     /// <inheritdoc cref="Sys_User.Dept" />
     public new virtual QueryDeptRsp Dept { get; init; }
 
+    /// <summary>
+    ///     本部门以及子部门编号
+    /// </summary>
+    public List<long?> DeptIds { get; init; }
+
     /// <inheritdoc cref="Sys_User.Email" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Email { get; init; }

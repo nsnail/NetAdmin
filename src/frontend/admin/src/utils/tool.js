@@ -251,6 +251,59 @@ tool.objCopy = function (obj) {
     return JSON.parse(JSON.stringify(obj))
 }
 
+/* 带点属性转嵌套对象 */
+tool.dotNotationToNested = function (obj) {
+    const result = {}
+
+    for (const key in obj) {
+        if (key.includes('.')) {
+            // 处理带点的键
+            const keys = key.split('.')
+            let current = result
+
+            for (let i = 0; i < keys.length; i++) {
+                const part = keys[i]
+
+                // 如果是最后一个部分，设置值
+                if (i === keys.length - 1) {
+                    current[part] = obj[key]
+                } else {
+                    // 如果不是最后一个部分，确保对象存在
+                    current[part] = current[part] || {}
+                    current = current[part]
+                }
+            }
+        } else {
+            // 直接复制不带点的键
+            result[key] = obj[key]
+        }
+    }
+    return result
+}
+/* 将嵌套对象转带点属性 */
+tool.nestedToDotNotation = function (obj, prefix = '', result = {}) {
+    // 处理 null 或 undefined 的情况
+    if (obj === null || obj === undefined) {
+        return result
+    }
+
+    for (const key in obj) {
+        // 更安全的属性检查方式
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            const newKey = prefix ? `${prefix}.${key}` : key
+
+            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+                // 递归处理嵌套对象
+                this.nestedToDotNotation(obj[key], newKey, result)
+            } else {
+                // 基本类型或数组，直接赋值
+                result[newKey] = obj[key]
+            }
+        }
+    }
+    return result
+}
+
 /* 获取嵌套属性 */
 tool.getNestedProperty = function (obj, path) {
     if (!path) return null
