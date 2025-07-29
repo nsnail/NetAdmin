@@ -58,7 +58,7 @@ public record CreateJobReq : Sys_Job
 
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc cref="Sys_Job.UserId" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

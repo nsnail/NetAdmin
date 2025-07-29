@@ -144,6 +144,16 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryRoleReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RoleController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
     {
         var rsp = await PostJsonAsync(typeof(RoleController), req);

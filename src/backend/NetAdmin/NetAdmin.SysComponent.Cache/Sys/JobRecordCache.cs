@@ -65,4 +65,10 @@ public sealed class JobRecordCache(IDistributedCache cache, IJobRecordService se
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryJobRecordReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

@@ -79,5 +79,5 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Summary { get; init; }
+    public virtual string Summary { get; set; }
 }

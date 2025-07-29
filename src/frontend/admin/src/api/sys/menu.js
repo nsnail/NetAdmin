@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 菜单计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/menu/count`,
-        name: `菜单计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 创建菜单
      */
     create: {

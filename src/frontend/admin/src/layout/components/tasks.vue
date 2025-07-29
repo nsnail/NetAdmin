@@ -120,8 +120,8 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 const scPageHeader = defineAsyncComponent(() => import('@/components/sc-page-header'))
-const jobSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/all/save'))
-const jobRecordSaveDialog = defineAsyncComponent(() => import('@/views/sys/job/record/save'))
+const jobSaveDialog = defineAsyncComponent(() => import('@/views/sys/system/job/all/save'))
+const jobRecordSaveDialog = defineAsyncComponent(() => import('@/views/sys/system/job/record/save'))
 
 export default {
     computed: {

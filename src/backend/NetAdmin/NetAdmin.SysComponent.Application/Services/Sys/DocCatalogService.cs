@@ -41,7 +41,7 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DocCatalog).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_DocCatalog).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -79,7 +79,7 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDocCatalogRsp>();
-        #else
+            #else
             await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDocCatalogReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }
@@ -119,6 +119,13 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDocCatalogRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDocCatalogReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DocCatalog>());
     }
 
     private ISelect<Sys_DocCatalog> QueryInternal(QueryReq<QueryDocCatalogReq> req)

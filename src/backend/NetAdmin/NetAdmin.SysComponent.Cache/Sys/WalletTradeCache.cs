@@ -65,4 +65,22 @@ public sealed class WalletTradeCache(IDistributedCache cache, IWalletTradeServic
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req)
+    {
+        return Service.SumAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> TransferFromAnotherAccountAsync(TransferReq req)
+    {
+        return Service.TransferFromAnotherAccountAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> TransferToAnotherAccountAsync(TransferReq req)
+    {
+        return Service.TransferToAnotherAccountAsync(req);
+    }
 }

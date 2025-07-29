@@ -22,6 +22,7 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     /// <summary>
     ///     角色计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryRoleReq> req)
     {
         return Cache.CountAsync(req);
@@ -116,6 +117,15 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
     {
         return Cache.SetIgnorePermissionControlAsync(req);
+    }
+
+    /// <summary>
+    ///     角色求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryRoleReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 
     /// <summary>

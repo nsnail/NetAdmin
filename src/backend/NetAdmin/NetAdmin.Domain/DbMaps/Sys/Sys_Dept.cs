@@ -68,5 +68,5 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Summary { get; init; }
+    public virtual string Summary { get; set; }
 }

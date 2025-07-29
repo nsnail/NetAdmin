@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserInvite;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
@@ -21,6 +23,7 @@ public sealed class UserInviteController(IUserInviteCache cache) : ControllerBas
     /// <summary>
     ///     用户邀请计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryUserInviteReq> req)
     {
         return Cache.CountAsync(req);
@@ -41,6 +44,14 @@ public sealed class UserInviteController(IUserInviteCache cache) : ControllerBas
     public Task<QueryUserInviteRsp> CreateAsync(CreateUserInviteReq req)
     {
         return Cache.CreateAsync(req);
+    }
+
+    /// <summary>
+    ///     创建粉丝账号
+    /// </summary>
+    public Task<QueryUserRsp> CreateFansAccountAsync(CreateFansAccountReq req)
+    {
+        return Cache.CreateFansAccountAsync(req);
     }
 
     /// <summary>
@@ -79,6 +90,14 @@ public sealed class UserInviteController(IUserInviteCache cache) : ControllerBas
     }
 
     /// <summary>
+    ///     获取自己是否允许自助充值
+    /// </summary>
+    public Task<bool> GetSelfRechargeAllowedAsync()
+    {
+        return Cache.GetSelfRechargeAllowedAsync();
+    }
+
+    /// <summary>
     ///     分页查询用户邀请
     /// </summary>
     public Task<PagedQueryRsp<QueryUserInviteRsp>> PagedQueryAsync(PagedQueryReq<QueryUserInviteReq> req)
@@ -95,10 +114,53 @@ public sealed class UserInviteController(IUserInviteCache cache) : ControllerBas
     }
 
     /// <summary>
+    ///     查询可分配的角色
+    /// </summary>
+    public Task<IEnumerable<QueryDicContentRsp>> QueryRolesAllowApplyAsync()
+    {
+        return Cache.QueryRolesAllowApplyAsync();
+    }
+
+    /// <summary>
     ///     设置返佣比率
     /// </summary>
     public Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req)
     {
         return Cache.SetCommissionRatioAsync(req);
+    }
+
+    /// <summary>
+    ///     修改粉丝角色
+    /// </summary>
+    [Transaction]
+    public Task<int> SetFansRoleAsync(SetFansRoleReq req)
+    {
+        return Cache.SetFansRoleAsync(req);
+    }
+
+    /// <summary>
+    ///     设置上级
+    /// </summary>
+    [Transaction]
+    public Task<int> SetInviterAsync(SetInviterReq req)
+    {
+        return Cache.SetInviterAsync(req);
+    }
+
+    /// <summary>
+    ///     设置允许自助充值
+    /// </summary>
+    public Task<int> SetSelfRechargeAllowedAsync(SetSelfRechargeAllowedReq req)
+    {
+        return Cache.SetSelfRechargeAllowedAsync(req);
+    }
+
+    /// <summary>
+    ///     用户邀请求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryUserInviteReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

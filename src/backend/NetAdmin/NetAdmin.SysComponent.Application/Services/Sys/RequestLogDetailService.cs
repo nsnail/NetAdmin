@@ -42,7 +42,7 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_RequestLogDetail).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_RequestLogDetail).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -105,6 +105,13 @@ public sealed class RequestLogDetailService(BasicRepository<Sys_RequestLogDetail
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryRequestLogDetailRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryRequestLogDetailReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_RequestLogDetail>());
     }
 
     private ISelect<Sys_RequestLogDetail> QueryInternal(QueryReq<QueryRequestLogDetailReq> req)

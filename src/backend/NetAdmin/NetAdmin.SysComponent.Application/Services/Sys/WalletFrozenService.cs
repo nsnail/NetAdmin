@@ -47,8 +47,9 @@ public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> 
                                   y => y
                                 , y => y.Contains('.')
                                       ? typeof(Sys_WalletFrozen).GetRecursiveProperty(y)!.GetValue(
-                                          x.Key.GetType().GetRecursiveProperty(y[..y.LastIndexOf('.')]).GetValue(x.Key))!.ToString()
-                                      : typeof(Sys_WalletFrozen).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                                                    x.Key.GetType().GetRecursiveProperty(y[..y.LastIndexOf('.')]).GetValue(x.Key))
+                                                                ?.ToString()
+                                      : typeof(Sys_WalletFrozen).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -171,6 +172,13 @@ public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> 
                                                                     })
                   .ConfigureAwait(false) ?? throw new NetAdminUnexpectedException(Ln.结果非预期);
         return 1;
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryWalletFrozenReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_WalletFrozen>());
     }
 
     private ISelect<Sys_WalletFrozen> QueryInternal(QueryReq<QueryWalletFrozenReq> req)

@@ -23,6 +23,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     /// <summary>
     ///     计划作业计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryJobReq> req)
     {
         return Cache.CountAsync(req);
@@ -173,5 +174,14 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     public Task<int> SetEnabledAsync(SetJobEnabledReq req)
     {
         return Cache.SetEnabledAsync(req);
+    }
+
+    /// <summary>
+    ///     作业求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryJobReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

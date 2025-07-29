@@ -40,7 +40,7 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Dept).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Dept).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
                   .OrderByDescending(x => x.Value);
     }
@@ -129,6 +129,13 @@ public sealed class DeptService(BasicRepository<Sys_Dept, long> rpo) //
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.Enabled)]);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDeptReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_Dept>());
     }
 
     private ISelect<Sys_Dept> QueryInternal(QueryReq<QueryDeptReq> req)

@@ -223,7 +223,7 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 import http from '@/utils/request'
-const saveDialog = defineAsyncComponent(() => import('@/views/sys/user/save'))
+const saveDialog = defineAsyncComponent(() => import('@/views/sys/power/user/save'))
 
 export default {
     components: {

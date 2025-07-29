@@ -33,5 +33,5 @@ public record QueryApiRsp : Sys_Api
 
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 }

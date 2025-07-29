@@ -121,7 +121,7 @@ public record Sys_User : VersionEntity, IFieldSummary, IFieldEnabled, IRegister
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Summary { get; init; }
+    public virtual string Summary { get; set; }
 
     /// <summary>
     ///     授权验证Token，全局唯一，可以随时重置（强制下线）

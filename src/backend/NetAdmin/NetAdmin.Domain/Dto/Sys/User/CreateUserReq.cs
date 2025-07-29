@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：创建用户
 /// </summary>
-public sealed record CreateUserReq : CreateEditUserReq
+public   record CreateUserReq : CreateEditUserReq
 {
     /// <inheritdoc />
     public override bool Enabled { get; init; } = true;

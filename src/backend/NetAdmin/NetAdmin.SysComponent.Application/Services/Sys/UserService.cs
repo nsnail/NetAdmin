@@ -24,24 +24,24 @@ public sealed class UserService(
   , IEventPublisher                 eventPublisher)    //
     : RepositoryService<Sys_User, long, IUserService>(rpo), IUserService
 {
-    private readonly Expression<Func<Sys_User, Sys_User>> _listUserExp = a => new Sys_User {
-                                                                                               Id            = a.Id
-                                                                                             , Avatar        = a.Avatar
-                                                                                             , Email         = a.Email
-                                                                                             , Mobile        = a.Mobile
-                                                                                             , Enabled       = a.Enabled
-                                                                                             , UserName      = a.UserName
-                                                                                             , Summary       = a.Summary
-                                                                                             , Version       = a.Version
-                                                                                             , CreatedTime   = a.CreatedTime
-                                                                                             , LastLoginTime = a.LastLoginTime
-                                                                                             , Dept = new Sys_Dept {
-                                                                                                   Id = a.Dept.Id, Name = a.Dept.Name
-                                                                                               }
-                                                                                             , Roles           = a.Roles
-                                                                                             , CreatedUserId   = a.CreatedUserId
-                                                                                             , CreatedUserName = a.CreatedUserName
-                                                                                           };
+    private readonly Expression<Func<Sys_User, Sys_User>> _listUserExp = a => //
+        new Sys_User {
+                         Id              = a.Id
+                       , Avatar          = a.Avatar
+                       , Email           = a.Email
+                       , Mobile          = a.Mobile
+                       , Enabled         = a.Enabled
+                       , UserName        = a.UserName
+                       , Summary         = a.Summary
+                       , Version         = a.Version
+                       , CreatedTime     = a.CreatedTime
+                       , LastLoginTime   = a.LastLoginTime
+                       , Dept            = new Sys_Dept { Id = a.Dept.Id, Name = a.Dept.Name }
+                       , Roles           = a.Roles
+                       , CreatedUserId   = a.CreatedUserId
+                       , CreatedUserName = a.CreatedUserName
+                       , Invite          = new Sys_UserInvite { Owner = new Sys_User { Id = a.Invite.Owner.Id, UserName = a.Invite.Owner.UserName } }
+                     };
 
     /// <inheritdoc />
     public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
@@ -99,7 +99,7 @@ public sealed class UserService(
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_User).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_User).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
                   .OrderByDescending(x => x.Value);
     }
@@ -110,10 +110,10 @@ public sealed class UserService(
         req.ThrowIfInvalid();
         var roles = await CreateEditCheckAsync(req).ConfigureAwait(false);
 
-        var newDeptId = YitIdHelper.NextId();
+        var userId = YitIdHelper.NextId();
 
         // 主表
-        var entity = req.Adapt<Sys_User>() with { DeptId = newDeptId };
+        var entity = req.Adapt<Sys_User>() with { DeptId = userId, Id = userId };
         var dbUser = await Rpo.InsertAsync(entity).ConfigureAwait(false);
 
         // 分表
@@ -139,7 +139,9 @@ public sealed class UserService(
         _ = await userInviteService.CreateAsync((req.Invite ?? new CreateUserInviteReq()) with { Id = dbUser.Id }).ConfigureAwait(false);
 
         // 创建一个用户自己的部门
-        _ = S<IDeptService>().CreateAsync(new CreateDeptReq { Id = newDeptId, Name = $"{req.UserName}的部门", ParentId = req.Invite?.OwnerDeptId ?? 0 });
+        _ = await S<IDeptService>()
+                  .CreateAsync(new CreateDeptReq { Id = userId, Name = $"{req.UserName}", ParentId = req.Invite?.OwnerDeptId ?? 0 })
+                  .ConfigureAwait(false);
 
         // 发布用户创建事件
         var ret = userList.First();
@@ -275,7 +277,8 @@ public sealed class UserService(
         var listUserExp  = req.GetToListExp<Sys_User>() ?? _listUserExp;
         var includeRoles = listUserExp == _listUserExp;
         var select       = await QueryInternalAsync(req, includeRoles).ConfigureAwait(false);
-        IEnumerable<Sys_User> list = await select.Page(req.Page, req.PageSize)
+        IEnumerable<Sys_User> list = await select.Include(a => a.Invite.Owner)
+                                                 .Page(req.Page, req.PageSize)
                                                  .WithNoLockNoWait()
                                                  .Count(out var total)
                                                  .ToListAsync(listUserExp)
@@ -338,8 +341,10 @@ public sealed class UserService(
                                                             Profile = new CreateUserProfileReq()
                                                           , Invite = new CreateUserInviteReq { OwnerId = inviterId, OwnerDeptId = inviterDeptId }
                                                         };
-        return (await CreateAsync(createReq with { Mobile = config.RegisterMobileRequired ? createReq.Mobile : null }).ConfigureAwait(false))
+        var ret = (await CreateAsync(createReq with { Mobile = config.RegisterMobileRequired ? createReq.Mobile : null }).ConfigureAwait(false))
             .Adapt<UserInfoRsp>();
+        await eventPublisher.PublishAsync(new UserRegisteredEvent(ret)).ConfigureAwait(false);
+        return ret;
     }
 
     /// <inheritdoc />
@@ -476,6 +481,13 @@ public sealed class UserService(
     }
 
     /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryUserReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_User>());
+    }
+
+    /// <inheritdoc />
     public async Task<UserInfoRsp> UserInfoAsync()
     {
         var dbUser = await Rpo.Where(a => a.Token == UserToken.Token && a.Enabled)
@@ -506,14 +518,7 @@ public sealed class UserService(
                              .Where(a => req.RoleIds.Contains(a.Id))
                              .ToDictionaryAsync(a => a.Id, a => a.DashboardLayout)
                              .ConfigureAwait(false);
-        if (roles.Count != req.RoleIds.Count) {
-            throw new NetAdminInvalidOperationException(Ln.角色不存在);
-        }
-
-        // 检查部门是否存在
-        var dept = await Rpo.Orm.Select<Sys_Dept>().WithNoLockNoWait().Where(a => req.DeptId == a.Id).ToListAsync(a => a.Id).ConfigureAwait(false);
-
-        return dept.Count != 1 ? throw new NetAdminInvalidOperationException(Ln.部门不存在) : roles;
+        return roles.Count != req.RoleIds.Count ? throw new NetAdminInvalidOperationException(Ln.角色不存在) : roles;
     }
 
     private async Task<LoginRsp> LoginInternalAsync(Sys_User dbUser)
@@ -552,7 +557,8 @@ public sealed class UserService(
                      req.Filter?.RoleId > 0, a => Enumerable.Any(a.Roles, b => b.Id == req.Filter.RoleId))
                  .WhereIf( //
                      req.Keywords?.Length > 0
-                   , a => a.Id == req.Keywords.Int64Try(0) || a.UserName == req.Keywords || a.Mobile == req.Keywords || a.Email == req.Keywords ||
+                   , a => a.Id    == req.Keywords.Int64Try(0) || a.UserName.Contains(req.Keywords) || a.Mobile == req.Keywords ||
+                          a.Email == req.Keywords             ||
                           a.Summary.Contains(req.Keywords));
 
         // ReSharper restore InvokeAsExtensionMethod

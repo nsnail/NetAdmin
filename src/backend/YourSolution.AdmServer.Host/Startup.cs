@@ -72,6 +72,7 @@ namespace YourSolution.AdmServer.Host
                 .UseMiddleware<RemoveNullNodeMiddleware>() // 使用RemoveNullNodeMiddleware中间件，删除JSON中的空节点
                 .UseWebSockets()                           // 使用WebSockets中间件，启用WebSocket支持
                 .UseMiddleware<VersionCheckerMiddleware>() // 使用VersionUpdaterMiddleware中间件，用于检查版本
+                .UseMiddleware<EnvironmentInfoMiddleware>() // 使用EnvironmentInfoMiddleware中间件，用于获取环境信息
                 .UseEndpoints();                           // 配置端点以处理请求
             _ = lifeTime.ApplicationStopping.Register(SafetyShopHostMiddleware.OnStopping);
         }
@@ -94,7 +95,7 @@ namespace YourSolution.AdmServer.Host
                         .AddContextUserToken() // 添加上下文用户令牌
                         .AddContextUserInfo()  // 添加上下文用户信息
                         .AddRedisCache()       // 添加 Redis 缓存
-                        .AddSchedules()        // 添加计划任务
+                        .AddSchedules(Args.JobForce) // 添加计划任务
                         .AddTronScanClient()   // 添加 TronScan 客户端
 
                         // IMvcBuilder

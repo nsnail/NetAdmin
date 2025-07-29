@@ -22,6 +22,7 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     /// <summary>
     ///     站内信计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QuerySiteMsgReq> req)
     {
         return Cache.CountAsync(req);
@@ -116,6 +117,15 @@ public sealed class SiteMsgController(ISiteMsgCache cache) : ControllerBase<ISit
     public Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
     {
         return Cache.SetSiteMsgStatusAsync(req);
+    }
+
+    /// <summary>
+    ///     站内信求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 
     /// <summary>

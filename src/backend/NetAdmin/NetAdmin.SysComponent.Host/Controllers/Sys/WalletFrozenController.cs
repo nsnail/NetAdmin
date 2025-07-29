@@ -22,6 +22,7 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     /// <summary>
     ///     钱包冻结计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryWalletFrozenReq> req)
     {
         return Cache.CountAsync(req);
@@ -103,5 +104,14 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     public Task<int> SetStatusToThawedAsync(SetStatusToThawedReq req)
     {
         return Cache.SetStatusToThawedAsync(req);
+    }
+
+    /// <summary>
+    ///     钱包冻结求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryWalletFrozenReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

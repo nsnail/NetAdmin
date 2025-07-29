@@ -295,6 +295,16 @@ public class UserTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     }
 
     /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryUserReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(UserController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
+
+    /// <inheritdoc />
     [Fact]
     [TestPriority(102500)]
     public async Task<UserInfoRsp> UserInfoAsync()

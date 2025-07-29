@@ -53,7 +53,7 @@ public record QuerySiteMsgRsp : Sys_SiteMsg
 
     /// <inheritdoc cref="Sys_SiteMsg.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc cref="Sys_SiteMsg.Title" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

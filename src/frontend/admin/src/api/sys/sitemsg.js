@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 站内信计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/site.msg/count`,
-        name: `站内信计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 站内信分组计数
      */
     countBy: {

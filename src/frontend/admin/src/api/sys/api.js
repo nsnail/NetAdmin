@@ -6,17 +6,6 @@ import config from '@/config'
 import http from '@/utils/request'
 export default {
     /**
-     * 接口计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/api/count`,
-        name: `接口计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 导出接口
      */
     export: {

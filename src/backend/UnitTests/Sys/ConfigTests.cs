@@ -136,4 +136,14 @@ public class ConfigTests(WebTestApplicationFactory<Startup> factory, ITestOutput
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
     }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryConfigReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(ConfigController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
 }

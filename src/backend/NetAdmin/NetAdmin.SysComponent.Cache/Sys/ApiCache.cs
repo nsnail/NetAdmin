@@ -73,6 +73,12 @@ public sealed class ApiCache(IDistributedCache cache, IApiService service) //
     }
 
     /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryApiReq> req)
+    {
+        return Service.SumAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task SyncAsync()
     {
         return Service.SyncAsync();

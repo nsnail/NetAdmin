@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 登录日志计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/login.log/count`,
-        name: `登录日志计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 登录日志分组计数
      */
     countBy: {

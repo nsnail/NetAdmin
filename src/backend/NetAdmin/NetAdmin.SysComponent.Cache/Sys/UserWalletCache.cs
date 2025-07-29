@@ -65,4 +65,10 @@ public sealed class UserWalletCache(IDistributedCache cache, IUserWalletService 
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryUserWalletReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

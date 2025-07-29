@@ -16,7 +16,7 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     /// <inheritdoc />
     #if !DEBUG
     public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
-    #else
+        #else
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
         #endif
     {
@@ -113,5 +113,11 @@ public sealed class RequestLogCache(IDistributedCache cache, IRequestLogService 
     public Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
         return Service.QueryAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Service.SumAsync(req);
     }
 }

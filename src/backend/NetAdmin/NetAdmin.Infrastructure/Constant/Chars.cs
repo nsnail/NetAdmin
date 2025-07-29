@@ -46,11 +46,13 @@ public static class Chars
     public const string FLG_DB_FIELD_TYPE_VARCHAR_7                    = "varchar(7)";
     public const string FLG_DB_INDEX_PREFIX                            = "idx_{tablename}_";
     public const string FLG_DB_TABLE_NAME_PREFIX                       = "";
-    public const string FLG_FREE_SQL_GLOBAL_FILTER_SELF                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_SELF);
-    public const string FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD     = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD);
-    public const string FLG_FREE_SQL_GLOBAL_FILTER_DEPT                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DEPT);
+    public const string FLG_DIC_CATALOG_NEW_USER_ROLE_CONFIG           = "new-user-role-config";
     public const string FLG_FREE_SQL_GLOBAL_FILTER_DELETE              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DELETE);
+    public const string FLG_FREE_SQL_GLOBAL_FILTER_DEPT                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DEPT);
+    public const string FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN  = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN);
+    public const string FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON       = nameof(FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_MEMBER              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_MEMBER);
+    public const string FLG_FREE_SQL_GLOBAL_FILTER_SELF                = nameof(FLG_FREE_SQL_GLOBAL_FILTER_SELF);
     public const string FLG_FREE_SQL_GLOBAL_FILTER_TENANT              = nameof(FLG_FREE_SQL_GLOBAL_FILTER_TENANT);
     public const string FLG_FRONT_APP_SET_HOME_GRID                    = "APP_SET_HOME_GRID";
     public const string FLG_HTTP_HEADER_KEY_ACCESS_TOKEN               = "ACCESS-TOKEN";

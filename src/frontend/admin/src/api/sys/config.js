@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 配置计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/config/count`,
-        name: `配置计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 配置分组计数
      */
     countBy: {

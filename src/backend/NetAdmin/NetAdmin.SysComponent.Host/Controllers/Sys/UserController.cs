@@ -50,6 +50,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     /// <summary>
     ///     用户计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryUserReq> req)
     {
         return Cache.CountAsync(req);
@@ -242,6 +243,15 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
     {
         return Cache.SetSessionUserAppConfigAsync(req);
+    }
+
+    /// <summary>
+    ///     用户求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryUserReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 
     /// <summary>

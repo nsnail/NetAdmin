@@ -40,7 +40,7 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_LoginLog).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_LoginLog).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
                   .OrderByDescending(x => x.Value);
     }
@@ -115,6 +115,13 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryLoginLogRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryLoginLogReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_LoginLog>());
     }
 
     private ISelect<Sys_LoginLog> QueryInternal(QueryReq<QueryLoginLogReq> req)

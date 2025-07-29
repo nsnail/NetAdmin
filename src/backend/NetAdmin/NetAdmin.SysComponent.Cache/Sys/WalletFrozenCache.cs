@@ -71,4 +71,10 @@ public sealed class WalletFrozenCache(IDistributedCache cache, IWalletFrozenServ
     {
         return Service.SetStatusToThawedAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryWalletFrozenReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

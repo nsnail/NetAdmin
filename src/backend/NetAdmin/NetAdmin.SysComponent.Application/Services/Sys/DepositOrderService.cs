@@ -213,6 +213,13 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
         return ret;
     }
 
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DepositOrder>());
+    }
+
     private ISelect<Sys_DepositOrder> QueryInternal(QueryReq<QueryDepositOrderReq> req)
     {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);

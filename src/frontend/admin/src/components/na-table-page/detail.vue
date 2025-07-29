@@ -11,13 +11,17 @@
                 <el-tab-pane :label="$t(`基本信息`)" name="basic">
                     <el-form
                         :disabled="![`edit`, `add`].includes(mode)"
+                        :inline="formInline"
                         :model="form"
                         :rules="rules"
                         label-position="right"
                         label-width="12rem"
                         ref="dialogForm">
                         <template v-for="(item, i) in columns" :key="i">
-                            <el-form-item v-if="item.show?.includes(mode)" :label="item.label" :prop="i">
+                            <el-form-item
+                                v-if="item.show?.includes(mode) && (!item.detail?.condition || item.detail.condition(form))"
+                                :label="item.detail?.label ?? item.label"
+                                :prop="i">
                                 <el-date-picker
                                     v-bind="item.detail?.props"
                                     v-if="i.endsWith(`Time`)"
@@ -38,14 +42,18 @@
                                         :value="e.value" />
                                 </el-select>
                                 <el-switch
-                                    v-else-if="typeof form[i] === `boolean` || item.isBoolean"
+                                    v-else-if="typeof form[i] === `boolean` || item.isSwitch"
                                     v-model="form[i]"
                                     :disabled="item.disabled?.includes(mode)" />
-                                <template v-else-if="item.detail?.vModelValue">
+                                <template v-else-if="item.detail?.vModel">
                                     <component
                                         v-bind="item.detail?.props"
                                         v-if="this.opened"
-                                        v-model:value="form[i]"
+                                        v-model:value="form[item.detail.vModel[0]]"
+                                        v-model:value2="form[item.detail.vModel[1]]"
+                                        v-model:value3="form[item.detail.vModel[2]]"
+                                        v-model:value4="form[item.detail.vModel[3]]"
+                                        v-model:value5="form[item.detail.vModel[4]]"
                                         :disabled="item.disabled?.includes(mode)"
                                         :is="item.detail.is" />
                                 </template>
@@ -159,9 +167,13 @@ export default {
                     this.$message.success(this.$t(`操作成功`))
                 } catch {}
             } else {
-                if (await this.tabs.submit(this.$refs, this.tabId)) {
-                    this.visible = false
-                }
+                try {
+                    if (await this.tabs.submit(this.$refs, this.tabId)) {
+                        this.$emit(`tabSuccess`)
+                        this.visible = false
+                        this.$message.success(this.$t(`操作成功`))
+                    }
+                } catch {}
             }
 
             this.loading = false
@@ -176,6 +188,7 @@ export default {
         columns: { type: Array },
         dialogFullScreen: { type: Array },
         tabs: { type: Array },
+        formInline: { type: Boolean },
     },
 }
 </script>

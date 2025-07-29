@@ -21,6 +21,7 @@ public sealed class UserWalletController(IUserWalletCache cache) : ControllerBas
     /// <summary>
     ///     用户钱包计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryUserWalletReq> req)
     {
         return Cache.CountAsync(req);
@@ -93,5 +94,14 @@ public sealed class UserWalletController(IUserWalletCache cache) : ControllerBas
     public Task<IEnumerable<QueryUserWalletRsp>> QueryAsync(QueryReq<QueryUserWalletReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     用户钱包求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryUserWalletReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

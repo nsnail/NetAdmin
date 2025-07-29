@@ -3,9 +3,14 @@
         <!--        仪表板-->
         <el-header v-loading="statistics.total === `...`" class="el-header-statistics">
             <el-row :gutter="15">
-                <el-col :lg="24">
+                <el-col :lg="Object.keys(statistics.sumList).length === 0 ? 24 : 24 / (Object.keys(statistics.sumList).length + 1)">
                     <el-card shadow="never">
-                        <sc-statistic :title="$t(`总数`)" :value="statistics.total" group-separator />
+                        <sc-statistic :title="this.$t(totalCountLabel)" :value="statistics.total" group-separator />
+                    </el-card>
+                </el-col>
+                <el-col v-for="(item, i) in Object.entries(statistics.sumList)" :key="i" :lg="24 / (Object.keys(statistics.sumList).length + 1)">
+                    <el-card shadow="never">
+                        <sc-statistic :prefix="item[1][1]" :title="item[0]" :value="item[1][0]" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
@@ -30,8 +35,9 @@
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button v-bind="item" v-for="(item, i) in rightButtons" :key="i">{{ item.title }}</el-button>
-                <el-button v-if="operations.includes(`add`)" @click="onAddClick" icon="el-icon-plus" type="primary" />
+                <el-button v-if="operations.includes(`add`)" @click="onAddClick" icon="el-icon-plus" type="primary">
+                    {{ operations.find((x) => x.add)?.add.label }}
+                </el-button>
                 <el-button
                     v-if="operations.includes(`del`)"
                     :disabled="this.table.selection.length === 0 || this.loading"
@@ -39,6 +45,19 @@
                     icon="el-icon-delete"
                     plain
                     type="danger" />
+                <el-dropdown v-if="rightButtons.length > 1">
+                    <el-button>{{ $t(`更多操作...`) }}</el-button>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <template v-for="(button, i) in rightButtons" :key="i">
+                                <el-dropdown-item v-bind="button.props" @click="button.click">{{ button.label }}</el-dropdown-item>
+                            </template>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
+                <el-button v-bind="rightButtons[0].props" v-else-if="rightButtons.length === 1" @click="rightButtons[0].click" type="primary">{{
+                    rightButtons[0].label
+                }}</el-button>
             </div>
         </el-header>
 
@@ -61,19 +80,22 @@
                     )
                 "
                 :context-extra="this.table.menu.extra"
-                :context-menus="Object.keys(this.columns)"
+                :context-menus="
+                    Object.entries(this.columns)
+                        .filter((x) => !x[1].noFilterable)
+                        .map((x) => x[0])
+                "
                 :context-opers="this.operations"
                 :params="query"
                 :vue="this"
                 @data-change="onDataChange"
                 @selection-change="onSelectionChange"
                 ref="table">
-                <el-table-column type="selection" width="50" />
+                <el-table-column v-if="showSelection" type="selection" width="50" />
                 <template v-for="(item, i) in columns" :key="i">
                     <component
                         v-bind="item"
-                        v-if="item.show.includes(`list`)"
-                        :formatter="item.thousands ? (row) => $TOOL.groupSeparator($TOOL.getNestedProperty(row, i)) : undefined"
+                        v-if="item.show.includes(`list`) && (!item.condition || item.condition())"
                         :is="item.is ?? `el-table-column`"
                         :options="
                             item.options ??
@@ -90,20 +112,28 @@
                         "
                         :prop="item.prop ?? i"
                         :sortable="item.sortable ?? `custom`">
-                        <template v-if="item.isBoolean" #default="{ row }">
+                        <template v-if="item.isSwitch" #default="{ row }">
                             <el-switch
                                 v-model="row[i]"
                                 :disabled="
-                                    !$GLOBAL.hasApiPermission(
-                                        $API[entityName][i === `enabled` ? `setEnabled` : item.onChange].url.replace(`${config.API_URL}/`, ``),
-                                    )
+                                    !item.isSwitch.onChange ||
+                                    !$GLOBAL.hasApiPermission($API[entityName][item.isSwitch.onChange]?.url.replace(`${config.API_URL}/`, ``))
                                 "
-                                @change="onSwitchChange(row, i === `enabled` ? `setEnabled` : item.onChange)"></el-switch>
+                                @change="onSwitchChange(row, item.isSwitch.onChange)"></el-switch>
+                        </template>
+                        <template v-else-if="item.relativeTime" #default="{ row }">
+                            <span v-time.tip="row[i]">
+                                {{ row[i] }}
+                            </span>
+                        </template>
+                        <template v-else-if="item.currency" #default="{ row }">
+                            <span>{{ item.currency }}</span>
+                            <span>{{ $TOOL.groupSeparator((row[i] / 100).toFixed(2)) }}</span>
                         </template>
                     </component>
                 </template>
 
-                <el-table-column :label="$t(`操作`)" align="right" fixed="right" width="150">
+                <el-table-column :label="$t(`操作`)" align="right" fixed="right" width="120">
                     <template #default="{ row }">
                         <div class="flex justify-content-right">
                             <el-button-group size="small">
@@ -111,13 +141,13 @@
                                 <el-button v-if="operations.includes(`edit`)" @click="onEditClick(row)" icon="el-icon-edit" />
                                 <el-button v-if="operations.includes(`del`)" @click="onDeleteClick(row)" icon="el-icon-delete" type="danger" />
                             </el-button-group>
-                            <el-dropdown>
+                            <el-dropdown v-if="rowButtons?.filter((x) => !x.condition || x.condition(row)).length > 0">
                                 <el-button size="small">...</el-button>
                                 <template #dropdown>
                                     <el-dropdown-menu>
                                         <template v-for="(button, j) in rowButtons?.filter((x) => !x.condition || x.condition(row))" :key="j">
                                             <el-dropdown-item v-bind="button.props" @click="onRowButtonClick(row, button)" size="small">{{
-                                                button.title
+                                                button.label
                                             }}</el-dropdown-item>
                                         </template>
                                     </el-dropdown-menu>
@@ -136,6 +166,7 @@
         @closed="dialog.detail = null"
         @mounted="$refs.detailDialog.open(dialog.detail)"
         @success="(data, mode) => tableConfig.handleUpdate($refs.table, data, mode)"
+        @tabSuccess="() => $refs.table.refresh()"
         ref="detailDialog" />
 </template>
 
@@ -202,7 +233,7 @@ export default {
                 title: col.label,
                 key: i,
                 options: [{ label: this.$t(`全部`), value: `` }].concat(
-                    col.isBoolean
+                    col.isSwitch
                         ? [
                               { value: true, label: this.$t(`是`) },
                               { value: false, label: this.$t(`否`) },
@@ -221,8 +252,8 @@ export default {
                 title: filter.title,
                 key: filter.key,
                 options: [{ label: this.$t(`全部`), value: `` }].concat(
-                    filter.isBoolean
-                        ? filter.isBoolean
+                    filter.isSwitch
+                        ? filter.isSwitch
                         : Object.entries(this.$GLOBAL.enums[filter.enumName]).map((x) => {
                               return {
                                   value: x[0],
@@ -247,6 +278,7 @@ export default {
             // 仪表盘统计数据
             statistics: {
                 total: `...`,
+                sumList: {},
             },
 
             // 对话框
@@ -257,7 +289,7 @@ export default {
                 dynamicFilter: {
                     filters: [],
                 },
-                filter: {},
+                filter: this.filter,
                 keywords: this.keywords,
             },
 
@@ -293,7 +325,7 @@ export default {
                 this.query.dynamicFilter.filters.push({
                     field: `createdTime`,
                     operator: `dateRange`,
-                    value: form.dy.createdTime,
+                    value: form.dy.createdTime.map((x) => x.replace(/ 00:00:00$/, '')),
                 })
             }
             for (const item in this.columns) {
@@ -391,14 +423,14 @@ export default {
         async onDataChange(data) {
             this.statistics.total = this.$refs.table?.total
 
-            const calls = []
+            const countByCalls = []
             for (const col in this.columns) {
                 if (this.columns[col].countBy) {
                     for (const item of this.selectFilterData.find((x) => x.key === col).options) {
                         delete item.badge
                     }
 
-                    calls.push(
+                    countByCalls.push(
                         this.$API[this.entityName].countBy.post({
                             filter: this.query.filter,
                             dynamicFilter: { filters: this.query.dynamicFilter.filters },
@@ -406,15 +438,26 @@ export default {
                         }),
                     )
                 }
+                if (this.columns[col].sum) {
+                    const res = await this.$API[this.entityName].sum.post({
+                        filter: this.query.filter,
+                        dynamicFilter: { filters: this.query.dynamicFilter.filters },
+                        requiredFields: [col.replace(/(?:^|\.)[a-z]/g, (m) => m.toUpperCase())],
+                    })
+                    this.statistics.sumList[this.columns[col].sum.label] = [
+                        this.columns[col].sum.currency ? (res.data / 100).toFixed(2) : res.data,
+                        this.columns[col].sum.currency,
+                    ]
+                }
             }
-            const res = await Promise.all(calls)
+            const res = await Promise.all(countByCalls)
             Object.assign(this.statistics, { res })
             for (const item of res) {
-                for (const item2 of item.data) {
+                for (const item2 of item.data ?? []) {
                     const key = Object.entries(item2.key)[0]
                     const filter = this.selectFilterData
                         .find((x) => x.key.toLowerCase() === key[0].toLowerCase())
-                        ?.options.find((x) => x.value.toString().toLowerCase() === key[1].toLowerCase())
+                        ?.options.find((x) => x.value.toString().toLowerCase() === key[1]?.toLowerCase())
                     if (filter) filter.badge = item2.value
                 }
             }
@@ -424,7 +467,7 @@ export default {
                 }
                 item.options.sort((x, y) => {
                     if (y.label === this.$t(`全部`)) {
-                        return 999999999
+                        return 100000000
                     } else {
                         return (y.badge ?? 0) - (x.badge ?? 0)
                     }
@@ -458,6 +501,7 @@ export default {
     },
     props: {
         dyFilters: { type: Array, default: [] },
+        filter: { type: Object, default: {} },
         keywords: { type: String },
         entityName: { type: String },
         summary: { type: String },
@@ -470,6 +514,9 @@ export default {
         dialogFullScreen: { type: Array, default: [] },
         tabs: { type: Array },
         tableProps: { type: Object, default: {} },
+        formInline: { type: Boolean },
+        showSelection: { type: Boolean, default: true },
+        totalCountLabel: { type: String, default: `总数` },
     },
     watch: {},
 }

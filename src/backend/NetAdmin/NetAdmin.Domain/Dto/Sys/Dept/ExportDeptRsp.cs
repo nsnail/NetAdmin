@@ -43,5 +43,5 @@ public sealed record ExportDeptRsp : QueryDeptRsp
     [CsvIndex(3)]
     [CsvIgnore(false)]
     [CsvName(nameof(Ln.备注))]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 }

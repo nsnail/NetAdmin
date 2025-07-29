@@ -46,7 +46,7 @@ public sealed record ExportSiteMsgRsp : QuerySiteMsgRsp
     [CsvIndex(4)]
     [CsvIgnore(false)]
     [CsvName(nameof(Ln.消息摘要))]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc />
     [CsvIndex(3)]

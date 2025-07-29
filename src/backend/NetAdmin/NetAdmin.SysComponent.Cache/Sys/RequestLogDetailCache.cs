@@ -65,4 +65,10 @@ public sealed class RequestLogDetailCache(IDistributedCache cache, IRequestLogDe
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryRequestLogDetailReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

@@ -38,7 +38,7 @@ public sealed record FieldItemInfo : DataAbstraction
     /// <summary>
     ///     备注
     /// </summary>
-    public string Summary { get; init; }
+    public string Summary { get; set; }
 
     /// <summary>
     ///     类型

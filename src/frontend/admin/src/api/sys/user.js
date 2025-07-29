@@ -39,17 +39,6 @@ export default {
     },
 
     /**
-     * 用户计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/user/count`,
-        name: `用户计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 用户分组计数
      */
     countBy: {

@@ -185,6 +185,12 @@ public sealed class UserCache(IDistributedCache cache, IUserService service, IVe
     }
 
     /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryUserReq> req)
+    {
+        return Service.SumAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<UserInfoRsp> UserInfoAsync()
     {
         #if !DEBUG

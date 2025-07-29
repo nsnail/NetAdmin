@@ -21,7 +21,7 @@ public record CreateDicContentReq : Sys_DicContent
 
     /// <inheritdoc cref="Sys_DicContent.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc cref="Sys_DicContent.Value" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

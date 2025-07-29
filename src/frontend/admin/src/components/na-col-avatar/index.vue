@@ -1,7 +1,7 @@
 <template>
     <el-table-column :label="label" :prop="prop" sortable="custom">
         <template #default="{ row }">
-            <div class="avatar">
+            <div class="na-col-avatar-div0">
                 <el-avatar :src="getAvatar(row, prop, avatar)" size="small" />
                 <el-link v-if="this.click" @click="this.click(row)"> {{ tool.getNestedProperty(row, prop) }}</el-link>
                 <span v-else> {{ tool.getNestedProperty(row, prop) }}</span>
@@ -9,8 +9,8 @@
         </template>
     </el-table-column>
 </template>
-<style scoped>
-.avatar {
+<style>
+.na-col-avatar-div0 {
     display: flex;
     gap: 0.5rem;
 }

@@ -8,5 +8,5 @@ public interface IFieldSummary
     /// <summary>
     ///     备注
     /// </summary>
-    string Summary { get; init; }
+    string Summary { get; set; }
 }

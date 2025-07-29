@@ -1,3 +1,5 @@
+using NetAdmin.Domain.Dto.Sys.Dic.Content;
+using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserInvite;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
@@ -31,6 +33,12 @@ public sealed class UserInviteCache(IDistributedCache cache, IUserInviteService 
     }
 
     /// <inheritdoc />
+    public Task<QueryUserRsp> CreateFansAccountAsync(CreateFansAccountReq req)
+    {
+        return Service.CreateFansAccountAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<int> DeleteAsync(DelReq req)
     {
         return Service.DeleteAsync(req);
@@ -55,6 +63,12 @@ public sealed class UserInviteCache(IDistributedCache cache, IUserInviteService 
     }
 
     /// <inheritdoc />
+    public Task<bool> GetSelfRechargeAllowedAsync()
+    {
+        return Service.GetSelfRechargeAllowedAsync();
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryUserInviteRsp>> PagedQueryAsync(PagedQueryReq<QueryUserInviteReq> req)
     {
         return Service.PagedQueryAsync(req);
@@ -67,8 +81,38 @@ public sealed class UserInviteCache(IDistributedCache cache, IUserInviteService 
     }
 
     /// <inheritdoc />
+    public Task<IEnumerable<QueryDicContentRsp>> QueryRolesAllowApplyAsync()
+    {
+        return Service.QueryRolesAllowApplyAsync();
+    }
+
+    /// <inheritdoc />
     public Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req)
     {
         return Service.SetCommissionRatioAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetFansRoleAsync(SetFansRoleReq req)
+    {
+        return Service.SetFansRoleAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetInviterAsync(SetInviterReq req)
+    {
+        return Service.SetInviterAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<int> SetSelfRechargeAllowedAsync(SetSelfRechargeAllowedReq req)
+    {
+        return Service.SetSelfRechargeAllowedAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryUserInviteReq> req)
+    {
+        return Service.SumAsync(req);
     }
 }

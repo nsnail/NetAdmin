@@ -65,4 +65,10 @@ public sealed class CodeTemplateCache(IDistributedCache cache, ICodeTemplateServ
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryCodeTemplateReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

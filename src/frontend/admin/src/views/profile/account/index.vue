@@ -83,7 +83,7 @@ export default {
     methods: {
         updateUser(res) {
             try {
-                this.$API.sys_user.setAvatar.post({ avatar: res.data })
+                this.$API.sys_user.setAvatar.post({ avatar: res.data.url })
                 this.$message.success(this.$t('操作成功'))
             } catch {
                 //

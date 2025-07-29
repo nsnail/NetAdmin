@@ -41,7 +41,7 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_SiteMsgRole).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_SiteMsgRole).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -102,6 +102,13 @@ public sealed class SiteMsgRoleService(BasicRepository<Sys_SiteMsgRole, long> rp
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QuerySiteMsgRoleRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QuerySiteMsgRoleReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_SiteMsgRole>());
     }
 
     private ISelect<Sys_SiteMsgRole> QueryInternal(QueryReq<QuerySiteMsgRoleReq> req)

@@ -210,4 +210,14 @@ public class JobTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
     }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryJobReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(JobController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
 }

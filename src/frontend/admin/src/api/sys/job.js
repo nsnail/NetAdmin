@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 计划作业计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/job/count`,
-        name: `计划作业计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 计划作业分组计数
      */
     countBy: {

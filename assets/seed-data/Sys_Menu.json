@@ -1,5 +1,5 @@
 [
-  // ------------------------------  主控面板 ------------------------------
+  // ------------------------------  主控面板 /home ------------------------------
   {
     "Component": "home",
     "Icon": "el-icon-house",
@@ -8,9 +8,9 @@
     "Path": "/home",
     "Sort": 999,
     "Title": "主控面板",
-    "Type": 1
+    "Type": 1,
   },
-  // ------------------------------  权限管理 ------------------------------
+  // ------------------------------  权限管理 /power ------------------------------
   {
     "Icon": "el-icon-setting",
     "Id": 373837917724677,
@@ -18,96 +18,96 @@
     "Path": "/power",
     "Sort": 100,
     "Title": "权限管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/user",
+    "Component": "sys/power/user",
     "Icon": "el-icon-user",
     "Id": 373837957840901,
-    "Name": "sys/user",
+    "Name": "sys/power/user",
     "ParentId": 373837917724677,
     "Path": "/power/user",
     "Sort": 100,
     "Title": "用户管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/role",
+    "Component": "sys/power/role",
     "Icon": "sc-icon-role",
     "Id": 373838018527237,
-    "Name": "sys/role",
+    "Name": "sys/power/role",
     "ParentId": 373837917724677,
     "Path": "/power/role",
     "Sort": 99,
     "Title": "角色管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/dept",
+    "Component": "sys/power/dept",
     "Icon": "sc-icon-dept",
     "Id": 373838045605893,
-    "Name": "sys/dept",
+    "Name": "sys/power/dept",
     "ParentId": 373837917724677,
     "Path": "/power/dept",
     "Sort": 98,
     "Title": "部门管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/menu",
+    "Component": "sys/power/menu",
     "Icon": "el-icon-fold",
     "Id": 373838070898693,
-    "Name": "sys/menu",
+    "Name": "sys/power/menu",
     "ParentId": 373837917724677,
     "Path": "/power/menu",
     "Sort": 97,
     "Title": "菜单管理",
-    "Type": 1
+    "Type": 1,
   },
-  // ------------------------------  财务管理 ------------------------------
+  // ------------------------------  财务管理 /finance ------------------------------
   {
     "Icon": "el-icon-money",
     "Id": 690906994118665,
-    "Name": "finance",
+    "Name": "sys/finance",
     "Path": "/finance",
     "Sort": 99,
     "Title": "财务管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/wallet",
+    "Component": "sys/finance/wallet",
     "Icon": "el-icon-wallet",
     "Id": 690907673255942,
-    "Name": "sys/wallet",
+    "Name": "sys/finance/wallet",
     "ParentId": 690906994118665,
     "Path": "/finance/wallet",
     "Sort": 100,
     "Title": "钱包管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/trade",
+    "Component": "sys/finance/trade",
     "Icon": "el-icon-calendar",
     "Id": 690907673255943,
-    "Name": "sys/trade",
+    "Name": "sys/finance/trade",
     "ParentId": 690906994118665,
     "Path": "/finance/trade",
     "Sort": 99,
     "Title": "交易流水",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/order",
+    "Component": "sys/finance/order",
     "Icon": "el-icon-shopping-cart",
     "Id": 690907673255944,
-    "Name": "sys/order",
+    "Name": "sys/finance/order",
     "ParentId": 690906994118665,
     "Path": "/finance/order",
     "Sort": 98,
-    "Title": "充值订单",
-    "Type": 1
+    "Title": "自助充值",
+    "Type": 1,
   },
-  // ------------------------------  营销管理 ------------------------------
+  // ------------------------------  营销管理 /market ------------------------------
   {
     "Icon": "el-icon-share",
     "Id": 692575802241032,
@@ -115,67 +115,67 @@
     "Path": "/market",
     "Sort": 98,
     "Title": "营销管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/invite",
+    "Component": "sys/market/invite",
     "Icon": "el-icon-connection",
     "Id": 692575802245126,
-    "Name": "sys/invite",
+    "Name": "sys/market/invite",
     "ParentId": 692575802241032,
     "Path": "/market/invite",
     "Sort": 100,
-    "Title": "邀请管理",
-    "Type": 1
+    "Title": "粉丝管理",
+    "Type": 1,
   },
-  // ------------------------------  系统管理 ------------------------------
+  // ------------------------------  系统管理 /system ------------------------------
   {
     "Icon": "sc-icon-app",
     "Id": 485278637670422,
-    "Name": "sys",
-    "Path": "/sys",
+    "Name": "system",
+    "Path": "/system",
     "Sort": 98,
     "Title": "系统管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/config",
+    "Component": "sys/system/config",
     "Icon": "el-icon-set-up",
     "Id": 380415005847557,
-    "Name": "sys/config",
+    "Name": "sys/system/config",
     "ParentId": 485278637670422,
     "Path": "/system/config",
     "Sort": 100,
     "Title": "系统设置",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/job",
+    "Component": "sys/system/job",
     "Icon": "sc-icon-scheduled-job",
     "Id": 510067557638158,
-    "Name": "sys/job",
+    "Name": "sys/system/job",
     "ParentId": 485278637670422,
     "Path": "/system/job",
     "Sort": 99,
     "Title": "计划作业",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/dic",
+    "Component": "sys/system/dic",
     "Icon": "sc-icon-dic",
     "Id": 375315654221829,
-    "Name": "sys/dic",
+    "Name": "sys/system/dic",
     "ParentId": 485278637670422,
     "Path": "/system/dic",
     "Sort": 98,
     "Title": "字典管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/msg",
+    "Component": "sys/system/msg",
     "Icon": "el-icon-message",
     "Id": 482779610341392,
-    "Name": "sys/msg",
+    "Name": "sys/system/msg",
     "ParentId": 485278637670422,
     "Path": "/system/msg",
     "Sort": 97,
@@ -183,28 +183,28 @@
     "Type": 1,
   },
   {
-    "Component": "sys/api",
+    "Component": "sys/system/api",
     "Icon": "sc-icon-api",
     "Id": 397880678895621,
-    "Name": "sys/api",
+    "Name": "sys/system/api",
     "ParentId": 485278637670422,
     "Path": "/system/api",
     "Sort": 96,
     "Title": "接口管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/cache",
+    "Component": "sys/system/cache",
     "Icon": "sc-icon-memory",
     "Id": 374911555702789,
-    "Name": "sys/cache",
+    "Name": "sys/system/cache",
     "ParentId": 485278637670422,
     "Path": "/system/cache",
     "Sort": 95,
     "Title": "缓存管理",
-    "Type": 1
+    "Type": 1,
   },
-  // ------------------------------  档案管理 ------------------------------
+  // ------------------------------  档案管理 /archive ------------------------------
   {
     "Icon": "sc-icon-archive",
     "Id": 616214756757512,
@@ -212,20 +212,20 @@
     "Path": "/archive",
     "Sort": 97,
     "Title": "档案管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/doc",
+    "Component": "sys/archive/doc",
     "Icon": "el-icon-document",
     "Id": 616214756757516,
-    "Name": "archive/doc",
+    "Name": "sys/archive/doc",
     "ParentId": 616214756757512,
     "Path": "/archive/doc",
     "Sort": 100,
     "Title": "文档管理",
-    "Type": 1
+    "Type": 1,
   },
-  // ------------------------------  日志管理 ------------------------------
+  // ------------------------------  日志管理 /log ------------------------------
   {
     "Icon": "el-icon-tickets",
     "Id": 374792687640581,
@@ -233,7 +233,7 @@
     "Path": "/log",
     "Sort": 96,
     "Title": "日志管理",
-    "Type": 1
+    "Type": 1,
   },
   {
     "Component": "sys/log/operation",
@@ -257,7 +257,7 @@
     "Title": "登录日志",
     "Type": 1,
   },
-  // ------------------------------  开发管理 ------------------------------
+  // ------------------------------  开发管理 /dev ------------------------------
   {
     "Icon": "sc-icon-code",
     "Id": 373838105399301,
@@ -265,29 +265,29 @@
     "Path": "/dev",
     "Sort": 95,
     "Title": "开发管理",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "dev/code",
+    "Component": "sys/dev/code",
     "Icon": "sc-icon-code2",
     "Id": 373838147022853,
-    "Name": "dev/code",
+    "Name": "sys/dev/code",
     "ParentId": 373838105399301,
     "Path": "/dev/code",
     "Sort": 100,
     "Title": "代码生成",
-    "Type": 1
+    "Type": 1,
   },
   {
-    "Component": "sys/template",
+    "Component": "sys/dev/template",
     "Icon": "sc-icon-template",
     "Id": 694076641718288,
-    "Name": "dev/template",
+    "Name": "sys/dev/template",
     "ParentId": 373838105399301,
     "Path": "/dev/template",
     "Sort": 99,
     "Title": "页面模板",
-    "Type": 1
+    "Type": 1,
   },
   {
     "Id": 482777529417739,

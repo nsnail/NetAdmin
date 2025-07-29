@@ -86,6 +86,12 @@ public sealed class RoleCache(IDistributedCache cache, IRoleService service) //
     }
 
     /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryRoleReq> req)
+    {
+        return Service.SumAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
     {
         return Service.UserCountByAsync(req);

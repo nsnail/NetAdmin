@@ -144,4 +144,10 @@ public sealed class JobCache(IDistributedCache cache, IJobService service) : Dis
     {
         return Service.SetEnabledAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryJobReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

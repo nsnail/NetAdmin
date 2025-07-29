@@ -65,4 +65,10 @@ public sealed class LoginLogCache(IDistributedCache cache, ILoginLogService serv
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryLoginLogReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

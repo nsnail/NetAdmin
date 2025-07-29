@@ -41,7 +41,7 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo, IUserRoleSe
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Role).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Role).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
                   .OrderByDescending(x => x.Value);
     }
@@ -140,6 +140,13 @@ public sealed class RoleService(BasicRepository<Sys_Role, long> rpo, IUserRoleSe
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.IgnorePermissionControl)]);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryRoleReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_Role>());
     }
 
     /// <inheritdoc />

@@ -141,6 +141,16 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     }
 
     /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
+
+    /// <inheritdoc />
     [Fact]
     public async Task<long> UnreadCountAsync()
     {

@@ -22,6 +22,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     /// <summary>
     ///     验证码计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
     {
         return Cache.CountAsync(req);
@@ -109,6 +110,15 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     {
         await captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq).ConfigureAwait(false);
         return await Cache.SendVerifyCodeAsync(req).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     验证码求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 
     /// <summary>
