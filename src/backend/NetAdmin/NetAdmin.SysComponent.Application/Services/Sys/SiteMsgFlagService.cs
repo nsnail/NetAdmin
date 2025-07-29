@@ -41,7 +41,7 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_SiteMsgFlag).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_SiteMsgFlag).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -109,6 +109,13 @@ public sealed class SiteMsgFlagService(BasicRepository<Sys_SiteMsgFlag, long> rp
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.UserSiteMsgStatus)], null, a => a.UserId == req.UserId && a.SiteMsgId == req.SiteMsgId);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QuerySiteMsgFlagReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_SiteMsgFlag>());
     }
 
     private ISelect<Sys_SiteMsgFlag> QueryInternal(QueryReq<QuerySiteMsgFlagReq> req)

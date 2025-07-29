@@ -85,5 +85,5 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Summary { get; init; }
+    public virtual string Summary { get; set; }
 }

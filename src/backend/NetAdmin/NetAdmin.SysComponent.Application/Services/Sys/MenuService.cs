@@ -40,7 +40,7 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Menu).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Menu).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
                   .OrderByDescending(x => x.Value);
     }
@@ -101,6 +101,13 @@ public sealed class MenuService(BasicRepository<Sys_Menu, long> rpo, IUserServic
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryMenuRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryMenuReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_Menu>());
     }
 
     /// <inheritdoc />

@@ -41,7 +41,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DicCatalog).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_DicCatalog).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -118,6 +118,13 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDicCatalogReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DicCatalog>());
     }
 
     private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)

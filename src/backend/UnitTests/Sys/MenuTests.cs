@@ -111,6 +111,16 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     }
 
     /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryMenuReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(MenuController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
+
+    /// <inheritdoc />
     [Fact]
     public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {

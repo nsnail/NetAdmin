@@ -47,6 +47,14 @@ public record Sys_UserInvite : VersionEntity, IFieldOwner
     public virtual long? OwnerId { get; init; }
 
     /// <summary>
+    ///     允许自助充值
+    /// </summary>
+    [Column]
+    [CsvIgnore]
+    [JsonIgnore]
+    public virtual bool SelfRechargeAllowed { get; init; }
+
+    /// <summary>
     ///     用户
     /// </summary>
     [CsvIgnore]

@@ -22,6 +22,7 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     /// <summary>
     ///     充值订单计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryDepositOrderReq> req)
     {
         return Cache.CountAsync(req);
@@ -118,5 +119,14 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     public Task<int> ReceivedConfirmationAsync(JobReq req)
     {
         return Cache.ReceivedConfirmationAsync(req);
+    }
+
+    /// <summary>
+    ///     充值订单求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

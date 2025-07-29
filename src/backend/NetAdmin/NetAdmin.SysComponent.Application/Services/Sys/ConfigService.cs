@@ -40,7 +40,7 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Config).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Config).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
                   .OrderByDescending(x => x.Value);
     }
@@ -130,6 +130,13 @@ public sealed class ConfigService(BasicRepository<Sys_Config, long> rpo) //
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.Enabled)]);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryConfigReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_Config>());
     }
 
     private ISelect<Sys_Config> QueryInternal(QueryReq<QueryConfigReq> req)

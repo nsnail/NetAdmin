@@ -119,4 +119,14 @@ public class DeptTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
     }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryDeptReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(DeptController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
 }

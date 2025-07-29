@@ -12,7 +12,7 @@ public record Sys_WalletTrade : ImmutableEntity, IFieldOwner, IFieldSummary
     [Column]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual long Amount { get; init; }
+    public virtual long Amount { get; set; }
 
     /// <summary>
     ///     交易前余额
@@ -60,7 +60,7 @@ public record Sys_WalletTrade : ImmutableEntity, IFieldOwner, IFieldSummary
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Summary { get; init; }
+    public virtual string Summary { get; set; }
 
     /// <summary>
     ///     交易方向

@@ -14,6 +14,12 @@ public sealed class CommandLineArgs : CommandSettings
     public bool InsertSeedData { get; init; }
 
     /// <summary>
+    ///     强制启动计划作业
+    /// </summary>
+    [CommandOption("-j|--job-force")]
+    public bool JobForce { get; init; }
+
+    /// <summary>
     ///     同步数据库结构
     /// </summary>
     [CommandOption("-s|--sync-structure")]

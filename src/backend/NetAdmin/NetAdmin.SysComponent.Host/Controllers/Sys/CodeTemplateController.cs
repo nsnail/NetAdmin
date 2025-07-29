@@ -22,6 +22,7 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     /// <summary>
     ///     代码模板计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryCodeTemplateReq> req)
     {
         return Cache.CountAsync(req);
@@ -94,5 +95,14 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     public Task<IEnumerable<QueryCodeTemplateRsp>> QueryAsync(QueryReq<QueryCodeTemplateReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     代码模板求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryCodeTemplateReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

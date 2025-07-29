@@ -54,6 +54,10 @@ public record QueryUserInviteRsp : Sys_UserInvite
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override long? OwnerId { get; init; }
 
+    /// <inheritdoc cref="Sys_UserInvite.SelfRechargeAllowed" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+    public override bool SelfRechargeAllowed { get; init; }
+
     /// <inheritdoc cref="Sys_UserInvite.User" />
     [CsvIgnore]
     public new virtual QueryUserRsp User { get; init; }

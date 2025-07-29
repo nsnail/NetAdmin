@@ -49,6 +49,23 @@ public record QueryReq<T> : DataAbstraction
     public string[] RequiredFields { get; init; }
 
     /// <summary>
+    ///     求和表达式
+    /// </summary>
+    public Expression<Func<TEntity, long>> GetSumExp<TEntity>()
+    {
+        if (RequiredFields.NullOrEmpty()) {
+            return null;
+        }
+
+        var field         = RequiredFields[0];
+        var leftParameter = Expression.Parameter(typeof(TEntity), "a");
+        var prop          = typeof(TEntity).GetRecursiveProperty(field);
+        return prop == null || prop.GetCustomAttribute<DangerFieldAttribute>() != null
+            ? null
+            : Expression.Lambda<Func<TEntity, long>>(CreatePropertyExpression(leftParameter, field), leftParameter);
+    }
+
+    /// <summary>
     ///     列表表达式
     /// </summary>
     public Expression<Func<TEntity, TEntity>> GetToListExp<TEntity>()
@@ -78,5 +95,10 @@ public record QueryReq<T> : DataAbstraction
             Expression.New(typeof(TEntity))
           , bindings.SelectMany(x => x.Item1.PropertyType == x.Item2.Type ? [Expression.Bind(x.Item1, x.Item2)] : x.Item2.Bindings.ToArray()));
         return Expression.Lambda<Func<TEntity, TEntity>>(expBody, expParameter);
+    }
+
+    private static Expression CreatePropertyExpression(ParameterExpression param, string propertyPath)
+    {
+        return propertyPath.Split('.').Aggregate<string, Expression>(param, Expression.PropertyOrField);
     }
 }

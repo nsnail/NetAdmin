@@ -7,9 +7,9 @@ namespace NetAdmin.Infrastructure.Enums;
 public enum TradeTypes
 {
     /// <summary>
-    ///     管理员充值
+    ///     管理员赠送
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.管理员充值))]
+    [ResourceDescription<Ln>(nameof(Ln.管理员赠送))]
     [Trade(Direction = TradeDirections.Income)]
     AdminDeposit = 1
 
@@ -30,4 +30,22 @@ public enum TradeTypes
     [ResourceDescription<Ln>(nameof(Ln.自助充值))]
     [Trade(Direction = TradeDirections.Income)]
     SelfDeposit = 3
+
+   ,
+
+    /// <summary>
+    ///     转账支出
+    /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.转账支出))]
+    [Trade(Direction = TradeDirections.Expense)]
+    TransferExpense = 4
+
+   ,
+
+    /// <summary>
+    ///     转账收入
+    /// </summary>
+    [ResourceDescription<Ln>(nameof(Ln.转账收入))]
+    [Trade(Direction = TradeDirections.Income)]
+    TransferIncome = 5
 }

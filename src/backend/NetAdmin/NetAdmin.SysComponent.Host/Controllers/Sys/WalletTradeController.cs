@@ -21,6 +21,7 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     /// <summary>
     ///     钱包交易计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryWalletTradeReq> req)
     {
         return Cache.CountAsync(req);
@@ -93,5 +94,31 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     public Task<IEnumerable<QueryWalletTradeRsp>> QueryAsync(QueryReq<QueryWalletTradeReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     钱包交易求和
+    /// </summary>
+    public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req)
+    {
+        return Cache.SumAsync(req);
+    }
+
+    /// <summary>
+    ///     从他人账户转账给自己
+    /// </summary>
+    [Transaction]
+    public Task<int> TransferFromAnotherAccountAsync(TransferReq req)
+    {
+        return Cache.TransferFromAnotherAccountAsync(req);
+    }
+
+    /// <summary>
+    ///     转账到他人账户
+    /// </summary>
+    [Transaction]
+    public Task<int> TransferToAnotherAccountAsync(TransferReq req)
+    {
+        return Cache.TransferToAnotherAccountAsync(req);
     }
 }

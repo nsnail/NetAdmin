@@ -71,4 +71,10 @@ public sealed class DocContentCache(IDistributedCache cache, IDocContentService 
     {
         return Service.SetEnabledAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDocContentReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

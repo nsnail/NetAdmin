@@ -82,4 +82,10 @@ public sealed class DicContentCache(IDistributedCache cache, IDicContentService 
     {
         return Service.SetEnabledAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDicContentReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

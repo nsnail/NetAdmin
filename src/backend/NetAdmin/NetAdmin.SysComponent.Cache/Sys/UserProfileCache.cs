@@ -65,4 +65,10 @@ public sealed class UserProfileCache(IDistributedCache cache, IUserProfileServic
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

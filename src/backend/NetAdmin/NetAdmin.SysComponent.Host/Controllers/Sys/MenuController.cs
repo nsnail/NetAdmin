@@ -21,6 +21,7 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     /// <summary>
     ///     菜单计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryMenuReq> req)
     {
         return Cache.CountAsync(req);
@@ -94,6 +95,15 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     public Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     菜单求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryMenuReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 
     /// <summary>

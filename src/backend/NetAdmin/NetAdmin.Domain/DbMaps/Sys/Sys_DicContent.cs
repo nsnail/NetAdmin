@@ -45,7 +45,7 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Summary { get; init; }
+    public virtual string Summary { get; set; }
 
     /// <summary>
     ///     键值

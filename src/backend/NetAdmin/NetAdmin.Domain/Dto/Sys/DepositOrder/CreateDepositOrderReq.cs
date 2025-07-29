@@ -13,7 +13,7 @@ public record CreateDepositOrderReq : Sys_DepositOrder
 
     /// <inheritdoc cref="Sys_DepositOrder.DepositPoint" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    [Range(100, long.MaxValue)]
+    [Range(100, int.MaxValue)]
     public override long DepositPoint { get; init; }
 
     /// <inheritdoc cref="Sys_DepositOrder.PaymentMode" />

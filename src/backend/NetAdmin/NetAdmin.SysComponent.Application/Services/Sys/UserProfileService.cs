@@ -60,7 +60,7 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_UserProfile).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_UserProfile).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -180,6 +180,13 @@ public sealed class UserProfileService(BasicRepository<Sys_UserProfile, long> rp
         }
 
         return UpdateAsync(req, [nameof(req.AppConfig)], null, a => a.Id == UserToken.Id, null, true);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryUserProfileReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_UserProfile>());
     }
 
     private ISelect<Sys_UserProfile> QueryInternal(QueryReq<QueryUserProfileReq> req)

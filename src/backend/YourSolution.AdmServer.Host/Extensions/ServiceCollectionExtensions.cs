@@ -33,9 +33,15 @@ public static class ServiceCollectionExtensions
 
                 // 本部门和子部门
                 _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
-                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD
-                  , () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.DeptWithChild) ?? false
+                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN
+                  , () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.DeptWithChildren) ?? false
                   , a => ContextUserInfo.Create().DeptIds.Contains(a.OwnerDeptId));
+
+                // 本部门和下一级部门
+                _ = freeSql.GlobalFilter.ApplyOnlyIf<IFieldOwner>( //
+                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON
+                  , () => ContextUserInfo.Create()?.Roles.All(x => x.DataScope == DataScopes.DeptWithSon) ?? false
+                  , a => ContextUserInfo.Create().DeptIds.Take(2).Contains(a.OwnerDeptId));
             });
     }
 

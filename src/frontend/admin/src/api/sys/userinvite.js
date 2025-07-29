@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 用户邀请计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/user.invite/count`,
-        name: `用户邀请计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 用户邀请分组计数
      */
     countBy: {
@@ -44,6 +33,17 @@ export default {
     create: {
         url: `${config.API_URL}/api/sys/user.invite/create`,
         name: `创建用户邀请`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 创建粉丝账号
+     */
+    createFansAccount: {
+        url: `${config.API_URL}/api/sys/user.invite/create.fans.account`,
+        name: `创建粉丝账号`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },
@@ -83,6 +83,17 @@ export default {
     },
 
     /**
+     * 获取自己是否允许自助充值
+     */
+    getSelfRechargeAllowed: {
+        url: `${config.API_URL}/api/sys/user.invite/get.self.recharge.allowed`,
+        name: `获取自己是否允许自助充值`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询用户邀请
      */
     pagedQuery: {
@@ -105,11 +116,55 @@ export default {
     },
 
     /**
+     * 查询可分配的角色
+     */
+    queryRolesAllowApply: {
+        url: `${config.API_URL}/api/sys/user.invite/query.roles.allow.apply`,
+        name: `查询可分配的角色`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 设置返佣比率
      */
     setCommissionRatio: {
         url: `${config.API_URL}/api/sys/user.invite/set.commission.ratio`,
         name: `设置返佣比率`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 修改粉丝角色
+     */
+    setFansRole: {
+        url: `${config.API_URL}/api/sys/user.invite/set.fans.role`,
+        name: `修改粉丝角色`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 设置上级
+     */
+    setInviter: {
+        url: `${config.API_URL}/api/sys/user.invite/set.inviter`,
+        name: `设置上级`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 设置允许自助充值
+     */
+    setSelfRechargeAllowed: {
+        url: `${config.API_URL}/api/sys/user.invite/set.self.recharge.allowed`,
+        name: `设置允许自助充值`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

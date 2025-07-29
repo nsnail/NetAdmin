@@ -121,6 +121,16 @@ public class ApiTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     }
 
     /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryApiReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(ApiController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
+
+    /// <inheritdoc />
     [Fact]
     public async Task SyncAsync()
     {

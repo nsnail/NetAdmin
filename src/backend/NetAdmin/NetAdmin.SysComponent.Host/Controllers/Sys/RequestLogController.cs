@@ -23,6 +23,7 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     /// <summary>
     ///     请求日志计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
     {
         return Cache.CountAsync(req);
@@ -120,5 +121,14 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     public Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     请求日志求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

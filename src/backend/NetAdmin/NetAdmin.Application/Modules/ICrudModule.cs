@@ -69,4 +69,9 @@ public interface ICrudModule<in TCreateReq, TCreateRsp, in TEditReq, TQueryReq, 
     ///     查询实体
     /// </summary>
     Task<IEnumerable<TQueryRsp>> QueryAsync(QueryReq<TQueryReq> req);
+
+    /// <summary>
+    ///     实体求和
+    /// </summary>
+    Task<decimal> SumAsync(QueryReq<TQueryReq> req);
 }

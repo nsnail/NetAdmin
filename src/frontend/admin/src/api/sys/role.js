@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 角色计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/role/count`,
-        name: `角色计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 角色分组计数
      */
     countBy: {

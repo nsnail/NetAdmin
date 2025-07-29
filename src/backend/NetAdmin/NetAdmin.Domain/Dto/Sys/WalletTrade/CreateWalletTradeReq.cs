@@ -7,7 +7,7 @@ public record CreateWalletTradeReq : Sys_WalletTrade
 {
     /// <inheritdoc cref="Sys_WalletTrade.Amount" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Amount { get; init; }
+    public override long Amount { get; set; }
 
     /// <inheritdoc cref="Sys_WalletTrade.BusinessOrderNumber" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -22,7 +22,7 @@ public record CreateWalletTradeReq : Sys_WalletTrade
 
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc cref="Sys_WalletTrade.TradeDirection" />
     public override TradeDirections TradeDirection { get; init; }
@@ -42,8 +42,11 @@ public record CreateWalletTradeReq : Sys_WalletTrade
     protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
     {
         var tradeDirection = TradeType.Attr<TradeAttribute>().Direction;
-        if (Amount == 0 || (tradeDirection == TradeDirections.Income && Amount < 0) || (tradeDirection == TradeDirections.Expense && Amount > 0)) {
+        if (Amount == 0) {
             yield return new ValidationResult(Ln.交易金额不正确, [nameof(Amount)]);
+        }
+        else if ((tradeDirection == TradeDirections.Income && Amount < 0) || (tradeDirection == TradeDirections.Expense && Amount > 0)) {
+            Amount = -Amount;
         }
 
         yield return ValidationResult.Success;

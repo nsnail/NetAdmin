@@ -83,4 +83,10 @@ public sealed class DepositOrderCache(IDistributedCache cache, IDepositOrderServ
     {
         return Service.ReceivedConfirmationAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

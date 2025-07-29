@@ -65,4 +65,10 @@ public sealed class SiteMsgDeptCache(IDistributedCache cache, ISiteMsgDeptServic
     {
         return Service.QueryAsync(req);
     }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QuerySiteMsgDeptReq> req)
+    {
+        return Service.SumAsync(req);
+    }
 }

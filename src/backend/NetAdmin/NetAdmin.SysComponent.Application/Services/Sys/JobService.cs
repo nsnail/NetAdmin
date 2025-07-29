@@ -45,7 +45,7 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
                         .ToDictionaryAsync(a => a.Count())
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Job).GetProperty(y)!.GetValue(x.Key)!.ToString())
+                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_Job).GetProperty(y)!.GetValue(x.Key)?.ToString())
                             , x.Value))
                   .OrderByDescending(x => x.Value);
     }
@@ -315,6 +315,13 @@ public sealed class JobService(BasicRepository<Sys_Job, long> rpo, IJobRecordSer
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(Sys_Job.Enabled)]);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryJobReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_Job>());
     }
 
     private static DateTime? GetNextExecTime(string cron)

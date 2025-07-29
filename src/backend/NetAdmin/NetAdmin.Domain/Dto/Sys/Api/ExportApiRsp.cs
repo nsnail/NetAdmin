@@ -31,5 +31,5 @@ public sealed record ExportApiRsp : QueryApiRsp
     [CsvIndex(3)]
     [CsvIgnore(false)]
     [CsvName(nameof(Ln.接口描述))]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 }

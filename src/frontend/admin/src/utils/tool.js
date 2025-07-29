@@ -44,35 +44,38 @@ tool.time = {
     },
     //转换时间
     getFormatTime: function (_this, timestamp) {
-        if (!timestamp) return '--'
+        if (!timestamp) return '-'
+        try {
+            const now = dayjs()
+            const target = dayjs(timestamp)
+            const diffSeconds = now.diff(target, 'second', true)
+            const isFuture = diffSeconds < 0 // 是否未来时间
+            const absDiff = Math.abs(diffSeconds) // 时间差绝对值
 
-        const now = dayjs()
-        const target = dayjs(timestamp)
-        const diffSeconds = now.diff(target, 'second', true)
-        const isFuture = diffSeconds < 0 // 是否未来时间
-        const absDiff = Math.abs(diffSeconds) // 时间差绝对值
+            // 超过10天（10 * 24 * 60 * 60 秒）显示具体日期
+            if (absDiff > 10 * 86400) {
+                return target.format('YYYY-MM-DD')
+            }
 
-        // 超过10天（10 * 24 * 60 * 60 秒）显示具体日期
-        if (absDiff > 10 * 86400) {
-            return target.format('YYYY-MM-DD')
+            let result
+            if (absDiff < 60) {
+                // 1分钟内
+                result = _this.$t(`{n} 秒`, { n: Math.floor(absDiff) })
+            } else if (absDiff < 3600) {
+                // 1小时内
+                result = _this.$t(`{n} 分钟`, { n: Math.floor(absDiff / 60) })
+            } else if (absDiff < 86400) {
+                // 24小时内
+                result = _this.$t(`{n} 小时`, { n: Math.floor(absDiff / 3600) })
+            } else {
+                // 10天内
+                result = _this.$t(`{n} 天`, { n: Math.floor(absDiff / 86400) })
+            }
+            // 未来时间加“后”，过去时间加“前”
+            return isFuture ? `${result}${_this.$t('后')}` : `${result}${_this.$t('前')}`
+        } catch {
+            return '-'
         }
-
-        let result
-        if (absDiff < 60) {
-            // 1分钟内
-            result = _this.$t(`{n} 秒`, { n: Math.floor(absDiff) })
-        } else if (absDiff < 3600) {
-            // 1小时内
-            result = _this.$t(`{n} 分钟`, { n: Math.floor(absDiff / 60) })
-        } else if (absDiff < 86400) {
-            // 24小时内
-            result = _this.$t(`{n} 小时`, { n: Math.floor(absDiff / 3600) })
-        } else {
-            // 10天内
-            result = _this.$t(`{n} 天`, { n: Math.floor(absDiff / 86400) })
-        }
-        // 未来时间加“后”，过去时间加“前”
-        return isFuture ? `${result}${_this.$t('后')}` : `${result}${_this.$t('前')}`
     },
 }
 
@@ -284,6 +287,15 @@ tool.dotNotationToNested = function (obj) {
 tool.nestedToDotNotation = function (obj, prefix = '', result = {}) {
     // 处理 null 或 undefined 的情况
     if (obj === null || obj === undefined) {
+        return result
+    }
+
+    // 检查是否是 json-bigint 的大数字对象（包含 c, e, s 属性）
+    const isBigIntObject = typeof obj === 'object' && true && 'c' in obj && 'e' in obj && 's' in obj
+
+    // 如果是大数字对象，直接赋值，不递归拆解
+    if (isBigIntObject) {
+        result[prefix || ''] = obj // 如果 prefix 为空，直接赋值
         return result
     }
 

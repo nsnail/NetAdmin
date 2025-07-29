@@ -22,6 +22,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     /// <summary>
     ///     接口计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryApiReq> req)
     {
         return Cache.CountAsync(req);
@@ -106,6 +107,15 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     public Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     接口求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryApiReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 
     /// <summary>

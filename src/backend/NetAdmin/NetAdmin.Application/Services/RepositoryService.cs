@@ -103,7 +103,7 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
         var update = BuildUpdate(newValue, includeFields, excludeFields, ignoreVersion).Where(whereExp).Where(whereSql);
         if (disableGlobalDataFilter) {
             update = update.DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
-                                              , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD);
+                                              , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON);
         }
 
         return update.ExecuteEffectsAsync();

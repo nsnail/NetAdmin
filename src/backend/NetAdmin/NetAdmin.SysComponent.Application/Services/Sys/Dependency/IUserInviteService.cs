@@ -8,5 +8,5 @@ public interface IUserInviteService : IService, IUserInviteModule
     /// <summary>
     ///     获取关联用户Id
     /// </summary>
-    Task<List<long>> GetAssociatedUserIdAsync(long userId);
+    Task<List<long>> GetAssociatedUserIdAsync(long userId, bool up = true);
 }

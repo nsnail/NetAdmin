@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 用户钱包计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/user.wallet/count`,
-        name: `用户钱包计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 用户钱包分组计数
      */
     countBy: {

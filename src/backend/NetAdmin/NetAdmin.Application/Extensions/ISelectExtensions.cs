@@ -16,7 +16,7 @@ public static class ISelectExtensions
     {
         if (req.IgnoreOwner) {
             me = me.DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
-                                      , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILD);
+                                      , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON);
         }
 
         return me;

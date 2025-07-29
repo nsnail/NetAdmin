@@ -1,5 +1,6 @@
 using NetAdmin.Domain.Dto.Sys.Dept;
 using NetAdmin.Domain.Dto.Sys.Role;
+using NetAdmin.Domain.Dto.Sys.UserInvite;
 
 namespace NetAdmin.Domain.Dto.Sys.User;
 
@@ -30,7 +31,7 @@ public record QueryUserRsp : Sys_User
     /// <summary>
     ///     本部门以及子部门编号
     /// </summary>
-    public List<long?> DeptIds { get; init; }
+    public IReadOnlyCollection<long?> DeptIds { get; init; }
 
     /// <inheritdoc cref="Sys_User.Email" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -43,6 +44,9 @@ public record QueryUserRsp : Sys_User
     /// <inheritdoc cref="EntityBase{T}.Id" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override long Id { get; init; }
+
+    /// <inheritdoc cref="Sys_User.Invite" />
+    public new virtual QueryUserInviteRsp Invite { get; init; }
 
     /// <inheritdoc cref="Sys_User.InviteCode" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -61,7 +65,7 @@ public record QueryUserRsp : Sys_User
 
     /// <inheritdoc cref="Sys_User.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc cref="Sys_User.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

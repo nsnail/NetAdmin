@@ -55,7 +55,7 @@ public record CreateRoleReq : Sys_Role
 
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc />
     protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)

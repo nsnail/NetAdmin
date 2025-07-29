@@ -9,7 +9,7 @@ public record QueryWalletTradeRsp : Sys_WalletTrade
 {
     /// <inheritdoc cref="Sys_WalletTrade.Amount" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override long Amount { get; init; }
+    public override long Amount { get; set; }
 
     /// <inheritdoc cref="Sys_WalletTrade.BalanceBefore" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -49,7 +49,7 @@ public record QueryWalletTradeRsp : Sys_WalletTrade
 
     /// <inheritdoc cref="IFieldSummary.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc cref="Sys_WalletTrade.TradeDirection" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

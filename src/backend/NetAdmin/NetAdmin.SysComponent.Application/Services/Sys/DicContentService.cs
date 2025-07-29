@@ -41,7 +41,7 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DicContent).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_DicContent).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -136,6 +136,13 @@ public sealed class DicContentService(BasicRepository<Sys_DicContent, long> rpo)
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(Sys_DicContent.Enabled)]);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDicContentReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DicContent>());
     }
 
     private ISelect<Sys_DicContent> QueryInternal(QueryReq<QueryDicContentReq> req)

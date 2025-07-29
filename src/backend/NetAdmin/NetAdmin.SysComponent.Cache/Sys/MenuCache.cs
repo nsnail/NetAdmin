@@ -67,6 +67,12 @@ public sealed class MenuCache(IDistributedCache cache, IMenuService service) //
     }
 
     /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryMenuReq> req)
+    {
+        return Service.SumAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
     {
         return Service.UserMenusAsync();

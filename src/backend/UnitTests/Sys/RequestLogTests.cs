@@ -140,4 +140,14 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
     }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryRequestLogReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(RequestLogController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
 }

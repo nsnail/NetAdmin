@@ -84,7 +84,10 @@ public sealed class UserWalletService(BasicRepository<Sys_UserWallet, long> rpo)
     public async Task<QueryUserWalletRsp> GetAsync(QueryUserWalletReq req)
     {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryUserWalletReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryUserWalletReq> { Filter = req, Order = Orders.None })
+                        .Include(a => a.Owner)
+                        .ToOneAsync()
+                        .ConfigureAwait(false);
         return ret.Adapt<QueryUserWalletRsp>();
     }
 
@@ -93,7 +96,8 @@ public sealed class UserWalletService(BasicRepository<Sys_UserWallet, long> rpo)
     {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Include(a => a.Owner)
+                         .IncludeMany(a => a.Owner.Roles)
+                         .Include(a => a.Owner.Invite.Owner)
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
@@ -109,6 +113,13 @@ public sealed class UserWalletService(BasicRepository<Sys_UserWallet, long> rpo)
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryUserWalletRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryUserWalletReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_UserWallet>());
     }
 
     private ISelect<Sys_UserWallet> QueryInternal(QueryReq<QueryUserWalletReq> req)

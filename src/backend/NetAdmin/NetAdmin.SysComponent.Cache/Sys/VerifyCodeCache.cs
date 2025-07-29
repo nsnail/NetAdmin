@@ -72,6 +72,12 @@ public sealed class VerifyCodeCache(IDistributedCache cache, IVerifyCodeService 
         return Service.SendVerifyCodeAsync(req);
     }
 
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        return Service.SumAsync(req);
+    }
+
     /// <inheritdoc cref="IVerifyCodeModule.VerifyAsync" />
     public Task<bool> VerifyAsync(VerifyCodeReq req)
     {

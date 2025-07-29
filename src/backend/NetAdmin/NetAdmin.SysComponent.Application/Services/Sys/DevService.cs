@@ -352,7 +352,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
 
                                   /// <inheritdoc cref="IFieldSummary.Summary" />
                                   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-                                  public override string Summary { get; init; }
+                                  public override string Summary { get; set; }
                               """);
         }
 
@@ -661,7 +661,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                                   [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
                                   [CsvIgnore]
                                   [JsonIgnore]
-                                  public virtual string Summary { get; init; }
+                                  public virtual string Summary { get; set; }
                               """);
         }
 
@@ -904,7 +904,7 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
 
                                   /// <inheritdoc cref="IFieldSummary.Summary" />
                                   [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-                                  public override string Summary { get; init; }
+                                  public override string Summary { get; set; }
                               """);
         }
 

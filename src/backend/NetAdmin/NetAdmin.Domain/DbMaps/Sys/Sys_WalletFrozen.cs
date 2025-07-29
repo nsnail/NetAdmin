@@ -87,7 +87,7 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
     [CsvIgnore]
     [JsonIgnore]
-    public virtual string Summary { get; init; }
+    public virtual string Summary { get; set; }
 
     /// <summary>
     ///     钱包

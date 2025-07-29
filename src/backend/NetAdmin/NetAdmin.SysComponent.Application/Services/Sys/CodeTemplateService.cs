@@ -44,8 +44,9 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
                                   y => y
                                 , y => y.Contains('.')
                                       ? typeof(Sys_CodeTemplate).GetRecursiveProperty(y)!.GetValue(
-                                          x.Key.GetType().GetRecursiveProperty(y[..y.LastIndexOf('.')]).GetValue(x.Key))!.ToString()
-                                      : typeof(Sys_CodeTemplate).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                                                    x.Key.GetType().GetRecursiveProperty(y[..y.LastIndexOf('.')]).GetValue(x.Key))
+                                                                ?.ToString()
+                                      : typeof(Sys_CodeTemplate).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -112,6 +113,13 @@ public sealed class CodeTemplateService(BasicRepository<Sys_CodeTemplate, long> 
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryCodeTemplateRsp>>();
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryCodeTemplateReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_CodeTemplate>());
     }
 
     private ISelect<Sys_CodeTemplate> QueryInternal(QueryReq<QueryCodeTemplateReq> req)

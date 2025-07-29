@@ -33,5 +33,5 @@ public sealed record GenerateCsCodeReq : DataAbstraction
     /// <summary>
     ///     描述
     /// </summary>
-    public string Summary { get; init; }
+    public string Summary { get; set; }
 }

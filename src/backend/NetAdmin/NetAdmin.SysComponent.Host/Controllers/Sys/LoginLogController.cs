@@ -21,6 +21,7 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     /// <summary>
     ///     登录日志计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryLoginLogReq> req)
     {
         return Cache.CountAsync(req);
@@ -92,5 +93,14 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     public Task<IEnumerable<QueryLoginLogRsp>> QueryAsync(QueryReq<QueryLoginLogReq> req)
     {
         return Cache.QueryAsync(req);
+    }
+
+    /// <summary>
+    ///     登录日志求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryLoginLogReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

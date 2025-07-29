@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 代码模板计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/code.template/count`,
-        name: `代码模板计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 代码模板分组计数
      */
     countBy: {

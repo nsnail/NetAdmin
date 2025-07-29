@@ -21,7 +21,7 @@
                         <el-icon v-if="option.icon">
                             <component :is="option.icon" />
                         </el-icon>
-                        <el-badge :max="item.badgeMax ?? 999999999" :show-zero="false" :value="option.badge" badge-class="badge-small">
+                        <el-badge :max="item.badgeMax ?? 100000000" :show-zero="false" :value="option.badge" badge-class="badge-small">
                             <span>{{ option.label }}</span>
                         </el-badge>
                     </li>

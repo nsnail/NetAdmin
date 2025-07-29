@@ -21,6 +21,7 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     /// <summary>
     ///     配置计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryConfigReq> req)
     {
         return Cache.CountAsync(req);
@@ -116,5 +117,14 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     public Task<int> SetEnabledAsync(SetConfigEnabledReq req)
     {
         return Cache.SetEnabledAsync(req);
+    }
+
+    /// <summary>
+    ///     配置求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryConfigReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

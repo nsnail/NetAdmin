@@ -27,7 +27,7 @@ public sealed record ExportDicContentRsp : QueryDicContentRsp
     [CsvIndex(4)]
     [CsvIgnore(false)]
     [CsvName(nameof(Ln.备注))]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc />
     [CsvIndex(1)]

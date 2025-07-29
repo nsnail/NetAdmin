@@ -45,7 +45,7 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DocContent).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_DocContent).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -129,6 +129,13 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(Sys_DocContent.Enabled)]);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryDocContentReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DocContent>());
     }
 
     /// <inheritdoc />

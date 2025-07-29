@@ -1,5 +1,7 @@
 using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Dto.Sys.UserInvite;
 using NetAdmin.Domain.Dto.Sys.UserWallet;
 using NetAdmin.Domain.Dto.Sys.WalletTrade;
 using NetAdmin.Domain.Extensions;
@@ -103,7 +105,7 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
     {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Include(a => a.Owner)
+                         .Include(a => a.Owner.Invite.Owner)
                          .Page(req.Page, req.PageSize)
                          .WithNoLockNoWait()
                          .Count(out var total)
@@ -121,9 +123,95 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
         return ret.Adapt<IEnumerable<QueryWalletTradeRsp>>();
     }
 
+    /// <inheritdoc />
+    public async Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req)
+    {
+        req.ThrowIfInvalid();
+        return req.RequiredFields[0].Equals(nameof(QueryWalletTradeReq.Amount), StringComparison.OrdinalIgnoreCase)
+            ? await QueryInternal(req with { Order = Orders.None })
+                    .WithNoLockNoWait()
+                    .SumAsync(a => SqlExt.Case().When(a.Amount < 0, -a.Amount).Else(a.Amount).End())
+                    .ConfigureAwait(false)
+            : await QueryInternal(req with { Order = Orders.None })
+                    .WithNoLockNoWait()
+                    .SumAsync(req.GetSumExp<Sys_WalletTrade>())
+                    .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task<int> TransferFromAnotherAccountAsync(TransferReq req)
+    {
+        // 检查源账户是不是自己的下级
+        var fromAccount = await S<IUserInviteService>().GetAsync(new QueryUserInviteReq { Id = req.OwnerId!.Value }).ConfigureAwait(false);
+        if (fromAccount == null || fromAccount.OwnerId != UserToken.Id) {
+            throw new NetAdminInvalidOperationException(Ln.此操作不被允许);
+        }
+
+        var fromUser = await S<IUserService>().GetAsync(new QueryUserReq { Id = fromAccount.Id }).ConfigureAwait(false);
+
+        // 源账户扣钱
+        _ = await CreateAsync(new CreateWalletTradeReq {
+                                                           OwnerDeptId    = fromUser.DeptId
+                                                         , Amount         = -req.Amount
+                                                         , OwnerId        = fromUser.Id
+                                                         , Summary        = req.Summary
+                                                         , TradeDirection = TradeDirections.Expense
+                                                         , TradeType      = TradeTypes.TransferExpense
+                                                       })
+            .ConfigureAwait(false);
+
+        // 自己账户加钱
+        _ = await CreateAsync(new CreateWalletTradeReq {
+                                                           Amount         = req.Amount
+                                                         , Summary        = req.Summary
+                                                         , TradeDirection = TradeDirections.Income
+                                                         , TradeType      = TradeTypes.TransferIncome
+                                                         , OwnerId        = UserToken.Id
+                                                         , OwnerDeptId    = UserToken.DeptId
+                                                       })
+            .ConfigureAwait(false);
+        return 1;
+    }
+
+    /// <inheritdoc />
+    public async Task<int> TransferToAnotherAccountAsync(TransferReq req)
+    {
+        var toUser = await S<IUserService>().GetAsync(new QueryUserReq { Id = req.OwnerId!.Value }).ConfigureAwait(false);
+
+        // 自己账户扣钱
+        _ = await CreateAsync(new CreateWalletTradeReq {
+                                                           Amount         = -req.Amount
+                                                         , Summary        = req.Summary
+                                                         , TradeDirection = TradeDirections.Expense
+                                                         , TradeType      = TradeTypes.TransferExpense
+                                                         , OwnerId        = UserToken.Id
+                                                         , OwnerDeptId    = UserToken.DeptId
+                                                       })
+            .ConfigureAwait(false);
+
+        // 他人账户加钱
+        _ = await CreateAsync(new CreateWalletTradeReq {
+                                                           OwnerDeptId    = toUser.DeptId
+                                                         , Amount         = req.Amount
+                                                         , OwnerId        = toUser.Id
+                                                         , Summary        = req.Summary
+                                                         , TradeDirection = TradeDirections.Income
+                                                         , TradeType      = TradeTypes.TransferIncome
+                                                       })
+            .ConfigureAwait(false);
+        return 1;
+    }
+
     private ISelect<Sys_WalletTrade> QueryInternal(QueryReq<QueryWalletTradeReq> req)
     {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+        return QueryInternal(req, null);
+    }
+
+    private ISelect<Sys_WalletTrade> QueryInternal(QueryReq<QueryWalletTradeReq> req, List<long> userIds)
+    {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
+                     .WhereIf(req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
+                     .WhereIf(userIds?.Count > 0, a => userIds.Contains(a.OwnerId.Value));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

@@ -44,7 +44,7 @@ public abstract record CreateEditUserReq : Sys_User
 
     /// <inheritdoc cref="Sys_User.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public override string Summary { get; init; }
+    public override string Summary { get; set; }
 
     /// <inheritdoc cref="Sys_User.UserName" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

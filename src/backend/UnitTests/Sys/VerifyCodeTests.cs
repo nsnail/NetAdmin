@@ -123,6 +123,16 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
+    public async Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
+        Assert.True(rsp.IsSuccessStatusCode);
+        return 0;
+    }
+
+    /// <inheritdoc />
+    [InlineData(null)]
+    [Theory]
     public async Task<bool> VerifyAsync(VerifyCodeReq req)
     {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);

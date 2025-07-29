@@ -21,6 +21,7 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     /// <summary>
     ///     部门计数
     /// </summary>
+    [NonAction]
     public Task<long> CountAsync(QueryReq<QueryDeptReq> req)
     {
         return Cache.CountAsync(req);
@@ -100,5 +101,14 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     public Task<int> SetEnabledAsync(SetDeptEnabledReq req)
     {
         return Cache.SetEnabledAsync(req);
+    }
+
+    /// <summary>
+    ///     部门求和
+    /// </summary>
+    [NonAction]
+    public Task<decimal> SumAsync(QueryReq<QueryDeptReq> req)
+    {
+        return Cache.SumAsync(req);
     }
 }

@@ -86,6 +86,12 @@ public sealed class SiteMsgCache(IDistributedCache cache, ISiteMsgService servic
     }
 
     /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QuerySiteMsgReq> req)
+    {
+        return Service.SumAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<long> UnreadCountAsync()
     {
         return Service.UnreadCountAsync();

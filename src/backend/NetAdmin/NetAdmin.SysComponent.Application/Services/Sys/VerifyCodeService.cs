@@ -45,7 +45,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
                         .ConfigureAwait(false);
         return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
                               req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_VerifyCode).GetProperty(y)!.GetValue(x.Key)!.ToString()), x.Value))
+                                  y => y, y => typeof(Sys_VerifyCode).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
                   .OrderByDescending(x => x.Value);
     }
 
@@ -123,6 +123,7 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
         QueryVerifyCodeRsp ret;
 
         #if !DEBUG
+
         // 有发送记录，且小于1分钟，不允许
         if (lastSent != null && (DateTime.Now - lastSent.CreatedTime).TotalMinutes < 1) {
             throw new NetAdminInvalidOperationException(Ln._1分钟内只能发送1次);
@@ -145,6 +146,13 @@ public sealed class VerifyCodeService(BasicRepository<Sys_VerifyCode, long> rpo,
     {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(req.Status)]);
+    }
+
+    /// <inheritdoc />
+    public Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req)
+    {
+        req.ThrowIfInvalid();
+        return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_VerifyCode>());
     }
 
     /// <inheritdoc />

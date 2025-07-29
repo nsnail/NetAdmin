@@ -17,17 +17,6 @@ export default {
     },
 
     /**
-     * 钱包冻结计数
-     */
-    count: {
-        url: `${config.API_URL}/api/sys/wallet.frozen/count`,
-        name: `钱包冻结计数`,
-        post: async function (data = {}, config = {}) {
-            return await http.post(this.url, data, config)
-        },
-    },
-
-    /**
      * 钱包冻结分组计数
      */
     countBy: {
