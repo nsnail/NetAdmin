@@ -3,12 +3,15 @@
         <!--        仪表板-->
         <el-header v-loading="statistics.total === `...`" class="el-header-statistics">
             <el-row :gutter="15">
-                <el-col :lg="Object.keys(statistics.sumList).length === 0 ? 24 : 24 / (Object.keys(statistics.sumList).length + 1)">
+                <el-col :lg="Math.floor(Object.keys(statistics.sumList).length === 0 ? 24 : 24 / (Object.keys(statistics.sumList).length + 1))">
                     <el-card shadow="never">
                         <sc-statistic :title="this.$t(totalCountLabel)" :value="statistics.total" group-separator />
                     </el-card>
                 </el-col>
-                <el-col v-for="(item, i) in Object.entries(statistics.sumList)" :key="i" :lg="24 / (Object.keys(statistics.sumList).length + 1)">
+                <el-col
+                    v-for="(item, i) in Object.entries(statistics.sumList).sort((x, y) => x[1][3] - y[1][3])"
+                    :key="i"
+                    :lg="Math.floor(24 / (Object.keys(statistics.sumList).length + 1)) + (item[1][2] ?? 0)">
                     <el-card shadow="never">
                         <sc-statistic :prefix="item[1][1]" :title="item[0]" :value="item[1][0]" group-separator />
                     </el-card>
@@ -55,9 +58,20 @@
                         </el-dropdown-menu>
                     </template>
                 </el-dropdown>
-                <el-button v-bind="rightButtons[0].props" v-else-if="rightButtons.length === 1" @click="rightButtons[0].click" type="primary">{{
-                    rightButtons[0].label
-                }}</el-button>
+                <el-button
+                    v-bind="rightButtons[0].props"
+                    v-else-if="rightButtons.length === 1"
+                    :disabled="loading"
+                    :loading="loading"
+                    @click="
+                        async () => {
+                            this.loading = true
+                            await rightButtons[0].click()
+                            this.loading = false
+                        }
+                    "
+                    >{{ rightButtons[0].label }}</el-button
+                >
             </div>
         </el-header>
 
@@ -68,7 +82,9 @@
                     Object.assign(
                         {
                             queryApi: $API[entityName].pagedQuery,
-                            exportApi: $API[entityName].export,
+                            exportApi: $GLOBAL.hasApiPermission($API[entityName].export?.url.replace(`${config.API_URL}/`, ``))
+                                ? $API[entityName].export
+                                : null,
                             remoteFilter: true,
                             remoteSort: true,
                             rowKey: `id`,
@@ -100,10 +116,10 @@
                         :options="
                             item.options ??
                             (item.enum
-                                ? Object.entries(this.$GLOBAL.enums[item.enum]).map((x) => {
+                                ? Object.entries(this.$GLOBAL.enums[item.enum.name]).map((x) => {
                                       return {
                                           value: x[0],
-                                          text: item.enumText ? item.enumText(x) : x[1][1],
+                                          text: item.enum.text ? item.enum.text(x) : x[1][1],
                                           type: x[1][2],
                                           pulse: x[1][3] === `true`,
                                       }
@@ -127,8 +143,12 @@
                             </span>
                         </template>
                         <template v-else-if="item.currency" #default="{ row }">
-                            <span>{{ item.currency }}</span>
-                            <span>{{ $TOOL.groupSeparator((row[i] / 100).toFixed(2)) }}</span>
+                            <p :class="{ expense: row[i] < 0 }">
+                                <span>{{ item.currency.flag }}</span>
+                                <span>{{
+                                    $TOOL.groupSeparator((row[i] / (item.currency.multiple ?? 100)).toFixed(item.currency.decimal ?? 2))
+                                }}</span>
+                            </p>
                         </template>
                     </component>
                 </template>
@@ -200,12 +220,20 @@ export default {
     },
     created() {
         for (const f of this.dyFilters) {
-            this.query.dynamicFilter.filters.push(f)
+            if (f.operator === 'dateRange') {
+                this.query.dynamicFilter.filters.push({
+                    field: f.field,
+                    operator: f.operator,
+                    value: f.value.map((x) => x.replace(/ 00:00:00$/, '')),
+                })
+            } else this.query.dynamicFilter.filters.push(f)
         }
 
         const searchFields = []
         this.searchControls = []
         for (const item in this.columns) {
+            this.resetSumList(item)
+
             this.table.menu.extra[item] = this.columns[item].extra
             if (this.columns[item].searchable) {
                 searchFields.push({ label: this.columns[item].label, key: item })
@@ -215,8 +243,8 @@ export default {
             this.searchControls.push({
                 type: `select-input`,
                 field: [`dy`, searchFields],
-                placeholder: this.$t(`匹配内容`),
-                style: `width:25rem`,
+                placeholder: this.$t(`检索内容`),
+                style: `width:${this.searchInputWidth}rem`,
                 selectStyle: `width:8rem`,
             })
         }
@@ -238,7 +266,7 @@ export default {
                               { value: true, label: this.$t(`是`) },
                               { value: false, label: this.$t(`否`) },
                           ]
-                        : Object.entries(this.$GLOBAL.enums[col.enum]).map((x) => {
+                        : Object.entries(this.$GLOBAL.enums[col.enum.name]).map((x) => {
                               return {
                                   value: x[0],
                                   label: x[1][1],
@@ -307,6 +335,11 @@ export default {
     },
     inject: [`reload`],
     methods: {
+        resetSumList(item) {
+            if (this.columns[item].sum && (!this.columns[item].condition || this.columns[item].condition())) {
+                this.statistics.sumList[this.columns[item].sum.label] = ['...', '', this.columns[item].sum.span, this.columns[item].sum.sort ?? 0]
+            }
+        },
         // ---------------------------- ↓ 过滤器事件 ----------------------------
         onFilterChange(data) {
             Object.entries(data).forEach(([key, value]) => {
@@ -321,33 +354,22 @@ export default {
             Object.entries(this.$refs.selectFilter?.selected ?? []).forEach(([key, _]) => (this.$refs.selectFilter.selected[key] = [``]))
         },
         async onSearch(form) {
-            if (Array.isArray(form.dy.createdTime)) {
-                this.query.dynamicFilter.filters.push({
-                    field: `createdTime`,
-                    operator: `dateRange`,
-                    value: form.dy.createdTime.map((x) => x.replace(/ 00:00:00$/, '')),
-                })
-            }
             for (const item in this.columns) {
+                this.resetSumList(item)
+
                 let field = form.dy[item]
                 if (field === undefined) field = form.dy[item[0].toUpperCase() + item.substring(1)]
 
-                if (field === undefined || field === `` || typeof field === `object`) {
+                if (field === undefined || field === `` || field == null) {
                     continue
                 }
 
+                const operator = this.columns[item].operator ?? `eq`
                 this.query.dynamicFilter.filters.push({
                     field: item,
-                    operator: this.columns[item].operator ?? `eq`,
-                    value: field,
+                    operator: operator,
+                    value: operator === 'dateRange' ? field.map((x) => x.replace(/ 00:00:00$/, '')) : field,
                 })
-            }
-
-            for (const item of this.dyFilters) {
-                const exists = this.query.dynamicFilter.filters.find((x) => x.field === item.field)
-                if (!exists) {
-                    this.query.dynamicFilter.filters.push(item)
-                }
             }
 
             await this.$refs.table.upData()
@@ -438,18 +460,24 @@ export default {
                         }),
                     )
                 }
-                if (this.columns[col].sum) {
+                if (this.columns[col].sum && (!this.columns[col].condition || this.columns[col].condition())) {
                     const res = await this.$API[this.entityName].sum.post({
                         filter: this.query.filter,
                         dynamicFilter: { filters: this.query.dynamicFilter.filters },
                         requiredFields: [col.replace(/(?:^|\.)[a-z]/g, (m) => m.toUpperCase())],
                     })
+
                     this.statistics.sumList[this.columns[col].sum.label] = [
-                        this.columns[col].sum.currency ? (res.data / 100).toFixed(2) : res.data,
-                        this.columns[col].sum.currency,
+                        this.columns[col].sum.currency
+                            ? (res.data / (this.columns[col].sum.currency.multiple ?? 100)).toFixed(this.columns[col].sum.currency.decimal ?? 2)
+                            : res.data,
+                        this.columns[col].sum.currency?.flag,
+                        this.columns[col].sum.span,
+                        this.columns[col].sum.sort ?? 0,
                     ]
                 }
             }
+
             const res = await Promise.all(countByCalls)
             Object.assign(this.statistics, { res })
             for (const item of res) {
@@ -490,7 +518,9 @@ export default {
         }
 
         for (const f of this.dyFilters) {
-            this.$refs.search.selectInputKey = f.field
+            if (this.searchControls.findIndex((x) => x.field[1] === f.field) >= 0) {
+                this.$refs.search.selectInputKey = f.field
+            }
             this.$refs.search.form.dy[f.field] = f.value
             this.$refs.search.keeps.push({
                 field: f.field,
@@ -507,6 +537,7 @@ export default {
         summary: { type: String },
         selectFilters: { type: Array, default: [] },
         customSearchControls: { type: Array, default: [] },
+        searchInputWidth: { type: Number, default: 25 },
         columns: { type: Object },
         operations: { type: Array, default: [`view`, `add`, `edit`, `del`] },
         rowButtons: { type: Array, default: [] },
@@ -522,4 +553,8 @@ export default {
 }
 </script>
 
-<style scoped />
+<style scoped>
+.expense {
+    color: var(--el-color-danger);
+}
+</style>

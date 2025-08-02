@@ -21,7 +21,7 @@
             gender: {
                 label: $t(`性别`),
                 is: `na-col-indicator`,
-                enum: `genders`,
+                enum: { name: `genders` },
                 width: 100,
                 align: `center`,
                 countBy: true,
@@ -56,6 +56,7 @@
             createdTime: {
                 label: $t(`创建时间`),
                 show: [`view`],
+                operator: `dateRange`,
             },
             version: {
                 label: $t(`数据版本`),

@@ -99,7 +99,6 @@ public sealed class UserWalletController(IUserWalletCache cache) : ControllerBas
     /// <summary>
     ///     用户钱包求和
     /// </summary>
-    [NonAction]
     public Task<decimal> SumAsync(QueryReq<QueryUserWalletReq> req)
     {
         return Cache.SumAsync(req);

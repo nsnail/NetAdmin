@@ -72,7 +72,7 @@
                                     { label: '作业编号', key: 'jobId' },
                                 ],
                             ],
-                            placeholder: '匹配内容',
+                            placeholder: '检索内容',
                             style: 'width:25rem',
                             selectStyle: 'width:8rem',
                         },

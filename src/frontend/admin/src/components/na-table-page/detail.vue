@@ -29,18 +29,39 @@
                                     :disabled="item.disabled?.includes(mode)"
                                     type="datetime"
                                     value-format="YYYY-MM-DD HH:mm:ss" />
-                                <el-select v-else-if="item.enum" v-model="form[i]" :disabled="item.disabled?.includes(mode)" clearable filterable>
-                                    <el-option
-                                        v-for="e in Object.entries(this.$GLOBAL.enums[item.enum]).map((x) => {
-                                            return {
-                                                value: x[0],
-                                                text: item.enumSelectText ? item.enumSelectText(x) : item.enumText ? item.enumText(x) : x[1][1],
-                                            }
-                                        })"
-                                        :key="e.value"
-                                        :label="e.text"
-                                        :value="e.value" />
-                                </el-select>
+                                <template v-else-if="item.enum">
+                                    <el-radio-group v-if="item.enum.radio" v-model="form[i]" :disabled="item.disabled?.includes(mode)">
+                                        <el-radio-button
+                                            v-for="e in Object.entries(this.$GLOBAL.enums[item.enum.name]).map((x) => {
+                                                return {
+                                                    value: x[0],
+                                                    text: item.enum.selectText
+                                                        ? item.enum.selectText(x)
+                                                        : item.enum.text
+                                                          ? item.enum.text(x)
+                                                          : x[1][1],
+                                                }
+                                            })"
+                                            :label="e.text"
+                                            :value="e.value" />
+                                    </el-radio-group>
+                                    <el-select v-else="item.enum" v-model="form[i]" :disabled="item.disabled?.includes(mode)" clearable filterable>
+                                        <el-option
+                                            v-for="e in Object.entries(this.$GLOBAL.enums[item.enum.name]).map((x) => {
+                                                return {
+                                                    value: x[0],
+                                                    text: item.enum.selectText
+                                                        ? item.enum.selectText(x)
+                                                        : item.enum.text
+                                                          ? item.enum.text(x)
+                                                          : x[1][1],
+                                                }
+                                            })"
+                                            :key="e.value"
+                                            :label="e.text"
+                                            :value="e.value" />
+                                    </el-select>
+                                </template>
                                 <el-switch
                                     v-else-if="typeof form[i] === `boolean` || item.isSwitch"
                                     v-model="form[i]"
@@ -63,6 +84,13 @@
                                     v-model="form[i]"
                                     :disabled="item.disabled?.includes(mode)"
                                     :is="item.detail?.is ?? `el-input`" />
+                                <component
+                                    v-bind="sub.props"
+                                    v-for="(sub, j) in item.detail.extra"
+                                    v-html="sub.html"
+                                    v-if="item.detail?.extra"
+                                    :is="sub.is"
+                                    :key="j" />
                             </el-form-item>
                         </template>
                     </el-form>
