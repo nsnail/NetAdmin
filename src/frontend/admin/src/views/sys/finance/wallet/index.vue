@@ -57,6 +57,7 @@
             createdTime: {
                 label: $t(`创建时间`),
                 show: [`view`],
+                operator: `dateRange`,
             },
             modifiedTime: {
                 relativeTime: true,

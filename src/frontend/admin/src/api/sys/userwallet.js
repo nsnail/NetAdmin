@@ -81,4 +81,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 用户钱包求和
+     */
+    sum: {
+        url: `${config.API_URL}/api/sys/user.wallet/sum`,
+        name: `用户钱包求和`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

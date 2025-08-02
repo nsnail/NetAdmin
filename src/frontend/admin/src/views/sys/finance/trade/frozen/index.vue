@@ -51,7 +51,7 @@
             },
             status: {
                 is: `na-col-indicator`,
-                enum: `walletFrozenStatues`,
+                enum: { name: `walletFrozenStatues` },
                 label: $t(`状态`),
                 countBy: true,
                 align: `center`,
@@ -64,7 +64,7 @@
                 },
                 countBy: true,
                 is: `na-col-indicator`,
-                enum: `walletFrozenReasons`,
+                enum: { name: `walletFrozenReasons` },
                 label: $t(`冻结原因`),
                 align: `center`,
                 width: 100,
@@ -84,6 +84,7 @@
             createdTime: {
                 label: $t(`创建时间`),
                 show: [`view`],
+                operator: `dateRange`,
             },
             version: {
                 label: $t(`数据版本`),

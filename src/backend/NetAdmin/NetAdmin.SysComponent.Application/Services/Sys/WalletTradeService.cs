@@ -147,6 +147,11 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
             throw new NetAdminInvalidOperationException(Ln.此操作不被允许);
         }
 
+        // 不允许自己对自己转账
+        if (UserToken.Id == fromAccount.Id) {
+            throw new NetAdminInvalidOperationException(Ln.此操作不被允许);
+        }
+
         var fromUser = await S<IUserService>().GetAsync(new QueryUserReq { Id = fromAccount.Id }).ConfigureAwait(false);
 
         // 源账户扣钱
@@ -177,6 +182,11 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
     public async Task<int> TransferToAnotherAccountAsync(TransferReq req)
     {
         var toUser = await S<IUserService>().GetAsync(new QueryUserReq { Id = req.OwnerId!.Value }).ConfigureAwait(false);
+
+        // 不允许自己对自己转账
+        if (UserToken.Id == toUser.Id) {
+            throw new NetAdminInvalidOperationException(Ln.此操作不被允许);
+        }
 
         // 自己账户扣钱
         _ = await CreateAsync(new CreateWalletTradeReq {

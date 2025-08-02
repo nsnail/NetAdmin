@@ -110,7 +110,7 @@ export default {
     },
     mounted() {
         this.defaultProps = Object.assign(this.defaultProps, this.props)
-        this.defaultValue = this.modelValue
+        this.defaultValue = this.multiple ? this.modelValue || [] : this.modelValue
         this.autoCurrentLabel()
     },
     methods: {
@@ -233,7 +233,9 @@ export default {
         //tags删除后回调
         removeTag(tag) {
             const row = this.findRowByKey(tag[this.defaultProps.value])
-            this.$refs.table.toggleRowSelection(row, false)
+            if (row) {
+                this.$refs.table.toggleRowSelection(row, false)
+            }
             this.$emit('update:modelValue', this.defaultValue)
         },
         //清空后的回调

@@ -27,6 +27,7 @@
                 align: `right`,
                 show: [`list`],
                 width: 170,
+                operator: `dateRange`,
             },
             ownerId: {
                 headerAlign: `center`,

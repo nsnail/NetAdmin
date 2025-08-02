@@ -7,10 +7,10 @@
         </div>
         <el-select v-bind="$attrs" :allow-create="allowCreate" :loading="loading" @visible-change="visibleChange">
             <el-option
-                v-for="item in options"
-                :key="$TOOL.getNestedProperty(item, props.value)"
+                v-for="(item, i) in options"
+                :key="i"
                 :label="typeof props.label === `function` ? props.label(item) : $TOOL.getNestedProperty(item, props.label)"
-                :value="objValueType ? item : $TOOL.getNestedProperty(item, props.value)">
+                :value="typeof props.value === `function` ? props.value(item) : $TOOL.getNestedProperty(item, props.value)">
                 <slot :data="item" name="option" />
             </el-option>
         </el-select>
@@ -27,7 +27,6 @@ export default {
             default: () => {},
         },
         dic: { type: String, default: '' },
-        objValueType: { type: Boolean, default: false },
         allowCreate: { type: Boolean, default: false },
         params: { type: Object, default: () => ({}) },
         config: { type: Object },

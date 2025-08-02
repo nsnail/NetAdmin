@@ -241,7 +241,7 @@
                     <wallet v-if="tabId === 'wallet'" :id="form.id.toString()" />
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('交易流水')" name="trade">
-                    <trade v-if="tabId === 'trade'" :ownerId="form.id.toString()" />
+                    <trade v-if="tabId === 'trade'" :owner-id="form.id.toString()" />
                 </el-tab-pane>
                 <el-tab-pane v-if="mode === 'view'" :label="$t('操作日志')" name="log">
                     <log v-if="tabId === 'log'" :owner-id="form.id" />

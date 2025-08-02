@@ -62,7 +62,7 @@
                                     { label: $t('充值点数'), key: 'depositPoint' },
                                 ],
                             ],
-                            placeholder: $t('匹配内容'),
+                            placeholder: $t('检索内容'),
                             style: 'width:25rem',
                             selectStyle: 'width:8rem',
                         },

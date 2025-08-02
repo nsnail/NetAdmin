@@ -42,7 +42,7 @@
                 },
                 countBy: true,
                 is: `na-col-indicator`,
-                enum: `tradeDirections`,
+                enum: { name: `tradeDirections` },
                 label: $t(`交易方向`),
                 align: `center`,
                 width: 100,
@@ -54,7 +54,7 @@
                 },
                 countBy: true,
                 is: `na-col-indicator`,
-                enum: `tradeTypes`,
+                enum: { name: `tradeTypes` },
                 label: $t(`交易类型`),
                 align: `center`,
                 width: 150,
@@ -100,6 +100,7 @@
             createdTime: {
                 label: $t(`创建时间`),
                 show: [`view`],
+                operator: `dateRange`,
             },
             createdUserId: {
                 headerAlign: `center`,
