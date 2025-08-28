@@ -7,7 +7,7 @@
                 extra: [`createdTime`],
                 width: 170,
                 show: [`list`, `view`],
-                searchable: `eq`,
+                searchable: true,
             },
             name: {
                 label: $t(`名字`),
@@ -16,7 +16,7 @@
                 rule: {
                     required: true,
                 },
-                searchable: `eq`,
+                searchable: true,
             },
             gender: {
                 label: $t(`性别`),
@@ -24,7 +24,7 @@
                 enum: { name: `genders` },
                 width: 100,
                 align: `center`,
-                countBy: true,
+                selectFilter: { countBy: true },
                 show: [`list`, `view`, `add`, `edit`],
             },
             sort: {
@@ -43,13 +43,14 @@
             summary: {
                 label: $t(`备注`),
                 show: [`list`, `view`, `add`, `edit`],
-                searchable: `contains`,
+                searchable: true,
+                operator: 'contains',
             },
             enabled: {
                 label: $t(`启用`),
                 width: 100,
                 align: `center`,
-                countBy: true,
+                selectFilter: { countBy: true },
                 show: [`list`, `view`],
                 isSwitch: { onChange: `setEnabled` },
             },

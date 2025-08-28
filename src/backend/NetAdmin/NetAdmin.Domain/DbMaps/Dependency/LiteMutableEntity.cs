@@ -7,7 +7,6 @@ public abstract record LiteMutableEntity : LiteMutableEntity<long>
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }
@@ -22,14 +21,12 @@ public abstract record LiteMutableEntity<T> : LiteImmutableEntity<T>, IFieldModi
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     public override T Id { get; init; }
 
     /// <summary>
     ///     修改时间
     /// </summary>
     [Column(ServerTime = DateTimeKind.Local, CanInsert = false, Position = -1)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime? ModifiedTime { get; init; }
 }

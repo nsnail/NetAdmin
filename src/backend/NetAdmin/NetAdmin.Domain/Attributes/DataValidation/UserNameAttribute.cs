@@ -9,15 +9,13 @@ public sealed class UserNameAttribute : RegexAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="UserNameAttribute" /> class.
     /// </summary>
-    public UserNameAttribute() //
-        : base(Chars.RGX_USERNAME)
-    {
+    public UserNameAttribute()
+        : base(Chars.RGX_USERNAME) {
         ErrorMessageResourceType = typeof(Ln);
     }
 
     /// <inheritdoc />
-    public override bool IsValid(object value)
-    {
+    public override bool IsValid(object value) {
         if (!base.IsValid(value)) {
             ErrorMessageResourceName = nameof(Ln.用户名不符合要求);
             return false;

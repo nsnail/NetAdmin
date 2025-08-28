@@ -10,7 +10,6 @@ public record Sys_UserWallet : LiteVersionEntity, IFieldOwner
     ///     可用余额
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long AvailableBalance { get; init; }
 
@@ -18,14 +17,12 @@ public record Sys_UserWallet : LiteVersionEntity, IFieldOwner
     ///     冻结余额
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long FrozenBalance { get; init; }
 
     /// <summary>
     ///     归属用户
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(OwnerId))]
     public Sys_User Owner { get; init; }
@@ -34,7 +31,6 @@ public record Sys_UserWallet : LiteVersionEntity, IFieldOwner
     ///     归属部门编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerDeptId { get; init; }
 
@@ -42,7 +38,6 @@ public record Sys_UserWallet : LiteVersionEntity, IFieldOwner
     ///     归属用户编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerId { get; init; }
 
@@ -50,7 +45,6 @@ public record Sys_UserWallet : LiteVersionEntity, IFieldOwner
     ///     总支出
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long TotalExpenditure { get; init; }
 
@@ -58,7 +52,6 @@ public record Sys_UserWallet : LiteVersionEntity, IFieldOwner
     ///     总收入
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long TotalIncome { get; init; }
 }

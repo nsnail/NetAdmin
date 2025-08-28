@@ -11,6 +11,7 @@ public class RegexAttribute : RegularExpressionAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="RegexAttribute" /> class.
     /// </summary>
-    protected RegexAttribute(string pattern) //
-        : base(pattern) { }
+    protected RegexAttribute(string pattern)
+        : base(pattern) {
+    }
 }

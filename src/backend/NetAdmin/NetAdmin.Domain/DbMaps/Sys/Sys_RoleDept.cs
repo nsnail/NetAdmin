@@ -10,7 +10,6 @@ public record Sys_RoleDept : ImmutableEntity
     /// <summary>
     ///     关联的部门
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     public Sys_Dept Dept { get; init; }
 
@@ -18,14 +17,12 @@ public record Sys_RoleDept : ImmutableEntity
     ///     可访问的部门编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public long DeptId { get; init; }
 
     /// <summary>
     ///     关联的角色
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     public Sys_Role Role { get; init; }
 
@@ -33,7 +30,6 @@ public record Sys_RoleDept : ImmutableEntity
     ///     角色编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public long RoleId { get; init; }
 }

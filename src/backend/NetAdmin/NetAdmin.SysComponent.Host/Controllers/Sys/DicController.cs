@@ -14,8 +14,7 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     批量删除字典目录
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteCatalogAsync(req);
     }
 
@@ -23,16 +22,14 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     批量删除字典内容
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteContentAsync(req);
     }
 
     /// <summary>
     ///     字典内容分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(QueryReq<QueryDicContentReq> req) {
         return Cache.ContentCountByAsync(req);
     }
 
@@ -40,8 +37,7 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     创建字典目录
     /// </summary>
     [Transaction]
-    public Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
-    {
+    public Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req) {
         return Cache.CreateCatalogAsync(req);
     }
 
@@ -49,8 +45,7 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     创建字典内容
     /// </summary>
     [Transaction]
-    public Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req)
-    {
+    public Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req) {
         return Cache.CreateContentAsync(req);
     }
 
@@ -58,8 +53,7 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     删除字典目录
     /// </summary>
     [Transaction]
-    public Task<int> DeleteCatalogAsync(DelReq req)
-    {
+    public Task<int> DeleteCatalogAsync(DelReq req) {
         return Cache.DeleteCatalogAsync(req);
     }
 
@@ -67,8 +61,7 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     删除字典内容
     /// </summary>
     [Transaction]
-    public Task<int> DeleteContentAsync(DelReq req)
-    {
+    public Task<int> DeleteContentAsync(DelReq req) {
         return Cache.DeleteContentAsync(req);
     }
 
@@ -76,8 +69,7 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     编辑字典目录
     /// </summary>
     [Transaction]
-    public Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req)
-    {
+    public Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req) {
         return Cache.EditCatalogAsync(req);
     }
 
@@ -85,80 +77,70 @@ public sealed class DicController(IDicCache cache) : ControllerBase<IDicCache, I
     ///     编辑字典内容
     /// </summary>
     [Transaction]
-    public Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req)
-    {
+    public Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req) {
         return Cache.EditContentAsync(req);
     }
 
     /// <summary>
     ///     导出字典内容
     /// </summary>
-    public Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req) {
         return Cache.ExportContentAsync(req);
     }
 
     /// <summary>
     ///     获取单个字典目录
     /// </summary>
-    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
-    {
+    public Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req) {
         return Cache.GetCatalogAsync(req);
     }
 
     /// <summary>
     ///     获取单个字典内容
     /// </summary>
-    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
-    {
+    public Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req) {
         return Cache.GetContentAsync(req);
     }
 
     /// <summary>
     ///     获取字典值
     /// </summary>
-    public Task<string> GetDicValueAsync(GetDicValueReq req)
-    {
+    public Task<string> GetDicValueAsync(GetDicValueReq req) {
         return Cache.GetDicValueAsync(req);
     }
 
     /// <summary>
     ///     分页查询字典目录
     /// </summary>
-    public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
-    {
+    public Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req) {
         return Cache.PagedQueryCatalogAsync(req);
     }
 
     /// <summary>
     ///     分页查询字典内容
     /// </summary>
-    public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req)
-    {
+    public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req) {
         return Cache.PagedQueryContentAsync(req);
     }
 
     /// <summary>
     ///     查询字典目录
     /// </summary>
-    public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req)
-    {
+    public Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req) {
         return Cache.QueryCatalogAsync(req);
     }
 
     /// <summary>
     ///     查询字典内容
     /// </summary>
-    public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req) {
         return Cache.QueryContentAsync(req);
     }
 
     /// <summary>
     ///     启用/禁用字典内容
     /// </summary>
-    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req) {
         return Cache.SetEnabledAsync(req);
     }
 }

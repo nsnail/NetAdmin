@@ -10,12 +10,11 @@ using NetAdmin.Domain.DbMaps.Dependency.Fields;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDocContentService" />
-public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo) //
+public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     : RepositoryService<Sys_DocContent, long, IDocContentService>(rpo), IDocContentService
 {
     /// <inheritdoc />
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         req.ThrowIfInvalid();
         var ret = 0;
 
@@ -28,31 +27,30 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryDocContentReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryDocContentReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDocContentReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDocContentReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Sys_DocContent>())
-                        .ToDictionaryAsync(a => a.Count())
-                        .ConfigureAwait(false);
-        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DocContent).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
-                  .OrderByDescending(x => x.Value);
+            .WithNoLockNoWait()
+            .GroupBy(req.GetToListExp<Sys_DocContent>())
+            .ToDictionaryAsync(a => a.Count())
+            .ConfigureAwait(false);
+        return ret
+            .Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                    req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_DocContent).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value
+                )
+            )
+            .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Doctionary_directory_does_not_exist</exception>
-    public async Task<QueryDocContentRsp> CreateAsync(CreateDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> CreateAsync(CreateDocContentReq req) {
         req.ThrowIfInvalid();
         if (!await Rpo.Orm.Select<Sys_DocCatalog>().Where(a => a.Id == req.CatalogId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.文档分类不存在);
@@ -63,16 +61,14 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">Doctionary_directory_does_not_exist</exception>
-    public async Task<QueryDocContentRsp> EditAsync(EditDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> EditAsync(EditDocContentReq req) {
         req.ThrowIfInvalid();
         if (!await Rpo.Orm.Select<Sys_DocCatalog>().Where(a => a.Id == req.CatalogId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.文档分类不存在);
@@ -88,59 +84,52 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryDocContentReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDocContentReq> req) {
         req.ThrowIfInvalid();
         return ExportAsync<QueryDocContentReq, ExportDocContentRsp>(QueryInternal, req, Ln.文档内容导出);
     }
 
     /// <inheritdoc />
-    public async Task<QueryDocContentRsp> GetAsync(QueryDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> GetAsync(QueryDocContentReq req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryDocContentReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDocContentRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryDocContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDocContentReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDocContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDocContentReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         .WithNoLockNoWait()
-                         .Count(out var total)
-                         .ToListAsync(req)
-                         .ConfigureAwait(false);
+            .Page(req.Page, req.PageSize)
+            .WithNoLockNoWait()
+            .Count(out var total)
+            .ToListAsync(req)
+            .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDocContentRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDocContentRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryDocContentRsp>> QueryAsync(QueryReq<QueryDocContentReq> req)
-    {
+    public async Task<IEnumerable<QueryDocContentRsp>> QueryAsync(QueryReq<QueryDocContentReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDocContentRsp>>();
     }
 
     /// <inheritdoc />
-    public Task<int> SetEnabledAsync(SetDocContentEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetDocContentEnabledReq req) {
         req.ThrowIfInvalid();
         return UpdateAsync(req, [nameof(Sys_DocContent.Enabled)]);
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryDocContentReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryDocContentReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DocContent>());
     }
 
     /// <inheritdoc />
-    public async Task<QueryDocContentRsp> ViewAsync(QueryDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> ViewAsync(QueryDocContentReq req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryDocContentReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
 
@@ -169,12 +158,11 @@ public sealed class DocContentService(BasicRepository<Sys_DocContent, long> rpo)
         return ret?.Enabled == false ? null : ret?.Adapt<QueryDocContentRsp>();
     }
 
-    private ISelect<Sys_DocContent> QueryInternal(QueryReq<QueryDocContentReq> req)
-    {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereDynamic(req.Filter)
-                     .WhereIf( //
-                         req.Keywords?.Length > 0, a => a.Title.Contains(req.Keywords));
+    private ISelect<Sys_DocContent> QueryInternal(QueryReq<QueryDocContentReq> req) {
+        var ret = Rpo
+            .Select.WhereDynamicFilter(req.DynamicFilter)
+            .WhereDynamic(req.Filter)
+            .WhereIf(req.Keywords?.Length > 0, a => a.Title.Contains(req.Keywords));
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

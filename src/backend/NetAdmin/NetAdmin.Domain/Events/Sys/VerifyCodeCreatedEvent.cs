@@ -8,6 +8,7 @@ namespace NetAdmin.Domain.Events.Sys;
 public sealed record VerifyCodeCreatedEvent : EventData<QueryVerifyCodeRsp>
 {
     /// <inheritdoc />
-    public VerifyCodeCreatedEvent(QueryVerifyCodeRsp payLoad) //
-        : base(payLoad) { }
+    public VerifyCodeCreatedEvent(QueryVerifyCodeRsp payLoad)
+        : base(payLoad) {
+    }
 }

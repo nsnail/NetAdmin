@@ -13,8 +13,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -23,8 +22,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public async Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -33,8 +31,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryVerifyCodeReq> req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -43,8 +40,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
-    {
+    public async Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -53,8 +49,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteAsync(DelReq req)
-    {
+    public async Task<int> DeleteAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -63,8 +58,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req)
-    {
+    public async Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -73,8 +67,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -83,8 +76,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
-    {
+    public async Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -93,8 +85,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -103,8 +94,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public async Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -113,8 +103,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
-    {
+    public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -123,8 +112,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public async Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -133,8 +121,7 @@ public class VerifyCodeTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<bool> VerifyAsync(VerifyCodeReq req)
-    {
+    public async Task<bool> VerifyAsync(VerifyCodeReq req) {
         var rsp = await PostJsonAsync(typeof(VerifyCodeController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return false;

@@ -7,9 +7,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     角色模块
 /// </summary>
 public interface IRoleModule : ICrudModule<CreateRoleReq, QueryRoleRsp // 创建类型
-  , EditRoleReq                                                        // 编辑类型
-  , QueryRoleReq, QueryRoleRsp                                         // 查询类型
-  , DelReq                                                             // 删除类型
+    , EditRoleReq // 编辑类型
+    , QueryRoleReq, QueryRoleRsp // 查询类型
+    , DelReq // 删除类型
 >
 {
     /// <summary>

@@ -12,7 +12,7 @@ public enum WalletFrozenReasons
     [ResourceDescription<Ln>(nameof(Ln.交易))]
     Trade = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     人工

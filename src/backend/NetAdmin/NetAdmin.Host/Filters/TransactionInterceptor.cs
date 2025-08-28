@@ -10,8 +10,10 @@ namespace NetAdmin.Host.Filters;
 public sealed class TransactionInterceptor(UnitOfWorkManager uowManager) : IAsyncActionFilter
 {
     /// <inheritdoc />
-    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-    {
+    public async Task OnActionExecutionAsync(
+        ActionExecutingContext context
+        , ActionExecutionDelegate next
+    ) {
         // 跳过没有事务特性标记的方法
         if (context.HttpContext.GetControllerActionDescriptor().MethodInfo.GetCustomAttribute<TransactionAttribute>() == null) {
             _ = await next().ConfigureAwait(false);
@@ -19,12 +21,15 @@ public sealed class TransactionInterceptor(UnitOfWorkManager uowManager) : IAsyn
         }
 
         // 事务操作
-        await uowManager.AtomicOperateAsync(async () => {
-                            var result = await next().ConfigureAwait(false);
-                            if (result.Exception != null) {
-                                throw result.Exception;
-                            }
-                        })
-                        .ConfigureAwait(false);
+        await uowManager
+            .AtomicOperateAsync(async () =>
+                {
+                    var result = await next().ConfigureAwait(false);
+                    if (result.Exception != null) {
+                        throw result.Exception;
+                    }
+                }
+            )
+            .ConfigureAwait(false);
     }
 }

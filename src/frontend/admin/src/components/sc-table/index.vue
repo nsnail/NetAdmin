@@ -54,7 +54,7 @@
                     :layout="paginationLayout"
                     :page-size="scPageSize"
                     :page-sizes="pageSizes"
-                    :pager-count="pagerCount"
+                    :pager-count="scPagerCount"
                     :total="total"
                     @current-change="paginationChange"
                     @update:page-size="pageSizeChange"
@@ -198,7 +198,7 @@ export default {
         fieldFilter,
     },
     props: {
-        dblClickDisable: { type: Boolean, default: false },
+        dblClickDisable: { type: Boolean, default: true },
         vue: { type: Object },
         contextMenus: { type: Array },
         contextOpers: { type: Array, default: [] },
@@ -228,6 +228,7 @@ export default {
         defaultExpandAll: { type: Boolean, default: false },
         pageSize: { type: Number, default: config.pageSize },
         pageSizes: { type: Array, default: config.pageSizes },
+        pagerCount: { type: Number, default: config.pagerCount },
         rowKey: { type: String, default: `` },
         summaryMethod: { type: Function, default: null },
         filterMethod: { type: Function, default: null },
@@ -281,7 +282,7 @@ export default {
     data() {
         return {
             showCopy: false,
-            pagerCount: 11,
+            scPagerCount: this.pagerCount,
             current: {
                 row: null,
                 column: null,
@@ -310,7 +311,7 @@ export default {
         }
     },
     async mounted() {
-        this.pagerCount = document.body.clientWidth < 1000 ? 3 : 11
+        this.scPagerCount = document.body.clientWidth < 1000 ? 3 : this.pagerCount
         //判断是否开启自定义列
         if (this.column) {
             await this.getCustomColumn()
@@ -427,7 +428,7 @@ export default {
         async getCustomColumn() {
             this.userColumn = await config.columnSettingGet(this.tableName, this.column)
         },
-        getQueryParams() {
+        getQueryParams(queryType) {
             const reqData = {
                 [config.request.page]: this.currentPage,
                 [config.request.pageSize]: this.scPageSize,
@@ -440,13 +441,15 @@ export default {
             }
             Object.assign(reqData, this.tableParams)
 
-            const ids = [...new Set(this.$refs.scTable.getSelectionRows().map((x) => x.id))].filter((x) => !!x)
-            if (ids.length > 0) {
-                reqData.dynamicFilter = {
-                    filters: [reqData.dynamicFilter],
-                    field: `id`,
-                    operator: `Any`,
-                    value: ids,
+            if (queryType === 'export') {
+                const ids = [...new Set(this.$refs.scTable.getSelectionRows().map((x) => x.id))].filter((x) => !!x)
+                if (ids.length > 0) {
+                    reqData.dynamicFilter = {
+                        filters: [reqData.dynamicFilter],
+                        field: `id`,
+                        operator: `Any`,
+                        value: ids,
+                    }
                 }
             }
             return reqData
@@ -518,8 +521,8 @@ export default {
         async exportData() {
             this.loading = true
             try {
-                await this.exportApi.post(this.getQueryParams(), { responseType: `blob` })
-                this.$message.success(this.$t(`数据已导出（上限 {n} 条）`, { n: 50000 }))
+                await this.exportApi.post(this.getQueryParams('export'), { responseType: `blob` })
+                this.$message.success(this.$t(`数据已导出（上限 {n} 条）`, { n: 500000 }))
             } catch {}
             this.loading = false
         },

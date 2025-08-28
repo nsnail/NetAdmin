@@ -9,7 +9,6 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     /// <summary>
     ///     子节点
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(ParentId))]
     public IEnumerable<Sys_Dept> Children { get; init; }
@@ -18,7 +17,6 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     ///     是否启用
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
@@ -26,7 +24,6 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     ///     部门名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Name { get; init; }
 
@@ -34,14 +31,12 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     ///     父编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long ParentId { get; init; }
 
     /// <summary>
     ///     角色集合
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleDept))]
     public IReadOnlyCollection<Sys_Role> Roles { get; init; }
@@ -49,7 +44,6 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     /// <summary>
     ///     发送给此部门的站内信集合
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_SiteMsgDept))]
     public IReadOnlyCollection<Sys_SiteMsg> SiteMsgs { get; init; }
@@ -58,7 +52,6 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     ///     排序值，越大越前
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long Sort { get; init; }
 
@@ -66,7 +59,6 @@ public record Sys_Dept : VersionEntity, IFieldEnabled, IFieldSummary, IFieldSort
     ///     部门备注
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; set; }
 }

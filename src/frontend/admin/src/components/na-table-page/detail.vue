@@ -6,20 +6,21 @@
         @closed="$emit(`closed`)"
         destroy-on-close
         ref="dialog">
-        <div v-loading="loading">
+        <div v-loading="loading" :element-loading-text="loadingText">
             <el-tabs v-model="tabId" :class="{ 'hide-tabs': !tabs || !tabs[mode] || tabs[mode].length === 0 }">
                 <el-tab-pane :label="$t(`基本信息`)" name="basic">
                     <el-form
                         :disabled="![`edit`, `add`].includes(mode)"
-                        :inline="formInline"
+                        :inline="!this.$store.state.global.isMobile && formInline"
+                        :label-position="this.$store.state.global.isMobile ? 'top' : 'right'"
+                        :label-width="`${formLabelWidth}rem`"
                         :model="form"
                         :rules="rules"
-                        label-position="right"
-                        label-width="12rem"
                         ref="dialogForm">
                         <template v-for="(item, i) in columns" :key="i">
                             <el-form-item
                                 v-if="item.show?.includes(mode) && (!item.detail?.condition || item.detail.condition(form))"
+                                :class="this.$store.state.global.isMobile ? '' : item.detail?.itemClass"
                                 :label="item.detail?.label ?? item.label"
                                 :prop="i">
                                 <el-date-picker
@@ -82,12 +83,13 @@
                                     v-bind="item.detail?.props"
                                     v-else
                                     v-model="form[i]"
+                                    v-on="item.detail?.on"
                                     :disabled="item.disabled?.includes(mode)"
                                     :is="item.detail?.is ?? `el-input`" />
                                 <component
                                     v-bind="sub.props"
                                     v-for="(sub, j) in item.detail.extra"
-                                    v-html="sub.html"
+                                    v-html="typeof sub.html === 'function' ? sub.html(form) : sub.html"
                                     v-if="item.detail?.extra"
                                     :is="sub.is"
                                     :key="j" />
@@ -119,6 +121,7 @@ export default {
     },
     data() {
         return {
+            loadingText: '',
             mode: '',
             opened: false,
             tabId: `basic`,
@@ -147,11 +150,14 @@ export default {
             this.rules = Object.fromEntries(
                 Object.entries(this.columns)
                     .map((x) => {
-                        if (x[1].rule?.required) {
+                        if (x[1].rule) {
                             return [
                                 x[0],
                                 [
-                                    { required: true, message: this.$t(`{field} 不能为空`, { field: x[1].label }) },
+                                    {
+                                        required: x[1].rule?.required ?? false,
+                                        message: this.$t(`{field} 不能为空`, { field: x[1].label }),
+                                    },
                                     {
                                         type: x[1].rule.type ?? 'string',
                                         validator: x[1].rule.validator,
@@ -181,6 +187,7 @@ export default {
         //表单提交方法
         async submit() {
             this.loading = true
+            this.loadingText = this.$t('可能需要2分钟，请勿进行其他操作...')
             if (this.tabId === `basic`) {
                 const valid = await this.$refs.dialogForm.validate().catch(() => {})
                 if (!valid) {
@@ -189,6 +196,11 @@ export default {
                 }
                 const method = this.mode === `add` ? this.$API[this.entityName].create : this.$API[this.entityName].edit
                 try {
+                    if (this.tabs?.submit && !(await this.tabs.submit(this.$refs, this.tabId))) {
+                        this.loading = false
+                        return false
+                    }
+
                     const res = await method.post(this.$TOOL.dotNotationToNested(this.form))
                     this.$emit(`success`, res.data, this.mode)
                     this.visible = false
@@ -217,6 +229,7 @@ export default {
         dialogFullScreen: { type: Array },
         tabs: { type: Array },
         formInline: { type: Boolean },
+        formLabelWidth: { type: Number, default: 12 },
     },
 }
 </script>

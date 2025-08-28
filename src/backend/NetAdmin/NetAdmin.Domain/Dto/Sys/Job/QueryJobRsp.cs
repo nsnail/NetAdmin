@@ -19,10 +19,11 @@ public record QueryJobRsp : Sys_Job
     /// <inheritdoc cref="Sys_Job.LastStatusCode" />
     [JsonInclude]
     public new virtual string LastStatusCode =>
-        base.LastStatusCode switch {
+        base.LastStatusCode switch
+        {
             null => null
-          , _ => base.LastStatusCode.Value == Numbers.HTTP_STATUS_BIZ_FAIL
-                ? nameof(ErrorCodes.Unhandled).ToLowerCamelCase()
+            , _ => base.LastStatusCode.Value == Numbers.HTTP_STATUS_BIZ_FAIL
+                ? nameof(ErrorCodes.InternalError).ToLowerCamelCase()
                 : ((HttpStatusCode)base.LastStatusCode.Value).ToString().ToLowerCamelCase()
         };
 

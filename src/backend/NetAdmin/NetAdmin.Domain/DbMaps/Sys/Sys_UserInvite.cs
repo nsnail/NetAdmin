@@ -7,9 +7,22 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 public record Sys_UserInvite : VersionEntity, IFieldOwner
 {
     /// <summary>
+    ///     渠道
+    /// </summary>
+    [JsonIgnore]
+    [Navigate(nameof(ChannelId))]
+    public Sys_User Channel { get; init; }
+
+    /// <summary>
+    ///     渠道编号
+    /// </summary>
+    [Column]
+    [JsonIgnore]
+    public virtual long? ChannelId { get; init; }
+
+    /// <summary>
     ///     子节点
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(OwnerId))]
     public IEnumerable<Sys_UserInvite> Children { get; init; }
@@ -18,14 +31,12 @@ public record Sys_UserInvite : VersionEntity, IFieldOwner
     ///     返佣比率
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual int CommissionRatio { get; init; }
 
     /// <summary>
     ///     归属
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(OwnerId))]
     public Sys_User Owner { get; init; }
@@ -34,7 +45,6 @@ public record Sys_UserInvite : VersionEntity, IFieldOwner
     ///     归属部门编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerDeptId { get; init; }
 
@@ -42,7 +52,6 @@ public record Sys_UserInvite : VersionEntity, IFieldOwner
     ///     归属用户编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerId { get; init; }
 
@@ -50,14 +59,12 @@ public record Sys_UserInvite : VersionEntity, IFieldOwner
     ///     允许自助充值
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
-    public virtual bool SelfRechargeAllowed { get; init; }
+    public virtual bool SelfDepositAllowed { get; init; }
 
     /// <summary>
     ///     用户
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(Id))]
     public Sys_User User { get; init; }

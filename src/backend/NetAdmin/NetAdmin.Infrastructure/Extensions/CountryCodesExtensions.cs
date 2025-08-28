@@ -8,8 +8,7 @@ public static class CountryCodesExtensions
     /// <summary>
     ///     获取国际电话呼号
     /// </summary>
-    public static int GetCallingCode(this CountryCodes me)
-    {
+    public static int GetCallingCode(this CountryCodes me) {
         return me.Attr<CountryInfoAttribute>().CallingCode;
     }
 }

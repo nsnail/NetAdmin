@@ -13,8 +13,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public string AesDecode(AesDecodeReq req)
-    {
+    public string AesDecode(AesDecodeReq req) {
         #pragma warning disable xUnit1031
         var rsp = PostJsonAsync(typeof(ToolsController), req).Result;
         #pragma warning restore xUnit1031
@@ -25,8 +24,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
-    {
+    public async Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req) {
         var rsp = await PostJsonAsync(typeof(ToolsController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -34,8 +32,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
 
     /// <inheritdoc />
     [Fact]
-    public async Task<string> GetChangeLogAsync()
-    {
+    public async Task<string> GetChangeLogAsync() {
         var rsp = await PostJsonAsync(typeof(ToolsController));
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -43,8 +40,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
 
     /// <inheritdoc />
     [Fact]
-    public async Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
-    {
+    public async Task<IEnumerable<GetModulesRsp>> GetModulesAsync() {
         var rsp = await PostJsonAsync(typeof(ToolsController));
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -52,8 +48,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
 
     /// <inheritdoc />
     [Fact]
-    public async Task<DateTime> GetServerUtcTimeAsync()
-    {
+    public async Task<DateTime> GetServerUtcTimeAsync() {
         var rsp = await PostJsonAsync(typeof(ToolsController));
         Assert.True(rsp.IsSuccessStatusCode);
         return default;
@@ -61,8 +56,7 @@ public class ToolsTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
 
     /// <inheritdoc />
     [Fact]
-    public async Task<string> GetVersionAsync()
-    {
+    public async Task<string> GetVersionAsync() {
         var rsp = await PostJsonAsync(typeof(ToolsController));
         Assert.True(rsp.IsSuccessStatusCode);
         return null;

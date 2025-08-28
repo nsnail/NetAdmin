@@ -8,9 +8,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     用户邀请模块
 /// </summary>
 public interface IUserInviteModule : ICrudModule<CreateUserInviteReq, QueryUserInviteRsp // 创建类型
-  , EditUserInviteReq                                                                    // 编辑类型
-  , QueryUserInviteReq, QueryUserInviteRsp                                               // 查询类型
-  , DelReq                                                                               // 删除类型
+    , EditUserInviteReq // 编辑类型
+    , QueryUserInviteReq, QueryUserInviteRsp // 查询类型
+    , DelReq // 删除类型
 >
 {
     /// <summary>
@@ -21,7 +21,7 @@ public interface IUserInviteModule : ICrudModule<CreateUserInviteReq, QueryUserI
     /// <summary>
     ///     获取自己是否允许自助充值
     /// </summary>
-    Task<bool> GetSelfRechargeAllowedAsync();
+    Task<bool> GetSelfDepositAllowedAsync();
 
     /// <summary>
     ///     查询可分配的角色
@@ -32,6 +32,11 @@ public interface IUserInviteModule : ICrudModule<CreateUserInviteReq, QueryUserI
     ///     设置返佣比率
     /// </summary>
     Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req);
+
+    /// <summary>
+    ///     设置粉丝是否启用
+    /// </summary>
+    Task<int> SetEnabledAsync(SetUserInviteEnabledReq req);
 
     /// <summary>
     ///     修改粉丝角色
@@ -46,5 +51,5 @@ public interface IUserInviteModule : ICrudModule<CreateUserInviteReq, QueryUserI
     /// <summary>
     ///     设置允许自助充值
     /// </summary>
-    Task<int> SetSelfRechargeAllowedAsync(SetSelfRechargeAllowedReq req);
+    Task<int> SetSelfDepositAllowedAsync(SetSelfDepositAllowedReq req);
 }

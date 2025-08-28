@@ -92,8 +92,25 @@
                 </el-col>
                 <el-col :lg="20">
                     <sc-table
+                        :context-advs="[
+                            {
+                                label: $t(`删除账号`),
+                                icon: `el-icon-delete`,
+                                action: onDeleteClick,
+                            },
+                        ]"
                         :context-extra="{ id: ['createdTime'] }"
-                        :context-menus="['id', 'userName', 'mobile', 'email', 'enabled', 'createdTime', 'lastLoginTime']"
+                        :context-menus="[
+                            'id',
+                            'userName',
+                            'mobile',
+                            'email',
+                            'enabled',
+                            'createdTime',
+                            'lastLoginTime',
+                            'invite.owner.id',
+                            'invite.channel.id',
+                        ]"
                         :context-opers="['view', 'edit']"
                         :default-sort="{ prop: 'id', order: 'descending' }"
                         :export-api="$API.sys_user.export"
@@ -132,6 +149,21 @@
                             field="name"
                             min-width="200"
                             prop="roles" />
+                        <na-col-user
+                            :label="$t('上级')"
+                            header-align="center"
+                            prop="invite.owner.id"
+                            sortable="custom"
+                            userObjPath="invite.owner"
+                            width="170" />
+                        <na-col-user
+                            :label="$t('渠道')"
+                            header-align="center"
+                            prop="invite.channel.id"
+                            sortable="custom"
+                            userObjPath="invite.channel"
+                            width="170" />
+                        <channel-dealer header-align="center" label="渠道" width="170" />
                         <el-table-column :label="$t('最后登录')" align="right" prop="lastLoginTime" sortable="custom" width="120">
                             <template #default="{ row }">
                                 <span v-time.tip="row.lastLoginTime" :title="row.lastLoginTime"></span>
@@ -232,6 +264,24 @@ export default {
     },
     inject: ['reload'],
     methods: {
+        async onDeleteClick(_, row) {
+            try {
+                await this.$confirm(this.$t('确定要删除账号吗？'), this.$t('提示'), {
+                    type: 'warning',
+                })
+                const loading = this.$loading()
+                const res = await this.$API.adm_userconfig.deleteUser.post({ id: row.id })
+                if (res.data > 0) {
+                    this.$message.success(this.$t('操作成功'))
+                } else {
+                    this.$message.error(this.$t('操作失败'))
+                }
+                this.$refs.table.refresh()
+                loading?.close()
+            } catch {
+                //
+            }
+        },
         deptClick(e) {
             this.$refs.search.form.filter.deptId = e.id
             this.$refs.search.search()

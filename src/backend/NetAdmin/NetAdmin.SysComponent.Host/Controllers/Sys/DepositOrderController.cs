@@ -14,8 +14,7 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     ///     批量删除充值订单
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -23,16 +22,14 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     ///     充值订单计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryDepositOrderReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     充值订单分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDepositOrderReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -40,8 +37,7 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     ///     创建充值订单
     /// </summary>
     [Transaction]
-    public Task<QueryDepositOrderRsp> CreateAsync(CreateDepositOrderReq req)
-    {
+    public Task<QueryDepositOrderRsp> CreateAsync(CreateDepositOrderReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -49,8 +45,7 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     ///     删除充值订单
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -58,49 +53,42 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     ///     编辑充值订单
     /// </summary>
     [Transaction]
-    public Task<QueryDepositOrderRsp> EditAsync(EditDepositOrderReq req)
-    {
+    public Task<QueryDepositOrderRsp> EditAsync(EditDepositOrderReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出充值订单
     /// </summary>
-    [NonAction]
-    public Task<IActionResult> ExportAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDepositOrderReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个充值订单
     /// </summary>
-    public Task<QueryDepositOrderRsp> GetAsync(QueryDepositOrderReq req)
-    {
+    public Task<QueryDepositOrderRsp> GetAsync(QueryDepositOrderReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     获取充值配置
     /// </summary>
-    public Task<GetDepositConfigRsp> GetDepositConfigAsync()
-    {
+    public Task<GetDepositConfigRsp> GetDepositConfigAsync() {
         return Cache.GetDepositConfigAsync();
     }
 
     /// <summary>
     ///     分页查询充值订单
     /// </summary>
-    public Task<PagedQueryRsp<QueryDepositOrderRsp>> PagedQueryAsync(PagedQueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<PagedQueryRsp<QueryDepositOrderRsp>> PagedQueryAsync(PagedQueryReq<QueryDepositOrderReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     支付确认
     /// </summary>
-    public Task<int> PayConfirmAsync(PayConfirmReq req)
-    {
+    public Task<int> PayConfirmAsync(PayConfirmReq req) {
         return Cache.PayConfirmAsync(req);
     }
 
@@ -108,25 +96,21 @@ public sealed class DepositOrderController(IDepositOrderCache cache)
     ///     查询充值订单
     /// </summary>
     [NonAction]
-    public Task<IEnumerable<QueryDepositOrderRsp>> QueryAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<IEnumerable<QueryDepositOrderRsp>> QueryAsync(QueryReq<QueryDepositOrderReq> req) {
         return Cache.QueryAsync(req);
     }
 
     /// <summary>
     ///     到账确认
     /// </summary>
-    public Task<int> ReceivedConfirmationAsync(JobReq req)
-    {
+    public Task<int> ReceivedConfirmationAsync(JobReq req) {
         return Cache.ReceivedConfirmationAsync(req);
     }
 
     /// <summary>
     ///     充值订单求和
     /// </summary>
-    [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req) {
         return Cache.SumAsync(req);
     }
 }

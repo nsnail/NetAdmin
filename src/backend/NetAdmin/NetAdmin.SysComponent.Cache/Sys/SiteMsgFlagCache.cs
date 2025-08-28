@@ -7,68 +7,57 @@ public sealed class SiteMsgFlagCache(IDistributedCache cache, ISiteMsgFlagServic
     : DistributedCache<ISiteMsgFlagService>(cache, service), IScoped, ISiteMsgFlagCache
 {
     /// <inheritdoc />
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Service.BulkDeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QuerySiteMsgFlagReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QuerySiteMsgFlagReq> req) {
         return Service.CountAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgFlagReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgFlagReq> req) {
         return Service.CountByAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QuerySiteMsgFlagRsp> CreateAsync(CreateSiteMsgFlagReq req)
-    {
+    public Task<QuerySiteMsgFlagRsp> CreateAsync(CreateSiteMsgFlagReq req) {
         return Service.CreateAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Service.DeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QuerySiteMsgFlagRsp> EditAsync(EditSiteMsgFlagReq req)
-    {
+    public Task<QuerySiteMsgFlagRsp> EditAsync(EditSiteMsgFlagReq req) {
         return Service.EditAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgFlagReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgFlagReq> req) {
         return Service.ExportAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QuerySiteMsgFlagRsp> GetAsync(QuerySiteMsgFlagReq req)
-    {
+    public Task<QuerySiteMsgFlagRsp> GetAsync(QuerySiteMsgFlagReq req) {
         return Service.GetAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QuerySiteMsgFlagRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgFlagReq> req)
-    {
+    public Task<PagedQueryRsp<QuerySiteMsgFlagRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgFlagReq> req) {
         return Service.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<QuerySiteMsgFlagRsp>> QueryAsync(QueryReq<QuerySiteMsgFlagReq> req)
-    {
+    public Task<IEnumerable<QuerySiteMsgFlagRsp>> QueryAsync(QueryReq<QuerySiteMsgFlagReq> req) {
         return Service.QueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QuerySiteMsgFlagReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QuerySiteMsgFlagReq> req) {
         return Service.SumAsync(req);
     }
 }

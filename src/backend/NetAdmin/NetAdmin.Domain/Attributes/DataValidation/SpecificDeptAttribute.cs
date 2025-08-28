@@ -10,8 +10,10 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 public sealed class SpecificDeptAttribute : ValidationAttribute
 {
     /// <inheritdoc />
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-    {
+    protected override ValidationResult IsValid(
+        object value
+        , ValidationContext validationContext
+    ) {
         if (validationContext.ObjectInstance is not CreateRoleReq { DataScope: DataScopes.SpecificDept }) {
             return ValidationResult.Success;
         }

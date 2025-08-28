@@ -10,8 +10,7 @@ public sealed record DfBuilder
     /// <summary>
     ///     构建生成器
     /// </summary>
-    public static DynamicFilterInfo New(DynamicFilterLogics logic)
-    {
+    public static DynamicFilterInfo New(DynamicFilterLogics logic) {
         return new DynamicFilterInfo { Logic = logic, Filters = [] };
     }
 }

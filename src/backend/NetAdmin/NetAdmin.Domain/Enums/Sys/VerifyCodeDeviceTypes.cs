@@ -12,7 +12,7 @@ public enum VerifyCodeDeviceTypes
     [ResourceDescription<Ln>(nameof(Ln.手机))]
     Mobile = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     电子邮箱

@@ -11,8 +11,7 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
 {
     /// <inheritdoc />
     [Fact]
-    public IDictionary<string, string> GetCharsDic()
-    {
+    public IDictionary<string, string> GetCharsDic() {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -20,8 +19,7 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
 
     /// <inheritdoc />
     [Fact]
-    public IDictionary<string, Dictionary<string, string[]>> GetEnums()
-    {
+    public IDictionary<string, Dictionary<string, string[]>> GetEnums() {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -29,8 +27,7 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
 
     /// <inheritdoc />
     [Fact]
-    public IDictionary<string, string> GetLocalizedStrings()
-    {
+    public IDictionary<string, string> GetLocalizedStrings() {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -38,8 +35,7 @@ public class ConstantTests(WebTestApplicationFactory<Startup> factory, ITestOutp
 
     /// <inheritdoc />
     [Fact]
-    public IDictionary<string, long> GetNumbersDic()
-    {
+    public IDictionary<string, long> GetNumbersDic() {
         var rsp = PostJsonAsync(typeof(ConstantController)).GetAwaiter().GetResult();
         Assert.True(rsp.IsSuccessStatusCode);
         return null;

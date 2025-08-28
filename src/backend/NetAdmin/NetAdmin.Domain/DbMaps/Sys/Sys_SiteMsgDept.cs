@@ -10,7 +10,6 @@ public record Sys_SiteMsgDept : ImmutableEntity
     /// <summary>
     ///     关联的部门
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     public Sys_Dept Dept { get; init; }
 
@@ -18,14 +17,12 @@ public record Sys_SiteMsgDept : ImmutableEntity
     ///     部门编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public long DeptId { get; init; }
 
     /// <summary>
     ///     关联的站内信
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     public Sys_SiteMsg SiteMsg { get; init; }
 
@@ -33,7 +30,6 @@ public record Sys_SiteMsgDept : ImmutableEntity
     ///     站内信编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public long SiteMsgId { get; init; }
 }

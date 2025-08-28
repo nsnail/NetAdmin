@@ -22,8 +22,7 @@ public sealed class SqlAuditor : ISingleton
     /// <summary>
     ///     Initializes a new instance of the <see cref="SqlAuditor" /> class.
     /// </summary>
-    public SqlAuditor(ILogger<SqlAuditor> logger)
-    {
+    public SqlAuditor(ILogger<SqlAuditor> logger) {
         // 设置服务器时间偏差
         _timeOffset = DateTime.Now.Subtract(App.GetService<IFreeSql>().Ado.QuerySingle(() => DateTime.Now));
 
@@ -34,8 +33,10 @@ public sealed class SqlAuditor : ISingleton
     ///     对Insert/Update的数据加工
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">e</exception>
-    public static void DataAuditHandler(object sender, AuditValueEventArgs e)
-    {
+    public static void DataAuditHandler(
+        object sender
+        , AuditValueEventArgs e
+    ) {
         // SetServerTime(e);
         SetSnowflake(e);
 
@@ -56,36 +57,37 @@ public sealed class SqlAuditor : ISingleton
         }
     }
 
-    private static void SetCreatedClientIp(AuditValueEventArgs e)
-    {
+    private static void SetCreatedClientIp(AuditValueEventArgs e) {
         if (e.Value is null or 0) {
             e.Value = App.HttpContext?.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32();
         }
     }
 
-    private static void SetCreatedTime(AuditValueEventArgs e)
-    {
+    private static void SetCreatedTime(AuditValueEventArgs e) {
         if (e.Value == null || (e.Value is DateTime val && val == default)) {
             e.Value = DateTime.Now;
         }
     }
 
-    private static void SetCreatedUserAgent(AuditValueEventArgs e)
-    {
+    private static void SetCreatedUserAgent(AuditValueEventArgs e) {
         if (e.Value is null or "") {
             e.Value = App.HttpContext?.Request.Headers[Chars.FLG_HTTP_HEADER_KEY_USER_AGENT].ToString();
         }
     }
 
-    private static void SetCreatedUserId(AuditValueEventArgs e, ContextUserInfo userInfo)
-    {
+    private static void SetCreatedUserId(
+        AuditValueEventArgs e
+        , ContextUserInfo userInfo
+    ) {
         if (userInfo != null && e.Value is null or (long and 0)) {
             e.Value = userInfo.Id;
         }
     }
 
-    private static void SetCreatedUserName(AuditValueEventArgs e, ContextUserInfo userInfo)
-    {
+    private static void SetCreatedUserName(
+        AuditValueEventArgs e
+        , ContextUserInfo userInfo
+    ) {
         if (userInfo != null && e.Value is null or "") {
             e.Value = userInfo.UserName;
         }
@@ -94,8 +96,10 @@ public sealed class SqlAuditor : ISingleton
     /// <summary>
     ///     设置创建者
     /// </summary>
-    private static void SetCreator(AuditValueEventArgs e, ContextUserInfo userInfo)
-    {
+    private static void SetCreator(
+        AuditValueEventArgs e
+        , ContextUserInfo userInfo
+    ) {
         switch (e.Property.Name) {
             case nameof(IFieldCreatedTime.CreatedTime):
                 SetCreatedTime(e);
@@ -120,8 +124,10 @@ public sealed class SqlAuditor : ISingleton
     /// <summary>
     ///     设置更新人
     /// </summary>
-    private static void SetModificator(AuditValueEventArgs e, ContextUserInfo userInfo)
-    {
+    private static void SetModificator(
+        AuditValueEventArgs e
+        , ContextUserInfo userInfo
+    ) {
         switch (e.Property.Name) {
             // case nameof(IFieldModifiedTime.ModifiedTime):
             //     e.Value = DateTime.Now;
@@ -151,8 +157,10 @@ public sealed class SqlAuditor : ISingleton
     /// <summary>
     ///     设置归属
     /// </summary>
-    private static void SetOwner(AuditValueEventArgs e, ContextUserInfo userInfo)
-    {
+    private static void SetOwner(
+        AuditValueEventArgs e
+        , ContextUserInfo userInfo
+    ) {
         switch (e.Property.Name) {
             case nameof(IFieldOwner.OwnerId):
                 if (userInfo != null && e.Value is null or (long and 0)) {
@@ -174,11 +182,10 @@ public sealed class SqlAuditor : ISingleton
     /// <summary>
     ///     设置雪花编号字段
     /// </summary>
-    private static void SetSnowflake(AuditValueEventArgs e)
-    {
+    private static void SetSnowflake(AuditValueEventArgs e) {
         var isSnowflake = e.Property.GetCustomAttribute<SnowflakeAttribute>(false) != null;
-        var isLongType  = e.Column.CsType                                          == typeof(long);
-        var isNoValue   = e.Value is null or (long and 0);
+        var isLongType = e.Column.CsType == typeof(long);
+        var isNoValue = e.Value is null or (long and 0);
         if (isSnowflake && isLongType && isNoValue) {
             e.Value = YitIdHelper.NextId();
         }

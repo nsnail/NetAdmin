@@ -11,8 +11,11 @@ public interface ITronScanClient : IHttpDispatchProxy
     ///     异常拦截
     /// </summary>
     [Interceptor(InterceptorTypes.Exception)]
-    static Task OnExceptionAsync(HttpClient _, HttpResponseMessage rsp, string errors)
-    {
+    static Task OnExceptionAsync(
+        HttpClient _
+        , HttpResponseMessage rsp
+        , string errors
+    ) {
         return rsp.LogExceptionAsync(errors, _logger);
     }
 
@@ -20,8 +23,10 @@ public interface ITronScanClient : IHttpDispatchProxy
     ///     请求拦截
     /// </summary>
     [Interceptor(InterceptorTypes.Request)]
-    static Task OnRequestAsyncAsync(HttpClient _, HttpRequestMessage req)
-    {
+    static Task OnRequestAsyncAsync(
+        HttpClient _
+        , HttpRequestMessage req
+    ) {
         return req.LogAsync(_logger);
     }
 
@@ -29,8 +34,10 @@ public interface ITronScanClient : IHttpDispatchProxy
     ///     响应拦截
     /// </summary>
     [Interceptor(InterceptorTypes.Response)]
-    static Task OnResponsingAsync(HttpClient _, HttpResponseMessage rsp)
-    {
+    static Task OnResponsingAsync(
+        HttpClient _
+        , HttpResponseMessage rsp
+    ) {
         return rsp.LogAsync(_logger);
     }
 
@@ -39,5 +46,9 @@ public interface ITronScanClient : IHttpDispatchProxy
     /// </summary>
     [Client(nameof(TronScanOptions))]
     [Get("api/filter/trc20/transfers?limit={limit}&toAddress={toAddress}")]
-    Task<TransfersRsp> TransfersAsync([Headers(Chars.FLG_HTTP_HEADER_KEY_TRON_PRO_API_KEY)] string token, int limit, string toAddress);
+    Task<TransfersRsp> TransfersAsync(
+        [Headers(Chars.FLG_HTTP_HEADER_KEY_TRON_PRO_API_KEY)] string token
+        , int limit
+        , string toAddress
+    );
 }

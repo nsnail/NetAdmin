@@ -8,8 +8,7 @@ public static class LogHelper
     /// <summary>
     ///     获取ILogger
     /// </summary>
-    public static ILogger<T> Get<T>()
-    {
+    public static ILogger<T> Get<T>() {
         return App.GetService<ILogger<T>>();
     }
 }

@@ -20,8 +20,11 @@ public abstract class WebApiTestBase<T>(WebTestApplicationFactory<T> factory, IT
     /// <summary>
     ///     Post请求
     /// </summary>
-    protected async Task<HttpResponseMessage> PostAsync(Type type, HttpContent content, [CallerMemberName] string memberName = null)
-    {
+    protected async Task<HttpResponseMessage> PostAsync(
+        Type type
+        , HttpContent content
+        , [CallerMemberName] string memberName = null
+    ) {
         var client = factory.CreateClient();
         await Authorization(client);
 
@@ -33,34 +36,36 @@ public abstract class WebApiTestBase<T>(WebTestApplicationFactory<T> factory, IT
     /// <summary>
     ///     Post请求
     /// </summary>
-    protected async Task<HttpResponseMessage> PostJsonAsync<TRequest>(Type type, TRequest req = default, [CallerMemberName] string memberName = null)
-    {
+    protected async Task<HttpResponseMessage> PostJsonAsync<TRequest>(
+        Type type
+        , TRequest req = default
+        , [CallerMemberName] string memberName = null
+    ) {
         return await PostAsync(type, req == null ? JsonContent.Create(new { }) : JsonContent.Create(req), memberName);
     }
 
     /// <summary>
     ///     Post请求
     /// </summary>
-    protected async Task<HttpResponseMessage> PostJsonAsync(Type type, [CallerMemberName] string memberName = null)
-    {
+    protected async Task<HttpResponseMessage> PostJsonAsync(
+        Type type
+        , [CallerMemberName] string memberName = null
+    ) {
         return await PostJsonAsync<object>(type, null, memberName);
     }
 
-    private static async Task Authorization(HttpClient client)
-    {
+    private static async Task Authorization(HttpClient client) {
         if (_accessToken == null) {
-            var req = new LoginByPwdReq //
-                      {
-                          Password
-                              = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<>.TEST_PASSWORD)) ??
-                                WebTestApplicationFactory<T>.TEST_PASSWORD
-                        , Account = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<>.TEST_ACCOUNT)) ??
-                                    WebTestApplicationFactory<T>.TEST_ACCOUNT
-                      };
+            var req = new LoginByPwdReq
+            {
+                Password
+                    = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<>.TEST_PASSWORD))
+                      ?? WebTestApplicationFactory<T>.TEST_PASSWORD
+                , Account = Environment.GetEnvironmentVariable(nameof(WebTestApplicationFactory<>.TEST_ACCOUNT))
+                            ?? WebTestApplicationFactory<T>.TEST_ACCOUNT
+            };
             var loginAccount = JsonContent.Create(req);
-            var rspMsg = await client.PostAsync( //
-                                         Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD, loginAccount)
-                                     .ConfigureAwait(false);
+            var rspMsg = await client.PostAsync(Chars.FLG_PATH_API_SYS_USER_LOGIN_BY_PWD, loginAccount).ConfigureAwait(false);
             var rspObj = (await rspMsg.Content.ReadAsStringAsync().ConfigureAwait(false)).ToObject<RestfulInfo<LoginRsp>>();
             _accessToken = rspObj.Data.AccessToken;
         }

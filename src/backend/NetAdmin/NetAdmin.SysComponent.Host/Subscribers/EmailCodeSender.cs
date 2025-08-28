@@ -13,16 +13,16 @@ public sealed class EmailCodeSender(ILogger<EmailCodeSender> logger) : IEventSub
     ///     发送邮件
     /// </summary>
     [EventSubscribe]
-    public async Task SendEmailAsync(VerifyCodeCreatedEvent @event)
-    {
+    public async Task SendEmailAsync(VerifyCodeCreatedEvent @event) {
         if (@event.PayLoad.DeviceType != VerifyCodeDeviceTypes.Email) {
             return;
         }
 
         // 发送...
         var verifyCodeService = App.GetService<IVerifyCodeService>();
-        _ = await verifyCodeService.SetVerifyCodeStatusAsync(@event.PayLoad.Adapt<SetVerifyCodeStatusReq>() with { Status = VerifyCodeStatues.Sent })
-                                   .ConfigureAwait(false);
+        _ = await verifyCodeService
+            .SetVerifyCodeStatusAsync(@event.PayLoad.Adapt<SetVerifyCodeStatusReq>() with { Status = VerifyCodeStatues.Sent })
+            .ConfigureAwait(false);
         logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.SetVerifyCodeStatusAsync)} {Ln.已处理完毕}");
     }
 }

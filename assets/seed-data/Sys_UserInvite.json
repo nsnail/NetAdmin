@@ -1,15 +1,18 @@
 [
   {
     "Id": 370942943322181,
+    "SelfDepositAllowed": true,
   },
   {
     "Id": 560217289236492,
     "OwnerDeptId": 372119301627909,
     "OwnerId": 370942943322181,
+    "SelfDepositAllowed": true,
   },
   {
     "Id": 664362432344581,
     "OwnerDeptId": 372119301627909,
     "OwnerId": 370942943322181,
+    "SelfDepositAllowed": true,
   }
 ]

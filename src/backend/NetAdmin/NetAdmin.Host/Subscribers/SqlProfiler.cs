@@ -11,8 +11,7 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     ///     Sql命令执行后
     /// </summary>
     [EventSubscribe]
-    public Task CommandAfterAsync(SqlCommandAfterEvent @event)
-    {
+    public Task CommandAfterAsync(SqlCommandAfterEvent @event) {
         logger.Info(@event);
         return Task.CompletedTask;
     }
@@ -21,8 +20,7 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     ///     Sql命令执行前
     /// </summary>
     [EventSubscribe]
-    public Task CommandBeforeAsync(SqlCommandBeforeEvent @event)
-    {
+    public Task CommandBeforeAsync(SqlCommandBeforeEvent @event) {
         logger.Debug(@event);
         return Task.CompletedTask;
     }
@@ -31,8 +29,7 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     ///     种子数据插入完毕
     /// </summary>
     [EventSubscribe]
-    public Task SeedDataInsertedEventAsync(SeedDataInsertedEvent @event)
-    {
+    public Task SeedDataInsertedEventAsync(SeedDataInsertedEvent @event) {
         logger.Info(@event);
         return Task.CompletedTask;
     }
@@ -41,8 +38,7 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     ///     同步数据库结构之后
     /// </summary>
     [EventSubscribe]
-    public Task SyncStructureAfterAsync(SyncStructureAfterEvent @event)
-    {
+    public Task SyncStructureAfterAsync(SyncStructureAfterEvent @event) {
         logger.Info(@event);
         return Task.CompletedTask;
     }
@@ -51,8 +47,7 @@ public sealed class SqlProfiler(ILogger<SqlProfiler> logger) : IEventSubscriber
     ///     同步数据库结构之前
     /// </summary>
     [EventSubscribe]
-    public Task SyncStructureBeforeAsync(SyncStructureBeforeEvent @event)
-    {
+    public Task SyncStructureBeforeAsync(SyncStructureBeforeEvent @event) {
         logger.Info(@event);
         return Task.CompletedTask;
     }

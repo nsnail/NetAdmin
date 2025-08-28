@@ -10,7 +10,6 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     /// <summary>
     ///     字典目录
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(CatalogId))]
     public Sys_DicCatalog Catalog { get; init; }
@@ -19,7 +18,6 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     ///     字典目录编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long CatalogId { get; init; }
 
@@ -27,7 +25,6 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     ///     是否启用
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
@@ -35,7 +32,6 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     ///     键名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Key { get; init; }
 
@@ -43,7 +39,6 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     ///     备注
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; set; }
 
@@ -51,7 +46,6 @@ public record Sys_DicContent : VersionEntity, IFieldEnabled, IFieldSummary
     ///     键值
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Value { get; init; }
 }

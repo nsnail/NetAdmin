@@ -73,6 +73,10 @@ export default {
     mounted() {},
     async created() {
         await this.load()
+        if (this.expandFirst) {
+            await this.$nextTick()
+            document.getElementsByClassName('el-collapse-item__header')[0].dispatchEvent(new Event('click'))
+        }
     },
     methods: {
         async load() {
@@ -127,6 +131,7 @@ export default {
             await this.load()
         },
     },
+    props: ['expandFirst'],
 }
 </script>
 <style scoped>

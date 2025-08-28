@@ -9,15 +9,13 @@ public sealed class AlipayAttribute : ValidationAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="AlipayAttribute" /> class.
     /// </summary>
-    public AlipayAttribute()
-    {
+    public AlipayAttribute() {
         ErrorMessageResourceName = nameof(Ln.支付宝账号);
         ErrorMessageResourceType = typeof(Ln);
     }
 
     /// <inheritdoc />
-    public override bool IsValid(object value)
-    {
+    public override bool IsValid(object value) {
         return new MobileAttribute().IsValid(value) || new EmailAddressAttribute().IsValid(value);
     }
 }

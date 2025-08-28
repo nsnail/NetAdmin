@@ -13,16 +13,16 @@ public sealed class SmsCodeSender(ILogger<SmsCodeSender> logger) : IEventSubscri
     ///     发送短信
     /// </summary>
     [EventSubscribe]
-    public async Task SendSmsAsync(VerifyCodeCreatedEvent @event)
-    {
+    public async Task SendSmsAsync(VerifyCodeCreatedEvent @event) {
         if (@event.PayLoad.DeviceType != VerifyCodeDeviceTypes.Mobile) {
             return;
         }
 
         // 发送...
         var verifyCodeService = App.GetService<IVerifyCodeService>();
-        _ = await verifyCodeService.SetVerifyCodeStatusAsync(@event.PayLoad.Adapt<SetVerifyCodeStatusReq>() with { Status = VerifyCodeStatues.Sent })
-                                   .ConfigureAwait(false);
+        _ = await verifyCodeService
+            .SetVerifyCodeStatusAsync(@event.PayLoad.Adapt<SetVerifyCodeStatusReq>() with { Status = VerifyCodeStatues.Sent })
+            .ConfigureAwait(false);
         logger.Info($"{nameof(IVerifyCodeService)}.{nameof(IVerifyCodeService.SetVerifyCodeStatusAsync)} {Ln.已处理完毕}");
     }
 }

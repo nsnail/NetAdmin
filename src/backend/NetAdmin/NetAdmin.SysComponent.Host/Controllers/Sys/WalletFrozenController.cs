@@ -14,8 +14,7 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     批量删除钱包冻结
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -23,16 +22,14 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     钱包冻结计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryWalletFrozenReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     钱包冻结分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletFrozenReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -40,8 +37,7 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     创建钱包冻结
     /// </summary>
     [Transaction]
-    public Task<QueryWalletFrozenRsp> CreateAsync(CreateWalletFrozenReq req)
-    {
+    public Task<QueryWalletFrozenRsp> CreateAsync(CreateWalletFrozenReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -49,8 +45,7 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     删除钱包冻结
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -58,8 +53,7 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     编辑钱包冻结
     /// </summary>
     [Transaction]
-    public Task<QueryWalletFrozenRsp> EditAsync(EditWalletFrozenReq req)
-    {
+    public Task<QueryWalletFrozenRsp> EditAsync(EditWalletFrozenReq req) {
         return Cache.EditAsync(req);
     }
 
@@ -67,24 +61,21 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     导出钱包冻结
     /// </summary>
     [NonAction]
-    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletFrozenReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个钱包冻结
     /// </summary>
-    public Task<QueryWalletFrozenRsp> GetAsync(QueryWalletFrozenReq req)
-    {
+    public Task<QueryWalletFrozenRsp> GetAsync(QueryWalletFrozenReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     分页查询钱包冻结
     /// </summary>
-    public Task<PagedQueryRsp<QueryWalletFrozenRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<PagedQueryRsp<QueryWalletFrozenRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletFrozenReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
@@ -92,8 +83,7 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     查询钱包冻结
     /// </summary>
     [NonAction]
-    public Task<IEnumerable<QueryWalletFrozenRsp>> QueryAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<IEnumerable<QueryWalletFrozenRsp>> QueryAsync(QueryReq<QueryWalletFrozenReq> req) {
         return Cache.QueryAsync(req);
     }
 
@@ -101,17 +91,14 @@ public sealed class WalletFrozenController(IWalletFrozenCache cache)
     ///     将状态设置为解冻
     /// </summary>
     [Transaction]
-    public Task<int> SetStatusToThawedAsync(SetStatusToThawedReq req)
-    {
+    public Task<int> SetStatusToThawedAsync(SetStatusToThawedReq req) {
         return Cache.SetStatusToThawedAsync(req);
     }
 
     /// <summary>
     ///     钱包冻结求和
     /// </summary>
-    [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryWalletFrozenReq> req) {
         return Cache.SumAsync(req);
     }
 }

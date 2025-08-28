@@ -12,7 +12,7 @@ public enum WalletFrozenStatues
     [ResourceDescription<Ln>(nameof(Ln.已冻结))]
     Frozen = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     已解冻

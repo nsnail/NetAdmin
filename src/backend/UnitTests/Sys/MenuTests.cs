@@ -13,8 +13,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -23,8 +22,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<long> CountAsync(QueryReq<QueryMenuReq> req)
-    {
+    public async Task<long> CountAsync(QueryReq<QueryMenuReq> req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -33,8 +31,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryMenuReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryMenuReq> req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -43,8 +40,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
-    {
+    public async Task<QueryMenuRsp> CreateAsync(CreateMenuReq req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -53,8 +49,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteAsync(DelReq req)
-    {
+    public async Task<int> DeleteAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -63,8 +58,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryMenuRsp> EditAsync(EditMenuReq req)
-    {
+    public async Task<QueryMenuRsp> EditAsync(EditMenuReq req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -73,8 +67,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
-    {
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -83,8 +76,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
-    {
+    public async Task<QueryMenuRsp> GetAsync(QueryMenuReq req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -93,8 +85,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -103,8 +94,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
-    {
+    public async Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req) {
         var rsp = await PostJsonAsync(typeof(MenuTests), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -113,8 +103,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<decimal> SumAsync(QueryReq<QueryMenuReq> req)
-    {
+    public async Task<decimal> SumAsync(QueryReq<QueryMenuReq> req) {
         var rsp = await PostJsonAsync(typeof(MenuController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -122,8 +111,7 @@ public class MenuTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
 
     /// <inheritdoc />
     [Fact]
-    public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
-    {
+    public async Task<IEnumerable<QueryMenuRsp>> UserMenusAsync() {
         var rsp = await PostJsonAsync(typeof(MenuTests));
         Assert.True(rsp.IsSuccessStatusCode);
         return null;

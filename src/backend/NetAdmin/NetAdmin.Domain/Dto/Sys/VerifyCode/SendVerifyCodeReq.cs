@@ -35,8 +35,7 @@ public sealed record SendVerifyCodeReq : Sys_VerifyCode
     public VerifyCaptchaReq VerifyCaptchaReq { get; init; }
 
     /// <inheritdoc />
-    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
-    {
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext) {
         ValidationResult validationResult;
         switch (DeviceType) {
             case VerifyCodeDeviceTypes.Email:

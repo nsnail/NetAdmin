@@ -6,7 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// <summary>
 ///     请求：创建用户
 /// </summary>
-public   record CreateUserReq : CreateEditUserReq
+public record CreateUserReq : CreateEditUserReq
 {
     /// <inheritdoc />
     public override bool Enabled { get; init; } = true;
@@ -25,13 +25,7 @@ public   record CreateUserReq : CreateEditUserReq
     public new CreateUserProfileReq Profile { get; init; }
 
     /// <inheritdoc />
-    public override void Register(TypeAdapterConfig config)
-    {
-        _ = config.ForType<RegisterUserReq, CreateUserReq>() //
-                  .Ignore(a => a.InviteCode)
-                  .Map(d => d.Mobile, s => s.VerifySmsCodeReq.DestDevice)
-
-            //
-            ;
+    public override void Register(TypeAdapterConfig config) {
+        _ = config.ForType<RegisterUserReq, CreateUserReq>().Ignore(a => a.InviteCode).Map(d => d.Mobile, s => s.VerifySmsCodeReq.DestDevice);
     }
 }

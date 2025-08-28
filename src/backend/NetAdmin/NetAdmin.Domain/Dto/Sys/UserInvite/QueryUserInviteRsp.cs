@@ -7,6 +7,13 @@ namespace NetAdmin.Domain.Dto.Sys.UserInvite;
 /// </summary>
 public record QueryUserInviteRsp : Sys_UserInvite
 {
+    /// <inheritdoc cref="Sys_UserInvite.Channel" />
+    public new virtual QueryUserRsp Channel { get; init; }
+
+    /// <inheritdoc cref="Sys_UserInvite.ChannelId" />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public override long? ChannelId { get; init; }
+
     /// <inheritdoc cref="Sys_UserInvite.Children" />
     public new virtual IEnumerable<QueryUserInviteRsp> Children { get; init; }
 
@@ -43,7 +50,6 @@ public record QueryUserInviteRsp : Sys_UserInvite
     public override string ModifiedUserName { get; init; }
 
     /// <inheritdoc cref="Sys_UserInvite.Owner" />
-    [CsvIgnore]
     public new virtual QueryUserRsp Owner { get; init; }
 
     /// <inheritdoc cref="IFieldOwner.OwnerDeptId" />
@@ -54,12 +60,11 @@ public record QueryUserInviteRsp : Sys_UserInvite
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override long? OwnerId { get; init; }
 
-    /// <inheritdoc cref="Sys_UserInvite.SelfRechargeAllowed" />
+    /// <inheritdoc cref="Sys_UserInvite.SelfDepositAllowed" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public override bool SelfRechargeAllowed { get; init; }
+    public override bool SelfDepositAllowed { get; init; }
 
     /// <inheritdoc cref="Sys_UserInvite.User" />
-    [CsvIgnore]
     public new virtual QueryUserRsp User { get; init; }
 
     /// <inheritdoc cref="IFieldVersion.Version" />

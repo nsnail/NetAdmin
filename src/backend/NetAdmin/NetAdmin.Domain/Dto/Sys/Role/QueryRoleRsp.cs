@@ -70,21 +70,33 @@ public record QueryRoleRsp : Sys_Role
     public override long Version { get; init; }
 
     /// <inheritdoc />
-    public override void Register(TypeAdapterConfig config)
-    {
+    public override void Register(TypeAdapterConfig config) {
         #pragma warning disable RCS1196
 
         // ReSharper disable InvokeAsExtensionMethod
-        _ = config.ForType<Sys_Role, QueryRoleRsp>() //
-                  .IgnoreIf((s, _) => s.Depts == null, d => d.DeptIds)
-                  .IgnoreIf((s, _) => s.Menus == null, d => d.MenuIds)
-                  .IgnoreIf((s, _) => s.Apis  == null, d => d.ApiIds)
-                  .Map(d => d.DeptIds, s => Enumerable.Select(s.Depts, x => x.Id))
-                  .Map(d => d.ApiIds,  s => Enumerable.Select(s.Apis,  x => x.Id))
-                  .Map(d => d.MenuIds, s => Enumerable.Select(s.Menus, x => x.Id))
-
-            //
-            ;
+        _ = config
+            .ForType<Sys_Role, QueryRoleRsp>()
+            .IgnoreIf(
+                (
+                    s
+                    , _
+                ) => s.Depts == null, d => d.DeptIds
+            )
+            .IgnoreIf(
+                (
+                    s
+                    , _
+                ) => s.Menus == null, d => d.MenuIds
+            )
+            .IgnoreIf(
+                (
+                    s
+                    , _
+                ) => s.Apis == null, d => d.ApiIds
+            )
+            .Map(d => d.DeptIds, s => Enumerable.Select(s.Depts, x => x.Id))
+            .Map(d => d.ApiIds, s => Enumerable.Select(s.Apis, x => x.Id))
+            .Map(d => d.MenuIds, s => Enumerable.Select(s.Menus, x => x.Id));
 
         // ReSharper restore InvokeAsExtensionMethod
         #pragma warning restore RCS1196

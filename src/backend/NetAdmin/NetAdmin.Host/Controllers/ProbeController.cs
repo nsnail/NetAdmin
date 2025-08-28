@@ -37,13 +37,14 @@ public sealed class ProbeController : ControllerBase<ICache<IDistributedCache, I
     public object HealthCheck()
         #pragma warning restore S3400, CA1822
     {
-        return new {
-                       HostName           = Environment.MachineName
-                     , CurrentConnections = SafetyShopHostMiddleware.Connections
-                     , GlobalStatic.ProductVersion
-                     , ThreadCounts = GlobalStatic.CurrentProcess.Threads.Count
-                     , GlobalStatic.LatestLogTime
-                   };
+        return new
+        {
+            HostName = Environment.MachineName
+            , CurrentConnections = SafetyShopHostMiddleware.Connections
+            , GlobalStatic.ProductVersion
+            , ThreadCounts = GlobalStatic.CurrentProcess.Threads.Count
+            , GlobalStatic.LatestLogTime
+        };
     }
 
     /// <summary>

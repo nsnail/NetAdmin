@@ -19,8 +19,7 @@ public record SetInviterReq : Sys_UserInvite
     public override long Version { get; init; }
 
     /// <inheritdoc />
-    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
-    {
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext) {
         if (OwnerId == Id) {
             yield return new ValidationResult(Ln.不能设置自己为上级, [nameof(OwnerId)]);
         }

@@ -13,8 +13,10 @@ public sealed class SwaggerEnumSchemaFixer : ISchemaFilter
     /// <summary>
     ///     实现过滤器方法
     /// </summary>
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
-    {
+    public void Apply(
+        OpenApiSchema schema
+        , SchemaFilterContext context
+    ) {
         // 非枚举退出
         if (!context.Type.IsEnum) {
             return;
@@ -34,9 +36,7 @@ public sealed class SwaggerEnumSchemaFixer : ISchemaFilter
                 enumName = enumName.ToLowerInvariant();
             }
 
-            _ = sb.Append(wrap)
-                  .Append( //
-                      CultureInfo.InvariantCulture, $"{enumName} = {value} ({e.ResDesc<Ln>()})");
+            _ = sb.Append(wrap).Append(CultureInfo.InvariantCulture, $"{enumName} = {value} ({e.ResDesc<Ln>()})");
         }
 
         schema.Description = sb.ToString();

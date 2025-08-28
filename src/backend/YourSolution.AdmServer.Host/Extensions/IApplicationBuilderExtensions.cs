@@ -22,10 +22,11 @@ public static class IApplicationBuilderExtensions
             return me;
         }
 
-        _allResNames = Assembly.GetExecutingAssembly()
-                               .GetManifestResourceNames()
-                               .Where(x => x.StartsWith(_RES_PFX, StringComparison.OrdinalIgnoreCase))
-                               .Select(x => x[_RES_PFX.Length..]);
+        _allResNames = Assembly
+                       .GetExecutingAssembly()
+                       .GetManifestResourceNames()
+                       .Where(x => x.StartsWith(_RES_PFX, StringComparison.OrdinalIgnoreCase))
+                       .Select(x => x[_RES_PFX.Length..]);
 
         return me.Use(UseVueAdminAsync);
     }
@@ -40,7 +41,10 @@ public static class IApplicationBuilderExtensions
         return _allResNames.FirstOrDefault(x => path.EndsWith(x, StringComparison.OrdinalIgnoreCase));
     }
 
-    private static Task UseVueAdminAsync(HttpContext context, Func<Task> next)
+    private static Task UseVueAdminAsync(
+        HttpContext context
+      , Func<Task>  next
+    )
     {
         if (context.Request.Path.StartsWithSegments(new PathString("/api"))) {
             return next.Invoke();

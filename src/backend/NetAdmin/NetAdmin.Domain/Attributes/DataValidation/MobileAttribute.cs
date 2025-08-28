@@ -9,9 +9,8 @@ public sealed class MobileAttribute : RegexAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="MobileAttribute" /> class.
     /// </summary>
-    public MobileAttribute() //
-        : base(Chars.RGX_MOBILE)
-    {
+    public MobileAttribute()
+        : base(Chars.RGX_MOBILE) {
         ErrorMessageResourceName = nameof(Ln.手机号码不正确);
         ErrorMessageResourceType = typeof(Ln);
     }

@@ -14,8 +14,7 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     ///     批量删除角色
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -23,16 +22,14 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     ///     角色计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryRoleReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryRoleReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     角色分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRoleReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRoleReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -40,8 +37,7 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     ///     创建角色
     /// </summary>
     [Transaction]
-    public Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
-    {
+    public Task<QueryRoleRsp> CreateAsync(CreateRoleReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -49,8 +45,7 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     ///     删除角色
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -58,64 +53,56 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     ///     编辑角色
     /// </summary>
     [Transaction]
-    public Task<QueryRoleRsp> EditAsync(EditRoleReq req)
-    {
+    public Task<QueryRoleRsp> EditAsync(EditRoleReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出角色
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个角色
     /// </summary>
-    public Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
-    {
+    public Task<QueryRoleRsp> GetAsync(QueryRoleReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     分页查询角色
     /// </summary>
-    public Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
-    {
+    public Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询角色
     /// </summary>
-    public Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
-    {
+    public Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req) {
         return Cache.QueryAsync(req);
     }
 
     /// <summary>
     ///     设置是否显示仪表板
     /// </summary>
-    public Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req)
-    {
+    public Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req) {
         return Cache.SetDisplayDashboardAsync(req);
     }
 
     /// <summary>
     ///     启用/禁用角色
     /// </summary>
-    public Task<int> SetEnabledAsync(SetRoleEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetRoleEnabledReq req) {
         return Cache.SetEnabledAsync(req);
     }
 
     /// <summary>
     ///     设置是否忽略权限控制
     /// </summary>
-    public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
-    {
+    public Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req) {
         return Cache.SetIgnorePermissionControlAsync(req);
     }
 
@@ -123,16 +110,14 @@ public sealed class RoleController(IRoleCache cache) : ControllerBase<IRoleCache
     ///     角色求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryRoleReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryRoleReq> req) {
         return Cache.SumAsync(req);
     }
 
     /// <summary>
     ///     角色用户映射分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req) {
         return Cache.UserCountByAsync(req);
     }
 }

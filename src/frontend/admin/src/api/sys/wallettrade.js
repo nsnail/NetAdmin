@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 导出钱包交易
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/wallet.trade/export`,
+        name: `导出钱包交易`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个钱包交易
      */
     get: {

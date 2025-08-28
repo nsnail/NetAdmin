@@ -18,6 +18,8 @@ indent_size = 2 # 对于 JSON 和 YAML 文件，缩进大小为 2 个空格
 
 [*.cs]
 dotnet_analyzer_diagnostic.severity = warning # 设置 C# 文件中所有 dotnet_analyzer_diagnostic 的严重性级别为 warning
+[{*.g.cs,*.generated.cs}]
+dotnet_analyzer_diagnostic.severity = none # 对于生成的文件，取消所有 dotnet_analyzer_diagnostic 的警告
 
 # ReSharper properties
 resharper_align_linq_query = true # 启用对LINQ查询的对齐

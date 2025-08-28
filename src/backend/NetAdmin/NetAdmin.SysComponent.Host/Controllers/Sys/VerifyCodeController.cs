@@ -14,8 +14,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     批量删除验证码
     /// </summary>
     [NonAction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -23,8 +22,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     验证码计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryVerifyCodeReq> req) {
         return Cache.CountAsync(req);
     }
 
@@ -32,8 +30,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     验证码分组计数
     /// </summary>
     [NonAction]
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryVerifyCodeReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -41,8 +38,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     创建验证码
     /// </summary>
     [NonAction]
-    public Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req)
-    {
+    public Task<QueryVerifyCodeRsp> CreateAsync(CreateVerifyCodeReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -50,8 +46,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     删除验证码
     /// </summary>
     [NonAction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -60,8 +55,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req)
-    {
+    public Task<QueryVerifyCodeRsp> EditAsync(EditVerifyCodeReq req) {
         return Cache.EditAsync(req);
     }
 
@@ -69,8 +63,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     导出验证码
     /// </summary>
     [NonAction]
-    public Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryVerifyCodeReq> req) {
         return Cache.ExportAsync(req);
     }
 
@@ -78,8 +71,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     获取单个验证码
     /// </summary>
     [NonAction]
-    public Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req)
-    {
+    public Task<QueryVerifyCodeRsp> GetAsync(QueryVerifyCodeReq req) {
         return Cache.GetAsync(req);
     }
 
@@ -87,8 +79,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     分页查询验证码
     /// </summary>
     [NonAction]
-    public Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req)
-    {
+    public Task<PagedQueryRsp<QueryVerifyCodeRsp>> PagedQueryAsync(PagedQueryReq<QueryVerifyCodeReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
@@ -96,8 +87,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     查询验证码
     /// </summary>
     [NonAction]
-    public Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public Task<IEnumerable<QueryVerifyCodeRsp>> QueryAsync(QueryReq<QueryVerifyCodeReq> req) {
         return Cache.QueryAsync(req);
     }
 
@@ -106,8 +96,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req)
-    {
+    public async Task<SendVerifyCodeRsp> SendVerifyCodeAsync(SendVerifyCodeReq req) {
         await captchaCache.VerifyCaptchaAndRemoveAsync(req.VerifyCaptchaReq).ConfigureAwait(false);
         return await Cache.SendVerifyCodeAsync(req).ConfigureAwait(false);
     }
@@ -116,8 +105,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     ///     验证码求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryVerifyCodeReq> req) {
         return Cache.SumAsync(req);
     }
 
@@ -126,8 +114,7 @@ public sealed class VerifyCodeController(IVerifyCodeCache cache, ICaptchaCache c
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public Task<bool> VerifyAsync(VerifyCodeReq req)
-    {
+    public Task<bool> VerifyAsync(VerifyCodeReq req) {
         return Cache.VerifyAsync(req);
     }
 }

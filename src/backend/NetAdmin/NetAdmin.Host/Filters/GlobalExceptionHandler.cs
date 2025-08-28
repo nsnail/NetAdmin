@@ -6,8 +6,7 @@ namespace NetAdmin.Host.Filters;
 public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IGlobalExceptionHandler, ISingleton
 {
     /// <inheritdoc />
-    public Task OnExceptionAsync(ExceptionContext context)
-    {
+    public Task OnExceptionAsync(ExceptionContext context) {
         if (context.Exception is NetAdminException and not NetAdminUnexpectedException) {
             logger.Warn(context.Exception);
         }

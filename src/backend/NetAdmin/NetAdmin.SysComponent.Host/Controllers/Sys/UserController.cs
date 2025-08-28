@@ -15,8 +15,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -24,8 +23,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     检查邀请码是否正确
     /// </summary>
     [AllowAnonymous]
-    public Task<bool> CheckInviterAvailableAsync(CheckInviterAvailableReq req)
-    {
+    public Task<bool> CheckInviterAvailableAsync(CheckInviterAvailableReq req) {
         return Cache.CheckInviterAvailableAsync(req);
     }
 
@@ -33,8 +31,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     检查手机号码是否可用
     /// </summary>
     [AllowAnonymous]
-    public Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req)
-    {
+    public Task<bool> CheckMobileAvailableAsync(CheckMobileAvailableReq req) {
         return Cache.CheckMobileAvailableAsync(req);
     }
 
@@ -42,8 +39,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     检查用户名是否可用
     /// </summary>
     [AllowAnonymous]
-    public Task<bool> CheckUserNameAvailableAsync(CheckUserNameAvailableReq req)
-    {
+    public Task<bool> CheckUserNameAvailableAsync(CheckUserNameAvailableReq req) {
         return Cache.CheckUserNameAvailableAsync(req);
     }
 
@@ -51,16 +47,14 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     用户计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryUserReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryUserReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     用户分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -68,8 +62,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     创建用户
     /// </summary>
     [Transaction]
-    public Task<QueryUserRsp> CreateAsync(CreateUserReq req)
-    {
+    public Task<QueryUserRsp> CreateAsync(CreateUserReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -77,8 +70,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     删除用户
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -86,32 +78,28 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     编辑用户
     /// </summary>
     [Transaction]
-    public Task<QueryUserRsp> EditAsync(EditUserReq req)
-    {
+    public Task<QueryUserRsp> EditAsync(EditUserReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出用户
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个用户
     /// </summary>
-    public Task<QueryUserRsp> GetAsync(QueryUserReq req)
-    {
+    public Task<QueryUserRsp> GetAsync(QueryUserReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     获取当前用户应用配置
     /// </summary>
-    public Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync()
-    {
+    public Task<GetSessionUserAppConfigRsp> GetSessionUserAppConfigAsync() {
         return Cache.GetSessionUserAppConfigAsync();
     }
 
@@ -120,8 +108,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req)
-    {
+    public async Task<LoginRsp> LoginByPwdAsync(LoginByPwdReq req) {
         var ret = await Cache.LoginByPwdAsync(req).ConfigureAwait(false);
         ret.SetToRspHeader();
         return ret;
@@ -132,34 +119,37 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req)
-    {
+    public async Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req) {
         var ret = await Cache.LoginBySmsAsync(req).ConfigureAwait(false);
         ret.SetToRspHeader();
         return ret;
     }
 
     /// <summary>
+    ///     用户编号登录
+    /// </summary>
+    public Task<LoginRsp> LoginByUserIdAsync(LoginByUserIdReq req) {
+        return Cache.LoginByUserIdAsync(req);
+    }
+
+    /// <summary>
     ///     分页查询用户
     /// </summary>
-    public Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req)
-    {
+    public Task<PagedQueryRsp<QueryUserRsp>> PagedQueryAsync(PagedQueryReq<QueryUserReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询用户
     /// </summary>
-    public Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req)
-    {
+    public Task<IEnumerable<QueryUserRsp>> QueryAsync(QueryReq<QueryUserReq> req) {
         return Cache.QueryAsync(req);
     }
 
     /// <summary>
     ///     查询用户档案
     /// </summary>
-    public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req)
-    {
+    public Task<IEnumerable<QueryUserProfileRsp>> QueryProfileAsync(QueryReq<QueryUserProfileReq> req) {
         return Cache.QueryProfileAsync(req);
     }
 
@@ -168,18 +158,21 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req)
-    {
+    public async Task<UserInfoRsp> RegisterAsync(RegisterUserReq req) {
         var config = await configCache.GetLatestConfigAsync().ConfigureAwait(false);
 
-        return await Cache.RegisterAsync(req with {
-                                                      DeptId = config.UserRegisterDeptId
-                                                    , RoleIds = [config.UserRegisterRoleId]
-                                                    , Profile = new CreateUserProfileReq()
-                                                    , Enabled = !config.UserRegisterConfirm
-                                                    , Mobile = req.VerifySmsCodeReq.DestDevice
-                                                  })
-                          .ConfigureAwait(false);
+        return await Cache
+            .RegisterAsync(
+                req with
+                {
+                    DeptId = config.UserRegisterDeptId
+                    , RoleIds = [config.UserRegisterRoleId]
+                    , Profile = new CreateUserProfileReq()
+                    , Enabled = !config.UserRegisterConfirm
+                    , Mobile = req.VerifySmsCodeReq.DestDevice
+                }
+            )
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -187,8 +180,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     /// </summary>
     [AllowAnonymous]
     [Transaction]
-    public Task<int> ResetPasswordAsync(ResetPasswordReq req)
-    {
+    public Task<int> ResetPasswordAsync(ResetPasswordReq req) {
         return Cache.ResetPasswordAsync(req);
     }
 
@@ -196,8 +188,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     设置用户头像
     /// </summary>
     [Transaction]
-    public Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req)
-    {
+    public Task<UserInfoRsp> SetAvatarAsync(SetAvatarReq req) {
         return Cache.SetAvatarAsync(req);
     }
 
@@ -205,8 +196,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     设置邮箱
     /// </summary>
     [Transaction]
-    public Task<UserInfoRsp> SetEmailAsync(SetEmailReq req)
-    {
+    public Task<UserInfoRsp> SetEmailAsync(SetEmailReq req) {
         return Cache.SetEmailAsync(req);
     }
 
@@ -214,8 +204,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     启用/禁用用户
     /// </summary>
     [Transaction]
-    public Task<int> SetEnabledAsync(SetUserEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetUserEnabledReq req) {
         return Cache.SetEnabledAsync(req);
     }
 
@@ -223,8 +212,7 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     设置手机号码
     /// </summary>
     [Transaction]
-    public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req)
-    {
+    public Task<UserInfoRsp> SetMobileAsync(SetMobileReq req) {
         return Cache.SetMobileAsync(req);
     }
 
@@ -232,16 +220,14 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     设置密码
     /// </summary>
     [Transaction]
-    public Task<int> SetPasswordAsync(SetPasswordReq req)
-    {
+    public Task<int> SetPasswordAsync(SetPasswordReq req) {
         return Cache.SetPasswordAsync(req);
     }
 
     /// <summary>
     ///     设置当前用户应用配置
     /// </summary>
-    public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req)
-    {
+    public Task<int> SetSessionUserAppConfigAsync(SetSessionUserAppConfigReq req) {
         return Cache.SetSessionUserAppConfigAsync(req);
     }
 
@@ -249,16 +235,14 @@ public sealed class UserController(IUserCache cache, IConfigCache configCache) :
     ///     用户求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryUserReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryUserReq> req) {
         return Cache.SumAsync(req);
     }
 
     /// <summary>
     ///     当前用户信息
     /// </summary>
-    public Task<UserInfoRsp> UserInfoAsync()
-    {
+    public Task<UserInfoRsp> UserInfoAsync() {
         return Cache.UserInfoAsync();
     }
 }

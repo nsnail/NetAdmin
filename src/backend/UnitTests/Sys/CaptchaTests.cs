@@ -12,8 +12,7 @@ public class CaptchaTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
 {
     /// <inheritdoc />
     [Fact]
-    public async Task<GetCaptchaRsp> GetCaptchaImageAsync()
-    {
+    public async Task<GetCaptchaRsp> GetCaptchaImageAsync() {
         var rsp = await PostJsonAsync(typeof(CaptchaController));
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -22,8 +21,7 @@ public class CaptchaTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
-    {
+    public async Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req) {
         var rsp = await PostJsonAsync(typeof(CaptchaController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return false;

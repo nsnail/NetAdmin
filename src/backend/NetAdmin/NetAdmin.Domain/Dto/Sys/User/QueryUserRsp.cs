@@ -9,6 +9,11 @@ namespace NetAdmin.Domain.Dto.Sys.User;
 /// </summary>
 public record QueryUserRsp : Sys_User
 {
+    /// <summary>
+    ///     本部门以及子部门编号
+    /// </summary>
+    public IReadOnlyList<long?> AllDeptIds { get; init; }
+
     /// <inheritdoc cref="Sys_User.Avatar" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public override string Avatar { get; init; }
@@ -27,11 +32,6 @@ public record QueryUserRsp : Sys_User
 
     /// <inheritdoc cref="Sys_User.Dept" />
     public new virtual QueryDeptRsp Dept { get; init; }
-
-    /// <summary>
-    ///     本部门以及子部门编号
-    /// </summary>
-    public IReadOnlyCollection<long?> DeptIds { get; init; }
 
     /// <inheritdoc cref="Sys_User.Email" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -62,6 +62,11 @@ public record QueryUserRsp : Sys_User
 
     /// <inheritdoc cref="Sys_User.Roles" />
     public new virtual IEnumerable<QueryRoleRsp> Roles { get; init; }
+
+    /// <summary>
+    ///     本部门以及下一级部门编号
+    /// </summary>
+    public IReadOnlyList<long?> SonDeptIds { get; init; }
 
     /// <inheritdoc cref="Sys_User.Summary" />
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

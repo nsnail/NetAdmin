@@ -9,8 +9,10 @@ namespace NetAdmin.Host.Filters;
 public sealed class DefaultApiResultHandler : ApiResultHandler<RestfulInfo<object>>, IUnifyResultProvider
 {
     /// <inheritdoc />
-    public IActionResult OnAuthorizeException(DefaultHttpContext context, ExceptionMetadata metadata)
-    {
+    public IActionResult OnAuthorizeException(
+        DefaultHttpContext context
+        , ExceptionMetadata metadata
+    ) {
         LogHelper.Get<DefaultApiResultHandler>().Error(metadata.Exception);
         throw metadata.Exception;
     }

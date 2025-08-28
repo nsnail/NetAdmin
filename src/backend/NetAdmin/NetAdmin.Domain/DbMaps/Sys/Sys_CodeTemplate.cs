@@ -11,7 +11,6 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>true</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
@@ -20,7 +19,6 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>Male</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual Genders? Gender { get; init; }
 
@@ -29,7 +27,6 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>123456</example>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [JsonIgnore]
     [Snowflake]
     public override long Id { get; init; }
@@ -39,14 +36,12 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>老王</example>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Name { get; init; }
 
     /// <summary>
     ///     归属用户
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(OwnerId))]
     public Sys_User Owner { get; init; }
@@ -56,7 +51,6 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>370942943322181</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerDeptId { get; init; }
 
@@ -65,7 +59,6 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>370942943322181</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerId { get; init; }
 
@@ -74,7 +67,6 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>100</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long Sort { get; init; }
 
@@ -83,7 +75,6 @@ public record Sys_CodeTemplate : VersionEntity, IFieldSort, IFieldSummary, IFiel
     /// </summary>
     /// <example>备注文字</example>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; set; }
 }

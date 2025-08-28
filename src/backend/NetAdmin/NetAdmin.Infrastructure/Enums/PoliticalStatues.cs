@@ -12,7 +12,7 @@ public enum PoliticalStatues
     [ResourceDescription<Ln>(nameof(Ln.中共党员))]
     MemberOfCommunistParty = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     共青团员
@@ -20,7 +20,7 @@ public enum PoliticalStatues
     [ResourceDescription<Ln>(nameof(Ln.共青团员))]
     MemberOfCommunistYouthLeague = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     群众

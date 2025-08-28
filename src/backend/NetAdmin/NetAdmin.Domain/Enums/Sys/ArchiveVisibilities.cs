@@ -12,7 +12,7 @@ public enum ArchiveVisibilities
     [ResourceDescription<Ln>(nameof(Ln.完全公开))]
     Public = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     登录用户
@@ -20,7 +20,7 @@ public enum ArchiveVisibilities
     [ResourceDescription<Ln>(nameof(Ln.登录用户))]
     LogonUser = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     部门可见
@@ -28,7 +28,7 @@ public enum ArchiveVisibilities
     [ResourceDescription<Ln>(nameof(Ln.部门可见))]
     DeptUser = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     自己可见

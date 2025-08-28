@@ -11,7 +11,7 @@ public record QueryJobRecordRsp : Sys_JobRecord
     [JsonInclude]
     public new virtual string HttpStatusCode =>
         base.HttpStatusCode == Numbers.HTTP_STATUS_BIZ_FAIL
-            ? nameof(ErrorCodes.Unhandled).ToLowerCamelCase()
+            ? nameof(ErrorCodes.InternalError).ToLowerCamelCase()
             : ((HttpStatusCode)base.HttpStatusCode).ToString().ToLowerCamelCase();
 
     /// <inheritdoc cref="IFieldCreatedTime.CreatedTime" />

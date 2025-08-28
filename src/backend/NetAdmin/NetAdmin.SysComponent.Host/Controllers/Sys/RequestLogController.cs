@@ -15,8 +15,7 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -24,16 +23,14 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     ///     请求日志计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     请求日志分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -42,8 +39,7 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
-    {
+    public Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -52,8 +48,7 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -62,64 +57,56 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req)
-    {
+    public Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出请求日志
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个请求日志
     /// </summary>
-    public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
-    {
+    public Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     获取条形图数据
     /// </summary>
-    public Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.GetBarChartAsync(req);
     }
 
     /// <summary>
     ///     描述分组饼图数据
     /// </summary>
-    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.GetPieChartByApiSummaryAsync(req);
     }
 
     /// <summary>
     ///     状态码分组饼图数据
     /// </summary>
-    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.GetPieChartByHttpStatusCodeAsync(req);
     }
 
     /// <summary>
     ///     分页查询请求日志
     /// </summary>
-    public Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
-    {
+    public Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询请求日志
     /// </summary>
-    public Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.QueryAsync(req);
     }
 
@@ -127,8 +114,7 @@ public sealed class RequestLogController(IRequestLogCache cache) : ControllerBas
     ///     请求日志求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryRequestLogReq> req) {
         return Cache.SumAsync(req);
     }
 }

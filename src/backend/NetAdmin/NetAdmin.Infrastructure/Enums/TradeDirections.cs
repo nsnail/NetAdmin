@@ -12,7 +12,7 @@ public enum TradeDirections
     [ResourceDescription<Ln>(nameof(Ln.收入))]
     Income = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     支出

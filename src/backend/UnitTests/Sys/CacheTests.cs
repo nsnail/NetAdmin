@@ -13,8 +13,7 @@ public class CacheTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req)
-    {
+    public async Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req) {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -22,8 +21,7 @@ public class CacheTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
 
     /// <inheritdoc />
     [Fact]
-    public async Task<CacheStatisticsRsp> CacheStatisticsAsync()
-    {
+    public async Task<CacheStatisticsRsp> CacheStatisticsAsync() {
         var rsp = await PostJsonAsync(typeof(CacheController));
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -32,8 +30,7 @@ public class CacheTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteEntryAsync(DelEntryReq req)
-    {
+    public async Task<int> DeleteEntryAsync(DelEntryReq req) {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -42,8 +39,7 @@ public class CacheTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req)
-    {
+    public async Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req) {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -52,8 +48,7 @@ public class CacheTests(WebTestApplicationFactory<Startup> factory, ITestOutputH
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req)
-    {
+    public async Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req) {
         var rsp = await PostJsonAsync(typeof(CacheController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;

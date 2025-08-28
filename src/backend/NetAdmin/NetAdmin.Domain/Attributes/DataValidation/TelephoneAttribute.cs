@@ -9,9 +9,8 @@ public sealed class TelephoneAttribute : RegexAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="TelephoneAttribute" /> class.
     /// </summary>
-    public TelephoneAttribute() //
-        : base(Chars.RGX_TELEPHONE)
-    {
+    public TelephoneAttribute()
+        : base(Chars.RGX_TELEPHONE) {
         ErrorMessageResourceName = nameof(Ln.区号电话号码分机号);
         ErrorMessageResourceType = typeof(Ln);
     }

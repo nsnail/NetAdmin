@@ -13,8 +13,7 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     ///     批量删除部门
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -22,16 +21,14 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     ///     部门计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryDeptReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryDeptReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     部门分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDeptReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDeptReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -39,8 +36,7 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     ///     创建部门
     /// </summary>
     [Transaction]
-    public Task<QueryDeptRsp> CreateAsync(CreateDeptReq req)
-    {
+    public Task<QueryDeptRsp> CreateAsync(CreateDeptReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -48,8 +44,7 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     ///     删除部门
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -57,24 +52,21 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     ///     编辑部门
     /// </summary>
     [Transaction]
-    public Task<QueryDeptRsp> EditAsync(EditDeptReq req)
-    {
+    public Task<QueryDeptRsp> EditAsync(EditDeptReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出部门
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDeptReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个部门
     /// </summary>
-    public Task<QueryDeptRsp> GetAsync(QueryDeptReq req)
-    {
+    public Task<QueryDeptRsp> GetAsync(QueryDeptReq req) {
         return Cache.GetAsync(req);
     }
 
@@ -82,24 +74,21 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     ///     分页查询部门
     /// </summary>
     [NonAction]
-    public Task<PagedQueryRsp<QueryDeptRsp>> PagedQueryAsync(PagedQueryReq<QueryDeptReq> req)
-    {
+    public Task<PagedQueryRsp<QueryDeptRsp>> PagedQueryAsync(PagedQueryReq<QueryDeptReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询部门
     /// </summary>
-    public Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req)
-    {
+    public Task<IEnumerable<QueryDeptRsp>> QueryAsync(QueryReq<QueryDeptReq> req) {
         return Cache.QueryAsync(req);
     }
 
     /// <summary>
     ///     启用/禁用部门
     /// </summary>
-    public Task<int> SetEnabledAsync(SetDeptEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetDeptEnabledReq req) {
         return Cache.SetEnabledAsync(req);
     }
 
@@ -107,8 +96,7 @@ public sealed class DeptController(IDeptCache cache) : ControllerBase<IDeptCache
     ///     部门求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryDeptReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryDeptReq> req) {
         return Cache.SumAsync(req);
     }
 }

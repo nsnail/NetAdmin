@@ -8,8 +8,7 @@ public abstract class ServiceBase<TLogger> : ServiceBase
     /// <summary>
     ///     Initializes a new instance of the <see cref="ServiceBase{TLogger}" /> class.
     /// </summary>
-    protected ServiceBase() //
-    {
+    protected ServiceBase() {
         Logger = S<ILogger<TLogger>>();
     }
 
@@ -27,8 +26,7 @@ public abstract class ServiceBase : IScoped, IService
     /// <summary>
     ///     Initializes a new instance of the <see cref="ServiceBase" /> class.
     /// </summary>
-    protected ServiceBase()
-    {
+    protected ServiceBase() {
         UserToken = S<ContextUserToken>();
         ServiceId = Guid.NewGuid();
     }
@@ -44,8 +42,7 @@ public abstract class ServiceBase : IScoped, IService
     /// </summary>
     protected static T S<T>()
         #pragma warning restore S2325, CA1822
-        where T : class
-    {
+        where T : class {
         return App.GetService<T>();
     }
 }

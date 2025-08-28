@@ -60,7 +60,6 @@ export default {
                     destDevice: phoneConfig.mobile(this),
                     code: phoneConfig.code(this),
                 },
-
                 destDevice: [emailConfig.email(this)],
                 code: emailConfig.code(this),
             },

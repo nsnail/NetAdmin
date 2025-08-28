@@ -12,7 +12,6 @@ public record Sys_VerifyCode : VersionEntity
     ///     验证码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_7)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Code { get; init; }
 
@@ -20,7 +19,6 @@ public record Sys_VerifyCode : VersionEntity
     ///     目标设备
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string DestDevice { get; init; }
 
@@ -28,7 +26,6 @@ public record Sys_VerifyCode : VersionEntity
     ///     设备类型
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual VerifyCodeDeviceTypes DeviceType { get; init; }
 
@@ -36,7 +33,6 @@ public record Sys_VerifyCode : VersionEntity
     ///     发送报告
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public string Report { get; init; }
 
@@ -44,7 +40,6 @@ public record Sys_VerifyCode : VersionEntity
     ///     验证码状态
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual VerifyCodeStatues Status { get; init; }
 
@@ -52,7 +47,6 @@ public record Sys_VerifyCode : VersionEntity
     ///     验证码类型
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual VerifyCodeTypes Type { get; init; }
 }

@@ -8,9 +8,11 @@ public abstract record SqlCommandEvent : EventData<string>
     /// <summary>
     ///     Initializes a new instance of the <see cref="SqlCommandEvent" /> class.
     /// </summary>
-    protected SqlCommandEvent(string payLoad, Guid identifier) //
-        : base(payLoad)
-    {
+    protected SqlCommandEvent(
+        string payLoad
+        , Guid identifier
+    )
+        : base(payLoad) {
         Identifier = identifier;
     }
 

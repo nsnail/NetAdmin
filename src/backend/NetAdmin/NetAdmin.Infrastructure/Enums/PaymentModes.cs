@@ -12,7 +12,7 @@ public enum PaymentModes
     [ResourceDescription<Ln>(nameof(Ln.USDT))]
     USDT = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     支付宝
@@ -20,7 +20,7 @@ public enum PaymentModes
     [ResourceDescription<Ln>(nameof(Ln.支付宝))]
     Alipay = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     微信支付

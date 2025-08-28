@@ -10,9 +10,12 @@ public abstract class NetAdminException(string message, Exception innerException
     /// <summary>
     ///     Initializes a new instance of the <see cref="NetAdminException" /> class.
     /// </summary>
-    protected NetAdminException(ErrorCodes code, string message = null, Exception innerException = null) //
-        : this(message, innerException)
-    {
+    protected NetAdminException(
+        ErrorCodes code
+        , string message = null
+        , Exception innerException = null
+    )
+        : this(message, innerException) {
         Code = code;
     }
 

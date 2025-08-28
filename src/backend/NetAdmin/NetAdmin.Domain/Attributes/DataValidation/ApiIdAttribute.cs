@@ -9,10 +9,13 @@ namespace NetAdmin.Domain.Attributes.DataValidation;
 public sealed class ApiIdAttribute : ValidationAttribute
 {
     /// <inheritdoc />
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-    {
+    protected override ValidationResult IsValid(
+        object value
+        , ValidationContext validationContext
+    ) {
         var service = App.GetService(
-            App.EffectiveTypes.Single(x => x.FullName == "NetAdmin.SysComponent.Application.Services.Sys.Dependency.IApiService"));
+            App.EffectiveTypes.Single(x => x.FullName == "NetAdmin.SysComponent.Application.Services.Sys.Dependency.IApiService")
+        );
 
         var req = new QueryReq<QueryApiReq> { Filter = new QueryApiReq { Id = value as string } };
 

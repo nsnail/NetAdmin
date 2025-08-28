@@ -85,8 +85,8 @@ export default {
     /**
      * 获取自己是否允许自助充值
      */
-    getSelfRechargeAllowed: {
-        url: `${config.API_URL}/api/sys/user.invite/get.self.recharge.allowed`,
+    getSelfDepositAllowed: {
+        url: `${config.API_URL}/api/sys/user.invite/get.self.deposit.allowed`,
         name: `获取自己是否允许自助充值`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
@@ -138,6 +138,17 @@ export default {
     },
 
     /**
+     * 设置粉丝是否启用
+     */
+    setEnabled: {
+        url: `${config.API_URL}/api/sys/user.invite/set.enabled`,
+        name: `设置粉丝是否启用`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 修改粉丝角色
      */
     setFansRole: {
@@ -162,8 +173,8 @@ export default {
     /**
      * 设置允许自助充值
      */
-    setSelfRechargeAllowed: {
-        url: `${config.API_URL}/api/sys/user.invite/set.self.recharge.allowed`,
+    setSelfDepositAllowed: {
+        url: `${config.API_URL}/api/sys/user.invite/set.self.deposit.allowed`,
         name: `设置允许自助充值`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)

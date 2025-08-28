@@ -12,12 +12,34 @@ using NetAdmin.Domain.Extensions;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IUserInviteService" />
-public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo) //
+public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     : RepositoryService<Sys_UserInvite, long, IUserInviteService>(rpo), IUserInviteService
 {
-    /// <inheritdoc />
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
+    private readonly Expression<Func<Sys_UserInvite, object>> _toListExp = a => new Sys_UserInvite
     {
+        Id = a.Id
+        , CreatedTime = a.CreatedTime
+        , ModifiedTime = a.ModifiedTime
+        , Version = a.Version
+        , User = new Sys_User
+        {
+            Id = a.User.Id
+            , UserName = a.User.UserName
+            , Avatar = a.User.Avatar
+            , Roles = a.User.Roles
+            , Enabled = a.User.Enabled
+        }
+        , Owner = new Sys_User { Id = a.Owner.Invite.Owner.Id, UserName = a.Owner.Invite.Owner.UserName, Avatar = a.Owner.Invite.Owner.Avatar }
+        , Channel = new Sys_User
+        {
+            Id = a.Owner.Invite.Channel.Id, UserName = a.Owner.Invite.Channel.UserName, Avatar = a.Owner.Invite.Channel.Avatar
+        }
+        , SelfDepositAllowed = a.SelfDepositAllowed
+        , CommissionRatio = a.CommissionRatio
+    };
+
+    /// <inheritdoc />
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         req.ThrowIfInvalid();
         var ret = 0;
 
@@ -30,59 +52,55 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryUserInviteReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryUserInviteReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserInviteReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryUserInviteReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Sys_UserInvite>())
-                        .ToDictionaryAsync(a => a.Count())
-                        .ConfigureAwait(false);
-        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_UserInvite).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
-                  .Where(x => x.Key.Any(y => !y.Value.NullOrEmpty()))
-                  .OrderByDescending(x => x.Value);
+            .WithNoLockNoWait()
+            .GroupBy(req.GetToListExp<Sys_UserInvite>())
+            .ToDictionaryAsync(a => a.Count())
+            .ConfigureAwait(false);
+        return ret
+            .Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                    req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_UserInvite).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value
+                )
+            )
+            .Where(x => x.Key.Any(y => !y.Value.NullOrEmpty()))
+            .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
-    public async Task<QueryUserInviteRsp> CreateAsync(CreateUserInviteReq req)
-    {
+    public async Task<QueryUserInviteRsp> CreateAsync(CreateUserInviteReq req) {
         req.ThrowIfInvalid();
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryUserInviteRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<QueryUserRsp> CreateFansAccountAsync(CreateFansAccountReq req)
-    {
+    public async Task<QueryUserRsp> CreateFansAccountAsync(CreateFansAccountReq req) {
         req.ThrowIfInvalid();
 
         var rolesAllowApply = (await QueryRolesAllowApplyAsync().ConfigureAwait(false)).Select(x => x.Value);
         return !req.RoleIds.All(x => rolesAllowApply.Contains(x.ToInvString()))
             ? throw new NetAdminInvalidOperationException(Ln.此操作不被允许)
             : await S<IUserService>()
-                    .CreateAsync(req with { Invite = new CreateUserInviteReq { OwnerId = UserToken.Id, OwnerDeptId = UserToken.DeptId } })
-                    .ConfigureAwait(false);
+                .CreateAsync(req with { Invite = new CreateUserInviteReq { OwnerId = UserToken.Id, OwnerDeptId = UserToken.DeptId } })
+                .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
-    public async Task<QueryUserInviteRsp> EditAsync(EditUserInviteReq req)
-    {
+    public async Task<QueryUserInviteRsp> EditAsync(EditUserInviteReq req) {
         req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryUserInviteRsp>();
@@ -92,65 +110,72 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryUserInviteReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryUserInviteReq> req) {
         req.ThrowIfInvalid();
         return ExportAsync<QueryUserInviteReq, QueryUserInviteRsp>(QueryInternal, req, Ln.用户邀请导出);
     }
 
     /// <inheritdoc />
-    public Task<List<long>> GetAssociatedUserIdAsync(long userId, bool up = true)
-    {
-        return Rpo.Orm.Select<Sys_UserInvite>()
-                  .DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
-                                     , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON)
-                  .Where(a => a.Id == userId)
-                  .AsTreeCte( //
-                      up: up
-                    , disableGlobalFilters: [
-                          Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
-                        , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN
-                        , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON
-                      ])
-                  .ToListAsync(a => a.Id);
+    public Task<List<long>> GetAssociatedUserIdAsync(
+        long userId
+        , bool up = true
+    ) {
+        return Rpo
+            .Orm.Select<Sys_UserInvite>()
+            .DisableGlobalFilter(
+                Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN
+                , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON
+            )
+            .Where(a => a.Id == userId)
+            .AsTreeCte(
+                up: up
+                , disableGlobalFilters:
+                [
+                    Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN
+                    , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON
+                ]
+            )
+            .ToListAsync(a => a.Id);
     }
 
     /// <inheritdoc />
-    public async Task<QueryUserInviteRsp> GetAsync(QueryUserInviteReq req)
-    {
+    public async Task<QueryUserInviteRsp> GetAsync(QueryUserInviteReq req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryUserInviteReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryUserInviteRsp>();
     }
 
     /// <inheritdoc />
-    public Task<bool> GetSelfRechargeAllowedAsync()
-    {
+    public Task<bool> GetSelfDepositAllowedAsync() {
         return QueryInternal(new QueryReq<QueryUserInviteReq> { Filter = new QueryUserInviteReq { Id = UserToken.Id } })
-               .DisableGlobalFilter(Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT
-                                  , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON)
-               .ToOneAsync(a => a.SelfRechargeAllowed);
+            .DisableGlobalFilter(
+                Chars.FLG_FREE_SQL_GLOBAL_FILTER_SELF, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT, Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_CHILDREN
+                , Chars.FLG_FREE_SQL_GLOBAL_FILTER_DEPT_WITH_SON
+            )
+            .ToOneAsync(a => a.SelfDepositAllowed);
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryUserInviteRsp>> PagedQueryAsync(PagedQueryReq<QueryUserInviteReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryUserInviteRsp>> PagedQueryAsync(PagedQueryReq<QueryUserInviteReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         .WithNoLockNoWait()
-                         .Count(out var total)
-                         .ToListAsync(req)
-                         .ConfigureAwait(false);
+            .Page(req.Page, req.PageSize)
+            .WithNoLockNoWait()
+            .Count(out var total)
+            .ToListAsync(_toListExp)
+            .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryUserInviteRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryUserInviteRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryUserInviteRsp>> QueryAsync(QueryReq<QueryUserInviteReq> req)
-    {
+    public async Task<IEnumerable<QueryUserInviteRsp>> QueryAsync(QueryReq<QueryUserInviteReq> req) {
         req.ThrowIfInvalid();
-        var query = QueryInternal(req).Include(a => a.Owner).IncludeMany(a => a.User.Roles).WithNoLockNoWait();
+        var query = QueryInternal(req)
+            .Include(a => a.Channel)
+            .Include(a => a.Owner)
+            .IncludeMany(a => a.User.Roles.Select(b => new Sys_Role { Id = b.Id, Name = b.Name }))
+            .WithNoLockNoWait();
         var ret = req.Filter?.IsPlainQuery == true
             ? await query.ToListAsync().ConfigureAwait(false)
             : await query.ToTreeListAsync().ConfigureAwait(false);
@@ -159,43 +184,50 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryDicContentRsp>> QueryRolesAllowApplyAsync()
-    {
+    public async Task<IEnumerable<QueryDicContentRsp>> QueryRolesAllowApplyAsync() {
         var dicService = S<IDicService>();
-        var catalogIds = (await dicService.QueryCatalogAsync(new QueryReq<QueryDicCatalogReq> {
-                                                                                                  DynamicFilter = new DynamicFilterInfo {
-                                                                                                      Field    = nameof(QueryDicCatalogReq.Code)
-                                                                                                    , Operator = DynamicFilterOperators.Any
-                                                                                                    , Value = S<ContextUserInfo>()
-                                                                                                          .Roles
-                                                                                                          .Select(x =>
-                                                                                                              $"{Chars.FLG_DIC_CATALOG_NEW_USER_ROLE_CONFIG}>{x.Id}")
-                                                                                                  }
-                                                                                              })
-                                          .ConfigureAwait(false)).Select(x => x.Id);
+        var catalogIds = (await dicService
+            .QueryCatalogAsync(
+                new QueryReq<QueryDicCatalogReq>
+                {
+                    DynamicFilter = new DynamicFilterInfo
+                    {
+                        Field = nameof(QueryDicCatalogReq.Code)
+                        , Operator = DynamicFilterOperators.Any
+                        , Value = S<ContextUserInfo>().Roles.Select(x => $"{Chars.FLG_DIC_CATALOG_NEW_USER_ROLE_CONFIG}>{x.Id}")
+                    }
+                }
+            )
+            .ConfigureAwait(false)).Select(x => x.Id);
         return !catalogIds.Any()
             ? null
             : await dicService
-                    .QueryContentAsync(new QueryReq<QueryDicContentReq> {
-                                                                            DynamicFilter = new DynamicFilterInfo {
-                                                                                                Field    = nameof(QueryDicContentReq.CatalogId)
-                                                                                              , Operator = DynamicFilterOperators.Any
-                                                                                              , Value    = catalogIds
-                                                                                            }
-                                                                        })
-                    .ConfigureAwait(false);
+                .QueryContentAsync(
+                    new QueryReq<QueryDicContentReq>
+                    {
+                        DynamicFilter = new DynamicFilterInfo
+                        {
+                            Field = nameof(QueryDicContentReq.CatalogId), Operator = DynamicFilterOperators.Any, Value = catalogIds
+                        }
+                    }
+                )
+                .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req)
-    {
+    public Task<int> SetCommissionRatioAsync(SetCommissionRatioReq req) {
         req.ThrowIfInvalid();
         return UpdateAsync(req with { CommissionRatio = req.CommissionRatio }, [nameof(req.CommissionRatio)], null, a => a.Id == req.Id, null, true);
     }
 
     /// <inheritdoc />
-    public async Task<int> SetFansRoleAsync(SetFansRoleReq req)
-    {
+    public Task<int> SetEnabledAsync(SetUserInviteEnabledReq req) {
+        req.ThrowIfInvalid();
+        return S<IUserService>().SetEnabledAsync(new SetUserEnabledReq { Id = req.User.Id, Version = req.User.Version, Enabled = req.User.Enabled });
+    }
+
+    /// <inheritdoc />
+    public async Task<int> SetFansRoleAsync(SetFansRoleReq req) {
         req.ThrowIfInvalid();
 
         var rolesAllowApply = (await QueryRolesAllowApplyAsync().ConfigureAwait(false)).Select(x => x.Value).ToList();
@@ -210,13 +242,12 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
     }
 
     /// <inheritdoc />
-    public async Task<int> SetInviterAsync(SetInviterReq req)
-    {
+    public async Task<int> SetInviterAsync(SetInviterReq req) {
         req.ThrowIfInvalid();
 
         var userService = S<IUserService>();
-        var child       = await userService.GetAsync(new QueryUserReq { Id = req.Id }).ConfigureAwait(false);
-        var parent      = await userService.GetAsync(new QueryUserReq { Id = req.OwnerId!.Value }).ConfigureAwait(false);
+        var child = await userService.GetAsync(new QueryUserReq { Id = req.Id }).ConfigureAwait(false);
+        var parent = await userService.GetAsync(new QueryUserReq { Id = req.OwnerId!.Value }).ConfigureAwait(false);
 
         // 不能将上级设置为自己的下级避免死循环
         if ((await GetAssociatedUserIdAsync(req.Id, false).ConfigureAwait(false)).Contains(req.OwnerId!.Value)) {
@@ -229,31 +260,27 @@ public sealed class UserInviteService(BasicRepository<Sys_UserInvite, long> rpo)
             _ = await S<IDeptService>().EditAsync(dept.Adapt<EditDeptReq>() with { ParentId = parent.DeptId }).ConfigureAwait(false);
         }
 
-        return await UpdateAsync( //
+        return await UpdateAsync(
                 new Sys_UserInvite { Id = req.Id, Version = req.Version, OwnerId = req.OwnerId!.Value, OwnerDeptId = parent.DeptId }
-              , [nameof(req.OwnerDeptId), nameof(req.OwnerId)])
+                , [nameof(req.OwnerDeptId), nameof(req.OwnerId)]
+            )
             .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public Task<int> SetSelfRechargeAllowedAsync(SetSelfRechargeAllowedReq req)
-    {
+    public Task<int> SetSelfDepositAllowedAsync(SetSelfDepositAllowedReq req) {
         req.ThrowIfInvalid();
-        return UpdateAsync(req, [nameof(req.SelfRechargeAllowed)]);
+        return UpdateAsync(req, [nameof(req.SelfDepositAllowed)]);
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryUserInviteReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryUserInviteReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_UserInvite>());
     }
 
-    private ISelect<Sys_UserInvite> QueryInternal(QueryReq<QueryUserInviteReq> req)
-    {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereIf( //
-                         req.Filter?.Id > 0, a => a.Id == req.Filter.Id);
+    private ISelect<Sys_UserInvite> QueryInternal(QueryReq<QueryUserInviteReq> req) {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereIf(req.Filter?.Id > 0, a => a.Id == req.Filter.Id);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

@@ -10,16 +10,17 @@ public static class JsonIgnoreRemover
     /// <summary>
     ///     忽略 JsonIgnore 特性
     /// </summary>
-    public static Action<JsonTypeInfo> RemoveJsonIgnore(Type type)
-    {
-        return typeInfo => {
+    public static Action<JsonTypeInfo> RemoveJsonIgnore(Type type) {
+        return typeInfo =>
+        {
             if (!type.IsAssignableFrom(typeInfo.Type) || typeInfo.Kind != JsonTypeInfoKind.Object) {
                 return;
             }
 
-            foreach (var property in typeInfo.Properties.Where(property => property.ShouldSerialize != null &&
-                                                                           property.AttributeProvider?.IsDefined(typeof(JsonIgnoreAttribute), true) ==
-                                                                           true)) {
+            foreach (var property in typeInfo.Properties.Where(property => property.ShouldSerialize != null
+                                                                           && property.AttributeProvider?.IsDefined(typeof(JsonIgnoreAttribute), true)
+                                                                           == true
+                     )) {
                 property.Get ??= CreatePropertyGetter(property);
                 property.Set ??= CreatePropertySetter(property);
                 if (property.Get != null) {
@@ -29,8 +30,10 @@ public static class JsonIgnoreRemover
         };
     }
 
-    private static Func<object, object> CreateGetter(Type type, MethodInfo method)
-    {
+    private static Func<object, object> CreateGetter(
+        Type type
+        , MethodInfo method
+    ) {
         if (method == null) {
             return null;
         }
@@ -41,13 +44,13 @@ public static class JsonIgnoreRemover
         return (Func<object, object>)myMethod.MakeGenericMethod(type, method.ReturnType).Invoke(null, [method])!;
     }
 
-    private static Func<object, object> CreateGetterGeneric<TObject, TValue>(MethodInfo method)
-    {
+    private static Func<object, object> CreateGetterGeneric<TObject, TValue>(MethodInfo method) {
         ArgumentNullException.ThrowIfNull(method);
 
         if (typeof(TObject).IsValueType) {
             var func = (RefFunc<TObject, TValue>)Delegate.CreateDelegate(typeof(RefFunc<TObject, TValue>), null, method);
-            return o => {
+            return o =>
+            {
                 var tObj = (TObject)o;
                 return func(ref tObj);
             };
@@ -58,22 +61,22 @@ public static class JsonIgnoreRemover
         }
     }
 
-    private static Func<object, object> CreatePropertyGetter(JsonPropertyInfo property)
-    {
+    private static Func<object, object> CreatePropertyGetter(JsonPropertyInfo property) {
         return property.AttributeProvider as PropertyInfo is { ReflectedType: not null } info && info.GetGetMethod() is { } getMethod
             ? CreateGetter(info.ReflectedType, getMethod)
             : null;
     }
 
-    private static Action<object, object> CreatePropertySetter(JsonPropertyInfo property)
-    {
+    private static Action<object, object> CreatePropertySetter(JsonPropertyInfo property) {
         return property.AttributeProvider as PropertyInfo is { ReflectedType: not null } info && info.GetSetMethod() is { } setMethod
             ? CreateSetter(info.ReflectedType, setMethod)
             : null;
     }
 
-    private static Action<object, object> CreateSetter(Type type, MethodInfo method)
-    {
+    private static Action<object, object> CreateSetter(
+        Type type
+        , MethodInfo method
+    ) {
         if (method == null) {
             return null;
         }
@@ -84,15 +87,20 @@ public static class JsonIgnoreRemover
         return (Action<object, object>)myMethod.MakeGenericMethod(type, method.GetParameters().Single().ParameterType).Invoke(null, [method])!;
     }
 
-    private static Action<object, object> CreateSetterGeneric<TObject, TValue>(MethodInfo method)
-    {
+    private static Action<object, object> CreateSetterGeneric<TObject, TValue>(MethodInfo method) {
         ArgumentNullException.ThrowIfNull(method);
 
         if (typeof(TObject).IsValueType) {
-            return (o, v) => method.Invoke(o, [v]);
+            return (
+                o
+                , v
+            ) => method.Invoke(o, [v]);
         }
 
         var func = (Action<TObject, TValue>)Delegate.CreateDelegate(typeof(Action<TObject, TValue>), method);
-        return (o, v) => func((TObject)o, (TValue)v);
+        return (
+            o
+            , v
+        ) => func((TObject)o, (TValue)v);
     }
 }

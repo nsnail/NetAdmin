@@ -11,8 +11,7 @@ public sealed class RemoveNullNodeMiddleware(RequestDelegate next)
     /// <summary>
     ///     主函数
     /// </summary>
-    public async Task InvokeAsync(HttpContext context)
-    {
+    public async Task InvokeAsync(HttpContext context) {
         await next(context).ConfigureAwait(false);
 
         if (context.GetMetadata<RemoveNullNodeAttribute>() is null) {

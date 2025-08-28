@@ -15,7 +15,10 @@ public sealed class JwtHandler : AppAuthorizeHandler
     /// <summary>
     ///     验证管道
     /// </summary>
-    public override async Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
+    public override async Task<bool> PipelineAsync(
+        AuthorizationHandlerContext context
+      , DefaultHttpContext          httpContext
+    )
     {
         // 无法从token中获取context user，拒绝访问
         if (App.GetService<ContextUserToken>() == null) {

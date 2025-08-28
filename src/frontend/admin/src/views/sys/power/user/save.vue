@@ -7,7 +7,15 @@
         destroy-on-close
         full-screen>
         <el-form
-            :disabled="mode === 'view' && tabId !== 'log' && tabId !== 'wallet' && tabId !== 'trade'"
+            :disabled="
+                mode === 'view' &&
+                tabId !== 'log' &&
+                tabId !== 'wallet' &&
+                tabId !== 'trade' &&
+                tabId !== 'deposit' &&
+                tabId !== 'frozen' &&
+                tabId !== 'invite'
+            "
             :model="form"
             :rules="rules"
             label-position="right"
@@ -237,16 +245,25 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" :label="$t('钱包信息')" name="wallet">
+                <el-tab-pane v-if="mode === 'view' && form?.id" :label="$t('充值订单')" name="deposit">
+                    <deposit v-if="tabId === 'deposit'" :owner-id="form.id.toString()" />
+                </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view' && form?.id" :label="$t('钱包信息')" name="wallet">
                     <wallet v-if="tabId === 'wallet'" :id="form.id.toString()" />
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" :label="$t('交易流水')" name="trade">
+                <el-tab-pane v-if="mode === 'view' && form?.id" :label="$t('交易流水')" name="trade">
                     <trade v-if="tabId === 'trade'" :owner-id="form.id.toString()" />
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" :label="$t('操作日志')" name="log">
-                    <log v-if="tabId === 'log'" :owner-id="form.id" />
+                <el-tab-pane v-if="mode === 'view' && form?.id" :label="$t('冻结记录')" name="frozen">
+                    <frozen v-if="tabId === 'frozen'" :owner-id="form.id.toString()" />
                 </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
+                <el-tab-pane v-if="mode === 'view' && form?.id" :label="$t('粉丝裂变')" name="invite">
+                    <invite v-if="tabId === 'invite'" :owner-id="form.id.toString()" />
+                </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view' && form?.id" :label="$t('操作日志')" name="log">
+                    <log v-if="tabId === 'log'" :owner-id="form.id.toString()" />
+                </el-tab-pane>
+                <el-tab-pane v-if="mode === 'view' && form?.id" :label="$t('原始数据')">
                     <json-viewer
                         :expand-depth="5"
                         :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
@@ -258,6 +275,9 @@
             </el-tabs>
         </el-form>
         <template #footer>
+            <el-button v-if="mode === 'view'" :disabled="loading" :loading="loading" @click="loginToAccount" type="danger">{{
+                $t('登录该账号')
+            }}</el-button>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>
             <el-button v-if="mode !== 'view'" :disabled="loading" :loading="loading" @click="submit" type="primary">{{ $t('保存') }}</el-button>
         </template>
@@ -266,16 +286,20 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import tool from '@/utils/tool'
 
 const log = defineAsyncComponent(() => import('@/views/sys/log/operation'))
 const trade = defineAsyncComponent(() => import('@/views/sys/finance/trade'))
+const frozen = defineAsyncComponent(() => import('@/views/sys/finance/trade/frozen/index'))
 const wallet = defineAsyncComponent(() => import('@/views/sys/finance/wallet'))
+const deposit = defineAsyncComponent(() => import('@/views/sys/finance/deposit'))
+const invite = defineAsyncComponent(() => import('@/views/sys/market/invite'))
 const naArea = defineAsyncComponent(() => import('@/components/na-area'))
 const naDept = defineAsyncComponent(() => import('@/components/na-dept'))
 const scUpload = defineAsyncComponent(() => import('@/components/sc-upload'))
 const scSelect = defineAsyncComponent(() => import('@/components/sc-select'))
 export default {
-    components: { log, naArea, naDept, scUpload, scSelect, trade, wallet },
+    components: { log, naArea, naDept, scUpload, scSelect, trade, frozen, wallet, deposit, invite },
     data() {
         return {
             //表单数据
@@ -338,6 +362,30 @@ export default {
     },
     emits: ['success', 'closed', 'mounted'],
     methods: {
+        async loginToAccount() {
+            try {
+                await this.$confirm(`确认进入该账户？`, '提示', {
+                    type: 'warning',
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                })
+                this.loading = true
+                const res = await this.$API.sys_user.loginByUserId.post({ userId: this.form.id, noTrace: true })
+                this.$TOOL.cookie.set('ACCESS-TOKEN', 'Bearer ' + res.data.accessToken, {
+                    expires: 0,
+                    path: '/',
+                })
+                this.$TOOL.cookie.set('X-ACCESS-TOKEN', 'Bearer ' + res.data.refreshToken, {
+                    expires: 0,
+                    path: '/',
+                })
+                this.$TOOL.cookie.set('NO-SHOW-SITE-MSG', '1', {
+                    expires: 0,
+                    path: '/',
+                })
+                window.location.href = '/'
+            } catch {}
+        },
         //显示
         async open(data) {
             this.visible = true

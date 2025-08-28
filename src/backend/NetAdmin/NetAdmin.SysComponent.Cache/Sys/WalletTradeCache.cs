@@ -7,80 +7,67 @@ public sealed class WalletTradeCache(IDistributedCache cache, IWalletTradeServic
     : DistributedCache<IWalletTradeService>(cache, service), IScoped, IWalletTradeCache
 {
     /// <inheritdoc />
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Service.BulkDeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryWalletTradeReq> req) {
         return Service.CountAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletTradeReq> req) {
         return Service.CountByAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryWalletTradeRsp> CreateAsync(CreateWalletTradeReq req)
-    {
+    public Task<QueryWalletTradeRsp> CreateAsync(CreateWalletTradeReq req) {
         return Service.CreateAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Service.DeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryWalletTradeRsp> EditAsync(EditWalletTradeReq req)
-    {
+    public Task<QueryWalletTradeRsp> EditAsync(EditWalletTradeReq req) {
         return Service.EditAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletTradeReq> req) {
         return Service.ExportAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryWalletTradeRsp> GetAsync(QueryWalletTradeReq req)
-    {
+    public Task<QueryWalletTradeRsp> GetAsync(QueryWalletTradeReq req) {
         return Service.GetAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryWalletTradeRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<PagedQueryRsp<QueryWalletTradeRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletTradeReq> req) {
         return Service.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<QueryWalletTradeRsp>> QueryAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<IEnumerable<QueryWalletTradeRsp>> QueryAsync(QueryReq<QueryWalletTradeReq> req) {
         return Service.QueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req) {
         return Service.SumAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<int> TransferFromAnotherAccountAsync(TransferReq req)
-    {
+    public Task<int> TransferFromAnotherAccountAsync(TransferReq req) {
         return Service.TransferFromAnotherAccountAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<int> TransferToAnotherAccountAsync(TransferReq req)
-    {
+    public Task<int> TransferToAnotherAccountAsync(TransferReq req) {
         return Service.TransferToAnotherAccountAsync(req);
     }
 }

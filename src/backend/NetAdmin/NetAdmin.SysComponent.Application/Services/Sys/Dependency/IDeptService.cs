@@ -8,5 +8,5 @@ public interface IDeptService : IService, IDeptModule
     /// <summary>
     ///     获取所有子部门编号
     /// </summary>
-    Task<IEnumerable<long>> GetChildDeptIdsAsync(long deptId);
+    Task<List<long[]>> GetChildDeptIdsAsync(long deptId);
 }

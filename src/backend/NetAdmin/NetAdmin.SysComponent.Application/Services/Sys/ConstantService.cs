@@ -6,65 +6,66 @@ namespace NetAdmin.SysComponent.Application.Services.Sys;
 public sealed class ConstantService : ServiceBase<IConstantService>, IConstantService
 {
     /// <inheritdoc />
-    public IDictionary<string, string> GetCharsDic()
-    {
-        return typeof(Chars).GetFields(BindingFlags.Public | BindingFlags.Static)
-                            .Where(x => x.FieldType == typeof(string))
-                            .ToImmutableSortedDictionary( //
-                                x => x.Name, x => x.GetValue(null)?.ToString());
+    public IDictionary<string, string> GetCharsDic() {
+        return typeof(Chars)
+            .GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Where(x => x.FieldType == typeof(string))
+            .ToImmutableSortedDictionary(x => x.Name, x => x.GetValue(null)?.ToString());
     }
 
     /// <inheritdoc />
-    public IDictionary<string, Dictionary<string, string[]>> GetEnums()
-    {
-        var ret = App.EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) != null)
-                     .ToDictionary(x => x.Name, x => //
-                                       x.GetEnumValues().Cast<Enum>().ToDictionary(y => y.ToString(), GetDicValue));
+    public IDictionary<string, Dictionary<string, string[]>> GetEnums() {
+        var ret = App
+            .EffectiveTypes.Where(x => x.IsEnum && x.GetCustomAttribute<ExportAttribute>(false) != null)
+            .ToDictionary(x => x.Name, x => x.GetEnumValues().Cast<Enum>().ToDictionary(y => y.ToString(), GetDicValue));
 
         var httpStatusCodes = Enum.GetNames<HttpStatusCode>().ToDictionary(x => x, GetHttpStatusCodeDicValue);
-        httpStatusCodes.Add( //
-            nameof(ErrorCodes.Unhandled)
-          , [Numbers.HTTP_STATUS_BIZ_FAIL.ToInvString(), nameof(ErrorCodes.Unhandled), nameof(Indicates.Danger).ToLowerInvariant()]);
+        httpStatusCodes.Add(
+            nameof(ErrorCodes.InternalError)
+            , [Numbers.HTTP_STATUS_BIZ_FAIL.ToInvString(), nameof(ErrorCodes.InternalError), nameof(Indicates.Danger).ToLowerInvariant()]
+        );
         ret.Add($"{nameof(HttpStatusCode)}s", httpStatusCodes);
         return ret;
 
-        static string[] GetDicValue(Enum y)
-        {
+        static string[] GetDicValue(Enum y) {
             var ret = new[] { Convert.ToInt64(y, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture), y.ResDesc<Ln>() };
 
             var decorationAttribute = y.Attr<EnumDecorationAttribute>() ?? new EnumDecorationAttribute();
-            ret = [
+            ret =
+            [
                 ..ret, decorationAttribute.Indicate.ToLowerInvariant(), decorationAttribute.Pulse.ToString().ToLowerInvariant()
-              , decorationAttribute.Sort.ToInvString()
+                , decorationAttribute.Sort.ToInvString()
             ];
             return y is CountryCodes z ? [..ret, z.GetCallingCode().ToInvString()] : ret;
         }
 
-        static string[] GetHttpStatusCodeDicValue(string name)
-        {
+        static string[] GetHttpStatusCodeDicValue(string name) {
             var codeInt = Convert.ToInt64(Enum.Parse<HttpStatusCode>(name), CultureInfo.InvariantCulture);
-            return [
-                codeInt.ToString(CultureInfo.InvariantCulture), name
-              , (codeInt switch { >= 200 and < 300 => nameof(Indicates.Success), < 400 => nameof(Indicates.Warning), _ => nameof(Indicates.Danger) })
-                .ToLowerInvariant()
+            return
+            [
+                codeInt.ToString(CultureInfo.InvariantCulture), name, (codeInt switch
+                {
+                    >= 200 and < 300 => nameof(Indicates.Success)
+                    , < 400 => nameof(Indicates.Warning)
+                    , _ => nameof(Indicates.Danger)
+                }).ToLowerInvariant()
             ];
         }
     }
 
     /// <inheritdoc />
-    public IDictionary<string, string> GetLocalizedStrings()
-    {
-        return typeof(Ln).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                         .Where(x => x.PropertyType == typeof(string))
-                         .ToImmutableSortedDictionary(x => x.Name, x => x.GetValue(null)?.ToString());
+    public IDictionary<string, string> GetLocalizedStrings() {
+        return typeof(Ln)
+            .GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Where(x => x.PropertyType == typeof(string))
+            .ToImmutableSortedDictionary(x => x.Name, x => x.GetValue(null)?.ToString());
     }
 
     /// <inheritdoc />
-    public IDictionary<string, long> GetNumbersDic()
-    {
-        return typeof(Numbers).GetFields(BindingFlags.Public | BindingFlags.Static)
-                              .Where(x => x.FieldType == typeof(int) || x.FieldType == typeof(long))
-                              .ToImmutableSortedDictionary( //
-                                  x => x.Name, x => Convert.ToInt64(x.GetValue(null), CultureInfo.InvariantCulture));
+    public IDictionary<string, long> GetNumbersDic() {
+        return typeof(Numbers)
+            .GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Where(x => x.FieldType == typeof(int) || x.FieldType == typeof(long))
+            .ToImmutableSortedDictionary(x => x.Name, x => Convert.ToInt64(x.GetValue(null), CultureInfo.InvariantCulture));
     }
 }

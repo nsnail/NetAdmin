@@ -7,9 +7,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     用户模块
 /// </summary>
 public partial interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp // 创建类型
-  , EditUserReq                                                                // 编辑类型
-  , QueryUserReq, QueryUserRsp                                                 // 查询类型
-  , DelReq                                                                     // 删除类型
+    , EditUserReq // 编辑类型
+    , QueryUserReq, QueryUserRsp // 查询类型
+    , DelReq // 删除类型
 >
 {
     /// <summary>
@@ -36,6 +36,11 @@ public partial interface IUserModule : ICrudModule<CreateUserReq, QueryUserRsp /
     ///     短信登录
     /// </summary>
     Task<LoginRsp> LoginBySmsAsync(LoginBySmsReq req);
+
+    /// <summary>
+    ///     用户编号登录
+    /// </summary>
+    Task<LoginRsp> LoginByUserIdAsync(LoginByUserIdReq req);
 
     /// <summary>
     ///     查询用户档案

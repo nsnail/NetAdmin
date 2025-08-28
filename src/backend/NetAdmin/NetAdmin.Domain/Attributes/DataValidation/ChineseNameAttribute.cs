@@ -9,9 +9,8 @@ public sealed class ChineseNameAttribute : RegexAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="ChineseNameAttribute" /> class.
     /// </summary>
-    public ChineseNameAttribute() //
-        : base(Chars.RGXL_CHINESE_NAME)
-    {
+    public ChineseNameAttribute()
+        : base(Chars.RGXL_CHINESE_NAME) {
         ErrorMessageResourceName = nameof(Ln.中文姓名);
         ErrorMessageResourceType = typeof(Ln);
     }

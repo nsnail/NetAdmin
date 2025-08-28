@@ -5,21 +5,21 @@ namespace NetAdmin.Domain.Dto.Sys.Cache;
 /// </summary>
 public sealed record CacheStatisticsRsp : DataAbstraction
 {
-    private static readonly Regex[] _regexes = [
-        new(@"keyspace_hits:(\d+)", RegexOptions.Compiled)      //
-      , new(@"keyspace_misses:(\d+)", RegexOptions.Compiled)    //
-      , new(@"uptime_in_seconds:(\d+)", RegexOptions.Compiled)  //
-      , new(@"used_cpu_sys:([\d\\.]+)", RegexOptions.Compiled)  //
-      , new(@"used_cpu_user:([\d\\.]+)", RegexOptions.Compiled) //
-      , new(@"used_memory:(\d+)", RegexOptions.Compiled)        //
-      , new("redis_version:(.+)", RegexOptions.Compiled)        //
+    private static readonly Regex[] _regexes =
+    [
+        new(@"keyspace_hits:(\d+)", RegexOptions.Compiled) //
+        , new(@"keyspace_misses:(\d+)", RegexOptions.Compiled) //
+        , new(@"uptime_in_seconds:(\d+)", RegexOptions.Compiled) //
+        , new(@"used_cpu_sys:([\d\\.]+)", RegexOptions.Compiled) //
+        , new(@"used_cpu_user:([\d\\.]+)", RegexOptions.Compiled) //
+        , new(@"used_memory:(\d+)", RegexOptions.Compiled) //
+        , new("redis_version:(.+)", RegexOptions.Compiled)
     ];
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CacheStatisticsRsp" /> class.
     /// </summary>
-    public CacheStatisticsRsp(string redisResult)
-    {
+    public CacheStatisticsRsp(string redisResult) {
         KeyspaceHits = _regexes[0].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
         KeyspaceMisses = _regexes[1].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);
         UpTime = _regexes[2].Match(redisResult).Groups[1].Value.Trim().Int64Try(0);

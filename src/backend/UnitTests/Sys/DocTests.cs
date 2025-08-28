@@ -14,8 +14,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -24,8 +23,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -35,8 +33,8 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(
-        QueryReq<QueryDocContentReq> req)
-    {
+        QueryReq<QueryDocContentReq> req
+    ) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -45,8 +43,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDocCatalogRsp> CreateCatalogAsync(CreateDocCatalogReq req)
-    {
+    public async Task<QueryDocCatalogRsp> CreateCatalogAsync(CreateDocCatalogReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -55,8 +52,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDocContentRsp> CreateContentAsync(CreateDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> CreateContentAsync(CreateDocContentReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -65,8 +61,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteCatalogAsync(DelReq req)
-    {
+    public async Task<int> DeleteCatalogAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -75,8 +70,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteContentAsync(DelReq req)
-    {
+    public async Task<int> DeleteContentAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -85,8 +79,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDocCatalogRsp> EditCatalogAsync(EditDocCatalogReq req)
-    {
+    public async Task<QueryDocCatalogRsp> EditCatalogAsync(EditDocCatalogReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -95,8 +88,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDocContentRsp> EditContentAsync(EditDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> EditContentAsync(EditDocContentReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -105,8 +97,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IActionResult> ExportContentAsync(QueryReq<QueryDocContentReq> req)
-    {
+    public async Task<IActionResult> ExportContentAsync(QueryReq<QueryDocContentReq> req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -115,8 +106,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDocCatalogRsp> GetCatalogAsync(QueryDocCatalogReq req)
-    {
+    public async Task<QueryDocCatalogRsp> GetCatalogAsync(QueryDocCatalogReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -125,8 +115,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDocContentRsp> GetContentAsync(QueryDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> GetContentAsync(QueryDocContentReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -135,8 +124,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryDocCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDocCatalogReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDocCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDocCatalogReq> req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -145,8 +133,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryDocContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDocContentReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDocContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDocContentReq> req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -155,8 +142,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryDocCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDocCatalogReq> req)
-    {
+    public async Task<IEnumerable<QueryDocCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDocCatalogReq> req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -165,8 +151,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryDocContentRsp>> QueryContentAsync(QueryReq<QueryDocContentReq> req)
-    {
+    public async Task<IEnumerable<QueryDocContentRsp>> QueryContentAsync(QueryReq<QueryDocContentReq> req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -175,8 +160,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> SetEnabledAsync(SetDocContentEnabledReq req)
-    {
+    public async Task<int> SetEnabledAsync(SetDocContentEnabledReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -185,8 +169,7 @@ public class DocTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDocContentRsp> ViewContentAsync(QueryDocContentReq req)
-    {
+    public async Task<QueryDocContentRsp> ViewContentAsync(QueryDocContentReq req) {
         var rsp = await PostJsonAsync(typeof(DocController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;

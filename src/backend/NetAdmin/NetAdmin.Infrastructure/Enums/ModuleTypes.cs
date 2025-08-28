@@ -12,7 +12,7 @@ public enum ModuleTypes
     [ResourceDescription<Ln>(nameof(Ln.系统模块))]
     SysComponent = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     管理模块

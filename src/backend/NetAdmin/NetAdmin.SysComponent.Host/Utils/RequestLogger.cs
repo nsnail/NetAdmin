@@ -20,46 +20,49 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
     /// <summary>
     ///     生成审计数据
     /// </summary>
-    public async Task<CreateRequestLogReq> LogAsync(HttpContext              context, long duration, string responseBody, ErrorCodes errorCode
-                                                  , IExceptionHandlerFeature exception)
-    {
+    public async Task<CreateRequestLogReq> LogAsync(
+        HttpContext context
+        , long duration
+        , string responseBody
+        , ErrorCodes errorCode
+        , IExceptionHandlerFeature exception
+    ) {
         // 从请求头中读取用户信息
         var associatedUser = GetAssociatedUser(context);
-        var id             = YitIdHelper.NextId();
-        var requestBody = Array.Exists( //
-            _textContentTypes, x => context.Request.ContentType?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false)
+        var id = YitIdHelper.NextId();
+        var requestBody = Array.Exists(_textContentTypes, x => context.Request.ContentType?.Contains(x, StringComparison.OrdinalIgnoreCase) ?? false)
             ? await context.ReadBodyContentAsync().ConfigureAwait(false)
             : string.Empty;
         var apiId = context.Request.Path.Value!.TrimStart('/');
-        var auditData = new CreateRequestLogReq //
-                        {
-                            Detail = new CreateRequestLogDetailReq //
-                                     {
-                                         Id                  = id
-                                       , CreatedUserAgent    = context.Request.Headers.UserAgent.ToString()
-                                       , ErrorCode           = errorCode
-                                       , Exception           = exception?.Error.ToString()
-                                       , RequestBody         = requestBody
-                                       , RequestContentType  = context.Request.ContentType
-                                       , RequestHeaders      = context.Request.Headers.Json()
-                                       , RequestUrl          = context.Request.GetRequestUrlAddress()
-                                       , ResponseBody        = responseBody
-                                       , ResponseContentType = context.Response.ContentType
-                                       , ResponseHeaders     = context.Response.Headers.Json()
-                                       , ServerIp            = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
-                                       , CreatedTime         = DateTime.Now
-                                     }
-                          , Duration        = (int)duration
-                          , HttpMethod      = Enum.Parse<HttpMethods>(context.Request.Method, true)
-                          , ApiPathCrc32    = apiId.Crc32()
-                          , HttpStatusCode  = context.Response.StatusCode
-                          , CreatedClientIp = context.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32()
-                          , OwnerId         = associatedUser?.UserId
-                          , OwnerDeptId     = associatedUser?.DeptId
-                          , Id              = id
-                          , TraceId         = context.GetTraceId()
-                          , CreatedTime     = DateTime.Now
-                        };
+        var auditData = new CreateRequestLogReq
+        {
+            Detail = new CreateRequestLogDetailReq
+            {
+                Id = id
+                , CreatedUserAgent = context.Request.Headers.UserAgent.ToString()
+                , ErrorCode = errorCode
+                , Exception = exception?.Error.ToString()
+                , RequestBody = requestBody
+                , RequestContentType = context.Request.ContentType
+                , RequestHeaders = context.Request.Headers.Json()
+                , RequestUrl = context.Request.GetRequestUrlAddress()
+                , ResponseBody = responseBody
+                , ResponseContentType = context.Response.ContentType
+                , ResponseHeaders = context.Response.Headers.Json()
+                , ServerIp = context.GetLocalIpAddressToIPv4()?.IpV4ToInt32()
+                , CreatedTime = DateTime.Now
+            }
+            , Duration = (int)duration
+            , HttpMethod = Enum.Parse<HttpMethods>(context.Request.Method, true)
+            , ApiPathCrc32 = apiId.Crc32()
+            , HttpStatusCode = context.Response.StatusCode
+            , CreatedClientIp = context.GetRealIpAddress()?.MapToIPv4().ToString().IpV4ToInt32()
+            , OwnerId = associatedUser?.UserId
+            , OwnerDeptId = associatedUser?.DeptId
+            , Id = id
+            , TraceId = context.GetTraceId()
+            , CreatedTime = DateTime.Now
+        };
 
         // ReSharper disable once InvertIf
         if (!_loggerIgnoreApiIds.Contains(apiId)) {
@@ -73,8 +76,7 @@ public sealed class RequestLogger(ILogger<RequestLogger> logger, IEventPublisher
         return auditData;
     }
 
-    private (long UserId, long DeptId, string UserName)? GetAssociatedUser(HttpContext context)
-    {
+    private (long UserId, long DeptId, string UserName)? GetAssociatedUser(HttpContext context) {
         var token = context.Request.Headers.Authorization.FirstOrDefault();
         if (token == null) {
             return null;

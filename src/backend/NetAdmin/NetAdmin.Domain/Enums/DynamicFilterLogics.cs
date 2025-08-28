@@ -12,7 +12,7 @@ public enum DynamicFilterLogics
     [ResourceDescription<Ln>(nameof(Ln.并且))]
     And = 0
 
-   ,
+    ,
 
     /// <summary>
     ///     或者

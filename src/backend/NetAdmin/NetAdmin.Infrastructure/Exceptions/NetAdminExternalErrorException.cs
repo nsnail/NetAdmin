@@ -9,4 +9,6 @@ namespace NetAdmin.Infrastructure.Exceptions;
 #pragma warning disable RCS1194
 public sealed class NetAdminExternalErrorException(string message, Exception innerException = null)
     #pragma warning restore RCS1194
-    : NetAdminException(ErrorCodes.ExternalError, message, innerException) { }
+    : NetAdminException(ErrorCodes.ExternalError, message, innerException)
+{
+}

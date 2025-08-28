@@ -6,12 +6,11 @@ using NetAdmin.Domain.Extensions;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDicCatalogService" />
-public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo) //
+public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     : RepositoryService<Sys_DicCatalog, long, IDicCatalogService>(rpo), IDicCatalogService
 {
     /// <inheritdoc />
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         req.ThrowIfInvalid();
         var ret = 0;
 
@@ -24,31 +23,30 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryDicCatalogReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryDicCatalogReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDicCatalogReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDicCatalogReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Sys_DicCatalog>())
-                        .ToDictionaryAsync(a => a.Count())
-                        .ConfigureAwait(false);
-        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DicCatalog).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
-                  .OrderByDescending(x => x.Value);
+            .WithNoLockNoWait()
+            .GroupBy(req.GetToListExp<Sys_DicCatalog>())
+            .ToDictionaryAsync(a => a.Count())
+            .ConfigureAwait(false);
+        return ret
+            .Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                    req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_DicCatalog).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value
+                )
+            )
+            .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
-    public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req)
-    {
+    public async Task<QueryDicCatalogRsp> CreateAsync(CreateDicCatalogReq req) {
         req.ThrowIfInvalid();
         if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
@@ -59,8 +57,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     }
 
     /// <inheritdoc />
-    public async Task<int> DeleteAsync(DelReq req)
-    {
+    public async Task<int> DeleteAsync(DelReq req) {
         req.ThrowIfInvalid();
         var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id).ConfigureAwait(false);
         return ret.Count;
@@ -68,8 +65,7 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
-    public async Task<QueryDicCatalogRsp> EditAsync(EditDicCatalogReq req)
-    {
+    public async Task<QueryDicCatalogRsp> EditAsync(EditDicCatalogReq req) {
         req.ThrowIfInvalid();
         if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
@@ -84,54 +80,49 @@ public sealed class DicCatalogService(BasicRepository<Sys_DicCatalog, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryDicCatalogReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDicCatalogReq> req) {
         req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req)
-    {
+    public async Task<QueryDicCatalogRsp> GetAsync(QueryDicCatalogReq req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryDicCatalogReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDicCatalogRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDicCatalogReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDicCatalogReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         .WithNoLockNoWait()
-                         .Count(out var total)
-                         .ToListAsync(req)
-                         .ConfigureAwait(false);
+            .Page(req.Page, req.PageSize)
+            .WithNoLockNoWait()
+            .Count(out var total)
+            .ToListAsync(req)
+            .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDicCatalogRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDicCatalogRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req)
-    {
+    public async Task<IEnumerable<QueryDicCatalogRsp>> QueryAsync(QueryReq<QueryDicCatalogReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDicCatalogRsp>>();
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryDicCatalogReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryDicCatalogReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DicCatalog>());
     }
 
-    private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req)
-    {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter)
-                     .WhereIf(req.Filter?.Id           > 0, a => a.Id   == req.Filter.Id)
-                     .WhereIf(req.Filter?.Code?.Length > 0, a => a.Code == req.Filter.Code);
+    private ISelect<Sys_DicCatalog> QueryInternal(QueryReq<QueryDicCatalogReq> req) {
+        var ret = Rpo
+            .Select.WhereDynamicFilter(req.DynamicFilter)
+            .WhereIf(req.Filter?.Id > 0, a => a.Id == req.Filter.Id)
+            .WhereIf(req.Filter?.Code?.Length > 0, a => a.Code == req.Filter.Code);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

@@ -13,31 +13,33 @@ namespace NetAdmin.Application.Services;
 /// </remarks>
 public abstract class RedisService<TEntity, TPrimary, TLogger>(BasicRepository<TEntity, TPrimary> rpo)
     : RepositoryService<TEntity, TPrimary, TLogger>(rpo)
-    where TEntity : EntityBase<TPrimary> //
+    where TEntity : EntityBase<TPrimary>
     where TPrimary : IEquatable<TPrimary>
 {
     /// <summary>
     ///     Redis Database
     /// </summary>
-    protected IDatabase RedisDatabase { get; } //
-        = App.GetService<IConnectionMultiplexer>()
-             .GetDatabase(App.GetOptions<RedisOptions>().Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE).Database);
+    protected IDatabase RedisDatabase { get; } = App
+        .GetService<IConnectionMultiplexer>()
+        .GetDatabase(App.GetOptions<RedisOptions>().Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE).Database);
 
     /// <summary>
     ///     获取锁
     /// </summary>
-    protected Task<RedisLocker> GetLockerAsync(string lockerName)
-    {
-        return RedisLocker.GetLockerAsync(RedisDatabase, lockerName, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY)
-                                        , Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
+    protected Task<RedisLocker> GetLockerAsync(string lockerName) {
+        return RedisLocker.GetLockerAsync(
+            RedisDatabase, lockerName, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK
+            , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY)
+        );
     }
 
     /// <summary>
     ///     获取锁（仅获取一次）
     /// </summary>
-    protected Task<RedisLocker> GetLockerOnceAsync(string lockerName)
-    {
-        return RedisLocker.GetLockerAsync(RedisDatabase, lockerName, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), 1
-                                        , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
+    protected Task<RedisLocker> GetLockerOnceAsync(string lockerName) {
+        return RedisLocker.GetLockerAsync(
+            RedisDatabase, lockerName, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), 1
+            , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY)
+        );
     }
 }

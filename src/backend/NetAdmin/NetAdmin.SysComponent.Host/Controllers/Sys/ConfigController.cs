@@ -13,8 +13,7 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     ///     批量删除配置
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -22,16 +21,14 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     ///     配置计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryConfigReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryConfigReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     配置分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryConfigReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryConfigReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -39,8 +36,7 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     ///     创建配置
     /// </summary>
     [Transaction]
-    public Task<QueryConfigRsp> CreateAsync(CreateConfigReq req)
-    {
+    public Task<QueryConfigRsp> CreateAsync(CreateConfigReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -48,8 +44,7 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     ///     删除配置
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -57,32 +52,28 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     ///     编辑配置
     /// </summary>
     [Transaction]
-    public Task<QueryConfigRsp> EditAsync(EditConfigReq req)
-    {
+    public Task<QueryConfigRsp> EditAsync(EditConfigReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出配置
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryConfigReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个配置
     /// </summary>
-    public Task<QueryConfigRsp> GetAsync(QueryConfigReq req)
-    {
+    public Task<QueryConfigRsp> GetAsync(QueryConfigReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     获取最新有效配置
     /// </summary>
-    public Task<QueryConfigRsp> GetLatestConfigAsync()
-    {
+    public Task<QueryConfigRsp> GetLatestConfigAsync() {
         return Cache.GetLatestConfigAsync();
     }
 
@@ -90,32 +81,28 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     ///     获取注册配置
     /// </summary>
     [AllowAnonymous]
-    public Task<QueryConfigRsp> GetRegisterConfigAsync()
-    {
+    public Task<QueryConfigRsp> GetRegisterConfigAsync() {
         return Cache.GetRegisterConfigAsync();
     }
 
     /// <summary>
     ///     分页查询配置
     /// </summary>
-    public Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req)
-    {
+    public Task<PagedQueryRsp<QueryConfigRsp>> PagedQueryAsync(PagedQueryReq<QueryConfigReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询配置
     /// </summary>
-    public Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req)
-    {
+    public Task<IEnumerable<QueryConfigRsp>> QueryAsync(QueryReq<QueryConfigReq> req) {
         return Cache.QueryAsync(req);
     }
 
     /// <summary>
     ///     设置配置启用状态
     /// </summary>
-    public Task<int> SetEnabledAsync(SetConfigEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetConfigEnabledReq req) {
         return Cache.SetEnabledAsync(req);
     }
 
@@ -123,8 +110,7 @@ public sealed class ConfigController(IConfigCache cache) : ControllerBase<IConfi
     ///     配置求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryConfigReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryConfigReq> req) {
         return Cache.SumAsync(req);
     }
 }

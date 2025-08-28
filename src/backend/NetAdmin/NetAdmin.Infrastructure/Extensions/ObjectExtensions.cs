@@ -8,8 +8,7 @@ public static class ObjectExtensions
     /// <summary>
     ///     object -> json
     /// </summary>
-    public static string ToJson(this object me)
-    {
+    public static string ToJson(this object me) {
         return me.Json(GlobalStatic.JsonSerializerOptions);
     }
 }

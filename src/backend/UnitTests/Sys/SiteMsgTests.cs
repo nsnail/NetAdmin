@@ -14,8 +14,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -24,8 +23,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<long> CountAsync(QueryReq<QuerySiteMsgReq> req)
-    {
+    public async Task<long> CountAsync(QueryReq<QuerySiteMsgReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -34,8 +32,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QuerySiteMsgReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -44,8 +41,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req)
-    {
+    public async Task<QuerySiteMsgRsp> CreateAsync(CreateSiteMsgReq req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -54,8 +50,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteAsync(DelReq req)
-    {
+    public async Task<int> DeleteAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -64,8 +59,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QuerySiteMsgRsp> EditAsync(EditSiteMsgReq req)
-    {
+    public async Task<QuerySiteMsgRsp> EditAsync(EditSiteMsgReq req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -74,8 +68,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req)
-    {
+    public async Task<IActionResult> ExportAsync(QueryReq<QuerySiteMsgReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -84,8 +77,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QuerySiteMsgRsp> GetAsync(QuerySiteMsgReq req)
-    {
+    public async Task<QuerySiteMsgRsp> GetAsync(QuerySiteMsgReq req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -94,8 +86,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req)
-    {
+    public async Task<QuerySiteMsgRsp> GetMineAsync(QuerySiteMsgReq req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -104,8 +95,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgReq> req)
-    {
+    public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryAsync(PagedQueryReq<QuerySiteMsgReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -114,8 +104,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req)
-    {
+    public async Task<PagedQueryRsp<QuerySiteMsgRsp>> PagedQueryMineAsync(PagedQueryReq<QuerySiteMsgReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -124,8 +113,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req)
-    {
+    public async Task<IEnumerable<QuerySiteMsgRsp>> QueryAsync(QueryReq<QuerySiteMsgReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -134,8 +122,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req)
-    {
+    public async Task SetSiteMsgStatusAsync(SetUserSiteMsgStatusReq req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
     }
@@ -143,8 +130,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<decimal> SumAsync(QueryReq<QuerySiteMsgReq> req)
-    {
+    public async Task<decimal> SumAsync(QueryReq<QuerySiteMsgReq> req) {
         var rsp = await PostJsonAsync(typeof(SiteMsgController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -152,8 +138,7 @@ public class SiteMsgTests(WebTestApplicationFactory<Startup> factory, ITestOutpu
 
     /// <inheritdoc />
     [Fact]
-    public async Task<long> UnreadCountAsync()
-    {
+    public async Task<long> UnreadCountAsync() {
         var rsp = await PostJsonAsync(typeof(SiteMsgController));
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;

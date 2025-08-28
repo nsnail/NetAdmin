@@ -13,8 +13,7 @@ public class DevTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task GenerateCsCodeAsync(GenerateCsCodeReq req)
-    {
+    public async Task GenerateCsCodeAsync(GenerateCsCodeReq req) {
         var rsp = await PostJsonAsync(typeof(DevController), req);
         Assert.True(rsp.IsSuccessStatusCode);
     }
@@ -22,32 +21,28 @@ public class DevTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task GenerateIconCodeAsync(GenerateIconCodeReq req)
-    {
+    public async Task GenerateIconCodeAsync(GenerateIconCodeReq req) {
         var rsp = await PostJsonAsync(typeof(DevController), req);
         Assert.True(rsp.IsSuccessStatusCode);
     }
 
     /// <inheritdoc />
     [Fact]
-    public async Task GenerateJsCodeAsync()
-    {
+    public async Task GenerateJsCodeAsync() {
         var rsp = await PostJsonAsync(typeof(DevController));
         Assert.True(rsp.IsSuccessStatusCode);
     }
 
     /// <inheritdoc />
     [Fact]
-    public async Task<IEnumerable<Tuple<string, string>>> GetDomainProjectsAsync()
-    {
+    public async Task<IEnumerable<Tuple<string, string>>> GetDomainProjectsAsync() {
         var rsp = await PostJsonAsync(typeof(DevController));
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
     }
 
     /// <inheritdoc />
-    public IEnumerable<string> GetDotnetDataTypes(GetDotnetDataTypesReq req)
-    {
+    public IEnumerable<string> GetDotnetDataTypes(GetDotnetDataTypesReq req) {
         #pragma warning disable xUnit1031
         var rsp = PostJsonAsync(typeof(DevController)).GetAwaiter().GetResult();
         #pragma warning restore xUnit1031
@@ -57,8 +52,7 @@ public class DevTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
 
     /// <inheritdoc />
     [Fact]
-    public IEnumerable<Tuple<string, string>> GetEntityBaseClasses()
-    {
+    public IEnumerable<Tuple<string, string>> GetEntityBaseClasses() {
         #pragma warning disable xUnit1031
         var rsp = PostJsonAsync(typeof(DevController)).GetAwaiter().GetResult();
         #pragma warning restore xUnit1031
@@ -68,8 +62,7 @@ public class DevTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
 
     /// <inheritdoc />
     [Fact]
-    public IEnumerable<Tuple<string, string>> GetFieldInterfaces()
-    {
+    public IEnumerable<Tuple<string, string>> GetFieldInterfaces() {
         #pragma warning disable xUnit1031
         var rsp = PostJsonAsync(typeof(DevController)).GetAwaiter().GetResult();
         #pragma warning restore xUnit1031

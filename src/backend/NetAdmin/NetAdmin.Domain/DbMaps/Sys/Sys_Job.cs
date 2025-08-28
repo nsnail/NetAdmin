@@ -12,7 +12,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     是否启用
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual bool Enabled { get; init; }
 
@@ -20,7 +19,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     执行时间计划
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string ExecutionCron { get; init; }
 
@@ -28,7 +26,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     请求方法
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual HttpMethods HttpMethod { get; init; }
 
@@ -36,7 +33,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     作业名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string JobName { get; init; }
 
@@ -44,7 +40,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     上次执行耗时
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? LastDuration { get; init; }
 
@@ -52,7 +47,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     上次执行时间
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime? LastExecTime { get; init; }
 
@@ -60,7 +54,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     上次执行状态
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_SMALL_INT)]
-    [CsvIgnore]
     [JsonIgnore]
     public int? LastStatusCode { get; init; }
 
@@ -68,7 +61,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     下次执行时间
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime? NextExecTime { get; init; }
 
@@ -76,7 +68,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     下次执行时间编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? NextTimeId { get; init; }
 
@@ -84,7 +75,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     随机延时起始值（毫秒）
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual int? RandomDelayBegin { get; init; }
 
@@ -92,7 +82,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     随机延时结束值（毫秒）
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual int? RandomDelayEnd { get; init; }
 
@@ -100,7 +89,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     请求体
     /// </summary>
     [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestBody { get; init; }
 
@@ -108,7 +96,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     请求头
     /// </summary>
     [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestHeader { get; init; }
 
@@ -116,7 +103,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     请求的网络地址
     /// </summary>
     [Column(DbType = Chars.FLGL_DB_FIELD_TYPE_VARCHAR_MAX)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string RequestUrl { get; init; }
 
@@ -124,7 +110,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     作业状态
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual JobStatues Status { get; init; }
 
@@ -132,14 +117,12 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     备注
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; set; }
 
     /// <summary>
     ///     执行用户
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(UserId))]
     public Sys_User User { get; init; }
@@ -148,7 +131,6 @@ public record Sys_Job : VersionEntity, IFieldEnabled, IFieldSummary
     ///     执行用户编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long UserId { get; init; }
 }

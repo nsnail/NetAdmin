@@ -6,8 +6,11 @@ namespace NetAdmin.Host.Utils;
 public sealed class ToNullIfEmptyStringConverter : JsonConverter<string>
 {
     /// <inheritdoc />
-    public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
+    public override string Read(
+        ref Utf8JsonReader reader
+        , Type typeToConvert
+        , JsonSerializerOptions options
+    ) {
         if (reader.TokenType == JsonTokenType.Number) {
             var success = reader.TryGetDecimal(out var dec);
             return success ? dec.ToString(CultureInfo.InvariantCulture) : "0";
@@ -18,8 +21,11 @@ public sealed class ToNullIfEmptyStringConverter : JsonConverter<string>
     }
 
     /// <inheritdoc />
-    public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
-    {
+    public override void Write(
+        Utf8JsonWriter writer
+        , string value
+        , JsonSerializerOptions options
+    ) {
         writer.WriteStringValue(value.Length == 0 ? null : value);
     }
 }

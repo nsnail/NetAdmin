@@ -29,8 +29,7 @@
     </resheader>
    <#
     var regex = new Regex(@"^\d", RegexOptions.Compiled);
-    foreach (var line in Directory.GetFiles("../assets/res/", "*.ln").SelectMany(x => File.ReadLines(x)).Distinct())
-    {
+    foreach (var line in Directory.GetFiles("../assets/res/", "*.ln").SelectMany(x => File.ReadLines(x)).Distinct()) {
 #>
     <data name="<#= regex.IsMatch(line) ? "_" : "" #><#= line #>" xml:space="preserve"><value><#= line #></value></data>
 <#
