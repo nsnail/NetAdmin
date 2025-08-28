@@ -8,8 +8,7 @@ public abstract record EventData<T> : DataAbstraction, IEventData<T>
     /// <summary>
     ///     Initializes a new instance of the <see cref="EventData{T}" /> class.
     /// </summary>
-    protected EventData(T payLoad)
-    {
+    protected EventData(T payLoad) {
         PayLoad = payLoad;
     }
 

@@ -12,7 +12,7 @@ public enum Genders
     [ResourceDescription<Ln>(nameof(Ln.男))]
     Male = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     女
@@ -20,7 +20,7 @@ public enum Genders
     [ResourceDescription<Ln>(nameof(Ln.女))]
     Female = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     密

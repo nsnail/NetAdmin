@@ -1,71 +1,34 @@
 <template>
     <sc-dialog v-model="visible" :title="`${titleMap[mode]}：${form?.id ?? '...'}`" @closed="$emit('closed')" destroy-on-close>
         <div v-loading="loading">
-            <el-tabs v-model="tabId" @tab-change="tabChange" tab-position="top">
-                <el-tab-pane :label="$t('基本信息')" name="basic">
-                    <el-form :disabled="mode === 'view' || mode === 'pay'" :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
-                        <el-form-item v-if="mode !== 'add'" :label="$t('订单编号')" prop="id">
-                            <el-input v-model="form.id" clearable />
-                        </el-form-item>
-                        <el-form-item v-if="mode !== 'add'" :label="$t('订单状态')" prop="depositOrderStatus">
-                            <el-select v-model="form.depositOrderStatus" filterable>
-                                <el-option v-for="(item, i) in $GLOBAL.enums.depositOrderStatues" :key="i" :label="item[1]" :value="i" />
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item :label="$t('充值点数')" prop="depositPoint">
-                            <el-input-number
-                                :max="100000000"
-                                :min="100"
-                                :model-value="form.depositPoint"
-                                :step="100"
-                                @input="
-                                    (e) => {
-                                        if (e < 0) e = 0
-                                        if (e % 10 === 0) {
-                                            e += Math.floor(Math.random() * 9) + 1
-                                        }
-                                        if (e < 100) {
-                                            e += 100
-                                        }
-
-                                        this.form.depositPoint = e
-                                    }
-                                "
-                                clearable
-                                style="width: 15rem" />
-                        </el-form-item>
-                        <el-form-item :label="$t('支付方式')" prop="paymentMode">
-                            <el-select v-model="form.paymentMode" filterable>
-                                <el-option v-for="(item, i) in $GLOBAL.enums.paymentModes" :key="i" :label="item[1]" :value="i" />
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item :label="$t('货币兑点数比率')" prop="toPointRate">
-                            <el-input :model-value="form.toPointRate ? `1:${form.toPointRate}` : ''" disabled />
-                        </el-form-item>
-                        <el-form-item :label="$t('支付货币金额')" prop="actualPayAmount">
-                            <el-input :model-value="form.actualPayAmount ? form.actualPayAmount / 1000 : ''" disabled />
-                        </el-form-item>
-                        <el-form-item v-if="mode === 'pay'" :label="$t('收款账号')" prop="receiptAccount">
-                            <el-input v-model="form.receiptAccount" clearable />
-                        </el-form-item>
-                        <el-form-item v-if="mode === 'pay'" :label="$t('收款二维码')">
-                            <div v-html="form.receiptAccountQrCode"></div>
-                        </el-form-item>
-                        <el-form-item v-if="mode !== 'add'" :label="$t('创建时间')" prop="createdTime">
-                            <el-input v-model="form.createdTime" clearable />
-                        </el-form-item>
-                    </el-form>
-                </el-tab-pane>
-                <el-tab-pane v-if="mode === 'view'" :label="$t('原始数据')">
-                    <json-viewer
-                        :expand-depth="5"
-                        :theme="this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK ? 'dark' : 'light'"
-                        :value="form"
-                        copyable
-                        expanded
-                        sort />
-                </el-tab-pane>
-            </el-tabs>
+            <el-form :disabled="mode === 'view' || mode === 'pay'" :model="form" :rules="rules" label-width="15rem" ref="dialogForm">
+                <el-form-item v-if="mode !== 'add'" :label="$t('订单状态')" prop="depositOrderStatus">
+                    <el-select v-model="form.depositOrderStatus" filterable>
+                        <el-option v-for="(item, i) in $GLOBAL.enums.depositOrderStatues" :key="i" :label="item[1]" :value="i" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('充值金额')" prop="depositPoint"> &#165;{{ (form.depositPoint / 100).toFixed(2) }} </el-form-item>
+                <el-form-item :label="$t('支付方式')" prop="paymentMode">
+                    <el-select v-model="form.paymentMode" filterable>
+                        <el-option v-for="(item, i) in $GLOBAL.enums.paymentModes" :key="i" :label="item[1]" :value="i" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('汇率')" prop="toPointRate">
+                    <el-input :model-value="(form.toPointRate / 100).toFixed(2)" disabled />
+                </el-form-item>
+                <el-form-item :label="$t('支付金额（U)')" prop="actualPayAmount">
+                    <b style="color: red; font-size: 1.5rem">{{ form.actualPayAmount ? form.actualPayAmount / 1000 : '' }}</b>
+                </el-form-item>
+                <el-form-item>
+                    <p style="color: var(--el-color-warning)">⚠️转账金额必须与红字完全一致（不含手续费）</p>
+                </el-form-item>
+                <el-form-item v-if="mode === 'pay'" :label="$t('收款账号')" prop="receiptAccount">
+                    <el-input v-model="form.receiptAccount" clearable />
+                </el-form-item>
+                <el-form-item v-if="mode === 'pay'" :label="$t('收款二维码')">
+                    <div v-html="form.receiptAccountQrCode"></div>
+                </el-form-item>
+            </el-form>
         </div>
         <template #footer>
             <el-button @click="visible = false">{{ $t('取消') }}</el-button>

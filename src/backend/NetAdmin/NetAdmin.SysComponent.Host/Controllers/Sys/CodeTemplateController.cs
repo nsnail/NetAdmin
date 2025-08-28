@@ -14,8 +14,7 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     批量删除代码模板
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -23,16 +22,14 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     代码模板计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryCodeTemplateReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryCodeTemplateReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     代码模板分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryCodeTemplateReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryCodeTemplateReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -40,8 +37,7 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     创建代码模板
     /// </summary>
     [Transaction]
-    public Task<QueryCodeTemplateRsp> CreateAsync(CreateCodeTemplateReq req)
-    {
+    public Task<QueryCodeTemplateRsp> CreateAsync(CreateCodeTemplateReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -49,8 +45,7 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     删除代码模板
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -58,8 +53,7 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     编辑代码模板
     /// </summary>
     [Transaction]
-    public Task<QueryCodeTemplateRsp> EditAsync(EditCodeTemplateReq req)
-    {
+    public Task<QueryCodeTemplateRsp> EditAsync(EditCodeTemplateReq req) {
         return Cache.EditAsync(req);
     }
 
@@ -67,24 +61,21 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     导出代码模板
     /// </summary>
     [NonAction]
-    public Task<IActionResult> ExportAsync(QueryReq<QueryCodeTemplateReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryCodeTemplateReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个代码模板
     /// </summary>
-    public Task<QueryCodeTemplateRsp> GetAsync(QueryCodeTemplateReq req)
-    {
+    public Task<QueryCodeTemplateRsp> GetAsync(QueryCodeTemplateReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     分页查询代码模板
     /// </summary>
-    public Task<PagedQueryRsp<QueryCodeTemplateRsp>> PagedQueryAsync(PagedQueryReq<QueryCodeTemplateReq> req)
-    {
+    public Task<PagedQueryRsp<QueryCodeTemplateRsp>> PagedQueryAsync(PagedQueryReq<QueryCodeTemplateReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
@@ -92,8 +83,7 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     查询代码模板
     /// </summary>
     [NonAction]
-    public Task<IEnumerable<QueryCodeTemplateRsp>> QueryAsync(QueryReq<QueryCodeTemplateReq> req)
-    {
+    public Task<IEnumerable<QueryCodeTemplateRsp>> QueryAsync(QueryReq<QueryCodeTemplateReq> req) {
         return Cache.QueryAsync(req);
     }
 
@@ -101,8 +91,7 @@ public sealed class CodeTemplateController(ICodeTemplateCache cache)
     ///     代码模板求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryCodeTemplateReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryCodeTemplateReq> req) {
         return Cache.SumAsync(req);
     }
 }

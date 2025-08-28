@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 导出充值订单
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/deposit.order/export`,
+        name: `导出充值订单`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个充值订单
      */
     get: {
@@ -110,6 +121,17 @@ export default {
     receivedConfirmation: {
         url: `${config.API_URL}/api/sys/deposit.order/received.confirmation`,
         name: `到账确认`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
+     * 充值订单求和
+     */
+    sum: {
+        url: `${config.API_URL}/api/sys/deposit.order/sum`,
+        name: `充值订单求和`,
         post: async function (data = {}, config = {}) {
             return await http.post(this.url, data, config)
         },

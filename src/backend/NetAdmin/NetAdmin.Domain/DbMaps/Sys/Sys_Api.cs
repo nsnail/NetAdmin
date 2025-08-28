@@ -4,13 +4,12 @@ namespace NetAdmin.Domain.DbMaps.Sys;
 ///     Api接口表
 /// </summary>
 [Table(Name = Chars.FLG_DB_TABLE_NAME_PREFIX + nameof(Sys_Api))]
-[SqlIndex(Chars.FLG_DB_INDEX_PREFIX          + nameof(PathCrc32), nameof(PathCrc32), true)]
+[SqlIndex(Chars.FLG_DB_INDEX_PREFIX + nameof(PathCrc32), nameof(PathCrc32), true)]
 public record Sys_Api : ImmutableEntity<string>, IFieldSummary
 {
     /// <summary>
     ///     子节点
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(ParentId))]
     public IEnumerable<Sys_Api> Children { get; init; }
@@ -19,7 +18,6 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     唯一编码
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127, IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [JsonIgnore]
     public override string Id { get; init; }
 
@@ -27,7 +25,6 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     请求方式
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_15)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Method { get; init; }
 
@@ -35,7 +32,6 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     服务名称
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Name { get; init; }
 
@@ -43,7 +39,6 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     命名空间
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31)]
-    [CsvIgnore]
     [JsonIgnore]
     #pragma warning disable CA1716
     public virtual string Namespace { get; init; }
@@ -53,7 +48,6 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     父编号
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_127)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string ParentId { get; init; }
 
@@ -61,14 +55,12 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     路径CRC32
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual int PathCrc32 { get; init; }
 
     /// <summary>
     ///     角色集合
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(ManyToMany = typeof(Sys_RoleApi))]
     public IReadOnlyCollection<Sys_Role> Roles { get; init; }
@@ -77,7 +69,6 @@ public record Sys_Api : ImmutableEntity<string>, IFieldSummary
     ///     服务描述
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_63)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; set; }
 }

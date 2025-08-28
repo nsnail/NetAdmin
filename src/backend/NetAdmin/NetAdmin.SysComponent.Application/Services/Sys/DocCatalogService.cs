@@ -6,12 +6,11 @@ using NetAdmin.Domain.Extensions;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDocCatalogService" />
-public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo) //
+public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
     : RepositoryService<Sys_DocCatalog, long, IDocCatalogService>(rpo), IDocCatalogService
 {
     /// <inheritdoc />
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         req.ThrowIfInvalid();
         var ret = 0;
 
@@ -24,31 +23,30 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryDocCatalogReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryDocCatalogReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDocCatalogReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDocCatalogReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Sys_DocCatalog>())
-                        .ToDictionaryAsync(a => a.Count())
-                        .ConfigureAwait(false);
-        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DocCatalog).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
-                  .OrderByDescending(x => x.Value);
+            .WithNoLockNoWait()
+            .GroupBy(req.GetToListExp<Sys_DocCatalog>())
+            .ToDictionaryAsync(a => a.Count())
+            .ConfigureAwait(false);
+        return ret
+            .Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                    req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_DocCatalog).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value
+                )
+            )
+            .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
-    public async Task<QueryDocCatalogRsp> CreateAsync(CreateDocCatalogReq req)
-    {
+    public async Task<QueryDocCatalogRsp> CreateAsync(CreateDocCatalogReq req) {
         req.ThrowIfInvalid();
         if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
             throw new NetAdminInvalidOperationException(Ln.父节点不存在);
@@ -59,8 +57,7 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
     }
 
     /// <inheritdoc />
-    public async Task<int> DeleteAsync(DelReq req)
-    {
+    public async Task<int> DeleteAsync(DelReq req) {
         req.ThrowIfInvalid();
         var ret = await Rpo.DeleteCascadeByDatabaseAsync(a => a.Id == req.Id).ConfigureAwait(false);
         return ret.Count;
@@ -68,8 +65,7 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
 
     /// <inheritdoc />
     /// <exception cref="NetAdminInvalidOperationException">The_parent_node_does_not_exist</exception>
-    public async Task<QueryDocCatalogRsp> EditAsync(EditDocCatalogReq req)
-    {
+    public async Task<QueryDocCatalogRsp> EditAsync(EditDocCatalogReq req) {
         req.ThrowIfInvalid();
 
         if (req.ParentId != 0 && !await Rpo.Where(a => a.Id == req.ParentId).WithNoLockNoWait().AnyAsync().ConfigureAwait(false)) {
@@ -79,57 +75,51 @@ public sealed class DocCatalogService(BasicRepository<Sys_DocCatalog, long> rpo)
         return
             #if DBTYPE_SQLSERVER
             (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDocCatalogRsp>();
-            #else
+        #else
             await UpdateAsync(req).ConfigureAwait(false) > 0 ? await GetAsync(new QueryDocCatalogReq { Id = req.Id }).ConfigureAwait(false) : null;
         #endif
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryDocCatalogReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDocCatalogReq> req) {
         req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public async Task<QueryDocCatalogRsp> GetAsync(QueryDocCatalogReq req)
-    {
+    public async Task<QueryDocCatalogRsp> GetAsync(QueryDocCatalogReq req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryDocCatalogReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryDocCatalogRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryDocCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDocCatalogReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDocCatalogRsp>> PagedQueryAsync(PagedQueryReq<QueryDocCatalogReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Page(req.Page, req.PageSize)
-                         .WithNoLockNoWait()
-                         .Count(out var total)
-                         .ToListAsync(req)
-                         .ConfigureAwait(false);
+            .Page(req.Page, req.PageSize)
+            .WithNoLockNoWait()
+            .Count(out var total)
+            .ToListAsync(req)
+            .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDocCatalogRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDocCatalogRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryDocCatalogRsp>> QueryAsync(QueryReq<QueryDocCatalogReq> req)
-    {
+    public async Task<IEnumerable<QueryDocCatalogRsp>> QueryAsync(QueryReq<QueryDocCatalogReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().ToTreeListAsync().ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDocCatalogRsp>>();
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryDocCatalogReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryDocCatalogReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DocCatalog>());
     }
 
-    private ISelect<Sys_DocCatalog> QueryInternal(QueryReq<QueryDocCatalogReq> req)
-    {
+    private ISelect<Sys_DocCatalog> QueryInternal(QueryReq<QueryDocCatalogReq> req) {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault

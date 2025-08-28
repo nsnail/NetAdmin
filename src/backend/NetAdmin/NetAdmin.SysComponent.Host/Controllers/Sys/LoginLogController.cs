@@ -13,8 +13,7 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     ///     批量删除登录日志
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -22,16 +21,14 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     ///     登录日志计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryLoginLogReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     登录日志分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryLoginLogReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -39,8 +36,7 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     ///     创建登录日志
     /// </summary>
     [Transaction]
-    public Task<QueryLoginLogRsp> CreateAsync(CreateLoginLogReq req)
-    {
+    public Task<QueryLoginLogRsp> CreateAsync(CreateLoginLogReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -48,8 +44,7 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     ///     删除登录日志
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -58,40 +53,35 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req)
-    {
+    public Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出登录日志
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryLoginLogReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个登录日志
     /// </summary>
-    public Task<QueryLoginLogRsp> GetAsync(QueryLoginLogReq req)
-    {
+    public Task<QueryLoginLogRsp> GetAsync(QueryLoginLogReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     分页查询登录日志
     /// </summary>
-    public Task<PagedQueryRsp<QueryLoginLogRsp>> PagedQueryAsync(PagedQueryReq<QueryLoginLogReq> req)
-    {
+    public Task<PagedQueryRsp<QueryLoginLogRsp>> PagedQueryAsync(PagedQueryReq<QueryLoginLogReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询登录日志
     /// </summary>
-    public Task<IEnumerable<QueryLoginLogRsp>> QueryAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<IEnumerable<QueryLoginLogRsp>> QueryAsync(QueryReq<QueryLoginLogReq> req) {
         return Cache.QueryAsync(req);
     }
 
@@ -99,8 +89,7 @@ public sealed class LoginLogController(ILoginLogCache cache) : ControllerBase<IL
     ///     登录日志求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryLoginLogReq> req) {
         return Cache.SumAsync(req);
     }
 }

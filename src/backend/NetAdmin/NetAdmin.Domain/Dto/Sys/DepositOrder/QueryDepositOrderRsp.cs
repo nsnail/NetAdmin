@@ -1,4 +1,5 @@
 using NetAdmin.Domain.Dto.Sys.User;
+using NetAdmin.Domain.Enums.Sys;
 
 namespace NetAdmin.Domain.Dto.Sys.DepositOrder;
 
@@ -32,7 +33,6 @@ public record QueryDepositOrderRsp : Sys_DepositOrder
     public override DateTime? ModifiedTime { get; init; }
 
     /// <inheritdoc cref="Sys_DepositOrder.Owner" />
-    [CsvIgnore]
     public new virtual QueryUserRsp Owner { get; init; }
 
     /// <inheritdoc cref="IFieldOwner.OwnerDeptId" />

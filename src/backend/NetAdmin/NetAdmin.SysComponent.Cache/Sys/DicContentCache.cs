@@ -3,89 +3,75 @@ using NetAdmin.Domain.Dto.Sys.Dic.Content;
 namespace NetAdmin.SysComponent.Cache.Sys;
 
 /// <inheritdoc cref="IDicContentCache" />
-public sealed class DicContentCache(IDistributedCache cache, IDicContentService service) //
+public sealed class DicContentCache(IDistributedCache cache, IDicContentService service)
     : DistributedCache<IDicContentService>(cache, service), IScoped, IDicContentCache
 {
     /// <inheritdoc />
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Service.BulkDeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryDicContentReq> req) {
         return Service.CountAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDicContentReq> req) {
         return Service.CountByAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryDicContentRsp> CreateAsync(CreateDicContentReq req)
-    {
+    public Task<QueryDicContentRsp> CreateAsync(CreateDicContentReq req) {
         return Service.CreateAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Service.DeleteAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryDicContentRsp> EditAsync(EditDicContentReq req)
-    {
+    public Task<QueryDicContentRsp> EditAsync(EditDicContentReq req) {
         return Service.EditAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryDicContentReq> req) {
         return Service.ExportAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req)
-    {
+    public Task<QueryDicContentRsp> GetAsync(QueryDicContentReq req) {
         return Service.GetAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDicContentReq> req)
-    {
+    public Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryAsync(PagedQueryReq<QueryDicContentReq> req) {
         return Service.PagedQueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<IEnumerable<QueryDicContentRsp>> QueryAsync(QueryReq<QueryDicContentReq> req) {
         return Service.QueryAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<List<QueryDicContentRsp>> QueryByCatalogCodeAsync(string catalogCode)
-    {
+    public Task<List<QueryDicContentRsp>> QueryByCatalogCodeAsync(string catalogCode) {
         #if !DEBUG
-        return GetOrCreateAsync( //
-            GetCacheKey(catalogCode), () => Service.QueryByCatalogCodeAsync(catalogCode), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DIC_CATALOG_CODE));
+        return GetOrCreateAsync(             GetCacheKey(catalogCode), () => Service.QueryByCatalogCodeAsync(catalogCode), TimeSpan.FromSeconds(Numbers.SECS_CACHE_DIC_CATALOG_CODE));
         #else
         return Service.QueryByCatalogCodeAsync(catalogCode);
         #endif
     }
 
     /// <inheritdoc />
-    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetDicContentEnabledReq req) {
         return Service.SetEnabledAsync(req);
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryDicContentReq> req) {
         return Service.SumAsync(req);
     }
 }

@@ -61,6 +61,17 @@ export default {
     },
 
     /**
+     * 导出用户钱包
+     */
+    export: {
+        url: `${config.API_URL}/api/sys/user.wallet/export`,
+        name: `导出用户钱包`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 获取单个用户钱包
      */
     get: {

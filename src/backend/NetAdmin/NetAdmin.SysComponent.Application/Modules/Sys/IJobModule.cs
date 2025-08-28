@@ -8,9 +8,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     计划作业模块
 /// </summary>
 public interface IJobModule : ICrudModule<CreateJobReq, QueryJobRsp // 创建类型
-  , EditJobReq                                                      // 编辑类型
-  , QueryJobReq, QueryJobRsp                                        // 查询类型
-  , DelReq                                                          // 删除类型
+    , EditJobReq // 编辑类型
+    , QueryJobReq, QueryJobRsp // 查询类型
+    , DelReq // 删除类型
 >
 {
     /// <summary>

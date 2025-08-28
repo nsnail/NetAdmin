@@ -12,7 +12,7 @@ public enum VerifyCodeTypes
     [ResourceDescription<Ln>(nameof(Ln.绑定手机号码))]
     LinkMobile = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     登录
@@ -20,7 +20,7 @@ public enum VerifyCodeTypes
     [ResourceDescription<Ln>(nameof(Ln.登录))]
     Login = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     解绑手机号码
@@ -28,7 +28,7 @@ public enum VerifyCodeTypes
     [ResourceDescription<Ln>(nameof(Ln.解绑手机号码))]
     UnlinkMobile = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     注册
@@ -36,7 +36,7 @@ public enum VerifyCodeTypes
     [ResourceDescription<Ln>(nameof(Ln.注册))]
     Register = 4
 
-   ,
+    ,
 
     /// <summary>
     ///     重设密码

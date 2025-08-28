@@ -12,7 +12,7 @@ public enum CertificateTypes
     [ResourceDescription<Ln>(nameof(Ln.身份证))]
     IdentityCard = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     护照
@@ -20,7 +20,7 @@ public enum CertificateTypes
     [ResourceDescription<Ln>(nameof(Ln.护照))]
     Passport = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     外国人居留证
@@ -28,7 +28,7 @@ public enum CertificateTypes
     [ResourceDescription<Ln>(nameof(Ln.外国人居留证))]
     ForeignerResidencePermit = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     港澳台通行证
@@ -36,7 +36,7 @@ public enum CertificateTypes
     [ResourceDescription<Ln>(nameof(Ln.港澳台通行证))]
     HKorMacauPermit = 4
 
-   ,
+    ,
 
     /// <summary>
     ///     出生证

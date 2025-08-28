@@ -11,9 +11,4 @@ public interface IUserService : IService, IUserModule
     ///     用户是否存在
     /// </summary>
     Task<bool> ExistAsync(QueryReq<QueryUserReq> req);
-
-    /// <summary>
-    ///     用户编号登录
-    /// </summary>
-    Task<LoginRsp> LoginByUserIdAsync(long userId);
 }

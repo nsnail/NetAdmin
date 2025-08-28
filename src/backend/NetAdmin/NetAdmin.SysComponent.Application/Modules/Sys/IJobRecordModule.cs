@@ -6,7 +6,7 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     计划作业执行记录模块
 /// </summary>
 public interface IJobRecordModule : ICrudModule<CreateJobRecordReq, QueryJobRecordRsp // 创建类型
-  , EditJobRecordReq                                                                  // 编辑类型
-  , QueryJobRecordReq, QueryJobRecordRsp                                              // 查询类型
-  , DelReq                                                                            // 删除类型
+    , EditJobRecordReq // 编辑类型
+    , QueryJobRecordReq, QueryJobRecordRsp // 查询类型
+    , DelReq // 删除类型
 >;

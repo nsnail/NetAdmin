@@ -88,7 +88,8 @@
         <el-badge :hidden="!vue.query.dynamicFilter.filters?.length" :value="vue.query.dynamicFilter.filters?.length ?? 0">
             <el-button-group>
                 <el-button @click="search" icon="el-icon-search" type="primary">{{ $t('查询') }}</el-button>
-                <el-popover :title="$t('已应用的查询条件')" :width="popWidth" placement="bottom-end" trigger="hover">
+                <el-button v-if="showSearchMine" @click="searchMine" icon="el-icon-filter">{{ $t('只看我的') }}</el-button>
+                <el-popover v-if="this.$GLOBAL.user.isAdmin" :title="$t('已应用的查询条件')" :width="popWidth" placement="bottom-end" trigger="hover">
                     <template #reference>
                         <el-button @click="reset" icon="el-icon-refresh-left">{{ $t('重置') }}</el-button>
                     </template>
@@ -142,6 +143,7 @@
                         </el-dropdown>
                     </p>
                 </el-popover>
+                <el-button v-else @click="reset" icon="el-icon-refresh-left">{{ $t('重置') }}</el-button>
             </el-button-group>
         </el-badge>
     </form>
@@ -163,6 +165,7 @@ export default {
     props: {
         dateField: { type: String, default: 'createdTime' },
         hasDate: { type: Boolean, default: true },
+        showSearchMine: { type: Boolean, default: false },
         dateType: { type: String, default: 'daterange' },
         dateFormat: { type: String, default: 'YYYY-MM-DD' },
         dateValueFormat: { type: String, default: 'YYYY-MM-DD' },
@@ -573,6 +576,12 @@ export default {
             for (const field of item.field[1]) {
                 delete this.form[item.field[0]][field.key]
             }
+        },
+        searchMine() {
+            const parentQuery = this.clearParentQuery()
+            Object.assign(parentQuery, this.form.root || {})
+            Object.assign(parentQuery.filter, this.form.filter || {})
+            this.$emit('searchMine', this.form)
         },
         search() {
             const parentQuery = this.clearParentQuery()

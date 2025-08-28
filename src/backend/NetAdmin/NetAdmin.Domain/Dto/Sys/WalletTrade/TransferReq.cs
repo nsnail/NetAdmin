@@ -21,8 +21,7 @@ public record TransferReq : Sys_WalletTrade
     public override string Summary { get; set; }
 
     /// <inheritdoc />
-    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
-    {
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext) {
         yield return Amount <= 0 ? new ValidationResult(Ln.交易金额不正确, [nameof(Amount)]) : ValidationResult.Success;
     }
 }

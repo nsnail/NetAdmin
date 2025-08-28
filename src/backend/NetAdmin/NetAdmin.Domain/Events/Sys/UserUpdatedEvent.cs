@@ -8,6 +8,7 @@ namespace NetAdmin.Domain.Events.Sys;
 public sealed record UserUpdatedEvent : EventData<UserInfoRsp>
 {
     /// <inheritdoc />
-    public UserUpdatedEvent(UserInfoRsp payLoad) //
-        : base(payLoad) { }
+    public UserUpdatedEvent(UserInfoRsp payLoad)
+        : base(payLoad) {
+    }
 }

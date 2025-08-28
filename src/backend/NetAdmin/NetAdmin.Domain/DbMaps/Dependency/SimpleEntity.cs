@@ -7,7 +7,6 @@ public abstract record SimpleEntity : SimpleEntity<long>
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }

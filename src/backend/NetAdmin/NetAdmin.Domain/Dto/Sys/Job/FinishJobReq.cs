@@ -6,8 +6,7 @@ namespace NetAdmin.Domain.Dto.Sys.Job;
 public sealed record FinishJobReq : Sys_Job, IRegister
 {
     /// <inheritdoc />
-    public void Register(TypeAdapterConfig config)
-    {
+    public void Register(TypeAdapterConfig config) {
         _ = config.ForType<QueryJobRsp, FinishJobReq>().Map(d => d.LastStatusCode, s => ((Sys_Job)s).LastStatusCode);
     }
 }

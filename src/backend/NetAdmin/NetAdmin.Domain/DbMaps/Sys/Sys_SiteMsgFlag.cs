@@ -13,7 +13,6 @@ public record Sys_SiteMsgFlag : MutableEntity
     ///     站内信编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long SiteMsgId { get; init; }
 
@@ -21,7 +20,6 @@ public record Sys_SiteMsgFlag : MutableEntity
     ///     用户编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public long UserId { get; init; }
 
@@ -29,7 +27,6 @@ public record Sys_SiteMsgFlag : MutableEntity
     ///     用户站内信状态
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual UserSiteMsgStatues UserSiteMsgStatus { get; init; }
 }

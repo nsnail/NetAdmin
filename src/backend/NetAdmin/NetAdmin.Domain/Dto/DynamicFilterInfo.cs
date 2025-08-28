@@ -35,8 +35,7 @@ public sealed record DynamicFilterInfo : DataAbstraction
     /// <summary>
     ///     隐式转换为 FreeSql 的 DynamicFilterInfo 对象
     /// </summary>
-    public static implicit operator FreeSql.Internal.Model.DynamicFilterInfo(DynamicFilterInfo d)
-    {
+    public static implicit operator FreeSql.Internal.Model.DynamicFilterInfo(DynamicFilterInfo d) {
         var ret = d.Adapt<FreeSql.Internal.Model.DynamicFilterInfo>();
         #pragma warning disable VSTHRD002
         ProcessDynamicFilterAsync(ret).ConfigureAwait(false).GetAwaiter().GetResult();
@@ -47,8 +46,7 @@ public sealed record DynamicFilterInfo : DataAbstraction
     /// <summary>
     ///     添加子过滤条件
     /// </summary>
-    public DynamicFilterInfo Add(DynamicFilterInfo df)
-    {
+    public DynamicFilterInfo Add(DynamicFilterInfo df) {
         if (Filters == null) {
             return this with { Filters = [df] };
         }
@@ -60,29 +58,37 @@ public sealed record DynamicFilterInfo : DataAbstraction
     /// <summary>
     ///     添加过滤条件
     /// </summary>
-    public DynamicFilterInfo Add(string field, DynamicFilterOperators opt, object val)
-    {
+    public DynamicFilterInfo Add(
+        string field
+        , DynamicFilterOperators opt
+        , object val
+    ) {
         return Add(new DynamicFilterInfo { Field = field, Operator = opt, Value = val });
     }
 
     /// <summary>
     ///     添加过滤条件
     /// </summary>
-    public DynamicFilterInfo AddIf(bool condition, string field, DynamicFilterOperators opt, object val)
-    {
+    public DynamicFilterInfo AddIf(
+        bool condition
+        , string field
+        , DynamicFilterOperators opt
+        , object val
+    ) {
         return !condition ? this : Add(field, opt, val);
     }
 
     /// <summary>
     ///     添加过滤条件
     /// </summary>
-    public DynamicFilterInfo AddIf(bool condition, DynamicFilterInfo df)
-    {
+    public DynamicFilterInfo AddIf(
+        bool condition
+        , DynamicFilterInfo df
+    ) {
         return !condition ? this : Add(df);
     }
 
-    private static async Task ParseDateExpAsync(FreeSql.Internal.Model.DynamicFilterInfo d)
-    {
+    private static async Task ParseDateExpAsync(FreeSql.Internal.Model.DynamicFilterInfo d) {
         var values = ((JsonElement)d.Value).Deserialize<string[]>();
         if (!DateTime.TryParse(values[0], CultureInfo.InvariantCulture, out _)) {
             var result = await values[0].ExecuteCSharpCodeAsync<DateTime>([typeof(DateTime).Assembly], nameof(System)).ConfigureAwait(false);
@@ -97,8 +103,7 @@ public sealed record DynamicFilterInfo : DataAbstraction
         d.Value = values;
     }
 
-    private static async Task ProcessDynamicFilterAsync(FreeSql.Internal.Model.DynamicFilterInfo d)
-    {
+    private static async Task ProcessDynamicFilterAsync(FreeSql.Internal.Model.DynamicFilterInfo d) {
         if (d?.Filters != null) {
             foreach (var filterInfo in d.Filters) {
                 await ProcessDynamicFilterAsync(filterInfo).ConfigureAwait(false);
@@ -106,7 +111,8 @@ public sealed record DynamicFilterInfo : DataAbstraction
         }
 
         if (new[] { nameof(IFieldCreatedClientIp.CreatedClientIp), nameof(IFieldModifiedClientIp.ModifiedClientIp) }.Contains(
-                d?.Field, StringComparer.OrdinalIgnoreCase)) {
+                d?.Field, StringComparer.OrdinalIgnoreCase
+            )) {
             var val = d!.Value?.ToString();
             if (val?.IsIpV4() == true) {
                 d.Value = val.IpV4ToInt32();

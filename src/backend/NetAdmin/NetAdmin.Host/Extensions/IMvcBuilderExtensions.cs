@@ -14,24 +14,25 @@ public static class IMvcBuilderExtensions
     /// <summary>
     ///     api结果处理器
     /// </summary>
-    public static IMvcBuilder AddDefaultApiResultHandler(this IMvcBuilder me)
-    {
-        return me.AddInjectWithUnifyResult<DefaultApiResultHandler>(injectOptions => {
-            injectOptions.ConfigureSwaggerGen(genOptions => {
-                // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
-                genOptions.SchemaFilter<SwaggerEnumSchemaFixer>();
+    public static IMvcBuilder AddDefaultApiResultHandler(this IMvcBuilder me) {
+        return me.AddInjectWithUnifyResult<DefaultApiResultHandler>(injectOptions =>
+            {
+                injectOptions.ConfigureSwaggerGen(genOptions =>
+                    {
+                        // 替换自定义的EnumSchemaFilter，支持多语言Resx资源 （需将SpecificationDocumentSettings.EnableEnumSchemaFilter配置为false)
+                        genOptions.SchemaFilter<SwaggerEnumSchemaFixer>();
 
-                // 枚举显示自身xml comment 而不是$ref原型引用
-                genOptions.UseInlineDefinitionsForEnums();
+                        // 枚举显示自身xml comment 而不是$ref原型引用
+                        genOptions.UseInlineDefinitionsForEnums();
 
-                // 将程序集版本号与OpenApi版本号同步
-                foreach (var doc in genOptions.SwaggerGeneratorOptions.SwaggerDocs) {
-                    doc.Value.Version = FileVersionInfo
-                                        .GetVersionInfo(Assembly.GetEntryAssembly()!.Location)
-                                        .ProductVersion;
-                }
-            });
-        });
+                        // 将程序集版本号与OpenApi版本号同步
+                        foreach (var doc in genOptions.SwaggerGeneratorOptions.SwaggerDocs) {
+                            doc.Value.Version = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly()!.Location).ProductVersion;
+                        }
+                    }
+                );
+            }
+        );
     }
 
     /// <summary>
@@ -54,16 +55,20 @@ public static class IMvcBuilderExtensions
     ///     5、值为"" 转 null
     ///     6、值为[] 转 null
     /// </remarks>
-    public static IMvcBuilder AddJsonSerializer(this IMvcBuilder me, bool enumToString = false)
-    {
+    public static IMvcBuilder AddJsonSerializer(
+        this IMvcBuilder me
+        , bool enumToString = false
+    ) {
         return me.AddJsonOptions(options => SetJsonOptions(enumToString, options));
     }
 
     /// <summary>
     ///     设置Json选项
     /// </summary>
-    private static void SetJsonOptions(bool enumToString, JsonOptions options)
-    {
+    private static void SetJsonOptions(
+        bool enumToString
+        , JsonOptions options
+    ) {
         ////////////////////////////// json -> object
 
         // 允许带注释
@@ -84,7 +89,7 @@ public static class IMvcBuilderExtensions
         ///////////////////////////// object -> json
 
         // 转小驼峰
-        options.JsonSerializerOptions.DictionaryKeyPolicy  = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
         // 不严格转义

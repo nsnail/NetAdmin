@@ -14,8 +14,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -24,8 +23,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<long> CountAsync(QueryReq<QueryRoleReq> req)
-    {
+    public async Task<long> CountAsync(QueryReq<QueryRoleReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -34,8 +32,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRoleReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRoleReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -44,8 +41,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryRoleRsp> CreateAsync(CreateRoleReq req)
-    {
+    public async Task<QueryRoleRsp> CreateAsync(CreateRoleReq req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -54,8 +50,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteAsync(DelReq req)
-    {
+    public async Task<int> DeleteAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -64,8 +59,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryRoleRsp> EditAsync(EditRoleReq req)
-    {
+    public async Task<QueryRoleRsp> EditAsync(EditRoleReq req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -74,8 +68,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req)
-    {
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryRoleReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -84,8 +77,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req)
-    {
+    public async Task<QueryRoleRsp> GetAsync(QueryRoleReq req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -94,8 +86,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryRoleRsp>> PagedQueryAsync(PagedQueryReq<QueryRoleReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -104,8 +95,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req)
-    {
+    public async Task<IEnumerable<QueryRoleRsp>> QueryAsync(QueryReq<QueryRoleReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -114,8 +104,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req)
-    {
+    public async Task<int> SetDisplayDashboardAsync(SetDisplayDashboardReq req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -124,8 +113,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> SetEnabledAsync(SetRoleEnabledReq req)
-    {
+    public async Task<int> SetEnabledAsync(SetRoleEnabledReq req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -134,8 +122,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req)
-    {
+    public async Task<int> SetIgnorePermissionControlAsync(SetIgnorePermissionControlReq req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -144,8 +131,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<decimal> SumAsync(QueryReq<QueryRoleReq> req)
-    {
+    public async Task<decimal> SumAsync(QueryReq<QueryRoleReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -154,8 +140,7 @@ public class RoleTests(WebTestApplicationFactory<Startup> factory, ITestOutputHe
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> UserCountByAsync(QueryReq<QueryUserRoleReq> req) {
         var rsp = await PostJsonAsync(typeof(RoleController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;

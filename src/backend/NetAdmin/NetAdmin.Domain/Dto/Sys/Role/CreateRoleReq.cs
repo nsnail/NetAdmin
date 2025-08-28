@@ -58,8 +58,7 @@ public record CreateRoleReq : Sys_Role
     public override string Summary { get; set; }
 
     /// <inheritdoc />
-    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
-    {
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext) {
         if (validationContext.MemberName != null) {
             DashboardLayout = JsonSerializer.Serialize(JsonDocument.Parse(DashboardLayout));
         }

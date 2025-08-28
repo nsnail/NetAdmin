@@ -9,9 +9,8 @@ public sealed class VerifyCodeAttribute : RegexAttribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="VerifyCodeAttribute" /> class.
     /// </summary>
-    public VerifyCodeAttribute() //
-        : base(Chars.RGX_VERIFY_CODE)
-    {
+    public VerifyCodeAttribute()
+        : base(Chars.RGX_VERIFY_CODE) {
         ErrorMessageResourceName = nameof(Ln.验证码不正确);
         ErrorMessageResourceType = typeof(Ln);
     }

@@ -14,8 +14,7 @@ public sealed class FreeScheduledJob : WorkBase<FreeScheduledJob>, IJob
     /// <summary>
     ///     Initializes a new instance of the <see cref="FreeScheduledJob" /> class.
     /// </summary>
-    public FreeScheduledJob()
-    {
+    public FreeScheduledJob() {
         _jobService = ServiceProvider.GetService<IJobService>();
     }
 
@@ -24,8 +23,7 @@ public sealed class FreeScheduledJob : WorkBase<FreeScheduledJob>, IJob
     /// </summary>
     /// <param name="cancelToken">取消任务 Token</param>
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
-    public async Task ExecuteAsync(CancellationToken cancelToken)
-    {
+    public async Task ExecuteAsync(CancellationToken cancelToken) {
         await WorkflowAsync(true, cancelToken).ConfigureAwait(false);
     }
 
@@ -34,8 +32,7 @@ public sealed class FreeScheduledJob : WorkBase<FreeScheduledJob>, IJob
     /// </summary>
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     /// <exception cref="ArgumentOutOfRangeException">ArgumentOutOfRangeException</exception>
-    protected override async ValueTask WorkflowAsync(CancellationToken cancelToken)
-    {
+    protected override async ValueTask WorkflowAsync(CancellationToken cancelToken) {
         _ = await _jobService.ReleaseStuckTaskAsync().ConfigureAwait(false);
     }
 }

@@ -9,12 +9,44 @@ using NetAdmin.Domain.Extensions;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IWalletFrozenService" />
-public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> rpo) //
+public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> rpo)
     : RepositoryService<Sys_WalletFrozen, long, IWalletFrozenService>(rpo), IWalletFrozenService
 {
-    /// <inheritdoc />
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
+    private readonly Expression<Func<Sys_WalletFrozen, Sys_WalletFrozen>> _toListExp = a => new Sys_WalletFrozen
     {
+        Id = a.Id
+        , CreatedTime = a.CreatedTime
+        , ModifiedTime = a.ModifiedTime
+        , Version = a.Version
+        , Owner = new Sys_User
+        {
+            Id = a.Owner.Id
+            , UserName = a.Owner.UserName
+            , Avatar = a.Owner.Avatar
+            , Invite = new Sys_UserInvite
+            {
+                Owner = new Sys_User
+                {
+                    Id = a.Owner.Invite.Owner.Id, UserName = a.Owner.Invite.Owner.UserName, Avatar = a.Owner.Invite.Owner.Avatar
+                }
+                , Channel
+                    = new Sys_User
+                    {
+                        Id = a.Owner.Invite.Channel.Id
+                        , UserName = a.Owner.Invite.Channel.UserName
+                        , Avatar = a.Owner.Invite.Channel.Avatar
+                    }
+            }
+        }
+        , Amount = a.Amount
+        , FrozenBalanceBefore = a.FrozenBalanceBefore
+        , Reason = a.Reason
+        , Status = a.Status
+        , Summary = a.Summary
+    };
+
+    /// <inheritdoc />
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         req.ThrowIfInvalid();
         var ret = 0;
 
@@ -27,37 +59,38 @@ public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> 
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryWalletFrozenReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletFrozenReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Sys_WalletFrozen>())
-                        .ToDictionaryAsync(a => a.Count())
-                        .ConfigureAwait(false);
-        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(
-                                  y => y
-                                , y => y.Contains('.')
-                                      ? typeof(Sys_WalletFrozen).GetRecursiveProperty(y)!.GetValue(
-                                                                    x.Key.GetType().GetRecursiveProperty(y[..y.LastIndexOf('.')]).GetValue(x.Key))
-                                                                ?.ToString()
-                                      : typeof(Sys_WalletFrozen).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
-                  .OrderByDescending(x => x.Value);
+            .WithNoLockNoWait()
+            .GroupBy(req.GetToListExp<Sys_WalletFrozen>())
+            .ToDictionaryAsync(a => a.Count())
+            .ConfigureAwait(false);
+        return ret
+            .Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                    req.RequiredFields.ToImmutableDictionary(
+                        y => y
+                        , y => y.Contains('.')
+                            ? typeof(Sys_WalletFrozen).GetRecursiveProperty(y)!
+                                .GetValue(x.Key.GetType().GetRecursiveProperty(y[..y.LastIndexOf('.')]).GetValue(x.Key))
+                                ?.ToString()
+                            : typeof(Sys_WalletFrozen).GetProperty(y)!.GetValue(x.Key)?.ToString()
+                    ), x.Value
+                )
+            )
+            .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
-    public async Task<QueryWalletFrozenRsp> CreateAsync(CreateWalletFrozenReq req)
-    {
+    public async Task<QueryWalletFrozenRsp> CreateAsync(CreateWalletFrozenReq req) {
         req.ThrowIfInvalid();
-        var userId     = UserToken.Id;
+        var userId = UserToken.Id;
         var userDeptId = UserToken.DeptId;
         if (req.OwnerId != null) {
             userId = req.OwnerId.Value;
@@ -72,11 +105,14 @@ public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> 
 
         var frozenBalanceBefore = wallet.FrozenBalance;
         if (await S<IUserWalletService>()
-                  .EditAsync(wallet.Adapt<EditUserWalletReq>() with {
-                                                                        AvailableBalance = wallet.AvailableBalance - req.Amount
-                                                                      , FrozenBalance = wallet.FrozenBalance       + req.Amount
-                                                                    })
-                  .ConfigureAwait(false) == null) {
+                .EditAsync(
+                    wallet.Adapt<EditUserWalletReq>() with
+                    {
+                        AvailableBalance = wallet.AvailableBalance - req.Amount, FrozenBalance = wallet.FrozenBalance + req.Amount
+                    }
+                )
+                .ConfigureAwait(false)
+            == null) {
             throw new NetAdminUnexpectedException(Ln.结果非预期);
         }
 
@@ -85,15 +121,13 @@ public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> 
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
-    public async Task<QueryWalletFrozenRsp> EditAsync(EditWalletFrozenReq req)
-    {
+    public async Task<QueryWalletFrozenRsp> EditAsync(EditWalletFrozenReq req) {
         req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryWalletFrozenRsp>();
@@ -105,46 +139,46 @@ public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> 
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletFrozenReq> req) {
         req.ThrowIfInvalid();
         return ExportAsync<QueryWalletFrozenReq, QueryWalletFrozenRsp>(QueryInternal, req, Ln.钱包冻结导出);
     }
 
     /// <inheritdoc />
-    public async Task<QueryWalletFrozenRsp> GetAsync(QueryWalletFrozenReq req)
-    {
+    public async Task<QueryWalletFrozenRsp> GetAsync(QueryWalletFrozenReq req) {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryWalletFrozenReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryWalletFrozenReq> { Filter = req, Order = Orders.None })
+            .Include(a => a.Owner.Invite.Owner)
+            .Include(a => a.Owner.Invite.Channel)
+            .ToOneAsync(_toListExp)
+            .ConfigureAwait(false);
         return ret.Adapt<QueryWalletFrozenRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryWalletFrozenRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletFrozenReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryWalletFrozenRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletFrozenReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Include(a => a.Owner)
-                         .Page(req.Page, req.PageSize)
-                         .WithNoLockNoWait()
-                         .Count(out var total)
-                         .ToListAsync(req)
-                         .ConfigureAwait(false);
+            .Include(a => a.Owner.Invite.Owner)
+            .Include(a => a.Owner.Invite.Channel)
+            .Page(req.Page, req.PageSize)
+            .WithNoLockNoWait()
+            .Count(out var total)
+            .ToListAsync(_toListExp)
+            .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryWalletFrozenRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryWalletFrozenRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryWalletFrozenRsp>> QueryAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public async Task<IEnumerable<QueryWalletFrozenRsp>> QueryAsync(QueryReq<QueryWalletFrozenReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryWalletFrozenRsp>>();
     }
 
     /// <inheritdoc />
-    public async Task<int> SetStatusToThawedAsync(SetStatusToThawedReq req)
-    {
+    public async Task<int> SetStatusToThawedAsync(SetStatusToThawedReq req) {
         req.ThrowIfInvalid();
 
         var frozen = await GetAsync(new QueryWalletFrozenReq { Id = req.Id }).ConfigureAwait(false);
@@ -152,37 +186,40 @@ public sealed class WalletFrozenService(BasicRepository<Sys_WalletFrozen, long> 
             throw new NetAdminInvalidOperationException(Ln.冻结状态不正确);
         }
 
-        var updateCnt = await UpdateAsync(new Sys_WalletFrozen { Status = WalletFrozenStatues.Thawed }, [nameof(req.Status)], null
-                                        , a => a.Status == WalletFrozenStatues.Frozen && a.Id == req.Id)
+        var updateCnt = await UpdateAsync(
+                new Sys_WalletFrozen { Status = WalletFrozenStatues.Thawed }, [nameof(req.Status)], null
+                , a => a.Status == WalletFrozenStatues.Frozen && a.Id == req.Id
+            )
             .ConfigureAwait(false);
         if (updateCnt != 1) {
             throw new NetAdminUnexpectedException(Ln.结果非预期);
         }
 
         var userWalletService = S<IUserWalletService>();
-        var wallet            = await userWalletService.GetAsync(new QueryUserWalletReq { Id = frozen.OwnerId!.Value }).ConfigureAwait(false);
+        var wallet = await userWalletService.GetAsync(new QueryUserWalletReq { Id = frozen.Owner.Id }).ConfigureAwait(false);
         if (wallet.FrozenBalance < req.Amount) {
             throw new NetAdminUnexpectedException(Ln.结果非预期);
         }
 
         _ = await userWalletService
-                  .EditAsync(wallet.Adapt<EditUserWalletReq>() with {
-                                                                        AvailableBalance = wallet.AvailableBalance + frozen.Amount
-                                                                      , FrozenBalance = wallet.FrozenBalance       - frozen.Amount
-                                                                    })
-                  .ConfigureAwait(false) ?? throw new NetAdminUnexpectedException(Ln.结果非预期);
+                .EditAsync(
+                    wallet.Adapt<EditUserWalletReq>() with
+                    {
+                        AvailableBalance = wallet.AvailableBalance + frozen.Amount, FrozenBalance = wallet.FrozenBalance - frozen.Amount
+                    }
+                )
+                .ConfigureAwait(false)
+            ?? throw new NetAdminUnexpectedException(Ln.结果非预期);
         return 1;
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryWalletFrozenReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryWalletFrozenReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_WalletFrozen>());
     }
 
-    private ISelect<Sys_WalletFrozen> QueryInternal(QueryReq<QueryWalletFrozenReq> req)
-    {
+    private ISelect<Sys_WalletFrozen> QueryInternal(QueryReq<QueryWalletFrozenReq> req) {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault

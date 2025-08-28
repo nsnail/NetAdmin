@@ -15,8 +15,7 @@ public sealed class ConstantController(IConstantCache cache, IOptions<JsonOption
     ///     获得常量字符串
     /// </summary>
     [NonUnify]
-    public IActionResult GetChars()
-    {
+    public IActionResult GetChars() {
         var ret = GetCharsDic();
         return OriginNamingResult(ret);
     }
@@ -25,24 +24,21 @@ public sealed class ConstantController(IConstantCache cache, IOptions<JsonOption
     ///     获得常量字符串
     /// </summary>
     [NonAction]
-    public IDictionary<string, string> GetCharsDic()
-    {
+    public IDictionary<string, string> GetCharsDic() {
         return Cache.GetCharsDic();
     }
 
     /// <summary>
     ///     获得公共枚举值
     /// </summary>
-    public IDictionary<string, Dictionary<string, string[]>> GetEnums()
-    {
+    public IDictionary<string, Dictionary<string, string[]>> GetEnums() {
         return Cache.GetEnums();
     }
 
     /// <summary>
     ///     获得本地化字符串
     /// </summary>
-    public IDictionary<string, string> GetLocalizedStrings()
-    {
+    public IDictionary<string, string> GetLocalizedStrings() {
         return Cache.GetLocalizedStrings();
     }
 
@@ -50,8 +46,7 @@ public sealed class ConstantController(IConstantCache cache, IOptions<JsonOption
     ///     获得数字常量表
     /// </summary>
     [NonUnify]
-    public IActionResult GetNumbers()
-    {
+    public IActionResult GetNumbers() {
         var ret = GetNumbersDic();
         return OriginNamingResult(ret);
     }
@@ -60,15 +55,14 @@ public sealed class ConstantController(IConstantCache cache, IOptions<JsonOption
     ///     获得数字常量表
     /// </summary>
     [NonAction]
-    public IDictionary<string, long> GetNumbersDic()
-    {
+    public IDictionary<string, long> GetNumbersDic() {
         return Cache.GetNumbersDic();
     }
 
-    private JsonResult OriginNamingResult<T>(T data)
-    {
-        return new JsonResult( //
-            new RestfulInfo<T> { Code                                                                = 0, Data = data }
-          , new JsonSerializerOptions(jsonOptions.Value.JsonSerializerOptions) { DictionaryKeyPolicy = null });
+    private JsonResult OriginNamingResult<T>(T data) {
+        return new JsonResult(
+            new RestfulInfo<T> { Code = 0, Data = data }
+            , new JsonSerializerOptions(jsonOptions.Value.JsonSerializerOptions) { DictionaryKeyPolicy = null }
+        );
     }
 }

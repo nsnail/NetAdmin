@@ -12,7 +12,7 @@ public enum VerifyCodeStatues
     [ResourceDescription<Ln>(nameof(Ln.等待发送))]
     Waiting = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     已发送
@@ -20,7 +20,7 @@ public enum VerifyCodeStatues
     [ResourceDescription<Ln>(nameof(Ln.已发送))]
     Sent = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     发送失败
@@ -28,7 +28,7 @@ public enum VerifyCodeStatues
     [ResourceDescription<Ln>(nameof(Ln.发送失败))]
     Failed = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     已校验

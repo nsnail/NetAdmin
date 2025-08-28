@@ -7,7 +7,6 @@ public abstract record LiteImmutableEntity : LiteImmutableEntity<long>
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }
@@ -23,7 +22,6 @@ public abstract record LiteImmutableEntity<T> : EntityBase<T>, IFieldCreatedTime
     ///     创建时间
     /// </summary>
     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual DateTime CreatedTime { get; init; }
 
@@ -31,7 +29,6 @@ public abstract record LiteImmutableEntity<T> : EntityBase<T>, IFieldCreatedTime
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [JsonIgnore]
     public override T Id { get; init; }
 }

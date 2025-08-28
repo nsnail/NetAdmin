@@ -8,7 +8,7 @@ namespace NetAdmin.Application.Repositories;
 /// </summary>
 public sealed class BasicRepository<TEntity, TPrimary>(IFreeSql fSql, UnitOfWorkManager uowManger, ContextUserToken userToken)
     : DefaultRepository<TEntity, TPrimary>(fSql, uowManger)
-    where TEntity : EntityBase<TPrimary> //
+    where TEntity : EntityBase<TPrimary>
     where TPrimary : IEquatable<TPrimary>
 {
     /// <summary>

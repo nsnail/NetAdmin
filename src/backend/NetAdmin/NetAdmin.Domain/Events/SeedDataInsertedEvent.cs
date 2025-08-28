@@ -6,6 +6,7 @@ namespace NetAdmin.Domain.Events;
 public sealed record SeedDataInsertedEvent : EventData<int>
 {
     /// <inheritdoc />
-    public SeedDataInsertedEvent(int payLoad) //
-        : base(payLoad) { }
+    public SeedDataInsertedEvent(int payLoad)
+        : base(payLoad) {
+    }
 }

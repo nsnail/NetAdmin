@@ -7,7 +7,6 @@ public abstract record MutableEntity : MutableEntity<long>
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }
@@ -22,7 +21,6 @@ public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldCreatedUse
     ///     创建者编号
     /// </summary>
     [Column(CanUpdate = false, Position = -1)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? CreatedUserId { get; init; }
 
@@ -30,7 +28,6 @@ public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldCreatedUse
     ///     创建者用户名
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string CreatedUserName { get; init; }
 
@@ -38,14 +35,12 @@ public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldCreatedUse
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     public override T Id { get; init; }
 
     /// <summary>
     ///     修改者编号
     /// </summary>
     [Column(CanInsert = false, Position = -1)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? ModifiedUserId { get; init; }
 
@@ -53,7 +48,6 @@ public abstract record MutableEntity<T> : LiteMutableEntity<T>, IFieldCreatedUse
     ///     修改者用户名
     /// </summary>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanInsert = false, Position = -1)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string ModifiedUserName { get; init; }
 }

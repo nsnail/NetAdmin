@@ -36,7 +36,6 @@ public record QueryWalletTradeRsp : Sys_WalletTrade
     public override long Id { get; init; }
 
     /// <inheritdoc cref="Sys_WalletTrade.Owner" />
-    [CsvIgnore]
     public new virtual QueryUserRsp Owner { get; init; }
 
     /// <inheritdoc cref="IFieldOwner.OwnerDeptId" />

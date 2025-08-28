@@ -138,6 +138,17 @@ export default {
     },
 
     /**
+     * 用户编号登录
+     */
+    loginByUserId: {
+        url: `${config.API_URL}/api/sys/user/login.by.user.id`,
+        name: `用户编号登录`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
+
+    /**
      * 分页查询用户
      */
     pagedQuery: {

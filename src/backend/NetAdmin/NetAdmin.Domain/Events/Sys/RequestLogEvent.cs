@@ -8,6 +8,7 @@ namespace NetAdmin.Domain.Events.Sys;
 public sealed record RequestLogEvent : EventData<CreateRequestLogReq>
 {
     /// <inheritdoc />
-    public RequestLogEvent(CreateRequestLogReq payLoad) //
-        : base(payLoad) { }
+    public RequestLogEvent(CreateRequestLogReq payLoad)
+        : base(payLoad) {
+    }
 }

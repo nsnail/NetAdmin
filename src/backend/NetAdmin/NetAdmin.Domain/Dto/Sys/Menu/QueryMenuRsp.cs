@@ -62,12 +62,7 @@ public sealed record QueryMenuRsp : Sys_Menu, IRegister
     public override long Version { get; init; }
 
     /// <inheritdoc />
-    public void Register(TypeAdapterConfig config)
-    {
-        _ = config.ForType<Sys_Menu, QueryMenuRsp>() //
-                  .Map(d => d.Path, s => s.Path ?? string.Empty)
-
-            //
-            ;
+    public void Register(TypeAdapterConfig config) {
+        _ = config.ForType<Sys_Menu, QueryMenuRsp>().Map(d => d.Path, s => s.Path ?? string.Empty);
     }
 }

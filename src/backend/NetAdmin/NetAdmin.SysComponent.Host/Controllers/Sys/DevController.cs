@@ -12,56 +12,49 @@ public sealed class DevController(IDevCache cache) : ControllerBase<IDevCache, I
     /// <summary>
     ///     生成后端代码
     /// </summary>
-    public Task GenerateCsCodeAsync(GenerateCsCodeReq req)
-    {
+    public Task GenerateCsCodeAsync(GenerateCsCodeReq req) {
         return Cache.GenerateCsCodeAsync(req);
     }
 
     /// <summary>
     ///     生成图标代码
     /// </summary>
-    public Task GenerateIconCodeAsync(GenerateIconCodeReq req)
-    {
+    public Task GenerateIconCodeAsync(GenerateIconCodeReq req) {
         return Cache.GenerateIconCodeAsync(req);
     }
 
     /// <summary>
     ///     生成接口代码
     /// </summary>
-    public Task GenerateJsCodeAsync()
-    {
+    public Task GenerateJsCodeAsync() {
         return Cache.GenerateJsCodeAsync();
     }
 
     /// <summary>
     ///     获取实体项目列表
     /// </summary>
-    public Task<IEnumerable<Tuple<string, string>>> GetDomainProjectsAsync()
-    {
+    public Task<IEnumerable<Tuple<string, string>>> GetDomainProjectsAsync() {
         return Cache.GetDomainProjectsAsync();
     }
 
     /// <summary>
     ///     获取所有数据类型
     /// </summary>
-    public IEnumerable<string> GetDotnetDataTypes(GetDotnetDataTypesReq req)
-    {
+    public IEnumerable<string> GetDotnetDataTypes(GetDotnetDataTypesReq req) {
         return Cache.GetDotnetDataTypes(req);
     }
 
     /// <summary>
     ///     获取实体基类列表
     /// </summary>
-    public IEnumerable<Tuple<string, string>> GetEntityBaseClasses()
-    {
+    public IEnumerable<Tuple<string, string>> GetEntityBaseClasses() {
         return Cache.GetEntityBaseClasses();
     }
 
     /// <summary>
     ///     获取字段接口列表
     /// </summary>
-    public IEnumerable<Tuple<string, string>> GetFieldInterfaces()
-    {
+    public IEnumerable<Tuple<string, string>> GetFieldInterfaces() {
         return Cache.GetFieldInterfaces();
     }
 }

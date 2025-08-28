@@ -32,8 +32,7 @@ public sealed record ContextUserToken : DataAbstraction
     /// <summary>
     ///     从HttpContext 创建上下文用户
     /// </summary>
-    public static ContextUserToken Create()
-    {
+    public static ContextUserToken Create() {
         var claim = App.User?.FindFirst(nameof(ContextUserToken));
         return claim?.Value.ToObject<ContextUserToken>();
     }
@@ -41,18 +40,22 @@ public sealed record ContextUserToken : DataAbstraction
     /// <summary>
     ///     从 QueryUserRsp 创建上下文用户
     /// </summary>
-    public static ContextUserToken Create(long id, Guid token, string userName, long deptId)
-    {
+    public static ContextUserToken Create(
+        long id
+        , Guid token
+        , string userName
+        , long deptId
+    ) {
         return new ContextUserToken { Id = id, Token = token, UserName = userName, DeptId = deptId };
     }
 
     /// <summary>
     ///     从 Json Web Token 创建上下文用户
     /// </summary>
-    public static ContextUserToken Create(string jwt)
-    {
-        var claim = JWTEncryption.ReadJwtToken(jwt.TrimPrefix($"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} "))
-                                 ?.Claims.FirstOrDefault(x => x.Type == nameof(ContextUserToken));
+    public static ContextUserToken Create(string jwt) {
+        var claim = JWTEncryption
+            .ReadJwtToken(jwt.TrimPrefix($"{Chars.FLG_HTTP_HEADER_VALUE_AUTH_SCHEMA} "))
+            ?.Claims.FirstOrDefault(x => x.Type == nameof(ContextUserToken));
         return claim?.Value.ToObject<ContextUserToken>();
     }
 }

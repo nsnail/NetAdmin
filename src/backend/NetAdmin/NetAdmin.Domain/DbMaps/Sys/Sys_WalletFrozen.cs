@@ -13,7 +13,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>100</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long Amount { get; init; }
 
@@ -22,7 +21,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>100</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long FrozenBalanceBefore { get; init; }
 
@@ -31,7 +29,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>123456</example>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [JsonIgnore]
     [Snowflake]
     public override long Id { get; init; }
@@ -39,7 +36,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// <summary>
     ///     归属用户
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(OwnerId))]
     public Sys_User Owner { get; init; }
@@ -49,7 +45,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>370942943322181</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerDeptId { get; init; }
 
@@ -58,7 +53,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>370942943322181</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long? OwnerId { get; init; }
 
@@ -67,7 +61,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>Trade</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual WalletFrozenReasons Reason { get; init; }
 
@@ -76,7 +69,6 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>Frozen</example>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual WalletFrozenStatues Status { get; init; }
 
@@ -85,14 +77,12 @@ public record Sys_WalletFrozen : LiteVersionEntity, IFieldOwner, IFieldSummary
     /// </summary>
     /// <example>备注文字</example>
     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual string Summary { get; set; }
 
     /// <summary>
     ///     钱包
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     [Navigate(nameof(OwnerId))]
     public Sys_UserWallet Wallet { get; init; }

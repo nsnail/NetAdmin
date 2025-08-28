@@ -92,4 +92,15 @@ export default {
             return await http.post(this.url, data, config)
         },
     },
+
+    /**
+     * 钱包冻结求和
+     */
+    sum: {
+        url: `${config.API_URL}/api/sys/wallet.frozen/sum`,
+        name: `钱包冻结求和`,
+        post: async function (data = {}, config = {}) {
+            return await http.post(this.url, data, config)
+        },
+    },
 }

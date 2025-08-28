@@ -13,7 +13,7 @@ public enum JobStatues
     [ResourceDescription<Ln>(nameof(Ln.空闲))]
     Idle = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     运行

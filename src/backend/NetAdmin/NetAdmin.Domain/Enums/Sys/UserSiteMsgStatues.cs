@@ -12,7 +12,7 @@ public enum UserSiteMsgStatues
     [ResourceDescription<Ln>(nameof(Ln.未读))]
     Unread = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     已读
@@ -20,7 +20,7 @@ public enum UserSiteMsgStatues
     [ResourceDescription<Ln>(nameof(Ln.已读))]
     Read = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     删除

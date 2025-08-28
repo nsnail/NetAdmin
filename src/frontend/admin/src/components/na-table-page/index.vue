@@ -13,7 +13,7 @@
                     :key="i"
                     :lg="Math.floor(24 / (Object.keys(statistics.sumList).length + 1)) + (item[1][2] ?? 0)">
                     <el-card shadow="never">
-                        <sc-statistic :prefix="item[1][1]" :title="item[0]" :value="item[1][0]" group-separator />
+                        <sc-statistic :prefix="item[1][1]" :suffix="item[1][4]" :title="item[0]" :value="item[1][0]" group-separator />
                     </el-card>
                 </el-col>
             </el-row>
@@ -29,16 +29,24 @@
             <div class="left-panel">
                 <na-search
                     :controls="searchControls"
+                    :show-search-mine="showSearchMine"
                     :vue="this"
                     @reset="onReset"
                     @search="onSearch"
+                    @search-mine="onSearchMine"
                     dateFormat="YYYY-MM-DD HH:mm:ss"
                     dateType="datetimerange"
                     dateValueFormat="YYYY-MM-DD HH:mm:ss"
                     ref="search" />
             </div>
             <div class="right-panel">
-                <el-button v-if="operations.includes(`add`)" @click="onAddClick" icon="el-icon-plus" type="primary">
+                <el-button
+                    v-if="operations.includes(`add`)"
+                    :disabled="loading"
+                    :loading="loading"
+                    @click="onAddClick(operations.find((x) => x.add)?.add)"
+                    icon="el-icon-plus"
+                    type="primary">
                     {{ operations.find((x) => x.add)?.add.label }}
                 </el-button>
                 <el-button
@@ -98,7 +106,7 @@
                 :context-extra="this.table.menu.extra"
                 :context-menus="
                     Object.entries(this.columns)
-                        .filter((x) => !x[1].noFilterable)
+                        .filter((x) => x[1].showInContextMenu ?? true)
                         .map((x) => x[0])
                 "
                 :context-opers="this.operations"
@@ -107,7 +115,7 @@
                 @data-change="onDataChange"
                 @selection-change="onSelectionChange"
                 ref="table">
-                <el-table-column v-if="showSelection" type="selection" width="50" />
+                <el-table-column v-if="showSelection" :reserve-selection="true" type="selection" width="35" />
                 <template v-for="(item, i) in columns" :key="i">
                     <component
                         v-bind="item"
@@ -144,7 +152,7 @@
                         </template>
                         <template v-else-if="item.currency" #default="{ row }">
                             <p :class="{ expense: row[i] < 0 }">
-                                <span>{{ item.currency.flag }}</span>
+                                <span v-html="item.currency.flag"></span>
                                 <span>{{
                                     $TOOL.groupSeparator((row[i] / (item.currency.multiple ?? 100)).toFixed(item.currency.decimal ?? 2))
                                 }}</span>
@@ -218,7 +226,7 @@ export default {
             return tableConfig
         },
     },
-    created() {
+    async created() {
         for (const f of this.dyFilters) {
             if (f.operator === 'dateRange') {
                 this.query.dynamicFilter.filters.push({
@@ -253,25 +261,29 @@ export default {
 
         for (const i in this.columns) {
             const col = this.columns[i]
-            if (!col.countBy) {
+            if (!col.selectFilter) {
                 continue
             }
 
             this.selectFilterData.push({
-                title: col.label,
+                title: col.selectFilter.label ?? col.label,
                 key: i,
+                sortByBadge: col.selectFilter.sortByBadge ?? false,
+                deleteNoBadge: col.selectFilter.deleteNoBadge ?? false,
                 options: [{ label: this.$t(`全部`), value: `` }].concat(
                     col.isSwitch
                         ? [
                               { value: true, label: this.$t(`是`) },
                               { value: false, label: this.$t(`否`) },
                           ]
-                        : Object.entries(this.$GLOBAL.enums[col.enum.name]).map((x) => {
-                              return {
-                                  value: x[0],
-                                  label: x[1][1],
-                              }
-                          }),
+                        : col.enum
+                          ? Object.entries(this.$GLOBAL.enums[col.enum.name]).map((x) => {
+                                return {
+                                    value: x[0],
+                                    label: x[1][1],
+                                }
+                            })
+                          : [],
                 ),
             })
         }
@@ -374,6 +386,10 @@ export default {
 
             await this.$refs.table.upData()
         },
+        async onSearchMine(form) {
+            form.dy['owner.id'] = this.$GLOBAL.user.id
+            await this.onSearch(form)
+        },
         // ---------------------------- 搜索栏事件 ↑ ----------------------------
 
         // ---------------------------- ↓ 表格事件 ----------------------------
@@ -424,7 +440,14 @@ export default {
             } catch {}
             loading?.close()
         },
-        async onAddClick() {
+        async onAddClick(item) {
+            this.loading = true
+            if (item?.preCheck) {
+                if (!(await item.preCheck())) {
+                    this.loading = false
+                    return
+                }
+            }
             const row = {}
             for (const i in this.columns) {
                 if (this.columns[i].default) {
@@ -432,6 +455,7 @@ export default {
                 }
             }
             this.dialog.detail = { mode: `add`, row }
+            this.loading = false
         },
         async onSwitchChange(row, method) {
             try {
@@ -444,10 +468,25 @@ export default {
         },
         async onDataChange(data) {
             this.statistics.total = this.$refs.table?.total
+            if (this.statistics.total === 0) {
+                const tableId = this.$refs.table.$refs.scTable.tableId
+                let rowLength = {}
+                for (const cell of document.getElementsByClassName('el-table__cell')) {
+                    for (const cls of cell.classList) {
+                        if (cls.indexOf(`${tableId}_column_`) === 0) {
+                            rowLength[cls] = (rowLength[cls] ?? 0) + 1
+                        }
+                    }
+                }
+                rowLength = Object.entries(rowLength)
+                if (rowLength[0][1] > 0) {
+                    this.statistics.total = rowLength[0][1] - 1
+                }
+            }
 
             const countByCalls = []
             for (const col in this.columns) {
-                if (this.columns[col].countBy) {
+                if (this.columns[col].selectFilter?.countBy) {
                     for (const item of this.selectFilterData.find((x) => x.key === col).options) {
                         delete item.badge
                     }
@@ -474,6 +513,7 @@ export default {
                         this.columns[col].sum.currency?.flag,
                         this.columns[col].sum.span,
                         this.columns[col].sum.sort ?? 0,
+                        this.columns[col].sum.currency?.suffix,
                     ]
                 }
             }
@@ -483,23 +523,31 @@ export default {
             for (const item of res) {
                 for (const item2 of item.data ?? []) {
                     const key = Object.entries(item2.key)[0]
-                    const filter = this.selectFilterData
-                        .find((x) => x.key.toLowerCase() === key[0].toLowerCase())
-                        ?.options.find((x) => x.value.toString().toLowerCase() === key[1]?.toLowerCase())
-                    if (filter) filter.badge = item2.value
+                    const options = this.selectFilterData.find((x) => x.key.toLowerCase() === key[0].toLowerCase())?.options
+                    const filter = options.find((x) => x.value?.toString().toLowerCase() === key[1]?.toLowerCase())
+                    if (!filter) {
+                        const newItem = Object.entries(item2.key)[0][1]
+                        if (newItem) {
+                            options.push({ label: newItem, value: newItem, badge: item2.value })
+                        }
+                    } else {
+                        filter.badge = item2.value
+                    }
                 }
             }
+            while (!this.$t) {
+                await new Promise((x) => setTimeout(x, 100))
+            }
             for (const item of this.selectFilterData) {
-                while (!this.$t) {
-                    await new Promise((x) => setTimeout(x, 100))
+                if (item.sortByBadge) {
+                    item.options.sort((x, y) => {
+                        if (y.label === this.$t(`全部`)) {
+                            return 100000000
+                        } else {
+                            return (y.badge ?? 0) - (x.badge ?? 0)
+                        }
+                    })
                 }
-                item.options.sort((x, y) => {
-                    if (y.label === this.$t(`全部`)) {
-                        return 100000000
-                    } else {
-                        return (y.badge ?? 0) - (x.badge ?? 0)
-                    }
-                })
             }
         },
         onSelectionChange(data) {
@@ -546,7 +594,9 @@ export default {
         tabs: { type: Array },
         tableProps: { type: Object, default: {} },
         formInline: { type: Boolean },
+        formLabelWidth: { type: Number },
         showSelection: { type: Boolean, default: true },
+        showSearchMine: { type: Boolean, default: false },
         totalCountLabel: { type: String, default: `总数` },
     },
     watch: {},

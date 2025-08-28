@@ -20,26 +20,32 @@ public sealed class RedisLocker : IAsyncDisposable
     ///     Initializes a new instance of the <see cref="RedisLocker" /> class.
     ///     Redis 分布锁
     /// </summary>
-    private RedisLocker(IDatabase redisDatabase, string redisKey)
-    {
+    private RedisLocker(
+        IDatabase redisDatabase
+        , string redisKey
+    ) {
         _redisDatabase = redisDatabase;
-        _redisKey      = redisKey;
+        _redisKey = redisKey;
     }
 
     /// <summary>
     ///     获取锁
     /// </summary>
     /// <exception cref="NetAdminGetLockerException">NetAdminGetLockerException</exception>
-    public static async Task<RedisLocker> GetLockerAsync(IDatabase redisDatabase, string lockerName, TimeSpan lockerExpire, int retryCount
-                                                       , TimeSpan  retryDelay)
-    {
+    public static async Task<RedisLocker> GetLockerAsync(
+        IDatabase redisDatabase
+        , string lockerName
+        , TimeSpan lockerExpire
+        , int retryCount
+        , TimeSpan retryDelay
+    ) {
         lockerName = $"{nameof(RedisLocker)}.{lockerName}";
         var setOk = false;
         for (var i = 0; i != retryCount; ++i) {
             try {
                 setOk = await redisDatabase
-                              .StringSetAsync(lockerName, RedisValue.EmptyString, lockerExpire, When.NotExists, CommandFlags.DemandMaster)
-                              .ConfigureAwait(false);
+                    .StringSetAsync(lockerName, RedisValue.EmptyString, lockerExpire, When.NotExists, CommandFlags.DemandMaster)
+                    .ConfigureAwait(false);
             }
             catch (Exception ex) {
                 LogHelper.Get<RedisLocker>().Error(ex.Message);
@@ -58,8 +64,7 @@ public sealed class RedisLocker : IAsyncDisposable
     }
 
     /// <inheritdoc />
-    public async ValueTask DisposeAsync()
-    {
+    public async ValueTask DisposeAsync() {
         try {
             _ = await _redisDatabase.KeyDeleteAsync(_redisKey, CommandFlags.DemandMaster | CommandFlags.FireAndForget).ConfigureAwait(false);
         }

@@ -13,7 +13,7 @@ public enum AdminTradeTypes
     [Trade(Direction = TradeDirections.Income)]
     AdminGift = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     管理员扣费
@@ -22,12 +22,12 @@ public enum AdminTradeTypes
     [Trade(Direction = TradeDirections.Expense)]
     AdminDeduct = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     管理员充值
     /// </summary>
     [ResourceDescription<Ln>(nameof(Ln.管理员充值))]
     [Trade(Direction = TradeDirections.Income)]
-    AdminDeposit = 6
+    AdminDeposit = 8
 }

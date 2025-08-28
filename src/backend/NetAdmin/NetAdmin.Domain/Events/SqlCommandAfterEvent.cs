@@ -8,9 +8,8 @@ public sealed record SqlCommandAfterEvent : SqlCommandBeforeEvent
     /// <summary>
     ///     Initializes a new instance of the <see cref="SqlCommandAfterEvent" /> class.
     /// </summary>
-    public SqlCommandAfterEvent(CommandAfterEventArgs e) //
-        : base(e)
-    {
+    public SqlCommandAfterEvent(CommandAfterEventArgs e)
+        : base(e) {
         ElapsedMilliseconds = (long)((double)e.ElapsedTicks / Stopwatch.Frequency * 1_000);
     }
 
@@ -21,8 +20,7 @@ public sealed record SqlCommandAfterEvent : SqlCommandBeforeEvent
     private long ElapsedMilliseconds { get; }
 
     /// <inheritdoc />
-    public override string ToString()
-    {
+    public override string ToString() {
         return string.Format(CultureInfo.InvariantCulture, "SQL-{0}: {2} ms {1}", Id, PayLoad, ElapsedMilliseconds);
     }
 }

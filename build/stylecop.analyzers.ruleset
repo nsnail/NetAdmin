@@ -16,7 +16,7 @@
         <Rule Id="SA1006" Action="Warning"/>          <!-- Preprocessor keywords should not be preceded by space -->
         <Rule Id="SA1007" Action="Warning"/>          <!-- Operator keyword should be followed by space -->
         <Rule Id="SA1008" Action="None"/>             <!-- Opening parenthesis should be spaced correctly -->
-        <Rule Id="SA1009" Action="Warning"/>          <!-- Closing parenthesis should be spaced correctly -->
+        <Rule Id="SA1009" Action="None"/>          <!-- Closing parenthesis should be spaced correctly -->
         <Rule Id="SA1010" Action="Warning"/>          <!-- Opening square brackets should be spaced correctly -->
         <Rule Id="SA1011" Action="Warning"/>          <!-- Closing square brackets should be spaced correctly -->
         <Rule Id="SA1012" Action="Warning"/>          <!-- Opening braces should be spaced correctly -->
@@ -56,7 +56,7 @@
         <Rule Id="SA1109" Action="Warning"/>          <!-- Block statements should not contain embedded regions -->
         <Rule Id="SA1110"
               Action="Warning"/>          <!-- Opening parenthesis or bracket should be on declaration line -->
-        <Rule Id="SA1111" Action="Warning"/>          <!-- Closing parenthesis should be on line of last parameter -->
+        <Rule Id="SA1111" Action="None"/>          <!-- Closing parenthesis should be on line of last parameter -->
         <Rule Id="SA1112"
               Action="Warning"/>          <!-- Closing parenthesis should be on line of opening parenthesis -->
         <Rule Id="SA1113" Action="None"/>             <!-- Comma should be on the same line as previous parameter -->

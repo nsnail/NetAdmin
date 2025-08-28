@@ -7,9 +7,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     请求日志模块
 /// </summary>
 public interface IRequestLogModule : ICrudModule<CreateRequestLogReq, QueryRequestLogRsp // 创建类型
-  , EditRequestLogReq                                                                    // 编辑类型
-  , QueryRequestLogReq, QueryRequestLogRsp                                               // 查询类型
-  , DelReq                                                                               // 删除类型
+    , EditRequestLogReq // 编辑类型
+    , QueryRequestLogReq, QueryRequestLogRsp // 查询类型
+    , DelReq // 删除类型
 >
 {
     /// <summary>

@@ -14,31 +14,28 @@ public abstract record DataAbstraction : IValidatableObject
     ///     如果数据校验失败，抛出异常
     /// </summary>
     /// <exception cref="NetAdminValidateException">NetAdminValidateException</exception>
-    public void ThrowIfInvalid()
-    {
+    public void ThrowIfInvalid() {
         if (HasValidated) {
             return;
         }
 
         var validationResult = this.TryValidate();
         if (!validationResult.IsValid) {
-            throw new NetAdminValidateException(validationResult.ValidationResults.ToDictionary( //
-                                                    x => x.MemberNames.First()                   //
-                                                  , x => new[] { x.ErrorMessage }));
+            throw new NetAdminValidateException(
+                validationResult.ValidationResults.ToDictionary(x => x.MemberNames.First(), x => new[] { x.ErrorMessage })
+            );
         }
     }
 
     /// <inheritdoc />
-    public override string ToString()
-    {
+    public override string ToString() {
         return this.ToJson();
     }
 
     /// <summary>
     ///     截断所有字符串属性 以符合[MaxLength(x)]特性
     /// </summary>
-    public void TruncateStrings()
-    {
+    public void TruncateStrings() {
         foreach (var property in GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.PropertyType == typeof(string))) {
             var maxLen = property.GetCustomAttribute<MaxLengthAttribute>(true)?.Length;
             if (maxLen is null or 0) {
@@ -56,8 +53,7 @@ public abstract record DataAbstraction : IValidatableObject
     }
 
     /// <inheritdoc />
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
         HasValidated = true;
         return ValidateInternal(validationContext);
     }
@@ -65,8 +61,7 @@ public abstract record DataAbstraction : IValidatableObject
     /// <summary>
     ///     内部验证
     /// </summary>
-    protected virtual IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
-    {
+    protected virtual IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext) {
         yield return ValidationResult.Success;
     }
 }

@@ -7,12 +7,12 @@ namespace NetAdmin.Domain.Enums.Sys;
 public enum SiteMsgTypes
 {
     /// <summary>
-    ///     通知
+    ///     私信
     /// </summary>
-    [ResourceDescription<Ln>(nameof(Ln.通知))]
+    [ResourceDescription<Ln>(nameof(Ln.私信))]
     Private = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     公告

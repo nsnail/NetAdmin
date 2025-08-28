@@ -6,9 +6,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     钱包冻结模块
 /// </summary>
 public interface IWalletFrozenModule : ICrudModule<CreateWalletFrozenReq, QueryWalletFrozenRsp // 创建类型
-  , EditWalletFrozenReq                                                                        // 编辑类型
-  , QueryWalletFrozenReq, QueryWalletFrozenRsp                                                 // 查询类型
-  , DelReq                                                                                     // 删除类型
+    , EditWalletFrozenReq // 编辑类型
+    , QueryWalletFrozenReq, QueryWalletFrozenRsp // 查询类型
+    , DelReq // 删除类型
 >
 {
     /// <summary>

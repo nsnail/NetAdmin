@@ -13,8 +13,7 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     批量删除菜单
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -22,8 +21,7 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     菜单计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryMenuReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryMenuReq> req) {
         return Cache.CountAsync(req);
     }
 
@@ -31,8 +29,7 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     菜单分组计数
     /// </summary>
     [NonAction]
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryMenuReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryMenuReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -40,8 +37,7 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     创建菜单
     /// </summary>
     [Transaction]
-    public Task<QueryMenuRsp> CreateAsync(CreateMenuReq req)
-    {
+    public Task<QueryMenuRsp> CreateAsync(CreateMenuReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -49,8 +45,7 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     删除菜单
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -58,8 +53,7 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     编辑菜单
     /// </summary>
     [Transaction]
-    public Task<QueryMenuRsp> EditAsync(EditMenuReq req)
-    {
+    public Task<QueryMenuRsp> EditAsync(EditMenuReq req) {
         return Cache.EditAsync(req);
     }
 
@@ -67,16 +61,14 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     导出菜单
     /// </summary>
     [NonAction]
-    public Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryMenuReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个菜单
     /// </summary>
-    public Task<QueryMenuRsp> GetAsync(QueryMenuReq req)
-    {
+    public Task<QueryMenuRsp> GetAsync(QueryMenuReq req) {
         return Cache.GetAsync(req);
     }
 
@@ -84,16 +76,14 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     分页查询菜单
     /// </summary>
     [NonAction]
-    public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req)
-    {
+    public Task<PagedQueryRsp<QueryMenuRsp>> PagedQueryAsync(PagedQueryReq<QueryMenuReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     查询菜单
     /// </summary>
-    public Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req)
-    {
+    public Task<IEnumerable<QueryMenuRsp>> QueryAsync(QueryReq<QueryMenuReq> req) {
         return Cache.QueryAsync(req);
     }
 
@@ -101,16 +91,14 @@ public sealed class MenuController(IMenuCache cache) : ControllerBase<IMenuCache
     ///     菜单求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryMenuReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryMenuReq> req) {
         return Cache.SumAsync(req);
     }
 
     /// <summary>
     ///     当前用户菜单
     /// </summary>
-    public Task<IEnumerable<QueryMenuRsp>> UserMenusAsync()
-    {
+    public Task<IEnumerable<QueryMenuRsp>> UserMenusAsync() {
         return Cache.UserMenusAsync();
     }
 }

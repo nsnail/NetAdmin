@@ -9,4 +9,6 @@ namespace NetAdmin.Infrastructure.Exceptions;
 #pragma warning disable DesignedForInheritance, RCS1194
 public class NetAdminInvalidOperationException(string message, Exception innerException = null)
     #pragma warning restore RCS1194, DesignedForInheritance
-    : NetAdminException(ErrorCodes.InvalidOperation, message, innerException) { }
+    : NetAdminException(ErrorCodes.InvalidOperation, message, innerException)
+{
+}

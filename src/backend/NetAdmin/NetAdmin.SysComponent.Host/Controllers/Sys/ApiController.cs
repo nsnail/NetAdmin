@@ -14,8 +14,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -23,8 +22,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     ///     接口计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryApiReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryApiReq> req) {
         return Cache.CountAsync(req);
     }
 
@@ -32,8 +30,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     ///     接口分组计数
     /// </summary>
     [NonAction]
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryApiReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryApiReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -42,8 +39,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<QueryApiRsp> CreateAsync(CreateApiReq req)
-    {
+    public Task<QueryApiRsp> CreateAsync(CreateApiReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -52,8 +48,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -62,16 +57,14 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     /// </summary>
     [NonAction]
     [Transaction]
-    public Task<QueryApiRsp> EditAsync(EditApiReq req)
-    {
+    public Task<QueryApiRsp> EditAsync(EditApiReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出接口
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryApiReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryApiReq> req) {
         return Cache.ExportAsync(req);
     }
 
@@ -79,8 +72,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     ///     获取单个接口
     /// </summary>
     [NonAction]
-    public Task<QueryApiRsp> GetAsync(QueryApiReq req)
-    {
+    public Task<QueryApiRsp> GetAsync(QueryApiReq req) {
         return Cache.GetAsync(req);
     }
 
@@ -88,24 +80,21 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     ///     分页查询接口
     /// </summary>
     [NonAction]
-    public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req)
-    {
+    public Task<PagedQueryRsp<QueryApiRsp>> PagedQueryAsync(PagedQueryReq<QueryApiReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     平面查询接口
     /// </summary>
-    public Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req)
-    {
+    public Task<IEnumerable<QueryApiRsp>> PlainQueryAsync(QueryReq<QueryApiReq> req) {
         return Cache.PlainQueryAsync(req);
     }
 
     /// <summary>
     ///     查询接口
     /// </summary>
-    public Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req)
-    {
+    public Task<IEnumerable<QueryApiRsp>> QueryAsync(QueryReq<QueryApiReq> req) {
         return Cache.QueryAsync(req);
     }
 
@@ -113,8 +102,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     ///     接口求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryApiReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryApiReq> req) {
         return Cache.SumAsync(req);
     }
 
@@ -122,8 +110,7 @@ public sealed class ApiController(IApiCache cache) : ControllerBase<IApiCache, I
     ///     同步接口
     /// </summary>
     [Transaction]
-    public Task SyncAsync()
-    {
+    public Task SyncAsync() {
         return Cache.SyncAsync();
     }
 }

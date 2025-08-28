@@ -8,9 +8,8 @@ public record SyncStructureBeforeEvent : SqlCommandEvent
     /// <summary>
     ///     Initializes a new instance of the <see cref="SyncStructureBeforeEvent" /> class.
     /// </summary>
-    public SyncStructureBeforeEvent(SyncStructureBeforeEventArgs e) //
-        : base(null, e.Identifier)
-    {
+    public SyncStructureBeforeEvent(SyncStructureBeforeEventArgs e)
+        : base(null, e.Identifier) {
         EntityTypes = e.EntityTypes;
     }
 
@@ -20,8 +19,7 @@ public record SyncStructureBeforeEvent : SqlCommandEvent
     protected Type[] EntityTypes { get; }
 
     /// <inheritdoc />
-    public override string ToString()
-    {
+    public override string ToString() {
         return string.Format(CultureInfo.InvariantCulture, "{0}: {1}", Id, Ln.数据库同步开始);
     }
 }

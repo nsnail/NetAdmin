@@ -45,13 +45,14 @@ public static class GlobalStatic
     /// </summary>
     /// <exception cref="NotImplementedException">NotImplementedException</exception>
     public static string SqlRandomSorting =>
-        App.GetOptions<DatabaseOptions>().DbType switch {
-            DataType.MySql      => "RAND()"
-          , DataType.SqlServer  => "NEWID()"
-          , DataType.PostgreSQL => "RANDOM()"
-          , DataType.Oracle     => "DBMS_RANDOM.value"
-          , DataType.Sqlite     => "RANDOM()"
-          , _                   => throw new NotImplementedException()
+        App.GetOptions<DatabaseOptions>().DbType switch
+        {
+            DataType.MySql => "RAND()"
+            , DataType.SqlServer => "NEWID()"
+            , DataType.PostgreSQL => "RANDOM()"
+            , DataType.Oracle => "DBMS_RANDOM.value"
+            , DataType.Sqlite => "RANDOM()"
+            , _ => throw new NotImplementedException()
         };
 
     /// <summary>
@@ -67,8 +68,7 @@ public static class GlobalStatic
     /// <summary>
     ///     增加日志计数器
     /// </summary>
-    public static void IncrementLogCounter()
-    {
+    public static void IncrementLogCounter() {
         Volatile.Write(ref _latestLogTime, DateTime.Now.TimeUnixUtcMs());
     }
 }

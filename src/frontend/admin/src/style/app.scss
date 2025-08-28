@@ -641,3 +641,12 @@ textarea {
 .ace_placeholder {
     color: var(--el-text-color-secondary);
 }
+
+.el-form-item-w50p {
+    margin-right: 0 !important;
+    width: 50%;
+}
+.el-form-item-w33p {
+    margin-right: 0 !important;
+    width: 33%;
+}

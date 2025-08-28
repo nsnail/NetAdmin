@@ -13,8 +13,7 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     批量删除钱包交易
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -22,16 +21,14 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     钱包交易计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryWalletTradeReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     钱包交易分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryWalletTradeReq> req) {
         return Cache.CountByAsync(req);
     }
 
@@ -39,8 +36,7 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     创建钱包交易
     /// </summary>
     [Transaction]
-    public Task<QueryWalletTradeRsp> CreateAsync(CreateWalletTradeReq req)
-    {
+    public Task<QueryWalletTradeRsp> CreateAsync(CreateWalletTradeReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -48,8 +44,7 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     删除钱包交易
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -57,33 +52,28 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     编辑钱包交易
     /// </summary>
     [Transaction]
-    public Task<QueryWalletTradeRsp> EditAsync(EditWalletTradeReq req)
-    {
+    public Task<QueryWalletTradeRsp> EditAsync(EditWalletTradeReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     导出钱包交易
     /// </summary>
-    [NonAction]
-    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryWalletTradeReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     获取单个钱包交易
     /// </summary>
-    public Task<QueryWalletTradeRsp> GetAsync(QueryWalletTradeReq req)
-    {
+    public Task<QueryWalletTradeRsp> GetAsync(QueryWalletTradeReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     分页查询钱包交易
     /// </summary>
-    public Task<PagedQueryRsp<QueryWalletTradeRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<PagedQueryRsp<QueryWalletTradeRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletTradeReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
@@ -91,16 +81,14 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     查询钱包交易
     /// </summary>
     [NonAction]
-    public Task<IEnumerable<QueryWalletTradeRsp>> QueryAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<IEnumerable<QueryWalletTradeRsp>> QueryAsync(QueryReq<QueryWalletTradeReq> req) {
         return Cache.QueryAsync(req);
     }
 
     /// <summary>
     ///     钱包交易求和
     /// </summary>
-    public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req) {
         return Cache.SumAsync(req);
     }
 
@@ -108,8 +96,7 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     从他人账户转账给自己
     /// </summary>
     [Transaction]
-    public Task<int> TransferFromAnotherAccountAsync(TransferReq req)
-    {
+    public Task<int> TransferFromAnotherAccountAsync(TransferReq req) {
         return Cache.TransferFromAnotherAccountAsync(req);
     }
 
@@ -117,8 +104,7 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     ///     转账到他人账户
     /// </summary>
     [Transaction]
-    public Task<int> TransferToAnotherAccountAsync(TransferReq req)
-    {
+    public Task<int> TransferToAnotherAccountAsync(TransferReq req) {
         return Cache.TransferToAnotherAccountAsync(req);
     }
 }

@@ -30,17 +30,18 @@ public record CreateWalletTradeReq : Sys_WalletTrade
     /// <inheritdoc cref="Sys_WalletTrade.TradeType" />
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [EnumDataType(typeof(TradeTypes))]
-    public override TradeTypes TradeType {
+    public override TradeTypes TradeType
+    {
         get;
-        init {
-            field          = value;
+        init
+        {
+            field = value;
             TradeDirection = value.Attr<TradeAttribute>().Direction;
         }
     }
 
     /// <inheritdoc />
-    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext)
-    {
+    protected override IEnumerable<ValidationResult> ValidateInternal(ValidationContext validationContext) {
         var tradeDirection = TradeType.Attr<TradeAttribute>().Direction;
         if (Amount == 0) {
             yield return new ValidationResult(Ln.交易金额不正确, [nameof(Amount)]);

@@ -6,9 +6,9 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     充值订单模块
 /// </summary>
 public interface IDepositOrderModule : ICrudModule<CreateDepositOrderReq, QueryDepositOrderRsp // 创建类型
-  , EditDepositOrderReq                                                                        // 编辑类型
-  , QueryDepositOrderReq, QueryDepositOrderRsp                                                 // 查询类型
-  , DelReq                                                                                     // 删除类型
+    , EditDepositOrderReq // 编辑类型
+    , QueryDepositOrderReq, QueryDepositOrderRsp // 查询类型
+    , DelReq // 删除类型
 >
 {
     /// <summary>

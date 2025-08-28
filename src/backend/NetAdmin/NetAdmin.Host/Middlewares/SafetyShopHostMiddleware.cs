@@ -24,8 +24,7 @@ public sealed class SafetyShopHostMiddleware(RequestDelegate next)
     /// <summary>
     ///     停机处理
     /// </summary>
-    public static void OnStopping()
-    {
+    public static void OnStopping() {
         Stop();
         #if !DEBUG
         while (Interlocked.Read(ref _connections) > 0) {
@@ -37,26 +36,24 @@ public sealed class SafetyShopHostMiddleware(RequestDelegate next)
     /// <summary>
     ///     系统启机
     /// </summary>
-    public static void Start()
-    {
+    public static void Start() {
         Volatile.Write(ref _trafficOff, false);
     }
 
     /// <summary>
     ///     系统停机
     /// </summary>
-    public static void Stop()
-    {
+    public static void Stop() {
         Volatile.Write(ref _trafficOff, true);
     }
 
     /// <summary>
     ///     主函数
     /// </summary>
-    public async Task InvokeAsync(HttpContext context)
-    {
-        if (Volatile.Read(ref _trafficOff) && !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_RPOBE}") &&
-            !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_METRICS}")) {
+    public async Task InvokeAsync(HttpContext context) {
+        if (Volatile.Read(ref _trafficOff)
+            && !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_RPOBE}")
+            && !context.Request.Path.StartsWithSegments($"/{Chars.FLG_PATH_API_METRICS}")) {
             context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
             return;
         }

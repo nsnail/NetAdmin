@@ -14,8 +14,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteCatalogAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -24,8 +23,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteContentAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -35,8 +33,8 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     [InlineData(null)]
     [Theory]
     public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> ContentCountByAsync(
-        QueryReq<QueryDicContentReq> req)
-    {
+        QueryReq<QueryDicContentReq> req
+    ) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -45,8 +43,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req)
-    {
+    public async Task<QueryDicCatalogRsp> CreateCatalogAsync(CreateDicCatalogReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -55,8 +52,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req)
-    {
+    public async Task<QueryDicContentRsp> CreateContentAsync(CreateDicContentReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -65,8 +61,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteCatalogAsync(DelReq req)
-    {
+    public async Task<int> DeleteCatalogAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -75,8 +70,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteContentAsync(DelReq req)
-    {
+    public async Task<int> DeleteContentAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -85,8 +79,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req)
-    {
+    public async Task<QueryDicCatalogRsp> EditCatalogAsync(EditDicCatalogReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -95,8 +88,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req)
-    {
+    public async Task<QueryDicContentRsp> EditContentAsync(EditDicContentReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -105,8 +97,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public async Task<IActionResult> ExportContentAsync(QueryReq<QueryDicContentReq> req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -115,8 +106,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req)
-    {
+    public async Task<QueryDicCatalogRsp> GetCatalogAsync(QueryDicCatalogReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -125,8 +115,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req)
-    {
+    public async Task<QueryDicContentRsp> GetContentAsync(QueryDicContentReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -135,8 +124,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<string> GetDicValueAsync(GetDicValueReq req)
-    {
+    public async Task<string> GetDicValueAsync(GetDicValueReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -145,8 +133,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDicCatalogRsp>> PagedQueryCatalogAsync(PagedQueryReq<QueryDicCatalogReq> req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -155,8 +142,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDicContentRsp>> PagedQueryContentAsync(PagedQueryReq<QueryDicContentReq> req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -165,8 +151,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req)
-    {
+    public async Task<IEnumerable<QueryDicCatalogRsp>> QueryCatalogAsync(QueryReq<QueryDicCatalogReq> req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -175,8 +160,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req)
-    {
+    public async Task<IEnumerable<QueryDicContentRsp>> QueryContentAsync(QueryReq<QueryDicContentReq> req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -185,8 +169,7 @@ public class DicTests(WebTestApplicationFactory<Startup> factory, ITestOutputHel
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> SetEnabledAsync(SetDicContentEnabledReq req)
-    {
+    public async Task<int> SetEnabledAsync(SetDicContentEnabledReq req) {
         var rsp = await PostJsonAsync(typeof(DicController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;

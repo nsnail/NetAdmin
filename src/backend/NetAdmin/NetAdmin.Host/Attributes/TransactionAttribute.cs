@@ -9,24 +9,32 @@ public sealed class TransactionAttribute : Attribute
     /// <summary>
     ///     Initializes a new instance of the <see cref="TransactionAttribute" /> class.
     /// </summary>
-    public TransactionAttribute() { }
+    public TransactionAttribute() {
+    }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TransactionAttribute" /> class.
     /// </summary>
-    public TransactionAttribute(Propagation propagation) //
-        : this(null, propagation) { }
+    public TransactionAttribute(Propagation propagation)
+        : this(null, propagation) {
+    }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TransactionAttribute" /> class.
     /// </summary>
-    public TransactionAttribute(IsolationLevel isolationLevel, Propagation propagation) //
-        : this(new IsolationLevel?(isolationLevel), propagation) { }
+    public TransactionAttribute(
+        IsolationLevel isolationLevel
+        , Propagation propagation
+    )
+        : this(new IsolationLevel?(isolationLevel), propagation) {
+    }
 
-    private TransactionAttribute(IsolationLevel? isolationLevel, Propagation propagation)
-    {
+    private TransactionAttribute(
+        IsolationLevel? isolationLevel
+        , Propagation propagation
+    ) {
         IsolationLevel = isolationLevel;
-        Propagation    = propagation;
+        Propagation = propagation;
     }
 
     /// <summary>

@@ -11,6 +11,17 @@ public record JobReq : DataAbstraction
     public int? Count { get; init; }
 
     /// <summary>
+    ///     模数
+    /// </summary>
+    [JsonInclude]
+    public int Mod { get; init; } = 1;
+
+    /// <summary>
+    ///     余数
+    /// </summary>
+    public int Remainder { get; init; }
+
+    /// <summary>
     ///     n秒以前
     /// </summary>
     public int? SecondsAgo { get; init; }

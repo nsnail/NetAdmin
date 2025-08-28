@@ -1,5 +1,11 @@
 <template>
     <div class="user-bar">
+        <div v-if="!isMobile" @click="gotoWallet" class="tasks panel-item">
+            可用余额：<b>&#165;{{ availableBalance }}</b>
+        </div>
+        <div v-if="!isMobile" @click="gotoDeposit" class="tasks panel-item">
+            <el-button v-if="allowDeposit" icon="sc-icon-deposit" type="text">自助充值</el-button>
+        </div>
         <div @click="configDark" class="tasks panel-item">
             <el-icon>
                 <component :is="config.dark ? 'el-icon-sunny' : 'el-icon-moon'" />
@@ -22,7 +28,7 @@
                 </el-icon>
             </el-badge>
         </div>
-        <div @click="showMsg" class="msg panel-item">
+        <div @click="showMsg(false)" class="msg panel-item">
             <el-badge :hidden="unreadCnt === 0" :value="unreadCnt" class="badge" type="danger">
                 <el-icon>
                     <el-icon-chat-dot-round />
@@ -31,7 +37,7 @@
             <el-drawer v-model="msg" :title="$t('新消息')" append-to-body destroy-on-close>
                 <el-container>
                     <el-main style="padding: 0 1rem">
-                        <message />
+                        <message :expand-first="expandFirstMessage" />
                     </el-main>
                     <el-footer style="height: unset">
                         <el-button @click="gotoMsgCenter">{{ $t('消息中心') }}</el-button>
@@ -95,15 +101,30 @@ export default {
         avatar() {
             return avatar
         },
+        isMobile() {
+            return this.$store.state.global.isMobile
+        },
     },
     async created() {
         this.user = this.$GLOBAL.user
-        let res = await this.$API.sys_sitemsg.unreadCount.post()
-        this.unreadCnt = res.data
+        let res = await Promise.all([
+            this.$API.sys_sitemsg.unreadCount.post(),
+            this.$API.sys_userwallet.get.post({ id: this.user.id }),
+            this.$API.sys_userinvite.getSelfDepositAllowed.post({}),
+        ])
+        this.unreadCnt = res[0].data
+        if (this.unreadCnt > 0 && !this.$TOOL.cookie.get('NO-SHOW-SITE-MSG')) {
+            this.showMsg(true)
+        }
+        this.availableBalance = `${this.$TOOL.groupSeparator((res[1].data.availableBalance / 100).toFixed(2))}`
+        this.allowDeposit = res[2].data
         await this.getFailJobsCnt()
     },
     data() {
         return {
+            expandFirstMessage: false,
+            allowDeposit: false,
+            availableBalance: '...',
             config: {
                 dark: this.$TOOL.data.get('APP_SET_DARK') || this.$CONFIG.APP_SET_DARK,
             },
@@ -184,6 +205,12 @@ export default {
         configDark() {
             this.config.dark = !this.config.dark
         },
+        gotoDeposit() {
+            this.$router.push({ path: '/finance/deposit', query: { action: 'create' } })
+        },
+        gotoWallet() {
+            this.$router.push({ path: '/finance/wallet' })
+        },
         gotoMsgCenter() {
             this.$router.push({ path: '/profile/message' })
             this.msg = false
@@ -220,8 +247,9 @@ export default {
             this.$TOOL.screen(document.documentElement)
         },
         //显示短消息
-        showMsg() {
+        showMsg(expandFirstMessage = false) {
             this.msg = true
+            this.expandFirstMessage = expandFirstMessage
         },
         //搜索
         search() {

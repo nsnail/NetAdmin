@@ -12,7 +12,7 @@ public enum MarriageStatues
     [ResourceDescription<Ln>(nameof(Ln.未婚))]
     Unmarried = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     已婚
@@ -20,7 +20,7 @@ public enum MarriageStatues
     [ResourceDescription<Ln>(nameof(Ln.已婚))]
     Married = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     离异
@@ -28,7 +28,7 @@ public enum MarriageStatues
     [ResourceDescription<Ln>(nameof(Ln.离异))]
     Divorced = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     丧偶

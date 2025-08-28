@@ -12,40 +12,35 @@ public sealed class CacheController(ICacheCache cache) : ControllerBase<ICacheCa
     /// <summary>
     ///     批量删除缓存项
     /// </summary>
-    public Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req)
-    {
+    public Task<int> BulkDeleteEntryAsync(BulkReq<DelEntryReq> req) {
         return Cache.BulkDeleteEntryAsync(req);
     }
 
     /// <summary>
     ///     缓存统计
     /// </summary>
-    public Task<CacheStatisticsRsp> CacheStatisticsAsync()
-    {
+    public Task<CacheStatisticsRsp> CacheStatisticsAsync() {
         return Cache.CacheStatisticsAsync();
     }
 
     /// <summary>
     ///     删除缓存项
     /// </summary>
-    public Task<int> DeleteEntryAsync(DelEntryReq req)
-    {
+    public Task<int> DeleteEntryAsync(DelEntryReq req) {
         return Cache.DeleteEntryAsync(req);
     }
 
     /// <summary>
     ///     获取所有缓存项
     /// </summary>
-    public Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req)
-    {
+    public Task<IEnumerable<GetEntryRsp>> GetAllEntriesAsync(GetAllEntriesReq req) {
         return Cache.GetAllEntriesAsync(req);
     }
 
     /// <summary>
     ///     获取缓存项
     /// </summary>
-    public Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req)
-    {
+    public Task<GetEntryRsp> GetEntryAsync(GetEntriesReq req) {
         return Cache.GetEntryAsync(req);
     }
 }

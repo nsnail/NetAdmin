@@ -8,11 +8,14 @@ public static class UnitOfWorkManagerExtensions
     /// <summary>
     ///     事务操作
     /// </summary>
-    public static async Task AtomicOperateAsync(this UnitOfWorkManager me, Func<Task> handle, Func<Task> onErrorHandle = null)
-    {
-        var       logger     = LogHelper.Get<UnitOfWorkManager>();
+    public static async Task AtomicOperateAsync(
+        this UnitOfWorkManager me
+        , Func<Task> handle
+        , Func<Task> onErrorHandle = null
+    ) {
+        var logger = LogHelper.Get<UnitOfWorkManager>();
         using var unitOfWork = me.Begin();
-        var       hashCode   = unitOfWork.GetHashCode();
+        var hashCode = unitOfWork.GetHashCode();
         try {
             #if DEBUG
             logger?.Debug($"{Ln.开始事务}: {hashCode}");

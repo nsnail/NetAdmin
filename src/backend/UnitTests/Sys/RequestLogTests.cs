@@ -14,8 +14,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -24,8 +23,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<long> CountAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -34,8 +32,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -44,8 +41,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req)
-    {
+    public async Task<QueryRequestLogRsp> CreateAsync(CreateRequestLogReq req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -54,8 +50,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<int> DeleteAsync(DelReq req)
-    {
+    public async Task<int> DeleteAsync(DelReq req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;
@@ -64,8 +59,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req)
-    {
+    public async Task<QueryRequestLogRsp> EditAsync(EditRequestLogReq req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -74,8 +68,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -84,8 +77,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req)
-    {
+    public async Task<QueryRequestLogRsp> GetAsync(QueryRequestLogReq req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -94,8 +86,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<IEnumerable<GetBarChartRsp>> GetBarChartAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -104,8 +95,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByApiSummaryAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -114,8 +104,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<IEnumerable<GetPieChartRsp>> GetPieChartByHttpStatusCodeAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -124,8 +113,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryRequestLogRsp>> PagedQueryAsync(PagedQueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -134,8 +122,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<IEnumerable<QueryRequestLogRsp>> QueryAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return null;
@@ -144,8 +131,7 @@ public class RequestLogTests(WebTestApplicationFactory<Startup> factory, ITestOu
     /// <inheritdoc />
     [InlineData(null)]
     [Theory]
-    public async Task<decimal> SumAsync(QueryReq<QueryRequestLogReq> req)
-    {
+    public async Task<decimal> SumAsync(QueryReq<QueryRequestLogReq> req) {
         var rsp = await PostJsonAsync(typeof(RequestLogController), req);
         Assert.True(rsp.IsSuccessStatusCode);
         return 0;

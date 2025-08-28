@@ -50,7 +50,7 @@ export default defineConfig({
         },
     },
     build: {
-        emptyOutDir: true,
+        emptyOutDir: false,
         outDir: '../../../dist/frontend/admin',
         assetsDir: 'assets',
         minify: 'terser',

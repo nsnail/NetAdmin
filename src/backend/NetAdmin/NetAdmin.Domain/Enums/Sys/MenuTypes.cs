@@ -12,7 +12,7 @@ public enum MenuTypes
     [ResourceDescription<Ln>(nameof(Ln.菜单))]
     Menu = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     链接
@@ -20,7 +20,7 @@ public enum MenuTypes
     [ResourceDescription<Ln>(nameof(Ln.链接))]
     Link = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     框架
@@ -28,7 +28,7 @@ public enum MenuTypes
     [ResourceDescription<Ln>(nameof(Ln.框架))]
     Iframe = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     按钮

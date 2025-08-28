@@ -10,5 +10,5 @@ public record CreateUserInviteReq : Sys_UserInvite
     public override int CommissionRatio { get; init; }
 
     /// <inheritdoc />
-    public override bool SelfRechargeAllowed { get; init; } = true;
+    public override bool SelfDepositAllowed { get; init; } = true;
 }

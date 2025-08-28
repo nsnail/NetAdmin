@@ -13,7 +13,7 @@ public enum LogLevels
     [ResourceDescription<Ln>(nameof(Ln.追踪))]
     Trace = 0
 
-   ,
+    ,
 
     /// <summary>
     ///     调试
@@ -22,7 +22,7 @@ public enum LogLevels
     [ResourceDescription<Ln>(nameof(Ln.调试))]
     Debug = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     信息
@@ -31,7 +31,7 @@ public enum LogLevels
     [ResourceDescription<Ln>(nameof(Ln.信息))]
     Information = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     警告
@@ -40,7 +40,7 @@ public enum LogLevels
     [ResourceDescription<Ln>(nameof(Ln.警告))]
     Warning = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     错误
@@ -49,7 +49,7 @@ public enum LogLevels
     [ResourceDescription<Ln>(nameof(Ln.错误))]
     Error = 4
 
-   ,
+    ,
 
     /// <summary>
     ///     宕机

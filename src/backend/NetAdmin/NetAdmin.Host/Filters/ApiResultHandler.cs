@@ -1,4 +1,5 @@
 using Gurion.FriendlyException;
+using NetAdmin.Domain.Contexts;
 using NetAdmin.Domain.Dto;
 
 namespace NetAdmin.Host.Filters;
@@ -21,21 +22,30 @@ public abstract class ApiResultHandler<T>
     /// <summary>
     ///     发生异常
     /// </summary>
-    public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
-    {
-        var naException = context.Exception switch {
-                              NetAdminException ex => ex
-                            , _ => context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT)       ||
-                                   context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_UNIQUE_CONSTRAINT_CONFLICT) ||
-                                   context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_IDX)
-                                  ? new NetAdminInvalidOperationException(Ln.记录已存在)
-                                  : null
-                          };
-        var errorCode = naException?.Code ?? ErrorCodes.Unhandled;
-        var result = RestfulResult(errorCode, metadata.Data
-                      ,                       naException is NetAdminValidateException vEx
-                                       ? vEx.ValidateResults
-                                       : naException?.Message ?? errorCode.ResDesc<ErrorCodes>(), context.HttpContext.GetTraceId());
+    public IActionResult OnException(
+        ExceptionContext context
+        , ExceptionMetadata metadata
+    ) {
+        var naException = context.Exception switch
+        {
+            NetAdminException ex => ex
+            , _ => context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_PRIMARY_KEY_CONFLICT)
+                   || context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_UNIQUE_CONSTRAINT_CONFLICT)
+                   || context.Exception.Message.Contains(Chars.FLG_DB_EXCEPTION_IDX)
+                ? new NetAdminInvalidOperationException(Ln.记录已存在)
+                : null
+        };
+        var errorCode = naException?.Code ?? ErrorCodes.InternalError;
+
+        // 超管显示异常明细
+        var errorMsg = naException?.Message
+                       ?? (App.GetService<ContextUserInfo>()?.Roles.Any(x => x.IgnorePermissionControl) == true
+                           ? context.Exception.ToString()
+                           : errorCode.ResDesc<ErrorCodes>());
+
+        var result = RestfulResult(
+            errorCode, metadata.Data, naException is NetAdminValidateException vEx ? vEx.ValidateResults : errorMsg, context.HttpContext.GetTraceId()
+        );
 
         SetErrorCodeToHeader(context.HttpContext, errorCode);
 
@@ -45,9 +55,11 @@ public abstract class ApiResultHandler<T>
     /// <summary>
     ///     HTTP状态码处理
     /// </summary>
-    public Task OnResponseStatusCodesAsync( //
-        HttpContext context, int statusCode, UnifyResultSettingsOptions unifyResultSettings = null)
-    {
+    public Task OnResponseStatusCodesAsync(
+        HttpContext context
+        , int statusCode
+        , UnifyResultSettingsOptions unifyResultSettings = null
+    ) {
         // 设置响应状态码
         UnifyContext.SetResponseStatusCodes(context, statusCode, unifyResultSettings);
         return Task.CompletedTask;
@@ -56,32 +68,37 @@ public abstract class ApiResultHandler<T>
     /// <summary>
     ///     请求成功
     /// </summary>
-    public IActionResult OnSucceeded(ActionExecutedContext _, object data)
-    {
+    public IActionResult OnSucceeded(
+        ActionExecutedContext _
+        , object data
+    ) {
         return new JsonResult(RestfulResult(0, data));
     }
 
     /// <summary>
     ///     校验失败
     /// </summary>
-    public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
-    {
+    public IActionResult OnValidateFailed(
+        ActionExecutingContext context
+        , ValidationMetadata metadata
+    ) {
         SetErrorCodeToHeader(context.HttpContext, ErrorCodes.InvalidInput);
 
-        return new JsonResult(RestfulResult(ErrorCodes.InvalidInput, metadata.Data, GetValidationResult(metadata.ValidationResult))) {
-                   StatusCode = Numbers.HTTP_STATUS_BIZ_FAIL
-               };
+        return new JsonResult(RestfulResult(ErrorCodes.InvalidInput, metadata.Data, GetValidationResult(metadata.ValidationResult)))
+        {
+            StatusCode = Numbers.HTTP_STATUS_BIZ_FAIL
+        };
     }
 
-    private static object GetValidationResult(object validationResult)
-    {
+    private static object GetValidationResult(object validationResult) {
         var startWithDollar = false;
         try {
             return validationResult is Dictionary<string, string[]> dic
-                ? dic.ToDictionary( //
+                ? dic.ToDictionary(
                     x => (startWithDollar = x.Key.StartsWith('$'))
                         ? x.Key[1..].TrimStart('.').NullOrEmpty(null) ?? throw new NetAdminInvalidInputException()
-                        : x.Key, x => startWithDollar ? [Ln.参数格式不正确] : x.Value)
+                        : x.Key, x => startWithDollar ? [Ln.参数格式不正确] : x.Value
+                )
                 : validationResult;
         }
         catch (NetAdminInvalidInputException) {
@@ -92,16 +109,22 @@ public abstract class ApiResultHandler<T>
     /// <summary>
     ///     返回 RESTful 风格结果集
     /// </summary>
-    private static T RestfulResult(ErrorCodes errorCode, object data = null, object message = null, Guid? traceId = null)
-    {
+    private static T RestfulResult(
+        ErrorCodes errorCode
+        , object data = null
+        , object message = null
+        , Guid? traceId = null
+    ) {
         return new T { Code = errorCode, Data = data, Msg = message, TraceId = traceId };
     }
 
     /// <summary>
     ///     写入错误码到HttpHeader
     /// </summary>
-    private static void SetErrorCodeToHeader(HttpContext context, ErrorCodes errorCode)
-    {
+    private static void SetErrorCodeToHeader(
+        HttpContext context
+        , ErrorCodes errorCode
+    ) {
         context.Response.Headers[nameof(ErrorCodes)] = Enum.GetName(errorCode);
     }
 }

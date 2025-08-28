@@ -1,19 +1,54 @@
+using System.Net.Http.Headers;
+using Ganss.Excel;
 using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
 using NetAdmin.Domain.Dto.Sys.DepositOrder;
 using NetAdmin.Domain.Dto.Sys.WalletTrade;
+using NetAdmin.Domain.Enums.Sys;
 using NetAdmin.Domain.Extensions;
 using NetAdmin.Infrastructure.Rpc.TronScan;
 
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="IDepositOrderService" />
-public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> rpo) //
+public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> rpo)
     : RepositoryService<Sys_DepositOrder, long, IDepositOrderService>(rpo), IDepositOrderService
 {
-    /// <inheritdoc />
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
+    private readonly Expression<Func<Sys_DepositOrder, Sys_DepositOrder>> _toListExp = a => new Sys_DepositOrder
     {
+        Id = a.Id
+        , CreatedTime = a.CreatedTime
+        , ModifiedTime = a.ModifiedTime
+        , Version = a.Version
+        , Owner = new Sys_User
+        {
+            Id = a.Owner.Id
+            , UserName = a.Owner.UserName
+            , Avatar = a.Owner.Avatar
+            , Invite = new Sys_UserInvite
+            {
+                Owner = new Sys_User
+                {
+                    Id = a.Owner.Invite.Owner.Id, UserName = a.Owner.Invite.Owner.UserName, Avatar = a.Owner.Invite.Owner.Avatar
+                }
+                , Channel
+                    = new Sys_User
+                    {
+                        Id = a.Owner.Invite.Channel.Id
+                        , UserName = a.Owner.Invite.Channel.UserName
+                        , Avatar = a.Owner.Invite.Channel.Avatar
+                    }
+            }
+        }
+        , DepositOrderStatus = a.DepositOrderStatus
+        , ActualPayAmount = a.ActualPayAmount
+        , DepositPoint = a.DepositPoint
+        , ToPointRate = a.ToPointRate
+        , PaymentMode = a.PaymentMode
+    };
+
+    /// <inheritdoc />
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         req.ThrowIfInvalid();
         var ret = 0;
 
@@ -26,62 +61,68 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryDepositOrderReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryDepositOrderReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Sys_DepositOrder>())
-                        .ToDictionaryAsync(a => a.Count())
-                        .ConfigureAwait(false);
-        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(
-                                  y => y, y => typeof(Sys_DepositOrder).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value))
-                  .Where(x => x.Key.Any(y => !y.Value.NullOrEmpty()))
-                  .OrderByDescending(x => x.Value);
+            .WithNoLockNoWait()
+            .GroupBy(req.GetToListExp<Sys_DepositOrder>())
+            .ToDictionaryAsync(a => a.Count())
+            .ConfigureAwait(false);
+        return ret
+            .Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                    req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_DepositOrder).GetProperty(y)!.GetValue(x.Key)?.ToString())
+                    , x.Value
+                )
+            )
+            .Where(x => x.Key.Any(y => !y.Value.NullOrEmpty()))
+            .OrderByDescending(x => x.Value);
     }
 
     /// <exception cref="ArgumentOutOfRangeException">req</exception>
     /// <inheritdoc />
-    public async Task<QueryDepositOrderRsp> CreateAsync(CreateDepositOrderReq req)
-    {
+    public async Task<QueryDepositOrderRsp> CreateAsync(CreateDepositOrderReq req) {
         req.ThrowIfInvalid();
 
         var config = await GetDepositConfigAsync().ConfigureAwait(false);
 
-        var toPointRate = req.PaymentMode switch {
-                              PaymentModes.USDT   => config.UsdToPointRate
-                            , PaymentModes.Alipay => config.CnyToPointRate
-                            , PaymentModes.WeChat => config.CnyToPointRate
-                            , _                   => throw new ArgumentOutOfRangeException(nameof(req))
-                          };
+        var toPointRate = req.PaymentMode switch
+        {
+            PaymentModes.USDT => config.UsdToPointRate
+            , PaymentModes.Alipay => config.CnyToPointRate
+            , PaymentModes.WeChat => config.CnyToPointRate
+            , _ => throw new ArgumentOutOfRangeException(nameof(req))
+        };
 
-        var ret = await Rpo.InsertAsync(req with {
-                                                     ActualPayAmount = (long)(((decimal)req.DepositPoint / toPointRate).Round(3) * 1000)
-                                                   , ToPointRate = toPointRate
-                                                   , ReceiptAccount = config.Trc20ReceiptAddress
-                                                 })
-                           .ConfigureAwait(false);
+        var ret = await Rpo
+            .InsertAsync(
+                req with
+                {
+                    ActualPayAmount = (long)(((decimal)req.DepositPoint / toPointRate).Round(3) * 1000)
+                    , ToPointRate = toPointRate
+                    , ReceiptAccount = config.Trc20ReceiptAddress
+                }
+            )
+            .ConfigureAwait(false);
         return ret.Adapt<QueryDepositOrderRsp>();
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         req.ThrowIfInvalid();
-        return Rpo.DeleteAsync(a => a.Id == req.Id);
+        return Rpo.DeleteAsync(a =>
+            a.Id == req.Id
+            && (a.DepositOrderStatus == DepositOrderStatues.WaitingForPayment || a.DepositOrderStatus == DepositOrderStatues.PaymentConfirming)
+        );
     }
 
     /// <inheritdoc />
-    public async Task<QueryDepositOrderRsp> EditAsync(EditDepositOrderReq req)
-    {
+    public async Task<QueryDepositOrderRsp> EditAsync(EditDepositOrderReq req) {
         req.ThrowIfInvalid();
         #if DBTYPE_SQLSERVER
         return (await UpdateReturnListAsync(req).ConfigureAwait(false)).FirstOrDefault()?.Adapt<QueryDepositOrderRsp>();
@@ -93,82 +134,117 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public async Task<IActionResult> ExportAsync(QueryReq<QueryDepositOrderReq> req) {
         req.ThrowIfInvalid();
-        return ExportAsync<QueryDepositOrderReq, QueryDepositOrderRsp>(QueryInternal, req, Ln.充值订单导出);
+        var list = await QueryInternal(req)
+            .Include(a => a.Owner)
+            .WithNoLockNoWait()
+            .Take(Numbers.MAX_LIMIT_EXPORT)
+            .ToListAsync(_toListExp)
+            .ConfigureAwait(false);
+
+        var stream = new MemoryStream();
+        await new ExcelMapper()
+            .SaveAsync(
+                stream
+                , list.ConvertAll(x => new ExportDepositOrderRsp
+                    {
+                        充值金额 = (x.DepositPoint / 100m).Round(2)
+                        , 订单编号 = x.Id.ToInvString()
+                        , 订单状态 = x.DepositOrderStatus.ResDesc<Ln>()
+                        , 归属用户 = x.Owner.UserName
+                        , 上级 = x.Owner.Invite.Owner?.UserName
+                        , 渠道 = x.Owner.Invite.Channel?.UserName
+                        , 汇率 = (x.ToPointRate / 100m).Round(2)
+                        , 支付方式 = x.PaymentMode.ResDesc<Ln>()
+                        , 支付金额 = (x.ActualPayAmount / 1000m).Round(3)
+                    }
+                )
+            )
+            .ConfigureAwait(false);
+        _ = stream.Seek(0, SeekOrigin.Begin);
+        App.HttpContext.Response.Headers.ContentDisposition = new ContentDispositionHeaderValue(Chars.FLG_HTTP_HEADER_VALUE_ATTACHMENT)
+        {
+            FileNameStar = $"充值订单{list.Count}个-{list.Min(x => x.CreatedTime):MMddHHmm}-{list.Max(x => x.CreatedTime):MMddHHmm}.xlsx"
+        }.ToString();
+        return new FileStreamResult(stream, Chars.FLG_HTTP_HEADER_VALUE_APPLICATION_OCTET_STREAM);
     }
 
     /// <inheritdoc />
-    public async Task<QueryDepositOrderRsp> GetAsync(QueryDepositOrderReq req)
-    {
+    public async Task<QueryDepositOrderRsp> GetAsync(QueryDepositOrderReq req) {
         req.ThrowIfInvalid();
-        var ret = await QueryInternal(new QueryReq<QueryDepositOrderReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
+        var ret = await QueryInternal(new QueryReq<QueryDepositOrderReq> { Filter = req, Order = Orders.None })
+            .Include(a => a.Owner.Invite.Owner)
+            .Include(a => a.Owner.Invite.Channel)
+            .ToOneAsync()
+            .ConfigureAwait(false);
         return ret.Adapt<QueryDepositOrderRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<GetDepositConfigRsp> GetDepositConfigAsync()
-    {
+    public async Task<GetDepositConfigRsp> GetDepositConfigAsync() {
         var ret = await S<IConfigService>().GetLatestConfigAsync().ConfigureAwait(false);
         return ret.Adapt<GetDepositConfigRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryDepositOrderRsp>> PagedQueryAsync(PagedQueryReq<QueryDepositOrderReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryDepositOrderRsp>> PagedQueryAsync(PagedQueryReq<QueryDepositOrderReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Include(a => a.Owner)
-                         .Page(req.Page, req.PageSize)
-                         .WithNoLockNoWait()
-                         .Count(out var total)
-                         .ToListAsync(req)
-                         .ConfigureAwait(false);
+            .Include(a => a.Owner.Invite.Owner)
+            .Include(a => a.Owner.Invite.Channel)
+            .Page(req.Page, req.PageSize)
+            .WithNoLockNoWait()
+            .Count(out var total)
+            .ToListAsync(_toListExp)
+            .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryDepositOrderRsp>(req.Page, req.PageSize, total, list.Adapt<IEnumerable<QueryDepositOrderRsp>>());
     }
 
     /// <inheritdoc />
-    public Task<int> PayConfirmAsync(PayConfirmReq req)
-    {
+    public Task<int> PayConfirmAsync(PayConfirmReq req) {
         req.ThrowIfInvalid();
-        return UpdateAsync(req with { DepositOrderStatus = DepositOrderStatues.PaymentConfirming }, [nameof(req.DepositOrderStatus)], null
-                         , a => a.DepositOrderStatus == DepositOrderStatues.WaitingForPayment && a.Id == req.Id, null, true);
+        return UpdateAsync(
+            req with { DepositOrderStatus = DepositOrderStatues.PaymentConfirming }, [nameof(req.DepositOrderStatus)], null
+            , a => a.DepositOrderStatus == DepositOrderStatues.WaitingForPayment && a.Id == req.Id, null, true
+        );
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryDepositOrderRsp>> QueryAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public async Task<IEnumerable<QueryDepositOrderRsp>> QueryAsync(QueryReq<QueryDepositOrderReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryDepositOrderRsp>>();
     }
 
     /// <inheritdoc />
-    public async Task<int> ReceivedConfirmationAsync(JobReq req)
-    {
+    public async Task<int> ReceivedConfirmationAsync(JobReq req) {
         req.ThrowIfInvalid();
-        var ret    = 0;
+        var ret = 0;
         var config = await S<IConfigService>().GetLatestConfigAsync().ConfigureAwait(false);
-        var waitConfirmList = (await QueryAsync(new QueryReq<QueryDepositOrderReq> {
-                                                                                       Count = Numbers.MAX_LIMIT_QUERY_PAGE_SIZE
-                                                                                     , DynamicFilter
-                                                                                           = new DynamicFilterInfo {
-                                                                                                 Field = nameof(
-                                                                                                     QueryDepositOrderReq.DepositOrderStatus)
-                                                                                               , Operator = DynamicFilterOperators.Eq
-                                                                                               , Value    = DepositOrderStatues.PaymentConfirming
-                                                                                             }
-                                                                                     , Order = Orders.Ascending
-                                                                                     , Prop  = nameof(QueryDepositOrderReq.Id)
-                                                                                   })
+        var waitConfirmList = (await QueryAsync(
+                new QueryReq<QueryDepositOrderReq>
+                {
+                    Count = Numbers.MAX_LIMIT_QUERY_PAGE_SIZE
+                    , DynamicFilter
+                        = new DynamicFilterInfo
+                        {
+                            Field = nameof(QueryDepositOrderReq.DepositOrderStatus)
+                            , Operator = DynamicFilterOperators.Eq
+                            , Value = DepositOrderStatues.PaymentConfirming
+                        }
+                    , Order = Orders.Ascending
+                    , Prop = nameof(QueryDepositOrderReq.Id)
+                }
+            )
             .ConfigureAwait(false)).ToList();
         var apiResult = await S<ITronScanClient>()
-                              .TransfersAsync(S<IOptions<TronScanOptions>>().Value.Token, req.Count!.Value, config.Trc20ReceiptAddress)
-                              .ConfigureAwait(false);
-        foreach (var apiItem in apiResult.TokenTransfers.Where(x => x.TokenInfo.TokenAbbr == "USDT" && x.Confirmed && x.ContractRet == "SUCCESS" &&
-                                                                    x.FinalResult         == "SUCCESS")) {
+            .TransfersAsync(S<IOptions<TronScanOptions>>().Value.Token, req.Count!.Value, config.Trc20ReceiptAddress)
+            .ConfigureAwait(false);
+        foreach (var apiItem in apiResult.TokenTransfers.Where(x =>
+                     x.TokenInfo.TokenAbbr == "USDT" && x.Confirmed && x.ContractRet == "SUCCESS" && x.FinalResult == "SUCCESS"
+                 )) {
             var order = waitConfirmList.SingleOrDefault(x => x.ActualPayAmount == apiItem.Quant.Int64() / 1000);
             if (order == null || order.CreatedTime > apiItem.BlockTs.Time()) {
                 continue;
@@ -176,33 +252,42 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
 
             try {
                 await S<UnitOfWorkManager>()
-                      .AtomicOperateAsync(async () => {
-                          var updated = await UpdateAsync( //
-                                  new Sys_DepositOrder {
-                                                           DepositOrderStatus = DepositOrderStatues.Succeeded
-                                                         , Version = order.Version
-                                                         , FinishTimestamp = DateTime.Now.TimeUnixUtcMs()
-                                                         , PaidAccount = apiItem.FromAddress
-                                                         , PaidTime = apiItem.BlockTs.Time()
-                                                         , PaymentFinger = apiItem.TransactionId
-                                                       }, [nameof(Sys_DepositOrder.DepositOrderStatus), nameof(Sys_DepositOrder.FinishTimestamp), nameof(Sys_DepositOrder.PaidAccount), nameof(Sys_DepositOrder.PaidTime), nameof(Sys_DepositOrder.PaymentFinger)]
-                                , null, a => a.Id == order.Id && a.DepositOrderStatus == DepositOrderStatues.PaymentConfirming)
-                              .ConfigureAwait(false);
-                          if (updated != 1) {
-                              throw new NetAdminUnexpectedException(Ln.结果非预期);
-                          }
+                    .AtomicOperateAsync(async () =>
+                        {
+                            var updated = await UpdateAsync(
+                                    new Sys_DepositOrder
+                                    {
+                                        DepositOrderStatus = DepositOrderStatues.Succeeded
+                                        , Version = order.Version
+                                        , FinishTimestamp = DateTime.Now.TimeUnixUtcMs()
+                                        , PaidAccount = apiItem.FromAddress
+                                        , PaidTime = apiItem.BlockTs.Time()
+                                        , PaymentFinger = apiItem.TransactionId
+                                    }, [nameof(Sys_DepositOrder.DepositOrderStatus), nameof(Sys_DepositOrder.FinishTimestamp), nameof(Sys_DepositOrder.PaidAccount), nameof(Sys_DepositOrder.PaidTime), nameof(Sys_DepositOrder.PaymentFinger)]
+                                    , null, a => a.Id == order.Id && a.DepositOrderStatus == DepositOrderStatues.PaymentConfirming
+                                )
+                                .ConfigureAwait(false);
+                            if (updated != 1) {
+                                throw new NetAdminUnexpectedException(Ln.结果非预期);
+                            }
 
-                          _ = await S<IWalletTradeService>()
-                                    .CreateAsync(new CreateWalletTradeReq {
-                                                                              Amount              = order.DepositPoint
-                                                                            , BusinessOrderNumber = order.Id
-                                                                            , TradeDirection      = TradeDirections.Income
-                                                                            , TradeType           = TradeTypes.SelfDeposit
-                                                                            , OwnerId             = order.OwnerId
-                                                                          })
-                                    .ConfigureAwait(false) ?? throw new NetAdminUnexpectedException(Ln.结果非预期);
-                      })
-                      .ConfigureAwait(false);
+                            _ = await S<IWalletTradeService>()
+                                    .CreateAsync(
+                                        new CreateWalletTradeReq
+                                        {
+                                            Amount = order.DepositPoint
+                                            , BusinessOrderNumber = order.Id
+                                            , TradeDirection = TradeDirections.Income
+                                            , TradeType = TradeTypes.SelfDeposit
+                                            , OwnerId = order.OwnerId
+                                            , OwnerDeptId = order.OwnerDeptId
+                                        }
+                                    )
+                                    .ConfigureAwait(false)
+                                ?? throw new NetAdminUnexpectedException(Ln.结果非预期);
+                        }
+                    )
+                    .ConfigureAwait(false);
                 ret++;
             }
             catch {
@@ -214,15 +299,13 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DepositOrder>());
     }
 
-    private ISelect<Sys_DepositOrder> QueryInternal(QueryReq<QueryDepositOrderReq> req)
-    {
-        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
+    private ISelect<Sys_DepositOrder> QueryInternal(QueryReq<QueryDepositOrderReq> req) {
+        var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereIf(req.Filter?.Id > 0, a => a.Id == req.Filter.Id);
 
         // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
         switch (req.Order) {

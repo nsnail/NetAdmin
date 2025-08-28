@@ -12,7 +12,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.小学))]
     Primary = 1
 
-   ,
+    ,
 
     /// <summary>
     ///     初中
@@ -20,7 +20,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.初中))]
     Junior = 2
 
-   ,
+    ,
 
     /// <summary>
     ///     高中
@@ -28,7 +28,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.高中))]
     Higher = 3
 
-   ,
+    ,
 
     /// <summary>
     ///     中专
@@ -36,7 +36,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.中专))]
     Technical = 4
 
-   ,
+    ,
 
     /// <summary>
     ///     大专
@@ -44,7 +44,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.大专))]
     College = 5
 
-   ,
+    ,
 
     /// <summary>
     ///     本科
@@ -52,7 +52,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.本科))]
     Bachelor = 6
 
-   ,
+    ,
 
     /// <summary>
     ///     硕士
@@ -60,7 +60,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.硕士))]
     Master = 7
 
-   ,
+    ,
 
     /// <summary>
     ///     博士
@@ -68,7 +68,7 @@ public enum Educations
     [ResourceDescription<Ln>(nameof(Ln.博士))]
     Doctor = 8
 
-   ,
+    ,
 
     /// <summary>
     ///     博士后

@@ -13,8 +13,7 @@ public sealed class CaptchaController(ICaptchaCache cache) : ControllerBase<ICap
     ///     获取人机校验图
     /// </summary>
     [AllowAnonymous]
-    public Task<GetCaptchaRsp> GetCaptchaImageAsync()
-    {
+    public Task<GetCaptchaRsp> GetCaptchaImageAsync() {
         return Cache.GetCaptchaImageAsync();
     }
 
@@ -22,8 +21,7 @@ public sealed class CaptchaController(ICaptchaCache cache) : ControllerBase<ICap
     ///     完成人机校验
     /// </summary>
     [AllowAnonymous]
-    public Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req)
-    {
+    public Task<bool> VerifyCaptchaAsync(VerifyCaptchaReq req) {
         return Cache.VerifyCaptchaAsync(req);
     }
 }

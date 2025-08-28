@@ -10,14 +10,12 @@ namespace NetAdmin.Domain.Dto.Sys.LoginLog;
 public record CreateLoginLogReq : Sys_LoginLog, IRegister
 {
     /// <inheritdoc />
-    public void Register(TypeAdapterConfig config)
-    {
+    public void Register(TypeAdapterConfig config) {
         _ = config.ForType<CreateRequestLogReq, CreateLoginLogReq>().MapWith(x => Convert(x));
     }
 
-    private static CreateLoginLogReq Convert(CreateRequestLogReq s)
-    {
-        var              body      = s.Detail.ResponseBody.ToObject<RestfulInfo<LoginRsp>>();
+    private static CreateLoginLogReq Convert(CreateRequestLogReq s) {
+        var body = s.Detail.ResponseBody.ToObject<RestfulInfo<LoginRsp>>();
         ContextUserToken userToken = null;
 
         // ReSharper disable once InvertIf
@@ -30,23 +28,24 @@ public record CreateLoginLogReq : Sys_LoginLog, IRegister
             }
         }
 
-        return new CreateLoginLogReq {
-                                         Id               = s.Id
-                                       , CreatedClientIp  = s.CreatedClientIp
-                                       , CreatedTime      = s.CreatedTime
-                                       , Duration         = s.Duration
-                                       , HttpStatusCode   = s.HttpStatusCode
-                                       , ErrorCode        = s.Detail.ErrorCode
-                                       , RequestBody      = s.Detail.RequestBody
-                                       , RequestHeaders   = s.Detail.RequestHeaders
-                                       , RequestUrl       = s.Detail.RequestUrl
-                                       , ResponseBody     = s.Detail.ResponseBody
-                                       , ResponseHeaders  = s.Detail.ResponseHeaders
-                                       , ServerIp         = s.Detail.ServerIp
-                                       , CreatedUserAgent = s.Detail.CreatedUserAgent
-                                       , OwnerId          = userToken?.Id
-                                       , OwnerDeptId      = userToken?.DeptId
-                                       , LoginUserName    = s.Detail.RequestBody?.ToObject<LoginByPwdReq>()?.Account
-                                     };
+        return new CreateLoginLogReq
+        {
+            Id = s.Id
+            , CreatedClientIp = s.CreatedClientIp
+            , CreatedTime = s.CreatedTime
+            , Duration = s.Duration
+            , HttpStatusCode = s.HttpStatusCode
+            , ErrorCode = s.Detail.ErrorCode
+            , RequestBody = s.Detail.RequestBody
+            , RequestHeaders = s.Detail.RequestHeaders
+            , RequestUrl = s.Detail.RequestUrl
+            , ResponseBody = s.Detail.ResponseBody
+            , ResponseHeaders = s.Detail.ResponseHeaders
+            , ServerIp = s.Detail.ServerIp
+            , CreatedUserAgent = s.Detail.CreatedUserAgent
+            , OwnerId = userToken?.Id
+            , OwnerDeptId = userToken?.DeptId
+            , LoginUserName = s.Detail.RequestBody?.ToObject<LoginByPwdReq>()?.Account
+        };
     }
 }

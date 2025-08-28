@@ -9,8 +9,7 @@ public static class EnumExtensions
     ///     通过类泛型类型获取特性
     /// </summary>
     public static T Attr<T>(this Enum me)
-        where T : Attribute
-    {
+        where T : Attribute {
         return me.GetType().GetMember(me.ToString())[0].GetCustomAttributes<T>(false).FirstOrDefault();
     }
 }

@@ -10,7 +10,6 @@ public record Sys_SiteMsgRole : ImmutableEntity
     /// <summary>
     ///     关联的角色
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     public Sys_Role Role { get; init; }
 
@@ -18,14 +17,12 @@ public record Sys_SiteMsgRole : ImmutableEntity
     ///     角色编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public long RoleId { get; init; }
 
     /// <summary>
     ///     关联的站内信
     /// </summary>
-    [CsvIgnore]
     [JsonIgnore]
     public Sys_SiteMsg SiteMsg { get; init; }
 
@@ -33,7 +30,6 @@ public record Sys_SiteMsgRole : ImmutableEntity
     ///     站内信编号
     /// </summary>
     [Column]
-    [CsvIgnore]
     [JsonIgnore]
     public long SiteMsgId { get; init; }
 }

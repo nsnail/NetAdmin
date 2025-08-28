@@ -10,11 +10,10 @@ public abstract class WorkBase<TLogger>
     /// <summary>
     ///     Initializes a new instance of the <see cref="WorkBase{TLogger}" /> class.
     /// </summary>
-    protected WorkBase()
-    {
+    protected WorkBase() {
         ServiceProvider = App.GetService<IServiceScopeFactory>().CreateScope().ServiceProvider;
-        UowManager      = ServiceProvider.GetService<UnitOfWorkManager>();
-        Logger          = ServiceProvider.GetService<ILogger<TLogger>>();
+        UowManager = ServiceProvider.GetService<UnitOfWorkManager>();
+        Logger = ServiceProvider.GetService<ILogger<TLogger>>();
     }
 
     /// <summary>
@@ -35,22 +34,23 @@ public abstract class WorkBase<TLogger>
     /// <summary>
     ///     通用工作流
     /// </summary>
-    protected abstract ValueTask WorkflowAsync( //
-
-        // ReSharper disable once UnusedParameter.Global
+    protected abstract ValueTask WorkflowAsync(
         #pragma warning disable SA1114
-        CancellationToken cancelToken);
+        CancellationToken cancelToken
+    );
     #pragma warning restore SA1114
 
     /// <summary>
     ///     通用工作流
     /// </summary>
     /// <exception cref="NetAdminGetLockerException">加锁失败异常</exception>
-    protected async ValueTask WorkflowAsync(bool singleInstance, CancellationToken cancelToken)
-    {
+    protected async ValueTask WorkflowAsync(
+        bool singleInstance
+        , CancellationToken cancelToken
+    ) {
         if (singleInstance) {
             // 加锁
-            var             lockName    = GetType().FullName;
+            var lockName = GetType().FullName;
             await using var redisLocker = await GetLockerAsync(lockName).ConfigureAwait(false);
 
             await WorkflowAsync(cancelToken).ConfigureAwait(false);
@@ -63,13 +63,18 @@ public abstract class WorkBase<TLogger>
     /// <summary>
     ///     获取锁
     /// </summary>
-    private Task<RedisLocker> GetLockerAsync(string lockId)
-    {
-        var db = ServiceProvider.GetService<IConnectionMultiplexer>()
-                                .GetDatabase(ServiceProvider.GetService<IOptions<RedisOptions>>()
-                                                            .Value.Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE)
-                                                            .Database);
-        return RedisLocker.GetLockerAsync(db, lockId, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK
-                                        , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY));
+    private Task<RedisLocker> GetLockerAsync(string lockId) {
+        var db = ServiceProvider
+            .GetService<IConnectionMultiplexer>()
+            .GetDatabase(
+                ServiceProvider
+                    .GetService<IOptions<RedisOptions>>()
+                    .Value.Instances.First(x => x.Name == Chars.FLG_REDIS_INSTANCE_DATA_CACHE)
+                    .Database
+            );
+        return RedisLocker.GetLockerAsync(
+            db, lockId, TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_EXPIRY), Numbers.MAX_LIMIT_RETRY_CNT_REDIS_LOCK
+            , TimeSpan.FromSeconds(Numbers.SECS_REDIS_LOCK_RETRY_DELAY)
+        );
     }
 }

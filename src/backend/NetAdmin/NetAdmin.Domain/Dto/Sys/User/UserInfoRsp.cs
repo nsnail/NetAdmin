@@ -15,13 +15,15 @@ public sealed record UserInfoRsp : QueryUserRsp
     public override IEnumerable<QueryRoleRsp> Roles { get; init; }
 
     /// <inheritdoc />
-    public override void Register(TypeAdapterConfig config)
-    {
-        _ = config.ForType<Sys_User, UserInfoRsp>() //
-                  .IgnoreIf((s, _) => s.Mobile == null, d => d.Mobile)
-                  .Map(d => d.Mobile, s => s.Mobile.MaskMobile())
-
-            //
-            ;
+    public override void Register(TypeAdapterConfig config) {
+        _ = config
+            .ForType<Sys_User, UserInfoRsp>()
+            .IgnoreIf(
+                (
+                    s
+                    , _
+                ) => s.Mobile == null, d => d.Mobile
+            )
+            .Map(d => d.Mobile, s => s.Mobile.MaskMobile());
     }
 }

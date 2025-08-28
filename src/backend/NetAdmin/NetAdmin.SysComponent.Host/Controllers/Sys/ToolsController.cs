@@ -12,16 +12,14 @@ public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCa
     /// <summary>
     ///     Aes解密
     /// </summary>
-    public string AesDecode(AesDecodeReq req)
-    {
+    public string AesDecode(AesDecodeReq req) {
         return Cache.AesDecode(req);
     }
 
     /// <summary>
     ///     执行SQL语句
     /// </summary>
-    public Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req)
-    {
+    public Task<object[][]> ExecuteSqlAsync(ExecuteSqlReq req) {
         return Cache.ExecuteSqlAsync(req);
     }
 
@@ -29,8 +27,7 @@ public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCa
     ///     获取更新日志
     /// </summary>
     [AllowAnonymous]
-    public Task<string> GetChangeLogAsync()
-    {
+    public Task<string> GetChangeLogAsync() {
         return Cache.GetChangeLogAsync();
     }
 
@@ -38,8 +35,7 @@ public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCa
     ///     获取模块信息
     /// </summary>
     [AllowAnonymous]
-    public Task<IEnumerable<GetModulesRsp>> GetModulesAsync()
-    {
+    public Task<IEnumerable<GetModulesRsp>> GetModulesAsync() {
         return Cache.GetModulesAsync();
     }
 
@@ -47,8 +43,7 @@ public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCa
     ///     获取服务器时间
     /// </summary>
     [AllowAnonymous]
-    public Task<DateTime> GetServerUtcTimeAsync()
-    {
+    public Task<DateTime> GetServerUtcTimeAsync() {
         return Cache.GetServerUtcTimeAsync();
     }
 
@@ -56,8 +51,7 @@ public sealed class ToolsController(IToolsCache cache) : ControllerBase<IToolsCa
     ///     获取版本信息
     /// </summary>
     [AllowAnonymous]
-    public Task<string> GetVersionAsync()
-    {
+    public Task<string> GetVersionAsync() {
         return Cache.GetVersionAsync();
     }
 }

@@ -7,7 +7,6 @@ public abstract record LiteVersionEntity : LiteVersionEntity<long>
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [Snowflake]
     public override long Id { get; init; }
 }
@@ -22,7 +21,6 @@ public abstract record LiteVersionEntity<T> : LiteMutableEntity<T>, IFieldVersio
     ///     唯一编码
     /// </summary>
     [Column(IsIdentity = false, IsPrimary = true, Position = 1)]
-    [CsvIgnore]
     [Snowflake]
     public override T Id { get; init; }
 
@@ -30,7 +28,6 @@ public abstract record LiteVersionEntity<T> : LiteMutableEntity<T>, IFieldVersio
     ///     数据版本
     /// </summary>
     [Column(IsVersion = true, Position = -1)]
-    [CsvIgnore]
     [JsonIgnore]
     public virtual long Version { get; init; }
 }

@@ -31,13 +31,19 @@ public static class CaptchaImageHelper
     /// <returns> 背景图（base64），滑块图（base64），缺口坐标 </returns>
     #pragma warning disable SA1414
     public static async Task<(string BackgroundImage, string SliderImage, Point OffsetSaw)> CreateSawSliderImageAsync(
-            Assembly resAsm, string bgPath, string tempPath, (int, int) bgIndexScope, (int, int) tempIndexScope, Size sliderSize)
+            Assembly resAsm
+            , string bgPath
+            , string tempPath
+            , (int, int) bgIndexScope
+            , (int, int) tempIndexScope
+            , Size sliderSize
+        )
         #pragma warning restore SA1414
     {
         // 深色模板图
         var templateIndex = new[] { tempIndexScope.Item1, tempIndexScope.Item2 }.Rand();
 
-        await using var bgStream   = resAsm.GetManifestResourceStream($"{bgPath}.{new[] { bgIndexScope.Item1, bgIndexScope.Item2 }.Rand()}.jpg");
+        await using var bgStream = resAsm.GetManifestResourceStream($"{bgPath}.{new[] { bgIndexScope.Item1, bgIndexScope.Item2 }.Rand()}.jpg");
         await using var darkStream = resAsm.GetManifestResourceStream($"{tempPath}._{templateIndex}.dark.png");
         await using var tranStream = resAsm.GetManifestResourceStream($"{tempPath}._{templateIndex}.transparent.png");
 
@@ -66,10 +72,12 @@ public static class CaptchaImageHelper
         var blockShape = CalcBlockShape(darkTemplateImage);
 
         // 生成拼图
-        blockImage.Mutate(x => {
-            // ReSharper disable once AccessToDisposedClosure
-            _ = x.Clip(blockShape, p => p.DrawImage(backgroundImage, new Point(-offsetRand.X, -offsetRand.Y), 1));
-        });
+        blockImage.Mutate(x =>
+            {
+                // ReSharper disable once AccessToDisposedClosure
+                _ = x.Clip(blockShape, p => p.DrawImage(backgroundImage, new Point(-offsetRand.X, -offsetRand.Y), 1));
+            }
+        );
 
         // 拼图叠加透明模板图层
         //  ReSharper disable once AccessToDisposedClosure
@@ -86,8 +94,9 @@ public static class CaptchaImageHelper
         backgroundImage.Mutate(x => x.DrawImage(darkTemplateImage, new Point(offsetRand.X, offsetRand.Y), opacity));
 
         // 生成干扰图坐标
-        var interferencePoint = GenerateInterferencePoint(backgroundImage.Width, backgroundImage.Height, sliderSize.Width, sliderSize.Height
-                                 ,                                               offsetRand.X,           offsetRand.Y);
+        var interferencePoint = GenerateInterferencePoint(
+            backgroundImage.Width, backgroundImage.Height, sliderSize.Width, sliderSize.Height, offsetRand.X, offsetRand.Y
+        );
 
         // 底图叠加深色干扰模板图
         // ReSharper disable once AccessToDisposedClosure
@@ -95,12 +104,20 @@ public static class CaptchaImageHelper
         return (backgroundImage.ToBase64String(PngFormat.Instance), sliderBlockImage.ToBase64String(PngFormat.Instance), offsetRand);
     }
 
-    private static int BuildPathList(Span<Rgba32> rowSpan, int temp, List<IPath> pathList, int y)
-    {
+    private static int BuildPathList(
+        Span<Rgba32> rowSpan
+        , int temp
+        , List<IPath> pathList
+        , int y
+    ) {
         for (var x = 0; x < rowSpan.Length; x++) {
             ref var pixel = ref rowSpan[x];
             if (pixel.A != 0) {
-                temp = temp switch { 0 => x, _ => temp };
+                temp = temp switch
+                {
+                    0 => x
+                    , _ => temp
+                };
             }
             else {
                 if (temp == 0) {
@@ -115,16 +132,17 @@ public static class CaptchaImageHelper
         return temp;
     }
 
-    private static ComplexPolygon CalcBlockShape(Image<Rgba32> templateDarkImage)
-    {
-        var temp     = 0;
+    private static ComplexPolygon CalcBlockShape(Image<Rgba32> templateDarkImage) {
+        var temp = 0;
         var pathList = new List<IPath>();
-        templateDarkImage.ProcessPixelRows(accessor => {
-            for (var y = 0; y < templateDarkImage.Height; y++) {
-                var rowSpan = accessor.GetRowSpan(y);
-                temp = BuildPathList(rowSpan, temp, pathList, y);
+        templateDarkImage.ProcessPixelRows(accessor =>
+            {
+                for (var y = 0; y < templateDarkImage.Height; y++) {
+                    var rowSpan = accessor.GetRowSpan(y);
+                    temp = BuildPathList(rowSpan, temp, pathList, y);
+                }
             }
-        });
+        );
 
         return new ComplexPolygon(new PathCollection(pathList));
     }
@@ -132,9 +150,14 @@ public static class CaptchaImageHelper
     /// <summary>
     ///     随机生成干扰图坐标
     /// </summary>
-    private static Point GenerateInterferencePoint(int originalWidth, int originalHeight, int templateWidth, int templateHeight, int blockX
-                                                 , int blockY)
-    {
+    private static Point GenerateInterferencePoint(
+        int originalWidth
+        , int originalHeight
+        , int templateWidth
+        , int templateHeight
+        , int blockX
+        , int blockY
+    ) {
         var x =
 
             // 在原扣图右边插入干扰图
@@ -161,13 +184,25 @@ public static class CaptchaImageHelper
     /// <summary>
     ///     随机生成拼图坐标
     /// </summary>
-    private static Point GeneratePoint(int originalWidth, int originalHeight, int templateWidth, int templateHeight)
-    {
-        var widthDifference  = originalWidth  - templateWidth;
+    private static Point GeneratePoint(
+        int originalWidth
+        , int originalHeight
+        , int templateWidth
+        , int templateHeight
+    ) {
+        var widthDifference = originalWidth - templateWidth;
         var heightDifference = originalHeight - templateHeight;
-        var x                = widthDifference switch { <= 0 => 5, _ => new[] { 0, originalWidth - templateWidth - 100 }.Rand() + 100 };
+        var x = widthDifference switch
+        {
+            <= 0 => 5
+            , _ => new[] { 0, originalWidth - templateWidth - 100 }.Rand() + 100
+        };
 
-        var y = heightDifference switch { <= 0 => 5, _ => new[] { 0, originalHeight - templateHeight - 5 }.Rand() + 5 };
+        var y = heightDifference switch
+        {
+            <= 0 => 5
+            , _ => new[] { 0, originalHeight - templateHeight - 5 }.Rand() + 5
+        };
 
         return new Point(x, y);
     }
@@ -175,8 +210,10 @@ public static class CaptchaImageHelper
     /// <summary>
     ///     随机范围内数字
     /// </summary>
-    private static int GetRandomInt(int startNum, int endNum)
-    {
+    private static int GetRandomInt(
+        int startNum
+        , int endNum
+    ) {
         return (endNum > startNum ? new[] { 0, endNum - startNum }.Rand() : 0) + startNum;
     }
 }

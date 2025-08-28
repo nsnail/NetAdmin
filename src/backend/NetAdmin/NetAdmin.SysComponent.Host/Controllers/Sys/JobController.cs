@@ -15,8 +15,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     ///     批量删除计划作业
     /// </summary>
     [Transaction]
-    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         return Cache.BulkDeleteAsync(req);
     }
 
@@ -24,24 +23,21 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     ///     计划作业计数
     /// </summary>
     [NonAction]
-    public Task<long> CountAsync(QueryReq<QueryJobReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryJobReq> req) {
         return Cache.CountAsync(req);
     }
 
     /// <summary>
     ///     计划作业分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryJobReq> req) {
         return Cache.CountByAsync(req);
     }
 
     /// <summary>
     ///     作业记录计数
     /// </summary>
-    public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req)
-    {
+    public Task<long> CountRecordAsync(QueryReq<QueryJobRecordReq> req) {
         return Cache.CountRecordAsync(req);
     }
 
@@ -49,8 +45,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     ///     创建计划作业
     /// </summary>
     [Transaction]
-    public Task<QueryJobRsp> CreateAsync(CreateJobReq req)
-    {
+    public Task<QueryJobRsp> CreateAsync(CreateJobReq req) {
         return Cache.CreateAsync(req);
     }
 
@@ -58,8 +53,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     ///     删除计划作业
     /// </summary>
     [Transaction]
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         return Cache.DeleteAsync(req);
     }
 
@@ -67,112 +61,98 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     ///     编辑作业
     /// </summary>
     [Transaction]
-    public Task<QueryJobRsp> EditAsync(EditJobReq req)
-    {
+    public Task<QueryJobRsp> EditAsync(EditJobReq req) {
         return Cache.EditAsync(req);
     }
 
     /// <summary>
     ///     执行作业
     /// </summary>
-    public Task ExecuteAsync(QueryJobReq req)
-    {
+    public Task ExecuteAsync(QueryJobReq req) {
         return Cache.ExecuteAsync(req);
     }
 
     /// <summary>
     ///     导出计划作业
     /// </summary>
-    public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryJobReq> req) {
         return Cache.ExportAsync(req);
     }
 
     /// <summary>
     ///     导出作业记录
     /// </summary>
-    public Task<IActionResult> ExportRecordAsync(QueryReq<QueryJobRecordReq> req)
-    {
+    public Task<IActionResult> ExportRecordAsync(QueryReq<QueryJobRecordReq> req) {
         return Cache.ExportRecordAsync(req);
     }
 
     /// <summary>
     ///     获取单个计划作业
     /// </summary>
-    public Task<QueryJobRsp> GetAsync(QueryJobReq req)
-    {
+    public Task<QueryJobRsp> GetAsync(QueryJobReq req) {
         return Cache.GetAsync(req);
     }
 
     /// <summary>
     ///     获取单个作业记录
     /// </summary>
-    public Task<QueryJobRecordRsp> GetRecordAsync(QueryJobRecordReq req)
-    {
+    public Task<QueryJobRecordRsp> GetRecordAsync(QueryJobRecordReq req) {
         return Cache.GetRecordAsync(req);
     }
 
     /// <summary>
     ///     获取作业记录条形图数据
     /// </summary>
-    public Task<IEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req)
-    {
+    public Task<IEnumerable<GetBarChartRsp>> GetRecordBarChartAsync(QueryReq<QueryJobRecordReq> req) {
         return Cache.GetRecordBarChartAsync(req);
     }
 
     /// <summary>
     ///     状态码分组作业记录饼图数据
     /// </summary>
-    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req)
-    {
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByHttpStatusCodeAsync(QueryReq<QueryJobRecordReq> req) {
         return Cache.GetRecordPieChartByHttpStatusCodeAsync(req);
     }
 
     /// <summary>
     ///     名称分组作业记录饼图数据
     /// </summary>
-    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req)
-    {
+    public Task<IEnumerable<GetPieChartRsp>> GetRecordPieChartByNameAsync(QueryReq<QueryJobRecordReq> req) {
         return Cache.GetRecordPieChartByNameAsync(req);
     }
 
     /// <summary>
     ///     分页查询计划作业
     /// </summary>
-    public Task<PagedQueryRsp<QueryJobRsp>> PagedQueryAsync(PagedQueryReq<QueryJobReq> req)
-    {
+    public Task<PagedQueryRsp<QueryJobRsp>> PagedQueryAsync(PagedQueryReq<QueryJobReq> req) {
         return Cache.PagedQueryAsync(req);
     }
 
     /// <summary>
     ///     分页查询作业记录
     /// </summary>
-    public Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req)
-    {
+    public Task<PagedQueryRsp<QueryJobRecordRsp>> PagedQueryRecordAsync(PagedQueryReq<QueryJobRecordReq> req) {
         return Cache.PagedQueryRecordAsync(req);
     }
 
     /// <summary>
     ///     查询计划作业
     /// </summary>
-    public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req)
-    {
+    public Task<IEnumerable<QueryJobRsp>> QueryAsync(QueryReq<QueryJobReq> req) {
         return Cache.QueryAsync(req);
     }
 
     /// <summary>
     ///     作业记录分组计数
     /// </summary>
-    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req)
-    {
+    public Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> RecordCountByAsync(QueryReq<QueryJobRecordReq> req) {
         return Cache.RecordCountByAsync(req);
     }
 
     /// <summary>
     ///     启用/禁用作业
     /// </summary>
-    public Task<int> SetEnabledAsync(SetJobEnabledReq req)
-    {
+    public Task<int> SetEnabledAsync(SetJobEnabledReq req) {
         return Cache.SetEnabledAsync(req);
     }
 
@@ -180,8 +160,7 @@ public sealed class JobController(IJobCache cache) : ControllerBase<IJobCache, I
     ///     作业求和
     /// </summary>
     [NonAction]
-    public Task<decimal> SumAsync(QueryReq<QueryJobReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryJobReq> req) {
         return Cache.SumAsync(req);
     }
 }

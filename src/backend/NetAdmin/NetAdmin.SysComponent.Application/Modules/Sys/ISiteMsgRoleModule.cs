@@ -6,7 +6,7 @@ namespace NetAdmin.SysComponent.Application.Modules.Sys;
 ///     站内信-角色映射模块
 /// </summary>
 public interface ISiteMsgRoleModule : ICrudModule<CreateSiteMsgRoleReq, QuerySiteMsgRoleRsp // 创建类型
-  , EditSiteMsgRoleReq                                                                      // 编辑类型
-  , QuerySiteMsgRoleReq, QuerySiteMsgRoleRsp                                                // 查询类型
-  , DelReq                                                                                  // 删除类型
+    , EditSiteMsgRoleReq // 编辑类型
+    , QuerySiteMsgRoleReq, QuerySiteMsgRoleRsp // 查询类型
+    , DelReq // 删除类型
 >;

@@ -6,12 +6,11 @@ using NetAdmin.Domain.Extensions;
 namespace NetAdmin.SysComponent.Application.Services.Sys;
 
 /// <inheritdoc cref="ILoginLogService" />
-public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
+public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo)
     : RepositoryService<Sys_LoginLog, long, ILoginLogService>(rpo), ILoginLogService
 {
     /// <inheritdoc />
-    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req)
-    {
+    public async Task<int> BulkDeleteAsync(BulkReq<DelReq> req) {
         req.ThrowIfInvalid();
         var ret = 0;
 
@@ -24,108 +23,101 @@ public sealed class LoginLogService(BasicRepository<Sys_LoginLog, long> rpo) //
     }
 
     /// <inheritdoc />
-    public Task<long> CountAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<long> CountAsync(QueryReq<QueryLoginLogReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req).WithNoLockNoWait().CountAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public async Task<IOrderedEnumerable<KeyValuePair<IImmutableDictionary<string, string>, int>>> CountByAsync(QueryReq<QueryLoginLogReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req with { Order = Orders.None })
-                        .WithNoLockNoWait()
-                        .GroupBy(req.GetToListExp<Sys_LoginLog>())
-                        .ToDictionaryAsync(a => a.Count())
-                        .ConfigureAwait(false);
-        return ret.Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
-                              req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_LoginLog).GetProperty(y)!.GetValue(x.Key)?.ToString())
-                            , x.Value))
-                  .OrderByDescending(x => x.Value);
+            .WithNoLockNoWait()
+            .GroupBy(req.GetToListExp<Sys_LoginLog>())
+            .ToDictionaryAsync(a => a.Count())
+            .ConfigureAwait(false);
+        return ret
+            .Select(x => new KeyValuePair<IImmutableDictionary<string, string>, int>(
+                    req.RequiredFields.ToImmutableDictionary(y => y, y => typeof(Sys_LoginLog).GetProperty(y)!.GetValue(x.Key)?.ToString()), x.Value
+                )
+            )
+            .OrderByDescending(x => x.Value);
     }
 
     /// <inheritdoc />
-    public async Task<QueryLoginLogRsp> CreateAsync(CreateLoginLogReq req)
-    {
+    public async Task<QueryLoginLogRsp> CreateAsync(CreateLoginLogReq req) {
         req.ThrowIfInvalid();
         var ret = await Rpo.InsertAsync(req).ConfigureAwait(false);
         return ret.Adapt<QueryLoginLogRsp>();
     }
 
     /// <inheritdoc />
-    public Task<int> DeleteAsync(DelReq req)
-    {
+    public Task<int> DeleteAsync(DelReq req) {
         req.ThrowIfInvalid();
         return Rpo.DeleteAsync(a => a.Id == req.Id);
     }
 
     /// <inheritdoc />
-    public Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req)
-    {
+    public Task<QueryLoginLogRsp> EditAsync(EditLoginLogReq req) {
         req.ThrowIfInvalid();
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Task<IActionResult> ExportAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<IActionResult> ExportAsync(QueryReq<QueryLoginLogReq> req) {
         req.ThrowIfInvalid();
         return ExportAsync<QueryLoginLogReq, ExportLoginLogRsp>(QueryInternal, req, Ln.登录日志导出);
     }
 
     /// <inheritdoc />
-    public async Task<QueryLoginLogRsp> GetAsync(QueryLoginLogReq req)
-    {
+    public async Task<QueryLoginLogRsp> GetAsync(QueryLoginLogReq req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(new QueryReq<QueryLoginLogReq> { Filter = req, Order = Orders.None }).ToOneAsync().ConfigureAwait(false);
         return ret.Adapt<QueryLoginLogRsp>();
     }
 
     /// <inheritdoc />
-    public async Task<PagedQueryRsp<QueryLoginLogRsp>> PagedQueryAsync(PagedQueryReq<QueryLoginLogReq> req)
-    {
+    public async Task<PagedQueryRsp<QueryLoginLogRsp>> PagedQueryAsync(PagedQueryReq<QueryLoginLogReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
-                         .Include(a => a.Owner)
-                         .Page(req.Page, req.PageSize)
-                         .WithNoLockNoWait()
-                         .Count(out var total)
-                         .ToListAsync(a => new {
-                                                   a.CreatedClientIp
-                                                 , a.CreatedTime
-                                                 , a.CreatedUserAgent
-                                                 , a.Duration
-                                                 , a.ErrorCode
-                                                 , a.HttpStatusCode
-                                                 , a.Id
-                                                 , a.LoginUserName
-                                                 , Owner = new { a.Owner.Id, a.Owner.UserName }
-                                                 , a.RequestUrl
-                                                 , a.ServerIp
-                                               })
-                         .ConfigureAwait(false);
+            .Include(a => a.Owner)
+            .Page(req.Page, req.PageSize)
+            .WithNoLockNoWait()
+            .Count(out var total)
+            .ToListAsync(a => new
+                {
+                    a.CreatedClientIp
+                    , a.CreatedTime
+                    , a.CreatedUserAgent
+                    , a.Duration
+                    , a.ErrorCode
+                    , a.HttpStatusCode
+                    , a.Id
+                    , a.LoginUserName
+                    , Owner = new { a.Owner.Id, a.Owner.UserName }
+                    , a.RequestUrl
+                    , a.ServerIp
+                }
+            )
+            .ConfigureAwait(false);
 
         return new PagedQueryRsp<QueryLoginLogRsp>(req.Page, req.PageSize, total, list.Adapt<List<QueryLoginLogRsp>>());
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<QueryLoginLogRsp>> QueryAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public async Task<IEnumerable<QueryLoginLogRsp>> QueryAsync(QueryReq<QueryLoginLogReq> req) {
         req.ThrowIfInvalid();
         var ret = await QueryInternal(req).WithNoLockNoWait().Take(req.Count).ToListAsync(req).ConfigureAwait(false);
         return ret.Adapt<IEnumerable<QueryLoginLogRsp>>();
     }
 
     /// <inheritdoc />
-    public Task<decimal> SumAsync(QueryReq<QueryLoginLogReq> req)
-    {
+    public Task<decimal> SumAsync(QueryReq<QueryLoginLogReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_LoginLog>());
     }
 
-    private ISelect<Sys_LoginLog> QueryInternal(QueryReq<QueryLoginLogReq> req)
-    {
+    private ISelect<Sys_LoginLog> QueryInternal(QueryReq<QueryLoginLogReq> req) {
         var ret = Rpo.Select.WhereDynamicFilter(req.DynamicFilter).WhereDynamic(req.Filter);
 
         if (req.Keywords?.Length > 0) {
