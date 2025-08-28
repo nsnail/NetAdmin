@@ -529,7 +529,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>true</example>
                     [Column]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual bool Enabled { get; init; }
                 """
@@ -545,7 +544,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>2025-07-03 17:56:44</example>
                     [Column(ServerTime = DateTimeKind.Local, CanUpdate = false, Position = -1)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual DateTime CreatedTime { get; init; }
                 """
@@ -561,7 +559,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>2025-07-03 17:56:44</example>
                     [Column(ServerTime = DateTimeKind.Local, CanInsert = false, Position = -1)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual DateTime? ModifiedTime { get; init; }
                 """
@@ -577,7 +574,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>127.0.0.1</example>
                     [Column]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual int? CreatedClientIp { get; init; }
                 """
@@ -593,7 +589,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>127.0.0.1</example>
                     [Column]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual int? ModifiedClientIp { get; init; }
                 """
@@ -609,7 +604,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                    /// <example>Mozilla/5.0</example>
                     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_1022)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual string CreatedUserAgent { get; init; }
                 """
@@ -625,7 +619,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>Mozilla/5.0</example>
                     [Column(Position = -1, DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_1022)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual string ModifiedUserAgent { get; init; }
                 """
@@ -641,7 +634,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                    /// <example>370942943322181</example>
                     [Column(CanUpdate = false, Position = -1)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual long? CreatedUserId { get; init; }
 
@@ -650,7 +642,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>root</example>
                     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual string CreatedUserName { get; init; }
                 """
@@ -666,7 +657,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                    /// <example>370942943322181</example>
                     [Column(CanUpdate = false, Position = -1)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual long? ModifiedUserId { get; init; }
 
@@ -675,7 +665,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>root</example>
                     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_31, CanUpdate = false, Position = -1)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual string ModifiedUserName { get; init; }
                 """
@@ -689,7 +678,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// <summary>
                     ///     归属用户
                     /// </summary>
-                    [CsvIgnore]
                     [JsonIgnore]
                     [Navigate(nameof(OwnerId))]
                     public Sys_User Owner { get; init; }
@@ -699,7 +687,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>370942943322181</example>
                     [Column]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual long? OwnerDeptId { get; init; }
 
@@ -708,7 +695,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>370942943322181</example>
                     [Column]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual long? OwnerId { get; init; }
                 """
@@ -724,7 +710,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>100</example>
                     [Column]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual long Sort { get; init; }
                 """
@@ -740,7 +725,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>备注文字</example>
                     [Column(DbType = Chars.FLG_DB_FIELD_TYPE_VARCHAR_255)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual string Summary { get; set; }
                 """
@@ -756,7 +740,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                     /// </summary>
                     /// <example>100</example>
                     [Column(IsVersion = true, Position = -1)]
-                    [CsvIgnore]
                     [JsonIgnore]
                     public virtual long Version { get; init; }
                 """
@@ -795,7 +778,6 @@ public sealed class DevService(IApiService apiService) : ServiceBase<DevService>
                                                     /// </summary>
                                                     /// <example>{{field.Example}}</example>
                                                     [Column{{column}}]
-                                                    [CsvIgnore]
                                                     [JsonIgnore]{{snowflake}}
                                                     public {{decoration}} {{field.Type}}{{nul}} {{field.Name}} { get; init; }
                                                 """
