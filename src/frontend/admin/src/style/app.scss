@@ -493,6 +493,14 @@ textarea {
     margin-top: 1rem;
 }
 
+.ml-2 {
+    margin-left: 0.5rem;
+}
+
+.ml-4 {
+    margin-left: 1rem;
+}
+
 .mr-2 {
     margin-right: 0.5rem;
 }
@@ -504,9 +512,11 @@ textarea {
 .mt-8 {
     margin-top: 2rem;
 }
+
 .mb-4 {
     margin-bottom: 1rem;
 }
+
 .mb-8 {
     margin-bottom: 2rem;
 }
@@ -646,7 +656,13 @@ textarea {
     margin-right: 0 !important;
     width: 50%;
 }
+
 .el-form-item-w33p {
     margin-right: 0 !important;
     width: 33%;
+}
+
+.el-form-item-w25p {
+    margin-right: 0 !important;
+    width: 25%;
 }

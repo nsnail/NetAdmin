@@ -1,3 +1,4 @@
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.WalletTrade;
 
 namespace NetAdmin.SysComponent.Application.Modules.Sys;
@@ -11,6 +12,16 @@ public interface IWalletTradeModule : ICrudModule<CreateWalletTradeReq, QueryWal
     , DelReq // 删除类型
 >
 {
+    /// <summary>
+    ///     获取自助充值条形图数据
+    /// </summary>
+    Task<IEnumerable<GetBarChartRsp>> GetSelfDepositBarChartAsync(QueryReq<QueryWalletTradeReq> req);
+
+    /// <summary>
+    ///     消费总数计数
+    /// </summary>
+    Task<long> TotalAmountAsync(QueryReq<QueryWalletTradeReq> req);
+
     /// <summary>
     ///     从他人账户转账给自己
     /// </summary>

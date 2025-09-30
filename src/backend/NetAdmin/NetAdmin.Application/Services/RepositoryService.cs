@@ -144,10 +144,14 @@ public abstract class RepositoryService<TEntity, TPrimary, TLogger>(BasicReposit
     #endif
 
     #pragma warning disable S2326
+    // ReSharper disable UnusedTypeParameter
+    // ReSharper disable UnusedParameter.Local
     private static Task<IActionResult> GetExportFileStreamAsync<TExport>(
         string fileName
         , object list
     ) {
+        // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedTypeParameter
         #pragma warning restore S2326
         throw new NotImplementedException();
 

@@ -598,6 +598,7 @@ export default {
         showSelection: { type: Boolean, default: true },
         showSearchMine: { type: Boolean, default: false },
         totalCountLabel: { type: String, default: `总数` },
+        dialogWidth: { type: String, default: '50%' },
     },
     watch: {},
 }

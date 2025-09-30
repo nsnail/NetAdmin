@@ -1,3 +1,4 @@
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.WalletTrade;
 
 namespace NetAdmin.SysComponent.Host.Controllers.Sys;
@@ -71,6 +72,13 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     }
 
     /// <summary>
+    ///     获取自助充值条形图数据
+    /// </summary>
+    public Task<IEnumerable<GetBarChartRsp>> GetSelfDepositBarChartAsync(QueryReq<QueryWalletTradeReq> req) {
+        return Cache.GetSelfDepositBarChartAsync(req);
+    }
+
+    /// <summary>
     ///     分页查询钱包交易
     /// </summary>
     public Task<PagedQueryRsp<QueryWalletTradeRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletTradeReq> req) {
@@ -90,6 +98,13 @@ public sealed class WalletTradeController(IWalletTradeCache cache) : ControllerB
     /// </summary>
     public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req) {
         return Cache.SumAsync(req);
+    }
+
+    /// <summary>
+    ///     消费总数计数
+    /// </summary>
+    public Task<long> TotalAmountAsync(QueryReq<QueryWalletTradeReq> req) {
+        return Cache.TotalAmountAsync(req);
     }
 
     /// <summary>

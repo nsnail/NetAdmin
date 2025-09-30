@@ -19,8 +19,8 @@ public sealed class FreeSqlBuilder(DatabaseOptions databaseOptions)
     ) {
         var freeSql = new FreeSql.FreeSqlBuilder()
             #if DBTYPE_SQLSERVER
-                      .UseConnectionFactory(databaseOptions.DbType, () => new SqlConnection(databaseOptions.ConnStr))
-                      .UseAdoConnectionPool(true)
+            .UseConnectionFactory(databaseOptions.DbType, () => new SqlConnection(databaseOptions.ConnStr))
+            .UseAdoConnectionPool(true)
             #else
             .UseConnectionString(databaseOptions.DbType, databaseOptions.ConnStr)
             #endif

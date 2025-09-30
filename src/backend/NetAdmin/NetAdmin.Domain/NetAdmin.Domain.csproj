@@ -6,7 +6,7 @@
     <ItemGroup>
         <PackageReference Include="CronExpressionDescriptor" Version="2.44.0"/>
         <PackageReference Include="Cronos" Version="0.11.1"/>
-        <PackageReference Include="ExcelMapper" Version="6.0.611"/>
+        <PackageReference Include="ExcelMapper" Version="6.0.612"/>
         <PackageReference Include="Yitter.IdGenerator" Version="1.0.14"/>
     </ItemGroup>
     <ItemGroup>

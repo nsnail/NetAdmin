@@ -110,7 +110,7 @@ public static class Chars
     public const string RGX_PAY_PASSWORD = """^\d{6}$""";
     public const string RGX_TELEPHONE = """^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$""";
     public const string RGX_UP_AND_LOWER_NUMBER = """^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$""";
-    public const string RGX_URL = """^https?://[\x00-\x1F\x21-\x7F]+$""";
+    public const string RGX_URL = """^https?://[\x21-\x7E]+$""";
     public const string RGX_USERNAME = """^[\u4e00-\u9fa5a-zA-Z0-9_-]{2,16}$""";
     public const string RGX_VERIFY_CODE = """^\d{4}$""";
 

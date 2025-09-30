@@ -10,6 +10,6 @@ public interface IUserInviteService : IService, IUserInviteModule
     /// </summary>
     Task<List<long>> GetAssociatedUserIdAsync(
         long userId
-      , bool up = true
+        , bool up = true
     );
 }

@@ -6,7 +6,7 @@
         <PackageReference Include="NetAdmin.FreeSql.DbContext" Version="1.1.8" Label="refs"/>
         <PackageReference Include="NetAdmin.FreeSql.Provider.Sqlite" Version="1.1.8" Label="refs"/>
         <PackageReference Include="Gurion" Version="1.2.17" Label="refs"/>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.8"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.9"/>
         <PackageReference Include="Minio" Version="6.0.5"/>
         <PackageReference Include="NSExt" Version="2.3.8"/>
         <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7"/>

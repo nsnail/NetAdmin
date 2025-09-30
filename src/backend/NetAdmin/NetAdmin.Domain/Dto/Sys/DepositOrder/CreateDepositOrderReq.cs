@@ -7,9 +7,6 @@ namespace NetAdmin.Domain.Dto.Sys.DepositOrder;
 /// </summary>
 public record CreateDepositOrderReq : Sys_DepositOrder
 {
-    /// <inheritdoc cref="Sys_DepositOrder.ActualPayAmount" />
-    public override long ActualPayAmount { get; init; }
-
     /// <inheritdoc cref="Sys_DepositOrder.DepositOrderStatus" />
     public override DepositOrderStatues DepositOrderStatus { get; init; } = DepositOrderStatues.WaitingForPayment;
 

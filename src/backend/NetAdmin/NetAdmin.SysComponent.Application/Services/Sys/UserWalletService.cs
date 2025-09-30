@@ -20,6 +20,7 @@ public sealed class UserWalletService(BasicRepository<Sys_UserWallet, long> rpo)
         , Owner = new Sys_User
         {
             Id = a.Owner.Id
+            , DeptId = a.Owner.DeptId
             , UserName = a.Owner.UserName
             , Avatar = a.Owner.Avatar
             , Roles = a.Owner.Roles

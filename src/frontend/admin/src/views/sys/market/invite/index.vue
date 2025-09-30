@@ -65,7 +65,7 @@
                 isSwitch: { onChange: `setSelfDepositAllowed` },
             },
             'user.enabled': {
-                label: $t(`启用`),
+                label: $t(`账号已启用`),
                 width: 120,
                 align: `center`,
                 show: [`list`],

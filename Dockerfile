@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:9.0.8 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0.9 AS base
 WORKDIR /app
 EXPOSE 8080
 RUN apt update

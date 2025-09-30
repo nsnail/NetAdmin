@@ -1,3 +1,4 @@
+#pragma warning disable RCS1194
 namespace NetAdmin.Infrastructure.Exceptions;
 
 /// <summary>
@@ -6,9 +7,5 @@ namespace NetAdmin.Infrastructure.Exceptions;
 /// <remarks>
 ///     外部接口调用未得到预期的结果
 /// </remarks>
-#pragma warning disable RCS1194
 public sealed class NetAdminExternalErrorException(string message, Exception innerException = null)
-    #pragma warning restore RCS1194
-    : NetAdminException(ErrorCodes.ExternalError, message, innerException)
-{
-}
+    : NetAdminException(ErrorCodes.ExternalError, message, innerException);

@@ -3,6 +3,7 @@
         v-model="visible"
         :full-screen="dialogFullScreen.includes(mode)"
         :title="titleMap[mode]"
+        :width="dialogWidth"
         @closed="$emit(`closed`)"
         destroy-on-close
         ref="dialog">
@@ -25,7 +26,7 @@
                                 :prop="i">
                                 <el-date-picker
                                     v-bind="item.detail?.props"
-                                    v-if="i.endsWith(`Time`)"
+                                    v-if="i.endsWith(`Time`) && !item.detail?.is"
                                     v-model="form[i]"
                                     :disabled="item.disabled?.includes(mode)"
                                     type="datetime"
@@ -76,6 +77,7 @@
                                         v-model:value3="form[item.detail.vModel[2]]"
                                         v-model:value4="form[item.detail.vModel[3]]"
                                         v-model:value5="form[item.detail.vModel[4]]"
+                                        v-model:value6="form[item.detail.vModel[5]]"
                                         :disabled="item.disabled?.includes(mode)"
                                         :is="item.detail.is" />
                                 </template>
@@ -229,6 +231,7 @@ export default {
         dialogFullScreen: { type: Array },
         tabs: { type: Array },
         formInline: { type: Boolean },
+        dialogWidth: { type: String, default: '50%' },
         formLabelWidth: { type: Number, default: 12 },
     },
 }

@@ -1,3 +1,4 @@
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.WalletTrade;
 
 namespace NetAdmin.SysComponent.Cache.Sys;
@@ -47,6 +48,11 @@ public sealed class WalletTradeCache(IDistributedCache cache, IWalletTradeServic
     }
 
     /// <inheritdoc />
+    public Task<IEnumerable<GetBarChartRsp>> GetSelfDepositBarChartAsync(QueryReq<QueryWalletTradeReq> req) {
+        return Service.GetSelfDepositBarChartAsync(req);
+    }
+
+    /// <inheritdoc />
     public Task<PagedQueryRsp<QueryWalletTradeRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletTradeReq> req) {
         return Service.PagedQueryAsync(req);
     }
@@ -59,6 +65,11 @@ public sealed class WalletTradeCache(IDistributedCache cache, IWalletTradeServic
     /// <inheritdoc />
     public Task<decimal> SumAsync(QueryReq<QueryWalletTradeReq> req) {
         return Service.SumAsync(req);
+    }
+
+    /// <inheritdoc />
+    public Task<long> TotalAmountAsync(QueryReq<QueryWalletTradeReq> req) {
+        return Service.TotalAmountAsync(req);
     }
 
     /// <inheritdoc />

@@ -3,7 +3,7 @@
         <div class="widgets-content">
             <div class="widgets" ref="widgets">
                 <div class="widgets-wrapper">
-                    <div v-if="nowCompsList.length <= 0" class="no-widgets">
+                    <div v-if="nowCompsList?.length <= 0" class="no-widgets">
                         <el-empty :description="$t('没有部件啦')" :image-size="280" />
                     </div>
                     <el-row :gutter="15">
@@ -181,7 +181,7 @@ export default {
             return this.allCompsList.filter((item) => !item.disabled && !myGrid?.includes(item.key))
         },
         nowCompsList() {
-            return this.grid.compsList.reduce(function (a, b) {
+            return this.grid.compsList?.reduce(function (a, b) {
                 return a.concat(b)
             })
         },

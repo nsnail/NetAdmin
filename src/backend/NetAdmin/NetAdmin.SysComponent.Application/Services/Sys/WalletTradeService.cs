@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using Ganss.Excel;
 using NetAdmin.Application.Extensions;
 using NetAdmin.Domain.DbMaps.Sys;
+using NetAdmin.Domain.Dto.Sys;
 using NetAdmin.Domain.Dto.Sys.User;
 using NetAdmin.Domain.Dto.Sys.UserInvite;
 using NetAdmin.Domain.Dto.Sys.UserWallet;
@@ -99,7 +100,7 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
                 .ConfigureAwait(false)
             ?? throw new NetAdminUnexpectedException(Ln.交易失败);
         var ret = await Rpo
-            .InsertAsync(req with { BalanceBefore = wallet.AvailableBalance + wallet.FrozenBalance, OwnerDeptId = wallet.OwnerDeptId })
+            .InsertAsync(req with { BalanceBefore = wallet.AvailableBalance + wallet.FrozenBalance, OwnerDeptId = wallet.Owner.DeptId })
             .ConfigureAwait(false);
         return ret.Adapt<QueryWalletTradeRsp>();
     }
@@ -173,6 +174,27 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
     }
 
     /// <inheritdoc />
+    public async Task<IEnumerable<GetBarChartRsp>> GetSelfDepositBarChartAsync(QueryReq<QueryWalletTradeReq> req) {
+        req.ThrowIfInvalid();
+        var df = new DynamicFilterInfo
+        {
+            Field = nameof(Sys_WalletTrade.TradeType), Operator = DynamicFilterOperators.Eq, Value = TradeTypes.SelfDeposit
+        };
+        var newdf = req.DynamicFilter.Add(df);
+        var ret = await QueryInternal(req with { Order = Orders.None, DynamicFilter = newdf })
+            .WithNoLockNoWait()
+            .GroupBy(a => new { a.CreatedTime.Year, a.CreatedTime.Month, a.CreatedTime.Day, a.CreatedTime.Hour })
+            .ToListAsync(a => new GetBarChartRsp
+                {
+                    Timestamp = new DateTime(a.Key.Year, a.Key.Month, a.Key.Day, a.Key.Hour, 0, 0, DateTimeKind.Unspecified)
+                    , Value = (int)Math.Floor(a.Sum(a.Value.Amount) / 100)
+                }
+            )
+            .ConfigureAwait(false);
+        return ret.OrderBy(x => x.Timestamp);
+    }
+
+    /// <inheritdoc />
     public async Task<PagedQueryRsp<QueryWalletTradeRsp>> PagedQueryAsync(PagedQueryReq<QueryWalletTradeReq> req) {
         req.ThrowIfInvalid();
         var list = await QueryInternal(req)
@@ -209,6 +231,13 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
     }
 
     /// <inheritdoc />
+    public Task<long> TotalAmountAsync(QueryReq<QueryWalletTradeReq> req) {
+        req.ThrowIfInvalid();
+        var total = QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().Sum(a => a.Amount) / 100;
+        return Task.FromResult((long)Math.Abs(Math.Floor(total)));
+    }
+
+    /// <inheritdoc />
     public async Task<int> TransferFromAnotherAccountAsync(TransferReq req) {
         // 检查源账户是不是自己的下级
         var fromAccount = await S<IUserInviteService>().GetAsync(new QueryUserInviteReq { Id = req.OwnerId!.Value }).ConfigureAwait(false);
@@ -230,7 +259,7 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
                     OwnerDeptId = fromUser.DeptId
                     , Amount = -req.Amount
                     , OwnerId = fromUser.Id
-                    , Summary = req.Summary
+                    , Summary = $"{req.Summary} ({Ln.转给}: {UserToken.UserName}/{UserToken.Id})"
                     , TradeDirection = TradeDirections.Expense
                     , TradeType = TradeTypes.TransferExpense
                 }
@@ -242,7 +271,7 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
                 new CreateWalletTradeReq
                 {
                     Amount = req.Amount
-                    , Summary = req.Summary
+                    , Summary = $"{req.Summary} ({Ln.来自}: {fromUser.UserName}/{fromUser.Id})"
                     , TradeDirection = TradeDirections.Income
                     , TradeType = TradeTypes.TransferIncome
                     , OwnerId = UserToken.Id
@@ -267,7 +296,7 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
                 new CreateWalletTradeReq
                 {
                     Amount = -req.Amount
-                    , Summary = req.Summary
+                    , Summary = $"{req.Summary} ({Ln.转给}: {toUser.UserName}/{toUser.Id})"
                     , TradeDirection = TradeDirections.Expense
                     , TradeType = TradeTypes.TransferExpense
                     , OwnerId = UserToken.Id
@@ -283,7 +312,7 @@ public sealed class WalletTradeService(BasicRepository<Sys_WalletTrade, long> rp
                     OwnerDeptId = toUser.DeptId
                     , Amount = req.Amount
                     , OwnerId = toUser.Id
-                    , Summary = req.Summary
+                    , Summary = $"{req.Summary} ({Ln.来自}: {UserToken.UserName}/{UserToken.Id})"
                     , TradeDirection = TradeDirections.Income
                     , TradeType = TradeTypes.TransferIncome
                 }

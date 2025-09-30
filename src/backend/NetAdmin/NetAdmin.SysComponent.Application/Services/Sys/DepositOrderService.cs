@@ -94,8 +94,7 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
         var toPointRate = req.PaymentMode switch
         {
             PaymentModes.USDT => config.UsdToPointRate
-            , PaymentModes.Alipay => config.CnyToPointRate
-            , PaymentModes.WeChat => config.CnyToPointRate
+            , PaymentModes.Alipay or PaymentModes.WeChat => config.CnyToPointRate
             , _ => throw new ArgumentOutOfRangeException(nameof(req))
         };
 
@@ -221,8 +220,14 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
     /// <inheritdoc />
     public async Task<int> ReceivedConfirmationAsync(JobReq req) {
         req.ThrowIfInvalid();
+
+        // 初始化返回值
         var ret = 0;
+
+        // 获取最新配置信息
         var config = await S<IConfigService>().GetLatestConfigAsync().ConfigureAwait(false);
+
+        // 查询所有状态为“待确认”的充值订单
         var waitConfirmList = (await QueryAsync(
                 new QueryReq<QueryDepositOrderReq>
                 {
@@ -239,59 +244,36 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
                 }
             )
             .ConfigureAwait(false)).ToList();
+
+        // 调用 TronScan API 获取指定地址的代币转账记录
         var apiResult = await S<ITronScanClient>()
             .TransfersAsync(S<IOptions<TronScanOptions>>().Value.Token, req.Count!.Value, config.Trc20ReceiptAddress)
             .ConfigureAwait(false);
+
+        // 如果没有获取到交易数据，则直接返回 0
+        if (apiResult.TokenTransfers == null) {
+            return ret;
+        }
+
+        // 遍历所有已确认且成功的 USDT 交易
         foreach (var apiItem in apiResult.TokenTransfers.Where(x =>
                      x.TokenInfo.TokenAbbr == "USDT" && x.Confirmed && x.ContractRet == "SUCCESS" && x.FinalResult == "SUCCESS"
                  )) {
+            // 匹配本地订单中金额一致、创建时间早于交易时间的订单
             var order = waitConfirmList.SingleOrDefault(x => x.ActualPayAmount == apiItem.Quant.Int64() / 1000);
             if (order == null || order.CreatedTime > apiItem.BlockTs.Time()) {
                 continue;
             }
 
             try {
+                // 使用工作单元模式原子性地更新订单状态并创建钱包交易记录
                 await S<UnitOfWorkManager>()
-                    .AtomicOperateAsync(async () =>
-                        {
-                            var updated = await UpdateAsync(
-                                    new Sys_DepositOrder
-                                    {
-                                        DepositOrderStatus = DepositOrderStatues.Succeeded
-                                        , Version = order.Version
-                                        , FinishTimestamp = DateTime.Now.TimeUnixUtcMs()
-                                        , PaidAccount = apiItem.FromAddress
-                                        , PaidTime = apiItem.BlockTs.Time()
-                                        , PaymentFinger = apiItem.TransactionId
-                                    }, [nameof(Sys_DepositOrder.DepositOrderStatus), nameof(Sys_DepositOrder.FinishTimestamp), nameof(Sys_DepositOrder.PaidAccount), nameof(Sys_DepositOrder.PaidTime), nameof(Sys_DepositOrder.PaymentFinger)]
-                                    , null, a => a.Id == order.Id && a.DepositOrderStatus == DepositOrderStatues.PaymentConfirming
-                                )
-                                .ConfigureAwait(false);
-                            if (updated != 1) {
-                                throw new NetAdminUnexpectedException(Ln.结果非预期);
-                            }
-
-                            _ = await S<IWalletTradeService>()
-                                    .CreateAsync(
-                                        new CreateWalletTradeReq
-                                        {
-                                            Amount = order.DepositPoint
-                                            , BusinessOrderNumber = order.Id
-                                            , TradeDirection = TradeDirections.Income
-                                            , TradeType = TradeTypes.SelfDeposit
-                                            , OwnerId = order.OwnerId
-                                            , OwnerDeptId = order.OwnerDeptId
-                                        }
-                                    )
-                                    .ConfigureAwait(false)
-                                ?? throw new NetAdminUnexpectedException(Ln.结果非预期);
-                        }
-                    )
+                    .AtomicOperateAsync(async () => await OrderSuccessAsync(order, apiItem).ConfigureAwait(false))
                     .ConfigureAwait(false);
                 ret++;
             }
             catch {
-                // ignore
+                // 忽略异常，防止中断整个流程
             }
         }
 
@@ -302,6 +284,53 @@ public sealed class DepositOrderService(BasicRepository<Sys_DepositOrder, long> 
     public Task<decimal> SumAsync(QueryReq<QueryDepositOrderReq> req) {
         req.ThrowIfInvalid();
         return QueryInternal(req with { Order = Orders.None }).WithNoLockNoWait().SumAsync(req.GetSumExp<Sys_DepositOrder>());
+    }
+
+    /// <summary>
+    ///     将指定订单标记为成功，并创建对应的钱包交易记录。
+    /// </summary>
+    /// <param name="order">本地待处理的订单信息。</param>
+    /// <param name="apiItem">来自链上的交易信息。</param>
+    /// <exception cref="NetAdminUnexpectedException">当发生未预期的网络管理异常时抛出此异常</exception>
+    private async Task OrderSuccessAsync(
+        QueryDepositOrderRsp order
+        , TokenTransferInfo apiItem
+    ) {
+        // 更新订单状态为成功，并填充支付相关信息
+        var updated = await UpdateAsync(
+                new Sys_DepositOrder
+                {
+                    DepositOrderStatus = DepositOrderStatues.Succeeded
+                    , Version = order.Version
+                    , FinishTimestamp = DateTime.Now.TimeUnixUtcMs()
+                    , PaidAccount = apiItem.FromAddress
+                    , PaidTime = apiItem.BlockTs.Time()
+                    , PaymentFinger = apiItem.TransactionId
+                }, [nameof(Sys_DepositOrder.DepositOrderStatus), nameof(Sys_DepositOrder.FinishTimestamp), nameof(Sys_DepositOrder.PaidAccount), nameof(Sys_DepositOrder.PaidTime), nameof(Sys_DepositOrder.PaymentFinger)]
+                , null, a => a.Id == order.Id && a.DepositOrderStatus == DepositOrderStatues.PaymentConfirming
+            )
+            .ConfigureAwait(false);
+
+        // 如果更新失败（影响行数不为1），抛出异常
+        if (updated != 1) {
+            throw new NetAdminUnexpectedException(Ln.结果非预期);
+        }
+
+        // 创建钱包交易记录
+        _ = await S<IWalletTradeService>()
+                .CreateAsync(
+                    new CreateWalletTradeReq
+                    {
+                        Amount = order.DepositPoint
+                        , BusinessOrderNumber = order.Id
+                        , TradeDirection = TradeDirections.Income
+                        , TradeType = TradeTypes.SelfDeposit
+                        , OwnerId = order.OwnerId
+                        , OwnerDeptId = order.OwnerDeptId
+                    }
+                )
+                .ConfigureAwait(false)
+            ?? throw new NetAdminUnexpectedException(Ln.结果非预期);
     }
 
     private ISelect<Sys_DepositOrder> QueryInternal(QueryReq<QueryDepositOrderReq> req) {

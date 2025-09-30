@@ -1,3 +1,4 @@
+#pragma warning disable RCS1194
 namespace NetAdmin.Infrastructure.Exceptions;
 
 /// <summary>
@@ -6,10 +7,7 @@ namespace NetAdmin.Infrastructure.Exceptions;
 /// <remarks>
 ///     手动调用模型验证方法抛出
 /// </remarks>
-#pragma warning disable RCS1194
-public sealed class NetAdminValidateException(Dictionary<string, string[]> validateResults)
-    #pragma warning restore RCS1194
-    : NetAdminInvalidInputException
+public sealed class NetAdminValidateException(Dictionary<string, string[]> validateResults) : NetAdminInvalidInputException
 {
     /// <summary>
     ///     验证结果
